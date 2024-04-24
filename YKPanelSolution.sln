@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33214.272
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YKPanel", "WebApplication11\YKPanel.csproj", "{DB4DBF2C-4023-46E5-8912-3F5D20C47244}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB4DBF2C-4023-46E5-8912-3F5D20C47244}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB4DBF2C-4023-46E5-8912-3F5D20C47244}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB4DBF2C-4023-46E5-8912-3F5D20C47244}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB4DBF2C-4023-46E5-8912-3F5D20C47244}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {64C9CAA4-556E-4AEB-B803-B28F502CC594}
+	EndGlobalSection
+EndGlobal
