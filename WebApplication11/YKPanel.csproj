@@ -151,6 +151,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Tema\css\override.css" />
     <Content Include="Tema\css\style.bundle.css" />
     <Content Include="Tema\js\custom\account\api-keys\api-keys.js" />
     <Content Include="Tema\js\custom\account\billing\general.js" />
@@ -1336,6 +1337,7 @@
     <Content Include="Tema\media\misc\track-order.png" />
     <Content Include="Tema\media\patterns\pattern-1.jpg" />
     <Content Include="Tema\media\patterns\vector-1.png" />
+    <Content Include="Tema\media\Photo\SiteGirisiBanner 2.jpg" />
     <Content Include="Tema\media\plugins\jstree\32px.png" />
     <Content Include="Tema\media\products\1.png" />
     <Content Include="Tema\media\products\10.png" />
@@ -2408,6 +2410,7 @@
     <Content Include="Tema\plugins\global\fonts\line-awesome\la-solid-900.woff2" />
     <Content Include="Views\Kullanici\Liste.cshtml" />
     <Content Include="Views\Kullanici\Ekle.cshtml" />
+    <Content Include="Tema\media\books\Legion Accessory Central.lnk" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

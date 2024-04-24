@@ -112,11 +112,8 @@ namespace WebApplication11.Controllers
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
             return RedirectToAction("Liste");
-        }
-
-        public Action  
+        } 
        
-
 
         #region Cookie İşlemleri
         private string GetCookie(string name)
