@@ -16,6 +16,7 @@ namespace WebApplication11.Controllers
         // GET: Kullanici
         public ActionResult Liste()
         {
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_KullaniciListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
