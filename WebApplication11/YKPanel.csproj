@@ -120,26 +120,59 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AktivasyonController.cs" />
     <Compile Include="Controllers\KullaniciController.cs" />
+    <Compile Include="Controllers\TanimlamalarController.cs" />
     <Compile Include="Controllers\YKController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dto\GrupKoduDto.cs" />
     <Compile Include="Models\Dto\KullaniciEkleDto.cs" />
     <Compile Include="Models\IDVeritabani.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-grid.rtl.css" />
+    <Content Include="Content\bootstrap-grid.rtl.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap-reboot.rtl.css" />
+    <Content Include="Content\bootstrap-reboot.rtl.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap-utilities.css" />
+    <Content Include="Content\bootstrap-utilities.min.css" />
+    <Content Include="Content\bootstrap-utilities.rtl.css" />
+    <Content Include="Content\bootstrap-utilities.rtl.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.rtl.css" />
+    <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\datatables.css" />
+    <Content Include="Content\datatables.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.css.map" />
+    <Content Include="Content\bootstrap-utilities.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.min.css.map" />
+    <Content Include="Content\bootstrap.rtl.css.map" />
+    <Content Include="Content\bootstrap.rtl.min.css.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -151,6 +184,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Tema\plugins\custom\datatables\datatables.css" />
+    <Content Include="Tema\plugins\custom\datatables\datatables.min.css" />
     <Content Include="Tema\css\override.css" />
     <Content Include="Tema\css\style.bundle.css" />
     <Content Include="Tema\js\custom\account\api-keys\api-keys.js" />
@@ -286,6 +321,8 @@
     <Content Include="Tema\js\custom\utilities\modals\users-search.js" />
     <Content Include="Tema\js\custom\utilities\search\horizontal.js" />
     <Content Include="Tema\js\custom\widgets.js" />
+    <Content Include="Tema\plugins\custom\datatables\datatables.js" />
+    <Content Include="Tema\plugins\custom\datatables\datatables.min.js" />
     <Content Include="Tema\js\scripts.bundle.js" />
     <Content Include="Tema\js\widgets.bundle.js" />
     <Content Include="Tema\media\auth\404-error-dark.png" />
@@ -1276,7 +1313,7 @@
     <Content Include="Tema\media\illustrations\unitedpalms-1\8.png" />
     <Content Include="Tema\media\illustrations\unitedpalms-1\9-dark.png" />
     <Content Include="Tema\media\illustrations\unitedpalms-1\9.png" />
-    <Content Include="Tema\media\logos\custom-1.png" />
+    <Content Include="Tema\media\logos\amblem.png" />
     <Content Include="Tema\media\logos\custom-1.svg" />
     <Content Include="Tema\media\logos\custom-2.svg" />
     <Content Include="Tema\media\logos\custom-3.svg" />
@@ -1291,6 +1328,9 @@
     <Content Include="Tema\media\logos\landing-dark.svg" />
     <Content Include="Tema\media\logos\landing.svg" />
     <Content Include="Tema\media\logos\mail.svg" />
+    <Content Include="Tema\media\logos\orijinal.png" />
+    <Content Include="Tema\media\logos\siyah 1.png" />
+    <Content Include="Tema\media\logos\siyah 2.png" />
     <Content Include="Tema\media\misc\1.png" />
     <Content Include="Tema\media\misc\auth-bg.png" />
     <Content Include="Tema\media\misc\auth-screens.png" />
@@ -1337,6 +1377,7 @@
     <Content Include="Tema\media\misc\track-order.png" />
     <Content Include="Tema\media\patterns\pattern-1.jpg" />
     <Content Include="Tema\media\patterns\vector-1.png" />
+    <Content Include="Tema\media\Photo\GirisPhoto.png" />
     <Content Include="Tema\media\Photo\SiteGirisiBanner 2.jpg" />
     <Content Include="Tema\media\plugins\jstree\32px.png" />
     <Content Include="Tema\media\products\1.png" />
@@ -2411,6 +2452,9 @@
     <Content Include="Views\Kullanici\Liste.cshtml" />
     <Content Include="Views\Kullanici\Ekle.cshtml" />
     <Content Include="Tema\media\books\Legion Accessory Central.lnk" />
+    <Content Include="Views\Kullanici\Duzenle.cshtml" />
+    <Content Include="Views\Aktivasyon\KullaniciOnayla.cshtml" />
+    <Content Include="Views\Tanimlamalar\GrupKodu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

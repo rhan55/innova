@@ -1,0 +1,48 @@
+﻿@model System.Data.DataTable
+@{
+    ViewBag.Title = "KullaniciOnayla";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (ViewBag.Durum == "Başarılı")
+{
+    <!--begin::Alert-->
+    <div class="alert alert-success d-flex align-items-center p-5">
+        <!--begin::Icon-->
+        <i class="ki-duotone ki-shield-tick fs-2hx text-danger me-4"><span class="path1"></span><span class="path2"></span></i>
+        <!--end::Icon-->
+        <!--begin::Wrapper-->
+        <div class="d-flex flex-column">
+            <!--begin::Content-->
+            <span>@ViewBag.Bilgi</span>
+            <!--end::Content-->
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Alert-->
+
+}
+else
+{
+    <!--begin::Alert-->
+    <div class="alert alert-danger d-flex align-items-center p-5">
+        <!--begin::Icon-->
+        <i class="ki-duotone ki-shield-tick fs-2hx text-danger me-4"><span class="path1"></span><span class="path2"></span></i>
+        <!--end::Icon-->
+        <!--begin::Wrapper-->
+        <div class="d-flex flex-column">
+            <!--begin::Content-->
+            <span>@ViewBag.Bilgi</span>
+            <!--end::Content-->
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Alert-->
+
+    <div>
+        <a href="/YK/Giris" >Giriş Yapın</a>
+    </div>
+    
+
+}
+

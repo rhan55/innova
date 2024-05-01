@@ -1,0 +1,228 @@
+﻿@model System.Data.DataTable
+@{
+    ViewBag.Title = "Kullanıcı Düzenle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!--begin::Form-->
+<form id="kt_modal_add_user_form" class="form" action="@Url.Action("Duzenle","Kullanici",null)" method="post" enctype="multipart/form-data">
+    @if (ViewBag.ValidationError != null)
+    {
+        foreach (var valdiationError in (List<string>)ViewBag.ValidationError)
+        {
+            <!--begin::Alert-->
+            <div class="alert alert-danger d-flex align-items-center p-5">
+                <!--begin::Icon-->
+                <i class="ki-duotone ki-shield-tick fs-2hx text-danger me-4"><span class="path1"></span><span class="path2"></span></i>
+                <!--end::Icon-->
+                <!--begin::Wrapper-->
+                <div class="d-flex flex-column">
+                    <!--begin::Content-->
+                    <span>@valdiationError</span>
+                    <!--end::Content-->
+                </div>
+                <!--end::Wrapper-->
+            </div>
+            <!--end::Alert-->
+        }
+    }
+
+    <!--begin::Scroll-->
+    <div class="d-flex flex-column scroll-y px-5 px-lg-10 container">
+        <!--begin::Input group-->
+        <div class="fv-row mb-7">
+            <!--begin::Label-->
+            <label class="d-block fw-semibold fs-6 mb-5">Avatar</label>
+            <!--end::Label-->
+            <!--begin::Image placeholder-->
+            <style>
+                .image-input-placeholder {
+                    background-image: url('assets/media/svg/files/blank-image.svg');
+                }
+
+                [data-bs-theme="dark"] .image-input-placeholder {
+                    background-image: url('assets/media/svg/files/blank-image-dark.svg');
+                }
+            </style>
+            <!--end::Image placeholder-->
+            <!--begin::Image input-->
+            <div class="image-input image-input-outline image-input-placeholder" data-kt-image-input="true">
+                <!--begin::Preview existing avatar-->
+                <div class="image-input-wrapper w-125px h-125px" style="background-image: url(@(Convert.ToString(Model.Rows[0]["Resim"])));"></div>
+                <!--end::Preview existing avatar-->
+                <!--begin::Label-->
+                <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" title="Change avatar">
+                    <i class="ki-duotone ki-pencil fs-7">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </i>
+                    <!--begin::Inputs-->
+                    <input type="file" name="Resim" accept=".png, .jpg, .jpeg" />
+                    <input type="hidden" name="avatar_remove" />
+                    <!--end::Inputs-->
+                </label>
+                <!--end::Label-->
+                <!--begin::Cancel-->
+                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
+                    <i class="ki-duotone ki-cross fs-2">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </i>
+                </span>
+                <!--end::Cancel-->
+                <!--begin::Remove-->
+                <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
+                    <i class="ki-duotone ki-cross fs-2">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </i>
+                </span>
+                <!--end::Remove-->
+            </div>
+            <!--end::Image input-->
+            <!--begin::Hint-->
+            <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
+            <!--end::Hint-->
+        </div>
+        <!--end::Input group-->
+        <!--begin::Row Input group-->
+        <div class="row mb-7">
+            <!--begin::Input group-->
+            <input type="hidden" value="@(Convert.ToString(Model.Rows[0]["ID"]))" />
+            <div class="col-lg-6">
+                <!--begin::Label-->
+                <label class="required fw-semibold fs-6 mb-2">Kullanıcı Adı</label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input type="text" name="KullaniciAdi" id="KullaniciAdi" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Kullanıcı Adı" value="@(Convert.ToString(Model.Rows[0]["KullaniciAdi"]))" />
+                <!--end::Input-->
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="col-lg-6">
+                <!--begin::Label-->
+                <label class="required fw-semibold fs-6 mb-2">Parola</label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input type="password" name="Parola" id="Parola" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Parola" value="@(Convert.ToString(Model.Rows[0]["Parola"]))" />
+                <!--end::Input-->
+            </div>
+            <!--end::Input group-->
+        </div>
+        <!--begin::Row Input group-->
+        <!--begin::Row Input group-->
+        <div class="row mb-7">
+            <!--begin::Input group-->
+            <div class="col-lg-6 d-flex justify-content-start align-items-center ">
+                <div class="col-lg-6 pe-3">
+                    <!--begin::Label-->
+                    <label class="required fw-semibold fs-6 mb-2">Ad</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->A
+                    <input type="text" name="Ad" id="Ad" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Ad" value="@(Convert.ToString(Model.Rows[0]["Ad"]))" />
+                    <!--end::Input-->
+                </div>
+                <div class="col-lg-6 ps-3">
+                    <!--begin::Label-->
+                    <label class="required fw-semibold fs-6 mb-2">Soyad</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input type="text" name="Soyad" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Soyad" value="@(Convert.ToString(Model.Rows[0]["Soyad"]))" />
+                    <!--end::Input-->
+                </div>
+
+            </div>
+            <div class="col-lg-6">
+                <div>
+                    <!--begin::Label-->
+                    <label class="required fw-semibold fs-6 mb-2">Telefon</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input type="text" name="Telefon" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Full name" value="@(Convert.ToString(Model.Rows[0]["Telefon"]))" />
+                    <!--end::Input-->
+                </div>
+            </div>
+
+        </div>
+        <!--begin::Row Input group-->
+        <!--begin::Row Input group-->
+        <div class="row mb-7">
+            <!--begin::Input group-->
+            <div class="col-lg-6">
+                <!--begin::Label-->
+                <label class="required fw-semibold fs-6 mb-2">Adres</label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input class="form-control border-0 bg-light" name="Adres" id="exampleFormControlTextarea1" value="@(Convert.ToString(Model.Rows[0]["Adres"]))" />
+                <!--end::Input-->
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="col-lg-6">
+                <div class="d-flex  ">
+                    <div class="d-flex flex-column col-lg-6 pe-3">
+                        <label class="required fw-semibold fs-6 mb-2">İl</label>
+                        <select name="Il" class="form-select form-select-solid" aria-label="Select example" value="">
+                            <option>Open this select menu</option>
+                            <option value="Antalya">Antalya</option>
+
+                        </select>
+                    </div>
+
+                    <div class="d-flex flex-column col-lg-6 ps-3">
+                        <label class="required fw-semibold fs-6 mb-2">İlçe</label>
+                        <select name="Ilce" class="form-select form-select-solid" aria-label="Select example" value="">
+                            <option>Open this select menu</option>
+                            <option value="Muratpaşa">Muratpaşa</option>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!--end::Input group-->
+        </div>
+        <!--end::Row Input group-->
+        <div class="row mb-7">
+            <div class="col-lg-6">
+                <label class="required fw-semibold fs-6 mb-2">Açıklama 1</label>
+                <textarea name="Aciklama1" class="form-control bg-light border-0" value="@(Convert.ToString(Model.Rows[0]["Aciklama1"]))"></textarea>
+            </div>
+            <div class="col-lg-6">
+                <label class="required fw-semibold fs-6 mb-2">Açıklama 2</label>
+                <textarea name="Aciklama2" class="form-control bg-light border-0" value="@(Convert.ToString(Model.Rows[0]["Aciklama2"]))"></textarea>
+            </div>
+            <div class="col-lg-12 mt-7">
+                <label class="required fw-semibold fs-6 mb-2 ">Açıklama 3</label>
+                <textarea name="Aciklama3" class="form-control bg-light border-0" value="@(Convert.ToString(Model.Rows[0]["Aciklama3"]))"></textarea>
+            </div>
+        </div>
+        <!--begin::Row Input group-->
+        <div class="row mb-7">
+            <div class="col-lg-6">
+                <div class="form-check form-check-custom form-check-solid ">
+                    <input name="Aktif" class="form-check-input" type="checkbox" value="true" id="form_checkbox" />
+                    <label class="form-check-label" for="form_checkbox" style="cursor: pointer;">
+                        Aktif
+                    </label>
+                </div>
+            </div>
+        </div>
+        <!--end::Row Input group-->
+
+    </div>
+    <!--end::Scroll-->
+    <!--begin::Actions-->
+    <div class="text-center pt-10">
+        <a href="/Kullanici/Sil/@(Convert.ToString(Model.Rows[0]["ID"]))" class="btn btn-danger">Sil</a>
+        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Düzenle">
+            <span class="indicator-label">Düzenle</span>
+            <span class="indicator-progress">
+                Lütfen Bekleyin...
+                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+        </button>
+    </div>
+    <!--end::Actions-->
+</form>
+<!--end::Form-->
