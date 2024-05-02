@@ -178,6 +178,28 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Tema\favicons\apple-touch-icon-114x114.png" />
+    <Content Include="Tema\favicons\apple-touch-icon-120x120.png" />
+    <Content Include="Tema\favicons\apple-touch-icon-144x144.png" />
+    <Content Include="Tema\favicons\apple-touch-icon-152x152.png" />
+    <Content Include="Tema\favicons\apple-touch-icon-57x57.png" />
+    <Content Include="Tema\favicons\apple-touch-icon-60x60.png" />
+    <Content Include="Tema\favicons\apple-touch-icon-72x72.png" />
+    <Content Include="Tema\favicons\apple-touch-icon-76x76.png" />
+    <Content Include="Tema\favicons\code.txt" />
+    <Content Include="Tema\favicons\favicon-128.png" />
+    <Content Include="Tema\favicons\favicon-16x16.png" />
+    <Content Include="Tema\favicons\favicon-196x196.png" />
+    <Content Include="Tema\favicons\favicon-32x32.png" />
+    <Content Include="Tema\favicons\favicon-96x96.png" />
+    <Content Include="Tema\favicons\favicon.ico" />
+    <Content Include="Tema\favicons\mstile-144x144.png" />
+    <Content Include="Tema\favicons\mstile-150x150.png" />
+    <Content Include="Tema\favicons\mstile-310x150.png" />
+    <Content Include="Tema\favicons\mstile-310x310.png" />
+    <Content Include="Tema\favicons\mstile-70x70.png" />
+    <Content Include="Tema\media\Logolar\BeyazLogo.png" />
+    <Content Include="Tema\media\Photo\Web sitesi_03.jpg" />
     <Content Include="Tema\plugins\custom\datatables\datatables.css" />
     <Content Include="Tema\plugins\custom\datatables\datatables.min.css" />
     <Content Include="Tema\css\override.css" />
@@ -1307,24 +1329,6 @@
     <Content Include="Tema\media\illustrations\unitedpalms-1\8.png" />
     <Content Include="Tema\media\illustrations\unitedpalms-1\9-dark.png" />
     <Content Include="Tema\media\illustrations\unitedpalms-1\9.png" />
-    <Content Include="Tema\media\logos\amblem.png" />
-    <Content Include="Tema\media\logos\custom-1.svg" />
-    <Content Include="Tema\media\logos\custom-2.svg" />
-    <Content Include="Tema\media\logos\custom-3.svg" />
-    <Content Include="Tema\media\logos\default-dark.svg" />
-    <Content Include="Tema\media\logos\default-large.svg" />
-    <Content Include="Tema\media\logos\default-small-dark.svg" />
-    <Content Include="Tema\media\logos\default-small.svg" />
-    <Content Include="Tema\media\logos\default.svg" />
-    <Content Include="Tema\media\logos\favicon.ico" />
-    <Content Include="Tema\media\logos\keenthemes-dark.svg" />
-    <Content Include="Tema\media\logos\keenthemes.svg" />
-    <Content Include="Tema\media\logos\landing-dark.svg" />
-    <Content Include="Tema\media\logos\landing.svg" />
-    <Content Include="Tema\media\logos\mail.svg" />
-    <Content Include="Tema\media\logos\orijinal.png" />
-    <Content Include="Tema\media\logos\siyah 1.png" />
-    <Content Include="Tema\media\logos\siyah 2.png" />
     <Content Include="Tema\media\misc\1.png" />
     <Content Include="Tema\media\misc\auth-bg.png" />
     <Content Include="Tema\media\misc\auth-screens.png" />
@@ -2393,10 +2397,11 @@
     <Content Include="Tema\plugins\global\fonts\line-awesome\la-solid-900.svg" />
     <Content Include="Tema\plugins\global\plugins.bundle.css" />
     <Content Include="Tema\plugins\global\plugins.bundle.js" />
-    <Content Include="Uploads\Logolar\amblem.png" />
-    <Content Include="Uploads\Logolar\orijinal.png" />
-    <Content Include="Uploads\Logolar\siyah 1.png" />
-    <Content Include="Uploads\Logolar\siyah 2.png" />
+    <Content Include="Tema\media\Logolar\amblem.png" />
+    <Content Include="Tema\media\Logolar\orijinal.png" />
+    <Content Include="Tema\media\Logolar\siyah 1.png" />
+    <Content Include="Tema\media\Logolar\siyah 2.png" />
+    <Content Include="Uploads\Avatarlar\amblem.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2449,10 +2454,10 @@
     <Content Include="Views\Kullanici\Duzenle.cshtml" />
     <Content Include="Views\Aktivasyon\KullaniciOnayla.cshtml" />
     <Content Include="Views\Tanimlamalar\GrupKodu.cshtml" />
+    <Content Include="Views\Tanimlamalar\Ekle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Uploads\Avatarlar\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

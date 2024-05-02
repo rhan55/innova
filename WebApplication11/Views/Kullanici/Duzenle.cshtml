@@ -201,7 +201,7 @@
         <div class="row mb-7">
             <div class="col-lg-6">
                 <div class="form-check form-check-custom form-check-solid ">
-                    <input name="Aktif" class="form-check-input" type="checkbox" value="true" id="form_checkbox" />
+                    <input @(Convert.ToBoolean(Model.Rows[0]["Aktif"]) ? "checked": "") name="Aktif" class="form-check-input" type="checkbox" value="true" id="form_checkbox" />
                     <label class="form-check-label" for="form_checkbox" style="cursor: pointer;">
                         Aktif
                     </label>

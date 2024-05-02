@@ -17,13 +17,13 @@
                     <!--begin::Card title-->
                     <div class="card-title">
                         <!--begin::Search-->
-                        <div class="d-flex align-items-center position-relative my-1">
-                            <i class="ki-duotone ki-magnifier fs-3 position-absolute">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
+                        <form method="get" class="d-flex align-items-center position-relative my-1">
+                            <i class="ki-duotone ki-magnifier fs-3 position-absolute m-4">
+                                <span class="path1 text-gray-500"></span>
+                                <span class="path2 text-gray-500"></span>
                             </i>
-                            <input type="text" data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-13" placeholder="Search user" />
-                        </div>
+                            <input type="text" name="aranacakKelime" value="@ViewBag.AranacakKelime" data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-12" placeholder="Kullanıcı Ara" />
+                        </form>
                         <!--end::Search-->
                     </div>
                     <!--begin::Card title-->
@@ -225,7 +225,7 @@
                                         <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
                                             <a href="/Kullanici/Duzenle/@(Convert.ToString(Model.Rows[i]["ID"]))">
                                                 <div class="symbol-label">
-                                                    <img src="@(Convert.ToString(Model.Rows[i]["Resim"]))" alt="Emma Smith" class="w-100 h-100 object-fit-cover" />
+                                                    <img src="@(Convert.ToString(Model.Rows[i]["Resim"]))" alt="@(Convert.ToString(Model.Rows[i]["KullaniciAdi"]))" class="w-100 h-100 object-fit-cover" />
                                                 </div>
                                             </a>
                                         </div>

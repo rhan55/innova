@@ -28,6 +28,7 @@ namespace WebApplication11.Models.Dto
         public string Aciklama2 { get; set; }
         public string Aciklama3 { get; set; }
         public string Kullanici { get; set; }
+     
     }
 }
 

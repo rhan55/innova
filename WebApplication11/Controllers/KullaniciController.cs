@@ -14,13 +14,18 @@ namespace WebApplication11.Controllers
     {
 
         // GET: Kullanici
-        public ActionResult Liste()
+        public ActionResult Liste(string aranacakKelime)
         {
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_KullaniciListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            if (aranacakKelime != null && aranacakKelime.Length > 3)
+            {
+                cmd.Parameters.AddWithValue("@AranacakKelime", aranacakKelime);
+                ViewBag.AranacakKelime = aranacakKelime;
+            }
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
             return View(dt);
@@ -38,14 +43,14 @@ namespace WebApplication11.Controllers
         public ActionResult Ekle(KullaniciEkleDto kullaniciEkleDto, HttpPostedFileBase Resim)
         {
            
-            string imageName = "~/Tema/Media/avatar-placeholder.jpg";
+            string imageName = "/Tema/Media/Logolar/amblem.png";
             var id = Guid.NewGuid();
-            if (Resim != null)
+            if (Resim != null && Resim.ContentLength > 0)
             {
                 var extension = Resim.FileName.Split('.').Last();
 
-                imageName = $"{id}_{Guid.NewGuid()}.{extension}";
-                Resim.SaveAs(Server.MapPath($"~/Uploads/Avatarlar/{imageName}"));
+                imageName = $"/Uploads/Avatarlar/{id}_{Guid.NewGuid()}.{extension}";
+                Resim.SaveAs(Server.MapPath($"{imageName}"));
             }
 
             kullaniciEkleDto.UyelikID = GetCookie("UyelikID");
@@ -70,7 +75,7 @@ namespace WebApplication11.Controllers
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_KullaniciKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@Resim", $"/Uploads/Avatarlar/{imageName}");
+            cmd.Parameters.AddWithValue("@Resim", $"{imageName}");
             cmd.Parameters.AddWithValue("@ID", "");
             cmd.Parameters.AddWithValue("@UyelikID", kullaniciEkleDto.UyelikID);
             cmd.Parameters.AddWithValue("@KullaniciAdi", kullaniciEkleDto.KullaniciAdi);
@@ -86,6 +91,7 @@ namespace WebApplication11.Controllers
             cmd.Parameters.AddWithValue("@Aciklama2", kullaniciEkleDto.Aciklama2);
             cmd.Parameters.AddWithValue("@Aciklama3", kullaniciEkleDto.Aciklama3);
             cmd.Parameters.AddWithValue("@Kullanici", kullaniciEkleDto.Kullanici);
+
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
@@ -128,15 +134,7 @@ namespace WebApplication11.Controllers
                 return Duzenle(kullaniciEkleDto.ID);
             }
 
-            string imageName = "~/Tema/Media/avatar-placeholder.jpg";
-            var id = Guid.NewGuid();
-            if (Resim != null)
-            {
-                var extension = Resim.FileName.Split('.').Last();
-
-                imageName = $"{id}_{Guid.NewGuid()}.{extension}";
-                Resim.SaveAs(Server.MapPath($"~/Uploads/Avatarlar/{imageName}"));
-            }
+            
             kullaniciEkleDto.UyelikID = GetCookie("UyelikID");
 
             kullaniciEkleDto.Kullanici = GetCookie("KullaniciID");
@@ -158,7 +156,18 @@ namespace WebApplication11.Controllers
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_KullaniciKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@Resim", $"/Uploads/Avatarlar/{imageName}");
+
+           
+          
+            if (Resim != null && Resim.ContentLength > 0)
+            {
+                var extension = Resim.FileName.Split('.').Last();
+
+                var imageName = $"{kullaniciEkleDto.ID}_{Guid.NewGuid()}.{extension}";
+                Resim.SaveAs(Server.MapPath($"/Uploads/Avatarlar/{imageName}"));
+                cmd.Parameters.AddWithValue("@Resim", $"/Uploads/Avatarlar/{imageName}");
+            }
+           
 
             cmd.Parameters.AddWithValue("@ID", kullaniciEkleDto.ID);
             cmd.Parameters.AddWithValue("@UyelikID", kullaniciEkleDto.UyelikID);
@@ -231,6 +240,7 @@ namespace WebApplication11.Controllers
 
             return RedirectToAction("Liste");
         }
+     
 
         #region Cookie İşlemleri
         private string GetCookie(string name)
