@@ -54,8 +54,36 @@ namespace WebApplication11.Controllers
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             return RedirectToAction("GrupKodu", new { grupKodu = grupKoduDto.Kod });
         }
-
         [HttpGet]
+        public ActionResult Duzenle(string id)
+        {
+            var uyelikId = GetCookie("UyelikID");
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_GrupKodu";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return View(dt);
+        }
+
+        [HttpPost]
+        public ActionResult Duzenle(GrupKoduDto grupKoduDto)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_GrupKoduKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@ID", grupKoduDto.ID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@Kod", grupKoduDto.Kod);
+            cmd.Parameters.AddWithValue("@Deger", grupKoduDto.Deger);
+            return RedirectToAction("GrupKodu", new { grupKodu = grupKoduDto.Kod });
+        }
+
+        [HttpPost]
         public ActionResult Sil(string id, string grupKodu)
         {
             SqlCommand cmd = new SqlCommand();
@@ -64,12 +92,11 @@ namespace WebApplication11.Controllers
             cmd.Parameters.AddWithValue("@ID", id);
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
-
+           
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
             return RedirectToAction("GrupKodu", new { grupKodu = grupKodu });
         }
-
 
         #region Cookie İşlemleri
         private string GetCookie(string name)

@@ -40,6 +40,7 @@ namespace WebApplication11.Controllers
                     CreateCookie("UyelikID", Convert.ToString(dt.Rows[0]["UyelikID"]));
                     CreateCookie("KullaniciAdi", Convert.ToString(dt.Rows[0]["KullaniciAdi"]));
                     CreateCookie("Parola", Convert.ToString(dt.Rows[0]["Parola"]));
+                    CreateCookie("Resim", Convert.ToString(dt.Rows[0]["Resim"]));
 
                     #endregion
 

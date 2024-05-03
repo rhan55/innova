@@ -1,11 +1,12 @@
 ﻿@model System.Data.DataTable
 @{
-    ViewBag.Title = "Ekle";
+    ViewBag.Title = "Düzenle";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<form id="kt_modal_add_user_form" class="form container" action="@Url.Action("Ekle","Tanimlamalar",null)" method="post">
+<form id="kt_modal_add_user_form" class="form container" action="@Url.Action("Duzenle","Tanimlamalar",null)" method="post">
     <div class="d-flex flex-column scroll-y px-5 px-lg-10">
+        <input type="hidden" name="ID" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Kod" value="@(Convert.ToString(Model.Rows[0]["ID"]))" required />
 
         <!--begin::Row Input group-->
         <div class="row mb-7">
@@ -15,7 +16,7 @@
                 <label class="required fw-semibold fs-6 mb-2">Kod</label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <input type="text" name="Kod" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Kod" value="@ViewBag.GrupKodu" required />
+                <input type="text" name="Kod" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Kod" value="@(Convert.ToString(Model.Rows[0]["Kod"]))" required />
 
                 <!--end::Input-->
             </div>
@@ -26,7 +27,7 @@
                 <label class="required fw-semibold fs-6 mb-2">Değer</label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <input type="text" name="Deger" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Değer" required />
+                <input type="text" name="Deger" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Değer" required value="@(Convert.ToString(Model.Rows[0]["Deger"]))" />
                 <!--end::Input-->
             </div>
             <!--end::Input group-->
@@ -36,7 +37,7 @@
     <!--begin::Actions-->
     <div class="text-center pt-10">
         <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
-        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet">
+        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Düzenle">
             <span class="indicator-label">Kaydet</span>
             <span class="indicator-progress">
                 Lütfen Bekleyin...
