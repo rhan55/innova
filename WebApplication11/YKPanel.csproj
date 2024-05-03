@@ -2450,12 +2450,12 @@
     <Content Include="Tema\plugins\global\fonts\line-awesome\la-solid-900.woff2" />
     <Content Include="Views\Kullanici\Liste.cshtml" />
     <Content Include="Views\Kullanici\Ekle.cshtml" />
-    <Content Include="Tema\media\books\Legion Accessory Central.lnk" />
     <Content Include="Views\Kullanici\Duzenle.cshtml" />
     <Content Include="Views\Aktivasyon\KullaniciOnayla.cshtml" />
     <Content Include="Views\Tanimlamalar\GrupKodu.cshtml" />
     <Content Include="Views\Tanimlamalar\Ekle.cshtml" />
     <Content Include="Views\Tanimlamalar\Duzenle.cshtml" />
+    <Content Include="Views\Kullanici\Profil.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

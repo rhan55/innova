@@ -109,7 +109,7 @@
 
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-5">
-                                            <a href="account/overview.html" class="menu-link px-5">My Profile</a>
+                                            <a href="@Url.Action("Profil","Kullanici",null)" class="menu-link px-5">Profilime Git</a>
                                         </div>
                                         <!--end::Menu item-->
                                         <!--begin::Menu item-->
@@ -139,7 +139,7 @@
                         <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500" id="#kt_aside_menu" data-kt-menu="true">
 
                             <!--begin:Menu item-->
-                            <div data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
+                            <div data-kt-menu-trigger="click" class="menu-item here  menu-accordion">
                                 <!--begin:Menu link-->
                                 <span class="menu-link">
                                     <span class="menu-icon">
@@ -193,7 +193,7 @@
                                                     <span class="menu-bullet">
                                                         <span class="bullet bullet-dot"></span>
                                                     </span>
-                                                    <span class="menu-title">Kullanıcı Ekle</span>
+                                                    <span class="menu-title">Yeni Kullanıcı</span>
                                                 </a>
                                                 <!--end:Menu link-->
                                             </div>
@@ -232,11 +232,11 @@
                                             <!--begin:Menu item-->
                                             <div class="menu-item">
                                                 <!--begin:Menu link-->
-                                                <a class="menu-link" href="/GenelTanimlamalar/Ulkeler">
+                                                <a class="menu-link" href="@Url.Action("GrupKodu","Tanimlamalar", new { grupKodu = "Ulke" })">
                                                     <span class="menu-bullet">
                                                         <span class="bullet bullet-dot"></span>
                                                     </span>
-                                                    <span class="menu-title">Ülke</span>
+                                                    <span class="menu-title">Ülkeler</span>
                                                 </a>
                                                 <!--end:Menu link-->
                                             </div>
@@ -244,11 +244,11 @@
                                             <!--begin:Menu item-->
                                             <div class="menu-item">
                                                 <!--begin:Menu link-->
-                                                <a class="menu-link" href="/GenelTanimlamalar/Iller">
+                                                <a class="menu-link" href="@Url.Action("GrupKodu","Tanimlamalar", new { grupKodu = "Il" })">
                                                     <span class="menu-bullet">
                                                         <span class="bullet bullet-dot"></span>
                                                     </span>
-                                                    <span class="menu-title"> İl</span>
+                                                    <span class="menu-title"> İller</span>
                                                 </a>
                                                 <!--end:Menu link-->
                                             </div>
@@ -280,16 +280,15 @@
                                             <span class="menu-arrow"></span>
                                         </span>
                                         <!--end:Menu link-->
-                                        <!--begin:Menu sub-->
                                         <div class="menu-sub menu-sub-accordion">
                                             <!--begin:Menu item-->
                                             <div class="menu-item">
                                                 <!--begin:Menu link-->
-                                                <a class="menu-link" href="/StokKoduTanimlamalari/GrupKodu1">
+                                                <a class="menu-link" href="@Url.Action("GrupKodu","Tanimlamalar", new { grupKodu = "StokGrupKod1" })">
                                                     <span class="menu-bullet">
                                                         <span class="bullet bullet-dot"></span>
                                                     </span>
-                                                    <span class="menu-title">Liste</span>
+                                                    <span class="menu-title">Grup Kodu 1 </span>
                                                 </a>
                                                 <!--end:Menu link-->
                                             </div>
@@ -297,18 +296,64 @@
                                             <!--begin:Menu item-->
                                             <div class="menu-item">
                                                 <!--begin:Menu link-->
-                                                <a class="menu-link" href="/StokKoduTanimlamalari/GrupKodu3">
+                                                <a class="menu-link" href="@Url.Action("GrupKodu","Tanimlamalar", new { grupKodu = "StokGrupKod2" })">
                                                     <span class="menu-bullet">
                                                         <span class="bullet bullet-dot"></span>
                                                     </span>
-                                                    <span class="menu-title"> Ekle </span>
+                                                    <span class="menu-title"> Grup Kodu 2 </span>
                                                 </a>
                                                 <!--end:Menu link-->
                                             </div>
                                             <!--end:Menu item-->
-
+                                            <!--begin:Menu item-->
+                                            <div class="menu-item">
+                                                <!--begin:Menu link-->
+                                                <a class="menu-link" href="@Url.Action("GrupKodu","Tanimlamalar", new { grupKodu = "StokGrupKod3" })">
+                                                    <span class="menu-bullet">
+                                                        <span class="bullet bullet-dot"></span>
+                                                    </span>
+                                                    <span class="menu-title"> Grup Kodu 3 </span>
+                                                </a>
+                                                <!--end:Menu link-->
+                                            </div>
+                                            <!--end:Menu item-->
+                                            <!--begin:Menu item-->
+                                            <div class="menu-item">
+                                                <!--begin:Menu link-->
+                                                <a class="menu-link" href="@Url.Action("GrupKodu","Tanimlamalar", new { grupKodu = "StokGrupKod4" })">
+                                                    <span class="menu-bullet">
+                                                        <span class="bullet bullet-dot"></span>
+                                                    </span>
+                                                    <span class="menu-title"> Grup Kodu 4 </span>
+                                                </a>
+                                                <!--end:Menu link-->
+                                            </div>
+                                            <!--end:Menu item-->
+                                            <!--begin:Menu item-->
+                                            <div class="menu-item">
+                                                <!--begin:Menu link-->
+                                                <a class="menu-link" href="@Url.Action("GrupKodu","Tanimlamalar", new { grupKodu = "StokGrupKod5" })">
+                                                    <span class="menu-bullet">
+                                                        <span class="bullet bullet-dot"></span>
+                                                    </span>
+                                                    <span class="menu-title"> Grup Kodu 5 </span>
+                                                </a>
+                                                <!--end:Menu link-->
+                                            </div>
+                                            <!--end:Menu item-->
+                                            <!--begin:Menu item-->
+                                            <div class="menu-item">
+                                                <!--begin:Menu link-->
+                                                <a class="menu-link" href="@Url.Action("GrupKodu","Tanimlamalar", new { grupKodu = "StokGrupKod6" })">
+                                                    <span class="menu-bullet">
+                                                        <span class="bullet bullet-dot"></span>
+                                                    </span>
+                                                    <span class="menu-title"> Grup Kodu 6 </span>
+                                                </a>
+                                                <!--end:Menu link-->
+                                            </div>
+                                            <!--end:Menu item-->
                                         </div>
-                                        <!--end:Menu sub-->
                                     </div>
                                     <!--end:Menu item-->
                                 </div>
@@ -339,7 +384,7 @@
                                             <!--begin:Menu item-->
                                             <div class="menu-item">
                                                 <!--begin:Menu link-->
-                                                <a class="menu-link" href="/Tanimlamalar/GrupKodu?grupKodu=CariGrupKod1">
+                                                <a class="menu-link" href="@Url.Action("GrupKodu","Tanimlamalar", new { grupKodu = "CariGrupKod1" })">
                                                     <span class="menu-bullet">
                                                         <span class="bullet bullet-dot"></span>
                                                     </span>
@@ -351,7 +396,7 @@
                                             <!--begin:Menu item-->
                                             <div class="menu-item">
                                                 <!--begin:Menu link-->
-                                                <a class="menu-link" href="/CariKoduTanimlamalari/GrupKodu2">
+                                                <a class="menu-link" href="@Url.Action("GrupKodu","Tanimlamalar", new { grupKodu = "CariGrupKod2" })">
                                                     <span class="menu-bullet">
                                                         <span class="bullet bullet-dot"></span>
                                                     </span>
@@ -363,7 +408,7 @@
                                             <!--begin:Menu item-->
                                             <div class="menu-item">
                                                 <!--begin:Menu link-->
-                                                <a class="menu-link" href="/CariKoduTanimlamalari/GrupKodu3">
+                                                <a class="menu-link" href="@Url.Action("GrupKodu","Tanimlamalar", new { grupKodu = "CariGrupKod3" })">
                                                     <span class="menu-bullet">
                                                         <span class="bullet bullet-dot"></span>
                                                     </span>
@@ -375,7 +420,7 @@
                                             <!--begin:Menu item-->
                                             <div class="menu-item">
                                                 <!--begin:Menu link-->
-                                                <a class="menu-link" href="/CariKoduTanimlamalari/GrupKodu4">
+                                                <a class="menu-link" href="@Url.Action("GrupKodu","Tanimlamalar", new { grupKodu = "CariGrupKod4" })">
                                                     <span class="menu-bullet">
                                                         <span class="bullet bullet-dot"></span>
                                                     </span>
@@ -387,7 +432,7 @@
                                             <!--begin:Menu item-->
                                             <div class="menu-item">
                                                 <!--begin:Menu link-->
-                                                <a class="menu-link" href="/CariKoduTanimlamalari/GrupKodu5">
+                                                <a class="menu-link" href="@Url.Action("GrupKodu","Tanimlamalar", new { grupKodu = "CariGrupKod5" })">
                                                     <span class="menu-bullet">
                                                         <span class="bullet bullet-dot"></span>
                                                     </span>
@@ -399,7 +444,7 @@
                                             <!--begin:Menu item-->
                                             <div class="menu-item">
                                                 <!--begin:Menu link-->
-                                                <a class="menu-link" href="/CariKoduTanimlamalari/GrupKodu6">
+                                                <a class="menu-link" href="@Url.Action("GrupKodu","Tanimlamalar", new { grupKodu = "CariGrupKod6" })">
                                                     <span class="menu-bullet">
                                                         <span class="bullet bullet-dot"></span>
                                                     </span>
@@ -418,6 +463,8 @@
 
                             </div>
                             <!--end:Menu item-->
+
+                            <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="@Url.Action("Cikis","YK",null)" ><span class="menu-icon"><i class="ki-duotone ki-exit-left fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Çıkış</span></a><!--end:Menu link--></div>
                         </div>
                         <!--end::Menu-->
                     </div>
@@ -479,16 +526,8 @@
                                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 pt-1">
                                     <!--begin::Item-->
                                     <li class="breadcrumb-item text-muted">
-                                        <a href="index.html" class="text-muted text-hover-primary">Home</a>
+                                        <a href="@Url.Action("AnaSayfa","YK",null)" class="text-muted text-hover-primary">Ana Sayfa</a>
                                     </li>
-                                    <!--end::Item-->
-                                    <!--begin::Item-->
-                                    <li class="breadcrumb-item">
-                                        <span class="bullet bg-gray-300 w-5px h-2px"></span>
-                                    </li>
-                                    <!--end::Item-->
-                                    <!--begin::Item-->
-                                    <li class="breadcrumb-item text-muted">Dashboards</li>
                                     <!--end::Item-->
                                     <!--begin::Item-->
                                     <li class="breadcrumb-item">
@@ -599,8 +638,8 @@
                     <div class="container-fluid d-flex flex-column flex-md-row align-items-center justify-content-between">
                         <!--begin::Copyright-->
                         <div class="text-gray-900 order-2 order-md-1">
-                            <span class="text-muted fw-semibold me-1">2024&copy;</span>
-                            <a href="https://keenthemes.com" target="_blank" class="text-gray-800 text-hover-primary">YK Yazılım</a>
+                            <span class="text-muted fw-semibold me-1">2014 - @(DateTime.Today.Year)&copy;</span>
+                            <a href="https://ykyazilim.com.tr" target="_blank" class="text-gray-800 text-hover-primary">YK Yazılım</a>
                         </div>
                         <!--end::Copyright-->
 

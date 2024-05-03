@@ -14,19 +14,13 @@ namespace WebApplication11.Controllers
 {
     public class AktivasyonController : Controller
     {
-        // GET: Aktivasyon
-        public ActionResult KullaniciOnayla()
-        {
-            return View();
-        }
-
-        public ActionResult KullaniciOnayla(string id)
+        public ActionResult KullaniciOnayla(string kullaniciid)
         {
 
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = " p_KullaniciAktivasyonuYap";
+            cmd.CommandText = "p_KullaniciAktivasyonuYap";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ID", "");
+            cmd.Parameters.AddWithValue("@ID", kullaniciid);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
             if (dt.Rows.Count > 0)
@@ -34,11 +28,14 @@ namespace WebApplication11.Controllers
                 string Bilgi = Convert.ToString(dt.Rows[0]["Bilgi"]);
                 if (!Bilgi.StartsWith("UYARI!"))
                 {
-                    ViewBag["Durum"] = "Başarılı";
-
+                   ViewBag.Durum = "Başarılı";                
                 }
-                ViewBag["Durum"] = "Hata";
-                ViewBag["Bilgi"] = Bilgi;
+                else
+                {
+                   ViewBag.Durum = "Hata";
+                }
+                
+                ViewBag.Bilgi = Bilgi;
             }
             return View();
         }

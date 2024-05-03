@@ -13,7 +13,7 @@ namespace WebApplication11.Controllers
     public class TanimlamalarController : Controller
     {
         [HttpGet]
-        public ActionResult GrupKodu(string grupKodu)
+        public ActionResult GrupKodu(string grupKodu, string aranacakKelime="")
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_GrupKoduListesi";
@@ -21,9 +21,10 @@ namespace WebApplication11.Controllers
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
 
             cmd.Parameters.AddWithValue("@Kod", grupKodu);
+            cmd.Parameters.AddWithValue("@AranacakKelime", aranacakKelime);
 
             ViewBag.GrupKodu = grupKodu;
-  
+            ViewBag.aranacakKelime = aranacakKelime;
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
             return View(dt);
@@ -76,10 +77,11 @@ namespace WebApplication11.Controllers
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
             cmd.Parameters.AddWithValue("@ID", grupKoduDto.ID);
-            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@UyelikID", grupKoduDto.UyelikID);
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@Kod", grupKoduDto.Kod);
             cmd.Parameters.AddWithValue("@Deger", grupKoduDto.Deger);
+            IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
             return RedirectToAction("GrupKodu", new { grupKodu = grupKoduDto.Kod });
         }
 
