@@ -1,0 +1,115 @@
+﻿@model System.Data.DataTable
+@{
+    ViewBag.Title = "Kullanıcı Düzenle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!--begin::Form-->
+<form id="kt_modal_add_user_form" class="form" action="@Url.Action("UyelikDuzenle","YK",null)" method="post" enctype="multipart/form-data">
+    
+    <!--begin::Scroll-->
+    <div class="d-flex flex-column scroll-y px-5 px-lg-10 container">
+        <!--begin::Input group-->
+        <!--end::Input group-->
+        <!--begin::Row Input group-->
+        <div class="row mb-7">
+            <!--begin::Input group-->
+            <input type="hidden" id="ID" name="ID" value="@(Convert.ToString(Model.Rows[0]["ID"]))" />
+            <div class="col-lg-6">
+                <!--begin::Label-->
+                <label class="required fw-semibold fs-6 mb-2">İsim</label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input type="text" name="Isim" id="Isim" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="İsim" value="@(Convert.ToString(Model.Rows[0]["Isim"]))" />
+                <!--end::Input-->
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="col-lg-6">
+                <!--begin::Label-->
+                <label class="required fw-semibold fs-6 mb-2">Ünvan</label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input type="text" name="Unvan" id="Unvan" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Ünvan" value="@(Convert.ToString(Model.Rows[0]["Unvan"]))" />
+                <!--end::Input-->
+            </div>
+            <!--end::Input group-->
+        </div>
+        <!--begin::Row Input group-->
+        <!--begin::Row Input group-->
+        <div class="row mb-7">
+            <!--begin::Input group-->
+            <div class="col-lg-6 d-flex justify-content-start align-items-center ">
+                <div class="col-lg-6 pe-3">
+                    <!--begin::Label-->
+                    <label class="required fw-semibold fs-6 mb-2">Vergi Numarası</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->A
+                    <input type="text" name="VergiNumarasi" id="VergiNumarasi" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Vergi Numarası" value="@(Convert.ToString(Model.Rows[0]["VergiNumarasi"]))" />
+                    <!--end::Input-->
+                </div>
+                <div class="col-lg-6 ps-3">
+                    <!--begin::Label-->
+                    <label class="required fw-semibold fs-6 mb-2">Vergi Dairesi</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input type="text" name="VergiDairesi" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Vergi Dairesi" value="@(Convert.ToString(Model.Rows[0]["VergiDairesi"]))" />
+                    <!--end::Input-->
+                </div>
+
+            </div>
+            <div class="col-lg-6">
+                <div>
+                    <!--begin::Label-->
+                    <label class="required fw-semibold fs-6 mb-2">Adres</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input type="text" name="Adres" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Adres" value="@(Convert.ToString(Model.Rows[0]["Adres"]))" />
+                    <!--end::Input-->
+                </div>
+            </div>
+
+        </div>
+        <!--begin::Row Input group-->
+        <div class="row mb-7">
+            <div class="col-lg-6">
+                <label class="required fw-semibold fs-6 mb-2">İletişim</label>
+                <input class="form-control border-0 bg-light" name="Iletisim" id="Iletisim" value="@(Convert.ToString(Model.Rows[0]["Iletisim"]))" />
+            </div>
+            <div class="col-lg-6">
+                <label class="required fw-semibold fs-6 mb-2">E-Mail</label>
+                <input class="form-control border-0 bg-light" name="EMail" id="EMail" value="@(Convert.ToString(Model.Rows[0]["EMail"]))" />
+            </div>
+        </div>
+        <div class="row mb-7">
+            <div class="col-lg-3">
+                <label class="required fw-semibold fs-6 mb-2">Başlangıç Tarihi</label>
+                <input type="date" class="form-control border-0 bg-light" name="UyelikBaslangicTarihi" id="UyelikBaslangicTarihi" value="@(Convert.ToDateTime(Model.Rows[0]["UyelikBaslangicTarihi"]).ToString("yyyy-MM-dd"))" />
+            </div>
+            <div class="col-lg-3">
+                <label class="required fw-semibold fs-6 mb-2">Bitiş Tarihi</label>
+                <input type="date" class="form-control border-0 bg-light" name="UyelikBitisTarihi" id="UyelikBitisTarihi" value="@(Convert.ToDateTime(Model.Rows[0]["UyelikBitisTarihi"]).ToString("yyyy-MM-dd"))" />
+            </div>
+            <div class="col-lg-6">
+                <label class="required fw-semibold fs-6 mb-2">Api URL</label>
+                <input class="form-control border-0 bg-light" name="ApiUrl" id="ApiUrl" value="@(Convert.ToString(Model.Rows[0]["ApiUrl"]))" />
+            </div>
+        </div>
+
+    </div>
+    <!--end::Scroll-->
+    <!--begin::Actions-->
+    <div class="text-center pt-10">
+        <h3>@ViewBag.Bilgi</h3>
+        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Düzenle">
+            <span class="indicator-label">Düzenle</span>
+            <span class="indicator-progress">
+                Lütfen Bekleyin...
+                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+        </button>
+    </div>
+    <!--end::Actions-->
+</form>
+<!--end::Form-->

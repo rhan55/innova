@@ -11,7 +11,24 @@ namespace WebApplication11.Controllers
 {
     public class YKController : Controller
     {
+        public ActionResult AnaSayfa()
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
 
+            string redirectUrl = Request.Url.ToString().Replace("http:", "https:");
+            if (!Request.IsLocal && !Request.IsSecureConnection)
+            {
+                Response.Redirect(redirectUrl, false);
+                HttpContext.ApplicationInstance.CompleteRequest();
+            }
+
+
+
+            return View();
+        }
+
+        #region Giriş İşlemleri 
         [HttpGet]
         public ActionResult Giris()
         {
@@ -37,6 +54,7 @@ namespace WebApplication11.Controllers
 
                     CreateCookie("Isim", Convert.ToString(dt.Rows[0]["Ad"])+" "+ Convert.ToString(dt.Rows[0]["Soyad"]));
                     CreateCookie("KullaniciID", Convert.ToString(dt.Rows[0]["ID"]));
+                    CreateCookie("UyelikIsim", Convert.ToString(dt.Rows[0]["UyelikIsim"]));
                     CreateCookie("UyelikID", Convert.ToString(dt.Rows[0]["UyelikID"]));
                     CreateCookie("KullaniciAdi", Convert.ToString(dt.Rows[0]["KullaniciAdi"]));
                     CreateCookie("Parola", Convert.ToString(dt.Rows[0]["Parola"]));
@@ -52,53 +70,104 @@ namespace WebApplication11.Controllers
             return View(dt);
         }
 
-       
-
-
-        public ActionResult AnaSayfa()
-        {
-            if (!AutoGirisKontrol())
-                return Redirect("~/YK/Giris");
-
-            string redirectUrl = Request.Url.ToString().Replace("http:", "https:");
-            if (!Request.IsLocal && !Request.IsSecureConnection)
-            {
-                Response.Redirect(redirectUrl, false);
-                HttpContext.ApplicationInstance.CompleteRequest();
-            }
-
-
-
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-
-
         public ActionResult Cikis()
         {
             DeleteCookie("Isim");
             DeleteCookie("KullaniciID");
+            DeleteCookie("UyelikIsim");
             DeleteCookie("UyelikID");
             DeleteCookie("KullaniciAdi");
             DeleteCookie("Parola");
+            DeleteCookie("Resim");
 
             return Redirect("~/YK/Giris");
 
         }
+
+        #endregion
+
+        #region Üyelik İşlemleri
+
+        public ActionResult UyelikListesi(string aranacakKelime = "")
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_UyelikListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@AranacakKelime", aranacakKelime);
+
+            ViewBag.AranacakKelime = aranacakKelime;
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return View(dt);
+        }
+
+
+        public ActionResult UyelikDuzenle(string id)
+        {
+            var uyelikId = GetCookie("UyelikID");
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_Uyelik";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return View(dt);
+        }
+
+        [HttpPost]
+        public ActionResult UyelikDuzenle(            
+            string id,
+            string Isim,
+            string Unvan,
+            string VergiNumarasi,
+            string VergiDairesi,
+            string Adres,
+            string EMail,
+            string Iletisim,
+            DateTime UyelikBaslangicTarihi,
+            DateTime UyelikBitisTarihi,
+            string ApiUrl)
+        {
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_UyelikKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@Isim", Isim);
+            cmd.Parameters.AddWithValue("@Unvan", Unvan);
+            cmd.Parameters.AddWithValue("@VergiDairesi", VergiDairesi);
+            cmd.Parameters.AddWithValue("@VergiNumarasi", VergiNumarasi);
+            cmd.Parameters.AddWithValue("@Adres", Adres);
+            cmd.Parameters.AddWithValue("@EMail", EMail);
+            cmd.Parameters.AddWithValue("@Iletisim", Iletisim);
+            cmd.Parameters.AddWithValue("@ApiUrl", ApiUrl);
+            cmd.Parameters.AddWithValue("@UyelikBaslangicTarihi", UyelikBaslangicTarihi);
+            cmd.Parameters.AddWithValue("@UyelikBitisTarihi", UyelikBitisTarihi);
+            cmd.Parameters.AddWithValue("@Kullanici", GetCookie("KullaniciID"));
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            if (dt.Rows.Count > 0)
+            {
+                var columns = dt.Columns;
+                if (columns.Contains("Bilgi"))
+                {
+                    string Bilgi = Convert.ToString(dt.Rows[0]["Bilgi"]);
+                    ViewBag.Bilgi = Bilgi;
+                }
+            }
+
+
+            SqlCommand cmd2 = new SqlCommand();
+            cmd2.CommandText = "p_Uyelik";
+            cmd2.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd2.Parameters.AddWithValue("@ID", id);
+            DataTable dt2 = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
+
+            return View(dt2);
+
+        }
+        #endregion
 
         #region Cookie İşlemleri
 

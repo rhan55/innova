@@ -2456,6 +2456,8 @@
     <Content Include="Views\Tanimlamalar\Ekle.cshtml" />
     <Content Include="Views\Tanimlamalar\Duzenle.cshtml" />
     <Content Include="Views\Kullanici\Profil.cshtml" />
+    <Content Include="Views\YK\UyelikListesi.cshtml" />
+    <Content Include="Views\YK\UyelikDuzenle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
