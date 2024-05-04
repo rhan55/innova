@@ -324,7 +324,7 @@ namespace WebApplication11.Controllers
             return View();
         }
 
-        [HttpGet]
+        [HttpPost]
         public ActionResult Sil(string id)
         {
             SqlCommand cmd = new SqlCommand();
