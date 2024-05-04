@@ -60,6 +60,12 @@ namespace WebApplication11.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
+            string redirectUrl = Request.Url.ToString().Replace("http:", "https:");
+            if (!Request.IsLocal && !Request.IsSecureConnection)
+            {
+                Response.Redirect(redirectUrl, false);
+                HttpContext.ApplicationInstance.CompleteRequest();
+            }
 
 
 
