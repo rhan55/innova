@@ -115,12 +115,15 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AktivasyonController.cs" />
+    <Compile Include="Controllers\CariController.cs" />
     <Compile Include="Controllers\KullaniciController.cs" />
     <Compile Include="Controllers\TanimlamalarController.cs" />
     <Compile Include="Controllers\YKController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dto\CariDto.cs" />
+    <Compile Include="Models\Dto\UyelikDto.cs" />
     <Compile Include="Models\Dto\GrupKoduDto.cs" />
     <Compile Include="Models\Dto\KullaniciEkleDto.cs" />
     <Compile Include="Models\IDVeritabani.cs" />
@@ -2458,6 +2461,9 @@
     <Content Include="Views\Kullanici\Profil.cshtml" />
     <Content Include="Views\YK\UyelikListesi.cshtml" />
     <Content Include="Views\YK\UyelikDuzenle.cshtml" />
+    <Content Include="Views\YK\UyeOl.cshtml" />
+    <Content Include="Views\YK\SifremiUnuttum.cshtml" />
+    <Content Include="Views\Cari\Ekle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

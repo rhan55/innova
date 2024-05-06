@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication11.Models;
+using WebApplication11.Models.Dto;
 
 namespace WebApplication11.Controllers
 {
@@ -69,6 +70,23 @@ namespace WebApplication11.Controllers
 
             return View(dt);
         }
+        [HttpGet]
+        public ActionResult SifremiUnuttum()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult KullaniciOnayla(string kullaniciid)
+        {
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_KullaniciAktivasyonuYap";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", kullaniciid);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return View();
+        }
 
         public ActionResult Cikis()
         {
@@ -100,7 +118,38 @@ namespace WebApplication11.Controllers
 
             return View(dt);
         }
+        [HttpGet]
+        public ActionResult UyeOl()
+        {
+            return View();
+          
+        }
+       
 
+
+        [HttpPost]
+        public ActionResult UyeOl(UyelikDto uyelikDto)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_UyelikKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            
+            cmd.Parameters.AddWithValue("@ID", "");
+            cmd.Parameters.AddWithValue("@Isim", uyelikDto.Isim);
+            cmd.Parameters.AddWithValue("@Unvan", uyelikDto.Unvan);
+            cmd.Parameters.AddWithValue("@VergiNumarasi", uyelikDto.VergiNumarasi);
+            cmd.Parameters.AddWithValue("@VergiDairesi", uyelikDto.VergiDairesi);
+            cmd.Parameters.AddWithValue("@Adres", uyelikDto.Adres);
+            cmd.Parameters.AddWithValue("@EMail", uyelikDto.EMail);
+            cmd.Parameters.AddWithValue("@Iletisim", uyelikDto.Iletisim);
+            cmd.Parameters.AddWithValue("@Kullanici", "");
+            cmd.Parameters.AddWithValue("@UyelikBaslangicTarihi", uyelikDto.UyelikBaslangicTarihi);
+            cmd.Parameters.AddWithValue("@UyelikBitisTarihi", uyelikDto.UyelikBitisTarihi);
+            cmd.Parameters.AddWithValue("@ApiUrl", uyelikDto.ApiUrl);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            return View(dt);
+        }
 
         public ActionResult UyelikDuzenle(string id)
         {
@@ -211,6 +260,8 @@ namespace WebApplication11.Controllers
 
             return GirisKontrol;
         }
+
+       
 
         private void CreateCookie(string name, string value)
         {

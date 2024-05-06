@@ -1,0 +1,290 @@
+﻿
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Üye Ol";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<!--begin::Head-->
+<head>
+    <title>@ViewBag.Title - YK Yazılım</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="The most advanced Bootstrap 5 Admin Theme with 40 unique prebuilt layouts on Themeforest trusted by 100,000 beginners and professionals. Multi-demo, Dark Mode, RTL support and complete React, Angular, Vue, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel versions. Grab your copy now and get life-time updates for free." />
+    <meta name="keywords" content="metronic, bootstrap, bootstrap 5, angular, VueJs, React, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js, Node.js, Flask, Symfony & Laravel starter kits, admin themes, web design, figma, web development, free templates, free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dak mode, bootstrap button, bootstrap datepicker, bootstrap timepicker, fullcalendar, datatables, flaticon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Metronic - The World's #1 Selling Bootstrap Admin Template by KeenThemes" />
+    <meta property="og:url" content="https://keenthemes.com/metronic" />
+    <meta property="og:site_name" content="Metronic by Keenthemes" />
+    <link rel="canonical" href="http://authentication/layouts/corporate/sign-in.html" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/Tema/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/Tema/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/Tema/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/Tema/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/Tema/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/Tema/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/Tema/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/Tema/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/Tema/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/Tema/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/Tema/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/Tema/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/Tema/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/Tema/favicons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/Tema/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!--begin::Fonts(mandatory for all pages)-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
+    <!--end::Fonts-->
+    <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
+    <link href="/Tema/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="/Tema/css/style.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="/Tema/css/override.css" rel="stylesheet" type="text/css" />
+    <!--end::Global Stylesheets Bundle-->
+    <script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
+</head>
+<!--end::Head-->
+<!--begin::Body-->
+
+<body id="kt_body" class="auth-bg">
+    <!--begin::Theme mode setup on page load-->
+    <script>var defaultThemeMode = "light"; var themeMode; if (document.documentElement) { if (document.documentElement.hasAttribute("data-bs-theme-mode")) { themeMode = document.documentElement.getAttribute("data-bs-theme-mode"); } else { if (localStorage.getItem("data-bs-theme") !== null) { themeMode = localStorage.getItem("data-bs-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-bs-theme", themeMode); }</script>
+    <!--end::Theme mode setup on page load-->
+    <!--begin::Main-->
+    <!--begin::Root-->
+    <div class="d-flex flex-column flex-root">
+        <!--begin::Authentication - Sign-in -->
+        <div class="d-flex flex-column flex-lg-row flex-column-fluid">
+            <!--begin::Body-->
+            <div class="d-flex flex-column flex-lg-row-fluid w-lg-50 p-10 order-2 order-lg-1">
+                <!--begin::Form-->
+                <div class="d-flex flex-center flex-column flex-lg-row-fluid">
+                    <!--begin::Wrapper-->
+                    <div class="w-lg-700px p-10">
+                        <form id="kt_modal_add_user_form" class="form w-100 Uye-Ol-Form" action="@Url.Action("UyeOl","YK",null)" method="post" enctype="multipart/form-data">
+                            <!--begin::Heading-->
+                            <div class="text-center mb-11">
+                                <!--begin::Title-->
+                                <h1 class="text-gray-900 fw-bolder mb-3">Kullanıcı Girişi</h1>
+                                <!--end::Title-->
+
+                            </div>
+                            <!--begin::Heading-->
+
+                            @if (Model != null)
+                            {
+                                if (Model.Rows.Count > 0)
+                                {
+                                    string ID = Convert.ToString(Model.Rows[0]["ID"]);
+                                    string Bilgi = Convert.ToString(Model.Rows[0]["Bilgi"]);
+                                    if (ID == "0")
+                                    {
+                                        <!--begin::Alert-->
+                                        <div class="alert alert-danger d-flex align-items-center p-5">
+                                            <!--begin::Icon-->
+                                            <i class="ki-duotone ki-shield-tick fs-2hx text-danger me-4"><span class="path1"></span><span class="path2"></span></i>
+                                            <!--end::Icon-->
+                                            <!--begin::Wrapper-->
+                                            <div class="d-flex flex-column">
+                                                <!--begin::Content-->
+                                                <span>@Bilgi</span>
+                                                <!--end::Content-->
+                                            </div>
+                                            <!--end::Wrapper-->
+                                        </div>
+                                        <!--end::Alert-->
+                                    }
+                                }
+                            }
+
+                            <!--begin::Scroll-->
+                            <div class="d-flex flex-column scroll-y px-5 px-lg-10 container">
+                                <!--begin::Row Input group-->
+                                <div class="row mb-7">
+                                    <input type="hidden" name="ID" value="" />
+                                    <!--begin::Input group-->
+                                    <div class="col-lg-6">
+                                        <!--begin::Label-->
+                                        <label class="required fw-semibold fs-6 mb-2">İsim</label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input type="text" name="Isim" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="İsim" value="" required />
+
+                                        <!--end::Input-->
+                                    </div>
+                                    <!--end::Input group-->
+                                    <!--begin::Input group-->
+                                    <div class="col-lg-6">
+                                        <!--begin::Label-->
+                                        <label class="required fw-semibold fs-6 mb-2">Ünvan</label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input type="text" name="Unvan" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Ünvan" value="" required />
+                                        <!--end::Input-->
+                                    </div>
+                                    <!--end::Input group-->
+                                </div>
+                                <!--begin::Row Input group-->
+                                <!--begin::Row Input group-->
+                                <div class="row mb-7">
+                                    <!--begin::Input group-->
+                                    <div class="col-lg-6 d-flex justify-content-start align-items-center ">
+                                        <div class="col-lg-6 pe-3">
+                                            <!--begin::Label-->
+                                            <label class="required fw-semibold fs-6 mb-2">Vergi Numarası</label>
+                                            <!--end::Label-->
+                                            <!--begin::Input-->
+                                            <input type="text" name="VergiNumarasi" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Vergi Numarası" value="" required />
+                                            <!--end::Input-->
+                                        </div>
+                                        <div class="col-lg-6 ps-3">
+                                            <!--begin::Label-->
+                                            <label class="required fw-semibold fs-6 mb-2">Vergi Dairesi</label>
+                                            <!--end::Label-->
+                                            <!--begin::Input-->
+                                            <input type="text" name="VergiDairesi" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Vergi Dairesi" value="" required />
+                                            <!--end::Input-->
+                                        </div>
+
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div>
+                                            <!--begin::Label-->
+                                            <label class="required fw-semibold fs-6 mb-2">Adres</label>
+                                            <!--end::Label-->
+                                            <!--begin::Input-->
+                                            <input type="text" name="Adres" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Adres" value="" />
+                                            <!--end::Input-->
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!--begin::Row Input group-->
+                                <!--begin::Row Input group-->
+                                <div class="row mb-7">
+                                    <!--begin::Input group-->
+                                    <div class="col-lg-6">
+                                        <!--begin::Label-->
+                                        <label class="required fw-semibold fs-6 mb-2">EMail</label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input class="form-control border-0 bg-light" name="EMail" placeholder="E Mail" id="exampleFormControlTextarea1" />
+                                        <!--end::Input-->
+                                    </div>
+                                    <!--end::Input group-->
+                                    <!--begin::Input group-->
+                                    <div class="col-lg-6">
+                                        <!--begin::Label-->
+                                        <label class="required fw-semibold fs-6 mb-2">İletisim</label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input class="form-control border-0 bg-light" name="Iletisim" placeholder="E Mail" id="exampleFormControlTextarea1" />
+                                        <!--end::Input-->
+                                    </div>
+                                    <!--end::Input group-->
+                                    <!--begin::Input group-->
+                                    <div class="col-lg-6">
+                                        <!--begin::Label-->
+                                        <label class="required fw-semibold fs-6 mb-2">Kullanıcı</label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input class="form-control border-0 bg-light" name="Kullanici" id="exampleFormControlTextarea1" />
+                                        <!--end::Input-->
+                                    </div>
+                                    <!--end::Input group-->
+                                    <!--begin::Input group-->
+                                    <div class="d-flex">
+                                        <!--begin::Input group-->
+                                        <div class="col">
+                                            <div class="fv-row mb-9">
+                                                <!--begin::Label-->
+                                                <label class="fs-6 fw-semibold mb-2 required">Üyelik Başlangıç Tarihi</label>
+                                                <!--end::Label-->
+                                                <!--begin::Input-->
+                                                <input class="form-control form-control-solid" name="UyelikBaslangicTarihi" id="kt_calendar_datepicker_start_date" />
+                                                <!--end::Input-->
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="fv-row mb-9">
+                                                <!--begin::Label-->
+                                                <label class="fs-6 fw-semibold mb-2 required">Üyelik Bitiş Tarihi</label>
+                                                <!--end::Label-->
+                                                <!--begin::Input-->
+                                                <input class="form-control form-control-solid" name="UyelikBitisTarihi"  id="kt_calendar_datepicker_end_date" />
+                                                <!--end::Input-->
+                                            </div>
+                                        </div>
+                                        <!--end::Input group-->
+                                    </div>
+                                           
+                               
+                                    <!--end::Input group-->
+                                    
+                                    <!--begin::Input group-->
+                                    <div class="col-lg-6">
+                                        <!--begin::Label-->
+                                        <label class="required fw-semibold fs-6 mb-2">ApiUrl</label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input class="form-control border-0 bg-light" name="ApiUrl" id="exampleFormControlTextarea1" />
+                                        <!--end::Input-->
+                                    </div>
+                                    <!--end::Input group-->
+                                </div>
+
+
+                            </div>
+                            <!--end::Scroll-->
+                            <!--begin::Actions-->
+                            <div class="text-center pt-10">
+                                <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
+                                <button type="submit" class="btn btn-primary" data-kt-users-modal-action="UyeOl">
+                                    <span class="indicator-label">Üye Ol</span>
+                                    <span class="indicator-progress">
+                                        Lütfen Bekleyin...
+                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                    </span>
+                                </button>
+                            </div>
+                            <!--end::Actions-->
+                        </form>
+                    </div>
+                    <!--end::Wrapper-->
+                </div>
+                <!--end::Form-->
+
+            </div>
+            <!--end::Body-->
+            <!--begin::Aside-->
+            <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2" style="background-image: url(/Tema/media/misc/auth-bg.png)">
+                <!--begin::Content-->
+                <div class="d-flex flex-column flex-center ">
+
+                    <!--begin::Image-->
+                    <img class="auth-right-bg-image" src="~/Tema/media/Photo/Web sitesi_03.jpg" alt="" />
+                    <!--end::Image-->
+
+                </div>
+                <!--end::Content-->
+            </div>
+            <!--end::Aside-->
+        </div>
+        <!--end::Authentication - Sign-in-->
+    </div>
+    <!--end::Root-->
+    <!--end::Main-->
+    <!--begin::Javascript-->
+    <script>var hostUrl = "/Tema/";</script>
+    <!--begin::Global Javascript Bundle(mandatory for all pages)-->
+    <script src="/Tema/plugins/global/plugins.bundle.js"></script>
+    <script src="/Tema/js/scripts.bundle.js"></script>
+    <!--end::Global Javascript Bundle-->
+    <!--end::Custom Javascript-->
+    <!--end::Javascript-->
+</body>
+
