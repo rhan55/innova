@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication11.Models;
@@ -53,7 +57,7 @@ namespace WebApplication11.Controllers
                 {
                     #region Cookie İşlemleri
 
-                    CreateCookie("Isim", Convert.ToString(dt.Rows[0]["Ad"])+" "+ Convert.ToString(dt.Rows[0]["Soyad"]));
+                    CreateCookie("Isim", Convert.ToString(dt.Rows[0]["Ad"]) + " " + Convert.ToString(dt.Rows[0]["Soyad"]));
                     CreateCookie("KullaniciID", Convert.ToString(dt.Rows[0]["ID"]));
                     CreateCookie("UyelikIsim", Convert.ToString(dt.Rows[0]["UyelikIsim"]));
                     CreateCookie("UyelikID", Convert.ToString(dt.Rows[0]["UyelikID"]));
@@ -70,11 +74,65 @@ namespace WebApplication11.Controllers
 
             return View(dt);
         }
-        [HttpGet]
-        public ActionResult SifremiUnuttum()
-        {
-            return View();
-        }
+
+
+        //[HttpGet]
+        // public ActionResult MailGonder()
+        // {
+        // SqlCommand cmd = new SqlCommand();
+        //  cmd.CommandText = "p_KullaniciAdiBul";
+        //  cmd.CommandType = System.Data.CommandType.StoredProcedure;
+        //  cmd.Parameters.AddWithValue("@KullaniciAdi", "");
+        //  DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+        //       return View();
+        // }
+
+        // [HttpPost]
+        // public ActionResult MailGonder(string kullaniciid)
+        // {
+        // SqlCommand cmd = new SqlCommand();
+        // cmd.CommandText = "p_KullaniciAdiBul";
+        // cmd.CommandType = System.Data.CommandType.StoredProcedure;
+        //cmd.Parameters.AddWithValue("@KullaniciAdi", kullaniciid);
+        //DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+        // SmtpClient sc = new SmtpClient();
+        // sc.Port = 587;
+        // sc.Host = "mail.ykyazilim.com.tr";
+        //  sc.EnableSsl = false;
+        //  sc.Credentials = new NetworkCredential("yunus@ykyazilim.com.tr", "parola");
+        //  MailMessage mail = new MailMessage();
+        //  mail.From = new MailAddress("yunus@ykyazilmi.com.tr", "YK YAZILIM");
+
+        //mail.To.Add("gonderilecekmailadresi");
+
+        //mail.Subject = "YK YAZILIM - Parola Sıfırlama";
+        //mail.IsBodyHtml = true;
+        //mail.Body = "içerik burada html kodu yazabiliriz ve paroal bilgisinide ekliycez";
+
+        //mail.Attachments.Add(new Attachment(@"C:\Sonuc.pptx"));
+
+        //sc.Send(mail);
+        //    return View();
+        // }
+        //[HttpPost]
+        //public ActionResult SifremiUnuttum(string kullaniciId)
+        //{
+        //    SqlCommand cmd = new SqlCommand();
+        //    cmd.CommandText = "p_KullaniciAdiBul";
+        //    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+        //    cmd.Parameters.AddWithValue("@KullaniciAdi", kullaniciId);
+
+        //    DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+        //    if (dt.Rows.Count == 0)
+        //    {
+        //        ViewBag.Bilgi = "Kullanıcı Bulunamadı";
+        //        return View();
+
+        //    }
+
+        //    ViewBag.Bilgi = "Şifre bilgileriniz mail adresinize gönderildi.";
+        //    return View();
+        //}
         [HttpPost]
         public ActionResult KullaniciOnayla(string kullaniciid)
         {
@@ -122,30 +180,40 @@ namespace WebApplication11.Controllers
         public ActionResult UyeOl()
         {
             return View();
-          
+
         }
-       
+
 
 
         [HttpPost]
         public ActionResult UyeOl(UyelikDto uyelikDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_UyelikKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            
+
             cmd.Parameters.AddWithValue("@ID", "");
             cmd.Parameters.AddWithValue("@Isim", uyelikDto.Isim);
             cmd.Parameters.AddWithValue("@Unvan", uyelikDto.Unvan);
             cmd.Parameters.AddWithValue("@VergiNumarasi", uyelikDto.VergiNumarasi);
             cmd.Parameters.AddWithValue("@VergiDairesi", uyelikDto.VergiDairesi);
             cmd.Parameters.AddWithValue("@Adres", uyelikDto.Adres);
+            cmd.Parameters.AddWithValue("@Il", uyelikDto.Il);
+            cmd.Parameters.AddWithValue("@Ilce", uyelikDto.Ilce);
             cmd.Parameters.AddWithValue("@EMail", uyelikDto.EMail);
+            cmd.Parameters.AddWithValue("@Ad", uyelikDto.Ad);
+            cmd.Parameters.AddWithValue("@Soyad", uyelikDto.Soyad);
+            cmd.Parameters.AddWithValue("@Parola", uyelikDto.Parola);
             cmd.Parameters.AddWithValue("@Iletisim", uyelikDto.Iletisim);
             cmd.Parameters.AddWithValue("@Kullanici", "");
-            cmd.Parameters.AddWithValue("@UyelikBaslangicTarihi", uyelikDto.UyelikBaslangicTarihi);
-            cmd.Parameters.AddWithValue("@UyelikBitisTarihi", uyelikDto.UyelikBitisTarihi);
-            cmd.Parameters.AddWithValue("@ApiUrl", uyelikDto.ApiUrl);
+            cmd.Parameters.AddWithValue("@UyelikBaslangicTarihi", DateTime.Now);
+            cmd.Parameters.AddWithValue("@UyelikBitisTarihi", DateTime.Now.AddMonths(1));
+            cmd.Parameters.AddWithValue("@ApiUrl", "http://api.ykyazilim.com.tr/api/");
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             return View(dt);
@@ -165,7 +233,7 @@ namespace WebApplication11.Controllers
         }
 
         [HttpPost]
-        public ActionResult UyelikDuzenle(            
+        public ActionResult UyelikDuzenle(
             string id,
             string Isim,
             string Unvan,
@@ -261,7 +329,7 @@ namespace WebApplication11.Controllers
             return GirisKontrol;
         }
 
-       
+
 
         private void CreateCookie(string name, string value)
         {

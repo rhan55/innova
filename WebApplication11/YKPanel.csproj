@@ -2462,8 +2462,9 @@
     <Content Include="Views\YK\UyelikListesi.cshtml" />
     <Content Include="Views\YK\UyelikDuzenle.cshtml" />
     <Content Include="Views\YK\UyeOl.cshtml" />
-    <Content Include="Views\YK\SifremiUnuttum.cshtml" />
     <Content Include="Views\Cari\Ekle.cshtml" />
+    <Content Include="Views\Cari\Liste.cshtml" />
+    <Content Include="Views\YK\MailGonder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
