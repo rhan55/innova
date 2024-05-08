@@ -94,7 +94,7 @@ namespace WebApplication11.Controllers
         // cmd.CommandText = "p_KullaniciAdiBul";
         // cmd.CommandType = System.Data.CommandType.StoredProcedure;
         //cmd.Parameters.AddWithValue("@KullaniciAdi", kullaniciid);
-        //DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+         //DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
         // SmtpClient sc = new SmtpClient();
         // sc.Port = 587;
         // sc.Host = "mail.ykyazilim.com.tr";
@@ -176,9 +176,12 @@ namespace WebApplication11.Controllers
 
             return View(dt);
         }
+
         [HttpGet]
         public ActionResult UyeOl()
         {
+            IlListesiniOlustur();
+
             return View();
 
         }
@@ -188,8 +191,12 @@ namespace WebApplication11.Controllers
         [HttpPost]
         public ActionResult UyeOl(UyelikDto uyelikDto)
         {
+
+            IlListesiniOlustur();
+
             if (!ModelState.IsValid)
             {
+                ViewBag.Form = uyelikDto;
                 return View();
             }
 
@@ -360,5 +367,28 @@ namespace WebApplication11.Controllers
         }
 
         #endregion
+
+        public void IlListesiniOlustur()
+        {
+            // Il Listesi oluşturma
+            SqlCommand ilCommand = new SqlCommand();
+            ilCommand.CommandText = "p_GrupKoduListesi";
+            ilCommand.CommandType = System.Data.CommandType.StoredProcedure;
+            ilCommand.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+            ilCommand.Parameters.AddWithValue("@Kod", "Il");
+            ilCommand.Parameters.AddWithValue("@AranacakKelime", "");
+
+
+            DataTable ilDataTable = (DataTable)IDVeritabani.Sorgula(ilCommand, SorgulaTuru.Tablo);
+
+            var iller = new List<string>();
+
+            for (int i = 0; i < ilDataTable.Rows.Count; i++)
+            {
+                iller.Add(Convert.ToString(ilDataTable.Rows[i]["Deger"]));
+            }
+            ViewBag.Iller = iller;
+        }
     }
 }

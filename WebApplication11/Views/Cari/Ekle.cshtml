@@ -4,176 +4,493 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<!--begin::Form-->
-<form id="kt_modal_add_user_form" class="form" action="@Url.Action("Ekle","Cari",null)" method="post" enctype="multipart/form-data">
-
-    @if (Model != null)
-    {
-        if (Model.Rows.Count > 0)
-        {
-            string ID = Convert.ToString(Model.Rows[0]["ID"]);
-            string Bilgi = Convert.ToString(Model.Rows[0]["Bilgi"]);
-            if (ID == "0")
-            {
-                <!--begin::Alert-->
-                <div class="alert alert-danger d-flex align-items-center p-5">
-                    <!--begin::Icon-->
-                    <i class="ki-duotone ki-shield-tick fs-2hx text-danger me-4"><span class="path1"></span><span class="path2"></span></i>
-                    <!--end::Icon-->
-                    <!--begin::Wrapper-->
-                    <div class="d-flex flex-column">
-                        <!--begin::Content-->
-                        <span>@Bilgi</span>
-                        <!--end::Content-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-2">
+            <!--begin::Menu-->
+            <div class="menu menu-rounded menu-column menu-title-gray-700 menu-icon-gray-500 menu-arrow-gray-500 menu-bullet-gray-500 menu-arrow-gray-500 menu-state-bg fw-semibold w-250px"
+                 data-kt-menu="true">
+                <!--begin::Menu item-->
+                <div class="menu-item menu-sub-indention menu-accordion"
+                     data-kt-menu-trigger="click">
+                    <!--begin::Menu link-->
+                    <a href="#" class="menu-link py-3">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-chart-simple-2 fs-3">
+                                <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Example Link</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <!--end::Menu link-->
+                    <!--begin::Menu sub-->
+                    <div class="menu-sub menu-sub-accordion pt-3">
+                        <!--begin::Menu item-->
+                        <div class="menu-item">
+                            <a href="#" class="menu-link py-3">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Example Link</span>
+                            </a>
+                        </div>
+                        <!--end::Menu item-->
+                        <!--begin::Menu item-->
+                        <div class="menu-item">
+                            <a href="#" class="menu-link py-3">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Example Link</span>
+                            </a>
+                        </div>
+                        <!--end::Menu item-->
+                        <!--begin::Menu item-->
+                        <div class="menu-item menu-accordion" data-kt-menu-trigger="click">
+                            <!--begin::Menu link-->
+                            <a href="#" class="menu-link py-3">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Example Link</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <!--end::Menu link-->
+                            <!--begin::Menu sub-->
+                            <div class="menu-sub menu-sub-accordion pt-3">
+                                <!--begin::Menu item-->
+                                <div class="menu-item">
+                                    <a href="#" class="menu-link py-3">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Example Link</span>
+                                    </a>
+                                </div>
+                                <!--end::Menu item-->
+                                <!--begin::Menu item-->
+                                <div class="menu-item">
+                                    <a href="#" class="menu-link py-3">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Example Link</span>
+                                    </a>
+                                </div>
+                                <!--end::Menu item-->
+                                <!--begin::Menu item-->
+                                <div class="menu-item">
+                                    <a href="#" class="menu-link py-3">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Example Link</span>
+                                    </a>
+                                </div>
+                                <!--end::Menu item-->
+                            </div>
+                            <!--end::Menu sub-->
+                        </div>
+                        <!--end::Menu item-->
+                        <!--begin::Menu item-->
+                        <div class="menu-item">
+                            <a href="#" class="menu-link py-3">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Example Link</span>
+                            </a>
+                        </div>
+                        <!--end::Menu item-->
                     </div>
-                    <!--end::Wrapper-->
+                    <!--end::Menu sub-->
                 </div>
-                <!--end::Alert-->
-            }
-        }
-    }
-
-    <!--begin::Scroll-->
-
-    <div class="d-flex flex-column scroll-y px-5 px-lg-10 container">   
-        <!--begin::Row Input group-->
-        <div class="row mb-7">
-            <!--begin::Input group-->
-            <div class="col-lg-6">
-                <!--begin::Label-->
-                <label class="required fw-semibold fs-6 mb-2">Kullanıcı Adı</label>
-                <!--end::Label-->
-                <!--begin::Input-->
-                <input type="text" name="KullaniciAdi" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Kullanıcı Adı" value="" required />
-
-                <!--end::Input-->
+                <!--end::Menu item-->
+                <!--begin::Menu item-->
+                <div class="menu-item">
+                    <a href="#" class="menu-link py-3">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-notification-on fs-3">
+                                <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Example Link</span>
+                    </a>
+                </div>
+                <!--end::Menu item-->
+                <!--begin::Menu item-->
+                <div class="menu-item menu-link-indention menu-accordion"
+                     data-kt-menu-trigger="click">
+                    <!--begin::Menu link-->
+                    <a href="#" class="menu-link py-3">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-calendar-2 fs-3">
+                                <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Example Link</span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <!--end::Menu link-->
+                    <!--begin::Menu sub-->
+                    <div class="menu-sub menu-sub-accordion pt-3">
+                        <!--begin::Menu item-->
+                        <div class="menu-item">
+                            <a href="#" class="menu-link py-3 active">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Example Link</span>
+                            </a>
+                        </div>
+                        <!--end::Menu item-->
+                        <!--begin::Menu item-->
+                        <div class="menu-item">
+                            <a href="#" class="menu-link py-3">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Example Link</span>
+                            </a>
+                        </div>
+                        <!--end::Menu item-->
+                        <!--begin::Menu item-->
+                        <div class="menu-item">
+                            <a href="#" class="menu-link py-3">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Example Link</span>
+                            </a>
+                        </div>
+                        <!--end::Menu item-->
+                    </div>
+                    <!--end::Menu sub-->
+                </div>
+                <!--end::Menu item-->
+                <!--begin::Menu item-->
+                <div class="menu-item">
+                    <a href="#" class="menu-link py-3">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-gear fs-3">
+                                <span class="path1"></span><span class="path2"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Example Link</span>
+                    </a>
+                </div>
+                <!--end::Menu item-->
             </div>
-            <!--end::Input group-->
-            <!--begin::Input group-->
-            <div class="col-lg-6">
-                <!--begin::Label-->
-                <label class="required fw-semibold fs-6 mb-2">Parola</label>
-                <!--end::Label-->
-                <!--begin::Input-->
-                <input type="password" name="Parola" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Parola" value="" required />
-                <!--end::Input-->
-            </div>
-            <!--end::Input group-->
+            <!--end::Menu-->
         </div>
-        <!--begin::Row Input group-->
-        <!--begin::Row Input group-->
-        <div class="row mb-7">
-            <!--begin::Input group-->
-            <div class="col-lg-6 d-flex justify-content-start align-items-center ">
-                <div class="col-lg-6 pe-3">
-                    <!--begin::Label-->
-                    <label class="required fw-semibold fs-6 mb-2">Ad</label>
-                    <!--end::Label-->
-                    <!--begin::Input-->
-                    <input type="text" name="Ad" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Ad" value="" required />
-                    <!--end::Input-->
-                </div>
-                <div class="col-lg-6 ps-3">
-                    <!--begin::Label-->
-                    <label class="required fw-semibold fs-6 mb-2">Soyad</label>
-                    <!--end::Label-->
-                    <!--begin::Input-->
-                    <input type="text" name="Soyad" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Soyad" value="" required />
-                    <!--end::Input-->
-                </div>
+        <form class="col-lg-10 row">
 
-            </div>
             <div class="col-lg-6">
-                <div>
-                    <!--begin::Label-->
-                    <label class="required fw-semibold fs-6 mb-2">Telefon</label>
-                    <!--end::Label-->
-                    <!--begin::Input-->
-                    <input type="text" name="Telefon" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Full name" value="" />
-                    <!--end::Input-->
-                </div>
-            </div>
-
-        </div>
-        <!--begin::Row Input group-->
-        <!--begin::Row Input group-->
-        <div class="row mb-7">
-            <!--begin::Input group-->
-            <div class="col-lg-6">
-                <!--begin::Label-->
-                <label class="required fw-semibold fs-6 mb-2">Adres</label>
-                <!--end::Label-->
-                <!--begin::Input-->
-                <input class="form-control border-0 bg-light" name="Adres" id="exampleFormControlTextarea1" />
-                <!--end::Input-->
-            </div>
-            <!--end::Input group-->
-            <!--begin::Input group-->
-            <div class="col-lg-6">
-                <div class="d-flex  ">
-                    <div class="d-flex flex-column col-lg-6 pe-3">
-                        <label class="required fw-semibold fs-6 mb-2">İl</label>
-                        <select name="Il" class="form-select form-select-solid" aria-label="Select example">
-                            <option>Open this select menu</option>
-                            <option value="Antalya">Antalya</option>
-
+                <h4>Genel Bilgiler</h4>
+                <div class="d-flex align-items-center justify-content-between mt-5">
+                    <div class="form-group">
+                        <label class="required form-label" for="floatingSelect">Durumu</label>
+                        <select class="form-select form-select-solid" id="floatingSelect"
+                                aria-label="Floating label select example">
+                            <option value="1">Aktif</option>
+                            <option value="2">Pasif</option>
+                            <option value="3">Silindi</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1" class="required form-label">Kayıt Tarihi</label>
+                        <input type="date" class="form-control form-control-solid" placeholder="" />
+                    </div>
 
-                    <div class="d-flex flex-column col-lg-6 ps-3">
-                        <label class="required fw-semibold fs-6 mb-2">İlçe</label>
-                        <select name="Ilce" class="form-select form-select-solid" aria-label="Select example">
-                            <option>Open this select menu</option>
-                            <option value="Muratpaşa">Muratpaşa</option>
+                </div>
+                <div class="form-group mt-5">
+                    <label for="exampleFormControlInput1" class="required form-label">Cari Kodu</label>
+                    <input type="text" class="form-control form-control-solid" placeholder="" />
+                </div>
+                <div class="form-group mt-5">
+                    <label for="exampleFormControlInput1" class="required form-label">Cari İsmi</label>
+                    <input type="text" class="form-control form-control-solid" placeholder="" />
+                </div>
+                <div class="form-group mt-5">
+                    <label for="exampleFormControlInput1" class="required form-label">Cari Unvan</label>
+                    <textarea type="text" class="form-control form-control-solid" placeholder=""></textarea>
+                </div>
+                <div class="form-group mt-5">
+                    <label for="exampleFormControlInput1" class="required form-label">Adres</label>
+                    <textarea type="text" class="form-control form-control-solid" placeholder=""></textarea>
+                </div>
 
-                        </select>
+                <div class="d-flex mt-5">
+                    <div class="col-6 pe-3">
+                        <div class="">
+                            <label for="floatingSelect" class="required form-label">İl</label>
+                            <select class="form-select form-select-solid" id="floatingSelect"
+                                    aria-label="Floating label select example">
+                                <option selected>Open this select menu</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6 ps-3">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1" class="required form-label">İlçe</label>
+                            <input type="text" class="form-control form-control-solid" placeholder="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex mt-5">
+                    <div class="col-6 pe-3">
+                        <div class="">
+                            <label for="floatingSelect" class="required form-label">Ülke</label>
+                            <select class="form-select form-select-solid" id="floatingSelect"
+                                    aria-label="Floating label select example">
+                                <option selected>Open this select menu</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6 ps-3">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1" class="required form-label">Bölge</label>
+                            <select class="form-select form-select-solid" id="floatingSelect"
+                                    aria-label="Floating label select example">
+                                <option selected>Open this select menu</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex mt-5">
+                    <div class="col-6 pe-3">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1" class="required form-label">Vergi Id</label>
+                            <input type="text" class="form-control form-control-solid" placeholder="" />
+                        </div>
+                    </div>
+                    <div class="col-6 ps-3">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1" class="required form-label">Vergi Numarası</label>
+                            <input type="text" class="form-control form-control-solid" placeholder="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex mt-5">
+                    <div class="col-6 pe-3">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1" class="required form-label">TC No</label>
+                            <input type="text" class="form-control form-control-solid" placeholder="" />
+                        </div>
+                    </div>
+                    <div class="col-6 ps-3">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1" class="required form-label">Posta Kodu</label>
+                            <input type="text" class="form-control form-control-solid" placeholder="" />
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex mt-5">
+                    <div class="form-check me-5">
+                        <input class="form-check-input" type="checkbox" value="" id="Alici" />
+                        <label class="form-check-label user-select-none cursor-pointer" for="Alici">
+                            Alıcı
+                        </label>
+                    </div>
+                    <div class="form-check me-5">
+                        <input class="form-check-input" type="checkbox" value="" id="Satici" />
+                        <label class="form-check-label user-select-none cursor-pointer" for="Satici">
+                            Satıcı
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="Personel" />
+                        <label class="form-check-label user-select-none cursor-pointer" for="Personel">
+                            Personel
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group mt-5">
+                    <label for="exampleFormControlInput1" class="required form-label">Doğum Tarihi</label>
+                    <input type="date" class="form-control form-control-solid" placeholder="" />
+                </div>
+            </div>
+
+
+            <div class="col-lg-6 d-grid gap-3">
+                <div class="flex flex-col">
+                    <h4>İletişim Bilgileri</h4>
+                    <div class="d-flex mt-5">
+                        <div class="col-6 pe-3">
+                            <div class="form-group ">
+                                <label for="floatingInput" class="form-label required" >Telefon 1</label>
+                                <input type="text" class="form-control form-control-solid" id="floatingInput" />
+                            </div>
+                        </div>
+                        <div class="col-6 ps-3">
+                            <div class="form-group">
+                                <label for="floatingInput" class="form-label">Telefon 2</label>
+                                <input type="text" class="form-control form-control-solid" id="floatingInput" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex mt-5">
+                        <div class="col-6 pe-3">
+                            <div class="form-group">
+                                <label for="floatingInput" class="form-label">Faks</label>
+                                <input type="text" class="form-control form-control-solid" id="floatingInput" />
+                            </div>
+                        </div>
+                        <div class="col-6 ps-3">
+                            <div class="form-group">
+                                <label for="floatingInput" class="form-label required">Cep Telefonu</label>
+                                <input type="text" class="form-control form-control-solid" id="floatingInput" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex mt-5">
+                        <div class="col-6 pe-3">
+                            <div class="form-group">
+                                <label for="floatingInput" class="form-label required">Email</label>
+                                <input type="text" class="form-control form-control-solid" id="floatingInput" />
+                            </div>
+                        </div>
+                        <div class="col-6 ps-3">
+                            <div class="form-group">
+                                <label for="floatingInput" class="form-label">Web Sitesi</label>
+                                <input type="text" class="form-control form-control-solid" id="floatingInput" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           
+                
+                <div class="flex-center flex-col">
+                    <h4>Grup Kodları</h4>
+                    <div class="d-flex mt-5">
+                        <div class="col-6 pe-3 ">
+                            <div class="form-group">
+                                <label for="floatingSelect" class="form-label">Grup Kodu 1</label>
+                                <select class="form-select form-select-solid" id="floatingSelect"
+                                        aria-label="Floating label select example">
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6 ps-3 ">
+                            <div class="form-group">
+                                <label for="floatingSelect" class="form-label">Grup Kodu 2</label>
+                                <select class="form-select form-select-solid" id="floatingSelect"
+                                        aria-label="Floating label select example">
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex mt-5">
+                        <div class="col-6 pe-3 ">
+                            <div class="form-group">
+                                <label for="floatingSelect" class="form-label">Grup Kodu 3</label>
+                                <select class="form-select form-select-solid" id="floatingSelect"
+                                        aria-label="Floating label select example">
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6 ps-3 ">
+                            <div class="form-group">
+                                <label for="floatingSelect" class="form-label">Grup Kodu 4</label>
+                                <select class="form-select form-select-solid" id="floatingSelect"
+                                        aria-label="Floating label select example">
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex mt-5">
+                        <div class="col-6 pe-3 ">
+                            <div class="form-group">
+                                <label for="floatingSelect" class="form-label">Grup Kodu 5</label>
+                                <select class="form-select form-select-solid" id="floatingSelect"
+                                        aria-label="Floating label select example">
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6 ps-3 ">
+                            <div class="form-group">
+                                <label for="floatingSelect" class="form-label">Grup Kodu 6</label>
+                                <select class="form-select form-select-solid" id="floatingSelect"
+                                        aria-label="Floating label select example">
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-center flex-col">
+                    <h4>Açıklamalar</h4>
+                    <div class="form-group mt-5">
+                        <label for="floatingInput" class="form-label">Açıklama 1</label>
+                        <textarea type="text" class="form-control form-control-solid" id="floatingInput"></textarea>
+                    </div>
+                    <div class="form-group mt-5">
+                        <label for="floatingInput" class="form-label">Açıklama 2</label>
+                        <textarea type="text" class="form-control form-control-solid" id="floatingInput"></textarea>
+                    </div>
+                    <div class="form-group mt-5">
+                        <label for="floatingInput" class="form-label">Açıklama 3</label>
+                        <textarea type="text" class="form-control form-control-solid" id="floatingInput"></textarea>
+                    </div>
+                    <div class="form-group mt-5">
+                        <label for="floatingInput" class="form-label">Açıklama 4</label>
+                        <textarea type="text" class="form-control form-control-solid" id="floatingInput"></textarea>
+                    </div>
+                    <div class="form-group mt-5">
+                        <label for="floatingInput" class="form-label">Açıklama 5</label>
+                        <textarea type="text" class="form-control form-control-solid" id="floatingInput"></textarea>
+                    </div>
+                    <div class="form-group mt-5">
+                        <label for="floatingInput" class="form-label">Açıklama 6</label>
+                        <textarea type="text" class="form-control form-control-solid" id="floatingInput"></textarea>
                     </div>
                 </div>
             </div>
-            <!--end::Input group-->
-        </div>
-        <!--end::Row Input group-->
-        <div class="row mb-7">
-            <div class="col-lg-6">
-                <label class="required fw-semibold fs-6 mb-2">Açıklama 1</label>
-                <textarea name="Aciklama1" class="form-control bg-light border-0"></textarea>
-            </div>
-            <div class="col-lg-6">
-                <label class="required fw-semibold fs-6 mb-2">Açıklama 2</label>
-                <textarea name="Aciklama2" class="form-control bg-light border-0"></textarea>
-            </div>
-            <div class="col-lg-12 mt-7">
-                <label class="required fw-semibold fs-6 mb-2 ">Açıklama 3</label>
-                <textarea name="Aciklama3" class="form-control bg-light border-0"></textarea>
-            </div>
-        </div>
-        <!--begin::Row Input group-->
-        <div class="row mb-7">
-            <div class="col-lg-6">
-                <div class="form-check form-check-custom form-check-solid ">
-                    <input name="Aktif" class="form-check-input" type="checkbox" value="true" id="form_checkbox" />
-                    <label class="form-check-label" for="form_checkbox" style="cursor: pointer;">
-                        Aktif
-                    </label>
-                </div>
-            </div>
-        </div>
-        <!--end::Row Input group-->
+            <!--begin::Actions-->
+            <div class="col-12">
 
+                <div class="text-center pt-10">
+                    <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
+                    <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Ekle">
+                        <span class="indicator-label">Kaydet</span>
+                        <span class="indicator-progress">
+                            Lütfen Bekleyin...
+                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                        </span>
+                    </button>
+                </div>
+
+            </div>
+            <!--end::Actions-->
+        </form>
     </div>
-    <!--end::Scroll-->
-    <!--begin::Actions-->
-    <div class="text-center pt-10">
-        <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
-        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet">
-            <span class="indicator-label">Kaydet</span>
-            <span class="indicator-progress">
-                Lütfen Bekleyin...
-                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-            </span>
-        </button>
-    </div>
-    <!--end::Actions-->
-</form>
-<!--end::Form-->
+</div>
+

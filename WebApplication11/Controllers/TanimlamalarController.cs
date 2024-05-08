@@ -53,6 +53,7 @@ namespace WebApplication11.Controllers
 
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
             return RedirectToAction("GrupKodu", new { grupKodu = grupKoduDto.Kod });
         }
         [HttpGet]

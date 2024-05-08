@@ -202,6 +202,7 @@
     <Content Include="Tema\favicons\mstile-310x310.png" />
     <Content Include="Tema\favicons\mstile-70x70.png" />
     <Content Include="Tema\media\Logolar\BeyazLogo.png" />
+    <Content Include="Tema\media\Photo\800x800.png" />
     <Content Include="Tema\media\Photo\Web sitesi_03.jpg" />
     <Content Include="Tema\plugins\custom\datatables\datatables.css" />
     <Content Include="Tema\plugins\custom\datatables\datatables.min.css" />

@@ -4,20 +4,21 @@ using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using WebApplication11.Models;
 using WebApplication11.Models.Dto;
+using System;
 
 namespace WebApplication11.Controllers
 {
     public class CariController : Controller
     {
         // GET: Cari
-        public ActionResult Kaydet(CariDto cariDto)
+        public ActionResult Ekle(CariDto cariDto)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@ID  ","");
             cmd.Parameters.AddWithValue("@Aktif ", cariDto.Aktif);
-            cmd.Parameters.AddWithValue("@KayitTarihi  ", cariDto.KayitTarihi);
+            cmd.Parameters.AddWithValue("@KayitTarihi  ", DateTime.Now);
             cmd.Parameters.AddWithValue("@Kod", cariDto.Kod);
             cmd.Parameters.AddWithValue("@Isim", cariDto.Isim);
             cmd.Parameters.AddWithValue("@Unvan", cariDto.Unvan);
@@ -28,6 +29,7 @@ namespace WebApplication11.Controllers
             cmd.Parameters.AddWithValue("@Bolge ", cariDto.Bolge);
             cmd.Parameters.AddWithValue("@TCKimlikNo", cariDto.TCKimlikNo);
             cmd.Parameters.AddWithValue("@VergiDairesi", cariDto.VergiDairesi);
+            cmd.Parameters.AddWithValue("@VergiNumarasi", cariDto.VergiNumarasi);
             cmd.Parameters.AddWithValue("@PostaKodu", cariDto.PostaKodu);
             cmd.Parameters.AddWithValue("@Alici", cariDto.Alici);
             cmd.Parameters.AddWithValue("@Satici", cariDto.Satici);
@@ -47,7 +49,7 @@ namespace WebApplication11.Controllers
             cmd.Parameters.AddWithValue("@MuhasebeKodu", cariDto.MuhasebeKodu);
             cmd.Parameters.AddWithValue("@Kilitli ", cariDto.Kilitli);
             cmd.Parameters.AddWithValue("@KilitAciklamasi ", cariDto.KilitAciklamasi);
-            cmd.Parameters.AddWithValue("@DovizID", cariDto.DovizID);
+            cmd.Parameters.AddWithValue("@DovizID", "");
             cmd.Parameters.AddWithValue("@VadeGunu", cariDto.VadeGunu);
             cmd.Parameters.AddWithValue("@Iskonto1", cariDto.Iskonto1);
             cmd.Parameters.AddWithValue("@ListeFiyat", cariDto.ListeFiyat);
@@ -65,9 +67,9 @@ namespace WebApplication11.Controllers
             cmd.Parameters.AddWithValue("@KullaniciAdi ", cariDto.KullaniciAdi);
             cmd.Parameters.AddWithValue("@Parola", cariDto.Parola);
             cmd.Parameters.AddWithValue("@RiskAciklama", cariDto.RiskAciklama);
-            cmd.Parameters.AddWithValue("@PlasiyerID", cariDto.PlasiyerID);
-            cmd.Parameters.AddWithValue("@AnaCariID  ", cariDto.AnaCariID);
-            cmd.Parameters.AddWithValue("@TeslimCariID  ", cariDto.TeslimCariID);
+            cmd.Parameters.AddWithValue("@PlasiyerID", "");
+            cmd.Parameters.AddWithValue("@AnaCariID  ","");
+            cmd.Parameters.AddWithValue("@TeslimCariID  ", "");
             cmd.Parameters.AddWithValue("@KullaniciID  ", cariDto.KullaniciID);
            
 

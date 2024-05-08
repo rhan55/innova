@@ -3,6 +3,11 @@
 @{
     ViewBag.Title = "Üye Ol";
     Layout = null;
+
+    if (ViewBag.Form == null)
+    {
+        ViewBag.Form = new WebApplication11.Models.Dto.UyelikDto();
+    }
 }
 
 <!DOCTYPE html>
@@ -65,7 +70,7 @@
                 <div class="d-flex flex-center flex-column flex-lg-row-fluid">
                     <!--begin::Wrapper-->
                     <div class="w-lg-700px p-10">
-                        <form id="kt_modal_add_user_form" class="form w-100 Uye-Ol-Form" action="@Url.Action("UyeOl","YK",null)" method="post" enctype="multipart/form-data">
+                        <form id="kt_modal_add_user_form" class="form w-100 Uye-Ol-Form" action="@Url.Action("UyeOl", "YK", null)" method="post" enctype="multipart/form-data">
                             <!--begin::Heading-->
                             <div class="text-center mb-11">
                                 <!--begin::Title-->
@@ -74,7 +79,7 @@
 
                             </div>
                             <!--begin::Heading-->
-                           
+
                             @if (Model != null)
                             {
                                 if (Model.Rows.Count > 0)
@@ -112,14 +117,8 @@
                                         <label class="required fw-semibold fs-6 mb-2">Firma Kısa Adı</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input type="text" name="Isim" class="form-control form-control-solid mb-3 mb-lg-0 @(ViewData.ModelState.ContainsKey("Isim") ? "is-invalid" : "") " placeholder="Firma Kısa Adı" value="" />
-                                        @if (ViewData.ModelState.ContainsKey("Isim") && ViewData.ModelState["Isim"].Errors.Count() > 0)
-                                        {
-                                            foreach (var error in ViewData.ModelState["Isim"].Errors)
-                                            {
-                                                <div class="invalid-feedback">@error.ErrorMessage</div>
-                                            }
-                                        }
+                                        <input type="text" name="Isim" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Firma Kısa Adı" value="@ViewBag.Form.Isim" required />
+
                                         <!--end::Input-->
                                     </div>
                                     <!--end::Input group-->
@@ -129,14 +128,8 @@
                                         <label class="required fw-semibold fs-6 mb-2">Ünvan</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input type="text" name="Unvan" class="form-control form-control-solid mb-3 mb-lg-0 @(ViewData.ModelState.ContainsKey("Unvan") ? "is-invalid" : "") " placeholder="Ünvan" value="" />
-                                        @if (ViewData.ModelState.ContainsKey("Unvan") && ViewData.ModelState["Unvan"].Errors.Count() > 0)
-                                        {
-                                            foreach (var error in ViewData.ModelState["Isim"].Errors)
-                                            {
-                                                <div class="invalid-feedback">@error.ErrorMessage</div>
-                                            }
-                                        }
+                                        <input type="text" name="Unvan" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Ünvan" value="@ViewBag.Form.Unvan" required />
+
                                         <!--end::Input-->
 
                                     </div>
@@ -152,15 +145,9 @@
                                             <label class="required fw-semibold fs-6 mb-2">E-Mail/Kullanıcı Adı</label>
                                             <!--end::Label-->
                                             <!--begin::Input-->
-                                            <input type="email" name="EMail" class=" Inputmask form-control form-control-solid mb-3 mb-lg-0 @(ViewData.ModelState.ContainsKey("EMail") ? "is-invalid" : "") " placeholder="EMail" value="" />
+                                            <input type="email" name="EMail" class=" Inputmask form-control form-control-solid mb-3 mb-lg-0" placeholder="EMail" value="@ViewBag.Form.EMail" required />
                                             <!--end::Input-->
-                                            @if (ViewData.ModelState.ContainsKey("EMail") && ViewData.ModelState["EMail"].Errors.Count() > 0)
-                                            {
-                                                foreach (var error in ViewData.ModelState["EMail"].Errors)
-                                                {
-                                                    <div>@error.ErrorMessage</div>
-                                                }
-                                            }
+
                                         </div>
                                     </div>
                                     <div class="col-lg-6 ">
@@ -168,15 +155,9 @@
                                         <label class="required fw-semibold fs-6 mb-2">Parola</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input type="text" name="Parola" class="form-control form-control-solid mb-3 mb-lg-0  @(ViewData.ModelState.ContainsKey("Parola") ? "is-invalid" : "")" placeholder="Parola" value="" />
+                                        <input type="password" name="Parola" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Parola" value="" required />
                                         <!--end::Input-->
-                                        @if (ViewData.ModelState.ContainsKey("Parola") && ViewData.ModelState["Parola"].Errors.Count() > 0)
-                                        {
-                                            foreach (var error in ViewData.ModelState["Parola"].Errors)
-                                            {
-                                                <div>@error.ErrorMessage</div>
-                                            }
-                                        }
+
                                     </div>
                                 </div>
                                 <!--begin::Row Input group-->
@@ -188,14 +169,8 @@
                                         <label class="required fw-semibold fs-6 mb-2">Ad</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input class="form-control border-0 bg-light @(ViewData.ModelState.ContainsKey("Ad") ? "is-invalid" : "")" name="Ad" placeholder="Ad" id="exampleFormControlTextarea1" />
-                                        @if (ViewData.ModelState.ContainsKey("Ad") && ViewData.ModelState["Ad"].Errors.Count() > 0)
-                                        {
-                                            foreach (var error in ViewData.ModelState["Ad"].Errors)
-                                            {
-                                                <div>@error.ErrorMessage</div>
-                                            }
-                                        }
+                                        <input class="form-control border-0 bg-light" name="Ad" placeholder="Ad" id="exampleFormControlTextarea1" required />
+
                                         <!--end::Input-->
                                     </div>
                                     <!--end::Input group-->
@@ -205,14 +180,8 @@
                                         <label class="required fw-semibold fs-6 mb-2">Soyad</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input class="form-control border-0 bg-light @(ViewData.ModelState.ContainsKey("Soyad") ? "is-invalid" : "")" name="Soyad" placeholder="Soyad" id="exampleFormControlTextarea1" />
-                                        @if (ViewData.ModelState.ContainsKey("Soyad") && ViewData.ModelState["Soyad"].Errors.Count() > 0)
-                                        {
-                                            foreach (var error in ViewData.ModelState["Soyad"].Errors)
-                                            {
-                                                <div>@error.ErrorMessage</div>
-                                            }
-                                        }
+                                        <input class="form-control border-0 bg-light" name="Soyad" placeholder="Soyad" id="exampleFormControlTextarea1" required />
+
                                         <!--end::Input-->
                                     </div>
                                     <!--end::Input group-->
@@ -227,14 +196,8 @@
                                         <label class="required fw-semibold fs-6 mb-2">Vergi Dairesi</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input class="form-control border-0 bg-light @(ViewData.ModelState.ContainsKey("VergiDairesi") ? "is-invalid" : "")" name="VergiDairesi" placeholder="VergiDairesi" id="exampleFormControlTextarea1" />
-                                        @if (ViewData.ModelState.ContainsKey("VergiDairesi") && ViewData.ModelState["VergiDairesi"].Errors.Count() > 0)
-                                        {
-                                            foreach (var error in ViewData.ModelState["VergiDairesi"].Errors)
-                                            {
-                                                <div>@error.ErrorMessage</div>
-                                            }
-                                        }
+                                        <input class="form-control border-0 bg-light" name="VergiDairesi" placeholder="VergiDairesi" id="exampleFormControlTextarea1" required />
+
                                         <!--end::Input-->
                                     </div>
                                     <!--end::Input group-->
@@ -244,7 +207,7 @@
                                         <label class="required fw-semibold fs-6 mb-2">Vergi Numarası</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input class="form-control border-0 bg-light @(ViewData.ModelState.ContainsKey("VergiNumarasi") ? "is-invalid" : "")" name="VergiNumarasi" placeholder="Vergi Numarası" id="exampleFormControlTextarea1" />
+                                        <input class="form-control border-0 bg-light @(ViewData.ModelState.ContainsKey("VergiNumarasi") ? "is-invalid" : "")" name="VergiNumarasi" placeholder="Vergi Numarası" id="exampleFormControlTextarea1" required value="" />
                                         <!--end::Input-->
                                         @if (ViewData.ModelState.ContainsKey("VergiNumarasi") && ViewData.ModelState["VergiNumarasi"].Errors.Count() > 0)
                                         {
@@ -266,7 +229,7 @@
                                         <label class="required fw-semibold fs-6 mb-2">İletişim Numarası</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input type="text" class="form-control border-0 bg-light @(ViewData.ModelState.ContainsKey("Iletisim") ? "is-invalid" : "")" name="Iletisim" placeholder="İletişim Numarası" id="exampleFormControlTextarea1" />
+                                        <input type="text" class="form-control border-0 bg-light @(ViewData.ModelState.ContainsKey("Iletisim") ? "is-invalid" : "")" name="Iletisim" placeholder="İletişim Numarası" id="exampleFormControlTextarea1" required />
                                         <!--end::Input-->
                                         @if (ViewData.ModelState.ContainsKey("Iletisim") && ViewData.ModelState["Iletisim"].Errors.Count() > 0)
                                         {
@@ -283,14 +246,8 @@
                                         <label class="required fw-semibold fs-6 mb-2">Adres</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input class="form-control border-0 bg-light @(ViewData.ModelState.ContainsKey("Adres") ? "is-invalid" : "")" name="Adres" placeholder="Adres" id="exampleFormControlTextarea1" />
-                                        @if (ViewData.ModelState.ContainsKey("Adres") && ViewData.ModelState["Adres"].Errors.Count() > 0)
-                                        {
-                                            foreach (var error in ViewData.ModelState["Adres"].Errors)
-                                            {
-                                                <div class="">@error.ErrorMessage</div>
-                                            }
-                                        }
+                                        <input class="form-control border-0 bg-light" name="Adres" placeholder="Adres" id="exampleFormControlTextarea1" required />
+
                                         <!--end::Input-->
                                     </div>
                                     <!--end::Input group-->
@@ -303,34 +260,19 @@
                                     <div class="col-lg-6">
                                         <div class="d-flex flex-column col-lg-12">
                                             <label class="required fw-semibold fs-6 mb-2">İl</label>
-                                            <select name="Il" class="form-select form-select-solid @(ViewData.ModelState.ContainsKey("Il") ? "is-invalid" : "")" aria-label="Select example">
-                                                <option>Open this select menu</option>
-                                                <option value="Antalya">Antalya</option>
-                                            </select>
-                                            @if (ViewData.ModelState.ContainsKey("Il") && ViewData.ModelState["Il"].Errors.Count() > 0)
-                                            {
-                                                foreach (var error in ViewData.ModelState["Il"].Errors)
+                                            <select name="Il" class="form-select form-select-solid" aria-label="Select example" required>
+                                                @foreach (var il in ViewBag.Iller)
                                                 {
-                                                    <div class="">@error.ErrorMessage</div>
+                                                    <option value="@il">@il</option>
                                                 }
-                                            }
+                                            </select>
+
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="d-flex flex-column col-lg-12">
                                             <label class="required fw-semibold fs-6 mb-2">İlçe</label>
-                                            <select name="Ilce" class="form-select form-select-solid size-4 @(ViewData.ModelState.ContainsKey("Ilce") ? "is-invalid" : "") " aria-label="Select example">
-                                                <option>Open this select menu</option>
-                                                <option value="Muratpaşa">Muratpaşa</option>
-
-                                            </select>
-                                            @if (ViewData.ModelState.ContainsKey("Ilce") && ViewData.ModelState["Ilce"].Errors.Count() > 0)
-                                            {
-                                                foreach (var error in ViewData.ModelState["Ilce"].Errors)
-                                                {
-                                                    <div class="">@error.ErrorMessage</div>
-                                                }
-                                            }
+                                            <input type="text" class="form-control border-0 bg-light " name="Ilce" placeholder="İletişim Numarası" id="exampleFormControlTextarea1" required />
                                         </div>
                                     </div>
                                     <!--end::Input group-->
@@ -339,15 +281,18 @@
                                 <!--end::Input group-->
                             </div>
                             <!--begin::Actions-->
-                            <div class="text-center mt-10 w-100 p-10">                         
-                                <button type="submit" class="btn btn-primary w-100" data-kt-users-modal-action="UyeOl">
+                            <div class="text-center pt-10">
+
+                                <button type="submit" class="btn btn-primary ms-3 ps-8 pe-8" data-kt-users-modal-action="UyeOl">
                                     <span class="indicator-label">Üye Ol</span>
                                     <span class="indicator-progress">
                                         Lütfen Bekleyin...
                                         <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                     </span>
                                 </button>
+                                <a href="~/Views/YK/Giris" class="btn btn-light ms-3" data-kt-users-modal-action="cancel">Giriş Yap</a>
                             </div>
+
                             <!--end::Actions-->
                         </form>
 
@@ -366,7 +311,7 @@
             <div class="d-flex flex-column flex-center ">
 
                 <!--begin::Image-->
-                <img class="auth-right-bg-image" src="~/Tema/media/Photo/Web sitesi_03.jpg" alt="" />
+                <img class="auth-right-bg-image" src="~/Tema/media/Photo/800x800.png" alt="" />
                 <!--end::Image-->
 
             </div>
