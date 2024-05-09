@@ -2466,6 +2466,7 @@
     <Content Include="Views\Cari\Ekle.cshtml" />
     <Content Include="Views\Cari\Liste.cshtml" />
     <Content Include="Views\YK\MailGonder.cshtml" />
+    <Content Include="Views\Cari\Duzenle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

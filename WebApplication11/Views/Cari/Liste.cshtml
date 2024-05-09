@@ -79,12 +79,11 @@
                         <thead>
                             <!--begin::Table row-->
                             <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase">
-                                <th class="min-w-125px no-export">Kullanıcı</th>
-                                <th class="min-w-125px">Ad Soyad</th>
-                                <th class="min-w-125px">Kullanıcı Adı</th>
-                                <th class="min-w-125px">Telefon</th>
-                                <th class="min-w-125px">İl/İlçe</th>
-                                <th class="min-w-125px">Durum</th>
+                                <th class="min-w-125px no-export">Kod</th>
+                                <th class="min-w-125px">Isim</th>
+                                <th class="min-w-125px">Cep Telefonu</th>
+                                <th class="min-w-125px">GrupKodu1</th>
+                                <th class="min-w-125px"> GrupKodu2</th>       
                                 <th class="text-end min-w-100px no-export">İşemler</th>
 
                             </tr>
@@ -95,30 +94,21 @@
                             {
                                 <tr>
 
-                                    <td class="d-flex align-items-center">
-                                        <!--begin:: Avatar -->
-                                        <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                            <a href="/Cari/Duzenle/@(Convert.ToString(Model.Rows[i]["Kod"]))"></a>
-                                        </div>
-                                        <!--end::Avatar-->
-                                        <!--begin::User details-->
-                                        <div class="d-flex flex-column">
-                                            <a href="/Cari/Duzenle/@(Convert.ToString(Model.Rows[i]["ID"]))" class="text-gray-800 text-hover-primary mb-1">@(Convert.ToString(Model.Rows[i]["Isim"]))
-                                            <span>@(Convert.ToString(Model.Rows[i]["KullaniciAdi"]))</span>
-                                        </div>
-                                        <!--begin::User details-->
+                                    <td>
+                                      @(Convert.ToString(Model.Rows[i]["Kod"]))
                                     </td>
                                     <td>
-                                        @(Convert.ToString(Model.Rows[i]["GrupKodu1ID "])) 
+                                        @(Convert.ToString(Model.Rows[i]["Isim"]))
                                     </td>
                                     <td>
-                                        @(Convert.ToString(Model.Rows[i]["GrupKodu2ID "]))
+                                        @(Convert.ToString(Model.Rows[i]["CepTelefonu"]))
                                     </td>
                                     <td>
-                                        @(Convert.ToString(Model.Rows[i]["Telefon"]))
+                                        @(Convert.ToString(Model.Rows[i]["GrupKodu1ID"]))
                                     </td>
-                                    <td>@(Convert.ToString(Model.Rows[i]["Ilce"]))/@(Convert.ToString(Model.Rows[i]["Il"]))</td>
-                                    <td>@(Convert.ToBoolean(Model.Rows[i]["Aktif"]) ? "Aktif" : "Pasif") </td>
+                                    <td>
+                                        @(Convert.ToString(Model.Rows[i]["GrupKodu2ID"]))
+                                    </td>                     
                                     <td class="text-end">
                                         <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             İşlemler
@@ -211,14 +201,7 @@
                     'order': [],
                     paging: false,
                     columnDefs: [
-                        {
-                            target: 1,
-                            visible: false
-                        },
-                        {
-                            target: 2,
-                            visible: false
-                        }
+                       
                     ]
 
                 });
