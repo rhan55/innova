@@ -13,7 +13,12 @@ namespace YKPortal.Models.Dto
         public string UyelikID { get; set; }
         public string Kod { get; set; }
         public string Deger { get; set; }
-    
+
+        public override string ToString()
+        {
+            return Deger;
+        }
+
     }
 }
 

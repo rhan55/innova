@@ -1,4 +1,4 @@
-﻿
+﻿@using YKPortal.Models.Dto
 @{
     ViewBag.Title = "Ekle";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -188,9 +188,9 @@
                         <select class="form-select form-select-solid" name="GrupKodu1ID" id="floatingSelect"
                                 aria-label="Floating label select example">
                             <option value="">Lütfen Seçim Yapınız</option>
-                            @foreach (var cariGrupKodlari1 in ViewBag.CariGrupKodlari1)
+                            @foreach (GrupKoduDto cariGrupKodlari1 in ViewBag.CariGrupKodlari1)
                             {
-                                <option value="@cariGrupKodlari1">@cariGrupKodlari1</option>
+                                <option value="@cariGrupKodlari1.ID">@cariGrupKodlari1.Deger</option>
                             }
                         </select>
                     </div>

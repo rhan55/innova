@@ -318,13 +318,16 @@ namespace YKPortal.Controllers
 
             DataTable cariGrupKod1DataTable = (DataTable)IDVeritabani.Sorgula(cariGrupKod1Command, SorgulaTuru.Tablo);
 
-            var cariGrupKodlari1 = new Dictionary<string, string>();
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
 
             for (int i = 0; i < cariGrupKod1DataTable.Rows.Count; i++)
             {
-                cariGrupKodlari1.Add(Convert.ToString(cariGrupKod1DataTable.Rows[i]["ID"]), Convert.ToString(cariGrupKod1DataTable.Rows[i]["Deger"]));
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(cariGrupKod1DataTable.Rows[i]["ID"]);
+                entity.Deger = Convert.ToString(cariGrupKod1DataTable.Rows[i]["Deger"]);
+                entities.Add(entity);
             }
-            ViewBag.CariGrupKodlari1 = cariGrupKodlari1;
+            ViewBag.CariGrupKodlari1 = entities;
         }
 
         public void CariGrupKod2ListesiniOlustur()
