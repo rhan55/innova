@@ -27,10 +27,32 @@ namespace WebApplication11.Controllers
                 Response.Redirect(redirectUrl, false);
                 HttpContext.ApplicationInstance.CompleteRequest();
             }
-
-
-
+            SonAktiviteler();
             return View();
+        }
+        private void SonAktiviteler()
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_SonHareketler";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var sonAktiviteler = new List<SonAktivitelerDto>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                sonAktiviteler.Add(new SonAktivitelerDto
+                {
+                    Tarih = Convert.ToString(dt.Rows[i]["Tarih"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["Tarih"]),
+                    Modul = Convert.ToString(dt.Rows[i]["Modul"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["Modul"]),
+                    Aciklama1 = Convert.ToString(dt.Rows[i]["Aciklama1"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["Aciklama1"]),
+                    Aciklama2 = Convert.ToString(dt.Rows[i]["Aciklama2"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["Aciklama1"]),
+                    Kullanici = Convert.ToString(dt.Rows[i]["Kullanici"]) == null ? "Kullanıcı Bulunamadı" : Convert.ToString(dt.Rows[i]["Kullanici"]),
+                });
+            }
+
+            ViewBag.SonAktiviteler = sonAktiviteler;
         }
 
         #region Giriş İşlemleri 
@@ -94,7 +116,7 @@ namespace WebApplication11.Controllers
         // cmd.CommandText = "p_KullaniciAdiBul";
         // cmd.CommandType = System.Data.CommandType.StoredProcedure;
         //cmd.Parameters.AddWithValue("@KullaniciAdi", kullaniciid);
-         //DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+        //DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
         // SmtpClient sc = new SmtpClient();
         // sc.Port = 587;
         // sc.Host = "mail.ykyazilim.com.tr";
@@ -292,6 +314,17 @@ namespace WebApplication11.Controllers
 
         }
         #endregion
+
+        public ActionResult Liste(string UyelikID)
+        {
+            SqlCommand cmd2 = new SqlCommand();
+            cmd2.CommandText = "p_SonHareketler";
+            cmd2.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd2.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            DataTable dt2 = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
+            return View();
+        }
+
 
         #region Cookie İşlemleri
 

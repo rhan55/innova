@@ -46,7 +46,7 @@ namespace WebApplication11.Models.Dto
         public string DovizID { get; set; }
         public int VadeGunu { get; set; }
         public decimal Iskonto1 { get; set; }
-        public int ListeFiyat { get; set; }
+        public decimal ListeFiyat { get; set; }
         public string Aciklama1 { get; set; }
         public string Aciklama2 { get; set; }
         public string Aciklama3 { get; set; }

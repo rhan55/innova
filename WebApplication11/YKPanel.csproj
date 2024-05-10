@@ -123,6 +123,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Dto\CariDto.cs" />
+    <Compile Include="Models\Dto\SonAktivitelerDto.cs" />
     <Compile Include="Models\Dto\UyelikDto.cs" />
     <Compile Include="Models\Dto\GrupKoduDto.cs" />
     <Compile Include="Models\Dto\KullaniciEkleDto.cs" />

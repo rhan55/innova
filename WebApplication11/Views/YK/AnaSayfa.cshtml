@@ -7,10 +7,10 @@
     <div class="row">
         <div class="col-sm-7">COL</div>
         <div class="col-sm-5">
-            
+
             <!--begin::Col-->
             <div class="">
-                <div style="height: 450px; overflow-x: hidden; overflow-y: scroll;">
+                <div>
                     <!--begin::Timeline widget 3-->
                     <div class="card h-md-100">
                         <!--begin::Header-->
@@ -27,137 +27,56 @@
                         </div>
                         <!--end::Header-->
                         <!--begin::Body-->
-                        <div class="card-body pt-7 px-0">
+                        <div class="card-body pt-7 px-0 overflow-x-hidden overflow-y-auto" style="max-height:480px;">
 
                             <!--begin::Tab Content (ishlamayabdi)-->
                             <div class="tab-content mb-2 px-9">
-
-                                <!--begin::Tap pane-->
-                                <div class="tab-pane fade show active" id="kt_timeline_widget_3_tab_content_4">
-                                    <!--begin::Wrapper-->
-                                    <div class="d-flex align-items-center mb-6">
-                                        <!--begin::Bullet-->
-                                        <span data-kt-element="bullet" class="bullet bullet-vertical d-flex rounded align-items-center min-h-90px h mh-100 me-4 bg-info"></span>
-                                        <!--end::Bullet-->
-                                        <!--begin::Info-->
-                                        <div class="flex-grow-1 me-2">
-                                            <!--begin::Time-->
-                                            <div class="d-flex align-items-center">
-                                                <a class="text-primary fw-semibold fs-4 flex-shrink-0">İlayda Kaçkın</a>
-                                                <div class="text-gray-700 fw-bold fs-3 ps-2">
-                                                    7 Gün Önce
+                                @foreach(var sonAktivite in ViewBag.SonAktiviteler)
+                                {
+                                    <!--begin::Tap pane-->
+                                    <div class="tab-pane fade show active" id="kt_timeline_widget_3_tab_content_4">
+                                        <!--begin::Wrapper-->
+                                        <div class="d-flex align-items-center mb-6">
+                                            <!--begin::Bullet-->
+                                            <span data-kt-element="bullet" class="bullet bullet-vertical d-flex rounded align-items-center min-h-90px h mh-100 me-4 bg-info"></span>
+                                            <!--end::Bullet-->
+                                            <!--begin::Info-->
+                                            <div class="flex-grow-1 me-2">
+                                                <!--begin::Time-->
+                                                <div class="d-flex align-items-center">
+                                                    <a class="text-primary fw-semibold fs-4 flex-shrink-0">@(sonAktivite.Kullanici)</a>
+                                                    <div class="text-gray-700 fw-bold fs-3 ps-2">
+                                                        @(sonAktivite.Tarih)
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <!--end::Time-->
-                                            <!--begin::Link-->
-                                            <div class="d-flex m-0 p-0">
-                                                <div class="text-gray-700 fw-semibold fs-6">Görev tamamlandı olarak işaretlenmedi</div>
-                                            </div>
-
-                                            <!--begin::Description-->
-                                            <div class="d-flex m-0 p-0">
-                                                <div class="text-gray-700 fw-semibold fs-6">Proje Adı:</div>
-                                                <a class="text-primary fw-semibold fs-5">YK YAZILIM - Portal Projesi</a>
-                                            </div>
-                                            <div class="text-gray-600 fw-semibold fs-6">
-                                                Tanımlamalar 1
-                                            </div>
-                                            <!--end::Description-->
-                                        </div>
-                                        <!--end::Info-->
-                                        <!--begin::Action-->
-                                        <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_create_project">İncele</a>
-                                        <!--end::Action-->
-                                    </div>
-                                    <!--end::Wrapper-->
-
-                                </div>
-                                <!--end::Tap pane-->
-                                <!--begin::Tap pane-->
-                                <div class="tab-pane fade show active" id="kt_timeline_widget_3_tab_content_4">
-                                    <!--begin::Wrapper-->
-                                    <div class="d-flex align-items-center mb-6">
-                                        <!--begin::Bullet-->
-                                        <span data-kt-element="bullet" class="bullet bullet-vertical d-flex rounded align-items-center min-h-90px h mh-100 me-4 bg-warning"></span>
-                                        <!--end::Bullet-->
-                                        <!--begin::Info-->
-                                        <div class="flex-grow-1 me-2">
-                                            <!--begin::Time-->
-                                            <div class="d-flex align-items-center">
-                                                <a class="text-primary fw-semibold fs-4 flex-shrink-0">İlayda Kaçkın</a>
-                                                <div class="text-gray-700 fw-bold fs-3 ps-2">
-                                                    7 Gün Önce
+                                                <!--end::Time-->
+                                                <!--begin::Link-->
+                                                <div class="d-flex m-0 p-0">
+                                                    <div class="text-gray-700 fw-semibold fs-6">@(sonAktivite.Aciklama1)</div>
                                                 </div>
-                                            </div>
 
-                                            <!--end::Time-->
-                                            <!--begin::Link-->
-                                            <div class="d-flex m-0 p-0">
-                                                <div class="text-gray-700 fw-semibold fs-6">Görev tamamlandı olarak işaretlenmedi</div>
-                                            </div>
-
-                                            <!--begin::Description-->
-                                            <div class="d-flex m-0 p-0">
-                                                <div class="text-gray-700 fw-semibold fs-6">Proje Adı:</div>
-                                                <a class="text-primary fw-semibold fs-5">YK YAZILIM - Portal Projesi</a>
-                                            </div>
-                                            <div class="text-gray-600 fw-semibold fs-6">
-                                                Tanımlamalar 1
-                                            </div>
-                                            <!--end::Description-->
-                                        </div>
-                                        <!--end::Info-->
-                                        <!--begin::Action-->
-                                        <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_create_project">İncele</a>
-                                        <!--end::Action-->
-                                    </div>
-                                    <!--end::Wrapper-->
-
-                                </div>
-                                <!--end::Tap pane-->
-                                <!--begin::Tap pane-->
-                                <div class="tab-pane fade show active" id="kt_timeline_widget_3_tab_content_4">
-                                    <!--begin::Wrapper-->
-                                    <div class="d-flex align-items-center mb-6">
-                                        <!--begin::Bullet-->
-                                        <span data-kt-element="bullet" class="bullet bullet-vertical d-flex rounded align-items-center min-h-90px h mh-100 me-4 bg-success"></span>
-                                        <!--end::Bullet-->
-                                        <!--begin::Info-->
-                                        <div class="flex-grow-1 me-2">
-                                            <!--begin::Time-->
-                                            <div class="d-flex align-items-center">
-                                                <a class="text-primary fw-semibold fs-4 flex-shrink-0">İlayda Kaçkın</a>
-                                                <div class="text-gray-700 fw-bold fs-3 ps-2">
-                                                    7 Gün Önce
+                                                <!--begin::Description-->
+                                                <div class="d-flex m-0 p-0">
+                                                    <div class="text-gray-700 fw-semibold fs-6">Modül:</div>
+                                                    <a class="text-primary fw-semibold fs-5">@(sonAktivite.Modul)</a>
                                                 </div>
+                                                <div class="text-gray-600 fw-semibold fs-6">
+                                                    @(sonAktivite.Aciklama2)
+                                                </div>
+                                                <!--end::Description-->
                                             </div>
-
-                                            <!--end::Time-->
-                                            <!--begin::Link-->
-                                            <div class="d-flex m-0 p-0">
-                                                <div class="text-gray-700 fw-semibold fs-6">Görev tamamlandı olarak işaretlenmedi</div>
-                                            </div>
-
-                                            <!--begin::Description-->
-                                            <div class="d-flex m-0 p-0">
-                                                <div class="text-gray-700 fw-semibold fs-6">Proje Adı:</div>
-                                                 <a class="text-primary fw-semibold fs-5">YK YAZILIM - Portal Projesi</a>
-                                            </div>
-                                            <div class="text-gray-600 fw-semibold fs-6">
-                                                Tanımlamalar 1
-                                            </div>
-                                            <!--end::Description-->
+                                            <!--end::Info-->
+                                            <!--begin::Action-->
+                                            <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_create_project">İncele</a>
+                                            <!--end::Action-->
                                         </div>
-                                        <!--end::Info-->
-                                        <!--begin::Action-->
-                                        <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_create_project">İncele</a>
-                                        <!--end::Action-->
-                                    </div>
-                                    <!--end::Wrapper-->
+                                        <!--end::Wrapper-->
 
-                                </div>
-                                <!--end::Tap pane-->
+                                    </div>
+                                    <!--end::Tap pane-->
+                                }
+
 
                             </div>
                             <!--end::Tab Content-->
@@ -172,8 +91,8 @@
                     </div>
                     <!--end::Timeline widget 3-->
                 </div>
-               
-                
+
+
             </div>
             <!--end::Col-->
         </div>

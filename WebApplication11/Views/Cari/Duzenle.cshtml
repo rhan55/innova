@@ -1,14 +1,15 @@
-﻿
+﻿@model System.Data.DataTable
 @{
     ViewBag.Title = "Duzenle";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-2">
             <!--begin::Menu-->
-            <div class="menu menu-rounded menu-column menu-title-gray-700 menu-icon-gray-500 menu-arrow-gray-500 menu-bullet-gray-500 menu-arrow-gray-500 menu-state-bg fw-semibold w-250px"
+            <div class="menu menu-rounded menu-column menu-title-gray-700 menu-icon-gray-500 menu-arrow-gray-500 menu-bullet-gray-500 menu-arrow-gray-500 menu-state-bg fw-semibold"
                  data-kt-menu="true">
                 <!--begin::Menu item-->
                 <div class="menu-item menu-sub-indention menu-accordion"
@@ -157,21 +158,22 @@
             </div>
             <!--end::Menu-->
         </div>
-        <form class="col-lg-10 row" method="post" action="/Cari/Ekle">
+        <form class="col-lg-10 row" method="post" action="@Url.Action("Duzenle","Cari",null)">
 
             <div class="col-lg-6">
+                <input type="hidden" name="ID" value="@(Convert.ToString(Model.Rows[0]["ID"]))" />
                 <h4>Genel Bilgiler</h4>
                 <div class="d-flex align-items-center justify-content-between mt-5">
                     <div class="form-check">
-                        <input class="form-check-input" name="Aktif" type="checkbox" value="true" id="Aktif" checked required />
+                        <input class="form-check-input" name="Aktif" type="checkbox" value="true" id="Aktif" checked />
                         <label class="form-check-label user-select-none cursor-pointer" for="Aktif">
                             Aktif
                         </label>
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlInput1" class="required form-label">Kayıt Tarihi</label>
-                        @* Varsayilan gun tarihini cagirdik ve toString ile formatladik. bu format sayesinde input value degerini de atamis olduk *@
-                        <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" name="KayitTarihi" class="form-control form-control-solid" placeholder="" required />
+                        @* Varsayilan gun tarihini cagirdik ve toString ile formatladik. bu format sayesinde input value degerini de atamis olduk, readonly ile sadece okunabilir duzenlenemez yaptik *@
+                        <input type="date" value="@(DateTime.Parse(Convert.ToString(Model.Rows[0]["KayitTarihi"])).ToString("yyyy-MM-dd"))" name="KayitTarihi" class="form-control form-control-solid" placeholder="" readonly />
                     </div>
 
                 </div>
@@ -180,31 +182,31 @@
                     <div class="col-6  pe-3">
                         <div class="form-group">
                             <label for="exampleFormControlInput1" class="required form-label"> Kullanıcı Adı</label>
-                            <input type="text" name="KullaniciAdi" class="form-control form-control-solid" placeholder="" />
+                            <input type="text" name="KullaniciAdi" value="@(Convert.ToString(Model.Rows[0]["KullaniciAdi"]))" class="form-control form-control-solid" placeholder="" required />
                         </div>
                     </div>
                     <div class="col-6 ps-3">
                         <div class="form-group">
                             <label for="exampleFormControlInput1" class="required form-label">Parola</label>
-                            <input type="password" name="Parola" class="form-control form-control-solid" placeholder="" />
+                            <input type="password" name="Parola" value="@(Convert.ToString(Model.Rows[0]["Parola"]))" class="form-control form-control-solid" placeholder="" required />
                         </div>
                     </div>
                 </div>
                 <div class="form-group mt-5">
                     <label for="exampleFormControlInput1" class="required form-label">Cari Kodu</label>
-                    <input type="text" name="Kod" class="form-control form-control-solid" placeholder="" />
+                    <input type="text" name="Kod" value="@(Convert.ToString(Model.Rows[0]["Kod"]))" class="form-control form-control-solid" placeholder="" />
                 </div>
                 <div class="form-group mt-5">
                     <label for="exampleFormControlInput1" class="required form-label">Cari İsmi</label>
-                    <input type="text" name="Isim " class="form-control form-control-solid" placeholder="" />
+                    <input type="text" name="Isim" value="@(Convert.ToString(Model.Rows[0]["Isim"]))" class="form-control form-control-solid" placeholder="" required />
                 </div>
                 <div class="form-group mt-5">
                     <label for="exampleFormControlInput1" class="required form-label">Cari Unvan</label>
-                    <textarea type="text" name="Unvan" class="form-control form-control-solid" placeholder=""></textarea>
+                    <textarea type="text" name="Unvan" class="form-control form-control-solid" placeholder="" required>@(Convert.ToString(Model.Rows[0]["Unvan"]))</textarea>
                 </div>
                 <div class="form-group mt-5">
                     <label for="exampleFormControlInput1" class="required form-label">Adres</label>
-                    <textarea type="text" name="Adres" class="form-control form-control-solid" placeholder=""></textarea>
+                    <textarea type="text" name="Adres" class="form-control form-control-solid" placeholder="" required>@(Convert.ToString(Model.Rows[0]["Adres"]))</textarea>
                 </div>
 
                 <div class="d-flex mt-5">
@@ -213,9 +215,10 @@
                             <label for="floatingSelect" class="required form-label">İl</label>
                             <select class="form-select form-select-solid" name="Il" id="floatingSelect"
                                     aria-label="Floating label select example">
+                                <option value="">Lütfen Seçim Yapınız</option>
                                 @foreach (var il in ViewBag.Iller)
                                 {
-                                    <option value="@il">@il</option>
+                                    <option @(Convert.ToString(Model.Rows[0]["Il"]) == il ? "selected" : "") value="@il">@il</option>
                                 }
 
                             </select>
@@ -224,7 +227,7 @@
                     <div class="col-6 ps-3">
                         <div class="form-group">
                             <label for="exampleFormControlInput1" class="required form-label">İlçe</label>
-                            <input type="text" name="Ilce" class="form-control form-control-solid" placeholder="" />
+                            <input type="text" name="Ilce" value="@(Convert.ToString(Model.Rows[0]["Ilce"]))" class="form-control form-control-solid" placeholder="" />
                         </div>
                     </div>
                 </div>
@@ -234,23 +237,18 @@
                             <label for="floatingSelect" class="required form-label">Ülke</label>
                             <select class="form-select form-select-solid" name="Ulke" id="floatingSelect"
                                     aria-label="Floating label select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                <option value="">Lütfen Seçim Yapınız</option>
+                                @foreach (var ulke in ViewBag.Ulkeler)
+                                {
+                                    <option @(Convert.ToString(Model.Rows[0]["Ulke"]) == ulke ? "selected" : "") value="@ulke">@ulke</option>
+                                }
                             </select>
                         </div>
                     </div>
                     <div class="col-6 ps-3">
                         <div class="form-group">
-                            <label for="exampleFormControlInput1" class="required form-label">Bölge</label>
-                            <select class="form-select form-select-solid" name="Bolge" id="floatingSelect"
-                                    aria-label="Floating label select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
+                            <label for="Bolge" class="required form-label">Bölge</label>
+                            <input type="text" name="Bolge" id="Bolge" value="@(Convert.ToString(Model.Rows[0]["Bolge"]))" class="form-control form-control-solid" placeholder="" />
                         </div>
                     </div>
                 </div>
@@ -259,13 +257,13 @@
                     <div class="col-6  pe-3">
                         <div class="form-group">
                             <label for="exampleFormControlInput1" class="required form-label">Posta Kodu</label>
-                            <input type="text" name="PostaKodu" class="form-control form-control-solid" placeholder="" />
+                            <input type="text" name="PostaKodu" value="@(Convert.ToString(Model.Rows[0]["PostaKodu"]))" class="form-control form-control-solid" placeholder="" />
                         </div>
                     </div>
                     <div class="col-6 ps-3">
                         <div class="form-group">
                             <label for="exampleFormControlInput1" class="required form-label">TC No</label>
-                            <input type="text" name="TCKimlikNo" class="form-control form-control-solid" placeholder="" />
+                            <input type="text" name="TCKimlikNo" value="@(Convert.ToString(Model.Rows[0]["TCKimlikNo"]))" class="form-control form-control-solid" placeholder="" />
                         </div>
                     </div>
                 </div>
@@ -273,13 +271,13 @@
                     <div class="col-6 pe-3">
                         <div class="form-group">
                             <label for="exampleFormControlInput1" class="required form-label">Vergi Dairesi</label>
-                            <input type="text" name="VergiDairesi" class="form-control form-control-solid" placeholder="" />
+                            <input type="text" name="VergiDairesi" value="@(Convert.ToString(Model.Rows[0]["VergiDairesi"]))" class="form-control form-control-solid" placeholder="" />
                         </div>
                     </div>
                     <div class="col-6 ps-3">
                         <div class="form-group">
                             <label for="exampleFormControlInput1" class="required form-label">Vergi Numarası</label>
-                            <input type="text" name="VergiNumarasi" class="form-control form-control-solid" placeholder="" />
+                            <input type="text" name="VergiNumarasi" value="@(Convert.ToString(Model.Rows[0]["VergiNumarasi"]))" class="form-control form-control-solid" placeholder="" />
                         </div>
                     </div>
                 </div>
@@ -287,19 +285,19 @@
                 <div class="d-flex mt-5">
                     <div class="col-6 pe-3 d-flex">
                         <div class="form-check me-5">
-                            <input class="form-check-input" name="Alici" type="checkbox" value="true" id="Alici" />
+                            <input class="form-check-input" name="Alici" type="checkbox" value="true" id="Alici" @(Convert.ToBoolean(Model.Rows[0]["Alici"]) ? "checked" : "") />
                             <label class="form-check-label user-select-none cursor-pointer" for="Alici">
                                 Alıcı
                             </label>
                         </div>
                         <div class="form-check me-5">
-                            <input class="form-check-input" name="Satici" type="checkbox" value="true" id="Satici" />
+                            <input class="form-check-input" name="Satici" type="checkbox" value="true" id="Satici" @(Convert.ToBoolean(Model.Rows[0]["Satici"]) ? "checked" : "") />
                             <label class="form-check-label user-select-none cursor-pointer" for="Satici">
                                 Satıcı
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" name="Personel" type="checkbox" value="true" id="Personel" />
+                            <input class="form-check-input" name="Personel" type="checkbox" value="true" id="Personel" @(Convert.ToBoolean(Model.Rows[0]["Personel"]) ? "checked" : "") />
                             <label class="form-check-label user-select-none cursor-pointer" for="Personel">
                                 Personel
                             </label>
@@ -307,7 +305,7 @@
                     </div>
                     <div class="col-6 pe-3 ms-3">
                         <div class="form-check">
-                            <input class="form-check-input" name="ServisPersoneli" type="checkbox" value="true" id="ServisPersoneli" />
+                            <input class="form-check-input" name="ServisPersoneli" type="checkbox" value="true" id="ServisPersoneli" @(Convert.ToBoolean(Model.Rows[0]["ServisPersoneli"]) ? "checked" : "") />
                             <label class="form-check-label user-select-none cursor-pointer" for="ServisPersoneli">
                                 ServisPersoneli
                             </label>
@@ -319,20 +317,20 @@
                     <div class="col-6 pe-3">
                         <div class="form-group">
                             <label for="exampleFormControlInput1" class="required form-label">Döviz Id</label>
-                            <input type="text" name="DovizID" class="form-control form-control-solid" placeholder="" />
+                            <input type="text" name="DovizID" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["DovizID"]))" />
                         </div>
                     </div>
                     <div class="col-6 ps-3">
                         <div class="form-group">
                             <label for="exampleFormControlInput1" class="required form-label">Vade Günü</label>
-                            <input type="text" name="VadeGunu" class="form-control form-control-solid" placeholder="" />
+                            <input type="text" name="VadeGunu" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["VadeGunu"]))" />
                         </div>
                     </div>
                 </div>
                 <div class="d-flex mt-5">
                     <div class=" col-6 form-check me-5 mt-8">
 
-                        <input class="form-check-input" name="Kilitli " type="checkbox" value="true" id="Kilitli " />
+                        <input class="form-check-input" name="Kilitli" type="checkbox" value="true" id="Kilitli" @(Convert.ToString(Model.Rows[0]["Kilitli"])) @(Convert.ToBoolean(Model.Rows[0]["Kilitli"]) ? "checked" : "") />
                         <label class="form-check-label user-select-none cursor-pointer" for="Kilitli ">
                             Kilitli
                         </label>
@@ -341,33 +339,33 @@
                     <div class="col-6 ps-3">
                         <div class="form-group me-5">
                             <label for="exampleFormControlInput1" class="required form-label">KilitAciklamasi</label>
-                            <input type="text" name="KilitAciklamasi" class="form-control form-control-solid" placeholder="" />
+                            <input type="text" name="KilitAciklamasi" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["KilitAciklamasi"]))" />
                         </div>
                     </div>
                 </div>
                 <div class="d-flex mt-5">
                     <div class="form-check col-6 ps-0 pe-3 flex-col">
-                        <label for="exampleFormControlInput1" class="required form-label">Iskonto1</label>
-                        <input type='text' class="form-control form-control-solid" name="Iskonto1" value='0.00' placeholder='0.00' />
+                        <label for="Iskonto1" class="required form-label">Iskonto1</label>
+                        <input type="text" class="form-control form-control-solid" name="Iskonto1" id="Iskonto1" step="any" value="@(Convert.ToDecimal(Model.Rows[0]["Iskonto1"]).ToString("F2"))" />
 
                     </div>
                     <div class="col-6 ps-3">
                         <div class="form-group">
                             <label for="exampleFormControlInput1" class="required form-label">ListeFiyat</label>
-                            <input type="text" name="ListeFiyat" class="form-control form-control-solid" placeholder="" />
+                            <input type="text" name="ListeFiyat" class="form-control form-control-solid" placeholder="" step="any" value="@(Convert.ToDecimal(Model.Rows[0]["ListeFiyat"]).ToString("F2"))" />
                         </div>
                     </div>
                 </div>
                 <div class="d-flex mt-5">
                     <div class="col-6 ps-3 d-flex mt-8">
                         <div class="form-check me-5">
-                            <input class="form-check-input" name="LimitAsimindaUyar" type="checkbox" value="true" id="LimitAsimindaUyar " />
+                            <input class="form-check-input" name="LimitAsimindaUyar" type="checkbox" value="true" id="LimitAsimindaUyar" @(Convert.ToBoolean(Model.Rows[0]["LimitAsimindaUyar"]) ? "checked" : "") />
                             <label class="form-check-label user-select-none cursor-pointer" for="LimitAsimindaUyar ">
                                 Limit<br />Aşımında Uyar
                             </label>
                         </div>
                         <div class="form-check me-5">
-                            <input class="form-check-input" name="LimitAsimindaDurdur" type="checkbox" value="true" id="LimitAsimindaDurdur " />
+                            <input class="form-check-input" name="LimitAsimindaDurdur" type="checkbox" value="true" id="LimitAsimindaDurdur" @(Convert.ToBoolean(Model.Rows[0]["LimitAsimindaDurdur"]) ? "checked" : "") />
                             <label class="form-check-label user-select-none cursor-pointer" for="LimitAsimindaDurdur">
                                 Limit<br />Aşımında Durdur
                             </label>
@@ -375,8 +373,8 @@
                     </div>
                     <div class="col-6 ps-3">
                         <div class="form-group">
-                            <label for="exampleFormControlInput1" class="required form-label">Limit</label>
-                            <input type="text" name="Limit " class="form-control form-control-solid" placeholder="" />
+                            <label for="Limit" class="required form-label">Limit</label>
+                            <input type="text" name="Limit" class="form-control form-control-solid" placeholder="" id="Limit" step="any" value="@(Convert.ToDecimal(Model.Rows[0]["Limit"]).ToString("F2"))" />
                         </div>
                     </div>
                 </div>
@@ -385,7 +383,7 @@
                     <div class="col-12">
                         <div class="form-group">
                             <label for="exampleFormControlInput1" class="required form-label"> Muhasebe Kodu </label>
-                            <input type="text" name="MuhasebeKodu" class="form-control form-control-solid" placeholder="" />
+                            <input type="text" name="MuhasebeKodu" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["MuhasebeKodu"]))" />
                         </div>
                     </div>
                 </div>
@@ -394,13 +392,13 @@
                     <div class="col-6  pe-3">
                         <div class="form-group">
                             <label for="exampleFormControlInput1" class="required form-label"> RiskAciklama </label>
-                            <input type="text" name="RiskAciklama " class="form-control form-control-solid" placeholder="" />
+                            <input type="text" name="RiskAciklama" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["RiskAciklama"]))" />
                         </div>
                     </div>
                     <div class="col-6 ps-3">
                         <div class="form-group">
                             <label for="exampleFormControlInput1" class="required form-label">PlasiyerID </label>
-                            <input type="text" name="PlasiyerID " class="form-control form-control-solid" placeholder="" />
+                            <input type="text" name="PlasiyerID" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["PlasiyerID"]))" />
                         </div>
                     </div>
                 </div>
@@ -409,13 +407,13 @@
                     <div class="col-6  pe-3">
                         <div class="form-group">
                             <label for="exampleFormControlInput1" class="required form-label"> AnaCariID </label>
-                            <input type="text" name="AnaCariID" class="form-control form-control-solid" placeholder="" />
+                            <input type="text" name="AnaCariID" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["AnaCariID"]))" />
                         </div>
                     </div>
                     <div class="col-6 ps-3">
                         <div class="form-group">
                             <label for="exampleFormControlInput1" class="required form-label">TeslimCariID</label>
-                            <input type="text" name="TeslimCariID" class="form-control form-control-solid" placeholder="" />
+                            <input type="text" name="TeslimCariID" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["TeslimCariID"]))" />
                         </div>
                     </div>
                 </div>
@@ -429,13 +427,13 @@
                         <div class="col-6 pe-3">
                             <div class="form-group ">
                                 <label for="floatingInput" class="form-label required">Telefon 1</label>
-                                <input type="text" name="Telefon1" class="form-control form-control-solid" id="floatingInput" />
+                                <input type="text" name="Telefon1" class="form-control form-control-solid" id="floatingInput" value="@(Convert.ToString(Model.Rows[0]["Telefon1"]))" />
                             </div>
                         </div>
                         <div class="col-6 ps-3">
                             <div class="form-group">
                                 <label for="floatingInput" class="form-label">Telefon 2</label>
-                                <input type="text" name="Telefon2" class="form-control form-control-solid" id="floatingInput" />
+                                <input type="text" name="Telefon2" class="form-control form-control-solid" id="floatingInput" value="@(Convert.ToString(Model.Rows[0]["Telefon2"]))" />
                             </div>
                         </div>
                     </div>
@@ -443,13 +441,13 @@
                         <div class="col-6 pe-3">
                             <div class="form-group">
                                 <label for="floatingInput" class="form-label">Faks</label>
-                                <input type="text" name="Faks" class="form-control form-control-solid" id="floatingInput" />
+                                <input type="text" name="Faks" class="form-control form-control-solid" id="floatingInput" value="@(Convert.ToString(Model.Rows[0]["Faks"]))" />
                             </div>
                         </div>
                         <div class="col-6 ps-3">
                             <div class="form-group">
                                 <label for="floatingInput" class="form-label required">Cep Telefonu</label>
-                                <input type="text" name="CepTelefonu" class="form-control form-control-solid" id="floatingInput" />
+                                <input type="text" name="CepTelefonu" class="form-control form-control-solid" id="floatingInput" value="@(Convert.ToString(Model.Rows[0]["CepTelefonu"]))" />
                             </div>
                         </div>
                     </div>
@@ -457,13 +455,13 @@
                         <div class="col-6 pe-3">
                             <div class="form-group">
                                 <label for="floatingInput" class="form-label required">Email</label>
-                                <input type="text" name="EMail" class="form-control form-control-solid" id="floatingInput" />
+                                <input type="text" name="EMail" class="form-control form-control-solid" id="floatingInput" value="@(Convert.ToString(Model.Rows[0]["EMail"]))" />
                             </div>
                         </div>
                         <div class="col-6 ps-3">
                             <div class="form-group">
                                 <label for="floatingInput" class="form-label">Web Sitesi</label>
-                                <input type="text" name="WebSite" class="form-control form-control-solid" id="floatingInput" />
+                                <input type="text" name="WebSite" class="form-control form-control-solid" id="floatingInput" value="@(Convert.ToString(Model.Rows[0]["WebSite"]))" />
                             </div>
                         </div>
                     </div>
@@ -478,9 +476,11 @@
                                 <label for="floatingSelect" class="form-label">Grup Kodu 1</label>
                                 <select class="form-select form-select-solid" name="GrupKodu1ID" id="floatingSelect"
                                         aria-label="Floating label select example">
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option value="">Lütfen Seçim Yapınız</option>
+                                    @foreach (var cariGrupKodlari1 in ViewBag.CariGrupKodlari1)
+                                    {
+                                        <option @(Convert.ToString(Model.Rows[0]["GrupKodu1ID"]) == cariGrupKodlari1.Key ? "checked" : "") value="@cariGrupKodlari1.Key">@cariGrupKodlari1.Value</option>
+                                    }
                                 </select>
                             </div>
                         </div>
@@ -489,9 +489,11 @@
                                 <label for="floatingSelect" class="form-label">Grup Kodu 2</label>
                                 <select class="form-select form-select-solid" name="GrupKodu2ID" id="floatingSelect"
                                         aria-label="Floating label select example">
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option value="">Lütfen Seçim Yapınız</option>
+                                    @foreach (var cariGrupKodlari2 in ViewBag.CariGrupKodlari2)
+                                    {
+                                        <option @(Convert.ToString(Model.Rows[0]["GrupKodu2ID"]) == cariGrupKodlari2.Key ? "checked" : "") value="@cariGrupKodlari2.Key">@cariGrupKodlari2.Value</option>
+                                    }
                                 </select>
                             </div>
                         </div>
@@ -502,9 +504,11 @@
                                 <label for="floatingSelect" class="form-label">Grup Kodu 3</label>
                                 <select class="form-select form-select-solid" name="GrupKodu3ID" id="floatingSelect"
                                         aria-label="Floating label select example">
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option value="">Lütfen Seçim Yapınız</option>
+                                    @foreach (var cariGrupKodlari3 in ViewBag.CariGrupKodlari3)
+                                    {
+                                        <option @(Convert.ToString(Model.Rows[0]["GrupKodu3ID"]) == cariGrupKodlari3.Key ? "checked" : "") value="@cariGrupKodlari3.Key">@cariGrupKodlari3.Value</option>
+                                    }
                                 </select>
                             </div>
                         </div>
@@ -513,9 +517,11 @@
                                 <label for="floatingSelect" class="form-label">Grup Kodu 4</label>
                                 <select class="form-select form-select-solid" name="GrupKodu4ID" id="floatingSelect"
                                         aria-label="Floating label select example">
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option value="">Lütfen Seçim Yapınız</option>
+                                    @foreach (var cariGrupKodlari4 in ViewBag.CariGrupKodlari4)
+                                    {
+                                        <option @(Convert.ToString(Model.Rows[0]["GrupKodu4ID"]) == cariGrupKodlari4.Key ? "checked" : "") value="@cariGrupKodlari4.Key">@cariGrupKodlari4.Value</option>
+                                    }
                                 </select>
                             </div>
                         </div>
@@ -526,9 +532,11 @@
                                 <label for="floatingSelect" class="form-label">Grup Kodu 5</label>
                                 <select class="form-select form-select-solid" name="GrupKodu5ID" id="floatingSelect"
                                         aria-label="Floating label select example">
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option value="">Lütfen Seçim Yapınız</option>
+                                    @foreach (var cariGrupKodlari5 in ViewBag.CariGrupKodlari5)
+                                    {
+                                        <option @(Convert.ToString(Model.Rows[0]["GrupKodu5ID"]) == cariGrupKodlari5.Key ? "checked" : "") value="@cariGrupKodlari5.Key">@cariGrupKodlari5.Value</option>
+                                    }
                                 </select>
                             </div>
                         </div>
@@ -537,9 +545,11 @@
                                 <label for="floatingSelect" class="form-label">Grup Kodu 6</label>
                                 <select class="form-select form-select-solid" name="GrupKodu6ID" id="floatingSelect"
                                         aria-label="Floating label select example">
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option value="">Lütfen Seçim Yapınız</option>
+                                    @foreach (var cariGrupKodlari6 in ViewBag.CariGrupKodlari6)
+                                    {
+                                        <option @(Convert.ToString(Model.Rows[0]["GrupKodu6ID"]) == cariGrupKodlari6.Key ? "checked" : "") value="@cariGrupKodlari6.Key">@cariGrupKodlari6.Value</option>
+                                    }
                                 </select>
                             </div>
                         </div>
@@ -550,34 +560,34 @@
                     <h4>Açıklamalar</h4>
                     <div class="form-group mt-5">
                         <label for="floatingInput" class="form-label">Açıklama 1</label>
-                        <textarea type="text" name="Aciklama1" class="form-control form-control-solid" id="floatingInput"></textarea>
+                        <textarea type="text" name="Aciklama1" class="form-control form-control-solid" id="floatingInput">@(Convert.ToString(Model.Rows[0]["Aciklama1"]))</textarea>
                     </div>
                     <div class="form-group mt-5">
                         <label for="floatingInput" class="form-label">Açıklama 2</label>
-                        <textarea type="text" name="Aciklama2" class="form-control form-control-solid" id="floatingInput"></textarea>
+                        <textarea type="text" name="Aciklama2" class="form-control form-control-solid" id="floatingInput">@(Convert.ToString(Model.Rows[0]["Aciklama2"]))</textarea>
                     </div>
                     <div class="form-group mt-5">
                         <label for="floatingInput" class="form-label">Açıklama 3</label>
-                        <textarea type="text" name="Aciklama3" class="form-control form-control-solid" id="floatingInput"></textarea>
+                        <textarea type="text" name="Aciklama3" class="form-control form-control-solid" id="floatingInput">@(Convert.ToString(Model.Rows[0]["Aciklama3"]))</textarea>
                     </div>
                     <div class="form-group mt-5">
                         <label for="floatingInput" class="form-label">Açıklama 4</label>
-                        <textarea type="text" name="Aciklama4" class="form-control form-control-solid" id="floatingInput"></textarea>
+                        <textarea type="text" name="Aciklama4" class="form-control form-control-solid" id="floatingInput">@(Convert.ToString(Model.Rows[0]["Aciklama4"]))</textarea>
                     </div>
                     <div class="form-group mt-5">
                         <label for="floatingInput" class="form-label">Açıklama 5</label>
-                        <textarea type="text" name="Aciklama5" class="form-control form-control-solid" id="floatingInput"></textarea>
+                        <textarea type="text" name="Aciklama5" class="form-control form-control-solid" id="floatingInput">@(Convert.ToString(Model.Rows[0]["Aciklama5"]))</textarea>
                     </div>
                     <div class="form-group mt-5">
                         <label for="floatingInput" class="form-label">Açıklama 6</label>
-                        <textarea type="text" name="Aciklama6" class="form-control form-control-solid" id="floatingInput"></textarea>
+                        <textarea type="text" name="Aciklama6" class="form-control form-control-solid" id="floatingInput">@(Convert.ToString(Model.Rows[0]["Aciklama6"]))</textarea>
                     </div>
                 </div>
             </div>
             <!--begin::Actions-->
             <div class="col-12">
                 <div class="text-center pt-10">
-                    <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Ekle">
+                    <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Düzenle">
                         <span class="indicator-label">Kaydet</span>
                         <span class="indicator-progress">
                             Lütfen Bekleyin...
@@ -590,5 +600,7 @@
         </form>
     </div>
 </div>
+
+
 
 
