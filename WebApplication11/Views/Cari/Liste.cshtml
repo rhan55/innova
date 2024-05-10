@@ -78,12 +78,11 @@
                     <table class="table align-middle border rounded table-row-dashed fs-6 g-5 px-4" id="Cari-datatable">
                         <thead>
                             <!--begin::Table row-->
-                            <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase">
-                                <th class="min-w-125px no-export">Kod</th>
+                            <tr class="text-start text-gray-500 fw-bold fs-7">
                                 <th class="min-w-125px">Isim</th>
                                 <th class="min-w-125px">Cep Telefonu</th>
                                 <th class="min-w-125px">GrupKodu1</th>
-                                <th class="min-w-125px"> GrupKodu2</th>       
+                                <th class="min-w-125px"> GrupKodu2</th>
                                 <th class="text-end min-w-100px no-export">İşemler</th>
 
                             </tr>
@@ -95,20 +94,18 @@
                                 <tr>
 
                                     <td>
-                                      @(Convert.ToString(Model.Rows[i]["Kod"]))
+                                        @((Model.Rows[i]["Kod"])) <br />
+                                        <strong> @((Model.Rows[i]["Isim"])) </strong>
                                     </td>
                                     <td>
-                                        @(Convert.ToString(Model.Rows[i]["Isim"]))
+                                        @((Model.Rows[i]["CepTelefonu"]))
                                     </td>
                                     <td>
-                                        @(Convert.ToString(Model.Rows[i]["CepTelefonu"]))
+                                        @(Convert.ToString(Model.Rows[i]["GrupKoduAdi1"]))
                                     </td>
                                     <td>
-                                        @(Convert.ToString(Model.Rows[i]["GrupKodu1ID"]))
+                                        @(Convert.ToString(Model.Rows[i]["GrupKoduAdi2"]))
                                     </td>
-                                    <td>
-                                        @(Convert.ToString(Model.Rows[i]["GrupKodu2ID"]))
-                                    </td>                     
                                     <td class="text-end">
                                         <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                             İşlemler
@@ -201,7 +198,7 @@
                     'order': [],
                     paging: false,
                     columnDefs: [
-                       
+
                     ]
 
                 });
