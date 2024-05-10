@@ -5,7 +5,13 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-7">COL</div>
+        <div class="col-sm-7">
+
+
+
+
+
+        </div>
         <div class="col-sm-5">
 
             <!--begin::Col-->
@@ -16,14 +22,9 @@
                         <!--begin::Header-->
                         <div class="card-header border-0 pt-5">
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fs-3 fw-bold text-gray-900">Son Proje Aktiviteleri</span>
-                                <span class="text-muted mt-1 fw-semibold fs-7">Toplam Yapılan İş</span>
+                                <span class="card-label fs-3 fw-bold text-gray-900">Son Aktiviteleri</span>
+                                <span class="text-muted mt-1 fw-semibold fs-7">En son yapılan işlemler</span>
                             </h3>
-                            <!--begin::Toolbar-->
-                            <div class="card-toolbar">
-                                <a href="#" class="btn btn-sm btn-light">Tüm Projeler</a>
-                            </div>
-                            <!--end::Toolbar-->
                         </div>
                         <!--end::Header-->
                         <!--begin::Body-->
@@ -31,70 +32,97 @@
 
                             <!--begin::Tab Content (ishlamayabdi)-->
                             <div class="tab-content mb-2 px-9">
-                                @foreach(var sonAktivite in ViewBag.SonAktiviteler)
+                                @foreach (var sonAktivite in ViewBag.SonAktiviteler)
                                 {
                                     <!--begin::Tap pane-->
                                     <div class="tab-pane fade show active" id="kt_timeline_widget_3_tab_content_4">
                                         <!--begin::Wrapper-->
                                         <div class="d-flex align-items-center mb-6">
+
                                             <!--begin::Bullet-->
                                             <span data-kt-element="bullet" class="bullet bullet-vertical d-flex rounded align-items-center min-h-90px h mh-100 me-4 bg-info"></span>
                                             <!--end::Bullet-->
                                             <!--begin::Info-->
                                             <div class="flex-grow-1 me-2">
-                                                <!--begin::Time-->
-                                                <div class="d-flex align-items-center">
-                                                    <a class="text-primary fw-semibold fs-4 flex-shrink-0">@(sonAktivite.Kullanici)</a>
-                                                    <div class="text-gray-700 fw-bold fs-3 ps-2">
-                                                        @(sonAktivite.Tarih)
-                                                    </div>
-                                                </div>
-
-                                                <!--end::Time-->
                                                 <!--begin::Link-->
                                                 <div class="d-flex m-0 p-0">
-                                                    <div class="text-gray-700 fw-semibold fs-6">@(sonAktivite.Aciklama1)</div>
+                                                    <a class="text-primary fw-semibold fs-5">Modül : @(sonAktivite.Modul)</a>
                                                 </div>
-
-                                                <!--begin::Description-->
                                                 <div class="d-flex m-0 p-0">
-                                                    <div class="text-gray-700 fw-semibold fs-6">Modül:</div>
-                                                    <a class="text-primary fw-semibold fs-5">@(sonAktivite.Modul)</a>
+                                                    <div class="text-gray-700 fw-semibold fs-6">İşlem : @(sonAktivite.Aciklama1)</div>
                                                 </div>
-                                                <div class="text-gray-600 fw-semibold fs-6">
-                                                    @(sonAktivite.Aciklama2)
-                                                </div>
+                                                <!--begin::Description-->
+                                                @if (sonAktivite.Aciklama1 != "Kullanıcı Girişi")
+                                                {
+                                                    <div class="d-flex m-0 p-0">
+                                                        <div class="text-gray-700 fw-semibold fs-6">Açıklama : @(sonAktivite.Aciklama2)</div>
+                                                    </div>
+                                                }
                                                 <!--end::Description-->
                                             </div>
                                             <!--end::Info-->
                                             <!--begin::Action-->
-                                            <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_create_project">İncele</a>
-                                            <!--end::Action-->
+                                            <div class="d-flex m-0 p-0">
+                                                <div class="text-gray-700 fw-semibold fs-6">
+                                                    @{ 
+                                                        TimeSpan tarihFarki = DateTime.Now - Convert.ToDateTime(sonAktivite.Tarih);
+                                                        string tarihBilgisi = "";
+                                                        if (tarihFarki.Days > 0)
+                                                        {
+                                                            tarihBilgisi += tarihFarki.Days + " gün önce ";
+                                                        }
+                                                        else if (tarihFarki.Hours > 0)
+                                                        {
+                                                            tarihBilgisi += tarihFarki.Hours + " saat önce ";
+                                                        }
+                                                        else if (tarihFarki.Minutes > 0)
+                                                        {
+                                                            tarihBilgisi += tarihFarki.Minutes + " dakika önce ";
+                                                        }
+                                                        else 
+                                                        {
+                                                            tarihBilgisi += " şimdi ";
+                                                        }
+                                                    }
+                                                    @if (sonAktivite.Modul == "Kullanıcı" && sonAktivite.Aciklama1 == "Kullanıcı Girişi")
+                                                    {
+                                                        
+                                                        <span>@(sonAktivite.Aciklama2)</span><br />
+                                                        <span>@(tarihBilgisi)</span><br />
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>@(sonAktivite.Kullanici)</span><br />
+                                                        <span>@(tarihBilgisi)...</span><br />
+                                                    }
+                                                </div>
+                                                <!--end::Action-->
+                                            </div>
+                                            <!--end::Wrapper-->
+
                                         </div>
-                                        <!--end::Wrapper-->
+                                        <!--end::Tap pane-->
+
+
 
                                     </div>
-                                    <!--end::Tap pane-->
                                 }
-
-
+                                <!--end::Tab Content-->
+                                <!--begin::Action-->
+                                <div class="float-end d-none">
+                                    <a href="#" class="btn btn-sm btn-light me-2" data-bs-toggle="modal" data-bs-target="#kt_modal_create_project">Add Lesson</a>
+                                    <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#kt_modal_create_app">Call Sick for Today</a>
+                                </div>
+                                <!--end::Action-->
                             </div>
-                            <!--end::Tab Content-->
-                            <!--begin::Action-->
-                            <div class="float-end d-none">
-                                <a href="#" class="btn btn-sm btn-light me-2" data-bs-toggle="modal" data-bs-target="#kt_modal_create_project">Add Lesson</a>
-                                <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#kt_modal_create_app">Call Sick for Today</a>
-                            </div>
-                            <!--end::Action-->
+                            <!--end: Card Body-->
                         </div>
-                        <!--end: Card Body-->
+                        <!--end::Timeline widget 3-->
                     </div>
-                    <!--end::Timeline widget 3-->
+
+
                 </div>
-
-
+                <!--end::Col-->
             </div>
-            <!--end::Col-->
         </div>
     </div>
-</div>

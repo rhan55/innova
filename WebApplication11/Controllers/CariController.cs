@@ -2,14 +2,14 @@
 using System.Data;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
-using WebApplication11.Models;
-using WebApplication11.Models.Dto;
+using YKPortal.Models;
+using YKPortal.Models.Dto;
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Web;
 
-namespace WebApplication11.Controllers
+namespace YKPortal.Controllers
 {
     public class CariController : Controller
     {

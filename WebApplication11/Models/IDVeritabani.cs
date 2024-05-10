@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace WebApplication11.Models
+namespace YKPortal.Models
 {
     public class IDVeritabani
     {
@@ -22,7 +22,6 @@ namespace WebApplication11.Models
                 switch (tur)
                 {
                     case SorgulaTuru.Bos:
-                        return cmd.ExecuteNonQuery();
                         return cmd.ExecuteNonQuery();
                         break;
                     case SorgulaTuru.Tek:

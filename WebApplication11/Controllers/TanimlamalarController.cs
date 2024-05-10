@@ -5,10 +5,10 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebApplication11.Models;
-using WebApplication11.Models.Dto;
+using YKPortal.Models;
+using YKPortal.Models.Dto;
 
-namespace WebApplication11.Controllers
+namespace YKPortal.Controllers
 {
     public class TanimlamalarController : Controller
     {

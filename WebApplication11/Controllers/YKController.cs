@@ -9,10 +9,10 @@ using System.Net.Mail;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using WebApplication11.Models;
-using WebApplication11.Models.Dto;
+using YKPortal.Models;
+using YKPortal.Models.Dto;
 
-namespace WebApplication11.Controllers
+namespace YKPortal.Controllers
 {
     public class YKController : Controller
     {
@@ -47,7 +47,7 @@ namespace WebApplication11.Controllers
                     Tarih = Convert.ToString(dt.Rows[i]["Tarih"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["Tarih"]),
                     Modul = Convert.ToString(dt.Rows[i]["Modul"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["Modul"]),
                     Aciklama1 = Convert.ToString(dt.Rows[i]["Aciklama1"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["Aciklama1"]),
-                    Aciklama2 = Convert.ToString(dt.Rows[i]["Aciklama2"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["Aciklama1"]),
+                    Aciklama2 = Convert.ToString(dt.Rows[i]["Aciklama2"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["Aciklama2"]),
                     Kullanici = Convert.ToString(dt.Rows[i]["Kullanici"]) == null ? "Kullanıcı Bulunamadı" : Convert.ToString(dt.Rows[i]["Kullanici"]),
                 });
             }

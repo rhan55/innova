@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace WebApplication11
+namespace YKPortal
 {
     public class FilterConfig
     {

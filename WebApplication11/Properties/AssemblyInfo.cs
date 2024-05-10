@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // Bir derlemeyle ilgili Genel Bilgiler şu yollarla denetlenir:
 // denetlenir. Bir derlemeyle ilişkilendirilmiş bilgileri değiştirmek için bu
 // öznitelik değerlerini değiştirin.
-[assembly: AssemblyTitle("WebApplication11")]
+[assembly: AssemblyTitle("YKPortal")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WebApplication11")]
-[assembly: AssemblyCopyright("Telif hakkı ©  2024")]
+[assembly: AssemblyProduct("YKPortal")]
+[assembly: AssemblyCopyright("YK YAZILIM - Tüm Haklar Saklıdır. ©  2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
