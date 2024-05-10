@@ -202,7 +202,7 @@ namespace YKPortal.Controllers
         [HttpGet]
         public ActionResult UyeOl()
         {
-            IlListesiniOlustur();
+            IlListesiniOlusturGenel();
 
             return View();
 
@@ -401,6 +401,28 @@ namespace YKPortal.Controllers
 
         #endregion
 
+        public void IlListesiniOlusturGenel()
+        {
+            // Il Listesi oluşturma
+            SqlCommand ilCommand = new SqlCommand();
+            ilCommand.CommandText = "p_GrupKoduListesi";
+            ilCommand.CommandType = System.Data.CommandType.StoredProcedure;
+            ilCommand.Parameters.AddWithValue("@UyelikID", "GENEL");
+
+            ilCommand.Parameters.AddWithValue("@Kod", "Il");
+            ilCommand.Parameters.AddWithValue("@AranacakKelime", "");
+
+
+            DataTable ilDataTable = (DataTable)IDVeritabani.Sorgula(ilCommand, SorgulaTuru.Tablo);
+
+            var iller = new List<string>();
+
+            for (int i = 0; i < ilDataTable.Rows.Count; i++)
+            {
+                iller.Add(Convert.ToString(ilDataTable.Rows[i]["Deger"]));
+            }
+            ViewBag.Iller = iller;
+        }
         public void IlListesiniOlustur()
         {
             // Il Listesi oluşturma
