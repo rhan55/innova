@@ -151,18 +151,6 @@ namespace YKPortal.Controllers
         [HttpPost]
         public ActionResult Duzenle(CariDto cariDto)
         {
-            if (!ModelState.IsValid)
-            {
-                IlListesiniOlustur();
-                UlkeListesiniOlustur();
-                CariGrupKod1ListesiniOlustur();
-                CariGrupKod2ListesiniOlustur();
-                CariGrupKod3ListesiniOlustur();
-                CariGrupKod4ListesiniOlustur();
-                CariGrupKod5ListesiniOlustur();
-                CariGrupKod6ListesiniOlustur();
-                return View();
-            }
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariKaydet";
@@ -257,11 +245,10 @@ namespace YKPortal.Controllers
         {
 
         }
-       
 
         public void IlListesiniOlustur()
         {
-            // Il Listesi oluşturma 
+            // GrupKodu1 Listesi oluşturma 
             SqlCommand ilCommand = new SqlCommand();
             ilCommand.CommandText = "p_GrupKoduListesi";
             ilCommand.CommandType = System.Data.CommandType.StoredProcedure;
@@ -273,18 +260,22 @@ namespace YKPortal.Controllers
 
             DataTable ilDataTable = (DataTable)IDVeritabani.Sorgula(ilCommand, SorgulaTuru.Tablo);
 
-            var iller = new List<string>();
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
 
             for (int i = 0; i < ilDataTable.Rows.Count; i++)
             {
-                iller.Add(Convert.ToString(ilDataTable.Rows[i]["Deger"]));
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(ilDataTable.Rows[i]["ID"]);
+                entity.Deger = Convert.ToString(ilDataTable.Rows[i]["Deger"]);
+                entities.Add(entity);
             }
-            ViewBag.Iller = iller;
+            ViewBag.Iller = entities;
         }
-
+  
+       
         public void UlkeListesiniOlustur()
         {
-            // Ulke Listesi oluşturma 
+            // GrupKodu1 Listesi oluşturma 
             SqlCommand ulkeCommand = new SqlCommand();
             ulkeCommand.CommandText = "p_GrupKoduListesi";
             ulkeCommand.CommandType = System.Data.CommandType.StoredProcedure;
@@ -296,13 +287,16 @@ namespace YKPortal.Controllers
 
             DataTable ulkeDataTable = (DataTable)IDVeritabani.Sorgula(ulkeCommand, SorgulaTuru.Tablo);
 
-            var ulkeler = new List<string>();
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
 
             for (int i = 0; i < ulkeDataTable.Rows.Count; i++)
             {
-                ulkeler.Add(Convert.ToString(ulkeDataTable.Rows[i]["Deger"]));
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(ulkeDataTable.Rows[i]["ID"]);
+                entity.Deger = Convert.ToString(ulkeDataTable.Rows[i]["Deger"]);
+                entities.Add(entity);
             }
-            ViewBag.Ulkeler = ulkeler;
+            ViewBag.Ulkeler = entities;
         }
         public void CariGrupKod1ListesiniOlustur()
         {
@@ -329,7 +323,6 @@ namespace YKPortal.Controllers
             }
             ViewBag.CariGrupKodlari1 = entities;
         }
-
         public void CariGrupKod2ListesiniOlustur()
         {
             // GrupKodu1 Listesi oluşturma 
@@ -344,14 +337,18 @@ namespace YKPortal.Controllers
 
             DataTable cariGrupKod2DataTable = (DataTable)IDVeritabani.Sorgula(cariGrupKod2Command, SorgulaTuru.Tablo);
 
-            var cariGrupKodlari2 = new Dictionary<string, string>();
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
 
             for (int i = 0; i < cariGrupKod2DataTable.Rows.Count; i++)
             {
-                cariGrupKodlari2.Add(Convert.ToString(cariGrupKod2DataTable.Rows[i]["ID"]), Convert.ToString(cariGrupKod2DataTable.Rows[i]["Deger"]));
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(cariGrupKod2DataTable.Rows[i]["ID"]);
+                entity.Deger = Convert.ToString(cariGrupKod2DataTable.Rows[i]["Deger"]);
+                entities.Add(entity);
             }
-            ViewBag.CariGrupKodlari2 = cariGrupKodlari2;
+            ViewBag.CariGrupKodlari2 = entities;
         }
+
         public void CariGrupKod3ListesiniOlustur()
         {
             // GrupKodu1 Listesi oluşturma 
@@ -366,14 +363,18 @@ namespace YKPortal.Controllers
 
             DataTable cariGrupKod3DataTable = (DataTable)IDVeritabani.Sorgula(cariGrupKod3Command, SorgulaTuru.Tablo);
 
-            var cariGrupKodlari3 = new Dictionary<string, string>();
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
 
             for (int i = 0; i < cariGrupKod3DataTable.Rows.Count; i++)
             {
-                cariGrupKodlari3.Add(Convert.ToString(cariGrupKod3DataTable.Rows[i]["ID"]), Convert.ToString(cariGrupKod3DataTable.Rows[i]["Deger"]));
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(cariGrupKod3DataTable.Rows[i]["ID"]);
+                entity.Deger = Convert.ToString(cariGrupKod3DataTable.Rows[i]["Deger"]);
+                entities.Add(entity);
             }
-            ViewBag.CariGrupKodlari3 = cariGrupKodlari3;
+            ViewBag.CariGrupKodlari3 = entities;
         }
+
         public void CariGrupKod4ListesiniOlustur()
         {
             // GrupKodu1 Listesi oluşturma 
@@ -388,14 +389,18 @@ namespace YKPortal.Controllers
 
             DataTable cariGrupKod4DataTable = (DataTable)IDVeritabani.Sorgula(cariGrupKod4Command, SorgulaTuru.Tablo);
 
-            var cariGrupKodlari4 = new Dictionary<string, string>();
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
 
             for (int i = 0; i < cariGrupKod4DataTable.Rows.Count; i++)
             {
-                cariGrupKodlari4.Add(Convert.ToString(cariGrupKod4DataTable.Rows[i]["ID"]), Convert.ToString(cariGrupKod4DataTable.Rows[i]["Deger"]));
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(cariGrupKod4DataTable.Rows[i]["ID"]);
+                entity.Deger = Convert.ToString(cariGrupKod4DataTable.Rows[i]["Deger"]);
+                entities.Add(entity);
             }
-            ViewBag.CariGrupKodlari4 = cariGrupKodlari4;
+            ViewBag.CariGrupKodlari4 = entities;
         }
+
         public void CariGrupKod5ListesiniOlustur()
         {
             // GrupKodu1 Listesi oluşturma 
@@ -410,14 +415,18 @@ namespace YKPortal.Controllers
 
             DataTable cariGrupKod5DataTable = (DataTable)IDVeritabani.Sorgula(cariGrupKod5Command, SorgulaTuru.Tablo);
 
-            var cariGrupKodlari5 = new Dictionary<string, string>();
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
 
             for (int i = 0; i < cariGrupKod5DataTable.Rows.Count; i++)
             {
-                cariGrupKodlari5.Add(Convert.ToString(cariGrupKod5DataTable.Rows[i]["ID"]), Convert.ToString(cariGrupKod5DataTable.Rows[i]["Deger"]));
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(cariGrupKod5DataTable.Rows[i]["ID"]);
+                entity.Deger = Convert.ToString(cariGrupKod5DataTable.Rows[i]["Deger"]);
+                entities.Add(entity);
             }
-            ViewBag.CariGrupKodlari5 = cariGrupKodlari5;
+            ViewBag.CariGrupKodlari5 = entities;
         }
+
         public void CariGrupKod6ListesiniOlustur()
         {
             // GrupKodu1 Listesi oluşturma 
@@ -432,13 +441,16 @@ namespace YKPortal.Controllers
 
             DataTable cariGrupKod6DataTable = (DataTable)IDVeritabani.Sorgula(cariGrupKod6Command, SorgulaTuru.Tablo);
 
-            var cariGrupKodlari6 = new Dictionary<string, string>();
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
 
             for (int i = 0; i < cariGrupKod6DataTable.Rows.Count; i++)
             {
-                cariGrupKodlari6.Add(Convert.ToString(cariGrupKod6DataTable.Rows[i]["ID"]), Convert.ToString(cariGrupKod6DataTable.Rows[i]["Deger"]));
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(cariGrupKod6DataTable.Rows[i]["ID"]);
+                entity.Deger = Convert.ToString(cariGrupKod6DataTable.Rows[i]["Deger"]);
+                entities.Add(entity);
             }
-            ViewBag.CariGrupKodlari6 = cariGrupKodlari6;
+            ViewBag.CariGrupKodlari6 = entities;
         }
 
         #endregion

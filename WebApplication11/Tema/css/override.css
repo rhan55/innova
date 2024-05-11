@@ -17,3 +17,7 @@ Menu-Cari{
     width:300px;
     height:800px;
 }
+
+.select2-search__field:focus {
+    outline: none!important;
+}

@@ -1,9 +1,9 @@
-﻿@model System.Data.DataTable
+﻿@using YKPortal.Models.Dto
+@model System.Data.DataTable
 @{
     ViewBag.Title = "Duzenle";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 
 <div class="container-fluid">
     <div class="row">
@@ -11,147 +11,46 @@
             <!--begin::Menu-->
             <div class="menu menu-rounded menu-column menu-title-gray-700 menu-icon-gray-500 menu-arrow-gray-500 menu-bullet-gray-500 menu-arrow-gray-500 menu-state-bg fw-semibold"
                  data-kt-menu="true">
-                <!--begin::Menu item-->
-                <div class="menu-item menu-sub-indention menu-accordion"
-                     data-kt-menu-trigger="click">
-                    <!--begin::Menu link-->
-                    <a href="#" class="menu-link py-3">
-                        <span class="menu-icon">
-                            <i class="ki-duotone ki-chart-simple-2 fs-3">
-                                <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span>
-                            </i>
-                        </span>
-                        <span class="menu-title">Genel Bilgiler</span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <!--end::Menu link-->
-                    <!--begin::Menu sub-->
-                    <div class="menu-sub menu-sub-accordion pt-3">
-                        <!--begin::Menu item-->
-                        <div class="menu-item">
-                            <a href="#" class="menu-link py-3">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">1</span>
-                            </a>
-                        </div>
-                        <!--end::Menu item-->
-                        <!--begin::Menu item-->
-                        <div class="menu-item">
-                            <a href="#" class="menu-link py-3">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">2</span>
-                            </a>
-                        </div>
-                        <!--end::Menu item-->
-                        <!--begin::Menu item-->
-                        <div class="menu-item menu-accordion" data-kt-menu-trigger="click">
-                            <!--begin::Menu link-->
-                            <a href="#" class="menu-link py-3">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">3</span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <!--end::Menu link-->
-                            <!--begin::Menu sub-->
-                            <div class="menu-sub menu-sub-accordion pt-3">
-                                <!--begin::Menu item-->
-                                <div class="menu-item">
-                                    <a href="#" class="menu-link py-3">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                        <span class="menu-title">3 Alt başlık</span>
-                                    </a>
-                                </div>
-                                <!--end::Menu item-->
 
-
-                            </div>
-                            <!--end::Menu sub-->
-                        </div>
-                        <!--end::Menu item-->
-
-                    </div>
-                    <!--end::Menu sub-->
-                </div>
-                <!--end::Menu item-->
-                <!--begin::Menu item-->
                 <div class="menu-item">
                     <a href="#" class="menu-link py-3">
                         <span class="menu-icon">
-                            <i class="ki-duotone ki-notification-on fs-3">
+                            <i class="ki-duotone ki-home fs-3">
+                                <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span>
+                            </i>
+                        </span>
+                        <span class="menu-title">Genel Bilgiler</span>
+                    </a>
+                </div>
+                <div class="menu-item">
+                    <a href="#" class="menu-link py-3">
+                        <span class="menu-icon">
+                            <i class="ki-duotone ki-people fs-3">
                                 <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span>
                             </i>
                         </span>
                         <span class="menu-title">Kişiler</span>
                     </a>
                 </div>
-                <!--end::Menu item-->
-                <!--begin::Menu item-->
-                <div class="menu-item menu-link-indention menu-accordion"
-                     data-kt-menu-trigger="click">
-                    <!--begin::Menu link-->
+                <div class="menu-item">
                     <a href="#" class="menu-link py-3">
                         <span class="menu-icon">
-                            <i class="ki-duotone ki-calendar-2 fs-3">
+                            <i class="ki-duotone ki-book-open fs-3">
                                 <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span>
                             </i>
                         </span>
                         <span class="menu-title">Notlar</span>
-                        <span class="menu-arrow"></span>
                     </a>
-                    <!--end::Menu link-->
-                    <!--begin::Menu sub-->
-                    <div class="menu-sub menu-sub-accordion pt-3">
-                        <!--begin::Menu item-->
-                        <div class="menu-item">
-                            <a href="#" class="menu-link py-3 active">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">1</span>
-                            </a>
-                        </div>
-                        <!--end::Menu item-->
-                        <!--begin::Menu item-->
-                        <div class="menu-item">
-                            <a href="#" class="menu-link py-3">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">2</span>
-                            </a>
-                        </div>
-                        <!--end::Menu item-->
-                        <!--begin::Menu item-->
-                        <div class="menu-item">
-                            <a href="#" class="menu-link py-3">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">3</span>
-                            </a>
-                        </div>
-                        <!--end::Menu item-->
-                    </div>
-                    <!--end::Menu sub-->
                 </div>
-                <!--end::Menu item-->
                 <!--begin::Menu item-->
                 <div class="menu-item">
                     <a href="#" class="menu-link py-3">
                         <span class="menu-icon">
-                            <i class="ki-duotone ki-gear fs-3">
+                            <i class="ki-duotone ki-file fs-3">
                                 <span class="path1"></span><span class="path2"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Belgeler</span>
+                        <span class="menu-title">Dosyalar</span>
                     </a>
                 </div>
                 <!--end::Menu item-->
@@ -160,434 +59,384 @@
         </div>
         <form class="col-lg-10 row" method="post" action="@Url.Action("Duzenle","Cari",null)">
 
-            <div class="col-lg-6">
-                <input type="hidden" name="ID" value="@(Convert.ToString(Model.Rows[0]["ID"]))" />
-                <h4>Genel Bilgiler</h4>
+            <div class="col-lg-10 row">
                 <div class="d-flex align-items-center justify-content-between mt-5">
+                    <input type="hidden" name="ID" value="@(Convert.ToString(Model.Rows[0]["ID"]))" />
                     <div class="form-check">
                         <input class="form-check-input" name="Aktif" type="checkbox" value="true" id="Aktif" checked />
                         <label class="form-check-label user-select-none cursor-pointer" for="Aktif">
                             Aktif
                         </label>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleFormControlInput1" class="required form-label">Kayıt Tarihi</label>
-                        @* Varsayilan gun tarihini cagirdik ve toString ile formatladik. bu format sayesinde input value degerini de atamis olduk, readonly ile sadece okunabilir duzenlenemez yaptik *@
-                        <input type="date" value="@(DateTime.Parse(Convert.ToString(Model.Rows[0]["KayitTarihi"])).ToString("yyyy-MM-dd"))" name="KayitTarihi" class="form-control form-control-solid" placeholder="" readonly />
-                    </div>
 
-                </div>
-                <div class="d-flex mt-5">
 
-                    <div class="col-6  pe-3">
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1" class="required form-label"> Kullanıcı Adı</label>
-                            <input type="text" name="KullaniciAdi" value="@(Convert.ToString(Model.Rows[0]["KullaniciAdi"]))" class="form-control form-control-solid" placeholder="" required />
-                        </div>
-                    </div>
-                    <div class="col-6 ps-3">
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1" class="required form-label">Parola</label>
-                            <input type="password" name="Parola" value="@(Convert.ToString(Model.Rows[0]["Parola"]))" class="form-control form-control-solid" placeholder="" required />
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group mt-5">
-                    <label for="exampleFormControlInput1" class="required form-label">Cari Kodu</label>
-                    <input type="text" name="Kod" value="@(Convert.ToString(Model.Rows[0]["Kod"]))" class="form-control form-control-solid" placeholder="" />
-                </div>
-                <div class="form-group mt-5">
-                    <label for="exampleFormControlInput1" class="required form-label">Cari İsmi</label>
-                    <input type="text" name="Isim" value="@(Convert.ToString(Model.Rows[0]["Isim"]))" class="form-control form-control-solid" placeholder="" required />
-                </div>
-                <div class="form-group mt-5">
-                    <label for="exampleFormControlInput1" class="required form-label">Cari Unvan</label>
-                    <textarea type="text" name="Unvan" class="form-control form-control-solid" placeholder="" required>@(Convert.ToString(Model.Rows[0]["Unvan"]))</textarea>
-                </div>
-                <div class="form-group mt-5">
-                    <label for="exampleFormControlInput1" class="required form-label">Adres</label>
-                    <textarea type="text" name="Adres" class="form-control form-control-solid" placeholder="" required>@(Convert.ToString(Model.Rows[0]["Adres"]))</textarea>
-                </div>
-
-                <div class="d-flex mt-5">
-                    <div class="col-6 pe-3">
-                        <div class="">
-                            <label for="floatingSelect" class="required form-label">İl</label>
-                            <select class="form-select form-select-solid" name="Il" id="floatingSelect"
-                                    aria-label="Floating label select example">
-                                <option value="">Lütfen Seçim Yapınız</option>
-                                @foreach (var il in ViewBag.Iller)
-                                {
-                                    <option @(Convert.ToString(Model.Rows[0]["Il"]) == il ? "selected" : "") value="@il">@il</option>
-                                }
-
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-6 ps-3">
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1" class="required form-label">İlçe</label>
-                            <input type="text" name="Ilce" value="@(Convert.ToString(Model.Rows[0]["Ilce"]))" class="form-control form-control-solid" placeholder="" />
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex mt-5">
-                    <div class="col-6 pe-3">
-                        <div class="">
-                            <label for="floatingSelect" class="required form-label">Ülke</label>
-                            <select class="form-select form-select-solid" name="Ulke" id="floatingSelect"
-                                    aria-label="Floating label select example">
-                                <option value="">Lütfen Seçim Yapınız</option>
-                                @foreach (var ulke in ViewBag.Ulkeler)
-                                {
-                                    <option @(Convert.ToString(Model.Rows[0]["Ulke"]) == ulke ? "selected" : "") value="@ulke">@ulke</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-6 ps-3">
-                        <div class="form-group">
-                            <label for="Bolge" class="required form-label">Bölge</label>
-                            <input type="text" name="Bolge" id="Bolge" value="@(Convert.ToString(Model.Rows[0]["Bolge"]))" class="form-control form-control-solid" placeholder="" />
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex mt-5">
-
-                    <div class="col-6  pe-3">
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1" class="required form-label">Posta Kodu</label>
-                            <input type="text" name="PostaKodu" value="@(Convert.ToString(Model.Rows[0]["PostaKodu"]))" class="form-control form-control-solid" placeholder="" />
-                        </div>
-                    </div>
-                    <div class="col-6 ps-3">
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1" class="required form-label">TC No</label>
-                            <input type="text" name="TCKimlikNo" value="@(Convert.ToString(Model.Rows[0]["TCKimlikNo"]))" class="form-control form-control-solid" placeholder="" />
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex mt-5">
-                    <div class="col-6 pe-3">
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1" class="required form-label">Vergi Dairesi</label>
-                            <input type="text" name="VergiDairesi" value="@(Convert.ToString(Model.Rows[0]["VergiDairesi"]))" class="form-control form-control-solid" placeholder="" />
-                        </div>
-                    </div>
-                    <div class="col-6 ps-3">
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1" class="required form-label">Vergi Numarası</label>
-                            <input type="text" name="VergiNumarasi" value="@(Convert.ToString(Model.Rows[0]["VergiNumarasi"]))" class="form-control form-control-solid" placeholder="" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex mt-5">
-                    <div class="col-6 pe-3 d-flex">
-                        <div class="form-check me-5">
-                            <input class="form-check-input" name="Alici" type="checkbox" value="true" id="Alici" @(Convert.ToBoolean(Model.Rows[0]["Alici"]) ? "checked" : "") />
-                            <label class="form-check-label user-select-none cursor-pointer" for="Alici">
-                                Alıcı
-                            </label>
-                        </div>
-                        <div class="form-check me-5">
-                            <input class="form-check-input" name="Satici" type="checkbox" value="true" id="Satici" @(Convert.ToBoolean(Model.Rows[0]["Satici"]) ? "checked" : "") />
-                            <label class="form-check-label user-select-none cursor-pointer" for="Satici">
-                                Satıcı
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" name="Personel" type="checkbox" value="true" id="Personel" @(Convert.ToBoolean(Model.Rows[0]["Personel"]) ? "checked" : "") />
-                            <label class="form-check-label user-select-none cursor-pointer" for="Personel">
-                                Personel
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-6 pe-3 ms-3">
-                        <div class="form-check">
-                            <input class="form-check-input" name="ServisPersoneli" type="checkbox" value="true" id="ServisPersoneli" @(Convert.ToBoolean(Model.Rows[0]["ServisPersoneli"]) ? "checked" : "") />
-                            <label class="form-check-label user-select-none cursor-pointer" for="ServisPersoneli">
-                                ServisPersoneli
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex mt-5">
-                    <div class="col-6 pe-3">
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1" class="required form-label">Döviz Id</label>
-                            <input type="text" name="DovizID" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["DovizID"]))" />
-                        </div>
-                    </div>
-                    <div class="col-6 ps-3">
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1" class="required form-label">Vade Günü</label>
-                            <input type="text" name="VadeGunu" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["VadeGunu"]))" />
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex mt-5">
-                    <div class=" col-6 form-check me-5 mt-8">
-
-                        <input class="form-check-input" name="Kilitli" type="checkbox" value="true" id="Kilitli" @(Convert.ToString(Model.Rows[0]["Kilitli"])) @(Convert.ToBoolean(Model.Rows[0]["Kilitli"]) ? "checked" : "") />
-                        <label class="form-check-label user-select-none cursor-pointer" for="Kilitli ">
-                            Kilitli
+                    <div class="form-check me-5">
+                        <input class="form-check-input" name="Alici" type="checkbox" value="true" id="Alici" @(Convert.ToBoolean(Model.Rows[0]["Alici"]) ? "checked" : "") />
+                        <label class="form-check-label user-select-none cursor-pointer" for="Alici">
+                            Alıcı
                         </label>
                     </div>
+                    <div class="form-check me-5">
+                        <input class="form-check-input" name="Satici" type="checkbox" value="true" id="Satici" @(Convert.ToBoolean(Model.Rows[0]["Satici"]) ? "checked" : "") />
+                        <label class="form-check-label user-select-none cursor-pointer" for="Satici">
+                            Satıcı
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="Personel" type="checkbox" value="true" id="Personel" @(Convert.ToBoolean(Model.Rows[0]["Personel"]) ? "checked" : "") />
+                        <label class="form-check-label user-select-none cursor-pointer" for="Personel">
+                            Personel
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" name="ServisPersoneli" type="checkbox" value="true" id="ServisPersoneli" @(Convert.ToBoolean(Model.Rows[0]["ServisPersoneli"]) ? "checked" : "") />
+                        <label class="form-check-label user-select-none cursor-pointer" for="ServisPersoneli">
+                            ServisPersoneli
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="KayitTarihi" class="required form-label">Kayıt Tarihi</label>
+                        @* Varsayilan gun tarihini cagirdik ve toString ile formatladik. bu format sayesinde input value degerini de atamis olduk *@
+                        <input type="date" value="@(DateTime.Parse(Convert.ToString(Model.Rows[0]["KayitTarihi"])).ToString("yyyy-MM-dd"))" name="KayitTarihi" id="KayitTarihi" class="form-control form-control-solid" placeholder="" readonly />
+                    </div>
 
-                    <div class="col-6 ps-3">
-                        <div class="form-group me-5">
-                            <label for="exampleFormControlInput1" class="required form-label">KilitAciklamasi</label>
-                            <input type="text" name="KilitAciklamasi" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["KilitAciklamasi"]))" />
-                        </div>
+                </div>
+                <div class="col-3">
+                    <label for="Kod" class="required form-label">Kod</label>
+                    <input type="text" name="Kod" id="Kod" value="@(Convert.ToString(Model.Rows[0]["Kod"]))" class="form-control form-control-solid" placeholder="" />
+                </div>
+                <div class="col-9">
+                    <label for="Isim" class="required form-label">Kısa İsim</label>
+                    <input type="text" name="Isim" id="Isim" value="@(Convert.ToString(Model.Rows[0]["Isim"]))" class="form-control form-control-solid" placeholder="" required />
+                </div>
+                <div class="col-12">
+                    <label for="Unvan" class="required form-label">Unvan</label>
+                    <input type="text" name="Unvan" id="Unvan" class="form-control form-control-solid" placeholder="" required value="@(Convert.ToString(Model.Rows[0]["Unvan"]))">
+
+                </div>
+                <div class="col-12">
+                    <label for="Adres" class="required form-label">Adres</label>
+                    <textarea type="text" name="Adres" id="Adres" class="form-control form-control-solid" placeholder="" required>@(Convert.ToString(Model.Rows[0]["Adres"]))</textarea>
+                </div>
+                <div class="col-3">
+                    <label for="Bolge" class="required form-label">Bölge</label>
+                    <input type="text" name="Bolge" id="Bolge" value="@(Convert.ToString(Model.Rows[0]["Bolge"]))" class="form-control form-control-solid" placeholder="" />
+                </div>
+                <div class="col-3">
+                    <label for="Ulke" class="required form-label">Ülke</label>
+                    <select class="form-select form-select-solid" name="Ulke" id="Ulke" data-control="select2" aria-label="Floating label select example">
+                        <option value="">Lütfen Seçim Yapınız</option>
+
+                        @foreach (GrupKoduDto ulke in ViewBag.Ulkeler)
+                        {
+                            <option @(Convert.ToString(Model.Rows[0]["Ulke"]) == ulke.ID ? "selected" : "") value="@ulke.ID">@ulke.Deger</option>
+                        }
+
+                    </select>
+                </div>
+                <div class="col-3">
+                    <label for="Il" class="required form-label">İl</label>
+                    <select class="form-select form-select-solid" name="Il" id="Il" data-control="select2"
+                            aria-label="Floating label select example">
+                        <option value="">Lütfen Seçim Yapınız</option>
+                        @foreach (GrupKoduDto il in ViewBag.Iller)
+                        {
+                            <option @(Convert.ToString(Model.Rows[0]["Il"]) == il.ID ? "selected" : "") value="@il.ID">@il.Deger</option>
+                        }
+
+                    </select>
+                </div>
+                <div class="col-3">
+                    <label for="Ilce" class="required form-label">İlçe</label>
+                    <input type="text" name="Ilce" id="Ilce" value="@(Convert.ToString(Model.Rows[0]["Ilce"]))" class="form-control form-control-solid" placeholder="" />
+                </div>
+
+
+
+
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="PostaKodu" class="required form-label">Posta Kodu</label>
+                        <input type="text" name="PostaKodu" id="PostaKodu" value="@(Convert.ToString(Model.Rows[0]["PostaKodu"]))" class="form-control form-control-solid" placeholder="" />
                     </div>
                 </div>
-                <div class="d-flex mt-5">
-                    <div class="form-check col-6 ps-0 pe-3 flex-col">
-                        <label for="Iskonto1" class="required form-label">Iskonto1</label>
-                        <input type="text" class="form-control form-control-solid" name="Iskonto1" id="Iskonto1" step="any" value="@(Convert.ToDecimal(Model.Rows[0]["Iskonto1"]).ToString("F2"))" />
-
-                    </div>
-                    <div class="col-6 ps-3">
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1" class="required form-label">ListeFiyat</label>
-                            <input type="text" name="ListeFiyat" class="form-control form-control-solid" placeholder="" step="any" value="@(Convert.ToDecimal(Model.Rows[0]["ListeFiyat"]).ToString("F2"))" />
-                        </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="TCKimlikNo" class="required form-label">TC No</label>
+                        <input type="text" name="TCKimlikNo" id="TCKimlikNo" value="@(Convert.ToString(Model.Rows[0]["TCKimlikNo"]))" class="form-control form-control-solid" placeholder="" />
                     </div>
                 </div>
-                <div class="d-flex mt-5">
-                    <div class="col-6 ps-3 d-flex mt-8">
-                        <div class="form-check me-5">
-                            <input class="form-check-input" name="LimitAsimindaUyar" type="checkbox" value="true" id="LimitAsimindaUyar" @(Convert.ToBoolean(Model.Rows[0]["LimitAsimindaUyar"]) ? "checked" : "") />
-                            <label class="form-check-label user-select-none cursor-pointer" for="LimitAsimindaUyar ">
-                                Limit<br />Aşımında Uyar
-                            </label>
-                        </div>
-                        <div class="form-check me-5">
-                            <input class="form-check-input" name="LimitAsimindaDurdur" type="checkbox" value="true" id="LimitAsimindaDurdur" @(Convert.ToBoolean(Model.Rows[0]["LimitAsimindaDurdur"]) ? "checked" : "") />
-                            <label class="form-check-label user-select-none cursor-pointer" for="LimitAsimindaDurdur">
-                                Limit<br />Aşımında Durdur
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-6 ps-3">
-                        <div class="form-group">
-                            <label for="Limit" class="required form-label">Limit</label>
-                            <input type="text" name="Limit" class="form-control form-control-solid" placeholder="" id="Limit" step="any" value="@(Convert.ToDecimal(Model.Rows[0]["Limit"]).ToString("F2"))" />
-                        </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="VergiNumarasi" class="required form-label">Vergi Numarası</label>
+                        <input type="text" name="VergiNumarasi" id="VergiNumarasi" value="@(Convert.ToString(Model.Rows[0]["VergiNumarasi"]))" class="form-control form-control-solid" placeholder="" />
                     </div>
                 </div>
-                <div class="d-flex mt-5">
-
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1" class="required form-label"> Muhasebe Kodu </label>
-                            <input type="text" name="MuhasebeKodu" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["MuhasebeKodu"]))" />
-                        </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="VergiDairesi" class="required form-label">Vergi Dairesi</label>
+                        <input type="text" name="VergiDairesi" id="VergiDairesi" value="@(Convert.ToString(Model.Rows[0]["VergiDairesi"]))" class="form-control form-control-solid" placeholder="" />
                     </div>
                 </div>
-                <div class="d-flex mt-5">
 
-                    <div class="col-6  pe-3">
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1" class="required form-label"> RiskAciklama </label>
-                            <input type="text" name="RiskAciklama" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["RiskAciklama"]))" />
-                        </div>
-                    </div>
-                    <div class="col-6 ps-3">
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1" class="required form-label">PlasiyerID </label>
-                            <input type="text" name="PlasiyerID" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["PlasiyerID"]))" />
-                        </div>
-                    </div>
+            </div>
+            <div class="col-lg-2">
+                <br />
+
+                <div class="col-12">
+                    <label for="GrupKodu1ID" class="form-label">Grup Kodu 1</label>
+                    <select class="form-select form-select-solid" name="GrupKodu1ID" id="GrupKodu1ID" aria-label="Floating label select example" data-control="select2" data-placeholder="Select an option">
+                        <option value="">Lütfen Seçim Yapınız</option>
+                        @foreach (GrupKoduDto cariGrupKodlari1 in ViewBag.CariGrupKodlari1)
+                        {
+                            <option @(Convert.ToString(Model.Rows[0]["GrupKodu1ID"]) == cariGrupKodlari1.ID ? "selected" : "") value="@cariGrupKodlari1.ID">@cariGrupKodlari1.Deger</option>
+                        }
+
+                    </select>
                 </div>
-                <div class="d-flex mt-5">
+                <div class="col-12">
+                    <label for="GrupKodu2ID" class="form-label">Grup Kodu 2</label>
+                    <select class="form-select form-select-solid" name="GrupKodu2ID" id="GrupKodu2ID" data-control="select2"
+                            aria-label="Floating label select example">
+                        <option value="">Lütfen Seçim Yapınız</option>
+                        @foreach (GrupKoduDto cariGrupKodlari2 in ViewBag.CariGrupKodlari2)
+                        {
+                            <option @(Convert.ToString(Model.Rows[0]["GrupKodu2ID"]) == cariGrupKodlari2.ID ? "selected" : "") value="@cariGrupKodlari2.ID">@cariGrupKodlari2.Deger</option>
+                        }
+                    </select>
+                </div>
 
-                    <div class="col-6  pe-3">
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1" class="required form-label"> AnaCariID </label>
-                            <input type="text" name="AnaCariID" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["AnaCariID"]))" />
-                        </div>
-                    </div>
-                    <div class="col-6 ps-3">
-                        <div class="form-group">
-                            <label for="exampleFormControlInput1" class="required form-label">TeslimCariID</label>
-                            <input type="text" name="TeslimCariID" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["TeslimCariID"]))" />
-                        </div>
-                    </div>
+                <div class="col-12">
+                    <label for="GrupKodu3ID" class="form-label">Grup Kodu 3</label>
+                    <select class="form-select form-select-solid" name="GrupKodu3ID" id="GrupKodu3ID" data-control="select2"
+                            aria-label="Floating label select example">
+                        <option value="">Lütfen Seçim Yapınız</option>
+                        @foreach (GrupKoduDto cariGrupKodlari3 in ViewBag.CariGrupKodlari3)
+                        {
+                            <option @(Convert.ToString(Model.Rows[0]["GrupKodu3ID"]) == cariGrupKodlari3.ID ? "selected" : "") value="@cariGrupKodlari3.ID">@cariGrupKodlari3.Deger</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label for="GrupKodu4ID" class="form-label">Grup Kodu 4</label>
+                    <select class="form-select form-select-solid" name="GrupKodu4ID" id="GrupKodu4ID" data-control="select2"
+                            aria-label="Floating label select example">
+                        <option value="">Lütfen Seçim Yapınız</option>
+                        @foreach (GrupKoduDto cariGrupKodlari4 in ViewBag.CariGrupKodlari4)
+                        {
+                            <option @(Convert.ToString(Model.Rows[0]["GrupKodu4ID"]) == cariGrupKodlari4.ID ? "selected" : "") value="@cariGrupKodlari4.ID">@cariGrupKodlari4.Deger</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-12">
+                    <label for="GrupKodu5ID" class="form-label">Grup Kodu 5</label>
+                    <select class="form-select form-select-solid" name="GrupKodu5ID" id="GrupKodu5ID" data-control="select2"
+                            aria-label="Floating label select example">
+                        <option value="">Lütfen Seçim Yapınız</option>
+                        @foreach (GrupKoduDto cariGrupKodlari5 in ViewBag.CariGrupKodlari5)
+                        {
+                            <option @(Convert.ToString(Model.Rows[0]["GrupKodu5ID"]) == cariGrupKodlari5.ID ? "selected" : "") value="@cariGrupKodlari5.ID">@cariGrupKodlari5.Deger</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label for="GrupKodu6ID" class="form-label">Grup Kodu 6</label>
+                    <select class="form-select form-select-solid" name="GrupKodu6ID" id="GrupKodu6ID" 
+                            aria-label="Floating label select example" data-control="select2" data-placeholder="Select an option">
+                        <option value="">Lütfen Seçim Yapınız</option>
+
+                        @foreach (GrupKoduDto cariGrupKodlari6 in ViewBag.CariGrupKodlari6)
+                        {
+                            <option @(Convert.ToString(Model.Rows[0]["GrupKodu6ID"]) == cariGrupKodlari6.ID ? "selected" : "") value="@cariGrupKodlari6.ID">@cariGrupKodlari6.Deger</option>
+                        }
+
+                    </select>
                 </div>
             </div>
+            <div class="col-12 row">
 
+                <div class="col-2">
+                    <div class="form-group">
+                        <label for="DovizID" class="required form-label">Döviz Id</label>
+                        <input type="text" name="DovizID" id="DovizID" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["DovizID"]))" />
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label for="VadeGunu" class="required form-label">Vade Günü</label>
+                        <input type="text" name="VadeGunu" id="VadeGunu" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["VadeGunu"]))" />
+                    </div>
+                </div>
+                <div class="col-2">
+                    <br /><br />
+                    <input class="form-check-input" name="Kilitli" type="checkbox" value="true" id="Kilitli" @(Convert.ToString(Model.Rows[0]["Kilitli"])) @(Convert.ToBoolean(Model.Rows[0]["Kilitli"]) ? "checked" : "") />
+                    <label class="form-check-label user-select-none cursor-pointer" for="Kilitli ">
+                        Kilitli
+                    </label>
+                </div>
 
-            <div class="col-lg-6 gap-3">
-                <div class="flex flex-col">
-                    <h4>İletişim Bilgileri</h4>
-                    <div class="d-flex mt-5">
-                        <div class="col-6 pe-3">
-                            <div class="form-group ">
-                                <label for="floatingInput" class="form-label required">Telefon 1</label>
-                                <input type="text" name="Telefon1" class="form-control form-control-solid" id="floatingInput" value="@(Convert.ToString(Model.Rows[0]["Telefon1"]))" />
-                            </div>
-                        </div>
-                        <div class="col-6 ps-3">
-                            <div class="form-group">
-                                <label for="floatingInput" class="form-label">Telefon 2</label>
-                                <input type="text" name="Telefon2" class="form-control form-control-solid" id="floatingInput" value="@(Convert.ToString(Model.Rows[0]["Telefon2"]))" />
-                            </div>
-                        </div>
+                <div class="col-2">
+                    <div class="form-group me-5">
+                        <label for="KilitAciklamasi" class="required form-label">KilitAciklamasi</label>
+                        <input type="text" name="KilitAciklamasi" id="KilitAciklamasi" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["KilitAciklamasi"]))" />
                     </div>
-                    <div class="d-flex mt-5">
-                        <div class="col-6 pe-3">
-                            <div class="form-group">
-                                <label for="floatingInput" class="form-label">Faks</label>
-                                <input type="text" name="Faks" class="form-control form-control-solid" id="floatingInput" value="@(Convert.ToString(Model.Rows[0]["Faks"]))" />
-                            </div>
-                        </div>
-                        <div class="col-6 ps-3">
-                            <div class="form-group">
-                                <label for="floatingInput" class="form-label required">Cep Telefonu</label>
-                                <input type="text" name="CepTelefonu" class="form-control form-control-solid" id="floatingInput" value="@(Convert.ToString(Model.Rows[0]["CepTelefonu"]))" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex mt-5">
-                        <div class="col-6 pe-3">
-                            <div class="form-group">
-                                <label for="floatingInput" class="form-label required">Email</label>
-                                <input type="text" name="EMail" class="form-control form-control-solid" id="floatingInput" value="@(Convert.ToString(Model.Rows[0]["EMail"]))" />
-                            </div>
-                        </div>
-                        <div class="col-6 ps-3">
-                            <div class="form-group">
-                                <label for="floatingInput" class="form-label">Web Sitesi</label>
-                                <input type="text" name="WebSite" class="form-control form-control-solid" id="floatingInput" value="@(Convert.ToString(Model.Rows[0]["WebSite"]))" />
-                            </div>
-                        </div>
+                </div>
+
+                <div class="col-2">
+                    <label for="Iskonto1" class="required form-label">Iskonto1</label>
+                    <input type="text" class="form-control form-control-solid" name="Iskonto1" id="Iskonto1" step="any" value="@(Convert.ToDecimal(Model.Rows[0]["Iskonto1"]).ToString("F2"))" />
+
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label for="ListeFiyat" class="required form-label">ListeFiyat</label>
+                        <input type="text" name="ListeFiyat" id="ListeFiyat" class="form-control form-control-solid" placeholder="" step="any" />
                     </div>
                 </div>
 
 
-                <div class="flex-center flex-col mt-8">
-                    <h4>Grup Kodları</h4>
-                    <div class="d-flex">
-                        <div class="col-6 pe-3 ">
-                            <div class="form-group">
-                                <label for="floatingSelect" class="form-label">Grup Kodu 1</label>
-                                <select class="form-select form-select-solid" name="GrupKodu1ID" id="floatingSelect"
-                                        aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
-                                    @foreach (var cariGrupKodlari1 in ViewBag.CariGrupKodlari1)
-                                    {
-                                        <option @(Convert.ToString(Model.Rows[0]["GrupKodu1ID"]) == cariGrupKodlari1.Key ? "checked" : "") value="@cariGrupKodlari1.Key">@cariGrupKodlari1.Value</option>
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-6 ps-3 ">
-                            <div class="form-group">
-                                <label for="floatingSelect" class="form-label">Grup Kodu 2</label>
-                                <select class="form-select form-select-solid" name="GrupKodu2ID" id="floatingSelect"
-                                        aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
-                                    @foreach (var cariGrupKodlari2 in ViewBag.CariGrupKodlari2)
-                                    {
-                                        <option @(Convert.ToString(Model.Rows[0]["GrupKodu2ID"]) == cariGrupKodlari2.Key ? "checked" : "") value="@cariGrupKodlari2.Key">@cariGrupKodlari2.Value</option>
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex mt-5">
-                        <div class="col-6 pe-3 ">
-                            <div class="form-group">
-                                <label for="floatingSelect" class="form-label">Grup Kodu 3</label>
-                                <select class="form-select form-select-solid" name="GrupKodu3ID" id="floatingSelect"
-                                        aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
-                                    @foreach (var cariGrupKodlari3 in ViewBag.CariGrupKodlari3)
-                                    {
-                                        <option @(Convert.ToString(Model.Rows[0]["GrupKodu3ID"]) == cariGrupKodlari3.Key ? "checked" : "") value="@cariGrupKodlari3.Key">@cariGrupKodlari3.Value</option>
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-6 ps-3 ">
-                            <div class="form-group">
-                                <label for="floatingSelect" class="form-label">Grup Kodu 4</label>
-                                <select class="form-select form-select-solid" name="GrupKodu4ID" id="floatingSelect"
-                                        aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
-                                    @foreach (var cariGrupKodlari4 in ViewBag.CariGrupKodlari4)
-                                    {
-                                        <option @(Convert.ToString(Model.Rows[0]["GrupKodu4ID"]) == cariGrupKodlari4.Key ? "checked" : "") value="@cariGrupKodlari4.Key">@cariGrupKodlari4.Value</option>
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex mt-5">
-                        <div class="col-6 pe-3 ">
-                            <div class="form-group">
-                                <label for="floatingSelect" class="form-label">Grup Kodu 5</label>
-                                <select class="form-select form-select-solid" name="GrupKodu5ID" id="floatingSelect"
-                                        aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
-                                    @foreach (var cariGrupKodlari5 in ViewBag.CariGrupKodlari5)
-                                    {
-                                        <option @(Convert.ToString(Model.Rows[0]["GrupKodu5ID"]) == cariGrupKodlari5.Key ? "checked" : "") value="@cariGrupKodlari5.Key">@cariGrupKodlari5.Value</option>
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-6 ps-3 ">
-                            <div class="form-group">
-                                <label for="floatingSelect" class="form-label">Grup Kodu 6</label>
-                                <select class="form-select form-select-solid" name="GrupKodu6ID" id="floatingSelect"
-                                        aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
-                                    @foreach (var cariGrupKodlari6 in ViewBag.CariGrupKodlari6)
-                                    {
-                                        <option @(Convert.ToString(Model.Rows[0]["GrupKodu6ID"]) == cariGrupKodlari6.Key ? "checked" : "") value="@cariGrupKodlari6.Key">@cariGrupKodlari6.Value</option>
-                                    }
-                                </select>
-                            </div>
-                        </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="MuhasebeKodu" class="required form-label"> Muhasebe Kodu </label>
+                        <input type="text" name="MuhasebeKodu" id="MuhasebeKodu" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["MuhasebeKodu"]))" />
                     </div>
                 </div>
 
-                <div class="flex-center flex-col mt-8">
-                    <h4>Açıklamalar</h4>
-                    <div class="form-group mt-5">
-                        <label for="floatingInput" class="form-label">Açıklama 1</label>
-                        <textarea type="text" name="Aciklama1" class="form-control form-control-solid" id="floatingInput">@(Convert.ToString(Model.Rows[0]["Aciklama1"]))</textarea>
+                <div class="col-4">
+                    <input class="form-check-input" name="LimitAsimindaUyar" type="checkbox" value="true" id="LimitAsimindaUyar" @(Convert.ToBoolean(Model.Rows[0]["LimitAsimindaUyar"]) ? "checked" : "") />
+                    <label class="form-check-label user-select-none cursor-pointer" for="LimitAsimindaUyar ">
+                        Limit Aşımında Uyar
+                    </label><br /><br />
+                    <input class="form-check-input" name="LimitAsimindaDurdur" type="checkbox" value="true" id="LimitAsimindaDurdur" @(Convert.ToBoolean(Model.Rows[0]["LimitAsimindaDurdur"]) ? "checked" : "") />
+                    <label class="form-check-label user-select-none cursor-pointer" for="LimitAsimindaDurdur">
+                        Limit Aşımında Durdur
+                    </label>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="Limit" class="required form-label">Limit</label>
+                        <input type="text" name="Limit" class="form-control form-control-solid" placeholder="" id="Limit" step="any" value="@(Convert.ToDecimal(Model.Rows[0]["Limit"]).ToString("F2"))" />
                     </div>
-                    <div class="form-group mt-5">
-                        <label for="floatingInput" class="form-label">Açıklama 2</label>
-                        <textarea type="text" name="Aciklama2" class="form-control form-control-solid" id="floatingInput">@(Convert.ToString(Model.Rows[0]["Aciklama2"]))</textarea>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="RiskAciklama" class="required form-label"> RiskAciklama </label>
+                        <input type="text" name="RiskAciklama" id="RiskAciklama" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["RiskAciklama"]))" />
                     </div>
-                    <div class="form-group mt-5">
-                        <label for="floatingInput" class="form-label">Açıklama 3</label>
-                        <textarea type="text" name="Aciklama3" class="form-control form-control-solid" id="floatingInput">@(Convert.ToString(Model.Rows[0]["Aciklama3"]))</textarea>
+                </div>
+
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1" class="required form-label">PlasiyerID </label>
+                        <input type="text" name="PlasiyerID" id="PlasiyerID" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["PlasiyerID"]))" />
                     </div>
-                    <div class="form-group mt-5">
-                        <label for="floatingInput" class="form-label">Açıklama 4</label>
-                        <textarea type="text" name="Aciklama4" class="form-control form-control-solid" id="floatingInput">@(Convert.ToString(Model.Rows[0]["Aciklama4"]))</textarea>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="AnaCariID" class="required form-label"> AnaCariID </label>
+                        <input type="text" name="AnaCariID" id="AnaCariID" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["AnaCariID"]))" />
                     </div>
-                    <div class="form-group mt-5">
-                        <label for="floatingInput" class="form-label">Açıklama 5</label>
-                        <textarea type="text" name="Aciklama5" class="form-control form-control-solid" id="floatingInput">@(Convert.ToString(Model.Rows[0]["Aciklama5"]))</textarea>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="TeslimCariID" class="required form-label">TeslimCariID</label>
+                        <input type="text" name="TeslimCariID" id="TeslimCariID" class="form-control form-control-solid" placeholder="" value="@(Convert.ToString(Model.Rows[0]["TeslimCariID"]))" />
                     </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="form-group ">
+                        <label for="Telefon1" class="form-label required">Telefon 1</label>
+                        <input type="text" name="Telefon1" class="form-control form-control-solid" id="Telefon1" value="@(Convert.ToString(Model.Rows[0]["Telefon1"]))" />
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="Telefon2" class="form-label">Telefon 2</label>
+                        <input type="text" name="Telefon2" class="form-control form-control-solid" id="Telefon2" value="@(Convert.ToString(Model.Rows[0]["Telefon2"]))" />
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="Faks" class="form-label">Faks</label>
+                        <input type="text" name="Faks" id="Faks" class="form-control form-control-solid" value="@(Convert.ToString(Model.Rows[0]["Faks"]))" />
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="CepTelefonu" class="form-label required">Cep Telefonu</label>
+                        <input type="text" name="CepTelefonu" id="CepTelefonu" class="form-control form-control-solid" value="@(Convert.ToString(Model.Rows[0]["CepTelefonu"]))" />
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="KullaniciAdi" class="required form-label"> Kullanıcı Adı</label>
+                        <input type="text" name="KullaniciAdi" id="KullaniciAdi" value="@(Convert.ToString(Model.Rows[0]["KullaniciAdi"]))" class="form-control form-control-solid" placeholder="" required />
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="Parola" class="required form-label">Parola</label>
+                        <input type="password" name="Parola" id="Parola" value="@(Convert.ToString(Model.Rows[0]["Parola"]))" class="form-control form-control-solid" placeholder="" required />
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="EMail" class="form-label required">Email</label>
+                        <input type="text" name="EMail" class="form-control form-control-solid" id="EMail" value="@(Convert.ToString(Model.Rows[0]["EMail"]))" />
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label for="WebSite" class="form-label">Web Sitesi</label>
+                        <input type="text" name="WebSite" class="form-control form-control-solid" id="WebSite" value="@(Convert.ToString(Model.Rows[0]["WebSite"]))" />
+                    </div>
+                </div>
+
+                <div class="col-4">
                     <div class="form-group mt-5">
-                        <label for="floatingInput" class="form-label">Açıklama 6</label>
-                        <textarea type="text" name="Aciklama6" class="form-control form-control-solid" id="floatingInput">@(Convert.ToString(Model.Rows[0]["Aciklama6"]))</textarea>
+                        <label for="Aciklama1" class="form-label">Açıklama 1</label>
+                        <textarea type="text" name="Aciklama1" class="form-control form-control-solid" id="Aciklama1">@(Convert.ToString(Model.Rows[0]["Aciklama1"]))</textarea>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group mt-5">
+                        <label for="Aciklama2" class="form-label">Açıklama 2</label>
+                        <textarea type="text" name="Aciklama2" class="form-control form-control-solid" id="Aciklama2">@(Convert.ToString(Model.Rows[0]["Aciklama2"]))</textarea>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group mt-5">
+                        <label for="Aciklama3" class="form-label">Açıklama 3</label>
+                        <textarea type="text" name="Aciklama3" class="form-control form-control-solid" id="Aciklama3">@(Convert.ToString(Model.Rows[0]["Aciklama3"]))</textarea>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group mt-5">
+                        <label for="Aciklama4" class="form-label">Açıklama 4</label>
+                        <textarea type="text" name="Aciklama4" class="form-control form-control-solid" id="Aciklama4">@(Convert.ToString(Model.Rows[0]["Aciklama4"]))</textarea>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group mt-5">
+                        <label for="Aciklama5" class="form-label">Açıklama 5</label>
+                        <textarea type="text" name="Aciklama5" class="form-control form-control-solid" id="Aciklama5">@(Convert.ToString(Model.Rows[0]["Aciklama5"]))</textarea>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group mt-5">
+                        <label for="Aciklama6" class="form-label">Açıklama 6</label>
+                        <textarea type="text" name="Aciklama6" class="form-control form-control-solid" id="Aciklama6">@(Convert.ToString(Model.Rows[0]["Aciklama6"]))</textarea>
                     </div>
                 </div>
             </div>
             <!--begin::Actions-->
             <div class="col-12">
                 <div class="text-center pt-10">
-                    <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Düzenle">
+                    <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Duzenle">
                         <span class="indicator-label">Kaydet</span>
                         <span class="indicator-progress">
                             Lütfen Bekleyin...
@@ -601,6 +450,10 @@
     </div>
 </div>
 
+@section Styles {
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+}
 
-
-
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+}

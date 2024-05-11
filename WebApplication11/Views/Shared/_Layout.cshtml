@@ -29,11 +29,11 @@
     <link rel="apple-touch-icon" sizes="144x144" href="/Tema/favicons/apple-icon-144x144.png">
     <link rel="apple-touch-icon" sizes="152x152" href="/Tema/favicons/apple-icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/Tema/favicons/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/Tema/favicons/android-icon-192x192.png">
+    @*<link rel="icon" type="image/png" sizes="192x192" href="/Tema/favicons/android-icon-192x192.png">*@
     <link rel="icon" type="image/png" sizes="32x32" href="/Tema/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/Tema/favicons/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/Tema/favicons/favicon-16x16.png">
-    <link rel="manifest" href="/Tema/favicons/manifest.json">
+    @*<link rel="manifest" href="/Tema/favicons/manifest.json">*@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/Tema/favicons/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
@@ -47,8 +47,8 @@
     <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
     <link href="~/Tema/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
     <link href="~/Tema/css/style.bundle.css" rel="stylesheet" type="text/css" />
-    <link href="/Tema/css/override.css" rel="stylesheet" type="text/css" />
     @RenderSection("Styles", required: false)
+    <link href="/Tema/css/override.css" rel="stylesheet" type="text/css" />
     <!--end::Global Stylesheets Bundle-->
     <script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
 </head>
