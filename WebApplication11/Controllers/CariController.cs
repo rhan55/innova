@@ -31,18 +31,18 @@ namespace YKPortal.Controllers
         [HttpPost]
         public ActionResult Ekle(CariDto cariDto)
         {
-            if (!ModelState.IsValid)
-            {
-                IlListesiniOlustur();
-                UlkeListesiniOlustur();
-                CariGrupKod1ListesiniOlustur();
-                CariGrupKod2ListesiniOlustur();
-                CariGrupKod3ListesiniOlustur();
-                CariGrupKod4ListesiniOlustur();
-                CariGrupKod5ListesiniOlustur();
-                CariGrupKod6ListesiniOlustur();
-                return View();
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    IlListesiniOlustur();
+            //    UlkeListesiniOlustur();
+            //    CariGrupKod1ListesiniOlustur();
+            //    CariGrupKod2ListesiniOlustur();
+            //    CariGrupKod3ListesiniOlustur();
+            //    CariGrupKod4ListesiniOlustur();
+            //    CariGrupKod5ListesiniOlustur();
+            //    CariGrupKod6ListesiniOlustur();
+            //    return View();
+            //}
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;

@@ -117,7 +117,7 @@
                                         <label class="required fw-semibold fs-6 mb-2">Firma Kısa Adı</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input type="text" name="Isim" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Firma Kısa Adı" value="@ViewBag.Form.Isim" required />
+                                        <input type="text" name="Isim" class="form-control  mb-3 mb-lg-0" placeholder="Firma Kısa Adı" value="@ViewBag.Form.Isim" required />
 
                                         <!--end::Input-->
                                     </div>
@@ -128,7 +128,7 @@
                                         <label class="required fw-semibold fs-6 mb-2">Ünvan</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input type="text" name="Unvan" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Ünvan" value="@ViewBag.Form.Unvan" required />
+                                        <input type="text" name="Unvan" class="form-control  mb-3 mb-lg-0" placeholder="Ünvan" value="@ViewBag.Form.Unvan" required />
 
                                         <!--end::Input-->
 
@@ -145,7 +145,7 @@
                                             <label class="required fw-semibold fs-6 mb-2">E-Mail/Kullanıcı Adı</label>
                                             <!--end::Label-->
                                             <!--begin::Input-->
-                                            <input type="email" name="EMail" class=" Inputmask form-control form-control-solid mb-3 mb-lg-0" placeholder="EMail" value="@ViewBag.Form.EMail" required />
+                                            <input type="email" name="EMail" class=" Inputmask form-control  mb-3 mb-lg-0" placeholder="EMail" value="@ViewBag.Form.EMail" required />
                                             <!--end::Input-->
 
                                         </div>
@@ -155,7 +155,7 @@
                                         <label class="required fw-semibold fs-6 mb-2">Parola</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input type="password" name="Parola" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Parola" value="" required />
+                                        <input type="password" name="Parola" class="form-control  mb-3 mb-lg-0" placeholder="Parola" value="" required />
                                         <!--end::Input-->
 
                                     </div>
@@ -169,7 +169,7 @@
                                         <label class="required fw-semibold fs-6 mb-2">Ad</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input class="form-control border-0 bg-light" name="Ad" placeholder="Ad" id="exampleFormControlTextarea1" required />
+                                        <input class="form-control " name="Ad" placeholder="Ad" id="exampleFormControlTextarea1" required />
 
                                         <!--end::Input-->
                                     </div>
@@ -180,7 +180,7 @@
                                         <label class="required fw-semibold fs-6 mb-2">Soyad</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input class="form-control border-0 bg-light" name="Soyad" placeholder="Soyad" id="exampleFormControlTextarea1" required />
+                                        <input class="form-control " name="Soyad" placeholder="Soyad" id="exampleFormControlTextarea1" required />
 
                                         <!--end::Input-->
                                     </div>
@@ -196,7 +196,7 @@
                                         <label class="required fw-semibold fs-6 mb-2">Vergi Dairesi</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input class="form-control border-0 bg-light" name="VergiDairesi" placeholder="VergiDairesi" id="exampleFormControlTextarea1" required />
+                                        <input class="form-control " name="VergiDairesi" placeholder="VergiDairesi" id="exampleFormControlTextarea1" required />
 
                                         <!--end::Input-->
                                     </div>
@@ -207,7 +207,7 @@
                                         <label class="required fw-semibold fs-6 mb-2">Vergi Numarası</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input class="form-control border-0 bg-light @(ViewData.ModelState.ContainsKey("VergiNumarasi") ? "is-invalid" : "")" name="VergiNumarasi" placeholder="Vergi Numarası" id="exampleFormControlTextarea1" required value="" />
+                                        <input class="form-control  @(ViewData.ModelState.ContainsKey("VergiNumarasi") ? "is-invalid" : "")" name="VergiNumarasi" placeholder="Vergi Numarası" id="exampleFormControlTextarea1" required value="" />
                                         <!--end::Input-->
                                         @if (ViewData.ModelState.ContainsKey("VergiNumarasi") && ViewData.ModelState["VergiNumarasi"].Errors.Count() > 0)
                                         {
@@ -229,7 +229,7 @@
                                         <label class="required fw-semibold fs-6 mb-2">İletişim Numarası</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input type="text" class="form-control border-0 bg-light @(ViewData.ModelState.ContainsKey("Iletisim") ? "is-invalid" : "")" name="Iletisim" placeholder="İletişim Numarası" id="exampleFormControlTextarea1" required />
+                                        <input type="text" class="form-control  @(ViewData.ModelState.ContainsKey("Iletisim") ? "is-invalid" : "")" name="Iletisim" placeholder="İletişim Numarası" id="exampleFormControlTextarea1" required />
                                         <!--end::Input-->
                                         @if (ViewData.ModelState.ContainsKey("Iletisim") && ViewData.ModelState["Iletisim"].Errors.Count() > 0)
                                         {
@@ -246,7 +246,7 @@
                                         <label class="required fw-semibold fs-6 mb-2">Adres</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input class="form-control border-0 bg-light" name="Adres" placeholder="Adres" id="exampleFormControlTextarea1" required />
+                                        <input class="form-control " name="Adres" placeholder="Adres" id="exampleFormControlTextarea1" required />
 
                                         <!--end::Input-->
                                     </div>
@@ -272,7 +272,7 @@
                                     <div class="col-lg-6">
                                         <div class="d-flex flex-column col-lg-12">
                                             <label class="required fw-semibold fs-6 mb-2">İlçe</label>
-                                            <input type="text" class="form-control border-0 bg-light " name="Ilce" placeholder="İletişim Numarası" id="exampleFormControlTextarea1" required />
+                                            <input type="text" class="form-control  " name="Ilce" placeholder="İletişim Numarası" id="exampleFormControlTextarea1" required />
                                         </div>
                                     </div>
                                     <!--end::Input group-->
