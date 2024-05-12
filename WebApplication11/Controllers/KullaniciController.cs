@@ -16,6 +16,8 @@ namespace YKPortal.Controllers
         // GET: Kullanici
         public ActionResult Liste(string aranacakKelime = "")
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_KullaniciListesi";
@@ -31,8 +33,10 @@ namespace YKPortal.Controllers
 
         [HttpGet]
         public ActionResult Ekle()
-
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
             return View();
         }
 
@@ -40,6 +44,8 @@ namespace YKPortal.Controllers
 
         public ActionResult Ekle(KullaniciEkleDto kullaniciEkleDto, HttpPostedFileBase Resim)
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
 
             string imageName = "/Tema/Media/Logolar/amblem.png";
             var id = Guid.NewGuid();
@@ -108,6 +114,9 @@ namespace YKPortal.Controllers
 
         public ActionResult Duzenle(string id)
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
             var uyelikId = GetCookie("UyelikID");
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_Kullanici";
@@ -123,6 +132,8 @@ namespace YKPortal.Controllers
         [HttpPost]
         public ActionResult Duzenle(KullaniciEkleDto kullaniciEkleDto, HttpPostedFileBase Resim)
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
 
             if (!ModelState.IsValid)
             {
@@ -214,6 +225,8 @@ namespace YKPortal.Controllers
 
         public ActionResult Profil(string Mesaj = "")
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
             var uyelikId = GetCookie("UyelikID");
             var kullaniciID = GetCookie("KullaniciID");
 
@@ -231,6 +244,8 @@ namespace YKPortal.Controllers
         [HttpPost]
         public ActionResult Profil(KullaniciEkleDto kullaniciEkleDto, HttpPostedFileBase Resim)
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
 
             if (!ModelState.IsValid)
             {
@@ -311,10 +326,14 @@ namespace YKPortal.Controllers
 
         private ActionResult Detay()
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
             return View();
         }
         private ActionResult Detay(string id)
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_Kullanici";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -327,6 +346,8 @@ namespace YKPortal.Controllers
         [HttpPost]
         public ActionResult Sil(string id)
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_KullaniciSil";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -340,6 +361,50 @@ namespace YKPortal.Controllers
 
 
         #region Cookie İşlemleri
+
+        public bool AutoGirisKontrol()
+        {
+            bool GirisKontrol = false;
+
+            string KullaniciAdi = GetCookie("KullaniciAdi");
+            string Parola = GetCookie("Parola");
+
+            if (KullaniciAdi != null)
+            {
+
+                ViewBag.KullaniciAdi = KullaniciAdi;
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandText = "p_KullaniciGirisi";
+                cmd.Parameters.AddWithValue("@KullaniciAdi", KullaniciAdi);
+                cmd.Parameters.AddWithValue("@Parola", Parola);
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    string Bilgi = Convert.ToString(dt.Rows[0]["Bilgi"]);
+                    if (!Bilgi.StartsWith("UYARI!"))
+                    {
+
+                        GirisKontrol = true;
+                    }
+                    else
+                    {
+                        GirisKontrol = false;
+                    }
+                }
+                else
+                {
+                    GirisKontrol = false;
+                }
+            }
+
+            return GirisKontrol;
+        }
+
+
+
         private string GetCookie(string name)
         {
             //Böyle bir cookie mevcut mu kontrol ediyoruz

@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using YKPortal.Models;
 using YKPortal.Models.Dto;
+using System.Net;
 
 namespace YKPortal.Controllers
 {
@@ -15,6 +16,9 @@ namespace YKPortal.Controllers
         [HttpGet]
         public ActionResult GrupKodu(string grupKodu, string aranacakKelime="")
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_GrupKoduListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -33,6 +37,9 @@ namespace YKPortal.Controllers
         [HttpGet]
         public ActionResult Ekle(string grupKodu)
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
             ViewBag.GrupKodu = grupKodu;
 
             return View();
@@ -41,6 +48,9 @@ namespace YKPortal.Controllers
         [HttpPost]
         public ActionResult Ekle(GrupKoduDto grupKoduDto)
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_GrupKoduKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -59,6 +69,9 @@ namespace YKPortal.Controllers
         [HttpGet]
         public ActionResult Duzenle(string id)
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
             var uyelikId = GetCookie("UyelikID");
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_GrupKodu";
@@ -73,6 +86,9 @@ namespace YKPortal.Controllers
         [HttpPost]
         public ActionResult Duzenle(GrupKoduDto grupKoduDto)
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_GrupKoduKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -89,6 +105,9 @@ namespace YKPortal.Controllers
         [HttpPost]
         public ActionResult Sil(string id, string grupKodu)
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_GrupKoduSil";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -118,6 +137,45 @@ namespace YKPortal.Controllers
 
         }
 
+        public bool AutoGirisKontrol()
+        {
+            bool GirisKontrol = false;
+
+            string KullaniciAdi = GetCookie("KullaniciAdi");
+            string Parola = GetCookie("Parola");
+
+            if (KullaniciAdi != null)
+            {
+
+                ViewBag.KullaniciAdi = KullaniciAdi;
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandText = "p_KullaniciGirisi";
+                cmd.Parameters.AddWithValue("@KullaniciAdi", KullaniciAdi);
+                cmd.Parameters.AddWithValue("@Parola", Parola);
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    string Bilgi = Convert.ToString(dt.Rows[0]["Bilgi"]);
+                    if (!Bilgi.StartsWith("UYARI!"))
+                    {
+                        GirisKontrol = true;
+                    }
+                    else
+                    {
+                        GirisKontrol = false;
+                    }
+                }
+                else
+                {
+                    GirisKontrol = false;
+                }
+            }
+
+            return GirisKontrol;
+        }
 
         #endregion
 

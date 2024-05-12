@@ -11,6 +11,10 @@ using System.Web;
 using System.Web.Mvc;
 using YKPortal.Models;
 using YKPortal.Models.Dto;
+using YKPortal.Models.YKClasses;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Text;
 
 namespace YKPortal.Controllers
 {
@@ -77,6 +81,37 @@ namespace YKPortal.Controllers
                 string Bilgi = Convert.ToString(dt.Rows[0]["Bilgi"]);
                 if (!Bilgi.StartsWith("UYARI!"))
                 {
+                    #region Log Kaydı
+                    try
+                    {
+                        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                        string postData = "{\r\n    \"ProgramAdi\":\"Portal\",\r\n    \"Sirket\":\"" + Convert.ToString(dt.Rows[0]["UyelikIsim"]) + " - " + Convert.ToString(dt.Rows[0]["Ad"]) + " " + Convert.ToString(dt.Rows[0]["Soyad"]) + "\",\r\n    \"KullaniciAdi\":\"" + txtKullaniciAdi + "\",\r\n    \"Parola\":\"" + txtParola + "\"\r\n}";
+                        var url = "https://app.ykyazilim.com.tr/api/YKWebApi/LogKaydet_KullaniciGirisi";
+                        byte[] data = Encoding.UTF8.GetBytes(postData.ToString());
+                        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                        request.KeepAlive = false;
+                        request.ProtocolVersion = HttpVersion.Version10;
+                        request.Method = "POST";
+                        byte[] postBytes = Encoding.UTF8.GetBytes(postData.ToString());
+                        request.ContentType = "application/json; charset=UTF-8";
+                        request.Accept = "application/json";
+                        request.ContentLength = postBytes.Length;
+                        Stream requestStream = request.GetRequestStream();
+                        requestStream.Write(postBytes, 0, postBytes.Length);
+                        requestStream.Close();
+                        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                        string result;
+                        using (StreamReader rdr = new StreamReader(response.GetResponseStream()))
+                        {
+                            result = rdr.ReadToEnd();
+                        }
+                    }
+                    catch
+                    {
+                        ;
+                    }
+                    #endregion
+
                     #region Cookie İşlemleri
 
                     CreateCookie("Isim", Convert.ToString(dt.Rows[0]["Ad"]) + " " + Convert.ToString(dt.Rows[0]["Soyad"]));
@@ -188,6 +223,9 @@ namespace YKPortal.Controllers
 
         public ActionResult UyelikListesi(string aranacakKelime = "")
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_UyelikListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -250,6 +288,9 @@ namespace YKPortal.Controllers
 
         public ActionResult UyelikDuzenle(string id)
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
             var uyelikId = GetCookie("UyelikID");
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_Uyelik";
@@ -275,6 +316,8 @@ namespace YKPortal.Controllers
             DateTime UyelikBitisTarihi,
             string ApiUrl)
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_UyelikKaydet";
@@ -317,6 +360,9 @@ namespace YKPortal.Controllers
 
         public ActionResult Liste(string UyelikID)
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
             SqlCommand cmd2 = new SqlCommand();
             cmd2.CommandText = "p_SonHareketler";
             cmd2.CommandType = System.Data.CommandType.StoredProcedure;
@@ -353,6 +399,37 @@ namespace YKPortal.Controllers
                     string Bilgi = Convert.ToString(dt.Rows[0]["Bilgi"]);
                     if (!Bilgi.StartsWith("UYARI!"))
                     {
+                        #region Log Kaydı
+                        try
+                        {
+                            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                            string postData = "{\r\n    \"ProgramAdi\":\"Portal\",\r\n    \"Sirket\":\"" + Convert.ToString(dt.Rows[0]["UyelikIsim"]) + " - " + Convert.ToString(dt.Rows[0]["Ad"]) + " " + Convert.ToString(dt.Rows[0]["Soyad"]) + "\",\r\n    \"KullaniciAdi\":\"" + KullaniciAdi + "\",\r\n    \"Parola\":\"" + Parola + "\"\r\n}";
+                            var url = "https://app.ykyazilim.com.tr/api/YKWebApi/LogKaydet_KullaniciGirisi";
+                            byte[] data = Encoding.UTF8.GetBytes(postData.ToString());
+                            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                            request.KeepAlive = false;
+                            request.ProtocolVersion = HttpVersion.Version10;
+                            request.Method = "POST";
+                            byte[] postBytes = Encoding.UTF8.GetBytes(postData.ToString());
+                            request.ContentType = "application/json; charset=UTF-8";
+                            request.Accept = "application/json";
+                            request.ContentLength = postBytes.Length;
+                            Stream requestStream = request.GetRequestStream();
+                            requestStream.Write(postBytes, 0, postBytes.Length);
+                            requestStream.Close();
+                            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                            string result;
+                            using (StreamReader rdr = new StreamReader(response.GetResponseStream()))
+                            {
+                                result = rdr.ReadToEnd();
+                            }
+                        }
+                        catch
+                        {
+                            ;
+                        }
+                        #endregion
+
                         GirisKontrol = true;
                     }
                     else
