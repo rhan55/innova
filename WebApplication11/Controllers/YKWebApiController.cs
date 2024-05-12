@@ -26,11 +26,13 @@ namespace YKPortal.Controllers
                 string Sirket = Convert.ToString(data["Sirket"]);
                 string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
                 string Parola = Convert.ToString(data["Parola"]);
+                string IP = Convert.ToString(data["IP"]);
 
                 YKUtils.LogKaydet_KullaniciGirisi(ProgramAdi,
                         Sirket,
                         KullaniciAdi,
-                        Parola
+                        Parola,
+                        IP
                         );
 
                 result.SonucKodu = 1;

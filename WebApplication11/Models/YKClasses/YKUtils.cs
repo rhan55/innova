@@ -17,6 +17,23 @@ namespace YKPortal.Models.YKClasses
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             return new System.Net.WebClient().DownloadString("https://api.ipify.org");
         }
+
+        public static string GetClientIPAddress()
+        {
+            System.Web.HttpContext context = System.Web.HttpContext.Current;
+            string ipAddress = context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+            if (!string.IsNullOrEmpty(ipAddress))
+            {
+                string[] addresses = ipAddress.Split(',');
+                if (addresses.Length != 0)
+                {
+                    return addresses[0];
+                }
+            }
+
+            return context.Request.ServerVariables["REMOTE_ADDR"];
+        }
         public static string GetVersion()
         {
             try
@@ -32,13 +49,14 @@ namespace YKPortal.Models.YKClasses
         public static void LogKaydet_KullaniciGirisi(string ProgramAdi,
             string Sirket,
             string KullaniciAdi,
-            string Parola)
+            string Parola,
+            string IP)
         {
             try
             {
                 string ConnectionString = ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString;
                 DateTime Tarih = DateTime.Now;
-                string IP = GetIPAdress();
+                string IP_ = GetIPAdress()+" - "+ IP;
                 string Surum = GetVersion();
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"
@@ -54,7 +72,7 @@ values
                 cmd.Parameters.AddWithValue("@ConnectionString", ConnectionString);
                 cmd.Parameters.AddWithValue("@KullaniciAdi", KullaniciAdi);
                 cmd.Parameters.AddWithValue("@Parola", Parola);
-                cmd.Parameters.AddWithValue("@IP", IP);
+                cmd.Parameters.AddWithValue("@IP", IP_);
                 IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
             }
             catch (Exception err)

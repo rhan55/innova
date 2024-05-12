@@ -81,37 +81,6 @@ namespace YKPortal.Controllers
                 string Bilgi = Convert.ToString(dt.Rows[0]["Bilgi"]);
                 if (!Bilgi.StartsWith("UYARI!"))
                 {
-                    #region Log Kaydı
-                    try
-                    {
-                        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                        string postData = "{\r\n    \"ProgramAdi\":\"Portal\",\r\n    \"Sirket\":\"" + Convert.ToString(dt.Rows[0]["UyelikIsim"]) + " - " + Convert.ToString(dt.Rows[0]["Ad"]) + " " + Convert.ToString(dt.Rows[0]["Soyad"]) + "\",\r\n    \"KullaniciAdi\":\"" + txtKullaniciAdi + "\",\r\n    \"Parola\":\"" + txtParola + "\"\r\n}";
-                        var url = "https://app.ykyazilim.com.tr/api/YKWebApi/LogKaydet_KullaniciGirisi";
-                        byte[] data = Encoding.UTF8.GetBytes(postData.ToString());
-                        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                        request.KeepAlive = false;
-                        request.ProtocolVersion = HttpVersion.Version10;
-                        request.Method = "POST";
-                        byte[] postBytes = Encoding.UTF8.GetBytes(postData.ToString());
-                        request.ContentType = "application/json; charset=UTF-8";
-                        request.Accept = "application/json";
-                        request.ContentLength = postBytes.Length;
-                        Stream requestStream = request.GetRequestStream();
-                        requestStream.Write(postBytes, 0, postBytes.Length);
-                        requestStream.Close();
-                        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                        string result;
-                        using (StreamReader rdr = new StreamReader(response.GetResponseStream()))
-                        {
-                            result = rdr.ReadToEnd();
-                        }
-                    }
-                    catch
-                    {
-                        ;
-                    }
-                    #endregion
-
                     #region Cookie İşlemleri
 
                     CreateCookie("Isim", Convert.ToString(dt.Rows[0]["Ad"]) + " " + Convert.ToString(dt.Rows[0]["Soyad"]));
@@ -403,7 +372,7 @@ namespace YKPortal.Controllers
                         try
                         {
                             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                            string postData = "{\r\n    \"ProgramAdi\":\"Portal\",\r\n    \"Sirket\":\"" + Convert.ToString(dt.Rows[0]["UyelikIsim"]) + " - " + Convert.ToString(dt.Rows[0]["Ad"]) + " " + Convert.ToString(dt.Rows[0]["Soyad"]) + "\",\r\n    \"KullaniciAdi\":\"" + KullaniciAdi + "\",\r\n    \"Parola\":\"" + Parola + "\"\r\n}";
+                            string postData = "{\r\n    \"ProgramAdi\":\"Portal\",\r\n    \"Sirket\":\"" + Convert.ToString(dt.Rows[0]["UyelikIsim"]) + " - " + Convert.ToString(dt.Rows[0]["Ad"]) + " " + Convert.ToString(dt.Rows[0]["Soyad"]) + "\",\r\n    \"KullaniciAdi\":\"" + KullaniciAdi + "\",\r\n    \"Parola\":\"" + Parola + "\", \"IP\":\""+ Request.UserHostAddress + "\"   \r\n}";
                             var url = "https://app.ykyazilim.com.tr/api/YKWebApi/LogKaydet_KullaniciGirisi";
                             byte[] data = Encoding.UTF8.GetBytes(postData.ToString());
                             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
