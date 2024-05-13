@@ -10,7 +10,7 @@ using YKPortal.Models.Dto;
 
 namespace YKPortal.Controllers
 {
-    public class KullaniciController : Controller
+    public class KullaniciController: Controller
     {
 
         // GET: Kullanici
@@ -36,6 +36,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+            IlListesiniOlustur();
 
             return View();
         }
@@ -109,6 +110,7 @@ namespace YKPortal.Controllers
                 }
             }
 
+            IlListesiniOlustur();
             return View(dt);
         }
 
@@ -117,6 +119,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
+            IlListesiniOlustur();
             var uyelikId = GetCookie("UyelikID");
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_Kullanici";
@@ -218,7 +221,7 @@ namespace YKPortal.Controllers
                 }
 
             }
-
+            IlListesiniOlustur();
             return RedirectToAction("Liste");
         }
 
@@ -423,5 +426,31 @@ namespace YKPortal.Controllers
 
 
         #endregion
+
+        public void IlListesiniOlustur()
+        {
+            // GrupKodu1 Listesi oluşturma 
+            SqlCommand ilCommand = new SqlCommand();
+            ilCommand.CommandText = "p_GrupKoduListesi";
+            ilCommand.CommandType = System.Data.CommandType.StoredProcedure;
+            ilCommand.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+            ilCommand.Parameters.AddWithValue("@Kod", "Il");
+            ilCommand.Parameters.AddWithValue("@AranacakKelime", "");
+
+
+            DataTable ilDataTable = (DataTable)IDVeritabani.Sorgula(ilCommand, SorgulaTuru.Tablo);
+
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
+
+            for (int i = 0; i < ilDataTable.Rows.Count; i++)
+            {
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(ilDataTable.Rows[i]["ID"]);
+                entity.Deger = Convert.ToString(ilDataTable.Rows[i]["Deger"]);
+                entities.Add(entity);
+            }
+            ViewBag.Iller = entities;
+        }
     }
 }

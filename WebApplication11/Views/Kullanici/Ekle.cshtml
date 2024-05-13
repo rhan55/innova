@@ -1,4 +1,5 @@
 ﻿@model System.Data.DataTable
+@using YKPortal.Models.Dto
 @{
     ViewBag.Title = "Kullanıcı Ekle";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,7 +7,7 @@
 
 <!--begin::Form-->
 <form id="kt_modal_add_user_form" class="form" action="@Url.Action("Ekle","Kullanici",null)" method="post" enctype="multipart/form-data">
-   
+
     @if (Model != null)
     {
         if (Model.Rows.Count > 0)
@@ -110,7 +111,7 @@
                 <label class="required fw-semibold fs-6 mb-2">Parola</label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <input type="password" name="Parola" class="form-control  mb-3 mb-lg-0" placeholder="Parola" value="" required/>
+                <input type="password" name="Parola" class="form-control  mb-3 mb-lg-0" placeholder="Parola" value="" required />
                 <!--end::Input-->
             </div>
             <!--end::Input group-->
@@ -167,21 +168,19 @@
             <div class="col-lg-6">
                 <div class="d-flex  ">
                     <div class="d-flex flex-column col-lg-6 pe-3">
-                        <label class="required fw-semibold fs-6 mb-2">İl</label>
+                        <label for="Il" class="required fw-semibold fs-6 mb-2">İl</label>
                         <select name="Il" class="form-select form-select-solid" aria-label="Select example">
-                            <option>Open this select menu</option>
-                            <option value="Antalya">Antalya</option>
+                            @foreach (GrupKoduDto il in ViewBag.Iller)
+                            {
+                                <option value="@il.ID">@il.Deger</option>
+                            }
 
                         </select>
                     </div>
 
                     <div class="d-flex flex-column col-lg-6 ps-3">
-                        <label class="required fw-semibold fs-6 mb-2">İlçe</label>
-                        <select name="Ilce" class="form-select form-select-solid" aria-label="Select example">
-                            <option>Open this select menu</option>
-                            <option value="Muratpaşa">Muratpaşa</option>
-
-                        </select>
+                        <label for="Ilce" class="required fw-semibold fs-6 mb-2">İlçe</label>
+                        <input type="text" id="Ilce" name="Ilce" class="form-control  mb-3 mb-lg-0" placeholder="İlçe" value="" />
                     </div>
                 </div>
             </div>

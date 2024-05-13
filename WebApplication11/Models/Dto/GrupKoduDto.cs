@@ -9,10 +9,16 @@ namespace YKPortal.Models.Dto
 {
     public class GrupKoduDto
     {
-        public string ID { get; set; }
-        public string UyelikID { get; set; }
-        public string Kod { get; set; }
-        public string Deger { get; set; }
+        private string _ID;
+        private string _UyelikID;
+        private string _Kod;
+        private string _Deger;
+
+        public string ID { get { return _ID ?? ""; } set { _ID = value; } }
+        public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; } }
+        public string Kod { get { return _Kod ?? ""; } set { _Kod = value; } }
+        public string Deger { get { return _Deger ?? ""; } set { _Deger = value; } }
+      
 
         public override string ToString()
         {

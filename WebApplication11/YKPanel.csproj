@@ -155,6 +155,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AktivasyonController.cs" />
     <Compile Include="Controllers\CariController.cs" />
+    <Compile Include="Controllers\CariKisiController.cs" />
     <Compile Include="Controllers\KullaniciController.cs" />
     <Compile Include="Controllers\TanimlamalarController.cs" />
     <Compile Include="Controllers\YKController.cs" />
@@ -162,6 +163,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Dto\CariDto.cs" />
+    <Compile Include="Models\Dto\CariKisiDto.cs" />
     <Compile Include="Models\Dto\SonAktivitelerDto.cs" />
     <Compile Include="Models\Dto\UyelikDto.cs" />
     <Compile Include="Models\Dto\GrupKoduDto.cs" />
@@ -2546,6 +2548,9 @@
     <Content Include="Views\Cari\Liste.cshtml" />
     <Content Include="Views\YK\MailGonder.cshtml" />
     <Content Include="Views\Cari\Duzenle.cshtml" />
+    <Content Include="Views\CariKisi\Liste.cshtml" />
+    <Content Include="Views\CariKisi\Ekle.cshtml" />
+    <Content Include="Views\CariKisi\Duzenle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

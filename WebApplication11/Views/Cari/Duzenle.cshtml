@@ -95,35 +95,35 @@
                         </label>
                     </div>
                     <div class="form-group">
-                        <label for="KayitTarihi" class="required form-label">Kayıt Tarihi</label>
+                        <label for="KayitTarihi" class="form-label">Kayıt Tarihi</label>
                         @* Varsayilan gun tarihini cagirdik ve toString ile formatladik. bu format sayesinde input value degerini de atamis olduk *@
                         <input type="date" value="@(DateTime.Parse(Convert.ToString(Model.Rows[0]["KayitTarihi"])).ToString("yyyy-MM-dd"))" name="KayitTarihi" id="KayitTarihi" class="form-control " placeholder="" readonly />
                     </div>
 
                 </div>
                 <div class="col-3">
-                    <label for="Kod" class="required form-label">Kod</label>
+                    <label for="Kod" class=" form-label">Kod</label>
                     <input type="text" name="Kod" id="Kod" value="@(Convert.ToString(Model.Rows[0]["Kod"]))" class="form-control " placeholder="" />
                 </div>
                 <div class="col-9">
-                    <label for="Isim" class="required form-label">Kısa İsim</label>
+                    <label for="Isim" class=" form-label">Kısa İsim</label>
                     <input type="text" name="Isim" id="Isim" value="@(Convert.ToString(Model.Rows[0]["Isim"]))" class="form-control " placeholder="" required />
                 </div>
                 <div class="col-12">
-                    <label for="Unvan" class="required form-label">Unvan</label>
+                    <label for="Unvan" class=" form-label">Unvan</label>
                     <input type="text" name="Unvan" id="Unvan" class="form-control " placeholder="" required value="@(Convert.ToString(Model.Rows[0]["Unvan"]))">
 
                 </div>
                 <div class="col-12">
-                    <label for="Adres" class="required form-label">Adres</label>
+                    <label for="Adres" class=" form-label">Adres</label>
                     <textarea type="text" name="Adres" id="Adres" class="form-control " placeholder="" required>@(Convert.ToString(Model.Rows[0]["Adres"]))</textarea>
                 </div>
                 <div class="col-3">
-                    <label for="Bolge" class="required form-label">Bölge</label>
+                    <label for="Bolge" class=" form-label">Bölge</label>
                     <input type="text" name="Bolge" id="Bolge" value="@(Convert.ToString(Model.Rows[0]["Bolge"]))" class="form-control " placeholder="" />
                 </div>
                 <div class="col-3">
-                    <label for="Ulke" class="required form-label">Ülke</label>
+                    <label for="Ulke" class=" form-label">Ülke</label>
                     <select class="form-select form-select-solid" name="Ulke" id="Ulke" data-control="select2" aria-label="Floating label select example">
                         <option value="">Lütfen Seçim Yapınız</option>
 
@@ -135,7 +135,7 @@
                     </select>
                 </div>
                 <div class="col-3">
-                    <label for="Il" class="required form-label">İl</label>
+                    <label for="Il" class=" form-label">İl</label>
                     <select class="form-select form-select-solid" name="Il" id="Il" data-control="select2"
                             aria-label="Floating label select example">
                         <option value="">Lütfen Seçim Yapınız</option>
@@ -147,7 +147,7 @@
                     </select>
                 </div>
                 <div class="col-3">
-                    <label for="Ilce" class="required form-label">İlçe</label>
+                    <label for="Ilce" class=" form-label">İlçe</label>
                     <input type="text" name="Ilce" id="Ilce" value="@(Convert.ToString(Model.Rows[0]["Ilce"]))" class="form-control " placeholder="" />
                 </div>
 
@@ -156,25 +156,25 @@
 
                 <div class="col-3">
                     <div class="form-group">
-                        <label for="PostaKodu" class="required form-label">Posta Kodu</label>
+                        <label for="PostaKodu" class=" form-label">Posta Kodu</label>
                         <input type="text" name="PostaKodu" id="PostaKodu" value="@(Convert.ToString(Model.Rows[0]["PostaKodu"]))" class="form-control " placeholder="" />
                     </div>
                 </div>
                 <div class="col-3">
                     <div class="form-group">
-                        <label for="TCKimlikNo" class="required form-label">TC No</label>
+                        <label for="TCKimlikNo" class=" form-label">TC No</label>
                         <input type="text" name="TCKimlikNo" id="TCKimlikNo" value="@(Convert.ToString(Model.Rows[0]["TCKimlikNo"]))" class="form-control " placeholder="" />
                     </div>
                 </div>
                 <div class="col-3">
                     <div class="form-group">
-                        <label for="VergiNumarasi" class="required form-label">Vergi Numarası</label>
+                        <label for="VergiNumarasi" class=" form-label">Vergi Numarası</label>
                         <input type="text" name="VergiNumarasi" id="VergiNumarasi" value="@(Convert.ToString(Model.Rows[0]["VergiNumarasi"]))" class="form-control " placeholder="" />
                     </div>
                 </div>
                 <div class="col-3">
                     <div class="form-group">
-                        <label for="VergiDairesi" class="required form-label">Vergi Dairesi</label>
+                        <label for="VergiDairesi" class=" form-label">Vergi Dairesi</label>
                         <input type="text" name="VergiDairesi" id="VergiDairesi" value="@(Convert.ToString(Model.Rows[0]["VergiDairesi"]))" class="form-control " placeholder="" />
                     </div>
                 </div>
@@ -258,13 +258,13 @@
 
                 <div class="col-2">
                     <div class="form-group">
-                        <label for="DovizID" class="required form-label">Döviz Id</label>
+                        <label for="DovizID" class=" form-label">Döviz Id</label>
                         <input type="text" name="DovizID" id="DovizID" class="form-control " placeholder="" value="@(Convert.ToString(Model.Rows[0]["DovizID"]))" />
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="form-group">
-                        <label for="VadeGunu" class="required form-label">Vade Günü</label>
+                        <label for="VadeGunu" class=" form-label">Vade Günü</label>
                         <input type="text" name="VadeGunu" id="VadeGunu" class="form-control " placeholder="" value="@(Convert.ToString(Model.Rows[0]["VadeGunu"]))" />
                     </div>
                 </div>
@@ -278,19 +278,19 @@
 
                 <div class="col-2">
                     <div class="form-group me-5">
-                        <label for="KilitAciklamasi" class="required form-label">KilitAciklamasi</label>
+                        <label for="KilitAciklamasi" class=" form-label">KilitAciklamasi</label>
                         <input type="text" name="KilitAciklamasi" id="KilitAciklamasi" class="form-control " placeholder="" value="@(Convert.ToString(Model.Rows[0]["KilitAciklamasi"]))" />
                     </div>
                 </div>
 
                 <div class="col-2">
-                    <label for="Iskonto1" class="required form-label">Iskonto1</label>
+                    <label for="Iskonto1" class=" form-label">Iskonto1</label>
                     <input type="text" class="form-control " name="Iskonto1" id="Iskonto1" step="any" value="@(Convert.ToDecimal(Model.Rows[0]["Iskonto1"]).ToString("F2"))" />
 
                 </div>
                 <div class="col-2">
                     <div class="form-group">
-                        <label for="ListeFiyat" class="required form-label">ListeFiyat</label>
+                        <label for="ListeFiyat" class=" form-label">ListeFiyat</label>
                         <input type="text" name="ListeFiyat" id="ListeFiyat" class="form-control " placeholder="" step="any" />
                     </div>
                 </div>
@@ -298,7 +298,7 @@
 
                 <div class="col-12">
                     <div class="form-group">
-                        <label for="MuhasebeKodu" class="required form-label"> Muhasebe Kodu </label>
+                        <label for="MuhasebeKodu" class=" form-label"> Muhasebe Kodu </label>
                         <input type="text" name="MuhasebeKodu" id="MuhasebeKodu" class="form-control " placeholder="" value="@(Convert.ToString(Model.Rows[0]["MuhasebeKodu"]))" />
                     </div>
                 </div>
@@ -315,39 +315,39 @@
                 </div>
                 <div class="col-4">
                     <div class="form-group">
-                        <label for="Limit" class="required form-label">Limit</label>
+                        <label for="Limit" class=" form-label">Limit</label>
                         <input type="text" name="Limit" class="form-control " placeholder="" id="Limit" step="any" value="@(Convert.ToDecimal(Model.Rows[0]["Limit"]).ToString("F2"))" />
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
-                        <label for="RiskAciklama" class="required form-label"> RiskAciklama </label>
+                        <label for="RiskAciklama" class=" form-label"> RiskAciklama </label>
                         <input type="text" name="RiskAciklama" id="RiskAciklama" class="form-control " placeholder="" value="@(Convert.ToString(Model.Rows[0]["RiskAciklama"]))" />
                     </div>
                 </div>
 
                 <div class="col-4">
                     <div class="form-group">
-                        <label for="exampleFormControlInput1" class="required form-label">PlasiyerID </label>
+                        <label for="exampleFormControlInput1" class=" form-label">PlasiyerID </label>
                         <input type="text" name="PlasiyerID" id="PlasiyerID" class="form-control " placeholder="" value="@(Convert.ToString(Model.Rows[0]["PlasiyerID"]))" />
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
-                        <label for="AnaCariID" class="required form-label"> AnaCariID </label>
+                        <label for="AnaCariID" class=" form-label"> AnaCariID </label>
                         <input type="text" name="AnaCariID" id="AnaCariID" class="form-control " placeholder="" value="@(Convert.ToString(Model.Rows[0]["AnaCariID"]))" />
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="form-group">
-                        <label for="TeslimCariID" class="required form-label">TeslimCariID</label>
+                        <label for="TeslimCariID" class=" form-label">TeslimCariID</label>
                         <input type="text" name="TeslimCariID" id="TeslimCariID" class="form-control " placeholder="" value="@(Convert.ToString(Model.Rows[0]["TeslimCariID"]))" />
                     </div>
                 </div>
 
                 <div class="col-3">
                     <div class="form-group ">
-                        <label for="Telefon1" class="form-label required">Telefon 1</label>
+                        <label for="Telefon1" class="form-label ">Telefon 1</label>
                         <input type="text" name="Telefon1" class="form-control " id="Telefon1" value="@(Convert.ToString(Model.Rows[0]["Telefon1"]))" />
                     </div>
                 </div>
@@ -365,27 +365,27 @@
                 </div>
                 <div class="col-3">
                     <div class="form-group">
-                        <label for="CepTelefonu" class="form-label required">Cep Telefonu</label>
+                        <label for="CepTelefonu" class="form-label ">Cep Telefonu</label>
                         <input type="text" name="CepTelefonu" id="CepTelefonu" class="form-control " value="@(Convert.ToString(Model.Rows[0]["CepTelefonu"]))" />
                     </div>
                 </div>
 
                 <div class="col-3">
                     <div class="form-group">
-                        <label for="KullaniciAdi" class="required form-label"> Kullanıcı Adı</label>
+                        <label for="KullaniciAdi" class=" form-label"> Kullanıcı Adı</label>
                         <input type="text" name="KullaniciAdi" id="KullaniciAdi" value="@(Convert.ToString(Model.Rows[0]["KullaniciAdi"]))" class="form-control " placeholder="" required />
                     </div>
                 </div>
                 <div class="col-3">
                     <div class="form-group">
-                        <label for="Parola" class="required form-label">Parola</label>
+                        <label for="Parola" class=" form-label">Parola</label>
                         <input type="password" name="Parola" id="Parola" value="@(Convert.ToString(Model.Rows[0]["Parola"]))" class="form-control " placeholder="" required />
                     </div>
                 </div>
 
                 <div class="col-3">
                     <div class="form-group">
-                        <label for="EMail" class="form-label required">Email</label>
+                        <label for="EMail" class="form-label ">Email</label>
                         <input type="text" name="EMail" class="form-control " id="EMail" value="@(Convert.ToString(Model.Rows[0]["EMail"]))" />
                     </div>
                 </div>

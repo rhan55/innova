@@ -1,0 +1,96 @@
+﻿@using YKPortal.Models.Dto
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Duzenle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--begin::Form-->
+<form id="kt_modal_add_user_form" class="form" action="@Url.Action("Duzenle","CariKisi",null)" method="post" enctype="multipart/form-data">
+
+    <input type="hidden" name="ID" value="@ViewBag.ID" />
+    <input type="hidden" name="CariID" value="@ViewBag.CariID" />
+    <!--begin::Scroll-->
+    <div class="d-flex flex-column scroll-y px-5 px-lg-10 container mt-10">
+
+        <!--begin::Row Input group-->
+        <div class="row mb-7">
+            <!--begin::Input group-->
+            <div class="col-lg-6">
+                <!--begin::Label-->
+                <label for="Isim" class="fw-semibold fs-6 mb-2">Cari Kişi İsim</label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input type="text" id="Isim" name="Isim" class="form-control  mb-3 mb-lg-0" value="@(Convert.ToString(Model.Rows[0]["Isim"]))" />
+
+                <!--end::Input-->
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="col-lg-6">
+                <!--begin::Label-->
+                <label for="Email " class=" fw-semibold fs-6 mb-2">Email</label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input type="email" name="Email" id="Email" class="form-control  mb-3 mb-lg-0" placeholder="Email " value="@(Convert.ToString(Model.Rows[0]["Email"]))" />
+                <!--end::Input-->
+            </div>
+            <!--end::Input group-->
+        </div>
+        <!--begin::Row Input group-->
+        <!--begin::Row Input group-->
+        <div class="row mb-7">
+            <!--begin::Input group-->
+            <div class="col-lg-6">
+                <div>
+                    <!--begin::Label-->
+                    <label for="Gorev" class="fw-semibold fs-6 mb-2">Görev</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input type="text" name="Gorev" id="Gorev" class="form-control  mb-3 mb-lg-0" placeholder="Gorev" value="@(Convert.ToString(Model.Rows[0]["Gorev"]))" />
+                    <!--end::Input-->
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div>
+                    <!--begin::Label-->
+                    <label for="Telefon" class="fw-semibold fs-6 mb-2">Telefon</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input type="text" name="Telefon" id="Telefon" class="form-control  mb-3 mb-lg-0" placeholder="Telefon" value="@(Convert.ToString(Model.Rows[0]["Telefon"]))" />
+                    <!--end::Input-->
+                </div>
+            </div>
+
+        </div>
+        <!--begin::Row Input group-->
+        <!--begin::Row Input group-->
+        <div class="row mb-7">
+            <!--begin::Input group-->
+            <div class="col-lg-12">
+                <div class="form-check">
+                    <input class="form-check-input" name="Aktif" type="checkbox" value="true" id="Aktif" checked value="@(Convert.ToString(Model.Rows[0]["Aktif"]))" />
+                    <label class="form-check-label user-select-none cursor-pointer" for="Aktif">
+                        Aktif
+                    </label>
+                </div>
+            </div>
+            <!--end::Input group-->
+        </div>
+
+    </div>
+    <!--end::Scroll-->
+    <!--begin::Actions-->
+    <div class="text-center pt-10">
+        <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
+        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet">
+            <span class="indicator-label">Kaydet</span>
+            <span class="indicator-progress">
+                Lütfen Bekleyin...
+                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+        </button>
+    </div>
+    <!--end::Actions-->
+</form>
+<!--end::Form-->
