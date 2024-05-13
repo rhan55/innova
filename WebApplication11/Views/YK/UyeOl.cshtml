@@ -8,6 +8,8 @@
     {
         ViewBag.Form = new YKPortal.Models.Dto.UyelikDto();
     }
+
+    string Bilgilendirme = Convert.ToString(ViewBag.Mesaj);
 }
 
 <!DOCTYPE html>
@@ -70,232 +72,241 @@
                 <div class="d-flex flex-center flex-column flex-lg-row-fluid">
                     <!--begin::Wrapper-->
                     <div class="w-lg-700px p-10">
-                        <form id="kt_modal_add_user_form" class="form w-100 Uye-Ol-Form" action="@Url.Action("UyeOl", "YK", null)" method="post" enctype="multipart/form-data">
-                            <!--begin::Heading-->
-                            <div class="text-center mb-11">
-                                <!--begin::Title-->
-                                <h1 class="text-gray-900 fw-bolder mb-3">Yeni Üyelik</h1>
-                                <!--end::Title-->
 
-                            </div>
-                            <!--begin::Heading-->
+                        @if (Bilgilendirme != null && Bilgilendirme != "")
+                        {
+                            <h3>@Bilgilendirme</h3>
+                            <a href="~/YK/Giris" class="btn btn-light ms-3" data-kt-users-modal-action="cancel">Giriş Yap</a>
 
-                            @if (Model != null)
-                            {
-                                if (Model.Rows.Count > 0)
+                        }
+                        else
+                        {
+                            <form id="kt_modal_add_user_form" class="form w-100 Uye-Ol-Form" action="@Url.Action("UyeOl", "YK", null)" method="post" enctype="multipart/form-data">
+                                <!--begin::Heading-->
+                                <div class="text-center mb-11">
+                                    <!--begin::Title-->
+                                    <h1 class="text-gray-900 fw-bolder mb-3">Yeni Üyelik</h1>
+                                    <!--end::Title-->
+
+                                </div>
+                                <!--begin::Heading-->
+
+                                @if (Model != null)
                                 {
-                                    string ID = Convert.ToString(Model.Rows[0]["ID"]);
-                                    string Bilgi = Convert.ToString(Model.Rows[0]["Bilgi"]);
-                                    if (ID == "0")
+                                    if (Model.Rows.Count > 0)
                                     {
-                                        <!--begin::Alert-->
-                                        <div class="alert alert-danger d-flex align-items-center p-5">
-                                            <!--begin::Icon-->
-                                            <i class="ki-duotone ki-shield-tick fs-2hx text-danger me-4"><span class="path1"></span><span class="path2"></span></i>
-                                            <!--end::Icon-->
-                                            <!--begin::Wrapper-->
-                                            <div class="d-flex flex-column">
-                                                <!--begin::Content-->
-                                                <span>@Bilgi</span>
-                                                <!--end::Content-->
+                                        string ID = Convert.ToString(Model.Rows[0]["ID"]);
+                                        string Bilgi = Convert.ToString(Model.Rows[0]["Bilgi"]);
+                                        if (ID == "0")
+                                        {
+                                            <!--begin::Alert-->
+                                            <div class="alert alert-danger d-flex align-items-center p-5">
+                                                <!--begin::Icon-->
+                                                <i class="ki-duotone ki-shield-tick fs-2hx text-danger me-4"><span class="path1"></span><span class="path2"></span></i>
+                                                <!--end::Icon-->
+                                                <!--begin::Wrapper-->
+                                                <div class="d-flex flex-column">
+                                                    <!--begin::Content-->
+                                                    <span>@Bilgi</span>
+                                                    <!--end::Content-->
+                                                </div>
+                                                <!--end::Wrapper-->
                                             </div>
-                                            <!--end::Wrapper-->
-                                        </div>
-                                        <!--end::Alert-->
+                                            <!--end::Alert-->
+                                        }
                                     }
                                 }
-                            }
 
-                            <!--begin::Scroll-->
-                            <div class="d-flex flex-column scroll-y px-5 px-lg-10 container ">
-                                <!--begin::Row Input group-->
-                                <div class="row mb-6">
-                                    <input type="hidden" name="ID" value="" />
-                                    <!--begin::Input group-->
-                                    <div class="col-lg-6">
-                                        <!--begin::Label-->
-                                        <label class="required fw-semibold fs-6 mb-2">Firma Kısa Adı</label>
-                                        <!--end::Label-->
-                                        <!--begin::Input-->
-                                        <input type="text" name="Isim" class="form-control  mb-3 mb-lg-0" placeholder="Firma Kısa Adı" value="@ViewBag.Form.Isim" required />
-
-                                        <!--end::Input-->
-                                    </div>
-                                    <!--end::Input group-->
-                                    <!--begin::Input group-->
-                                    <div class="col-lg-6">
-                                        <!--begin::Label-->
-                                        <label class="required fw-semibold fs-6 mb-2">Ünvan</label>
-                                        <!--end::Label-->
-                                        <!--begin::Input-->
-                                        <input type="text" name="Unvan" class="form-control  mb-3 mb-lg-0" placeholder="Ünvan" value="@ViewBag.Form.Unvan" required />
-
-                                        <!--end::Input-->
-
-                                    </div>
-                                    <!--end::Input group-->
-                                </div>
-                                <!--begin::Row Input group-->
-                                <!--begin::Row Input group-->
-                                <div class="row mb-6">
-                                    <!--begin::Input group-->
-                                    <div class="col-lg-6  ">
-                                        <div>
+                                <!--begin::Scroll-->
+                                <div class="d-flex flex-column scroll-y px-5 px-lg-10 container ">
+                                    <!--begin::Row Input group-->
+                                    <div class="row mb-6">
+                                        <input type="hidden" name="ID" value="" />
+                                        <!--begin::Input group-->
+                                        <div class="col-lg-6">
                                             <!--begin::Label-->
-                                            <label class="required fw-semibold fs-6 mb-2">E-Mail/Kullanıcı Adı</label>
+                                            <label class="required fw-semibold fs-6 mb-2">Firma Kısa Adı</label>
                                             <!--end::Label-->
                                             <!--begin::Input-->
-                                            <input type="email" name="EMail" class=" Inputmask form-control  mb-3 mb-lg-0" placeholder="EMail" value="@ViewBag.Form.EMail" required />
+                                            <input type="text" name="Isim" class="form-control  mb-3 mb-lg-0" placeholder="Firma Kısa Adı" value="@ViewBag.Form.Isim" required />
+
+                                            <!--end::Input-->
+                                        </div>
+                                        <!--end::Input group-->
+                                        <!--begin::Input group-->
+                                        <div class="col-lg-6">
+                                            <!--begin::Label-->
+                                            <label class="required fw-semibold fs-6 mb-2">Ünvan</label>
+                                            <!--end::Label-->
+                                            <!--begin::Input-->
+                                            <input type="text" name="Unvan" class="form-control  mb-3 mb-lg-0" placeholder="Ünvan" value="@ViewBag.Form.Unvan" required />
+
+                                            <!--end::Input-->
+
+                                        </div>
+                                        <!--end::Input group-->
+                                    </div>
+                                    <!--begin::Row Input group-->
+                                    <!--begin::Row Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Input group-->
+                                        <div class="col-lg-6  ">
+                                            <div>
+                                                <!--begin::Label-->
+                                                <label class="required fw-semibold fs-6 mb-2">E-Mail/Kullanıcı Adı</label>
+                                                <!--end::Label-->
+                                                <!--begin::Input-->
+                                                <input type="email" name="EMail" class=" Inputmask form-control  mb-3 mb-lg-0" placeholder="EMail" value="@ViewBag.Form.EMail" required />
+                                                <!--end::Input-->
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 ">
+                                            <!--begin::Label-->
+                                            <label class="required fw-semibold fs-6 mb-2">Parola</label>
+                                            <!--end::Label-->
+                                            <!--begin::Input-->
+                                            <input type="password" name="Parola" class="form-control  mb-3 mb-lg-0" placeholder="Parola" value="@ViewBag.Form.Parola" required />
                                             <!--end::Input-->
 
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 ">
-                                        <!--begin::Label-->
-                                        <label class="required fw-semibold fs-6 mb-2">Parola</label>
-                                        <!--end::Label-->
-                                        <!--begin::Input-->
-                                        <input type="password" name="Parola" class="form-control  mb-3 mb-lg-0" placeholder="Parola" value="" required />
-                                        <!--end::Input-->
+                                    <!--begin::Row Input group-->
+                                    <!--begin::Row Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Input group-->
+                                        <div class="col-lg-6">
+                                            <!--begin::Label-->
+                                            <label class="required fw-semibold fs-6 mb-2">Ad</label>
+                                            <!--end::Label-->
+                                            <!--begin::Input-->
+                                            <input class="form-control " name="Ad" placeholder="Ad" id="exampleFormControlTextarea1"  value="@ViewBag.Form.Ad"required />
 
-                                    </div>
-                                </div>
-                                <!--begin::Row Input group-->
-                                <!--begin::Row Input group-->
-                                <div class="row mb-6">
-                                    <!--begin::Input group-->
-                                    <div class="col-lg-6">
-                                        <!--begin::Label-->
-                                        <label class="required fw-semibold fs-6 mb-2">Ad</label>
-                                        <!--end::Label-->
-                                        <!--begin::Input-->
-                                        <input class="form-control " name="Ad" placeholder="Ad" id="exampleFormControlTextarea1" required />
+                                            <!--end::Input-->
+                                        </div>
+                                        <!--end::Input group-->
+                                        <!--begin::Input group-->
+                                        <div class="col-lg-6">
+                                            <!--begin::Label-->
+                                            <label class="required fw-semibold fs-6 mb-2">Soyad</label>
+                                            <!--end::Label-->
+                                            <!--begin::Input-->
+                                            <input class="form-control " name="Soyad" placeholder="Soyad" id="exampleFormControlTextarea1" value="@ViewBag.Form.Soyad" required />
 
-                                        <!--end::Input-->
-                                    </div>
-                                    <!--end::Input group-->
-                                    <!--begin::Input group-->
-                                    <div class="col-lg-6">
-                                        <!--begin::Label-->
-                                        <label class="required fw-semibold fs-6 mb-2">Soyad</label>
-                                        <!--end::Label-->
-                                        <!--begin::Input-->
-                                        <input class="form-control " name="Soyad" placeholder="Soyad" id="exampleFormControlTextarea1" required />
-
-                                        <!--end::Input-->
+                                            <!--end::Input-->
+                                        </div>
+                                        <!--end::Input group-->
+                                        <!--begin::Input group-->
                                     </div>
                                     <!--end::Input group-->
-                                    <!--begin::Input group-->
-                                </div>
-                                <!--end::Input group-->
-                                <!--begin::Row Input group-->
-                                <div class="row mb-6">
-                                    <!--begin::Input group-->
-                                    <div class="col-lg-6">
-                                        <!--begin::Label-->
-                                        <label class="required fw-semibold fs-6 mb-2">Vergi Dairesi</label>
-                                        <!--end::Label-->
-                                        <!--begin::Input-->
-                                        <input class="form-control " name="VergiDairesi" placeholder="VergiDairesi" id="exampleFormControlTextarea1" required />
+                                    <!--begin::Row Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Input group-->
+                                        <div class="col-lg-6">
+                                            <!--begin::Label-->
+                                            <label class="required fw-semibold fs-6 mb-2">Vergi Dairesi</label>
+                                            <!--end::Label-->
+                                            <!--begin::Input-->
+                                            <input class="form-control " name="VergiDairesi" placeholder="VergiDairesi" id="exampleFormControlTextarea1" value="@ViewBag.Form.VergiDairesi" required />
 
-                                        <!--end::Input-->
-                                    </div>
-                                    <!--end::Input group-->
-                                    <!--begin::Input group-->
-                                    <div class="col-lg-6">
-                                        <!--begin::Label-->
-                                        <label class="required fw-semibold fs-6 mb-2">Vergi Numarası</label>
-                                        <!--end::Label-->
-                                        <!--begin::Input-->
-                                        <input class="form-control  @(ViewData.ModelState.ContainsKey("VergiNumarasi") ? "is-invalid" : "")" name="VergiNumarasi" placeholder="Vergi Numarası" id="exampleFormControlTextarea1" required value="" />
-                                        <!--end::Input-->
-                                        @if (ViewData.ModelState.ContainsKey("VergiNumarasi") && ViewData.ModelState["VergiNumarasi"].Errors.Count() > 0)
-                                        {
-                                            foreach (var error in ViewData.ModelState["VergiNumarasi"].Errors)
+                                            <!--end::Input-->
+                                        </div>
+                                        <!--end::Input group-->
+                                        <!--begin::Input group-->
+                                        <div class="col-lg-6">
+                                            <!--begin::Label-->
+                                            <label class="required fw-semibold fs-6 mb-2">Vergi Numarası</label>
+                                            <!--end::Label-->
+                                            <!--begin::Input-->
+                                            <input class="form-control  @(ViewData.ModelState.ContainsKey("VergiNumarasi") ? "is-invalid" : "")" name="VergiNumarasi" placeholder="Vergi Numarası" id="exampleFormControlTextarea1" required value="@ViewBag.Form.VergiNumarasi" />
+                                            <!--end::Input-->
+                                            @if (ViewData.ModelState.ContainsKey("VergiNumarasi") && ViewData.ModelState["VergiNumarasi"].Errors.Count() > 0)
                                             {
-                                                <div class="">@error.ErrorMessage</div>
-                                            }
-                                        }
-                                    </div>
-                                    <!--end::Input group-->
-                                    <!--begin::Input group-->
-                                </div>
-                                <!--end::Input group-->
-                                <!--begin::Row Input group-->
-                                <div class="row mb-6">
-                                    <!--begin::Input group-->
-                                    <div class="col-lg-6">
-                                        <!--begin::Label-->
-                                        <label class="required fw-semibold fs-6 mb-2">İletişim Numarası</label>
-                                        <!--end::Label-->
-                                        <!--begin::Input-->
-                                        <input type="text" class="form-control  @(ViewData.ModelState.ContainsKey("Iletisim") ? "is-invalid" : "")" name="Iletisim" placeholder="İletişim Numarası" id="exampleFormControlTextarea1" required />
-                                        <!--end::Input-->
-                                        @if (ViewData.ModelState.ContainsKey("Iletisim") && ViewData.ModelState["Iletisim"].Errors.Count() > 0)
-                                        {
-                                            foreach (var error in ViewData.ModelState["Iletisim"].Errors)
-                                            {
-                                                <div class="">@error.ErrorMessage</div>
-                                            }
-                                        }
-                                    </div>
-                                    <!--end::Input group-->
-                                    <!--begin::Input group-->
-                                    <div class="col-lg-6">
-                                        <!--begin::Label-->
-                                        <label class="required fw-semibold fs-6 mb-2">Adres</label>
-                                        <!--end::Label-->
-                                        <!--begin::Input-->
-                                        <input class="form-control " name="Adres" placeholder="Adres" id="exampleFormControlTextarea1" required />
-
-                                        <!--end::Input-->
-                                    </div>
-                                    <!--end::Input group-->
-                                    <!--begin::Input group-->
-                                </div>
-                                <!--end::Input group-->
-                                <!--begin::Row Input group-->
-                                <div class="row">
-                                    <!--begin::Input group-->
-                                    <div class="col-lg-6">
-                                        <div class="d-flex flex-column col-lg-12">
-                                            <label class="required fw-semibold fs-6 mb-2">İl</label>
-                                            <select name="Il" class="form-select form-select-solid" aria-label="Select example" required>
-                                                @foreach (var il in ViewBag.Iller)
+                                                foreach (var error in ViewData.ModelState["VergiNumarasi"].Errors)
                                                 {
-                                                    <option value="@il">@il</option>
+                                                    <div class="">@error.ErrorMessage</div>
                                                 }
-                                            </select>
-
+                                            }
                                         </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="d-flex flex-column col-lg-12">
-                                            <label class="required fw-semibold fs-6 mb-2">İlçe</label>
-                                            <input type="text" class="form-control  " name="Ilce" placeholder="İletişim Numarası" id="exampleFormControlTextarea1" required />
-                                        </div>
+                                        <!--end::Input group-->
+                                        <!--begin::Input group-->
                                     </div>
                                     <!--end::Input group-->
+                                    <!--begin::Row Input group-->
+                                    <div class="row mb-6">
+                                        <!--begin::Input group-->
+                                        <div class="col-lg-6">
+                                            <!--begin::Label-->
+                                            <label class="required fw-semibold fs-6 mb-2">İletişim Numarası</label>
+                                            <!--end::Label-->
+                                            <!--begin::Input-->
+                                            <input type="text" class="form-control  @(ViewData.ModelState.ContainsKey("Iletisim") ? "is-invalid" : "")" name="Iletisim" placeholder="İletişim Numarası" id="exampleFormControlTextarea1" value="@ViewBag.Form.Iletisim" required />
+                                            <!--end::Input-->
+                                            @if (ViewData.ModelState.ContainsKey("Iletisim") && ViewData.ModelState["Iletisim"].Errors.Count() > 0)
+                                            {
+                                                foreach (var error in ViewData.ModelState["Iletisim"].Errors)
+                                                {
+                                                    <div class="">@error.ErrorMessage</div>
+                                                }
+                                            }
+                                        </div>
+                                        <!--end::Input group-->
+                                        <!--begin::Input group-->
+                                        <div class="col-lg-6">
+                                            <!--begin::Label-->
+                                            <label class="required fw-semibold fs-6 mb-2">Adres</label>
+                                            <!--end::Label-->
+                                            <!--begin::Input-->
+                                            <input class="form-control " name="Adres" placeholder="Adres" id="exampleFormControlTextarea1" value="@ViewBag.Form.Adres" required />
 
+                                            <!--end::Input-->
+                                        </div>
+                                        <!--end::Input group-->
+                                        <!--begin::Input group-->
+                                    </div>
+                                    <!--end::Input group-->
+                                    <!--begin::Row Input group-->
+                                    <div class="row">
+                                        <!--begin::Input group-->
+                                        <div class="col-lg-6">
+                                            <div class="d-flex flex-column col-lg-12">
+                                                <label class="required fw-semibold fs-6 mb-2">İl</label>
+                                                <select name="Il" class="form-select form-select-solid" aria-label="Select example" required>
+                                                    @foreach (var il in ViewBag.Iller)
+                                                    {
+                                                        <option value="@il" @(ViewBag.Form.Il == il ? "selected" : "")>@il</option>
+                                                    }
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="d-flex flex-column col-lg-12">
+                                                <label class="required fw-semibold fs-6 mb-2">İlçe</label>
+                                                <input type="text" class="form-control  " name="Ilce" placeholder="İletişim Numarası" id="exampleFormControlTextarea1" value="@ViewBag.Form.Ilce" required />
+                                            </div>
+                                        </div>
+                                        <!--end::Input group-->
+
+                                    </div>
+                                    <!--end::Input group-->
                                 </div>
-                                <!--end::Input group-->
-                            </div>
-                            <!--begin::Actions-->
-                            <div class="text-center pt-10">
+                                <!--begin::Actions-->
+                                <div class="text-center pt-10">
 
-                                <button type="submit" class="btn btn-primary ms-3 ps-8 pe-8" data-kt-users-modal-action="UyeOl">
-                                    <span class="indicator-label">Üye Ol</span>
-                                    <span class="indicator-progress">
-                                        Lütfen Bekleyin...
-                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                                    </span>
-                                </button>
-                                <a href="~/YK/Giris" class="btn btn-light ms-3" data-kt-users-modal-action="cancel">Giriş Yap</a>
-                            </div>
+                                    <button type="submit" class="btn btn-primary ms-3 ps-8 pe-8" data-kt-users-modal-action="UyeOl">
+                                        <span class="indicator-label">Üye Ol</span>
+                                        <span class="indicator-progress">
+                                            Lütfen Bekleyin...
+                                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                        </span>
+                                    </button>
+                                    <a href="~/YK/Giris" class="btn btn-light ms-3" data-kt-users-modal-action="cancel">Giriş Yap</a>
+                                </div>
 
-                            <!--end::Actions-->
-                        </form>
-
+                                <!--end::Actions-->
+                            </form>
+                        }
                     </div>
                     <!--end::Scroll-->
                 </div>

@@ -223,12 +223,6 @@ namespace YKPortal.Controllers
 
             IlListesiniOlustur();
 
-            if (!ModelState.IsValid)
-            {
-                ViewBag.Form = uyelikDto;
-                return View();
-            }
-
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_UyelikKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -239,19 +233,43 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@VergiNumarasi", uyelikDto.VergiNumarasi);
             cmd.Parameters.AddWithValue("@VergiDairesi", uyelikDto.VergiDairesi);
             cmd.Parameters.AddWithValue("@Adres", uyelikDto.Adres);
-            cmd.Parameters.AddWithValue("@Il", uyelikDto.Il);
-            cmd.Parameters.AddWithValue("@Ilce", uyelikDto.Ilce);
             cmd.Parameters.AddWithValue("@EMail", uyelikDto.EMail);
-            cmd.Parameters.AddWithValue("@Ad", uyelikDto.Ad);
-            cmd.Parameters.AddWithValue("@Soyad", uyelikDto.Soyad);
-            cmd.Parameters.AddWithValue("@Parola", uyelikDto.Parola);
             cmd.Parameters.AddWithValue("@Iletisim", uyelikDto.Iletisim);
             cmd.Parameters.AddWithValue("@Kullanici", "");
             cmd.Parameters.AddWithValue("@UyelikBaslangicTarihi", DateTime.Now);
             cmd.Parameters.AddWithValue("@UyelikBitisTarihi", DateTime.Now.AddMonths(1));
             cmd.Parameters.AddWithValue("@ApiUrl", "http://api.ykyazilim.com.tr/api/");
-
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            if (dt.Rows.Count > 0 && Convert.ToString(dt.Rows[0]["ID"]).Length > 1)
+            {
+                cmd.Parameters.Clear();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "p_KullaniciKaydet";
+                cmd.Parameters.AddWithValue("@ID", "");
+                cmd.Parameters.AddWithValue("@UyelikID", Convert.ToString(dt.Rows[0]["ID"]));
+                cmd.Parameters.AddWithValue("@KullaniciAdi", uyelikDto.EMail);
+                cmd.Parameters.AddWithValue("@Parola", uyelikDto.Parola);
+                cmd.Parameters.AddWithValue("@Ad", uyelikDto.Ad);
+                cmd.Parameters.AddWithValue("@Soyad", uyelikDto.Soyad);
+                cmd.Parameters.AddWithValue("@Aktif", true);
+                cmd.Parameters.AddWithValue("@Telefon", uyelikDto.Iletisim);
+                cmd.Parameters.AddWithValue("@Adres", uyelikDto.Adres);
+                cmd.Parameters.AddWithValue("@Il", uyelikDto.Il);
+                cmd.Parameters.AddWithValue("@Ilce", uyelikDto.Ilce);
+                cmd.Parameters.AddWithValue("@Aciklama1", "");
+                cmd.Parameters.AddWithValue("@Aciklama2", "");
+                cmd.Parameters.AddWithValue("@Aciklama3", "");
+                cmd.Parameters.AddWithValue("@Kullanici", "");
+                cmd.Parameters.AddWithValue("@Resim", "");
+                dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                if (dt.Rows.Count > 0 && Convert.ToString(dt.Rows[0]["ID"]).Length > 0)
+                {
+                    ViewBag.Mesaj = "Üyeliğiniz başarıyla oluşturuldu, lütfen e-mail adresinizi kontrol ederek kullanıcınızı onaylayınız.";
+                }
+            }
+
+            ViewBag.Form = uyelikDto;
+
             return View(dt);
         }
 
@@ -372,7 +390,7 @@ namespace YKPortal.Controllers
                         try
                         {
                             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                            string postData = "{\r\n    \"ProgramAdi\":\"Portal\",\r\n    \"Sirket\":\"" + Convert.ToString(dt.Rows[0]["UyelikIsim"]) + " - " + Convert.ToString(dt.Rows[0]["Ad"]) + " " + Convert.ToString(dt.Rows[0]["Soyad"]) + "\",\r\n    \"KullaniciAdi\":\"" + KullaniciAdi + "\",\r\n    \"Parola\":\"" + Parola + "\", \"IP\":\""+ Request.UserHostAddress + "\"   \r\n}";
+                            string postData = "{\r\n    \"ProgramAdi\":\"Portal\",\r\n    \"Sirket\":\"" + Convert.ToString(dt.Rows[0]["UyelikIsim"]) + " - " + Convert.ToString(dt.Rows[0]["Ad"]) + " " + Convert.ToString(dt.Rows[0]["Soyad"]) + "\",\r\n    \"KullaniciAdi\":\"" + KullaniciAdi + "\",\r\n    \"Parola\":\"" + Parola + "\", \"IP\":\"" + Request.UserHostAddress + "\"   \r\n}";
                             var url = "https://app.ykyazilim.com.tr/api/YKWebApi/LogKaydet_KullaniciGirisi";
                             byte[] data = Encoding.UTF8.GetBytes(postData.ToString());
                             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
