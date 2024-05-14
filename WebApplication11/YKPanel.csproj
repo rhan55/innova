@@ -157,6 +157,7 @@
     <Compile Include="Controllers\CariController.cs" />
     <Compile Include="Controllers\CariKisiController.cs" />
     <Compile Include="Controllers\KullaniciController.cs" />
+    <Compile Include="Controllers\SatisPersoneliController.cs" />
     <Compile Include="Controllers\TanimlamalarController.cs" />
     <Compile Include="Controllers\YKController.cs" />
     <Compile Include="Global.asax.cs">
@@ -164,6 +165,7 @@
     </Compile>
     <Compile Include="Models\Dto\CariDto.cs" />
     <Compile Include="Models\Dto\CariKisiDto.cs" />
+    <Compile Include="Models\Dto\SatisPersonelleri.cs" />
     <Compile Include="Models\Dto\SonAktivitelerDto.cs" />
     <Compile Include="Models\Dto\UyelikDto.cs" />
     <Compile Include="Models\Dto\GrupKoduDto.cs" />
@@ -2546,11 +2548,14 @@
     <Content Include="Views\YK\UyeOl.cshtml" />
     <Content Include="Views\Cari\Ekle.cshtml" />
     <Content Include="Views\Cari\Liste.cshtml" />
-    <Content Include="Views\YK\MailGonder.cshtml" />
+    <Content Include="Views\YK\SifremiUnuttum.cshtml" />
     <Content Include="Views\Cari\Duzenle.cshtml" />
     <Content Include="Views\CariKisi\Liste.cshtml" />
     <Content Include="Views\CariKisi\Ekle.cshtml" />
     <Content Include="Views\CariKisi\Duzenle.cshtml" />
+    <Content Include="Views\SatisPersoneli\Ekle.cshtml" />
+    <Content Include="Views\SatisPersoneli\Duzenle.cshtml" />
+    <Content Include="Views\SatisPersoneli\Liste.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

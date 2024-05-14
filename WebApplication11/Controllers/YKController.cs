@@ -102,44 +102,57 @@ namespace YKPortal.Controllers
         }
 
 
-        //[HttpGet]
-        // public ActionResult MailGonder()
-        // {
-        // SqlCommand cmd = new SqlCommand();
-        //  cmd.CommandText = "p_KullaniciAdiBul";
-        //  cmd.CommandType = System.Data.CommandType.StoredProcedure;
-        //  cmd.Parameters.AddWithValue("@KullaniciAdi", "");
-        //  DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-        //       return View();
-        // }
+        [HttpGet]
+        public ActionResult SifremiUnuttum()
+        {
+            return View();
+        }
 
-        // [HttpPost]
-        // public ActionResult MailGonder(string kullaniciid)
-        // {
-        // SqlCommand cmd = new SqlCommand();
-        // cmd.CommandText = "p_KullaniciAdiBul";
-        // cmd.CommandType = System.Data.CommandType.StoredProcedure;
-        //cmd.Parameters.AddWithValue("@KullaniciAdi", kullaniciid);
-        //DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-        // SmtpClient sc = new SmtpClient();
-        // sc.Port = 587;
-        // sc.Host = "mail.ykyazilim.com.tr";
-        //  sc.EnableSsl = false;
-        //  sc.Credentials = new NetworkCredential("yunus@ykyazilim.com.tr", "parola");
-        //  MailMessage mail = new MailMessage();
-        //  mail.From = new MailAddress("yunus@ykyazilmi.com.tr", "YK YAZILIM");
+        [HttpPost]
+        public ActionResult SifremiUnuttum(string email)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_KullaniciAdiBul";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@KullaniciAdi", email);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-        //mail.To.Add("gonderilecekmailadresi");
+            if (dt.Rows.Count <= 0 || !dt.Columns.Contains("KullaniciAdi"))
+            {
+                ViewBag.Bilgi = "Hata! Gönderdiğiniz bilgilere göre bir kullanıcı bulunamadı.";
 
-        //mail.Subject = "YK YAZILIM - Parola Sıfırlama";
-        //mail.IsBodyHtml = true;
-        //mail.Body = "içerik burada html kodu yazabiliriz ve paroal bilgisinide ekliycez";
+                return View();
+            }
 
-        //mail.Attachments.Add(new Attachment(@"C:\Sonuc.pptx"));
+            SmtpClient sc = new SmtpClient();
+            sc.Port = 587;
+            sc.Host = "mail.ykyazilim.com.tr";
+            sc.EnableSsl = false;
+            sc.Credentials = new NetworkCredential("ilayda@ykyazilim.com.tr", "Ilayda12#");
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress("ilayda@ykyazilmi.com.tr", "YK YAZILIM");
 
-        //sc.Send(mail);
-        //    return View();
-        // }
+            mail.To.Add(email);
+
+            mail.Subject = "YK YAZILIM - Parola Sıfırlama";
+            mail.IsBodyHtml = true;
+            mail.Body = "içerik burada html kodu yazabiliriz ve paroal bilgisinide ekliycez";
+
+            try
+            {
+                sc.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            ViewBag.Bilgi = "Şifre bilgileriniz mail adresinize gönderildi.";
+
+            return View();
+        }
+
+
         //[HttpPost]
         //public ActionResult SifremiUnuttum(string kullaniciId)
         //{
@@ -159,6 +172,7 @@ namespace YKPortal.Controllers
         //    ViewBag.Bilgi = "Şifre bilgileriniz mail adresinize gönderildi.";
         //    return View();
         //}
+
         [HttpPost]
         public ActionResult KullaniciOnayla(string kullaniciid)
         {
@@ -220,6 +234,8 @@ namespace YKPortal.Controllers
         [HttpPost]
         public ActionResult UyeOl(UyelikDto uyelikDto)
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
 
             IlListesiniOlustur();
 
@@ -290,18 +306,7 @@ namespace YKPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult UyelikDuzenle(
-            string id,
-            string Isim,
-            string Unvan,
-            string VergiNumarasi,
-            string VergiDairesi,
-            string Adres,
-            string EMail,
-            string Iletisim,
-            DateTime UyelikBaslangicTarihi,
-            DateTime UyelikBitisTarihi,
-            string ApiUrl)
+        public ActionResult UyelikDuzenle(UyelikDto uyelikDto)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
@@ -309,17 +314,17 @@ namespace YKPortal.Controllers
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_UyelikKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ID", id);
-            cmd.Parameters.AddWithValue("@Isim", Isim);
-            cmd.Parameters.AddWithValue("@Unvan", Unvan);
-            cmd.Parameters.AddWithValue("@VergiDairesi", VergiDairesi);
-            cmd.Parameters.AddWithValue("@VergiNumarasi", VergiNumarasi);
-            cmd.Parameters.AddWithValue("@Adres", Adres);
-            cmd.Parameters.AddWithValue("@EMail", EMail);
-            cmd.Parameters.AddWithValue("@Iletisim", Iletisim);
-            cmd.Parameters.AddWithValue("@ApiUrl", ApiUrl);
-            cmd.Parameters.AddWithValue("@UyelikBaslangicTarihi", UyelikBaslangicTarihi);
-            cmd.Parameters.AddWithValue("@UyelikBitisTarihi", UyelikBitisTarihi);
+            cmd.Parameters.AddWithValue("@ID", uyelikDto.ID);
+            cmd.Parameters.AddWithValue("@Isim", uyelikDto.Isim);
+            cmd.Parameters.AddWithValue("@Unvan", uyelikDto.Unvan);
+            cmd.Parameters.AddWithValue("@VergiDairesi", uyelikDto.VergiDairesi);
+            cmd.Parameters.AddWithValue("@VergiNumarasi", uyelikDto.VergiNumarasi);
+            cmd.Parameters.AddWithValue("@Adres", uyelikDto.Adres);
+            cmd.Parameters.AddWithValue("@EMail", uyelikDto.EMail);
+            cmd.Parameters.AddWithValue("@Iletisim", uyelikDto.Iletisim);
+            cmd.Parameters.AddWithValue("@ApiUrl", uyelikDto.ApiUrl);
+            cmd.Parameters.AddWithValue("@UyelikBaslangicTarihi", uyelikDto.UyelikBaslangicTarihi);
+            cmd.Parameters.AddWithValue("@UyelikBitisTarihi", uyelikDto.UyelikBitisTarihi);
             cmd.Parameters.AddWithValue("@Kullanici", GetCookie("KullaniciID"));
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
@@ -337,7 +342,7 @@ namespace YKPortal.Controllers
             SqlCommand cmd2 = new SqlCommand();
             cmd2.CommandText = "p_Uyelik";
             cmd2.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd2.Parameters.AddWithValue("@ID", id);
+            cmd2.Parameters.AddWithValue("@ID", uyelikDto.ID);
             DataTable dt2 = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
 
             return View(dt2);

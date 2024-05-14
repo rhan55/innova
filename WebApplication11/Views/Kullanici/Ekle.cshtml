@@ -3,6 +3,13 @@
 @{
     ViewBag.Title = "Kullanıcı Ekle";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var kullaniciEkleDto = new KullaniciEkleDto();
+
+    if (ViewBag.Form != null)
+    {
+        kullaniciEkleDto = (KullaniciEkleDto)ViewBag.Form;
+    }
 }
 
 <!--begin::Form-->
@@ -100,7 +107,7 @@
                 <label class="required fw-semibold fs-6 mb-2">Kullanıcı Adı</label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <input type="text" name="KullaniciAdi" class="form-control  mb-3 mb-lg-0" placeholder="Kullanıcı Adı" value="" required />
+                <input type="text" name="KullaniciAdi" class="form-control  mb-3 mb-lg-0" placeholder="Kullanıcı Adı" value="@kullaniciEkleDto.KullaniciAdi" required />
 
                 <!--end::Input-->
             </div>
@@ -111,7 +118,7 @@
                 <label class="required fw-semibold fs-6 mb-2">Parola</label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <input type="password" name="Parola" class="form-control  mb-3 mb-lg-0" placeholder="Parola" value="" required />
+                <input type="password" name="Parola" class="form-control  mb-3 mb-lg-0" placeholder="Parola" value="@kullaniciEkleDto.Parola" required />
                 <!--end::Input-->
             </div>
             <!--end::Input group-->
@@ -126,7 +133,7 @@
                     <label class="required fw-semibold fs-6 mb-2">Ad</label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <input type="text" name="Ad" class="form-control  mb-3 mb-lg-0" placeholder="Ad" value="" required />
+                    <input type="text" name="Ad" class="form-control  mb-3 mb-lg-0" placeholder="Ad" value="@kullaniciEkleDto.Ad" required />
                     <!--end::Input-->
                 </div>
                 <div class="col-lg-6 ps-3">
@@ -134,7 +141,7 @@
                     <label class="required fw-semibold fs-6 mb-2">Soyad</label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <input type="text" name="Soyad" class="form-control  mb-3 mb-lg-0" placeholder="Soyad" value="" required />
+                    <input type="text" name="Soyad" class="form-control  mb-3 mb-lg-0" placeholder="Soyad" value="@kullaniciEkleDto.Soyad" required />
                     <!--end::Input-->
                 </div>
 
@@ -145,7 +152,7 @@
                     <label class="required fw-semibold fs-6 mb-2">Telefon</label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <input type="text" name="Telefon" class="form-control  mb-3 mb-lg-0" placeholder="Full name" value="" />
+                    <input type="text" name="Telefon" class="form-control  mb-3 mb-lg-0" placeholder="Full name" value="@kullaniciEkleDto.Telefon" />
                     <!--end::Input-->
                 </div>
             </div>
@@ -172,7 +179,7 @@
                         <select name="Il" class="form-select form-select-solid" aria-label="Select example">
                             @foreach (GrupKoduDto il in ViewBag.Iller)
                             {
-                                <option value="@il.ID">@il.Deger</option>
+                                <option @(kullaniciEkleDto.Il == il.ID ? "selected" : "") value="@il.ID">@il.Deger</option>
                             }
 
                         </select>
@@ -180,7 +187,7 @@
 
                     <div class="d-flex flex-column col-lg-6 ps-3">
                         <label for="Ilce" class="required fw-semibold fs-6 mb-2">İlçe</label>
-                        <input type="text" id="Ilce" name="Ilce" class="form-control  mb-3 mb-lg-0" placeholder="İlçe" value="" />
+                        <input type="text" id="Ilce" name="Ilce" class="form-control  mb-3 mb-lg-0" placeholder="İlçe" value="@kullaniciEkleDto.Ilce" />
                     </div>
                 </div>
             </div>
@@ -190,22 +197,22 @@
         <div class="row mb-7">
             <div class="col-lg-6">
                 <label class="required fw-semibold fs-6 mb-2">Açıklama 1</label>
-                <textarea name="Aciklama1" class="form-control "></textarea>
+                <textarea name="Aciklama1" class="form-control ">@kullaniciEkleDto.Aciklama1</textarea>
             </div>
             <div class="col-lg-6">
                 <label class="required fw-semibold fs-6 mb-2">Açıklama 2</label>
-                <textarea name="Aciklama2" class="form-control "></textarea>
+                <textarea name="Aciklama2" class="form-control ">@kullaniciEkleDto.Aciklama2</textarea>
             </div>
             <div class="col-lg-12 mt-7">
                 <label class="required fw-semibold fs-6 mb-2 ">Açıklama 3</label>
-                <textarea name="Aciklama3" class="form-control "></textarea>
+                <textarea name="Aciklama3" class="form-control ">@kullaniciEkleDto.Aciklama3</textarea>
             </div>
         </div>
         <!--begin::Row Input group-->
         <div class="row mb-7">
             <div class="col-lg-6">
                 <div class="form-check form-check-custom form-check-solid ">
-                    <input name="Aktif" class="form-check-input" type="checkbox" value="true" id="form_checkbox" />
+                    <input name="Aktif" class="form-check-input" type="checkbox" value="true" id="form_checkbox" @(kullaniciEkleDto.Aktif ? "checked" : "") />
                     <label class="form-check-label" for="form_checkbox" style="cursor: pointer;">
                         Aktif
                     </label>

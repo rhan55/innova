@@ -1,0 +1,63 @@
+﻿@model System.Data.DataTable
+@{
+    ViewBag.Title = "Duzenle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form id="kt_modal_add_user_form" class="form container" action="@Url.Action("Duzenle","SatisPersoneli",null)" method="post">
+    <div class="d-flex flex-column scroll-y px-5 px-lg-10">
+        <!--begin::Row Input group-->
+        <input type="hidden" name="ID" value="@(Convert.ToString(Model.Rows[0]["ID"]))"/>
+        <div class="row mb-7">
+
+            <!--begin::Input group-->
+            <div class="col-lg-6">
+                <!--begin::Label-->
+                <label for="Isim" class="required fw-semibold fs-6 mb-2">Isim</label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input type="text" name="Isim" id="Isim" class="form-control  mb-3 mb-lg-0" value="@(Convert.ToString(Model.Rows[0]["Isim"]))" />
+
+                <!--end::Input-->
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="col-lg-6">
+                <!--begin::Label-->
+                <label for="Aciklama1" class=" fw-semibold fs-6 mb-2">Aciklama1</label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input type="text" name="Aciklama1" id="Aciklama1" class="form-control  mb-3 mb-lg-0" autofocus value="@(Convert.ToString(Model.Rows[0]["Aciklama1"]))" />
+                <!--end::Input-->
+            </div>
+            <!--end::Input group-->
+        </div>
+        <div class="row mb-7">
+            <!--begin::Input group-->
+            <div class="col-lg-12">
+                <!--begin::Label-->
+                <label for="Aciklama2" class="required fw-semibold fs-6 mb-2">Aciklama2</label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input type="text" name="Aciklama2" id="Aciklama2" class="form-control  mb-3 mb-lg-0" value="@(Convert.ToString(Model.Rows[0]["Aciklama2"]))" />
+
+                <!--end::Input-->
+            </div>
+            <!--end::Input group-->
+        </div>
+        <!--begin::Actions-->
+        <div class=" pt-4 container">
+            <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet">
+                <span class="indicator-label">Kaydet</span>
+                <span class="indicator-progress">
+                    Lütfen Bekleyin...
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+        </div>
+    </div>
+    <!--end::Actions-->
+</form>
+
+
+

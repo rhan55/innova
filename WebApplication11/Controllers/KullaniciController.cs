@@ -26,7 +26,22 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@AranacakKelime", aranacakKelime);
 
             ViewBag.AranacakKelime = aranacakKelime;
+            IlListesiniOlustur();
+
+            var iller = (List<GrupKoduDto>)ViewBag.Iller;
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            for(var i = 0; i < dt.Rows.Count; i++)
+            {
+                string id = Convert.ToString(dt.Rows[i]["Il"]);
+                var il = iller.Where(m => m.ID == id).ToList();
+                if (il != null && il.Count > 0)
+                {
+                    dt.Rows[i]["Il"] = il[0].Deger;
+                }
+            }
+
+            
 
             return View(dt);
         }
@@ -109,6 +124,8 @@ namespace YKPortal.Controllers
                     return Redirect("~/Kullanici/Liste");
                 }
             }
+
+            ViewBag.Form = kullaniciEkleDto;
 
             IlListesiniOlustur();
             return View(dt);

@@ -7,7 +7,7 @@
 
 <!--begin::Form-->
 <form id="kt_modal_add_user_form" class="form" action="@Url.Action("UyelikDuzenle","YK",null)" method="post" enctype="multipart/form-data">
-    
+    <h3>@ViewBag.Bilgi</h3>
     <!--begin::Scroll-->
     <div class="d-flex flex-column scroll-y px-5 px-lg-10 container">
         <!--begin::Input group-->
@@ -33,7 +33,7 @@
                 <!--begin::Input-->
                 <input type="text" name="Unvan" id="Unvan" class="form-control  mb-3 mb-lg-0" placeholder="Ünvan" value="@(Convert.ToString(Model.Rows[0]["Unvan"]))" />
                 <!--end::Input-->
-            </div>
+            </div> 
             <!--end::Input group-->
         </div>
         <!--begin::Row Input group-->
@@ -45,9 +45,16 @@
                     <!--begin::Label-->
                     <label class="required fw-semibold fs-6 mb-2">Vergi Numarası</label>
                     <!--end::Label-->
-                    <!--begin::Input-->A
-                    <input type="text" name="VergiNumarasi" id="VergiNumarasi" class="form-control  mb-3 mb-lg-0" placeholder="Vergi Numarası" value="@(Convert.ToString(Model.Rows[0]["VergiNumarasi"]))" />
+                    <!--begin::Input-->
+                    <input type="text" name="VergiNumarasi" id="VergiNumarasi" class="form-control @(ViewData.ModelState.ContainsKey("VergiNumarasi") ? "is-invalid" : "")  mb-3 mb-lg-0" placeholder="Vergi Numarası" value="@(Convert.ToString(Model.Rows[0]["VergiNumarasi"]))" />
                     <!--end::Input-->
+                    @if (ViewData.ModelState.ContainsKey("VergiNumarasi") && ViewData.ModelState["VergiNumarasi"].Errors.Count() > 0)
+                    {
+                        foreach (var error in ViewData.ModelState["VergiNumarasi"].Errors)
+                        {
+                            <div class="">@error.ErrorMessage</div>
+                        }
+                    }
                 </div>
                 <div class="col-lg-6 ps-3">
                     <!--begin::Label-->
@@ -101,7 +108,7 @@
     <!--end::Scroll-->
     <!--begin::Actions-->
     <div class="text-center pt-10">
-        <h3>@ViewBag.Bilgi</h3>
+
         <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Düzenle">
             <span class="indicator-label">Düzenle</span>
             <span class="indicator-progress">
