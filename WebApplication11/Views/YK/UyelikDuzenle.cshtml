@@ -33,7 +33,7 @@
                 <!--begin::Input-->
                 <input type="text" name="Unvan" id="Unvan" class="form-control  mb-3 mb-lg-0" placeholder="Ünvan" value="@(Convert.ToString(Model.Rows[0]["Unvan"]))" />
                 <!--end::Input-->
-            </div> 
+            </div>
             <!--end::Input group-->
         </div>
         <!--begin::Row Input group-->
@@ -108,9 +108,9 @@
     <!--end::Scroll-->
     <!--begin::Actions-->
     <div class="text-center pt-10">
-
-        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Düzenle">
-            <span class="indicator-label">Düzenle</span>
+        <a href="/YK/UyelikListesi" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
+        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Duzenle">
+            <span class="indicator-label">Duzenle</span>
             <span class="indicator-progress">
                 Lütfen Bekleyin...
                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span>

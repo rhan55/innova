@@ -8,14 +8,14 @@
     <div class="d-flex flex-column scroll-y px-5 px-lg-10">
         <!--begin::Row Input group-->
         <div class="row mb-7 mt-4">
-            
+
             <!--begin::Input group-->
             <div class="col-lg-6">
                 <!--begin::Label-->
                 <label for="Isim" class="required fw-semibold fs-6 mb-2">Isim</label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <input type="text" name="Isim" id="Isim" class="form-control  mb-3 mb-lg-0" value="" />
+                <input type="text" name="Isim" id="Isim" class="form-control  mb-3 mb-lg-0" value="" required />
 
                 <!--end::Input-->
             </div>
@@ -45,12 +45,13 @@
             <!--end::Input group-->
         </div>
         <!--begin::Actions-->
-        <div class=" pt-4 container">
+        <div class="text-center pt-10">
+            <a href="/SatisPersoneli/Liste" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
             <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet">
                 <span class="indicator-label">Kaydet</span>
                 <span class="indicator-progress">
                     Lütfen Bekleyin...
-                    <span class="spinner-border spinner-border-sm align-middle"></span>
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                 </span>
             </button>
         </div>

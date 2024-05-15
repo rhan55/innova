@@ -1,7 +1,7 @@
 ﻿@using YKPortal.Models.Dto
 @model System.Data.DataTable
 @{
-    ViewBag.Title = "Duzenle";
+    ViewBag.Title = "Cari Kişi Düzenle";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -78,19 +78,20 @@
             <!--end::Input group-->
         </div>
 
+
+        <!--end::Scroll-->
+        <!--begin::Actions-->
+        <div class="pt-10">
+            <a href="/CariKisi/Liste" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
+            <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Duzenle">
+                <span class="indicator-label">Düzenle</span>
+                <span class="indicator-progress">
+                    Lütfen Bekleyin...
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+        </div>
+        <!--end::Actions-->
     </div>
-    <!--end::Scroll-->
-    <!--begin::Actions-->
-    <div class="text-center pt-10">
-        <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
-        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet">
-            <span class="indicator-label">Kaydet</span>
-            <span class="indicator-progress">
-                Lütfen Bekleyin...
-                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-            </span>
-        </button>
-    </div>
-    <!--end::Actions-->
 </form>
 <!--end::Form-->

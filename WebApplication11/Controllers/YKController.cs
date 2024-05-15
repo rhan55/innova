@@ -106,7 +106,7 @@ namespace YKPortal.Controllers
         public ActionResult SifremiUnuttum()
         {
             return View();
-        }
+        }   
 
         [HttpPost]
         public ActionResult SifremiUnuttum(string email)
@@ -130,14 +130,18 @@ namespace YKPortal.Controllers
             sc.EnableSsl = false;
             sc.Credentials = new NetworkCredential("ilayda@ykyazilim.com.tr", "Ilayda12#");
             MailMessage mail = new MailMessage();
-            mail.From = new MailAddress("ilayda@ykyazilmi.com.tr", "YK YAZILIM");
+            mail.From = new MailAddress("ilayda@ykyazilim.com.tr", "YK YAZILIM");
 
             mail.To.Add(email);
 
             mail.Subject = "YK YAZILIM - Parola Sıfırlama";
             mail.IsBodyHtml = true;
-            mail.Body = "içerik burada html kodu yazabiliriz ve paroal bilgisinide ekliycez";
-
+            mail.Body = 
+            $"<div><img style=\"width:60px; height:40px;\" src=\"http://ykyazilim.com/Logolar/orijinal.png/\"/></div>" +
+            $"<h1>Merhaba Sayın, {dt.Rows[0]["Ad"]} {dt.Rows[0]["Soyad"]}" +
+            $"</h1><p>Şifreniz aşağıda belirtilmiştir.</p>" +
+            $"<p style=\"display:flex; text-align:center; justify-content:center; border-radius:10px; font-size: 24px; width:160px; height:40px;font-weight:semibold; color:#FFFFFF; background-color:#4D4DFF;\">{dt.Rows[0]["Parola"]}</p>";
+            
             try
             {
                 sc.Send(mail);

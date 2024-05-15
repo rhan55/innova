@@ -225,6 +225,11 @@
                                         <!--end::Menu item-->
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-3">
+                                            <a href="/CariNot/Liste?CariID=@(Convert.ToString(Model.Rows[i]["ID"]))" class="menu-link px-3">Notlar</a>
+                                        </div>
+                                        <!--end::Menu item-->
+                                        <!--begin::Menu item-->
+                                        <div class="menu-item px-3">
                                             <button type="button" data-id="@(Convert.ToString(Model.Rows[i]["ID"]))" class="btn btn-sm w-100 menu-link px-3 btn-sil" data-bs-toggle="modal" data-bs-target="#Cari-silme">
                                                 Sil
                                             </button>
@@ -275,8 +280,6 @@
 
 @section Scripts {
     <script>
-        const tabs= documet.querySelectorAll('.tab_btn')
-        const content= document.querySelectorAll('.content')
 
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -312,6 +315,7 @@
                 });
             }
 
+       
             // Hook export buttons
             var exportButtons = () => {
                 const documentTitle = 'Cari-Listesi-' + moment(new Date()).format("DD-MM-YYYY");
