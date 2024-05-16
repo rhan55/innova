@@ -21,3 +21,7 @@ Menu-Cari{
 .select2-search__field:focus {
     outline: none!important;
 }
+
+.hidden {
+    display: none!important;
+}

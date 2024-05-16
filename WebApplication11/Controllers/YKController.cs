@@ -138,9 +138,9 @@ namespace YKPortal.Controllers
             mail.IsBodyHtml = true;
             mail.Body = 
             $"<div><img style=\"width:60px; height:40px;\" src=\"http://ykyazilim.com/Logolar/orijinal.png/\"/></div>" +
-            $"<h1>Merhaba Sayın, {dt.Rows[0]["Ad"]} {dt.Rows[0]["Soyad"]}" +
-            $"</h1><p>Şifreniz aşağıda belirtilmiştir.</p>" +
-            $"<p style=\"display:flex; text-align:center; justify-content:center; border-radius:10px; font-size: 24px; width:160px; height:40px;font-weight:semibold; color:#FFFFFF; background-color:#4D4DFF;\">{dt.Rows[0]["Parola"]}</p>";
+            $"<h1 style=\"font-size: 20px; color:#5C5C5C; font-weiht:semibold;\">Merhaba Sayın, {dt.Rows[0]["Ad"]} {dt.Rows[0]["Soyad"]}" + "</h1>" +
+            $"<p>Şifreniz aşağıda belirtilmiştir.</p>" +
+            $"<p style=\"display:flex; text-align:center; justify-content:center; align-items:center; padding-right:6px; padding-left:6px; border-radius:5px; font-size: 24px;height:40px;font-weight:bold; color:#FFFFFF; background-color:#4D4DFF;\">{dt.Rows[0]["Parola"]}</p>";
             
             try
             {

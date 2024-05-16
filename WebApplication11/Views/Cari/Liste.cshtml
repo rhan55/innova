@@ -1,6 +1,6 @@
 ﻿@model System.Data.DataTable
 @{
-    ViewBag.Title = "Liste";
+    ViewBag.Title = "Cari Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -30,12 +30,7 @@
                     <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
                         <!--begin::Detaylı Arama-->
                         <!--begin::Detaylı Arama-->
-                        <button type="button" class="btn tab_btn btn-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                            <i class="ki-duotone ki-parcel-tracking fs-1">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                                <span class="path3"></span>
-                            </i>
+                        <button type="button" id="toggleFilter" class="btn tab_btn btn-light-primary">
                             Filtrele
                         </button>
                         <!--end::Detaylı Arama-->
@@ -44,6 +39,13 @@
                             Dışarı aktar
                         </button>
                         <!--begin::Menu-->
+                        <form action="/Cari/ExcelIceAktar" method="post" enctype="multipart/form-data">
+                            <input type="file" name="excelDosyasi" id="excelDosyasi" class="hidden" value="" accept=".xlsx,.xls" />
+                            <label for="excelDosyasi" class="btn btn-light-primary" >
+                                <i class="ki-duotone ki-exit-down fs-2"><span class="path1"></span><span class="path2"></span></i>
+                                Excel içe aktar
+                            </label>
+                        </form>
                         <div id="kt_datatable_example_export_menu" class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-200px py-4" data-kt-menu="true">
                             <!--begin::Menu item-->
                             <div class="menu-item px-3">
@@ -85,7 +87,7 @@
                     </div>
                 </div>
                 <!--begin::Filtreleme alanı-->
-                <div class="p-10 content">
+                <form method="POST" action="" class="p-10 content hidden" id="datatableFilters">
                     <div><h3 class="text-active-gray-700">Filtreler</h3></div>
 
                     <div class="row">
@@ -94,7 +96,7 @@
                             <label for="Kod" class="fw-semibold fs-6 mb-2">Kod</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="Kod" id="Kod" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" placeholder="Kod" value="" />
+                            <input type="text" name="Kod" id="Kod" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" placeholder="Kod" value="@(ViewBag.Filters.Kod)" />
                             <!--end::Input-->
                         </div>
                         <div class="col-lg-3">
@@ -102,7 +104,7 @@
                             <label for="Isim" class="fw-semibold fs-6 mb-2">Kısa İsim</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="Isim" id="Isim" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="" />
+                            <input type="text" name="Isim" id="Isim" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.Isim)" />
                             <!--end::Input-->
                         </div>
                         <div class="col-lg-3">
@@ -110,7 +112,7 @@
                             <label for="Unvan" class="fw-semibold fs-6 mb-2">Ünvan</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="Unvan" id="Unvan" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="" />
+                            <input type="text" name="Unvan" id="Unvan" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.Unvan)" />
                             <!--end::Input-->
                         </div>
                         <div class="col-lg-3">
@@ -118,7 +120,7 @@
                             <label for="VergiNumarasi" class="fw-semibold fs-6 mb-2">VergiNumarasi</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="VergiNumarasi" id="VergiNumarasi" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="" />
+                            <input type="text" name="VergiNumarasi" id="VergiNumarasi" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.VergiNumarasi)" />
                             <!--end::Input-->
                         </div>
 
@@ -130,39 +132,21 @@
                             <label for="TCKimlikNo" class="fw-semibold fs-6 mb-2">TCKimlikNo</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="TCKimlikNo" id="TCKimlikNo" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="" />
+                            <input type="text" name="TCKimlikNo" id="TCKimlikNo" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.TCKimlikNo)" />
                             <!--end::Input-->
                         </div>
                         <div class="col-lg-3">
                             <!--begin::Label-->
-                            <label for="Isim" class="fw-semibold fs-6 mb-2">Kısa İsim</label>
+                            <label for="GrupKodu2ID" class="fw-semibold fs-6 mb-2">Cep Telefonu</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="Isim" id="Isim" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="" />
+                            <input type="text" name="CepTelefonu" id="CepTelefonu" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.CepTelefonu)" />
                             <!--end::Input-->
                         </div>
-                        <div class="col-lg-3">
-                            <!--begin::Label-->
-                            <label for="GrupKodu1ID" class="fw-semibold fs-6 mb-2">GrupKodu1ID</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <input type="text" name="GrupKodu1ID" id="Isim" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="" />
-                            <!--end::Input-->
-                        </div>
-                        <div class="col-lg-3">
-                            <!--begin::Label-->
-                            <label for="GrupKodu2ID" class="fw-semibold fs-6 mb-2">GrupKodu2ID</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <input type="text" name="GrupKodu2ID" id="GrupKodu2ID" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="" />
-                            <!--end::Input-->
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-lg-3 d-flex">
-                            <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Discard</button>
-                            <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet">
-                                <span class="indicator-label">Kaydet</span>
+                        <div class="col-lg-3 d-flex justify-content-end align-items-end">
+                            <button type="reset" class="btn btn-light me-3 h-40px" data-kt-users-modal-action="cancel">Temizle</button>
+                            <button type="submit" class="btn btn-primary h-40px" data-kt-users-modal-action="Ara">
+                                <span class="indicator-label">Ara</span>
                                 <span class="indicator-progress">
                                     Lütfen Bekleyin...
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
@@ -171,7 +155,7 @@
                         </div>
                     </div>
 
-                </div>
+                </form>
                 <!--end::Filtreleme alanı-->
             </div>
             <div class="card-body">
@@ -179,6 +163,7 @@
                     <thead>
                         <!--begin::Table row-->
                         <tr class="text-start" style="font-size:15px;">
+                            <th class="min-w-125px"></th>
                             <th class="min-w-125px"><strong>İsim</strong></th>
                             <th class="min-w-125px mt-8"><strong>Cep Telefonu</strong></th>
                             <th class="min-w-125px mt-8"><strong>GrupKodu1</strong></th>
@@ -192,13 +177,14 @@
                         @for (var i = 0; i < Model.Rows.Count; i++)
                         {
                             <tr>
+                                <td class="pt-4 pb-4"></td>
 
                                 <td class="pt-4 pb-4">
-                                    @((Model.Rows[i]["Kod"])) <br />
-                                    <strong> @((Model.Rows[i]["Isim"])) </strong>
+                                    @(Convert.ToString(Model.Rows[i]["Kod"])) <br />
+                                    <strong> @(Convert.ToString(Model.Rows[i]["Isim"])) </strong>
                                 </td>
                                 <td class="pt-4 pb-4">
-                                    @((Model.Rows[i]["CepTelefonu"]))
+                                    @(Convert.ToString(Model.Rows[i]["CepTelefonu"]))
                                 </td>
                                 <td class="pt-4 pb-4">
                                     @(Convert.ToString(Model.Rows[i]["GrupKoduAdi1"]))
@@ -239,6 +225,7 @@
                                     </div>
                                     <!--end::Menu-->
                                 </td>
+                                <td>@(Convert.ToString(Model.Rows[i]["ID"]))</td>
                             </tr>
                         }
                     </tbody>
@@ -289,7 +276,17 @@
                 })
             });
 
+            const filterButton = document.querySelector('#toggleFilter');
 
+            if (filterButton) {
+                filterButton.addEventListener('click', () => {
+                    const filters = document.querySelector('#datatableFilters');
+
+                    if (filters) {
+                        filters.classList.toggle('hidden');
+                    }
+                });
+            }
         });
 
         // Class definition
@@ -306,13 +303,63 @@
                 // Init datatable --- more info on datatables: https://datatables.net/manual/
                 datatable = $(table).DataTable({
                     "info": false,
-                    'order': [],
-                    paging: false,
+                    searching: true,
+                    order: [
+                        [1, "asc"],
+                    ],
+                    ordering: true,
+                    paging: true,
+                    pageLength: 10,
+                    lengthMenu: [
+                        [10, 20, 50, 100, -1],
+                        ['10 Adet', '20 Adet', '50 Adet', '100 Adet', "Tümü"]
+                    ],
+                   
+                    language: { url: '//cdn.datatables.net/plug-ins/2.0.7/i18n/tr.json', },
+                    
                     columnDefs: [
-
-                    ]
+                        {
+                            targets: [0, 5],
+                            orderable: false
+                        }  ,
+                        {
+                            render: DataTable.render.select(),
+                            targets: 0
+                        },
+                        {
+                            targets: 6,
+                            visible: false
+                        }
+                    ],
+                    select: {
+                      
+                        selector: 'td:first-child'
+                    },
+                    order: [[1, 'asc']]
+                    
 
                 });
+
+                datatable
+                    .on('select', function (e, dt, type, indexes) {
+                        let rowData = datatable
+                            .rows(indexes)
+                            .data()
+                            .toArray();
+
+                        for (let i = 0; i < rowData.length; i++) {
+                            console.log(rowData[i][6]);
+                        }
+                    })
+                    .on('deselect', function (e, dt, type, indexes) {
+                        let rowData = datatable
+                            .rows(indexes)
+                            .data()
+                            .toArray();
+
+                        
+
+                    });
             }
 
        
@@ -395,6 +442,7 @@
         // On document ready
         KTUtil.onDOMContentLoaded(function () {
             KTDatatablesExample.init();
+
         });
     </script>
 }
