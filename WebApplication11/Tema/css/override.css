@@ -25,3 +25,9 @@ Menu-Cari{
 .hidden {
     display: none!important;
 }
+
+tr.selected .btn.btn-light,
+tr.selected .menu-link {
+    color: black !important;
+}
+

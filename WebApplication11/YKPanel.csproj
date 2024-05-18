@@ -157,6 +157,7 @@
     <Compile Include="Controllers\CariController.cs" />
     <Compile Include="Controllers\CariKisiController.cs" />
     <Compile Include="Controllers\CariNotController.cs" />
+    <Compile Include="Controllers\DepoController.cs" />
     <Compile Include="Controllers\KullaniciController.cs" />
     <Compile Include="Controllers\SatisPersoneliController.cs" />
     <Compile Include="Controllers\TanimlamalarController.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="Models\Dto\CariDto.cs" />
     <Compile Include="Models\Dto\CariKisiDto.cs" />
     <Compile Include="Models\Dto\CariNotDto.cs" />
+    <Compile Include="Models\Dto\DepoDto.cs" />
     <Compile Include="Models\Dto\SatisPersonelleri.cs" />
     <Compile Include="Models\Dto\SonAktivitelerDto.cs" />
     <Compile Include="Models\Dto\UyelikDto.cs" />
@@ -2561,6 +2563,11 @@
     <Content Include="Views\CariNot\Ekle.cshtml" />
     <Content Include="Views\CariNot\Liste.cshtml" />
     <Content Include="Views\CariNot\Duzenle.cshtml" />
+    <Content Include="Views\Cari\ExcelIceAktar.cshtml" />
+    <Content Include="Tema\excel\ornek-cari-listesi.xlsx" />
+    <Content Include="Views\Depo\Ekle.cshtml" />
+    <Content Include="Views\Depo\Liste.cshtml" />
+    <Content Include="Views\Depo\Duzenle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

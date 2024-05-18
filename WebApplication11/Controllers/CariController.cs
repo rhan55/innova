@@ -9,6 +9,9 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Http.Results;
+using System.Configuration;
+using System.Data.OleDb;
+using System.Web.Services;
 
 namespace YKPortal.Controllers
 {
@@ -22,13 +25,14 @@ namespace YKPortal.Controllers
 
             IlListesiniOlustur();
             UlkeListesiniOlustur();
+            PlasiyerIDListesiniOlustur();
             CariGrupKod1ListesiniOlustur();
             CariGrupKod2ListesiniOlustur();
             CariGrupKod3ListesiniOlustur();
             CariGrupKod4ListesiniOlustur();
             CariGrupKod5ListesiniOlustur();
             CariGrupKod6ListesiniOlustur();
-                
+
             return View();
         }
 
@@ -97,17 +101,97 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@AnaCariID", "");
             cmd.Parameters.AddWithValue("@TeslimCariID", "");
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
-                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
             return RedirectToAction("Liste");
         }
-
+        public ActionResult ExcelIceAktar()
+        {
+            return View();
+        }
         [HttpPost]
-        public ActionResult ExcelIceAktar(HttpPostedFileBase excelDosyasi) {
+        public ActionResult ExcelIceAktar(HttpPostedFileBase excelDosyasi)
+        {
             // excel satirlara bolucez
+            //DataSet ds = new DataSet();
+            //if (Request.Files["excelDosyasi"].ContentLength > 0)
+            //{
+            //    string fileExtension =
+            //                         System.IO.Path.GetExtension(Request.Files["excelDosyasi"].FileName);
+            //    if (fileExtension == ".xls" || fileExtension == ".xlsx")
+            //    {
+            //        string fileLocation = Server.MapPath("~/Content/") + Request.Files["excelDosyasi"].FileName;
+            //        if (System.IO.File.Exists(fileLocation))
+            //        {
+            //            System.IO.File.Delete(fileLocation);
+            //        }
+            //        Request.Files["excelDosyasi"].SaveAs(fileLocation);
+            //        string excelConnectionString = string.Empty;
+            //        excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
+            //        //connection String for xls file format.  
+            //        if (fileExtension == ".xls")
+            //        {
+            //            excelConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + fileLocation + ";Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=2\"";
+            //        }
+            //        //connection String for xlsx file format.  
+            //        else if (fileExtension == ".xlsx")
+            //        {
+            //            excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
+            //        }
+            //        //Create Connection to Excel work book and add oledb namespace  
+            //        OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
+            //        excelConnection.Open();
+            //        DataTable dt = new DataTable();
+
+            //        dt = excelConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+            //        if (dt == null)
+            //        {
+            //            return null;
+            //        }
+            //        String[] excelSheets = new String[dt.Rows.Count];
+            //        int t = 0;
+            //        //excel data saves in temp file here.  
+            //        foreach (DataRow row in dt.Rows)
+            //        {
+            //            excelSheets[t] = row["TABLE_NAME"].ToString();
+            //            t++;
+            //        }
+            //        OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
+
+            //        string query = string.Format("Select * from [{0}]", excelSheets[0]);
+            //        using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(query, excelConnection1))
+            //        {
+            //            dataAdapter.Fill(ds);
+            //        }
+            //    }
+            //    if (fileExtension.ToString().ToLower().Equals(".xml"))
+            //    {
+            //        string fileLocation = Server.MapPath("~/Content/") + Request.Files["FileUpload"].FileName;
+            //        if (System.IO.File.Exists(fileLocation))
+            //        {
+            //            System.IO.File.Delete(fileLocation);
+            //        }
+
+            //        Request.Files["FileUpload"].SaveAs(fileLocation);
+            //        XmlTextReader xmlreader = new XmlTextReader(fileLocation);
+            //        // DataSet ds = new DataSet();  
+            //        ds.ReadXml(xmlreader);
+            //        xmlreader.Close();
+            //    }
+            //    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            //    {
+            //        string conn = ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString;
+            //        SqlConnection con = new SqlConnection(conn);
+            //        string query = "Insert into Person(Name,Email,Mobile) Values('" + ds.Tables[0].Rows[i][0].ToString() + "','" + ds.Tables[0].Rows[i][1].ToString() + "','" + ds.Tables[0].Rows[i][2].ToString() + "')";
+            //        con.Open();
+            //        SqlCommand cmd = new SqlCommand(query, con);
+            //        cmd.ExecuteNonQuery();
+            //        con.Close();
+            //    }
+            //}
             List<CariDto> liste = new List<CariDto>();
-      
-            foreach(var cariDto in liste)
+
+            foreach (var cariDto in liste)
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "p_CariKaydet";
@@ -170,7 +254,7 @@ namespace YKPortal.Controllers
                 cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             }
-      
+
             return RedirectToAction("Liste");
         }
 
@@ -183,8 +267,8 @@ namespace YKPortal.Controllers
             cmd.CommandText = "p_CariListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-            cmd.Parameters.AddWithValue("@Kod ", cariDto.Kod);
-            cmd.Parameters.AddWithValue("@Isim  ", cariDto.Isim);
+            cmd.Parameters.AddWithValue("@Kod", cariDto.Kod);
+            cmd.Parameters.AddWithValue("@Isim", cariDto.Isim);
             cmd.Parameters.AddWithValue("@Unvan", cariDto.Unvan);
             cmd.Parameters.AddWithValue("@TCKimlikNo", cariDto.TCKimlikNo);
             cmd.Parameters.AddWithValue("@VergiNumarasi", cariDto.VergiNumarasi);
@@ -196,6 +280,47 @@ namespace YKPortal.Controllers
 
             return View(dt);
         }
+
+        //[HttpPost]
+        //public JsonResult CariListesiniGetir(CariDto cariDto)
+        //{
+        //    SqlCommand cmd = new SqlCommand();
+        //    cmd.CommandText = "p_CariListesi";
+        //    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+        //    cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+        //    cmd.Parameters.AddWithValue("@Kod", cariDto.Kod);
+        //    cmd.Parameters.AddWithValue("@Isim  ", cariDto.Isim);
+        //    cmd.Parameters.AddWithValue("@Unvan", cariDto.Unvan);
+        //    cmd.Parameters.AddWithValue("@TCKimlikNo", cariDto.TCKimlikNo);
+        //    cmd.Parameters.AddWithValue("@VergiNumarasi", cariDto.VergiNumarasi);
+        //    cmd.Parameters.AddWithValue("@CepTelefonu", cariDto.CepTelefonu);
+
+        //    ViewBag.Filters = cariDto;
+
+        //    DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+        //    var liste = new List<CariDto> { };
+
+        //    var grupKodu1Listesi = CariGrupKodListesiniGetir("CariGrupKod1");
+        //    var grupKodu2Listesi = CariGrupKodListesiniGetir("CariGrupKod2");
+
+        //    for (int i = 0; i < dt.Rows.Count; i++)
+        //    {
+        //        liste.Add(new CariDto
+        //        {
+        //            ID = Convert.ToString(dt.Rows[i]["ID"]),
+        //            Isim = Convert.ToString(dt.Rows[i]["Isim"]),
+        //            Kod = Convert.ToString(dt.Rows[i]["Kod"]),
+        //            CepTelefonu = Convert.ToString(dt.Rows[i]["CepTelefonu"]),
+        //            GrupKodu1ID = grupKodu1Listesi.Where(m => m.ID == Convert.ToString(dt.Rows[i]["GrupKodu1ID"])).First().Deger,
+        //            GrupKodu2ID = grupKodu2Listesi.Where(m => m.ID == Convert.ToString(dt.Rows[i]["GrupKodu2ID"])).First().Deger,
+        //        });
+        //    }
+
+        //    return Json(liste, JsonRequestBehavior.AllowGet);
+        //}
+
+
+
         [HttpGet]
         public ActionResult Duzenle(string id)
         {
@@ -204,6 +329,7 @@ namespace YKPortal.Controllers
 
             IlListesiniOlustur();
             UlkeListesiniOlustur();
+            PlasiyerIDListesiniOlustur();
             CariGrupKod1ListesiniOlustur();
             CariGrupKod2ListesiniOlustur();
             CariGrupKod3ListesiniOlustur();
@@ -221,7 +347,7 @@ namespace YKPortal.Controllers
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
             return View(dt);
-           
+
         }
         [HttpPost]
         public ActionResult Duzenle(CariDto cariDto)
@@ -370,6 +496,7 @@ namespace YKPortal.Controllers
 
         }
 
+
         public void IlListesiniOlustur()
         {
             // GrupKodu1 Listesi oluşturma 
@@ -395,8 +522,8 @@ namespace YKPortal.Controllers
             }
             ViewBag.Iller = entities;
         }
-  
-       
+
+
         public void UlkeListesiniOlustur()
         {
             // GrupKodu1 Listesi oluşturma 
@@ -422,6 +549,28 @@ namespace YKPortal.Controllers
             }
             ViewBag.Ulkeler = entities;
         }
+        public void PlasiyerIDListesiniOlustur()
+        {
+            // Il Listesi oluşturma
+            SqlCommand plasiyerCommand = new SqlCommand();
+            plasiyerCommand.CommandText = "p_PlasiyerListesi";
+            plasiyerCommand.CommandType = System.Data.CommandType.StoredProcedure;
+            plasiyerCommand.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+            DataTable PlasiyerIDDataTable = (DataTable)IDVeritabani.Sorgula(plasiyerCommand, SorgulaTuru.Tablo);
+
+            List<SatisPersoneliDto> entities = new List<SatisPersoneliDto>();
+
+            for (int i = 0; i < PlasiyerIDDataTable.Rows.Count; i++)
+            {
+                SatisPersoneliDto entity = new SatisPersoneliDto();
+                entity.ID = Convert.ToString(PlasiyerIDDataTable.Rows[i]["ID"]);
+                entity.Isim = Convert.ToString(PlasiyerIDDataTable.Rows[i]["Isim"]);
+                entities.Add(entity);
+            }
+            ViewBag.PlasiyerID = entities;
+        }
+
         public void CariGrupKod1ListesiniOlustur()
         {
             // GrupKodu1 Listesi oluşturma 
@@ -577,9 +726,34 @@ namespace YKPortal.Controllers
             ViewBag.CariGrupKodlari6 = entities;
         }
 
+        public List<GrupKoduDto> CariGrupKodListesiniGetir(string kodAdi)
+        {
+            // GrupKodu1 Listesi oluşturma 
+            SqlCommand cariGrupKod1Command = new SqlCommand();
+            cariGrupKod1Command.CommandText = "p_GrupKoduListesi";
+            cariGrupKod1Command.CommandType = System.Data.CommandType.StoredProcedure;
+            cariGrupKod1Command.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+            cariGrupKod1Command.Parameters.AddWithValue("@Kod", kodAdi);
+            cariGrupKod1Command.Parameters.AddWithValue("@AranacakKelime", "");
+
+
+            DataTable cariGrupKod1DataTable = (DataTable)IDVeritabani.Sorgula(cariGrupKod1Command, SorgulaTuru.Tablo);
+
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
+
+            for (int i = 0; i < cariGrupKod1DataTable.Rows.Count; i++)
+            {
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(cariGrupKod1DataTable.Rows[i]["ID"]);
+                entity.Deger = Convert.ToString(cariGrupKod1DataTable.Rows[i]["Deger"]);
+                entities.Add(entity);
+            }
+
+            return entities;
+        }
+
         #endregion
     }
-
-
-
 }
+

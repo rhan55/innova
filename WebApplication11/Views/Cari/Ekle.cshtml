@@ -4,59 +4,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container-fluid">
+<div class="container">
     <div class="row">
-        <div class="col-lg-2">
-            <!--begin::Menu-->
-            <div class="menu menu-rounded menu-column menu-title-gray-700 menu-icon-gray-500 menu-arrow-gray-500 menu-bullet-gray-500 menu-arrow-gray-500 menu-state-bg fw-semibold"
-                 data-kt-menu="true">
-
-                <div class="menu-item">
-                    <a href="#" class="menu-link py-3">
-                        <span class="menu-icon">
-                            <i class="ki-duotone ki-home fs-3">
-                                <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span>
-                            </i>
-                        </span>
-                        <span class="menu-title">Genel Bilgiler</span>
-                    </a>
-                </div>
-                <div class="menu-item">
-                    <a href="/CariKisi/Liste" class="menu-link py-3">
-                        <span class="menu-icon">
-                            <i class="ki-duotone ki-people fs-3">
-                                <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span>
-                            </i>
-                        </span>
-                        <span class="menu-title">Kişiler</span>
-                    </a>
-                </div>
-                <div class="menu-item">
-                    <a href="#" class="menu-link py-3">
-                        <span class="menu-icon">
-                            <i class="ki-duotone ki-book-open fs-3">
-                                <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span>
-                            </i>
-                        </span>
-                        <span class="menu-title">Notlar</span>
-                    </a>
-                </div>
-                <!--begin::Menu item-->
-                <div class="menu-item">
-                    <a href="#" class="menu-link py-3">
-                        <span class="menu-icon">
-                            <i class="ki-duotone ki-file fs-3">
-                                <span class="path1"></span><span class="path2"></span>
-                            </i>
-                        </span>
-                        <span class="menu-title">Dosyalar</span>
-                    </a>
-                </div>
-                <!--end::Menu item-->
-            </div>
-            <!--end::Menu-->
-        </div>
-        <form class="col-lg-10 row" method="post" action="/Cari/Ekle">
+        
+        <form class="col-lg-12 row" method="post" action="/Cari/Ekle">
 
             <div class="col-lg-10 row">
                 <div class="d-flex align-items-center justify-content-between mt-5">
@@ -95,33 +46,33 @@
                     <div class="form-group">
                         <label for="KayitTarihi" class=" form-label">Kayıt Tarihi</label>
                         @* Varsayilan gun tarihini cagirdik ve toString ile formatladik. bu format sayesinde input value degerini de atamis olduk *@
-                        <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" name="KayitTarihi" id="KayitTarihi" class="form-control" placeholder="" />
+                        <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" name="KayitTarihi" id="KayitTarihi" class="form-control p-2 rounded-1" placeholder="" />
                     </div>
 
                 </div>
-                <div class="col-3">
+                <div class="col-3 mt-4">
                     <label for="Kod" class=" form-label">Kod</label>
-                    <input type="text" id="Kod" name="Kod" class="form-control" placeholder="" />
+                    <input type="text" id="Kod" name="Kod" class="form-control p-2 rounded-1" placeholder="" />
                 </div>
-                <div class="col-9">
+                <div class="col-9 mt-4">
                     <label for="Isim" class=" form-label">Kısa İsim</label>
-                    <input type="text" id="Isim" name="Isim" class="form-control" placeholder="" required />
+                    <input type="text" id="Isim" name="Isim" class="form-control p-2 rounded-1" placeholder="" required />
                 </div>
-                <div class="col-12">
+                <div class="col-12 mt-4">
                     <label for="Unvan" class=" form-label">Unvan</label>
-                    <input type="text" id="Unvan" name="Unvan" class="form-control" placeholder=""  />
+                    <input type="text" id="Unvan" name="Unvan" class="form-control p-2 rounded-1" placeholder=""  />
                 </div>
-                <div class="col-12">
+                <div class="col-12 mt-4">
                     <label for="Adres" class=" form-label">Adres</label>
-                    <textarea type="text" id="Adres" name="Adres" class="form-control" placeholder="" ></textarea>
+                    <textarea type="text" id="Adres" name="Adres" class="form-control p-2 rounded-1" placeholder="" ></textarea>
                 </div>
-                <div class="col-3">
+                <div class="col-3 mt-4">
                     <label for="Bolge" class=" form-label">Bölge</label>
-                    <input type="text" id="Bolge" name="Bolge" class="form-control" placeholder="" />
+                    <input type="text" id="Bolge" name="Bolge" class="form-control p-2 rounded-1" placeholder="" />
                 </div>
-                <div class="col-3">
+                <div class="col-3 mt-4">
                     <label for="Ulke" class=" form-label">Ülke</label>
-                    <select class="form-select form-select-solid" data-control="select2" name="Ulke" id="Ulke"
+                    <select class="form-select form-select-solid p-2 rounded-1" data-control="select2" name="Ulke" id="Ulke"
                             aria-label="Floating label select example">
                         <option value="">Lütfen Seçim Yapınız</option>
                         @foreach (GrupKoduDto ulke in ViewBag.Ulkeler)
@@ -131,9 +82,9 @@
 
                     </select>
                 </div>
-                <div class="col-3">
+                <div class="col-3 mt-4">
                     <label for="Il" class=" form-label">İl</label>
-                    <select class="form-select form-select-solid" name="Il" data-control="select2" id="Il"
+                    <select class="form-select form-select-solid p-2 rounded-1" name="Il" data-control="select2" id="Il"
                             aria-label="Floating label select example">
                         <option value="">Lütfen Seçim Yapınız</option>
                         @foreach (GrupKoduDto il in ViewBag.Iller)
@@ -144,36 +95,36 @@
 
                     </select>
                 </div>
-                <div class="col-3">
+                <div class="col-3 mt-4">
                     <label for="Ilce" class=" form-label">İlçe</label>
-                    <input type="text" id="Ilce" name="Ilce" class="form-control" placeholder="" />
+                    <input type="text" id="Ilce" name="Ilce" class="form-control p-2 rounded-1" placeholder="" />
                 </div>
 
 
 
 
-                <div class="col-3">
+                <div class="col-3 mt-4">
                     <div class="form-group">
                         <label for="PostaKodu" class=" form-label">Posta Kodu</label>
-                        <input type="text" id="PostaKodu" name="PostaKodu" class="form-control" placeholder="" />
+                        <input type="text" id="PostaKodu" name="PostaKodu" class="form-control  p-2 rounded-1" placeholder="" />
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-3 mt-4">
                     <div class="form-group">
                         <label for="TCKimlikNo" class=" form-label">TC No</label>
-                        <input type="text" id="TCKimlikNo" name="TCKimlikNo" class="form-control" placeholder="" />
+                        <input type="text" id="TCKimlikNo" name="TCKimlikNo" class="form-control p-2 rounded-1" placeholder="" />
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-3 mt-4">
                     <div class="form-group">
                         <label for="VergiNumarasi" class=" form-label">Vergi Numarası</label>
-                        <input type="text" id="VergiNumarasi" name="VergiNumarasi" class="form-control" placeholder="" />
+                        <input type="text" id="VergiNumarasi" name="VergiNumarasi" class="form-control  p-2 rounded-1" placeholder="" />
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-3 mt-4">
                     <div class="form-group">
                         <label for="VergiDairesi" class=" form-label">Vergi Dairesi</label>
-                        <input type="text" id="VergiDairesi" name="VergiDairesi" class="form-control" placeholder="" />
+                        <input type="text" id="VergiDairesi" name="VergiDairesi" class="form-control p-2 rounded-1" placeholder="" />
                     </div>
                 </div>
 
@@ -187,7 +138,7 @@
 
                 <div class="col-12">
                     <label for="GrupKodu1ID" class="form-label">Grup Kodu 1</label>
-                    <select class="form-select form-select-solid" data-control="select2" name="GrupKodu1ID" id="GrupKodu1ID"
+                    <select class="form-select form-select-solid p-2 rounded-1" data-control="select2" name="GrupKodu1ID" id="GrupKodu1ID"
                             aria-label="Floating label select example">
                         <option value="">Lütfen Seçim Yapınız</option>
                         @foreach (GrupKoduDto cariGrupKodlari1 in ViewBag.CariGrupKodlari1)
@@ -196,9 +147,9 @@
                         }
                     </select>
                 </div>
-                <div class="col-12">
+                <div class="col-12 mt-4">
                     <label for="GrupKodu2ID" class="form-label">Grup Kodu 2</label>
-                    <select class="form-select form-select-solid" data-control="select2" name="GrupKodu2ID" id="GrupKodu2ID"
+                    <select class="form-select form-select-solid p-2 rounded-1" data-control="select2" name="GrupKodu2ID" id="GrupKodu2ID"
                             aria-label="Floating label select example">
                         <option value="">Lütfen Seçim Yapınız</option>
                         @foreach (GrupKoduDto cariGrupKodlari2 in ViewBag.CariGrupKodlari2)
@@ -208,9 +159,9 @@
                     </select>
                 </div>
 
-                <div class="col-12">
+                <div class="col-12 mt-4">
                     <label for="GrupKodu3ID" class="form-label">Grup Kodu 3</label>
-                    <select class="form-select form-select-solid" data-control="select2" name="GrupKodu3ID" id="GrupKodu3ID"
+                    <select class="form-select form-select-solid p-2 rounded-1" data-control="select2" name="GrupKodu3ID" id="GrupKodu3ID"
                             aria-label="Floating label select example">
                         <option value="">Lütfen Seçim Yapınız</option>
                         @foreach (GrupKoduDto cariGrupKodlari3 in ViewBag.CariGrupKodlari3)
@@ -219,9 +170,9 @@
                         }
                     </select>
                 </div>
-                <div class="col-12">
+                <div class="col-12 mt-4">
                     <label for="GrupKodu4ID" class="form-label">Grup Kodu 4</label>
-                    <select class="form-select form-select-solid" data-control="select2" name="GrupKodu4ID" id="GrupKodu4ID"
+                    <select class="form-select form-select-solid p-2 rounded-1" data-control="select2" name="GrupKodu4ID" id="GrupKodu4ID"
                             aria-label="Floating label select example">
                         <option value="">Lütfen Seçim Yapınız</option>
                         @foreach (GrupKoduDto cariGrupKodlari4 in ViewBag.CariGrupKodlari4)
@@ -231,9 +182,9 @@
                     </select>
                 </div>
 
-                <div class="col-12">
+                <div class="col-12 mt-4">
                     <label for="GrupKodu5ID" class="form-label">Grup Kodu 5</label>
-                    <select class="form-select form-select-solid" data-control="select2" name="GrupKodu5ID" id="GrupKodu5ID"
+                    <select class="form-select form-select-solid p-2 rounded-1" data-control="select2" name="GrupKodu5ID" id="GrupKodu5ID"
                             aria-label="Floating label select example">
                         <option value="">Lütfen Seçim Yapınız</option>
                         @foreach (GrupKoduDto cariGrupKodlari5 in ViewBag.CariGrupKodlari5)
@@ -241,10 +192,10 @@
                             <option value="@cariGrupKodlari5.ID">@cariGrupKodlari5.Deger</option>
                         }
                     </select>
-                </div>
-                <div class="col-12">
+                </div> 
+                <div class="col-12 mt-4">
                     <label for="GrupKodu6ID" class="form-label">Grup Kodu 6</label>
-                    <select class="form-select form-select-solid" data-control="select2" name="GrupKodu6ID" id="GrupKodu6ID"
+                    <select class="form-select form-select-solid p-2 rounded-1" data-control="select2" name="GrupKodu6ID" id="GrupKodu6ID"
                             aria-label="Floating label select example">
                         <option value="">Lütfen Seçim Yapınız</option>
                         @foreach (GrupKoduDto cariGrupKodlari6 in ViewBag.CariGrupKodlari6)
@@ -260,19 +211,19 @@
 
             <div class="col-12 row">
 
-                <div class="col-2">
+                <div class="col-2 mt-4">
                     <div class="form-group">
                         <label for="DovizID" class=" form-label">Döviz Id</label>
-                        <input id="DovizID" type="text" name="DovizID" class="form-control" placeholder="" />
+                        <input id="DovizID" type="text" name="DovizID" class="form-control  p-2 rounded-1" placeholder="" />
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="col-2 mt-4">
                     <div class="form-group">
                         <label for="VadeGunu" class=" form-label">Vade Günü</label>
-                        <input id="VadeGunu" type="text" name="VadeGunu" class="form-control" placeholder="" />
+                        <input id="VadeGunu" type="text" name="VadeGunu" class="form-control p-2 rounded-1" placeholder="" />
                     </div>
-                </div>
-                <div class="col-2">
+                </div> 
+                <div class="col-2 mt-4">
                     <br /><br />
                     <input class="form-check-input" name="Kilitli " type="checkbox" value="true" id="Kilitli " />
                     <label class="form-check-label user-select-none cursor-pointer" for="Kilitli ">
@@ -280,34 +231,34 @@
                     </label>
                 </div>
 
-                <div class="col-2">
+                <div class="col-2 mt-4">
                     <div class="form-group me-5">
                         <label for="KilitAciklamasi" class=" form-label">KilitAciklamasi</label>
-                        <input id="KilitAciklamasi" type="text" name="KilitAciklamasi" class="form-control" placeholder="" />
+                        <input id="KilitAciklamasi" type="text" name="KilitAciklamasi" class="form-control p-2 rounded-1" placeholder="" />
                     </div>
                 </div>
 
-                <div class="col-2">
+                <div class="col-2 mt-4">
                     <label for="Iskonto1" class=" form-label">Iskonto1</label>
-                    <input type="text" class="form-control" name="Iskonto1" id="Iskonto1" step="any" />
+                    <input type="text" class="form-control p-2 rounded-1" name="Iskonto1" id="Iskonto1" step="any" />
 
                 </div>
-                <div class="col-2">
+                <div class="col-2 mt-4">
                     <div class="form-group">
                         <label for="ListeFiyat" class=" form-label">ListeFiyat</label>
-                        <input id="ListeFiyat" type="text" name="ListeFiyat" class="form-control" placeholder="" step="any" />
+                        <input id="ListeFiyat" type="text" name="ListeFiyat" class="form-control p-2 rounded-1" placeholder="" step="any" />
                     </div>
                 </div>
 
 
-                <div class="col-12">
+                <div class="col-12 mt-4">
                     <div class="form-group">
                         <label for="MuhasebeKodu" class=" form-label"> Muhasebe Kodu </label>
-                        <input id="MuhasebeKodu" type="text" name="MuhasebeKodu" class="form-control" placeholder="" />
+                        <input id="MuhasebeKodu" type="text" name="MuhasebeKodu" class="form-control  p-2 rounded-1" placeholder="" />
                     </div>
                 </div>
 
-                <div class="col-4">
+                <div class="col-4 mt-4">
                     <input class="form-check-input" name="LimitAsimindaUyar" type="checkbox" value="true" id="LimitAsimindaUyar " />
                     <label class="form-check-label user-select-none cursor-pointer" for="LimitAsimindaUyar ">
                         Limit Aşımında Uyar
@@ -317,123 +268,130 @@
                         Limit Aşımında Durdur
                     </label>
                 </div>
-                <div class="col-4">
+                <div class="col-4 mt-4">
                     <div class="form-group">
                         <label for="Limit" class=" form-label">Limit</label>
-                        <input type="text" name="Limit" class="form-control" placeholder="" id="Limit" step="any" />
+                        <input type="text" name="Limit" class="form-control p-2 rounded-1" placeholder="" id="Limit" step="any" />
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-4 mt-4">
                     <div class="form-group">
-                        <label for="RiskAciklama" class=" form-label"> RiskAciklama </label>
-                        <input type="text" id="RiskAciklama" name="RiskAciklama" class="form-control" placeholder="" />
+                        <label for="RiskAciklama" class=" form-label "> RiskAciklama </label>
+                        <input type="text" id="RiskAciklama" name="RiskAciklama" class="form-control p-2 rounded-1" placeholder="" />
                     </div>
                 </div>
 
-                <div class="col-4">
+                <div class="col-4 mt-4">
                     <div class="form-group">
                         <label for="PlasiyerID" class=" form-label">PlasiyerID </label>
-                        <input type="text" id="PlasiyerID" name="PlasiyerID " class="form-control" placeholder="" />
+                        <select class="form-select form-select-solid p-2 rounded-1" data-control="select2" name="PlasiyerID" id="PlasiyerID"
+                                aria-label="Floating label select example">
+                            <option value="">Lütfen Seçim Yapınız</option>
+                            @foreach (SatisPersoneliDto plasiyer in ViewBag.PlasiyerID)
+                            {
+                                <option value="@plasiyer.ID">@plasiyer.Isim</option>
+                            }
+                        </select>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-4 mt-4">
                     <div class="form-group">
                         <label for="AnaCariID" class=" form-label"> AnaCariID </label>
-                        <input type="text" id="AnaCariID" name="AnaCariID" class="form-control" placeholder="" />
+                        <input type="text" id="AnaCariID" name="AnaCariID" class="form-control p-2 rounded-1" placeholder="" />
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-4 mt-4">
                     <div class="form-group">
                         <label for="TeslimCariID" class=" form-label">TeslimCariID</label>
-                        <input id="TeslimCariID" type="text" name="TeslimCariID" class="form-control" placeholder="" />
+                        <input id="TeslimCariID" type="text" name="TeslimCariID" class="form-control p-2 rounded-1" placeholder="" />
                     </div>
                 </div>
 
-                <div class="col-3">
+                <div class="col-3 mt-4">
                     <div class="form-group ">
-                        <label for="Telefon1" class="form-label ">Telefon 1</label>
-                        <input type="text" name="Telefon1" class="form-control" id="Telefon1" />
+                        <label for="Telefon1" class="form-label">Telefon 1</label>
+                        <input type="text" name="Telefon1" class="form-control p-2 rounded-1" id="Telefon1" />
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-3 mt-4">
                     <div class="form-group">
                         <label for="Telefon2" class="form-label">Telefon 2</label>
-                        <input type="text" name="Telefon2" class="form-control" id="Telefon2" />
+                        <input type="text" name="Telefon2" class="form-control p-2 rounded-1" id="Telefon2" />
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-3 mt-4">
                     <div class="form-group">
                         <label for="Faks" class="form-label">Faks</label>
-                        <input type="text" name="Faks" class="form-control" id="Faks" />
+                        <input type="text" name="Faks" class="form-control p-2 rounded-1" id="Faks" />
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-3 mt-4">
                     <div class="form-group">
                         <label for="CepTelefonu" class="form-label ">Cep Telefonu</label>
-                        <input type="text" name="CepTelefonu" class="form-control" id="CepTelefonu" />
+                        <input type="text" name="CepTelefonu" class="form-control p-2 rounded-1" id="CepTelefonu" />
                     </div>
                 </div>
 
-                <div class="col-3">
+                <div class="col-3 mt-4">
                     <div class="form-group">
                         <label for="KullaniciAdi" class=" form-label"> Kullanıcı Adı</label>
-                        <input id="KullaniciAdi" type="text" name="KullaniciAdi" class="form-control" placeholder=""  />
+                        <input id="KullaniciAdi" type="text" name="KullaniciAdi" class="form-control p-2 rounded-1" placeholder=""  />
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-3 mt-4">
                     <div class="form-group">
                         <label for="Parola" class=" form-label">Parola</label>
-                        <input id="Parola" type="password" name="Parola" class="form-control" placeholder=""  />
+                        <input id="Parola" type="password" name="Parola" class="form-control p-2 rounded-1" placeholder=""  />
                     </div>
                 </div>
 
-                <div class="col-3">
+                <div class="col-3 mt-4">
                     <div class="form-group">
                         <label for="EMail" class="form-label ">Email</label>
-                        <input type="text" name="EMail" class="form-control" id="EMail" />
+                        <input type="text" name="EMail" class="form-control p-2 rounded-1" id="EMail" />
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-3 mt-4">
                     <div class="form-group">
                         <label for="WebSite" class="form-label">Web Sitesi</label>
-                        <input type="text" name="WebSite" class="form-control" id="WebSite" />
+                        <input type="text" name="WebSite" class="form-control p-2 rounded-1" id="WebSite" />
                     </div>
                 </div>
 
-                <div class="col-4">
-                    <div class="form-group mt-5">
+                <div class="col-4 mt-4">
+                    <div class="form-group">
                         <label for="Aciklama1" class="form-label">Açıklama 1</label>
-                        <textarea type="text" name="Aciklama1" class="form-control" id="Aciklama1"></textarea>
+                        <textarea type="text" name="Aciklama1" class="form-control p-2 rounded-1" id="Aciklama1"></textarea>
                     </div>
                 </div>
-                <div class="col-4">
-                    <div class="form-group mt-5">
+                <div class="col-4 mt-4">
+                    <div class="form-group">
                         <label for="Aciklama2" class="form-label">Açıklama 2</label>
-                        <textarea type="text" name="Aciklama2" class="form-control" id="Aciklama2"></textarea>
+                        <textarea type="text" name="Aciklama2" class="form-control p-2 rounded-1" id="Aciklama2"></textarea>
                     </div>
                 </div>
-                <div class="col-4">
-                    <div class="form-group mt-5">
+                <div class="col-4 mt-4">
+                    <div class="form-group">
                         <label for="Aciklama3" class="form-label">Açıklama 3</label>
-                        <textarea type="text" name="Aciklama3" class="form-control" id="Aciklama3"></textarea>
+                        <textarea type="text" name="Aciklama3" class="form-control p-2 rounded-1" id="Aciklama3"></textarea>
                     </div>
                 </div>
-                <div class="col-4">
-                    <div class="form-group mt-5">
+                <div class="col-4 mt-4">
+                    <div class="form-group">
                         <label for="Aciklama4" class="form-label">Açıklama 4</label>
-                        <textarea type="text" name="Aciklama4" class="form-control" id="Aciklama4"></textarea>
+                        <textarea type="text" name="Aciklama4" class="form-control p-2 rounded-1" id="Aciklama4"></textarea>
                     </div>
                 </div>
-                <div class="col-4">
-                    <div class="form-group mt-5">
+                <div class="col-4 mt-4">
+                    <div class="form-group">
                         <label for="Aciklama5" class="form-label">Açıklama 5</label>
-                        <textarea type="text" name="Aciklama5" class="form-control" id="Aciklama5"></textarea>
+                        <textarea type="text" name="Aciklama5" class="form-control p-2 rounded-1" id="Aciklama5"></textarea>
                     </div>
                 </div>
-                <div class="col-4">
-                    <div class="form-group mt-5">
+                <div class="col-4 mt-4">
+                    <div class="form-group">
                         <label for="Aciklama6" class="form-label">Açıklama 6</label>
-                        <textarea type="text" name="Aciklama6" class="form-control" id="Aciklama6"></textarea>
+                        <textarea type="text" name="Aciklama6" class="form-control p-2 rounded-1" id="Aciklama6"></textarea>
                     </div>
                 </div>
             </div>

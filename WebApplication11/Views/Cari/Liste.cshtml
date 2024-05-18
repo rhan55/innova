@@ -14,25 +14,14 @@
             <div class="card card-flush">
                 <div class="card-header align-items-center py-5 gap-2 gap-md-5">
                     <div class="card-title">
-                        <!--begin::Search-->
-                        <div class="d-flex align-items-center position-relative ms-2 my-1">
-                            <i class="ki-duotone ki-magnifier fs-3 position-absolute m-4">
-                                <span class="path1 text-gray-500"></span>
-                                <span class="path2 text-gray-500"></span>
-                            </i>
-                            <input type="text" data-kt-filter="search" class="form-control  w-250px ps-14" placeholder="Cari Ara" />
-                        </div>
-                        <!--end::Search-->
+                 
                         <!--begin::Export buttons-->
                         <div id="kt_datatable_example_1_export" class="d-none"></div>
                         <!--end::Export buttons-->
                     </div>
                     <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
                         <!--begin::Detaylı Arama-->
-                        <!--begin::Detaylı Arama-->
-                        <button type="button" id="toggleFilter" class="btn tab_btn btn-light-primary">
-                            Filtrele
-                        </button>
+                     
                         <!--end::Detaylı Arama-->
                         <button type="button" class="btn btn-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                             <i class="ki-duotone ki-exit-down fs-2"><span class="path1"></span><span class="path2"></span></i>
@@ -87,7 +76,7 @@
                     </div>
                 </div>
                 <!--begin::Filtreleme alanı-->
-                <form method="POST" action="" class="p-10 content hidden" id="datatableFilters">
+                <form method="POST" action="" class="p-10 content" id="datatableFilters">
                     <div><h3 class="text-active-gray-700">Filtreler</h3></div>
 
                     <div class="row">
@@ -144,7 +133,7 @@
                             <!--end::Input-->
                         </div>
                         <div class="col-lg-3 d-flex justify-content-end align-items-end">
-                            <button type="reset" class="btn btn-light me-3 h-40px" data-kt-users-modal-action="cancel">Temizle</button>
+                            <button type="button" id="filtreleriTemizle" class="btn btn-light me-3 h-40px" data-kt-users-modal-action="cancel">Temizle</button>
                             <button type="submit" class="btn btn-primary h-40px" data-kt-users-modal-action="Ara">
                                 <span class="indicator-label">Ara</span>
                                 <span class="indicator-progress">
@@ -273,18 +262,19 @@
             document.querySelectorAll('.btn-sil').forEach(silButonu => {
                 silButonu.addEventListener('click', function () {
                     document.querySelector('form#silme-formu input[name="id"]').value = silButonu.dataset.id;
-                })
+                });
             });
 
-            const filterButton = document.querySelector('#toggleFilter');
-
-            if (filterButton) {
-                filterButton.addEventListener('click', () => {
-                    const filters = document.querySelector('#datatableFilters');
-
-                    if (filters) {
-                        filters.classList.toggle('hidden');
-                    }
+            const filtreleriTemizle = document.querySelector("#filtreleriTemizle");
+           
+            if (filtreleriTemizle) {
+                
+                filtreleriTemizle.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    document.querySelector("form#datatableFilters").querySelectorAll("input").forEach(input => {
+                        input.value = ""
+                    })
+                    document.querySelector("form#datatableFilters").submit();
                 });
             }
         });
@@ -324,7 +314,8 @@
                         }  ,
                         {
                             render: DataTable.render.select(),
-                            targets: 0
+                            targets: 0,
+                            width: "40px"
                         },
                         {
                             targets: 6,
@@ -340,26 +331,7 @@
 
                 });
 
-                datatable
-                    .on('select', function (e, dt, type, indexes) {
-                        let rowData = datatable
-                            .rows(indexes)
-                            .data()
-                            .toArray();
-
-                        for (let i = 0; i < rowData.length; i++) {
-                            console.log(rowData[i][6]);
-                        }
-                    })
-                    .on('deselect', function (e, dt, type, indexes) {
-                        let rowData = datatable
-                            .rows(indexes)
-                            .data()
-                            .toArray();
-
-                        
-
-                    });
+               
             }
 
        
@@ -416,12 +388,7 @@
             }
 
             // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
-            var handleSearchDatatable = () => {
-                const filterSearch = document.querySelector('[data-kt-filter="search"]');
-                filterSearch.addEventListener('keyup', function (e) {
-                    datatable.search(e.target.value).draw();
-                });
-            }
+          
 
             // Public methods
             return {
@@ -434,7 +401,7 @@
 
                     initDatatable();
                     exportButtons();
-                    handleSearchDatatable();
+                  
                 }
             };
         }();

@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Excel ile İçe Aktar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div id="kt_content_container" class="container-md">
+    
+    
+    <div class="card mt-10">
+        <div class="Row  mt-4">
+            <div class="col-6 ps-10">
+                <a href="~/Tema/excel/ornek-cari-listesi.xlsx" class="btn btn-light-primary " data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                    <i class="ki-duotone ki-minus-folder fs-2">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </i>
+
+                    Cari Aktarım Şablonu
+                </a>
+            </div>
+        </div>
+        <div class="p-10">
+            <div class="">
+                <i class="ki-duotone ki-add-folder fs-2 text-primary">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                </i>
+                <label for="file_csv" class="form-label">Bir Dosya Seçin</label>
+                @using (Html.BeginForm("ExcelIceAktar", "Cari", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <input class="form-control mt-2" type="file" name="file" />
+                    <!--begin::Actions-->
+                    <div class="col-12">
+                        <div class="pt-5">
+                            <button type="submit" class="btn btn-primary" data-kt-users-modal-action="ExcelIceAktar">
+                                <span class="indicator-label">İçe Aktar</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!--end::Actions-->
+                }
+
+            </div>
+            
+        </div>
+
+    </div>
+    </div>

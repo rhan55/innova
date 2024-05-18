@@ -136,12 +136,33 @@ namespace YKPortal.Controllers
 
             mail.Subject = "YK YAZILIM - Parola Sıfırlama";
             mail.IsBodyHtml = true;
-            mail.Body = 
-            $"<div><img style=\"width:60px; height:40px;\" src=\"http://ykyazilim.com/Logolar/orijinal.png/\"/></div>" +
-            $"<h1 style=\"font-size: 20px; color:#5C5C5C; font-weiht:semibold;\">Merhaba Sayın, {dt.Rows[0]["Ad"]} {dt.Rows[0]["Soyad"]}" + "</h1>" +
-            $"<p>Şifreniz aşağıda belirtilmiştir.</p>" +
-            $"<p style=\"display:flex; text-align:center; justify-content:center; align-items:center; padding-right:6px; padding-left:6px; border-radius:5px; font-size: 24px;height:40px;font-weight:bold; color:#FFFFFF; background-color:#4D4DFF;\">{dt.Rows[0]["Parola"]}</p>";
-            
+            mail.Body =
+                $@"
+                     <table style=""width: 100%;text-align: center;font-family: sans-serif;"">
+                        <tr>
+                            <td>
+                                <table border=""0"" style=""padding: 16px 24px;width: 100%;text-align: center;max-width: 600px;margin-left: auto;margin-right: auto;"" >
+                                    <tbody>
+                                        <tr >
+                                            <td><img width=""240px"" style=""margin-left: auto;margin-right: auto;padding-bottom: 16px;"" src=""https://app.ykyazilim.com.tr/Tema/media/Logolar/orijinal.png""/></td>
+                                        </tr>
+                                        <tr>
+                                            <td style=""font-size: 24px; padding-top: 24px; padding-bottom: 24px;"">Merhaba Sayın, {dt.Rows[0]["Ad"]} {dt.Rows[0]["Soyad"]}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p style=""font-size: 20px;"">Şifreniz aşağıda belirtilmiştir. Lütfen başka bir şahısla paylaşmayınız.</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style=""text-align: center;""><p  style=""margin-left: auto;margin-right: auto; font-family: sans-serif;padding-top: 12px; padding-bottom: 12px; font-weight: 700; font-size: 36px; width: 200px;"">{dt.Rows[0]["Parola"]}</p> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                ";
             try
             {
                 sc.Send(mail);

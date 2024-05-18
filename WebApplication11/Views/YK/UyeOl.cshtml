@@ -217,8 +217,8 @@
                                             <!--begin::Label-->
                                             <label class="required fw-semibold fs-6 mb-2">Vergi Numarası</label>
                                             <!--end::Label-->
-                                            <!--begin::Input-->ViewBag.Form.VergiNumarasi"
-                                            <input class="form-control  @(ViewData.ModelState.ContainsKey("VergiNumarasi") ? "is-invalid" : "")" name="VergiNumarasi" placeholder="Vergi Numarası" id="exampleFormControlTextarea1" required value="@  />
+                                            <!--begin::Input-->
+                                            <input class="form-control  @(ViewData.ModelState.ContainsKey("VergiNumarasi") ? "is-invalid" : "")" name="VergiNumarasi" placeholder="Vergi Numarası" id="exampleFormControlTextarea1" required value="@ViewBag.Form.VergiNumarasi" />
                                             <!--end::Input-->
                                             @if (ViewData.ModelState.ContainsKey("VergiNumarasi") && ViewData.ModelState["VergiNumarasi"].Errors.Count() > 0)
                                             {
