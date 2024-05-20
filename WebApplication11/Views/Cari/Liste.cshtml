@@ -14,14 +14,13 @@
             <div class="card card-flush">
                 <div class="card-header align-items-center py-5 gap-2 gap-md-5">
                     <div class="card-title">
-                 
+
                         <!--begin::Export buttons-->
                         <div id="kt_datatable_example_1_export" class="d-none"></div>
                         <!--end::Export buttons-->
                     </div>
                     <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
                         <!--begin::Detaylı Arama-->
-                     
                         <!--end::Detaylı Arama-->
                         <button type="button" class="btn btn-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                             <i class="ki-duotone ki-exit-down fs-2"><span class="path1"></span><span class="path2"></span></i>
@@ -30,7 +29,7 @@
                         <!--begin::Menu-->
                         <form action="/Cari/ExcelIceAktar" method="post" enctype="multipart/form-data">
                             <input type="file" name="excelDosyasi" id="excelDosyasi" class="hidden" value="" accept=".xlsx,.xls" />
-                            <label for="excelDosyasi" class="btn btn-light-primary" >
+                            <label for="excelDosyasi" class="btn btn-light-primary">
                                 <i class="ki-duotone ki-exit-down fs-2"><span class="path1"></span><span class="path2"></span></i>
                                 Excel içe aktar
                             </label>
@@ -202,6 +201,9 @@
                                         <div class="menu-item px-3">
                                             <a href="/CariNot/Liste?CariID=@(Convert.ToString(Model.Rows[i]["ID"]))" class="menu-link px-3">Notlar</a>
                                         </div>
+                                        <div class="menu-item px-3">
+                                            <a href="/Dosya/Liste?Modul=Cari&KayitID=@(Convert.ToString(Model.Rows[i]["ID"]))" class="menu-link px-3">Dosyalar</a>
+                                        </div>
                                         <!--end::Menu item-->
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-3">
@@ -266,9 +268,9 @@
             });
 
             const filtreleriTemizle = document.querySelector("#filtreleriTemizle");
-           
+
             if (filtreleriTemizle) {
-                
+
                 filtreleriTemizle.addEventListener("click", function (e) {
                     e.preventDefault();
                     document.querySelector("form#datatableFilters").querySelectorAll("input").forEach(input => {
@@ -304,37 +306,38 @@
                         [10, 20, 50, 100, -1],
                         ['10 Adet', '20 Adet', '50 Adet', '100 Adet', "Tümü"]
                     ],
-                   
+
                     language: { url: '//cdn.datatables.net/plug-ins/2.0.7/i18n/tr.json', },
-                    
+
                     columnDefs: [
                         {
                             targets: [0, 5],
                             orderable: false
-                        }  ,
+                        },
                         {
                             render: DataTable.render.select(),
                             targets: 0,
                             width: "40px"
                         },
                         {
-                            targets: 6,
+                            targets: [6],
                             visible: false
                         }
+
                     ],
                     select: {
-                      
+
                         selector: 'td:first-child'
                     },
                     order: [[1, 'asc']]
-                    
+
 
                 });
 
-               
+
             }
 
-       
+
             // Hook export buttons
             var exportButtons = () => {
                 const documentTitle = 'Cari-Listesi-' + moment(new Date()).format("DD-MM-YYYY");
@@ -388,7 +391,7 @@
             }
 
             // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
-          
+
 
             // Public methods
             return {
@@ -401,7 +404,7 @@
 
                     initDatatable();
                     exportButtons();
-                  
+
                 }
             };
         }();

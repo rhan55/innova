@@ -41,8 +41,6 @@ namespace YKPortal.Controllers
                 }
             }
 
-            
-
             return View(dt);
         }
 
