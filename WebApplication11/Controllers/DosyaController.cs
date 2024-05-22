@@ -54,7 +54,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return new HttpResponseMessage(System.Net.HttpStatusCode.Unauthorized);
 
-            var id = Guid.NewGuid();
+  
 
             SqlCommand cmd = new SqlCommand();
 
@@ -66,10 +66,8 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@Modul", cariDosyaDto.Modul);
             cmd.Parameters.AddWithValue("@KayitID", cariDosyaDto.KayitID);
 
-            var dosyaUzantisi = Dosya.FileName.Split('.').Last();
-
-            var dosyaAdi = $"{id}.{dosyaUzantisi}";
-            Dosya.SaveAs(Server.MapPath($"/Uploads/Dosyalar/{dosyaAdi}"));
+          
+            Dosya.SaveAs(Server.MapPath($"/Uploads/Dosyalar/{Dosya.FileName}"));
 
             cmd.Parameters.AddWithValue("@Dosya", Dosya.FileName);
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
@@ -77,7 +75,7 @@ namespace YKPortal.Controllers
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
             response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
-            response.Content = new StringContent("Dosya bulunamadi.");
+            response.Content = new StringContent("Dosya yuklendi.");
             return response;
 
         }
@@ -111,16 +109,12 @@ namespace YKPortal.Controllers
             cmd.CommandText = "p_DosyaKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-
-
-            if (Dosya != null && Dosya.ContentLength > 0)
-            {
-                var extension = Dosya.FileName.Split('.').Last();
-
-                var imageName = $"{cariDosyaDto.ID}_{Guid.NewGuid()}.{extension}";
-                Dosya.SaveAs(Server.MapPath($"/Uploads/Avatarlar/{imageName}"));
-                cmd.Parameters.AddWithValue("@Dosya", $"/Uploads/Avatarlar/{imageName}");
-            }
+            //if (Dosya != null && Dosya.ContentLength > 0)
+            //{   
+            //    //dosyayı kaydetme işlemi ve 
+            //    Dosya.SaveAs(Server.MapPath($"/Uploads/Dosyalar/{Dosya.FileName}"));
+            //    cmd.Parameters.AddWithValue("@Dosya", $"/Uploads/Dosyalar/{Dosya.FileName}");
+            //}
 
 
             cmd.Parameters.AddWithValue("@ID", cariDosyaDto.ID);
@@ -137,21 +131,26 @@ namespace YKPortal.Controllers
 
 
         [HttpPost]
-        public ActionResult Sil(DosyaDto cariDosyaDto, string id)
+        public ActionResult Sil(DosyaDto cariDosyaDto)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "p_KullaniciSil";
+            cmd.CommandText = "p_DosyaSil";
+
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@ID", cariDosyaDto.ID);
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@Modul", cariDosyaDto.Modul);
-            cmd.Parameters.AddWithValue("@KayitID", cariDosyaDto.@KayitID);
+            cmd.Parameters.AddWithValue("@KayitID", cariDosyaDto.KayitID);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            return RedirectToAction("Liste");
+            //if(System.IO.File.Exists("excel-no-2.xlsx"))
+            //{
+            //    System.IO.File.Delete("excel-no-2.xlsx");
+            //} 
+            return RedirectToAction("Liste", new {KayitID = cariDosyaDto.KayitID, Modul = cariDosyaDto.Modul});
         }
 
         #region Cookie İşlemleri
