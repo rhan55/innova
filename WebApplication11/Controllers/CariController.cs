@@ -12,6 +12,7 @@ using System.Web.Http.Results;
 using System.Configuration;
 using System.Data.OleDb;
 using System.Web.Services;
+using System.Collections;
 
 namespace YKPortal.Controllers
 {
@@ -105,13 +106,100 @@ namespace YKPortal.Controllers
 
             return RedirectToAction("Liste");
         }
+        [HttpGet]
         public ActionResult ExcelIceAktar()
         {
             return View();
         }
         [HttpPost]
-        public ActionResult ExcelIceAktar(HttpPostedFileBase excelDosyasi)
+        public ActionResult ExcelIceAktar(string id=null) // parametreyi öylesine verdik, get ve post metodunun ikiside parametresi olamaz hata veri o yüzden
         {
+
+            int AktarilanKayitSayisi = 0;
+            int AktarilanHataliKayitSayisi = 0;
+            ArrayList HataliKayitListesi = new ArrayList();
+
+            DataSet ds = new DataSet();
+            if (Request.Files["file"].ContentLength > 0)
+            {
+                string fileExtension = System.IO.Path.GetExtension(Request.Files["file"].FileName);
+
+                if (fileExtension == ".xls" || fileExtension == ".xlsx")
+                {
+                    // Burada klasör olarak bir Temp klasörü açılıp dosyaları oraya ataibliriz.
+                    string fileLocation = Server.MapPath("~/Uploads/") + Request.Files["file"].FileName;
+                    if (System.IO.File.Exists(fileLocation))
+                    {
+                        System.IO.File.Delete(fileLocation);
+                    }
+                    Request.Files["file"].SaveAs(fileLocation);
+                    string excelConnectionString = string.Empty;
+                    excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
+                    fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
+                    if (fileExtension == ".xls")
+                    {
+                        excelConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" +
+                        fileLocation + ";Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=2\"";
+                    }
+                    else if (fileExtension == ".xlsx")
+                    {
+                        excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
+                        fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
+                    }
+                    OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
+                    excelConnection.Open();
+                    DataTable dt = new DataTable();
+
+                    dt = excelConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                    if (dt == null)
+                    {
+                        return null;
+                    }
+
+                    String[] excelSheets = new String[dt.Rows.Count];
+                    int t = 0;
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        excelSheets[t] = row["TABLE_NAME"].ToString();
+                        t++;
+                    }
+                    OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
+
+                    string query = string.Format("Select * from [{0}]", excelSheets[0]); //Exceldeki ilk sayfanın verilerini sorguluyoruz.
+                    using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(query, excelConnection1))
+                    {
+                        dataAdapter.Fill(ds);
+                    }
+                }
+
+                foreach (DataRow satir in ds.Tables[0].Rows)
+                {
+                    string CariKod = "";
+                    string CariIsim = "";
+                    try
+                    {
+                        CariKod = Convert.ToString(satir[0]); //Exceldeki 1. kolon
+                        CariIsim = Convert.ToString(satir[1]); //Exceldeki 1. kolon
+
+                        // bu bilgileri okuyarak p_CariKaydet procedure'u çalıştırılacak ve hata veren satır en sonunda bilgilendirme olarak kullanıcının ekranında gösterilecek.   
+
+                        AktarilanKayitSayisi++;
+                    }
+                    catch (Exception err)
+                    {
+                        AktarilanHataliKayitSayisi++;
+                        HataliKayitListesi.Add(CariIsim +" > "+err.Message);
+                    }
+                }
+
+                ViewBag.AktarilanKayitSayisi = AktarilanKayitSayisi;
+                ViewBag.AktarilanHataliKayitSayisi = AktarilanHataliKayitSayisi;
+                ViewBag.HataliKayitListesi = HataliKayitListesi;
+                // Burdaki bilgileri ekranda Aktarılan Kayıt : 800, Hatalı Kayıt 20 gibi gösterip
+                // Hatalı kayıtların detayınıda HAtaliKayitListesi List'ini forech ile dönüş ekranda gösterebiliriz.
+                return View();
+            }
+
             // excel satirlara bolucez
             //DataSet ds = new DataSet();
             //if (Request.Files["excelDosyasi"].ContentLength > 0)
