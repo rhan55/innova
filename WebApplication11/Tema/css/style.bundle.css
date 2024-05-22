@@ -2226,7 +2226,7 @@ progress {
 }
 
     .table > :not(caption) > * > * {
-        padding: .75rem .75rem;
+        /*padding: .75rem .75rem;*/
         color: var(--bs-table-color-state,var(--bs-table-color-type,var(--bs-table-color)));
         background-color: var(--bs-table-bg);
         border-bottom-width: 1px;
@@ -11076,7 +11076,7 @@ textarea.form-control-lg {
 }
 
 .pt-4 {
-    padding-top: 1rem !important
+    /*padding-top: 1rem !important*/
 }
 
 .pt-5 {
@@ -11244,7 +11244,7 @@ textarea.form-control-lg {
 }
 
 .pb-4 {
-    padding-bottom: 1rem !important
+   /* padding-bottom: 1rem !important*/
 }
 
 .pb-5 {
@@ -43093,7 +43093,7 @@ code:not([class*=language-]) {
 }
 
 .table.g-5 td, .table.g-5 th {
-    padding: 3px;
+    /*padding: 3px;*/
 }
 
     .table.g-5 td.dtr-control, .table.g-5 th.dtr-control {
