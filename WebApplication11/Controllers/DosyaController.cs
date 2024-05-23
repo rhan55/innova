@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
 using YKPortal.Models;
 using YKPortal.Models.Dto;
-using System.Web.Http.Results;
 using System.Net.Http;
 
 namespace YKPortal.Controllers
@@ -49,7 +46,6 @@ namespace YKPortal.Controllers
 
                 return response;
             }
-
 
             if (!AutoGirisKontrol())
                 return new HttpResponseMessage(System.Net.HttpStatusCode.Unauthorized);

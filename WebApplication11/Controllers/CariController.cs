@@ -150,29 +150,33 @@ namespace YKPortal.Controllers
                         excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
                         fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
                     }
-                    OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
-                    excelConnection.Open();
-                    DataTable dt = new DataTable();
-
-                    dt = excelConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                    if (dt == null)
+                    using (OleDbConnection excelConnection = new OleDbConnection(excelConnectionString))
                     {
-                        return null;
-                    }
+                        excelConnection.Open();
+                        DataTable dt = new DataTable();
 
-                    String[] excelSheets = new String[dt.Rows.Count];
-                    int t = 0;
-                    foreach (DataRow row in dt.Rows)
-                    {
-                        excelSheets[t] = row["TABLE_NAME"].ToString();
-                        t++;
-                    }
-                    OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
+                        dt = excelConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                        if (dt == null)
+                        {
+                            return null;
+                        }
 
-                    string query = string.Format("Select * from [{0}]", excelSheets[0]); //Exceldeki ilk sayfanın verilerini sorguluyoruz.
-                    using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(query, excelConnection1))
-                    {
-                        dataAdapter.Fill(ds);
+                        String[] excelSheets = new String[dt.Rows.Count];
+                        int t = 0;
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            excelSheets[t] = row["TABLE_NAME"].ToString();
+                            t++;
+                        }
+                        using (OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString))
+                        {
+
+                            string query = string.Format("Select * from [{0}]", excelSheets[0]); //Exceldeki ilk sayfanın verilerini sorguluyoruz.
+                            using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(query, excelConnection1))
+                            {
+                                dataAdapter.Fill(ds);
+                            }
+                        }
                     }
                 }
 
@@ -188,31 +192,32 @@ namespace YKPortal.Controllers
                         cariDto.Alici = Convert.ToBoolean(satir[4]);
                         cariDto.Satici = Convert.ToBoolean(satir[5]);
                         cariDto.Personel = Convert.ToBoolean(satir[6]);
-                        cariDto.Adres = Convert.ToString(satir[7]);
-                        cariDto.Bolge = Convert.ToString(satir[8]);
-                        cariDto.Ulke = Convert.ToString(satir[9]);
-                        cariDto.Il = Convert.ToString(satir[10]);
-                        cariDto.Ilce = Convert.ToString(satir[11]);
-                        cariDto.PostaKodu = Convert.ToString(satir[12]);
-                        cariDto.TCKimlikNo = Convert.ToString(satir[13]);
-                        cariDto.VergiNumarasi = Convert.ToString(satir[14]);
-                        cariDto.VergiDairesi = Convert.ToString(satir[15]);
-                        cariDto.VadeGunu = Convert.ToInt32(satir[16]);
-                        cariDto.Limit = Convert.ToDecimal(satir[17]);
-                        cariDto.Telefon1 = Convert.ToString(satir[18]);
-                        cariDto.Telefon2 = Convert.ToString(satir[19]);
-                        cariDto.Faks = Convert.ToString(satir[20]);
-                        cariDto.CepTelefonu= Convert.ToString(satir[21]);
-                        cariDto.KullaniciAdi = Convert.ToString(satir[22]);
-                        cariDto.Parola= Convert.ToString(satir[23]);
-                        cariDto.EMail= Convert.ToString(satir[24]);
-                        cariDto.WebSite= Convert.ToString(satir[25]);
-                        cariDto.Aciklama1 = Convert.ToString(satir[26]);
-                        cariDto.Aciklama2 = Convert.ToString(satir[27]);
-                        cariDto.Aciklama3 = Convert.ToString(satir[28]);
-                        cariDto.Aciklama4 = Convert.ToString(satir[26]);
-                        cariDto.Aciklama5 = Convert.ToString(satir[27]);
-                        cariDto.Aciklama6 = Convert.ToString(satir[28]);
+                        cariDto.ServisPersoneli = Convert.ToBoolean(satir[7]);
+                        cariDto.Adres = Convert.ToString(satir[8]);
+                        cariDto.Bolge = Convert.ToString(satir[9]);
+                        cariDto.Ulke = Convert.ToString(satir[10]);
+                        cariDto.Il = Convert.ToString(satir[11]);
+                        cariDto.Ilce = Convert.ToString(satir[12]);
+                        cariDto.PostaKodu = Convert.ToString(satir[13]);
+                        cariDto.TCKimlikNo = Convert.ToString(satir[14]);
+                        cariDto.VergiNumarasi = Convert.ToString(satir[15]);
+                        cariDto.VergiDairesi = Convert.ToString(satir[16]);
+                        cariDto.VadeGunu = Convert.ToInt32(satir[17]);
+                        cariDto.Limit = Convert.ToDecimal(satir[18]);
+                        cariDto.Telefon1 = Convert.ToString(satir[19]);
+                        cariDto.Telefon2 = Convert.ToString(satir[20]);
+                        cariDto.Faks = Convert.ToString(satir[21]);
+                        cariDto.CepTelefonu= Convert.ToString(satir[22]);
+                        cariDto.KullaniciAdi = Convert.ToString(satir[23]);
+                        cariDto.Parola= Convert.ToString(satir[24]);
+                        cariDto.EMail= Convert.ToString(satir[25]);
+                        cariDto.WebSite= Convert.ToString(satir[26]);
+                        cariDto.Aciklama1 = Convert.ToString(satir[27]);
+                        cariDto.Aciklama2 = Convert.ToString(satir[28]);
+                        cariDto.Aciklama3 = Convert.ToString(satir[29]);
+                        cariDto.Aciklama4 = Convert.ToString(satir[30]);
+                        cariDto.Aciklama5 = Convert.ToString(satir[31]);
+                        cariDto.Aciklama6 = Convert.ToString(satir[32]);
                         // bu bilgileri okuyarak p_CariKaydet procedure'u çalıştırılacak ve hata veren satır en sonunda bilgilendirme olarak kullanıcının ekranında gösterilecek.   
 
                         if (tip == "kaydet")
@@ -277,6 +282,11 @@ namespace YKPortal.Controllers
                             cmd.Parameters.AddWithValue("@TeslimCariID", "");
                             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
                             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                            if(dt.Rows.Count > 0)
+                            if (Convert.ToString(dt.Rows[0]["BİLGİ"]).StartsWith("UYARI!"))
+                            {
+                                HataliKayitListesi.Add(cariDto.Isim + " > " + Convert.ToString(dt.Rows[0][0]).StartsWith("UYARI!"));
+                            }
                         } else
                         {
                             cariDtoListesi.Add(cariDto);
@@ -377,6 +387,9 @@ namespace YKPortal.Controllers
             //        con.Close();
             //    }
             //}
+
+
+            /*
             List<CariDto> liste = new List<CariDto>();
 
             foreach (var cariDto in liste)
@@ -442,7 +455,7 @@ namespace YKPortal.Controllers
                 cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             }
-
+            */
             return RedirectToAction("Liste");
         }
 
