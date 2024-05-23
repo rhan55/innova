@@ -6,46 +6,116 @@
 
 
 
-<div id="kt_content_container" class="container-md">
-    
-    
-    <div class="card mt-10">
-        <div class="Row  mt-4">
-            <div class="col-6 ps-10">
-                <a href="~/Tema/excel/ornek-cari-listesi.xlsx" class="btn btn-light-primary " data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                    <i class="ki-duotone ki-minus-folder fs-2">
-                        <span class="path1"></span>
-                        <span class="path2"></span>
-                    </i>
+<div class="container-fluid">
+    <div class="row">
+        <div class="offset-1 col-10 mt-8">
+            <div class="card card-flush">
+                <div class="px-8 pt-8">
+                    <a href="~/Tema/excel/ornek-cari-listesi.xlsx" class="btn btn-light-primary " data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                        <i class="ki-duotone ki-minus-folder fs-2">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
 
-                    Cari Aktarım Şablonu
-                </a>
-            </div>
-        </div>
-        <div class="p-10">
-            <div class="">
-                <i class="ki-duotone ki-add-folder fs-2 text-primary">
-                    <span class="path1"></span>
-                    <span class="path2"></span>
-                </i>
-                <label for="file_csv" class="form-label">Bir Dosya Seçin</label>
-                @using (Html.BeginForm("ExcelIceAktar", "Cari", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                {
-                    <input class="form-control mt-2" type="file" name="file" />
-                    <!--begin::Actions-->
-                    <div class="col-12">
-                        <div class="pt-5">
-                            <button type="submit" class="btn btn-primary" data-kt-users-modal-action="ExcelIceAktar">
-                                <span class="indicator-label">İçe Aktar</span>
-                            </button>
+                        Cari Aktarım Şablonu
+                    </a>
+                </div>
+                <div class="">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aktif</th>
+                                <th>Isim</th>
+                                <th>Unvan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.SimulasyonListesi != null)
+                            {
+                                foreach (YKPortal.Models.Dto.CariDto cariDto in ViewBag.SimulasyonListesi)
+                                {
+                                    <tr>
+                                        <td>@cariDto.Aktif</td>
+                                        <td>@cariDto.Isim</td>
+                                        <td>@cariDto.Unvan</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <form id="iceAktarFormu" action="/Cari/ExcelIceAktar" method="post" class="p-8" enctype="multipart/form-data">
+                        <div>
+                            <label for="file" class="form-label fs-4 fw-bold text-gray-600">Bir Dosya Seçin</label>
+                            <input class="form-control mt-2" type="file" name="file" />
                         </div>
-                    </div>
-                    <!--end::Actions-->
-                }
-
+                        <!--begin::Actions-->
+                        <div>
+                            <input type="checkbox" class="hidden" id="kaydet" name="tip" value="kaydet" checked />
+                            <input type="checkbox" class="hidden" id="simulasyon" name="tip" value="simulasyon" />
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex pt-6">
+                                <div class="me-4">
+                                    <button type="submit" id="kaydetButonu" class="btn btn-primary" data-kt-users-modal-action="ExcelIceAktar">
+                                        <span class="indicator-label">İçe Aktar</span>
+                                    </button>
+                                </div>
+                                <div>
+                                    <button type="submit" id="simulasyonButonu" class="btn btn-light" data-kt-users-modal-action="ExcelIceAktar">
+                                        <span class="indicator-label">Simüle Et</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Actions-->
+                    </form>
+                </div>
             </div>
-            
         </div>
+    </div>
 
-    </div>
-    </div>
+
+    @if (ViewBag.AktarilanHataliKayitSayisi != null && ViewBag.AktarilanHataliKayitSayisi > 0)
+    {
+        <table>
+            <thead>
+                <tr>
+                    <th>Hata içeriği</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (string hata in ViewBag.HataliKayitListesi)
+                {
+                    <tr>
+                        <td>@hata</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#kaydetButonu').on('click', function (event) {
+                event.preventDefault();
+                $('input[name="tip"]#kaydet').prop('checked', true);
+                $('input[name="tip"]#simulasyon').prop('checked', false);
+           
+                $('#iceAktarFormu').submit();
+            });
+
+            $('#simulasyonButonu').on('click', function (event) {
+                event.preventDefault();
+     
+                $('input[name="tip"]#kaydet').prop('checked', false);
+                $('input[name="tip"]#simulasyon').prop('checked', true);
+               
+                $('#iceAktarFormu').submit();
+            });
+        });
+    </script>
+}

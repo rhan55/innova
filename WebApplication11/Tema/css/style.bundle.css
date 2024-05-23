@@ -10014,7 +10014,7 @@ textarea.form-control-lg {
 }
 
 .mb-6 {
-    margin-bottom: .5rem !important
+    margin-bottom: 1.5rem !important
 }
 
 .mb-7 {
@@ -10806,7 +10806,7 @@ textarea.form-control-lg {
 }
 
 .p-10 {
-    padding: .5rem !important
+    padding: 2.5rem !important
 }
 
 .p-11 {
@@ -10895,8 +10895,8 @@ textarea.form-control-lg {
 }
 
 .px-9 {
-    /*padding-right: 2.25rem !important;
-    padding-left: 2.25rem !important*/
+    padding-right: 2.25rem !important;
+    padding-left: 2.25rem !important
 }
 
 .px-10 {
@@ -11088,7 +11088,7 @@ textarea.form-control-lg {
 }
 
 .pt-7 {
-    /*padding-top: 1.75rem !important*/
+    padding-top: 1.75rem !important
 }
 
 .pt-8 {
@@ -35174,7 +35174,7 @@ textarea.form-control-lg {
         align-items: center;
         padding: 0;
         flex: 0 0 100%;
-        padding: .1rem .1rem;
+        padding: .65rem 1rem;
         transition: none;
         outline: 0 !important
     }
@@ -55787,8 +55787,8 @@ body {
 }
 
 .aside-menu .menu .menu-item .menu-content, .aside-menu .menu .menu-item .menu-link {
-    /*padding-left: 10px;
-    padding-right: 2px*/
+    padding-left: 10px;
+    padding-right: 2px
 }
 
 .aside-menu .menu .menu-sub:not([data-popper-placement]) > .menu-inner > .menu-item > .menu-content, .aside-menu .menu .menu-sub:not([data-popper-placement]) > .menu-inner > .menu-item > .menu-link, .aside-menu .menu .menu-sub:not([data-popper-placement]) > .menu-item > .menu-content, .aside-menu .menu .menu-sub:not([data-popper-placement]) > .menu-item > .menu-link {
@@ -56013,9 +56013,9 @@ body {
 }
 
     .aside-menu .menu-item .menu-link {
-        /*padding-top: .75rem;
+        padding-top: .75rem;
         padding-bottom: .75rem;
-        border-radius: .475rem*/
+        border-radius: .475rem
     }
 
     .aside-menu .menu-item .menu-icon {

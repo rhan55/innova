@@ -7,56 +7,8 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-2">
-            <!--begin::Menu-->
-            <div class="menu menu-rounded menu-column menu-title-gray-700 menu-icon-gray-500 menu-arrow-gray-500 menu-bullet-gray-500 menu-arrow-gray-500 menu-state-bg fw-semibold"
-                 data-kt-menu="true">
+        @Html.Partial("~/Views/Cari/_CariMenu.cshtml", new ViewDataDictionary { { "CariID", Convert.ToString(ViewBag.CariID) } })
 
-                <div class="menu-item">
-                    <a href="/Cari/Duzenle/@(Convert.ToString(Model.Rows[0]["ID"]))" class="menu-link py-3">
-                        <span class="menu-icon">
-                            <i class="ki-duotone ki-home fs-3">
-                                <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span>
-                            </i>
-                        </span>
-                        <span class="menu-title">Genel Bilgiler</span>
-                    </a>
-                </div>
-                <div class="menu-item">
-                    <a href="/CariKisi/Liste?CariID=@(Convert.ToString(Model.Rows[0]["ID"]))" class="menu-link py-3">
-                        <span class="menu-icon">
-                            <i class="ki-duotone ki-people fs-3">
-                                <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span>
-                            </i>
-                        </span>
-                        <span class="menu-title">Kişiler</span>
-                    </a>
-                </div>
-                <div class="menu-item">
-                    <a href="/CariNot/Liste?CariID=@(Convert.ToString(Model.Rows[0]["ID"]))" class="menu-link py-3">
-                        <span class="menu-icon">
-                            <i class="ki-duotone ki-book-open fs-3">
-                                <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span>
-                            </i>
-                        </span>
-                        <span class="menu-title">Notlar</span>
-                    </a>
-                </div>
-                <!--begin::Menu item-->
-                <div class="menu-item">
-                    <a href="/Dosya/Liste?Modul=Cari&KayitID=@(Convert.ToString(Model.Rows[0]["ID"]))" class="menu-link py-3">
-                        <span class="menu-icon">
-                            <i class="ki-duotone ki-file fs-3">
-                                <span class="path1"></span><span class="path2"></span>
-                            </i>
-                        </span>
-                        <span class="menu-title">Dosyalar</span>
-                    </a>
-                </div>
-                <!--end::Menu item-->
-            </div>
-            <!--end::Menu-->
-        </div>
         <form class="col-lg-10 row" method="post" action="@Url.Action("Duzenle","Cari",null)">
 
             <div class="col-lg-10 row">
@@ -182,7 +134,7 @@
             </div>
             <div class="col-lg-2">
                 <br />
-                 
+
                 <div class="col-12">
                     <label for="GrupKodu1ID" class="form-label">Grup Kodu 1</label>
                     <select class="form-select form-select-solid p-2 rounded-1" name="GrupKodu1ID" id="GrupKodu1ID" aria-label="Floating label select example" data-control="select2">
@@ -242,8 +194,8 @@
                 </div>
                 <div class="col-12 mt-4">
                     <label for="GrupKodu6ID" class="form-label">Grup Kodu 6</label>
-                    <select class="form-select form-select-solid p-2 rounded-1" name="GrupKodu6ID" id="GrupKodu6ID" data-control="select2" 
-                            aria-label="Floating label select example" >
+                    <select class="form-select form-select-solid p-2 rounded-1" name="GrupKodu6ID" id="GrupKodu6ID" data-control="select2"
+                            aria-label="Floating label select example">
                         <option value="">Lütfen Seçim Yapınız</option>
 
                         @foreach (GrupKoduDto cariGrupKodlari6 in ViewBag.CariGrupKodlari6)
@@ -328,7 +280,7 @@
 
                 <div class="col-4 mt-4">
                     <div class="form-group">
-                        <label for="exampleFormControlInput1" class=" form-label">PlasiyerID </label>                    
+                        <label for="exampleFormControlInput1" class=" form-label">PlasiyerID </label>
                         <select class="form-select form-select-solid p-2 rounded-1" name="GrupKodu6ID" id="GrupKodu6ID"
                                 aria-label="Floating label select example" data-control="select2" data-placeholder="Select an option">
                             <option value="">Lütfen Seçim Yapınız</option>
@@ -339,7 +291,7 @@
                             }
 
                         </select>
-                        
+
                     </div>
                 </div>
                 <div class="col-4 mt-4">
@@ -435,7 +387,7 @@
                         <label for="Aciklama5" class="form-label">Açıklama 5</label>
                         <textarea type="text" name="Aciklama5" class="form-control p-2 rounded-1" id="Aciklama5">@(Convert.ToString(Model.Rows[0]["Aciklama5"]))</textarea>
                     </div>
-                </div> 
+                </div>
                 <div class="col-4 mt-4">
                     <div class="form-group mt-5">
                         <label for="Aciklama6" class="form-label">Açıklama 6</label>
