@@ -3,6 +3,7 @@
     string KullaniciAdi = HttpUtility.UrlDecode(Request.Cookies["KullaniciAdi"].Value);
     string Isim = HttpUtility.UrlDecode(Request.Cookies["Isim"].Value);
     string Resim = HttpUtility.UrlDecode(Request.Cookies["Resim"].Value);
+    string KullaniciID = HttpUtility.UrlDecode(Request.Cookies["KullaniciID"].Value);
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -72,7 +73,7 @@
                     <div class="aside-user d-flex align-items-sm-center justify-content-center py-5">
                         <!--begin:: Avatar -->
                         <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                            <a href="/Kullanici/Duzenle">
+                            <a href="/Kullanici/Duzenle?ID=@KullaniciID">
                                 <div class="symbol-label">
                                     <img src="@(Resim)" alt="@(Isim)" class="w-100 h-100 object-fit-cover" />
                                 </div>

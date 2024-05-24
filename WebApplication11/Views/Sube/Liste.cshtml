@@ -62,13 +62,14 @@
                             <!--end::Menu item-->
                         </div>
                         <!--end::Menu-->
+                        <div id="kt_datatable_example_buttons" class="d-none"></div>
                         <!--end::Export dropdown-->
                         <div class="me-6">
                             <a href="/Sube/Ekle" class="btn btn-primary">
                                 <i class="ki-duotone ki-plus fs-2"></i>Yeni
                             </a>
                         </div>
-                        
+
                     </div>
                 </div>
                 <!--begin::Card body-->
@@ -196,10 +197,20 @@
                 datatable = $(table).DataTable({
                     "info": false,
                     'order': [],
-                    paging: false,
+                    paging: true,
+                    pageLength: 10,
+                    order: [
+                        [1, "asc"],
+                    ],
+                    lengthMenu: [
+                        [10, 20, 50, 100, -1],
+                        ['10 Adet', '20 Adet', '50 Adet', '100 Adet', "Tümü"]
+                    ],
                     columnDefs: [
 
-                    ]
+                    ],
+                    language: { url: '//cdn.datatables.net/plug-ins/2.0.7/i18n/tr.json', },
+
 
                 });
             }

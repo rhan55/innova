@@ -67,7 +67,7 @@ namespace YKPortal.Controllers
             return RedirectToAction("GrupKodu", new { grupKodu = grupKoduDto.Kod });
         }
         [HttpGet]
-        public ActionResult Duzenle(string id)
+        public ActionResult Duzenle(string grupKodu, string id)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
@@ -79,7 +79,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@ID", id);
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
+            ViewBag.GrupKodu = grupKodu;
             return View(dt);
         }
 

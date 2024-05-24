@@ -20,7 +20,7 @@
                 <label for="Kod" class="fw-bold text-gray-800 fs-6 mb-2">Kod</label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <input type="text" id="Kod" name="Kod" class="form-control" value="@(Convert.ToString(Model.Rows[0]["Kod"]))">
+                <input type="text" id="Kod" name="Kod" class="form-control" value="@(Convert.ToString(Model.Rows[0]["Kod"]))" required>
                 <!--end::Input-->
             </div>
             <!--begin::Input group-->
@@ -29,7 +29,7 @@
                 <label for="Isim" class="fw-bold text-gray-800 fs-6 mb-2">Isim</label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <input type="text" id="Isim" name="Isim" class="form-control" value="@(Convert.ToString(Model.Rows[0]["Isim"]))">
+                <input type="text" id="Isim" name="Isim" class="form-control" value="@(Convert.ToString(Model.Rows[0]["Isim"]))" required>
                 <!--end::Input-->
             </div>
 

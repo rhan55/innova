@@ -20,13 +20,43 @@
                         Cari Aktarım Şablonu
                     </a>
                 </div>
-                <div class="">
-                    <table>
+
+                <div class="scroll mt-8 ps-6 pe-6">
+                    <table class="table table-bordered border-gray-200 rounded-m">
                         <thead>
-                            <tr>
-                                <th>Aktif</th>
-                                <th>Isim</th>
-                                <th>Unvan</th>
+                            <tr class="fw-bold fs-6 text-gray-400">
+                                <th class="px-3 py-2">Aktif</th>
+                                <th class="px-3 py-2">Isim</th>
+                                <th class="px-3 py-2">Unvan</th>
+                                <th class="px-3 py-2">Alici</th>
+                                <th class="px-3 py-2">Satici</th>
+                                <th class="px-3 py-2">Personel</th>
+                                <th class="px-3 py-2">ServisPersoneli</th>
+                                <th class="px-3 py-2">Adres</th>
+                                <th class="px-3 py-2">Bolge</th>
+                                <th class="px-3 py-2">Ulke</th>
+                                <th class="px-3 py-2">Il</th>
+                                <th class="px-3 py-2">Ilce</th>
+                                <th class="px-3 py-2">PostaKodu</th>
+                                <th class="px-3 py-2">TCKimlikNo</th>
+                                <th class="px-3 py-2">VergiNumarasi</th>
+                                <th class="px-3 py-2">VergiDairesi</th>
+                                <th class="px-3 py-2">VadeGunu</th>
+                                <th class="px-3 py-2">Limit</th>
+                                <th class="px-3 py-2">Telefon1</th>
+                                <th class="px-3 py-2">Telefon2</th>
+                                <th class="px-3 py-2">Faks</th>
+                                <th class="px-3 py-2">CepTelefonu</th>
+                                <th class="px-3 py-2">KullaniciAdi</th>
+                                <th class="px-3 py-2">Parola</th>
+                                <th class="px-3 py-2">EMail</th>
+                                <th class="px-3 py-2">WebSite</th>
+                                <th class="px-3 py-2">Aciklama1</th>
+                                <th class="px-3 py-2">Aciklama2</th>
+                                <th class="px-3 py-2">Aciklama3</th>
+                                <th class="px-3 py-2">Aciklama4</th>
+                                <th class="px-3 py-2">Aciklama5</th>
+                                <th class="px-3 py-2">Aciklama6</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -35,9 +65,38 @@
                                 foreach (YKPortal.Models.Dto.CariDto cariDto in ViewBag.SimulasyonListesi)
                                 {
                                     <tr>
-                                        <td>@cariDto.Aktif</td>
-                                        <td>@cariDto.Isim</td>
-                                        <td>@cariDto.Unvan</td>
+                                        <td class="px-3 py-2">@cariDto.Aktif</td>
+                                        <td class="px-3 py-2">@cariDto.Isim</td>
+                                        <td class="px-3 py-2">@cariDto.Unvan</td>
+                                        <td class="px-3 py-2">@cariDto.Alici</td>
+                                        <td class="px-3 py-2">@cariDto.Satici</td>
+                                        <td class="px-3 py-2">@cariDto.Personel</td>
+                                        <td class="px-3 py-2">@cariDto.ServisPersoneli</td>
+                                        <td class="px-3 py-2">@cariDto.Adres</td>
+                                        <td class="px-3 py-2">@cariDto.Bolge</td>
+                                        <td class="px-3 py-2">@cariDto.Ulke</td>
+                                        <td class="px-3 py-2">@cariDto.Il</td>
+                                        <td class="px-3 py-2">@cariDto.Ilce</td>
+                                        <td class="px-3 py-2">@cariDto.PostaKodu</td>
+                                        <td class="px-3 py-2">@cariDto.TCKimlikNo</td>
+                                        <td class="px-3 py-2">@cariDto.VergiNumarasi</td>
+                                        <td class="px-3 py-2">@cariDto.VergiDairesi</td>
+                                        <td class="px-3 py-2">@cariDto.VadeGunu</td>
+                                        <td class="px-3 py-2">@cariDto.Limit</td>
+                                        <td class="px-3 py-2">@cariDto.Telefon1</td>
+                                        <td class="px-3 py-2">@cariDto.Telefon2</td>
+                                        <td class="px-3 py-2">@cariDto.Faks</td>
+                                        <td class="px-3 py-2">@cariDto.CepTelefonu</td>
+                                        <td class="px-3 py-2">@cariDto.KullaniciAdi</td>
+                                        <td class="px-3 py-2">@cariDto.Parola</td>
+                                        <td class="px-3 py-2">@cariDto.EMail</td>
+                                        <td class="px-3 py-2">@cariDto.WebSite</td>
+                                        <td class="px-3 py-2">@cariDto.Aciklama1</td>
+                                        <td class="px-3 py-2">@cariDto.Aciklama2</td>
+                                        <td class="px-3 py-2">@cariDto.Aciklama3</td>
+                                        <td class="px-3 py-2">@cariDto.Aciklama4</td>
+                                        <td class="px-3 py-2">@cariDto.Aciklama5</td>
+                                        <td class="px-3 py-2">@cariDto.Aciklama6</td>
                                     </tr>
                                 }
                             }
@@ -74,29 +133,44 @@
                 </div>
             </div>
         </div>
+
+    </div>
+    <div class="container px-4 mt-8">
+        <div class="row ">
+            <div class="card card-flush col-12">
+                <div class="card-header p-4">
+                    <div class="d-flex flex-column">
+                        <span><strong>Aktarılan Kayıt Sayısı:</strong> @(ViewBag.AktarilanKayitSayisi)</span>
+                        <span><strong>Hatalı Kayıt Sayısı:</strong> @(ViewBag.AktarilanHataliKayitSayisi)</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if (ViewBag.AktarilanHataliKayitSayisi != null && ViewBag.AktarilanHataliKayitSayisi > 0)
+                    {
+                        <div class="table-danger fw-bold px-3 py-2" style="background: #fed4de; border-left: 1px solid #e5bfc8; border-right: 1px solid #e5bfc8; border-top: 1px solid #e5bfc8; ">Hata içeriği</div>
+                        <div class="table-responsive scroll " style="height: 500px;">
+                            <table class="table table-danger table-bordered">
+                                <tbody>
+                                    @foreach (string hata in ViewBag.HataliKayitListesi)
+                                    {
+                                        <tr>
+                                            <td class="px-3 py-2">@hata</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+           
+        </div>
     </div>
 
+ 
 
-    @if (ViewBag.AktarilanHataliKayitSayisi != null && ViewBag.AktarilanHataliKayitSayisi > 0)
-    {
-        <table>
-            <thead>
-                <tr>
-                    <th>Hata içeriği</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (string hata in ViewBag.HataliKayitListesi)
-                {
-                    <tr>
-                        <td>@hata</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    <span>Aktarılan Kayıt Sayısı : @(ViewBag.AktarilanKayitSayisi)</span><br />
-    <span>Hatalı Kayıt Sayısı : @(ViewBag.AktarilanHataliKayitSayisi)</span>
+
+
 </div>
 
 @section Scripts {

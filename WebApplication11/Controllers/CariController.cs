@@ -297,7 +297,7 @@ namespace YKPortal.Controllers
                     catch (Exception err)
                     {
                         AktarilanHataliKayitSayisi++;
-                        HataliKayitListesi.Add(cariDto.Isim +" > "+JsonConvert.SerializeObject(err));
+                        HataliKayitListesi.Add(cariDto.Isim +" > "+ err.Message);
                     }
                 }
 
