@@ -163,6 +163,7 @@
                                         <th class="min-w-125px mt-8"><strong>GrupKodu1</strong></th>
                                         <th class="min-w-125px"><strong>GrupKodu2</strong></th>
                                         <th class="text-end min-w-100px no-export"><strong>İşemler</strong></th>
+                                        <th class="text-end min-w-100px no-export"><strong>ID</strong></th>
 
                                     </tr>
                                     <!--end::Table row-->
@@ -171,7 +172,9 @@
                                     @for (var i = 0; i < Model.Rows.Count; i++)
                                     {
                                         <tr>
-                                            <td class="pt-4 pb-4"></td>
+                                            <td class="pt-4 pb-4">
+                                 
+                                            </td>
 
                                             <td class="pt-4 pb-4">
                                                 @(Convert.ToString(Model.Rows[i]["Kod"])) <br />
@@ -200,7 +203,7 @@
                                                     <!--end::Menu item-->
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <button type="button" data-id="@(Convert.ToString(Model.Rows[i]["ID"]))" class="btn btn-sm w-100 menu-link px-3 btn-sil" data-bs-toggle="modal" data-bs-target="#Cari-silme">
+                                                        <button type="button" data-id="@(Convert.ToString(Model.Rows[i]["ID"]))" class="btn btn-sm w-100 menu-link px-3 btn-sil" id="cari-silme" data-bs-toggle="modal" data-bs-target="#Cari-silme">
                                                             Sil
                                                         </button>
                                                     </div>
@@ -267,6 +270,20 @@
 @section Scripts {
     <script>
 
+        $(function () {
+            $("#Cari-datatable").on("click", "#cari-silme", function () {
+                
+                $.ajax({
+                    type: "GET",
+                    url: "/Cari/TopluSil",
+                    data: JSON.stringify(["id1", "id2"]),
+                    success: function () {
+                        console.log("silme başarılı")
+                    }
+                })
+            })
+
+        })
 
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('.btn-sil').forEach(silButonu => {
@@ -303,7 +320,8 @@
                 // Init datatable --- more info on datatables: https://datatables.net/manual/
                 datatable = $(table).DataTable({
                     "info": false,
-                    searching: true,
+                    caching: true,
+                    select:true,
                     order: [
                         [1, "asc"],
                     ],
@@ -333,10 +351,7 @@
                         }
 
                     ],
-                    select: {
-
-                        selector: 'td:first-child'
-                    },
+                  
                     order: [[1, 'asc']]
 
 

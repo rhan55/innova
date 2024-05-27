@@ -635,6 +635,25 @@ namespace YKPortal.Controllers
             return RedirectToAction("Liste");
         }
 
+        public ActionResult TopluSil(List<string> idler)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            foreach(string id in idler)
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_CariSil";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ID", id);
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            }
+
+            return RedirectToAction("Liste");
+        }
+
 
         [HttpGet]
         public ActionResult KisiEkle(string CariID)

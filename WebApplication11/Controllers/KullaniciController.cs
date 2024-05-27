@@ -245,6 +245,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+            IlListesiniOlustur();
             var uyelikId = GetCookie("UyelikID");
             var kullaniciID = GetCookie("KullaniciID");
 
@@ -264,7 +265,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-
+            IlListesiniOlustur();
             if (!ModelState.IsValid)
             {
                 ViewBag.ValidationError = ModelState.Values

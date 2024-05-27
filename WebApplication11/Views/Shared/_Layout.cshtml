@@ -142,6 +142,13 @@
                         <!--begin::Menu-->
                         <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500" id="#kt_aside_menu" data-kt-menu="true">
                             <!--begin:Menu item-->
+                            <div class="d-flex align-items-center position-relative my-1">
+                                <i class="ki-duotone ki-magnifier fs-3 position-absolute m-4">
+                                    <span class="path1 text-gray-500"></span>
+                                    <span class="path2 text-gray-500"></span>
+                                </i>
+                                <input type="text" data-kt-filter="search" class="form-control  w-230px ps-12" placeholder="Ara" />
+                            </div>
                             <div data-kt-menu-trigger="click" class="menu-item here  menu-accordion">
                                 <!--begin:Menu link-->
                                 <span class="menu-link">
@@ -158,7 +165,7 @@
                                 </span>
                                 <!--end:Menu link-->
                                 <!--begin:Menu sub-->
-                                <!--BEGGİN:KULLANICI YÖNETİMİ-->
+                                <!--BEGGİN:Cari-->
                                 <div class="menu-sub menu-sub-accordion">
                                     <!--begin:Menu item-->
                                     <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
@@ -200,13 +207,60 @@
                                                 </a>
                                                 <!--end:Menu link-->
                                             </div>
-                                            <!--end:Menu item-->                                        
+                                            <!--end:Menu item-->
                                         </div>
                                     </div>
                                     <!--end:Menu item-->
                                 </div>
-                                <!--END:KULLANICI YÖNETİMİ-->
-
+                                <!--END:Cari-->
+                                <!--BEGGİN:Cari-->
+                                <div class="menu-sub menu-sub-accordion">
+                                    <!--begin:Menu item-->
+                                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                                        <!--begin:Menu link-->
+                                        <span class="menu-link">
+                                            <span class="menu-icon">
+                                                <i class="ki-duotone ki-address-book fs-2">
+                                                    <span class="path1"></span>
+                                                    <span class="path2"></span>
+                                                    <span class="path3"></span>
+                                                </i>
+                                            </span>
+                                            <span class="menu-title">Stok</span>
+                                            <span class="menu-arrow"></span>
+                                        </span>
+                                        <!--end:Menu link-->
+                                        <!--begin:Menu sub-->
+                                        <div class="menu-sub menu-sub-accordion">
+                                            <!--begin:Menu item-->
+                                            <div class="menu-item">
+                                                <!--begin:Menu link-->
+                                                <a class="menu-link" href="/Cari/Ekle">
+                                                    <span class="menu-bullet">
+                                                        <span class="bullet bullet-dot"></span>
+                                                    </span>
+                                                    <span class="menu-title">Stok Ekle</span>
+                                                </a>
+                                                <!--end:Menu link-->
+                                            </div>
+                                            <!--end:Menu item-->
+                                            <!--begin:Menu item-->
+                                            <div class="menu-item">
+                                                <!--begin:Menu link-->
+                                                <a class="menu-link" href="/Cari/Liste">
+                                                    <span class="menu-bullet">
+                                                        <span class="bullet bullet-dot"></span>
+                                                    </span>
+                                                    <span class="menu-title">Stok Listesi</span>
+                                                </a>
+                                                <!--end:Menu link-->
+                                            </div>
+                                            <!--end:Menu item-->
+                                        </div>
+                                    </div>
+                                    <!--end:Menu item-->
+                                </div>
+                                <!--END:Cari-->
                             </div>
                             <!--end:Menu item-->
                             <!--begin:Menu item-->
@@ -367,11 +421,59 @@
                                                     <span class="path3"></span>
                                                 </i>
                                             </span>
-                                            <span class="menu-title">Stok Kodu Tanımlamaları</span>
+                                            <span class="menu-title">Stok Tanımlamaları</span>
                                             <span class="menu-arrow"></span>
                                         </span>
                                         <!--end:Menu link-->
                                         <div class="menu-sub menu-sub-accordion">
+                                            <!--begin:Menu item-->
+                                            <div class="menu-item">
+                                                <!--begin:Menu link-->
+                                                <a class="menu-link" href="@Url.Action("GrupKodu","Tanimlamalar", new { grupKodu = "StokGrupKod1" })">
+                                                    <span class="menu-bullet">
+                                                        <span class="bullet bullet-dot"></span>
+                                                    </span>
+                                                    <span class="menu-title">Kaliteler</span>
+                                                </a>
+                                                <!--end:Menu link-->
+                                            </div>
+                                            <!--end:Menu item-->
+                                            <!--begin:Menu item-->
+                                            <div class="menu-item">
+                                                <!--begin:Menu link-->
+                                                <a class="menu-link" href="@Url.Action("GrupKodu","Tanimlamalar", new { grupKodu = "StokGrupKod1" })">
+                                                    <span class="menu-bullet">
+                                                        <span class="bullet bullet-dot"></span>
+                                                    </span>
+                                                    <span class="menu-title">Bedenler</span>
+                                                </a>
+                                                <!--end:Menu link-->
+                                            </div>
+                                            <!--end:Menu item-->
+                                            <!--begin:Menu item-->
+                                            <div class="menu-item">
+                                                <!--begin:Menu link-->
+                                                <a class="menu-link" href="@Url.Action("GrupKodu","Tanimlamalar", new { grupKodu = "StokGrupKod1" })">
+                                                    <span class="menu-bullet">
+                                                        <span class="bullet bullet-dot"></span>
+                                                    </span>
+                                                    <span class="menu-title">Renkler</span>
+                                                </a>
+                                                <!--end:Menu link-->
+                                            </div>
+                                            <!--end:Menu item-->
+                                            <!--begin:Menu item-->
+                                            <div class="menu-item">
+                                                <!--begin:Menu link-->
+                                                <a class="menu-link" href="@Url.Action("GrupKodu","Tanimlamalar", new { grupKodu = "StokGrupKod1" })">
+                                                    <span class="menu-bullet">
+                                                        <span class="bullet bullet-dot"></span>
+                                                    </span>
+                                                    <span class="menu-title">Markalar</span>
+                                                </a>
+                                                <!--end:Menu link-->
+                                            </div>
+                                            <!--end:Menu item-->
                                             <!--begin:Menu item-->
                                             <div class="menu-item">
                                                 <!--begin:Menu link-->

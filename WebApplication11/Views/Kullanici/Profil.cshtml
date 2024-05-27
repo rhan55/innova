@@ -1,4 +1,6 @@
 ﻿@model System.Data.DataTable
+@using YKPortal.Models.Dto
+
 @{
     ViewBag.Title = "Profil";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -29,20 +31,20 @@
     }
     @if (ViewBag.Mesaj != "")
     {
-    <!--begin::Alert-->
-    <div class="alert alert-success d-flex align-items-center p-5">
-        <!--begin::Icon-->
-        <i class="ki-duotone ki-shield-tick fs-2hx text-success me-4"><span class="path1"></span><span class="path2"></span></i>
-        <!--end::Icon-->
-        <!--begin::Wrapper-->
-        <div class="d-flex flex-column">
-            <!--begin::Content-->
-            <span>@ViewBag.Mesaj</span>
-            <!--end::Content-->
+        <!--begin::Alert-->
+        <div class="alert alert-success d-flex align-items-center p-5">
+            <!--begin::Icon-->
+            <i class="ki-duotone ki-shield-tick fs-2hx text-success me-4"><span class="path1"></span><span class="path2"></span></i>
+            <!--end::Icon-->
+            <!--begin::Wrapper-->
+            <div class="d-flex flex-column">
+                <!--begin::Content-->
+                <span>@ViewBag.Mesaj</span>
+                <!--end::Content-->
+            </div>
+            <!--end::Wrapper-->
         </div>
-        <!--end::Wrapper-->
-    </div>
-    <!--end::Alert-->
+        <!--end::Alert-->
     }
     <!--begin::Scroll-->
     <div class="d-flex flex-column scroll-y px-5 px-lg-10 container">
@@ -178,21 +180,23 @@
             <div class="col-lg-6">
                 <div class="d-flex  ">
                     <div class="d-flex flex-column col-lg-6 pe-3">
-                        <label class="required fw-semibold fs-6 mb-2">İl</label>
-                        <select name="Il" class="form-select form-select-solid" aria-label="Select example" value="">
-                            <option>Open this select menu</option>
-                            <option value="Antalya">Antalya</option>
+                        <label class="fw-semibold fs-6 mb-2">İl</label>
+                        <select class="form-select p-3 rounded-1" name="Il" data-control="select2" id="Il"
+                                aria-label="Floating label select example">
+                            <option value="">Lütfen Seçim Yapınız</option>
+                            @foreach (GrupKoduDto il in ViewBag.Iller)
+                            {
+                                <option value="@il.ID">@il.Deger</option>
+                            }
+
 
                         </select>
                     </div>
 
                     <div class="d-flex flex-column col-lg-6 ps-3">
                         <label class="required fw-semibold fs-6 mb-2">İlçe</label>
-                        <select name="Ilce" class="form-select form-select-solid" aria-label="Select example" value="">
-                            <option>Open this select menu</option>
-                            <option value="Muratpaşa">Muratpaşa</option>
-
-                        </select>
+                        <input class="form-control  mb-3 mb-lg-0" name="Ilce" id="exampleFormControlTextarea1" value="@(Convert.ToString(Model.Rows[0]["Ilce"]))" />
+                        
                     </div>
                 </div>
             </div>
