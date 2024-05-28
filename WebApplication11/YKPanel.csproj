@@ -162,9 +162,11 @@
     <Compile Include="Controllers\SubeController.cs" />
     <Compile Include="Controllers\TanimlamalarController.cs" />
     <Compile Include="Controllers\YKController.cs" />
+    <Compile Include="Controllers\ZiyaretController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dto\ZiyaretDto.cs" />
     <Compile Include="Models\Dto\DosyaDto.cs" />
     <Compile Include="Models\Dto\CariDto.cs" />
     <Compile Include="Models\Dto\CariKisiDto.cs" />
@@ -2576,6 +2578,8 @@
     <Content Include="Views\Dosya\Liste.cshtml" />
     <Content Include="Views\Cari\_CariMenu.cshtml" />
     <Content Include="Views\Dosya\_DosyaMenu.cshtml" />
+    <Content Include="Views\Dosya\Ekle.cshtml" />
+    <Content Include="Views\Ziyaret\Ekle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

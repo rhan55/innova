@@ -155,16 +155,18 @@
                         <div class="card-body  mt-10">
                             <table class="table align-middle border rounded table-row-dashed fs-6 g-5 p-8" id="Cari-datatable">
                                 <thead>
+                                
                                     <!--begin::Table row-->
                                     <tr class="text-start" style="font-size:15px;">
-                                        <th class="min-w-125px"></th>
-                                        <th class="min-w-125px"><strong>İsim</strong></th>
+                                        <th id="select" class="min-w-125px no-export"></th>
+                                        <th class="min-w-125px no-export"><strong>İsim</strong></th>
+                                        <th class="min-w-125px"><strong>Cari İsmi</strong></th>
+                                        <th class="min-w-125px"><strong>Cari Kodu</strong></th>
                                         <th class="min-w-125px mt-8"><strong>Cep Telefonu</strong></th>
                                         <th class="min-w-125px mt-8"><strong>GrupKodu1</strong></th>
                                         <th class="min-w-125px"><strong>GrupKodu2</strong></th>
-                                        <th class="text-end min-w-100px no-export"><strong>İşemler</strong></th>
+                                        <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
                                         <th class="text-end min-w-100px no-export"><strong>ID</strong></th>
-
                                     </tr>
                                     <!--end::Table row-->
                                 </thead>
@@ -173,12 +175,17 @@
                                     {
                                         <tr>
                                             <td class="pt-4 pb-4">
-                                 
                                             </td>
 
                                             <td class="pt-4 pb-4">
                                                 @(Convert.ToString(Model.Rows[i]["Kod"])) <br />
                                                 <strong> @(Convert.ToString(Model.Rows[i]["Isim"])) </strong>
+                                            </td>
+                                            <td class="pt-4 pb-4">
+                                                @(Convert.ToString(Model.Rows[i]["Isim"]))
+                                            </td>
+                                            <td class="pt-4 pb-4">
+                                               @(Convert.ToString(Model.Rows[i]["Kod"]))
                                             </td>
                                             <td class="pt-4 pb-4">
                                                 @(Convert.ToString(Model.Rows[i]["CepTelefonu"]))
@@ -253,7 +260,7 @@
             </div>
 
             <div class="modal-body">
-                <p>Kullanıcıyı silmek istediğinize emin misiniz?</p>
+                <p>Cariyi silmek istediğinize emin misiniz?</p>
             </div>
 
             <div class="modal-footer">
@@ -269,21 +276,13 @@
 
 @section Scripts {
     <script>
+    //Toplu silme için biz seçimlerin id leerini alıp çalışan metodumuzda forech ile bu id lerğ dönüp ssilecez
+    //yani 10 tane kayıt seçilmiş ise 10 id yi metodumuzds forech ile dönüpmteker teker silecez
+     //Listeleme için ek birşey yapmamıza gerek yok ekrandaki otomatik sayfalama işimizi çözer
+    // ben arkaplanda zaten arama sonucunun ilk 100 veya 200 tanesini döndürüyorum
 
-        $(function () {
-            $("#Cari-datatable").on("click", "#cari-silme", function () {
-                
-                $.ajax({
-                    type: "GET",
-                    url: "/Cari/TopluSil",
-                    data: JSON.stringify(["id1", "id2"]),
-                    success: function () {
-                        console.log("silme başarılı")
-                    }
-                })
-            })
+        var select = document.querySelectorAll("#select")
 
-        })
 
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('.btn-sil').forEach(silButonu => {
@@ -323,7 +322,7 @@
                     caching: true,
                     select:true,
                     order: [
-                        [1, "asc"],
+                        [2, "asc"],
                     ],
                     ordering: true,
                     paging: true,
@@ -337,7 +336,7 @@
 
                     columnDefs: [
                         {
-                            targets: [0, 5],
+                            targets: [0, 7],
                             orderable: false
                         },
                         {
@@ -346,7 +345,7 @@
                             width: "40px"
                         },
                         {
-                            targets: [6],
+                            targets: [2, 3, 8],
                             visible: false
                         }
 

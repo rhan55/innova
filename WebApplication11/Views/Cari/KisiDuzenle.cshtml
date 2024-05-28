@@ -1,7 +1,7 @@
 ﻿@using YKPortal.Models.Dto
 @model System.Data.DataTable
 @{
-    ViewBag.Title = "Cari Kişi Düzenle";
+    ViewBag.Title = "Kişi Düzenle";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,10 +11,10 @@
 
         <div class="col-lg-10">
             <!--begin::Form-->
-            <form id="kt_modal_add_user_form" class="form" action="@Url.Action("CariKisiDuzenle","Cari",null)" method="post" enctype="multipart/form-data">
+            <form id="kt_modal_add_user_form" class="form" action="@Url.Action("KisiDuzenle","Cari",null)" method="post" enctype="multipart/form-data">
 
-                <input type="hidden" name="ID" value="@ViewBag.ID" />
-                <input type="hidden" name="CariID" value="@ViewBag.CariID" />
+                <input type="hidden" name="ID" value="@ViewBag.ID"/>
+                <input type="hidden" name="CariID" value="@ViewBag.CariID"/>
                 <!--begin::Scroll-->
                 <div class="d-flex flex-column scroll-y px-5 px-lg-10 container mt-10">
 
@@ -87,7 +87,7 @@
                     <!--end::Scroll-->
                     <!--begin::Actions-->
                     <div class="pt-10">
-                        <a href="/Cari/CariKisiListe" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
+                        <a href="/Cari/KisiListe?CariID=@ViewBag.CariID" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
                         <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Duzenle">
                             <span class="indicator-label">Düzenle</span>
                             <span class="indicator-progress">

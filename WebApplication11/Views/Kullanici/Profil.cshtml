@@ -186,7 +186,7 @@
                             <option value="">Lütfen Seçim Yapınız</option>
                             @foreach (GrupKoduDto il in ViewBag.Iller)
                             {
-                                <option value="@il.ID">@il.Deger</option>
+                                <option @(Convert.ToString(Model.Rows[0]["Il"]) == il.ID ? "selected" : "") value="@il.ID">@il.Deger</option>
                             }
 
 

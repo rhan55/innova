@@ -373,6 +373,20 @@ namespace YKPortal.Controllers
             return View(dt2);
 
         }
+        public ActionResult UyelikSil(UyelikDto uyelikDto)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_UyelikSil";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", uyelikDto.ID);   
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return RedirectToAction("UyelikListesi");
+        }
         #endregion
 
         public ActionResult Liste(string UyelikID)
@@ -387,6 +401,7 @@ namespace YKPortal.Controllers
             DataTable dt2 = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
             return View();
         }
+        
 
 
         #region Cookie İşlemleri

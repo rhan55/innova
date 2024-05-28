@@ -111,12 +111,40 @@
         <a href="/YK/UyelikListesi" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
         <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Duzenle">
             <span class="indicator-label">Duzenle</span>
-            <span class="indicator-progress">
-                Lütfen Bekleyin...
-                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-            </span>
+        </button>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#Uyelik-silme">
+            <span class="indicator-label">Sil</span>
         </button>
     </div>
     <!--end::Actions-->
 </form>
 <!--end::Form-->
+
+
+<div class="modal fade" id="Uyelik-silme" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Üye Silme İşlemi</h3>
+
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body">
+                <p>Üyeyi silmek istediğinize emin misiniz?</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Vazgeç</button>
+                <form method="post" id="silme-formu" action="@Url.Action("UyelikSil","YK",null)">
+                    <input type="hidden" name="ID" value="@(Convert.ToString(Model.Rows[0]["ID"]))" />
+                    <button type="submit" class="btn btn-danger">Sil</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

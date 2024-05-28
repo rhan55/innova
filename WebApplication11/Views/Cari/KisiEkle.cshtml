@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Cari Kişi Ekle";
+    ViewBag.Title = "Kişi Ekle";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,7 +10,7 @@
 
         <div class="col-lg-10">
             <!--begin::Form-->
-            <form id="kt_modal_add_user_form" class="form" action="@Url.Action("CariKisiEkle","Cari",null)" method="post" enctype="multipart/form-data">
+            <form id="kt_modal_add_user_form" class="form" action="@Url.Action("KisiEkle","Cari",null)" method="post" enctype="multipart/form-data">
 
                 @if (Model != null)
                 {
@@ -107,7 +107,7 @@
                     </div>
                     <!--begin::Actions-->
                     <div class="pt-10">
-                        <a href="/Cari/CariKisiListe" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
+                        <a href="/Cari/KisiListe?CariID=@ViewBag.CariID" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
                         <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet">
                             <span class="indicator-label">Kaydet</span>
                             <span class="indicator-progress">
