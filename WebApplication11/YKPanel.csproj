@@ -154,6 +154,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AktivasyonController.cs" />
+    <Compile Include="Controllers\BelgeController.cs" />
     <Compile Include="Controllers\CariController.cs" />
     <Compile Include="Controllers\DosyaController.cs" />
     <Compile Include="Controllers\DepoController.cs" />
@@ -166,6 +167,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dto\BelgeDto.cs" />
+    <Compile Include="Models\Dto\BelgeKalemDto.cs" />
+    <Compile Include="Models\Dto\StokDto.cs" />
     <Compile Include="Models\Dto\ZiyaretDto.cs" />
     <Compile Include="Models\Dto\DosyaDto.cs" />
     <Compile Include="Models\Dto\CariDto.cs" />
@@ -2587,6 +2591,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Temp\" />
     <Folder Include="Uploads\Dosyalar\" />
+    <Folder Include="Views\Belge\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
