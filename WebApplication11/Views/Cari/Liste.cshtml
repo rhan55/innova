@@ -153,7 +153,17 @@
                             </div>
                         </div>
                         <div class="card-body  mt-10">
+                            <div>
+                                <button type="button" id="topluSilButon" class="btn btn-light-primary">
+                                    <span class="indicator-label">Toplu Sil</span>
+                                    <span class="indicator-progress">
+                                        Lütfen Bekleyin...
+                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                    </span>
+                                </button>
+                            </div>
                             <table class="table align-middle border rounded table-row-dashed fs-6 g-5 p-8" id="Cari-datatable">
+                                
                                 <thead>
                                 
                                     <!--begin::Table row-->
@@ -210,7 +220,7 @@
                                                     <!--end::Menu item-->
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <button type="button" data-id="@(Convert.ToString(Model.Rows[i]["ID"]))" class="btn btn-sm w-100 menu-link px-3 btn-sil" id="cari-silme" data-bs-toggle="modal" data-bs-target="#Cari-silme">
+                                                        <button type="button" data-id="@(Convert.ToString(Model.Rows[i]["ID"]))" class="btn btn-sm w-100 menu-link px-3 btn-sil cari-silme" data-bs-toggle="modal" data-bs-target="#Cari-silme">
                                                             Sil
                                                         </button>
                                                     </div>
@@ -302,6 +312,33 @@
                     })
                     document.querySelector("form#datatableFilters").submit();
                 });
+            }
+
+            $('#topluSilButon').on('click', function () {
+                topluSil();
+            })
+
+            function topluSil() {
+                $('#Cari-datatable tr.selected .btn-sil.cari-silme').each(function (event) {
+                    var id = $(this).attr('data-id');
+                    $.ajax({
+                        url: "/Cari/Sil",
+                        method: "POST",
+                        data: { id: id },
+                        success: function (response) {
+                            // Handle success response here
+                            Window.reload
+                            console.log("Success:", response);
+                        },
+                        error: function (xhr, status, error) {
+                            // Handle error response here
+                            console.log("Error:", xhr.responseText);
+                        }
+                    })
+                    // toplu silmeden sonra nasil datatable i yenilerim?
+                })
+
+               
             }
         });
 
@@ -426,15 +463,16 @@
 
                     initDatatable();
                     exportButtons();
-
-                }
+                 
+                },
+               
             };
         }();
 
         // On document ready
         KTUtil.onDOMContentLoaded(function () {
             KTDatatablesExample.init();
-
+          
         });
     </script>
 }

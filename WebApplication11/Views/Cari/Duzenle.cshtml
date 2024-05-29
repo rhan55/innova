@@ -296,16 +296,23 @@
                 </div>
                 <div class="col-4 mt-4">
                     <div class="form-group">
-                        <label for="AnaCariID" class=" form-label"> AnaCariID </label>
-                        <input type="text" name="AnaCariID" id="AnaCariID" class="form-control p-2 rounded-1" placeholder="" value="@(Convert.ToString(Model.Rows[0]["AnaCariID"]))" />
+                        <label for="exampleFormControlInput1" class=" form-label">AnaCariID </label>
+                        <select class="form-select form-select-solid p-2 rounded-1" name="AnaCariID" id="AnaCariID"
+                                aria-label="Floating label select example" data-control="select2" data-placeholder="Select an option">
+                            <option value="@(Convert.ToString(Model.Rows[0]["AnaCariID"]))">Lütfen Seçim Yapınız</option>
+                        </select>
                     </div>
                 </div>
                 <div class="col-4 mt-4">
                     <div class="form-group">
-                        <label for="TeslimCariID" class=" form-label">TeslimCariID</label>
-                        <input type="text" name="TeslimCariID" id="TeslimCariID" class="form-control p-2 rounded-1" placeholder="" value="@(Convert.ToString(Model.Rows[0]["TeslimCariID"]))" />
+                        <label for="exampleFormControlInput1" class=" form-label">TeslimCariID </label>
+                        <select class="form-select form-select-solid p-2 rounded-1" name="TeslimCariID" id="TeslimCariID"
+                                aria-label="Floating label select example" data-control="select2" data-placeholder="Select an option">
+                            <option value="@(Convert.ToString(Model.Rows[0]["TeslimCariID"]))">Lütfen Seçim Yapınız</option>
+                        </select>
                     </div>
                 </div>
+                
 
                 <div class="col-3 mt-4">
                     <div class="form-group ">
@@ -419,4 +426,36 @@
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(function () {
+
+            const anaCariIdSelect = $('#AnaCariID').select2({
+                ajax: {
+                    url: "/Cari/SelectListe",
+                    data: function (params) {
+                        var query = {
+                            search: params.term,
+                        }
+
+                        // Query parameters will be ?search=[term]&type=public
+                        return query;
+                    },
+                    processResults: function (data) {
+                        var results = [];
+                        if (data && data.length > 0) {
+                            data.forEach(function (item) {
+                                results.push({ id: item.ID, text: item.Isim })
+                            });
+                        }
+
+                        return {
+                            results: results
+                        };
+                    }
+                }
+            });
+
+
+        });
+    </script>
 }

@@ -6,7 +6,7 @@
 
 <div class="container">
     <div class="row">
-        
+
         <form class="col-lg-12 row" method="post" action="/Cari/Ekle">
 
             <div class="col-lg-10 row">
@@ -60,11 +60,11 @@
                 </div>
                 <div class="col-12 mt-4">
                     <label for="Unvan" class=" form-label">Unvan</label>
-                    <input type="text" id="Unvan" name="Unvan" class="form-control p-2 rounded-1" placeholder=""  />
+                    <input type="text" id="Unvan" name="Unvan" class="form-control p-2 rounded-1" placeholder="" />
                 </div>
                 <div class="col-12 mt-4">
                     <label for="Adres" class=" form-label">Adres</label>
-                    <textarea type="text" id="Adres" name="Adres" class="form-control p-2 rounded-1" placeholder="" ></textarea>
+                    <textarea type="text" id="Adres" name="Adres" class="form-control p-2 rounded-1" placeholder=""></textarea>
                 </div>
                 <div class="col-3 mt-4">
                     <label for="Bolge" class=" form-label">Bölge</label>
@@ -192,7 +192,7 @@
                             <option value="@cariGrupKodlari5.ID">@cariGrupKodlari5.Deger</option>
                         }
                     </select>
-                </div> 
+                </div>
                 <div class="col-12 mt-4">
                     <label for="GrupKodu6ID" class="form-label">Grup Kodu 6</label>
                     <select class="form-select form-select-solid p-2 rounded-1" data-control="select2" name="GrupKodu6ID" id="GrupKodu6ID"
@@ -222,7 +222,7 @@
                         <label for="VadeGunu" class=" form-label">Vade Günü</label>
                         <input id="VadeGunu" type="text" name="VadeGunu" class="form-control p-2 rounded-1" placeholder="" />
                     </div>
-                </div> 
+                </div>
                 <div class="col-2 mt-4">
                     <br /><br />
                     <input class="form-check-input" name="Kilitli " type="checkbox" value="true" id="Kilitli " />
@@ -297,7 +297,9 @@
                 <div class="col-4 mt-4">
                     <div class="form-group">
                         <label for="AnaCariID" class=" form-label"> AnaCariID </label>
-                        <input type="text" id="AnaCariID" name="AnaCariID" class="form-control p-2 rounded-1" placeholder="" selected/>
+                        <select class="form-select form-select-solid p-2 rounded-1" name="AnaCariID" id="AnaCariID"
+                                aria-label="Floating label select example" data-control="select2" data-placeholder="Select an option">
+                        </select>
                     </div>
                 </div>
                 <div class="col-4 mt-4">
@@ -335,13 +337,13 @@
                 <div class="col-3 mt-4">
                     <div class="form-group">
                         <label for="KullaniciAdi" class=" form-label"> Kullanıcı Adı</label>
-                        <input id="KullaniciAdi" type="text" name="KullaniciAdi" class="form-control p-2 rounded-1" placeholder=""  />
+                        <input id="KullaniciAdi" type="text" name="KullaniciAdi" class="form-control p-2 rounded-1" placeholder="" />
                     </div>
                 </div>
                 <div class="col-3 mt-4">
                     <div class="form-group">
                         <label for="Parola" class=" form-label">Parola</label>
-                        <input id="Parola" type="password" name="Parola" class="form-control p-2 rounded-1" placeholder=""  />
+                        <input id="Parola" type="password" name="Parola" class="form-control p-2 rounded-1" placeholder="" />
                     </div>
                 </div>
 
@@ -419,4 +421,36 @@
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(function () {
+
+            const anaCariIdSelect = $('#AnaCariID').select2({
+                ajax: {
+                    url: "/Cari/SelectListe",
+                    data: function (params) {
+                        var query = {
+                            search: params.term,
+                        }
+
+                        // Query parameters will be ?search=[term]&type=public
+                        return query;
+                    },
+                    processResults: function (data) {
+                        var results = [];
+                        if (data && data.length > 0) {
+                            data.forEach(function (item) {
+                                results.push({ id: item.ID, text: item.Isim })
+                            });
+                        }
+
+                        return {
+                            results: results
+                        };
+                    }
+                }
+            });
+
+
+        });
+    </script>
 }

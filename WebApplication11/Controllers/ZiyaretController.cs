@@ -15,30 +15,49 @@ namespace YKPortal.Controllers
 
     {
 
-        public ActionResult Liste(ZiyaretDto ziyaretDto)
-        {
-            if (!AutoGirisKontrol())
-                return Redirect("~/YK/Giris");
-
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "p_ZiyaretListesi";
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-
+        public ActionResult Ziyaretler(ZiyaretDto ziyaretDto)
+        {         
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_SonHareketler";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@CariID", ziyaretDto.CariID);
-
-            ViewBag.KayitID = ziyaretDto.CariID;
-
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
+                var ziyaretler = new List<ZiyaretDto>();
+
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                ziyaretler.Add(new ZiyaretDto
+                {
+                    CariID = Convert.ToString(dt.Rows[i]["CariID"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["CariID"]),
+                    Tarih = Convert.ToString(dt.Rows[i]["Tarih"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["Tarih"]),
+                    ZiyaretTipi = Convert.ToString(dt.Rows[i]["ZiyaretTipi"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["ZiyaretTipi"]),
+                    Aciklama = Convert.ToString(dt.Rows[i]["Aciklama"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["Aciklama"]),
+                    TamamlamaAciklamasi = Convert.ToString(dt.Rows[i]["TamamlamaAciklamasi"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["TamamlamaAciklamasi"]),
+                    TamamlamaTarihi = Convert.ToString(dt.Rows[i]["TamamlamaTarihi"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["TamamlamaTarihi"]),
+                    TamamlayanKullaniciID = Convert.ToString(dt.Rows[i]["TamamlayanKullaniciID"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["TamamlayanKullaniciID"]),
+                    KullaniciID = Convert.ToString(dt.Rows[i]["KullaniciID"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["KullaniciID"]),
+                });
+                }
+
+                ViewBag.Ziyaretler = ziyaretler;       
             return View(dt);
         }
 
+        [HttpGet]
+        public ActionResult Ekle()
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+            return View();
+        }  
 
         [HttpPost]
         public ActionResult Ekle(ZiyaretDto ziyaretDto)
         {
-
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
 
             SqlCommand cmd = new SqlCommand();
 

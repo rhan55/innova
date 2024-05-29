@@ -6,7 +6,7 @@
     string KullaniciID = HttpUtility.UrlDecode(Request.Cookies["KullaniciID"].Value);
 }
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <!--begin::Head-->
 <head>
     <title>@ViewBag.Title - YK Yazılım</title>
@@ -614,12 +614,12 @@
                     navigation.items.forEach(menu => {
                         if (menu.isMenu) {
                             menu.items.forEach(link => {
-                                if (link.title.includes(event.target.value)) {
+                                if (link.title.toLocaleUpperCase("tr-TR").includes(event.target.value.toLocaleUpperCase("tr-TR"))) {
                                     filteredNavigation.push(createLink(link));
                                 }
                             })
                         } else {
-                            if (item.title.includes(event.target.value)) {
+                            if (item.title.toLocaleUpperCase("tr-TR").includes(event.target.value.toLocaleUpperCase("tr-TR"))) {
                                 filteredNavigation.push(createLink(menu));
                             }
                         }

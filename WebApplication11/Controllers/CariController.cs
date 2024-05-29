@@ -482,6 +482,38 @@ namespace YKPortal.Controllers
             return View(dt);
         }
 
+        [HttpGet]
+        public JsonResult SelectListe(string search)
+        {
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_CariListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Kod", "");
+            cmd.Parameters.AddWithValue("@Isim", search);
+            cmd.Parameters.AddWithValue("@Unvan", "");
+            cmd.Parameters.AddWithValue("@TCKimlikNo", "");
+            cmd.Parameters.AddWithValue("@VergiNumarasi", "");
+            cmd.Parameters.AddWithValue("@CepTelefonu", "");
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            var liste = new List<CariDto>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                liste.Add(new CariDto
+                {
+                    ID = Convert.ToString(dt.Rows[i]["ID"]),
+                    Isim = Convert.ToString(dt.Rows[i]["Isim"]),
+                    Kod = Convert.ToString(dt.Rows[i]["Kod"]),
+                });
+            }
+
+            return Json(liste, JsonRequestBehavior.AllowGet);
+
+        }
+
         //[HttpPost]
         //public JsonResult CariListesiniGetir(CariDto cariDto)
         //{

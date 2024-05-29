@@ -2580,6 +2580,8 @@
     <Content Include="Views\Dosya\_DosyaMenu.cshtml" />
     <Content Include="Views\Dosya\Ekle.cshtml" />
     <Content Include="Views\Ziyaret\Ekle.cshtml" />
+    <Content Include="Views\Ziyaret\Duzenle.cshtml" />
+    <Content Include="Views\Ziyaret\Ziyaretler.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
