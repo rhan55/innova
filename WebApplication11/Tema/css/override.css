@@ -164,3 +164,8 @@ tr.selected .menu-link {
                 display: none !important;
             }
 }
+
+
+.dt-buttons .btn-group button.btn:not(:last-child) {
+    border-right: 1px solid #ddd;
+}

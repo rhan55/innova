@@ -303,9 +303,14 @@
                     </div>
                 </div>
                 <div class="col-4 mt-4">
-                    <div class="form-group">
-                        <label for="TeslimCariID" class=" form-label">TeslimCariID</label>
-                        <input id="TeslimCariID" type="text" name="TeslimCariID" class="form-control p-2 rounded-1" placeholder="" />
+                    <div class="form-group">                       
+                        <div class="form-group">
+                            <label for="TeslimCariID" class=" form-label"> TeslimCariID </label>
+                            <select class="form-select form-select-solid p-2 rounded-1" name="TeslimCariID" id="TeslimCariID"
+                                    
+                                    aria-label="Floating label select example" data-control="select2" data-placeholder="Select an option">
+                            </select>
+                        </div>
                     </div>
                 </div>
 
@@ -425,6 +430,36 @@
         $(function () {
 
             const anaCariIdSelect = $('#AnaCariID').select2({
+                ajax: {
+                    url: "/Cari/SelectListe",
+                    data: function (params) {
+                        var query = {
+                            search: params.term,
+                        }
+
+                        // Query parameters will be ?search=[term]&type=public
+                        return query;
+                    },
+                    processResults: function (data) {
+                        var results = [];
+                        if (data && data.length > 0) {
+                            data.forEach(function (item) {
+                                results.push({ id: item.ID, text: item.Isim })
+                            });
+                        }
+
+                        return {
+                            results: results
+                        };
+                    }
+                }
+            });
+
+
+        });
+        $(function () {
+
+            const teslimCariIdSelect = $('#TeslimCariID').select2({
                 ajax: {
                     url: "/Cari/SelectListe",
                     data: function (params) {
