@@ -427,9 +427,10 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        $(function () {
+       
+        $(document).ready(function () {
 
-            const anaCariIdSelect = $('#AnaCariID').select2({
+            const teslimCariIdSelect = $('#AnaCariID').select2({
                 ajax: {
                     url: "/Cari/SelectListe",
                     data: function (params) {
@@ -451,13 +452,21 @@
                         return {
                             results: results
                         };
+                    },
+                },
+                delay: 250,
+                minimumInputLength: 3,
+                language: {
+                    placeholder: function () {
+                        return "Arama yapmak için en az 3 karakter girin";
+                    },
+                    inputTooShort: function () {
+                        return "En azLütfen en az 3 karakter girin";
                     }
                 }
             });
+        
 
-
-        });
-        $(function () {
 
             const teslimCariIdSelect = $('#TeslimCariID').select2({
                 ajax: {
@@ -481,11 +490,22 @@
                         return {
                             results: results
                         };
+                    },
+                },
+                delay: 250,
+                minimumInputLength: 3,
+                language: {
+                    placeholder: function () {
+                        return "Arama yapmak için en az 3 karakter girin";
+                    },
+                    inputTooShort: function () {
+                        return "En azLütfen en az 3 karakter girin";
                     }
                 }
             });
-
+       
 
         });
+    
     </script>
 }

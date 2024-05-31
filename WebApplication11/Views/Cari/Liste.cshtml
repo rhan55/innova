@@ -96,7 +96,7 @@
                                                 <label for="Kod" class="fw-semibold fs-6 mb-2">Kod</label>
                                                 <!--end::Label-->
                                                 <!--begin::Input-->
-                                                <input type="text" name="Kod" id="Kod" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" placeholder="Kod" value="@(ViewBag.Filters.Kod)" />
+                                                <input type="text" name="Kod" id="Kod" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.Kod)" />
                                                 <!--end::Input-->
                                             </div>
                                             <div class="col-lg-3">
@@ -149,7 +149,7 @@
                                             <div class="col-lg-3 d-flex justify-content-end align-items-end">
                                                 <button type="button" id="filtreleriTemizle" class="btn btn-light me-3 h-40px" data-kt-users-modal-action="cancel">Temizle</button>
                                                 <button type="submit" class="btn btn-primary h-40px" data-kt-users-modal-action="Ara">
-                                                    <span class="indicator-label">Filtrele</span>                                                 
+                                                    <span class="indicator-label">Filtrele</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -250,7 +250,7 @@
                                 </div>
 
                             </div>
-                          
+
                         </div>
                     </div>
                 </div>
@@ -315,15 +315,41 @@
 
 @section Scripts {
     <script>
-    //Toplu silme için biz seçimlerin id leerini alıp çalışan metodumuzda forech ile bu id lerğ dönüp ssilecez
-    //yani 10 tane kayıt seçilmiş ise 10 id yi metodumuzds forech ile dönüpmteker teker silecez
-     //Listeleme için ek birşey yapmamıza gerek yok ekrandaki otomatik sayfalama işimizi çözer
-    // ben arkaplanda zaten arama sonucunun ilk 100 veya 200 tanesini döndürüyorum
+
+        function setCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                let date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        function getCookie(name) {
+            let nameEQ = name + "=";
+            let ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
 
         var select = document.querySelectorAll("#select")
 
 
         document.addEventListener('DOMContentLoaded', function () {
+
+            const cariDatatable = KTDatatablesExample.init();
+
+            cariDatatable.loadDataTableSettingsFromCookie(cariDatatable.datatable);
+
+            cariDatatable.datatable.on('column-visibility.dt', function (e, settings, column, state) {
+                cariDatatable.saveDataTableColumnSettingsToCookie(cariDatatable.datatable, column, state)
+            });
+
             document.querySelectorAll('.btn-sil').forEach(silButonu => {
                 silButonu.addEventListener('click', function () {
                     document.querySelector('form#silme-formu input[name="id"]').value = silButonu.dataset.id;
@@ -352,23 +378,23 @@
                 $('#Cari-datatable tr.selected .btn-sil.cari-silme').each(function (event) {
                     var id = $(this).attr('data-id');
                     idListesi.push(id);
-                    // toplu silmeden sonra nasil datatable i yenilerim?
+
                 })
                 $.ajax({
                     url: "/Cari/TopluSil",
                     method: "POST",
                     data: { idListesi: idListesi },
                     success: function (response) {
-                       
+
                         console.log("Success:", response);
                         window.location.reload();
                     },
                     error: function (xhr, status, error) {
-                        // Handle error response here
+
                         console.log("Error:", xhr.responseText);
                     }
                 })
-               
+
             }
         });
 
@@ -393,7 +419,7 @@
             var table;
             var datatable;
 
-            
+
             // Private functions
             var initDatatable = function () {
                 // Set date data order
@@ -402,7 +428,7 @@
                 // Init datatable --- more info on datatables: https://datatables.net/manual/
                 datatable = $(table).DataTable({
                     "info": false,
-                
+
 
                     //scrollY: true,
                     //scrollx: true,
@@ -421,7 +447,7 @@
                     ordering: true,
                     paging: true,
                     pageLength: 10,
-                   
+
 
                     language: { url: '//cdn.datatables.net/plug-ins/2.0.7/i18n/tr.json', },
 
@@ -445,7 +471,7 @@
                         }
 
                     ],
-                  
+
                     order: [[1, 'asc']],
                     layout: {
                         topStart: {
@@ -455,7 +481,7 @@
                                     columns: ':not(.noVis)',
                                     popoverTitle: 'Column visibility selector'
                                 }
-                                
+
                             ],
 
 
@@ -468,7 +494,7 @@
                                 ]
                             }
                         }
-                    }
+                    },
 
 
                 });
@@ -530,7 +556,59 @@
             }
 
             // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
+            function getDataTableColumnSettings(table) {
+                let columnSettings = [];
+                table.columns().every(function () {
+                    let column = this;
+               
+                    columnSettings.push({
+                        index: column.index(),
+                        visible: column.visible(),
 
+                    });
+                });
+                return columnSettings;
+            }
+            // Kolonları aldıktan sonra Cari-datatable cookie'si içerisinde kaydedeceğiz.
+            function saveDataTableSettingsToCookie(table) {
+                let settings = getDataTableColumnSettings(table);
+                setCookie('Cari-datatable', JSON.stringify(settings), 7);
+            }
+
+            function saveDataTableColumnSettingsToCookie(table, column, state) {
+                var settings = getCookie("Cari-datatable");
+
+                if (settings) {
+                    settings = JSON.parse(settings);
+                    settings = settings.map(setting => {
+                        if (column == setting.index) {
+                            setting.visible = state;
+                        }
+
+                        return setting;
+                    })
+
+                    console.log(settings);
+
+                    setCookie('Cari-datatable', JSON.stringify(settings), 365);
+                }
+            }
+
+            function loadDataTableSettingsFromCookie(table) {
+                let settings = getCookie('Cari-datatable');
+               
+                if (settings) {
+                    settings = JSON.parse(settings);
+                    settings.forEach(function (setting) {
+                        let column = table.column(setting.index);
+                        column.visible(setting.visible);
+                        // Burada başka kolon özelliklerini güncelleyebilirsiniz
+                    });
+                    table.draw();
+                } else {
+                    saveDataTableSettingsToCookie(table);
+                }
+            }
 
             // Public methods
             return {
@@ -543,28 +621,32 @@
 
                     initDatatable();
                     exportButtons();
-                 
+
+                    return {
+                        // Datatable API ile kolon özelliklerini alacağız
+                        loadDataTableSettingsFromCookie,
+                        saveDataTableSettingsToCookie,
+                        saveDataTableColumnSettingsToCookie,
+                        datatable
+                    }
+
                 },
-               
+
             };
         }();
 
-        // On document ready
-        KTUtil.onDOMContentLoaded(function () {
-            KTDatatablesExample.init();
-          
+
+
+
+        $('#Cari-datatable').on('click', 'thead th', function () {
+
+            var index = table.column(this).index();
+
+            alert(index);
+
         });
 
 
-            $('#Cari-datatable').on('click', 'thead th', function () {
-
-                var index = table.column(this).index();
-
-                alert(index);
-
-            });
-
-       
 
     </script>
 }

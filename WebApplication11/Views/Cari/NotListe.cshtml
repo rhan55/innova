@@ -154,7 +154,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Vazgeç</button>
-                <form method="post" id="silme-formu" action="@Url.Action("CariNotSil","Cari",null)">
+                <form method="post" id="silme-formu" action="@Url.Action("NotSil","Cari",null)">
                     <input type="hidden" name="id" value="" />
                     <input type="hidden" name="CariID" value="@ViewBag.CariID" />
                     <button type="submit" class="btn btn-danger">Sil</button>
