@@ -223,6 +223,14 @@
                     } else {
                         done();
                     }
+                },
+                init: function () {
+                    this.on("success", function (file, response) {
+                        document.getElementById('result').innerText = `Satır sayısı: ${response.rowCount}`;
+                    });
+                    this.on("error", function (file, response) {
+                        document.getElementById('result').innerText = 'Dosya yüklenirken bir hata oluştu.';
+                    });
                 }
             });
             //KayıtID ve Modulü ekliyoruz

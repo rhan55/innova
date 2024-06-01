@@ -298,8 +298,11 @@
                     <div class="form-group">
                         <label for="exampleFormControlInput1" class=" form-label">AnaCariID </label>
                         <select class="form-select form-select-solid p-2 rounded-1" name="AnaCariID" id="AnaCariID"
-                                aria-label="Floating label select example" data-control="select2" data-placeholder="Select an option">
-                            <option value="@(Convert.ToString(Model.Rows[0]["AnaCariID"]))">Lütfen Seçim Yapınız</option>
+                                aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                            @if (ViewBag.AnaCari != null)
+                            {
+                                <option value="@ViewBag.AnaCari.ID" selected>@ViewBag.AnaCari.Isim</option>
+                            }
                         </select>
                     </div>
                 </div>
@@ -307,12 +310,15 @@
                     <div class="form-group">
                         <label for="exampleFormControlInput1" class=" form-label">TeslimCariID </label>
                         <select class="form-select form-select-solid p-2 rounded-1" name="TeslimCariID" id="TeslimCariID"
-                                aria-label="Floating label select example" data-control="select2" data-placeholder="Select an option">
-                            <option value="@(Convert.ToString(Model.Rows[0]["TeslimCariID"]))">Lütfen Seçim Yapınız</option>
+                                aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                            @if (ViewBag.TeslimCari != null)
+                            {
+                                <option value="@ViewBag.TeslimCari.ID" selected>@ViewBag.TeslimCari.Isim</option>
+                            }
                         </select>
                     </div>
                 </div>
-                
+
 
                 <div class="col-3 mt-4">
                     <div class="form-group ">
@@ -427,7 +433,7 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        $(function () {
+        $(document).ready(function () {
 
             const anaCariIdSelect = $('#AnaCariID').select2({
                 ajax: {
@@ -451,6 +457,17 @@
                         return {
                             results: results
                         };
+                    },
+
+                },
+                delay: 250,
+                minimumInputLength: 3,
+                language: {
+                    placeholder: function () {
+                        return "Arama yapmak için en az 3 karakter girin";
+                    },
+                    inputTooShort: function () {
+                        return "En azLütfen en az 3 karakter girin";
                     }
                 }
             });
@@ -481,6 +498,16 @@
                         return {
                             results: results
                         };
+                    }
+                },
+                delay: 250,
+                minimumInputLength: 3,
+                language: {
+                    placeholder: function () {
+                        return "Arama yapmak için en az 3 karakter girin";
+                    },
+                    inputTooShort: function () {
+                        return "En azLütfen en az 3 karakter girin";
                     }
                 }
             });
