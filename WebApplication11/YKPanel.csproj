@@ -2584,12 +2584,13 @@
     <Content Include="Views\Dosya\_DosyaMenu.cshtml" />
     <Content Include="Views\Dosya\Ekle.cshtml" />
     <Content Include="Views\Ziyaret\Ekle.cshtml" />
+    <Content Include="Views\Belge\Detay.cshtml" />
+    <Content Include="Views\Belge\Liste.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Temp\" />
     <Folder Include="Uploads\Dosyalar\" />
-    <Folder Include="Views\Belge\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
