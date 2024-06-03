@@ -49,6 +49,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
             IlListesiniOlustur();
 
             return View();
@@ -125,7 +126,6 @@ namespace YKPortal.Controllers
 
             ViewBag.Form = kullaniciEkleDto;
 
-            IlListesiniOlustur();
             return View(dt);
         }
 

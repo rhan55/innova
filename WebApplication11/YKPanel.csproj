@@ -2584,8 +2584,10 @@
     <Content Include="Views\Dosya\_DosyaMenu.cshtml" />
     <Content Include="Views\Dosya\Ekle.cshtml" />
     <Content Include="Views\Ziyaret\Ekle.cshtml" />
-    <Content Include="Views\Belge\Detay.cshtml" />
-    <Content Include="Views\Belge\Liste.cshtml" />
+    <Content Include="Views\Ziyaret\Duzenle.cshtml" />
+    <Content Include="Views\Ziyaret\Ziyaretler.cshtml" />
+    <Content Include="Views\Cari\ZiyaretListe.cshtml" />
+    <Content Include="Views\Cari\ZiyaretEkle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

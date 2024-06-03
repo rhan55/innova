@@ -7,23 +7,25 @@
 }
 
 .dt-search {
-    display: none!important;
+    display: none !important;
 }
-.Uye-Ol-Form{
-    width:800px;
-    height:700px;
+
+.Uye-Ol-Form {
+    width: 800px;
+    height: 700px;
 }
-Menu-Cari{
-    width:300px;
-    height:800px;
+
+Menu-Cari {
+    width: 300px;
+    height: 800px;
 }
 
 .select2-search__field:focus {
-    outline: none!important;
+    outline: none !important;
 }
 
 .hidden {
-    display: none!important;
+    display: none !important;
 }
 
 tr.selected .btn.btn-light,
@@ -31,3 +33,26 @@ tr.selected .menu-link {
     color: black !important;
 }
 
+
+.dt-buttons .btn-group button.btn:not(:last-child) {
+    border-right: 1px solid #ddd;
+}
+
+.table.dataTable tr.selected {
+    background-color: #fff !important;
+}
+
+
+.table.dataTable tr.selected > * {
+    background-color: #fff !important;
+    color: #79829d !important;
+    box-shadow: unset !important;
+}
+
+.table .dt-select {
+    cursor: pointer;
+}
+
+.table .dt-select:hover {
+    background-color: #eee;
+}

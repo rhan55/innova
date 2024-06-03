@@ -1,4 +1,6 @@
-﻿@using YKPortal.Models.Dto
+﻿
+@model System.Data.DataTable
+@using YKPortal.Models.Dto
 @{
     ViewBag.Title = "Ekle";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,7 +9,7 @@
 <div class="container-fluid">
     <form id="kt_modal_add_user_form" class="form container" action="@Url.Action("Ekle","Ziyaret",null)" method="post">
         <div class="d-flex flex-column scroll-y px-5 px-lg-10 mt-10">
-
+            <input type="hidden" name="CariID" value="@ViewBag.CariID" />
             <!--begin::Row Input group-->
             <div class="row mb-7">
                 <!--begin::Input group-->

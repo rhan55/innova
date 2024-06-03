@@ -309,153 +309,7 @@ namespace YKPortal.Controllers
                 // Hatalı kayıtların detayınıda HAtaliKayitListesi List'ini forech ile dönüş ekranda gösterebiliriz.
                 return View();
             }
-
-            // excel satirlara bolucez
-            //DataSet ds = new DataSet();
-            //if (Request.Files["excelDosyasi"].ContentLength > 0)
-            //{
-            //    string fileExtension =
-            //                         System.IO.Path.GetExtension(Request.Files["excelDosyasi"].FileName);
-            //    if (fileExtension == ".xls" || fileExtension == ".xlsx")
-            //    {
-            //        string fileLocation = Server.MapPath("~/Content/") + Request.Files["excelDosyasi"].FileName;
-            //        if (System.IO.File.Exists(fileLocation))
-            //        {
-            //            System.IO.File.Delete(fileLocation);
-            //        }
-            //        Request.Files["excelDosyasi"].SaveAs(fileLocation);
-            //        string excelConnectionString = string.Empty;
-            //        excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
-            //        //connection String for xls file format.  
-            //        if (fileExtension == ".xls")
-            //        {
-            //            excelConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + fileLocation + ";Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=2\"";
-            //        }
-            //        //connection String for xlsx file format.  
-            //        else if (fileExtension == ".xlsx")
-            //        {
-            //            excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
-            //        }
-            //        //Create Connection to Excel work book and add oledb namespace  
-            //        OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
-            //        excelConnection.Open();
-            //        DataTable dt = new DataTable();
-
-            //        dt = excelConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-            //        if (dt == null)
-            //        {
-            //            return null;
-            //        }
-            //        String[] excelSheets = new String[dt.Rows.Count];
-            //        int t = 0;
-            //        //excel data saves in temp file here.  
-            //        foreach (DataRow row in dt.Rows)
-            //        {
-            //            excelSheets[t] = row["TABLE_NAME"].ToString();
-            //            t++;
-            //        }
-            //        OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
-
-            //        string query = string.Format("Select * from [{0}]", excelSheets[0]);
-            //        using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(query, excelConnection1))
-            //        {
-            //            dataAdapter.Fill(ds);
-            //        }
-            //    }
-            //    if (fileExtension.ToString().ToLower().Equals(".xml"))
-            //    {
-            //        string fileLocation = Server.MapPath("~/Content/") + Request.Files["FileUpload"].FileName;
-            //        if (System.IO.File.Exists(fileLocation))
-            //        {
-            //            System.IO.File.Delete(fileLocation);
-            //        }
-
-            //        Request.Files["FileUpload"].SaveAs(fileLocation);
-            //        XmlTextReader xmlreader = new XmlTextReader(fileLocation);
-            //        // DataSet ds = new DataSet();  
-            //        ds.ReadXml(xmlreader);
-            //        xmlreader.Close();
-            //    }
-            //    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
-            //    {
-            //        string conn = ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString;
-            //        SqlConnection con = new SqlConnection(conn);
-            //        string query = "Insert into Person(Name,Email,Mobile) Values('" + ds.Tables[0].Rows[i][0].ToString() + "','" + ds.Tables[0].Rows[i][1].ToString() + "','" + ds.Tables[0].Rows[i][2].ToString() + "')";
-            //        con.Open();
-            //        SqlCommand cmd = new SqlCommand(query, con);
-            //        cmd.ExecuteNonQuery();
-            //        con.Close();
-            //    }
-            //}
-
-
-            /*
-            List<CariDto> liste = new List<CariDto>();
-
-            foreach (var cariDto in liste)
-            {
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "p_CariKaydet";
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ID", "");
-                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-                cmd.Parameters.AddWithValue("@Aktif", cariDto.Aktif);
-                cmd.Parameters.AddWithValue("@KayitTarihi  ", DateTime.Now);
-                cmd.Parameters.AddWithValue("@Kod", cariDto.Kod);
-                cmd.Parameters.AddWithValue("@Isim", cariDto.Isim);
-                cmd.Parameters.AddWithValue("@Unvan", cariDto.Unvan);
-                cmd.Parameters.AddWithValue("@Adres", cariDto.Adres);
-                cmd.Parameters.AddWithValue("@Ilce", cariDto.Ilce);
-                cmd.Parameters.AddWithValue("@Il", cariDto.Il);
-                cmd.Parameters.AddWithValue("@Ulke", cariDto.Ulke);
-                cmd.Parameters.AddWithValue("@Bolge ", cariDto.Bolge);
-                cmd.Parameters.AddWithValue("@TCKimlikNo", cariDto.TCKimlikNo);
-                cmd.Parameters.AddWithValue("@VergiDairesi", cariDto.VergiDairesi);
-                cmd.Parameters.AddWithValue("@VergiNumarasi", cariDto.VergiNumarasi);
-                cmd.Parameters.AddWithValue("@PostaKodu", cariDto.PostaKodu);
-                cmd.Parameters.AddWithValue("@Alici", cariDto.Alici);
-                cmd.Parameters.AddWithValue("@Satici", cariDto.Satici);
-                cmd.Parameters.AddWithValue("@Personel", cariDto.Personel);
-                cmd.Parameters.AddWithValue("@Telefon1", cariDto.Telefon1);
-                cmd.Parameters.AddWithValue("@Telefon2", cariDto.Telefon2);
-                cmd.Parameters.AddWithValue("@EMail", cariDto.EMail);
-                cmd.Parameters.AddWithValue("@Faks", cariDto.Faks);
-                cmd.Parameters.AddWithValue("@CepTelefonu", cariDto.CepTelefonu);
-                cmd.Parameters.AddWithValue("@WebSite", cariDto.WebSite);
-                cmd.Parameters.AddWithValue("@GrupKodu1ID", cariDto.GrupKodu1ID == null ? string.Empty : cariDto.GrupKodu1ID);
-                cmd.Parameters.AddWithValue("@GrupKodu2ID", cariDto.GrupKodu2ID == null ? string.Empty : cariDto.GrupKodu2ID);
-                cmd.Parameters.AddWithValue("@GrupKodu3ID", cariDto.GrupKodu3ID == null ? string.Empty : cariDto.GrupKodu3ID);
-                cmd.Parameters.AddWithValue("@GrupKodu4ID", cariDto.GrupKodu4ID == null ? string.Empty : cariDto.GrupKodu4ID);
-                cmd.Parameters.AddWithValue("@GrupKodu5ID", cariDto.GrupKodu5ID == null ? string.Empty : cariDto.GrupKodu5ID);
-                cmd.Parameters.AddWithValue("@GrupKodu6ID", cariDto.GrupKodu6ID == null ? string.Empty : cariDto.GrupKodu6ID);
-                cmd.Parameters.AddWithValue("@MuhasebeKodu", cariDto.MuhasebeKodu);
-                cmd.Parameters.AddWithValue("@Kilitli", cariDto.Kilitli);
-                cmd.Parameters.AddWithValue("@KilitAciklamasi", cariDto.KilitAciklamasi);
-                cmd.Parameters.AddWithValue("@DovizID", "");
-                cmd.Parameters.AddWithValue("@VadeGunu", cariDto.VadeGunu);
-                cmd.Parameters.AddWithValue("@Iskonto1", cariDto.Iskonto1);
-                cmd.Parameters.AddWithValue("@ListeFiyat", cariDto.ListeFiyat);
-                cmd.Parameters.AddWithValue("@Aciklama1", cariDto.Aciklama1 == null ? string.Empty : cariDto.Aciklama1);
-                cmd.Parameters.AddWithValue("@Aciklama2", cariDto.Aciklama2 == null ? string.Empty : cariDto.Aciklama2);
-                cmd.Parameters.AddWithValue("@Aciklama3", cariDto.Aciklama3 == null ? string.Empty : cariDto.Aciklama3);
-                cmd.Parameters.AddWithValue("@Aciklama4", cariDto.Aciklama4 == null ? string.Empty : cariDto.Aciklama4);
-                cmd.Parameters.AddWithValue("@Aciklama5", cariDto.Aciklama5 == null ? string.Empty : cariDto.Aciklama5);
-                cmd.Parameters.AddWithValue("@Aciklama6", cariDto.Aciklama6 == null ? string.Empty : cariDto.Aciklama6);
-                cmd.Parameters.AddWithValue("@LimitAsimindaUyar", cariDto.LimitAsimindaUyar);
-                cmd.Parameters.AddWithValue("@LimitAsimindaDurdur", cariDto.LimitAsimindaDurdur);
-                cmd.Parameters.AddWithValue("@CekSenetRiski", cariDto.CekSenetRiski);
-                cmd.Parameters.AddWithValue("@Limit", cariDto.Limit);
-                cmd.Parameters.AddWithValue("@ServisPersoneli", cariDto.ServisPersoneli);
-                cmd.Parameters.AddWithValue("@KullaniciAdi ", cariDto.KullaniciAdi);
-                cmd.Parameters.AddWithValue("@Parola", cariDto.Parola);
-                cmd.Parameters.AddWithValue("@RiskAciklama", cariDto.RiskAciklama);
-                cmd.Parameters.AddWithValue("@PlasiyerID", "");
-                cmd.Parameters.AddWithValue("@AnaCariID", "");
-                cmd.Parameters.AddWithValue("@TeslimCariID", "");
-                cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
-                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-            }
-            */
+       
             return RedirectToAction("Liste");
         }
 
@@ -480,6 +334,135 @@ namespace YKPortal.Controllers
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
             return View(dt);
+        }
+
+        [HttpGet]
+        public ActionResult ZiyaretListe(string CariID)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_ZiyaretListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@CariID", CariID);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var ziyaretler = new List<ZiyaretDto>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                CariDto cariDto = Getir(Convert.ToString(dt.Rows[i]["CariID"]));
+
+                ziyaretler.Add(new ZiyaretDto
+                {
+                    CariID = Convert.ToString(dt.Rows[i]["CariID"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["CariID"]),
+                    Tarih = Convert.ToString(dt.Rows[i]["Tarih"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["Tarih"]),
+                    ZiyaretTipi = Convert.ToString(dt.Rows[i]["ZiyaretTipi"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["ZiyaretTipi"]),
+                    Aciklama = Convert.ToString(dt.Rows[i]["Aciklama"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["Aciklama"]),
+                    TamamlamaAciklamasi = Convert.ToString(dt.Rows[i]["TamamlamaAciklamasi"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["TamamlamaAciklamasi"]),
+                    TamamlamaTarihi = Convert.ToString(dt.Rows[i]["TamamlamaTarihi"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["TamamlamaTarihi"]),
+                    TamamlayanKullaniciID = Convert.ToString(dt.Rows[i]["TamamlayanKullaniciID"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["TamamlayanKullaniciID"]),
+                    KullaniciID = Convert.ToString(dt.Rows[i]["KullaniciID"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["KullaniciID"]),
+                    CariIsim = cariDto.Isim
+                });
+            }
+
+            ViewBag.Ziyaretler = ziyaretler;
+            ViewBag.CariID = CariID;
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult ZiyaretEkle(string CariID)
+        {
+            ViewBag.CariID = CariID;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ZiyaretEkle(ZiyaretDto ziyaretDto)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+
+            cmd.CommandText = "p_ZiyaretKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@ID", "");
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@CariID", ziyaretDto.CariID);
+            cmd.Parameters.AddWithValue("@Tarih", ziyaretDto.Tarih);
+            cmd.Parameters.AddWithValue("@Aciklama", ziyaretDto.Aciklama);
+            cmd.Parameters.AddWithValue("@TamamlamaAciklamasi", null);
+            cmd.Parameters.AddWithValue("@TamamlamaTarihi", null);
+            cmd.Parameters.AddWithValue("@TamamlayanKullaniciID", null);
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return RedirectToAction("ZiyaretListe", new { CariID = ziyaretDto.CariID });
+        }
+
+        [HttpGet]
+        public JsonResult SelectListe(string search)
+        {
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_CariListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Kod", "");
+            cmd.Parameters.AddWithValue("@Isim", search);
+            cmd.Parameters.AddWithValue("@Unvan", "");
+            cmd.Parameters.AddWithValue("@TCKimlikNo", "");
+            cmd.Parameters.AddWithValue("@VergiNumarasi", "");
+            cmd.Parameters.AddWithValue("@CepTelefonu", "");
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            var liste = new List<CariDto>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                liste.Add(new CariDto
+                {
+                    ID = Convert.ToString(dt.Rows[i]["ID"]),
+                    Isim = Convert.ToString(dt.Rows[i]["Isim"]),
+                    Kod = Convert.ToString(dt.Rows[i]["Kod"]),
+                });
+            }
+
+            return Json(liste, JsonRequestBehavior.AllowGet);
+
+        }
+
+        // Bir tane cari getirmek icin kullandigimiz metod, bu metod sayesinde id uzerinden bir carinin Isim ve ID'sini getirebiliyoruz. Select2 icin kullaniyoruz.
+        private CariDto Getir(string id)
+        {
+
+            if (id != null && id.Length > 0)
+            {
+                var uyelikId = GetCookie("UyelikID");
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_Cari";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ID", id);
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+
+                return new CariDto
+                {
+                    ID = Convert.ToString(dt.Rows[0]["ID"]),
+                    Isim = Convert.ToString(dt.Rows[0]["Isim"])
+                };
+            }
+            return new CariDto { };
         }
 
         //[HttpPost]
@@ -520,7 +503,7 @@ namespace YKPortal.Controllers
         //    return Json(liste, JsonRequestBehavior.AllowGet);
         //}
 
-
+        
 
         [HttpGet]
         public ActionResult Duzenle(string id)
@@ -547,6 +530,14 @@ namespace YKPortal.Controllers
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             ViewBag.CariID = id;
+
+            var anaCari = Getir(Convert.ToString(dt.Rows[0]["AnaCariID"]));
+            var teslimCari = Getir(Convert.ToString(dt.Rows[0]["TeslimCariID"]));
+
+            ViewBag.AnaCari = anaCari;
+            ViewBag.TeslimCari = teslimCari;
+
+
             return View(dt);
 
         }
@@ -635,7 +626,29 @@ namespace YKPortal.Controllers
             return RedirectToAction("Liste");
         }
 
-       
+        public ActionResult TopluSil(List<string> idListesi)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            if (idListesi == null)
+            {
+                return RedirectToAction("Liste");
+            }
+
+            foreach(string id in idListesi)
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_CariSil";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ID", id);
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            }
+
+            return RedirectToAction("Liste");
+        }
 
 
         [HttpGet]

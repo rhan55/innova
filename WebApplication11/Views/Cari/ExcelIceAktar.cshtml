@@ -145,6 +145,13 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    @if (ViewBag.AktarilanKayitSayisi != null && ViewBag.AktarilanKayitSayisi > 0)
+                    {
+                       <div class="alert alert-success">
+                           Aktarılan Kayıt Sayısı: @ViewBag.AktarilanKayitSayisi
+                       </div>
+                       
+                    }
                     @if (ViewBag.AktarilanHataliKayitSayisi != null && ViewBag.AktarilanHataliKayitSayisi > 0)
                     {
                         <div class="table-danger fw-bold px-3 py-2" style="background: #fed4de; border-left: 1px solid #e5bfc8; border-right: 1px solid #e5bfc8; border-top: 1px solid #e5bfc8; ">Hata içeriği</div>
