@@ -227,6 +227,13 @@
                                                             <!--end::Menu item-->
                                                             <!--begin::Menu item-->
                                                             <div class="menu-item px-3">
+                                                                <button type="button" data-id="@(Convert.ToString(Model.Rows[i]["ID"]))" class="btn btn-sm w-100 menu-link px-3 btn-sil cari-silme" data-bs-toggle="modal" data-bs-target="#Cari-silme">
+                                                                    Yetkiler
+                                                                </button>
+                                                            </div>
+                                                            <!--end::Menu item-->
+                                                            <!--begin::Menu item-->
+                                                            <div class="menu-item px-3">
                                                                 <a href="/Cari/KisiListe?CariID=@(Convert.ToString(Model.Rows[i]["ID"]))" class="menu-link px-3">Kişiler</a>
                                                             </div>
                                                             <!--end::Menu item-->
@@ -312,7 +319,8 @@
         </div>
     </div>
 </div>
-
+@section Styles {
+}
 @section Scripts {
     <script>
 
@@ -427,19 +435,20 @@
 
                 // Init datatable --- more info on datatables: https://datatables.net/manual/
                 datatable = $(table).DataTable({
-                    "info": false,
+                   /* "info": false,*/
 
 
                     //scrollY: true,
                     //scrollx: true,
-                    //scrollCollopse: true,
-                    colResize: colResize_options,
-
+                    scrollCollopse: true,
+                    colResize: true,
                     colReorder: colReorder_options,
                     autoWidth: false,
                     caching: true,
                     select: {
-                        style: "multi"
+                        style: "multi",
+                        style: 'bootstrap',
+                        selector: 'td:first-child'
                     },
                     order: [
                         [2, "asc"],
@@ -447,7 +456,7 @@
                     ordering: true,
                     paging: true,
                     pageLength: 10,
-
+                    
 
                     language: { url: '//cdn.datatables.net/plug-ins/2.0.7/i18n/tr.json', },
 

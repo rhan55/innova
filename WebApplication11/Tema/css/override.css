@@ -7,23 +7,25 @@
 }
 
 .dt-search {
-    display: none!important;
+    display: none !important;
 }
-.Uye-Ol-Form{
-    width:800px;
-    height:700px;
+
+.Uye-Ol-Form {
+    width: 800px;
+    height: 700px;
 }
-Menu-Cari{
-    width:300px;
-    height:800px;
+
+Menu-Cari {
+    width: 300px;
+    height: 800px;
 }
 
 .select2-search__field:focus {
-    outline: none!important;
+    outline: none !important;
 }
 
 .hidden {
-    display: none!important;
+    display: none !important;
 }
 
 tr.selected .btn.btn-light,
@@ -31,141 +33,26 @@ tr.selected .menu-link {
     color: black !important;
 }
 
-.zaman-tuneli {
-    position: relative;
-}
-
-    .zaman-tuneli:before {
-        position: absolute !important;
-        content: '';
-        width: 1px !important;
-        height: 97% !important;
-        background-color: rgba(0, 0, 0, 0.09) !important;
-        display: block !important;
-        top: 26px !important;
-        left: 50% !important;
-        margin-left: -1px !important;
-        z-index: 0 !important;
-    }
-
-    .zaman-tuneli .baslangic {
-        text-align: center !important;
-    }
-
-        .zaman-tuneli .baslangic > span {
-            background: #fff !important;
-            border-radius: 3px !important;
-            padding: 0 10px !important;
-            line-height: 2 !important;
-            display: inline-block !important;
-            position: relative !important;
-            z-index: 9 !important;
-        }
-
-    .zaman-tuneli .kutu {
-        box-shadow: 0 0px 10px 1px rgba(56, 56, 56, 0.05) !important;
-        background: #fff !important;
-        border-radius: 3px !important;
-        margin: 30px 30px 30px 0 !important;
-        padding: 30px !important;
-        position: relative !important;
-    }
-
-        .zaman-tuneli .kutu:after {
-            content: '';
-            position: absolute !important;
-            top: 50% !important;
-            right: -20px !important;
-            border: 10px solid transparent !important;
-            border-left-color: #fff !important;
-            margin-top: -10px !important;
-        }
-
-        .zaman-tuneli .kutu .tarih {
-            font-size: 13px !important;
-            font-weight: 700 !important;
-            background: #fff !important;
-            display: inline-block !important;
-            padding: 5px 10px !important;
-            border-radius: 2px !important;
-            position: absolute !important;
-            top: 50% !important;
-            margin-top: -14px !important;
-            right: -100px !important;
-            color: #787878 !important;
-            right: auto !important;
-            white-space: nowrap !important;
-            left: -webkit-calc(100% + 90px) !important;
-            left: calc(100% + 90px);
-            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05) !important;
-        }
-
-            .zaman-tuneli .kutu .tarih:before {
-                content: "\f073" !important;
-                position: absolute !important;
-                font-family: 'FontAwesome' !important;
-                font-size: 18px !important;
-                top: 50% !important;
-                left: -75px !important;
-                background: #E5E5E5 !important;
-                color: #fff !important;
-                width: 50px !important;
-                height: 50px !important;
-                margin-top: -25px !important;
-                border-radius: 50% !important;
-                text-align: center !important;
-                line-height: 50px !important;
-                box-sizing: content-box !important;
-            }
-
-        .zaman-tuneli .kutu:hover .tarih:before {
-            background-color: #cd2122 !important;
-        }
-
-    .zaman-tuneli div[data-yon="sag"] .kutu .tarih:before {
-        right: auto !important;
-        right: -75px !important;
-        left: auto !important;
-    }
-
-    .zaman-tuneli div[data-yon="sag"] .kutu {
-        margin: 30px 0 30px 30px !important;
-    }
-
-        .zaman-tuneli div[data-yon="sag"] .kutu:after {
-            left: -20px !important;
-            right: auto !important;
-            border-left-color: transparent !important;
-            border-right-color: #fff !important;
-        }
-
-    .zaman-tuneli div[data-yon="sag"] .tarih {
-        left: auto !important;
-        right: calc(100% + 90px) !important;
-    }
-
-@media (max-width:767px) {
-    .zaman-tuneli .kutu {
-        margin: 76px 0px !important ;
-    }
-
-        .zaman-tuneli .kutu:after {
-            display: none;
-        }
-
-        .zaman-tuneli .kutu .tarih {
-            left: 30% !important;
-            right: 30% !important;
-            top: -39px !important;
-            text-align: center !important;
-        }
-
-            .zaman-tuneli .kutu .tarih:before {
-                display: none !important;
-            }
-}
-
 
 .dt-buttons .btn-group button.btn:not(:last-child) {
     border-right: 1px solid #ddd;
+}
+
+.table.dataTable tr.selected {
+    background-color: #fff !important;
+}
+
+
+.table.dataTable tr.selected > * {
+    background-color: #fff !important;
+    color: #79829d !important;
+    box-shadow: unset !important;
+}
+
+.table .dt-select {
+    cursor: pointer;
+}
+
+.table .dt-select:hover {
+    background-color: #eee;
 }

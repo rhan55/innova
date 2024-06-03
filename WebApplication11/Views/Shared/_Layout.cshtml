@@ -356,6 +356,7 @@
     <!--end::Global Javascript Bundle-->
     <!--begin::Vendors Javascript(used for this page only)-->
     <script src="/Tema/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
+    <script src="~/Tema/plugins/custom/vis-timeline/vis-timeline.bundle.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
@@ -477,7 +478,7 @@
                                 title: "Markalar",
                                 url: "/Tanimlamalar/GrupKodu?grupKodu=StokGrupKod1"
                             },
-                            
+
                         ]
                     },
                     {
@@ -540,52 +541,52 @@
         function createLink(item) {
 
             return `
-                     <div class="menu-item">
-                         <!--begin:Menu link-->
-                         <a class="menu-link" href="${item.url}">
-                             <span class="menu-bullet">
-                                 <span class="bullet bullet-dot"></span>
-                             </span>
-                             <span class="menu-title">${item.title}</span>
-                         </a>
-                         <!--end:Menu link-->
-                     </div>
-                             `
+                         <div class="menu-item">
+                             <!--begin:Menu link-->
+                             <a class="menu-link" href="${item.url}">
+                                 <span class="menu-bullet">
+                                     <span class="bullet bullet-dot"></span>
+                                 </span>
+                                 <span class="menu-title">${item.title}</span>
+                             </a>
+                             <!--end:Menu link-->
+                         </div>
+                                 `
         }
         function createMenu(navigationMenu, links) {
             return `
-                        <div class="menu-sub menu-sub-accordion">
-                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                         <span class="menu-link">
-                             <span class="menu-icon">
-                                 <i class="${navigationMenu.icon}"></i>
+                            <div class="menu-sub menu-sub-accordion">
+                            <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                             <span class="menu-link">
+                                 <span class="menu-icon">
+                                     <i class="${navigationMenu.icon}"></i>
+                                 </span>
+                                 <span class="menu-title">${navigationMenu.title}</span>
+                                 <span class="menu-arrow"></span>
                              </span>
-                             <span class="menu-title">${navigationMenu.title}</span>
-                             <span class="menu-arrow"></span>
-                         </span>
 
-                         <div class="menu-sub menu-sub-accordion">${links.join('')}</div>
-                        </div>
-                        </div>
-                 `;
+                             <div class="menu-sub menu-sub-accordion">${links.join('')}</div>
+                            </div>
+                            </div>
+                     `;
         }
         function createNavigation(navigation, menus) {
             return ` <div data-kt-menu-trigger="click" class="menu-item here  menu-accordion">
-                       <!--begin:Menu link-->
-                       <span class="menu-link">
-                           <span class="menu-icon">
-                               <i class="ki-duotone ki-element-11 fs-2">
-                                   <span class="path1"></span>
-                                   <span class="path2"></span>
-                                   <span class="path3"></span>
-                                   <span class="path4"></span>
-                               </i>
+                           <!--begin:Menu link-->
+                           <span class="menu-link">
+                               <span class="menu-icon">
+                                   <i class="ki-duotone ki-element-11 fs-2">
+                                       <span class="path1"></span>
+                                       <span class="path2"></span>
+                                       <span class="path3"></span>
+                                       <span class="path4"></span>
+                                   </i>
+                               </span>
+                               <span class="menu-title">${navigation.title}</span>
+                               <span class="menu-arrow"></span>
                            </span>
-                           <span class="menu-title">${navigation.title}</span>
-                           <span class="menu-arrow"></span>
-                       </span>
-                         ${menus.join('')}
-                     </div>`
+                             ${menus.join('')}
+                         </div>`
         }
         function buildNavigation(navigationList) {
             return navigationList.map(navigation => {

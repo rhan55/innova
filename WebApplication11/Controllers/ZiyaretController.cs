@@ -14,20 +14,21 @@ namespace YKPortal.Controllers
     public class ZiyaretController : Controller
 
     {
-
         public ActionResult Ziyaretler(ZiyaretDto ziyaretDto)
-        {         
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "p_SonHareketler";
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_ZiyaretListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@CariID", ziyaretDto.CariID);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-                var ziyaretler = new List<ZiyaretDto>();
+            var ziyaretler = new List<ZiyaretDto>();
 
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                CariDto cariDto = CariGetir(Convert.ToString(dt.Rows[i]["CariID"]));
+
                 ziyaretler.Add(new ZiyaretDto
                 {
                     CariID = Convert.ToString(dt.Rows[i]["CariID"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["CariID"]),
@@ -38,10 +39,11 @@ namespace YKPortal.Controllers
                     TamamlamaTarihi = Convert.ToString(dt.Rows[i]["TamamlamaTarihi"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["TamamlamaTarihi"]),
                     TamamlayanKullaniciID = Convert.ToString(dt.Rows[i]["TamamlayanKullaniciID"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["TamamlayanKullaniciID"]),
                     KullaniciID = Convert.ToString(dt.Rows[i]["KullaniciID"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["KullaniciID"]),
+                    CariIsim = cariDto.Isim                
                 });
-                }
+            }
 
-                ViewBag.Ziyaretler = ziyaretler;       
+            ViewBag.Ziyaretler = ziyaretler;
             return View(dt);
         }
 
@@ -51,7 +53,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
             return View();
-        }  
+        }
 
         [HttpPost]
         public ActionResult Ekle(ZiyaretDto ziyaretDto)
@@ -76,7 +78,7 @@ namespace YKPortal.Controllers
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            return View(dt);
+            return RedirectToAction("Ziyaretler");
 
         }
 
@@ -149,6 +151,27 @@ namespace YKPortal.Controllers
             return RedirectToAction("Liste", new { CariID = ziyaretDto.CariID });
         }
 
+        private CariDto CariGetir(string id)
+        {
+
+            if (id != null && id.Length > 0)
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_Cari";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ID", id);
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                return new CariDto
+                {
+                    ID = Convert.ToString(dt.Rows[0]["ID"]),
+                    Isim = Convert.ToString(dt.Rows[0]["Isim"])
+                };
+            }
+            return new CariDto { };
+        }
         #region Cookie İşlemleri
 
         public bool AutoGirisKontrol()
@@ -213,5 +236,6 @@ namespace YKPortal.Controllers
 
         #endregion
     }
+
 
 }
