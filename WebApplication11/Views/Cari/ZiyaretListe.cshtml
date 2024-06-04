@@ -6,13 +6,13 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 d-flex align-items-center justify-content-end py-12">
-            <a href="/Cari/ZiyaretEkle?CariID=@ViewBag.CariID" class="btn btn-primary">Ziyaret Ekle</a>
+        <div class="col-2">
+            @Html.Partial("~/Views/Cari/_CariMenu.cshtml", new ViewDataDictionary { { "CariID", Convert.ToString(ViewBag.CariID) } })
         </div>
-    </div>
-    <div class="row">
-        @Html.Partial("~/Views/Cari/_CariMenu.cshtml", new ViewDataDictionary { { "CariID", Convert.ToString(ViewBag.CariID) } })
-        <div class="col-lg-10">
+        <div class="col-10">
+            <div class="d-flex align-items-center justify-content-end py-4">
+                <a href="/Cari/ZiyaretEkle?CariID=@ViewBag.CariID" class="btn btn-primary">Ziyaret Ekle</a>
+            </div>
             <div class="timeline timeline-border-dashed">
                 @foreach (ZiyaretDto ziyaret in ViewBag.Ziyaretler)
                 {
@@ -27,29 +27,29 @@
                                 <span class="path5"></span>
                             </i>
                         </div>
-                        <div class="timeline-content mb-10 mt-n1">
-                            <div class="card p-4">
+                        <div class="timeline-content">
+                            <div class="card p-6">
                                 <div class="card-title">
-                                    <div>@ziyaret.CariIsim</div>
+                                    <div class="fw-bold fs-3 text-gray-700">@ziyaret.CariIsim</div>
 
                                 </div>
                                 <div class="card-body">
-                                    <div class="fs-5 fw-semibold mb-2">@ziyaret.ZiyaretTipi </div>
-                                    <div class="fs-5 fw-semibold mb-2 d-flex">
-                                        <div><p>Açıklama: </p></div>
-                                        <div>  @ziyaret.Aciklama</div>
+                                    <div class="fs-5 fw-semibold">@ziyaret.ZiyaretTipi </div>
+                                    <div class="fs-5 d-flex">
+                                        <div><p class=" fw-semibold text-gray-700">Açıklama: </p></div>
+                                        <div class="fw-semibold text-gray-600">  @ziyaret.Aciklama</div>
                                     </div>
-                                    <div class="fs-5 fw-semibold mb-2 d-flex">
-                                        <div><p>Gerçekleşen: </p></div>
-                                        <div>  @ziyaret.TamamlamaAciklamasi</div>
+                                    <div class="fs-5 fw-semibold d-flex">
+                                        <div><p class=" fw-semibold text-gray-700">Gerçekleşen: </p></div>
+                                        <div class="fw-semibold text-gray-600">  @ziyaret.TamamlamaAciklamasi</div>
                                     </div>
-                                    <div class="fs-5 fw-semibold mb-2 d-flex">
-                                        <div><p>Tarih: </p></div>
-                                        <div>  @ziyaret.Tarih</div>
+                                    <div class="fs-5 fw-semibold d-flex">
+                                        <div><p class="fw-semibold text-gray-700">Tarih: </p></div>
+                                        <div class="fw-semibold text-gray-600">  @ziyaret.Tarih</div>
                                     </div>
-                                    <div class="d-flex align-items-center mt-1 fs-6">
+                                    <div class="d-flex mt-1 fs-6 w-full">
                                         <!--begin::Info-->
-                                        <div class="text-muted me-2 fs-7">Added at 4:23 PM by</div>
+                                        <div class="text-muted align-items-end me-2 fs-7">Added at 4:23 PM by</div>
                                         <!--end::Info-->
                                         <!--begin::User-->
                                         <!--end::User-->

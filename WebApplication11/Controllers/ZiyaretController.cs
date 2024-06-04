@@ -12,8 +12,8 @@ using YKPortal.Models;
 namespace YKPortal.Controllers
 {
     public class ZiyaretController : Controller
-
     {
+
         public ActionResult Ziyaretler(ZiyaretDto ziyaretDto)
         {
             SqlCommand cmd = new SqlCommand();
@@ -31,6 +31,7 @@ namespace YKPortal.Controllers
 
                 ziyaretler.Add(new ZiyaretDto
                 {
+                    ID = Convert.ToString(dt.Rows[i]["ID"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["ID"]),
                     CariID = Convert.ToString(dt.Rows[i]["CariID"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["CariID"]),
                     Tarih = Convert.ToString(dt.Rows[i]["Tarih"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["Tarih"]),
                     ZiyaretTipi = Convert.ToString(dt.Rows[i]["ZiyaretTipi"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["ZiyaretTipi"]),
@@ -148,7 +149,7 @@ namespace YKPortal.Controllers
             //{
             //    System.IO.File.Delete("excel-no-2.xlsx");
             //} 
-            return RedirectToAction("Liste", new { CariID = ziyaretDto.CariID });
+            return RedirectToAction("Ziyaretler", new { CariID = ziyaretDto.CariID });
         }
 
         private CariDto CariGetir(string id)

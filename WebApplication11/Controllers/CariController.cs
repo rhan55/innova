@@ -401,6 +401,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@TamamlamaAciklamasi", null);
             cmd.Parameters.AddWithValue("@TamamlamaTarihi", null);
             cmd.Parameters.AddWithValue("@TamamlayanKullaniciID", null);
+
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
@@ -465,46 +466,7 @@ namespace YKPortal.Controllers
             return new CariDto { };
         }
 
-        //[HttpPost]
-        //public JsonResult CariListesiniGetir(CariDto cariDto)
-        //{
-        //    SqlCommand cmd = new SqlCommand();
-        //    cmd.CommandText = "p_CariListesi";
-        //    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-        //    cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-        //    cmd.Parameters.AddWithValue("@Kod", cariDto.Kod);
-        //    cmd.Parameters.AddWithValue("@Isim  ", cariDto.Isim);
-        //    cmd.Parameters.AddWithValue("@Unvan", cariDto.Unvan);
-        //    cmd.Parameters.AddWithValue("@TCKimlikNo", cariDto.TCKimlikNo);
-        //    cmd.Parameters.AddWithValue("@VergiNumarasi", cariDto.VergiNumarasi);
-        //    cmd.Parameters.AddWithValue("@CepTelefonu", cariDto.CepTelefonu);
-
-        //    ViewBag.Filters = cariDto;
-
-        //    DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-        //    var liste = new List<CariDto> { };
-
-        //    var grupKodu1Listesi = CariGrupKodListesiniGetir("CariGrupKod1");
-        //    var grupKodu2Listesi = CariGrupKodListesiniGetir("CariGrupKod2");
-
-        //    for (int i = 0; i < dt.Rows.Count; i++)
-        //    {
-        //        liste.Add(new CariDto
-        //        {
-        //            ID = Convert.ToString(dt.Rows[i]["ID"]),
-        //            Isim = Convert.ToString(dt.Rows[i]["Isim"]),
-        //            Kod = Convert.ToString(dt.Rows[i]["Kod"]),
-        //            CepTelefonu = Convert.ToString(dt.Rows[i]["CepTelefonu"]),
-        //            GrupKodu1ID = grupKodu1Listesi.Where(m => m.ID == Convert.ToString(dt.Rows[i]["GrupKodu1ID"])).First().Deger,
-        //            GrupKodu2ID = grupKodu2Listesi.Where(m => m.ID == Convert.ToString(dt.Rows[i]["GrupKodu2ID"])).First().Deger,
-        //        });
-        //    }
-
-        //    return Json(liste, JsonRequestBehavior.AllowGet);
-        //}
-
         
-
         [HttpGet]
         public ActionResult Duzenle(string id)
         {
@@ -851,6 +813,7 @@ namespace YKPortal.Controllers
         }
         #region Cookie İşlemleri
 
+        
         public bool AutoGirisKontrol()
         {
             bool GirisKontrol = false;

@@ -22,33 +22,41 @@
                                 <span class="path5"></span>
                             </i>
                         </div>
-                        <div class="timeline-content mb-10 mt-n1">
+                        <div class="timeline-content mt-n1">
                             <div class="card p-4">
                                 <div class="card-title">
-                                    <div>@ziyaret.CariIsim</div>
-                                    
+                                    <div class="fw-bold">@ziyaret.CariIsim</div>
+
                                 </div>
                                 <div class="card-body">
-                                    <div class="fs-5 fw-semibold mb-2">@ziyaret.ZiyaretTipi </div>
-                                    <div class="fs-5 fw-semibold mb-2 d-flex">
+                                    <div class="fs-5 fw-semibold">@ziyaret.ZiyaretTipi </div>
+                                    <div class="fs-5 fw-semibold d-flex">
                                         <div><p>Açıklama: </p></div>
                                         <div>  @ziyaret.Aciklama</div>
                                     </div>
-                                    <div class="fs-5 fw-semibold mb-2 d-flex">
+                                    <div class="fs-5 fw-semibold d-flex">
                                         <div><p>Gerçekleşen: </p></div>
                                         <div>  @ziyaret.TamamlamaAciklamasi</div>
                                     </div>
-                                    <div class="fs-5 fw-semibold mb-2 d-flex">
+                                    <div class="fs-5 fw-semibold d-flex">
                                         <div><p>Tarih: </p></div>
                                         <div>  @ziyaret.Tarih</div>
                                     </div>
-                                    <div class="d-flex align-items-center mt-1 fs-6">
-                                        <!--begin::Info-->
-                                        <div class="text-muted me-2 fs-7">Added at 4:23 PM by</div>
-                                        <!--end::Info-->
-                                        <!--begin::User-->
-                                        <!--end::User-->
+                                    <div class="row">
+                                        <div class="d-flex col-6 mt-1 fs-6">
+                                            <!--begin::Info-->
+                                            <div class="text-muted fs-7">Added at 4:23 PM by</div>
+                                            <!--end::Info-->
+                                            <!--begin::User-->
+                                            <!--end::User-->
+                                        </div>
+                                        <div class="col-6">
+                                            <button type="button" data-id="@ziyaret.ID" class="btn btn-danger py-2 btn-sil Ziyaret-silme" data-bs-toggle="modal" data-bs-target="#Ziyaret-silme">
+                                                Sil
+                                            </button>
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -58,4 +66,43 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="Ziyaret-silme" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Ziyaret Silme İşlemi</h3>
 
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body">
+                <p>Ziyareti silmek istediğinize emin misiniz?</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Vazgeç</button>
+                <form method="post" id="silme-formu" action="@Url.Action("Sil","Ziyaret",null)">
+                    <input type="hidden" name="id" value="" />
+                    <button type="submit" class="btn btn-danger">Sil</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.btn-sil').forEach(silButonu => {
+                silButonu.addEventListener('click', function () {
+                    document.querySelector('form#silme-formu input[name="id"]').value = silButonu.dataset.id;
+                })
+            })
+        });
+    </script>
+}
