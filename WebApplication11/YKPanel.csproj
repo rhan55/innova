@@ -2588,6 +2588,8 @@
     <Content Include="Views\Ziyaret\Ziyaretler.cshtml" />
     <Content Include="Views\Cari\ZiyaretListe.cshtml" />
     <Content Include="Views\Cari\ZiyaretEkle.cshtml" />
+    <Content Include="Views\Belge\Detay.cshtml" />
+    <Content Include="Views\Belge\Liste.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
