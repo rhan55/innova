@@ -5,7 +5,7 @@
 }
 
 <form id="kt_modal_add_user_form" class="form container" action="@Url.Action("Duzenle","Tanimlamalar",null)" method="post">
-    <div class="d-flex flex-column scroll-y px-5 px-lg-10">
+    <div class="d-flex flex-column scroll-y px-5 px-lg-10 py-10">
         <input type="hidden" name="ID" class="form-control  mb-3 mb-lg-0" placeholder="Kod" value="@(Convert.ToString(Model.Rows[0]["ID"]))" required />
         <input type="hidden" name="UyelikID" class="form-control  mb-3 mb-lg-0" placeholder="UyelikID" value="@(Convert.ToString(Model.Rows[0]["UyelikID"]))" required />
         <!--begin::Row Input group-->
@@ -32,7 +32,7 @@
             </div>
             <!--end::Input group-->
             <!--end::Row Input group-->
-            <div class="text-center pt-10">
+            <div class="pt-10">
                 <a href="/Tanimlamalar/GrupKodu?grupKodu=@ViewBag.GrupKodu" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
                 <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Duzenle">
                     <span class="indicator-label">Düzenle</span>

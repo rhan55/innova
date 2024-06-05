@@ -1,4 +1,4 @@
-﻿ using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Data;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
@@ -207,11 +207,11 @@ namespace YKPortal.Controllers
                         cariDto.Telefon1 = Convert.ToString(satir[19]);
                         cariDto.Telefon2 = Convert.ToString(satir[20]);
                         cariDto.Faks = Convert.ToString(satir[21]);
-                        cariDto.CepTelefonu= Convert.ToString(satir[22]);
+                        cariDto.CepTelefonu = Convert.ToString(satir[22]);
                         cariDto.KullaniciAdi = Convert.ToString(satir[23]);
-                        cariDto.Parola= Convert.ToString(satir[24]);
-                        cariDto.EMail= Convert.ToString(satir[25]);
-                        cariDto.WebSite= Convert.ToString(satir[26]);
+                        cariDto.Parola = Convert.ToString(satir[24]);
+                        cariDto.EMail = Convert.ToString(satir[25]);
+                        cariDto.WebSite = Convert.ToString(satir[26]);
                         cariDto.Aciklama1 = Convert.ToString(satir[27]);
                         cariDto.Aciklama2 = Convert.ToString(satir[28]);
                         cariDto.Aciklama3 = Convert.ToString(satir[29]);
@@ -282,12 +282,13 @@ namespace YKPortal.Controllers
                             cmd.Parameters.AddWithValue("@TeslimCariID", "");
                             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
                             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-                            if(dt.Rows.Count > 0)
-                            if (Convert.ToString(dt.Rows[0]["BİLGİ"]).StartsWith("UYARI!"))
-                            {
-                                HataliKayitListesi.Add(cariDto.Isim + " > " + Convert.ToString(dt.Rows[0][0]).StartsWith("UYARI!"));
-                            }
-                        } else
+                            if (dt.Rows.Count > 0)
+                                if (Convert.ToString(dt.Rows[0]["BİLGİ"]).StartsWith("UYARI!"))
+                                {
+                                    HataliKayitListesi.Add(cariDto.Isim + " > " + Convert.ToString(dt.Rows[0][0]).StartsWith("UYARI!"));
+                                }
+                        }
+                        else
                         {
                             cariDtoListesi.Add(cariDto);
                         }
@@ -297,7 +298,7 @@ namespace YKPortal.Controllers
                     catch (Exception err)
                     {
                         AktarilanHataliKayitSayisi++;
-                        HataliKayitListesi.Add(cariDto.Isim +" > "+ err.Message);
+                        HataliKayitListesi.Add(cariDto.Isim + " > " + err.Message);
                     }
                 }
 
@@ -309,7 +310,7 @@ namespace YKPortal.Controllers
                 // Hatalı kayıtların detayınıda HAtaliKayitListesi List'ini forech ile dönüş ekranda gösterebiliriz.
                 return View();
             }
-       
+
             return RedirectToAction("Liste");
         }
 
@@ -357,6 +358,7 @@ namespace YKPortal.Controllers
 
                 ziyaretler.Add(new ZiyaretDto
                 {
+                    ID = Convert.ToString(dt.Rows[i]["ID"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["ID"]),
                     CariID = Convert.ToString(dt.Rows[i]["CariID"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["CariID"]),
                     Tarih = Convert.ToString(dt.Rows[i]["Tarih"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["Tarih"]),
                     ZiyaretTipi = Convert.ToString(dt.Rows[i]["ZiyaretTipi"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["ZiyaretTipi"]),
@@ -407,6 +409,80 @@ namespace YKPortal.Controllers
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
             return RedirectToAction("ZiyaretListe", new { CariID = ziyaretDto.CariID });
+        }
+        [HttpPost]
+        public ActionResult ZiyaretSil(string id, string CariID)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_ZiyaretSil";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            return RedirectToAction("ZiyaretListe", new { CariID = CariID });
+        }
+
+        [HttpGet]
+        public ActionResult ZiyaretDuzenle(string ID)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_Ziyaret";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            CariDto cariDto = Getir(Convert.ToString(dt.Rows[0]["CariID"]));
+
+            ZiyaretDto ziyaretDto = new ZiyaretDto()
+            {
+                ID = Convert.ToString(dt.Rows[0]["ID"]),
+                CariID = Convert.ToString(dt.Rows[0]["CariID"]),
+                Tarih = Convert.ToString(dt.Rows[0]["Tarih"]),
+                ZiyaretTipi = Convert.ToString(dt.Rows[0]["ZiyaretTipi"]),
+                TamamlamaTarihi = Convert.ToString(dt.Rows[0]["TamamlamaTarihi"]),
+                Aciklama = Convert.ToString(dt.Rows[0]["Aciklama"]),
+                TamamlamaAciklamasi = Convert.ToString(dt.Rows[0]["TamamlamaAciklamasi"]),
+                TamamlayanKullaniciID = Convert.ToString(dt.Rows[0]["TamamlayanKullaniciID"]),
+                CariIsim = cariDto.Isim
+            };
+
+            ViewBag.Ziyaret = ziyaretDto;
+            ViewBag.CariID = ziyaretDto.CariID;
+            ZiyaretTipiListesiniOlustur();
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ZiyaretDuzenle(ZiyaretDto ziyaretDto)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_ZiyaretKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@ID", ziyaretDto.ID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@CariID", ziyaretDto.CariID);
+            cmd.Parameters.AddWithValue("@Tarih", ziyaretDto.Tarih);
+            cmd.Parameters.AddWithValue("@Aciklama", ziyaretDto.Aciklama);
+            cmd.Parameters.AddWithValue("@TamamlamaAciklamasi", ziyaretDto.TamamlamaAciklamasi);
+            cmd.Parameters.AddWithValue("@TamamlamaTarihi", ziyaretDto.TamamlamaTarihi);
+            cmd.Parameters.AddWithValue("@TamamlayanKullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            return RedirectToAction("ZiyaretListe", new { CariId = ziyaretDto.CariID });
         }
 
         [HttpGet]
@@ -466,7 +542,7 @@ namespace YKPortal.Controllers
             return new CariDto { };
         }
 
-        
+
         [HttpGet]
         public ActionResult Duzenle(string id)
         {
@@ -598,7 +674,7 @@ namespace YKPortal.Controllers
                 return RedirectToAction("Liste");
             }
 
-            foreach(string id in idListesi)
+            foreach (string id in idListesi)
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "p_CariSil";
@@ -813,7 +889,7 @@ namespace YKPortal.Controllers
         }
         #region Cookie İşlemleri
 
-        
+
         public bool AutoGirisKontrol()
         {
             bool GirisKontrol = false;
@@ -950,7 +1026,7 @@ namespace YKPortal.Controllers
 
         public void CariGrupKod1ListesiniOlustur()
         {
-            // GrupKodu1 Listesi oluşturma 
+            //GrupKodu1 Listesi oluşturma
             SqlCommand cariGrupKod1Command = new SqlCommand();
             cariGrupKod1Command.CommandText = "p_GrupKoduListesi";
             cariGrupKod1Command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -1101,6 +1177,32 @@ namespace YKPortal.Controllers
                 entities.Add(entity);
             }
             ViewBag.CariGrupKodlari6 = entities;
+        }
+
+        public void ZiyaretTipiListesiniOlustur()
+        {
+            // GrupKodu1 Listesi oluşturma 
+            SqlCommand ziyaretTipiCommand = new SqlCommand();
+            ziyaretTipiCommand.CommandText = "p_GrupKoduListesi";
+            ziyaretTipiCommand.CommandType = System.Data.CommandType.StoredProcedure;
+            ziyaretTipiCommand.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+            ziyaretTipiCommand.Parameters.AddWithValue("@Kod", "Crm_ZiyaretTipi");
+            ziyaretTipiCommand.Parameters.AddWithValue("@AranacakKelime", "");
+
+
+            DataTable ziyaretTipiDataTable = (DataTable)IDVeritabani.Sorgula(ziyaretTipiCommand, SorgulaTuru.Tablo);
+
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
+
+            for (int i = 0; i < ziyaretTipiDataTable.Rows.Count; i++)
+            {
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(ziyaretTipiDataTable.Rows[i]["ID"]);
+                entity.Deger = Convert.ToString(ziyaretTipiDataTable.Rows[i]["Deger"]);
+                entities.Add(entity);
+            }
+            ViewBag.ZiyaretTipleri = entities;
         }
 
         public List<GrupKoduDto> CariGrupKodListesiniGetir(string kodAdi)

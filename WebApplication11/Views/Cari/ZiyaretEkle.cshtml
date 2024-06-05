@@ -1,15 +1,11 @@
 ﻿@using YKPortal.Models.Dto
 @{
-    ViewBag.Title = "ZiyaretListe";
+    ViewBag.Title = "Ekle";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12 d-flex align-items-center justify-content-end py-12">
-            <a href="/Cari/ZiyaretEkle?CariID=@ViewBag.CariID" class="btn btn-primary">Ziyaret Ekle</a>
-        </div>
-    </div>
+    
     <div class="row">
         @Html.Partial("~/Views/Cari/_CariMenu.cshtml", new ViewDataDictionary { { "CariID", Convert.ToString(ViewBag.CariID) } })
         <div class="col-lg-10">
@@ -24,7 +20,7 @@
                             <label for="Tarih" class="fw-semibold fs-6 mb-2">Tarih</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="datetime-local" name="Tarih" class="form-control  mb-3 mb-lg-0" />
+                            <input type="text"<a href="~/Views/Cari/ZiyaretEkle.cshtml">~/Views/Cari/ZiyaretEkle.cshtml</a> name="Tarih" class="form-control  mb-3 mb-lg-0"/>
 
                             <!--end::Input-->
                         </div>
@@ -33,28 +29,30 @@
                         <div class="col-lg-6">
                             <!--begin::Label-->
                             <label for="Aciklama" class="fw-semibold fs-6 mb-2">Aciklama</label>
+                            <label for="Aciklama" class="fw-semibold fs-6 mb-2">Aciklama</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="text" name="Aciklama" class="form-control  mb-3 mb-lg-0" autofocus />
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
+                        <!--begin::Actions-->
+                        <div class="pt-10">
+                            <a href="/Cari/ZiyaretEkle" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
+                            <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet">
+                                <span class="indicator-label">Kaydet</span>
+                                <span class="indicator-progress">
+                                    Lütfen Bekleyin...
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                </span>
+                            </button>
+                        </div>
+                        <!--end::Actions-->
                     </div>
                     <!--end::Row Input group-->
 
                 </div>
-                <!--begin::Actions-->
-                <div class="text-center pt-10">
-                    <a href="/Cari/ZiyaretEkle" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
-                    <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet">
-                        <span class="indicator-label">Kaydet</span>
-                        <span class="indicator-progress">
-                            Lütfen Bekleyin...
-                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                        </span>
-                    </button>
-                </div>
-                <!--end::Actions-->
+                
             </form>
         </div>
     </div>

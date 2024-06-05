@@ -170,6 +170,8 @@
     </Compile>
     <Compile Include="Models\Dto\BelgeDto.cs" />
     <Compile Include="Models\Dto\BelgeKalemDto.cs" />
+    <Compile Include="Models\Dto\Yetkilendirme.cs" />
+    <Compile Include="Models\Dto\Class1.cs" />
     <Compile Include="Models\Dto\ParametreDto.cs" />
     <Compile Include="Models\Dto\StokDto.cs" />
     <Compile Include="Models\Dto\ZiyaretDto.cs" />
@@ -2591,6 +2593,7 @@
     <Content Include="Views\Belge\Detay.cshtml" />
     <Content Include="Views\Belge\Liste.cshtml" />
     <Content Include="Views\Parametre\MailAyarları.cshtml" />
+    <Content Include="Views\Cari\ZiyaretDuzenle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
