@@ -161,6 +161,7 @@
     <Compile Include="Controllers\KullaniciController.cs" />
     <Compile Include="Controllers\ParametreController.cs" />
     <Compile Include="Controllers\SatisPersoneliController.cs" />
+    <Compile Include="Controllers\StokController.cs" />
     <Compile Include="Controllers\SubeController.cs" />
     <Compile Include="Controllers\TanimlamalarController.cs" />
     <Compile Include="Controllers\YKController.cs" />
@@ -2594,6 +2595,8 @@
     <Content Include="Views\Belge\Liste.cshtml" />
     <Content Include="Views\Parametre\MailAyarları.cshtml" />
     <Content Include="Views\Cari\ZiyaretDuzenle.cshtml" />
+    <Content Include="Views\Stok\Ekle.cshtml" />
+    <Content Include="Views\Stok\Liste.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

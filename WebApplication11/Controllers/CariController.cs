@@ -410,7 +410,7 @@ namespace YKPortal.Controllers
 
             return RedirectToAction("ZiyaretListe", new { CariID = ziyaretDto.CariID });
         }
-        [HttpPost]
+        
         public ActionResult ZiyaretSil(string id, string CariID)
         {
             SqlCommand cmd = new SqlCommand();
@@ -520,8 +520,8 @@ namespace YKPortal.Controllers
         // Bir tane cari getirmek icin kullandigimiz metod, bu metod sayesinde id uzerinden bir carinin Isim ve ID'sini getirebiliyoruz. Select2 icin kullaniyoruz.
         private CariDto Getir(string id)
         {
-
-            if (id != null && id.Length > 0)
+       if (id != null && id.Length > 0)
+     
             {
                 var uyelikId = GetCookie("UyelikID");
                 SqlCommand cmd = new SqlCommand();
