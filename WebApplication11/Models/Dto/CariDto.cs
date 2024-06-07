@@ -27,7 +27,7 @@ namespace YKPortal.Models.Dto
         private string _PostaKodu;
         private bool _Alici;
         private bool _Satici;
-        private bool _Personel;
+        private bool _Personel;  
         private string _Telefon1;
         private string _Telefon2;
         private string _EMail;

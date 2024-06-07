@@ -171,7 +171,7 @@
     </Compile>
     <Compile Include="Models\Dto\BelgeDto.cs" />
     <Compile Include="Models\Dto\BelgeKalemDto.cs" />
-    <Compile Include="Models\Dto\Yetkilendirme.cs" />
+    <Compile Include="Models\Dto\YetkilerDto.cs" />
     <Compile Include="Models\Dto\Class1.cs" />
     <Compile Include="Models\Dto\ParametreDto.cs" />
     <Compile Include="Models\Dto\StokDto.cs" />
@@ -2597,6 +2597,8 @@
     <Content Include="Views\Cari\ZiyaretDuzenle.cshtml" />
     <Content Include="Views\Stok\Ekle.cshtml" />
     <Content Include="Views\Stok\Liste.cshtml" />
+    <Content Include="Views\Cari\ZiyaretiKapat.cshtml" />
+    <Content Include="Views\Kullanici\Yetkiler.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

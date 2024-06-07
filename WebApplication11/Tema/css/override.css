@@ -56,3 +56,8 @@ tr.selected .menu-link {
 .table .dt-select:hover {
     background-color: #eee;
 }
+.patrial-menu {
+    position: sticky !important;
+    position: -webkit-sticky !important;
+    top: 0 !important;
+}

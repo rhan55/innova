@@ -378,6 +378,21 @@ namespace YKPortal.Controllers
             return RedirectToAction("Liste");
         }
 
+        public ActionResult Yetkiler(string id)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = " p_KullaniciYetkileri";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Kullanici", GetCookie("KullaniciID"));
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+
+            return RedirectToAction("Liste");
+        }
 
         #region Cookie İşlemleri
 

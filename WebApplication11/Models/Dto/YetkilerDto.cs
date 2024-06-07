@@ -7,7 +7,7 @@ using System.Web;
 
 namespace YKPortal.Models.Dto
 {
-    public class YetkilendirmeDto
+    public class YetkilerDto
     {
         private string _UyelikID;
         private string _KullaniciID;

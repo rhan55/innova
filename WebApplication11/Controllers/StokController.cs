@@ -106,8 +106,63 @@ namespace YKPortal.Controllers
             StokGrupKod1ListesiniOlustur();
             StokGrupKod2ListesiniOlustur();
 
-            return View();
+            return View(dt);
         }
+        public JsonResult SelectListe(string search)
+        {
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_StokListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Kod", "");
+            cmd.Parameters.AddWithValue("@Isim", search);
+            cmd.Parameters.AddWithValue("@Unvan", "");
+            cmd.Parameters.AddWithValue("@TCKimlikNo", "");
+            cmd.Parameters.AddWithValue("@VergiNumarasi", "");
+            cmd.Parameters.AddWithValue("@CepTelefonu", "");
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            var liste = new List<StokDto>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                liste.Add(new StokDto
+                {
+                    ID = Convert.ToString(dt.Rows[i]["ID"]),
+                    Isim = Convert.ToString(dt.Rows[i]["Isim"]),
+                    Kod = Convert.ToString(dt.Rows[i]["Kod"]),
+                });
+            }
+
+            return Json(liste, JsonRequestBehavior.AllowGet);
+
+        }
+        // Bir tane cari getirmek icin kullandigimiz metod, bu metod sayesinde id uzerinden bir carinin Isim ve ID'sini getirebiliyoruz. Select2 icin kullaniyoruz.
+        private StokDto Getir(string id)
+        {
+            if (id != null && id.Length > 0)
+
+            {
+                var uyelikId = GetCookie("UyelikID");
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_Stok";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ID", id);
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+
+                return new StokDto
+                {
+                    ID = Convert.ToString(dt.Rows[0]["ID"]),
+                    Isim = Convert.ToString(dt.Rows[0]["Isim"])
+                };
+            }
+            return new StokDto { };
+        }
+
 
         #region Cookie İşlemleri
 

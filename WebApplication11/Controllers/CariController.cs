@@ -355,6 +355,8 @@ namespace YKPortal.Controllers
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 CariDto cariDto = Getir(Convert.ToString(dt.Rows[i]["CariID"]));
+                var kaydiAcan = KullaniciGetir(Convert.ToString(dt.Rows[i]["KullaniciID"]));
+                var tamamlayan = KullaniciGetir(Convert.ToString(dt.Rows[i]["TamamlayanKullaniciID"]));
 
                 ziyaretler.Add(new ZiyaretDto
                 {
@@ -367,10 +369,12 @@ namespace YKPortal.Controllers
                     TamamlamaTarihi = Convert.ToString(dt.Rows[i]["TamamlamaTarihi"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["TamamlamaTarihi"]),
                     TamamlayanKullaniciID = Convert.ToString(dt.Rows[i]["TamamlayanKullaniciID"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["TamamlayanKullaniciID"]),
                     KullaniciID = Convert.ToString(dt.Rows[i]["KullaniciID"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["KullaniciID"]),
-                    CariIsim = cariDto.Isim
+                    CariIsim = cariDto.Isim,
+                    KaydiAcanIsim = kaydiAcan.Ad,
+                    TamamlayanIsim = tamamlayan.Ad 
                 });
             }
-
+         
             ViewBag.Ziyaretler = ziyaretler;
             ViewBag.CariID = CariID;
 
@@ -380,6 +384,9 @@ namespace YKPortal.Controllers
         [HttpGet]
         public ActionResult ZiyaretEkle(string CariID)
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
             ViewBag.CariID = CariID;
             return View();
         }
@@ -410,7 +417,7 @@ namespace YKPortal.Controllers
 
             return RedirectToAction("ZiyaretListe", new { CariID = ziyaretDto.CariID });
         }
-        
+
         public ActionResult ZiyaretSil(string id, string CariID)
         {
             SqlCommand cmd = new SqlCommand();
@@ -482,9 +489,21 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-            return RedirectToAction("ZiyaretListe", new { CariId = ziyaretDto.CariID });
+            return RedirectToAction("ZiyaretListe", new { CariID = ziyaretDto.CariID });
         }
 
+        [HttpGet]
+        public ActionResult ZiyaretiKapat(ZiyaretDto ziyaretDto)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            ViewBag.CariID = ziyaretDto.CariID;
+            ZiyaretTipiListesiniOlustur();
+
+            return View();
+
+        }
         [HttpGet]
         public JsonResult SelectListe(string search)
         {
@@ -520,8 +539,8 @@ namespace YKPortal.Controllers
         // Bir tane cari getirmek icin kullandigimiz metod, bu metod sayesinde id uzerinden bir carinin Isim ve ID'sini getirebiliyoruz. Select2 icin kullaniyoruz.
         private CariDto Getir(string id)
         {
-       if (id != null && id.Length > 0)
-     
+            if (id != null && id.Length > 0)
+
             {
                 var uyelikId = GetCookie("UyelikID");
                 SqlCommand cmd = new SqlCommand();
@@ -887,6 +906,27 @@ namespace YKPortal.Controllers
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             return RedirectToAction("NotListe", new { CariID = CariID });
         }
+
+        public KullaniciEkleDto KullaniciGetir(string ID) {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_Kullanici";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            if (dt.Rows.Count == 0 )
+            {
+                return new KullaniciEkleDto();
+            }
+
+            return new KullaniciEkleDto
+            {
+                Ad = Convert.ToString(dt.Rows[0]["Ad"])
+            };
+        }
+
         #region Cookie İşlemleri
 
 

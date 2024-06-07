@@ -19,6 +19,8 @@ namespace YKPortal.Models.Dto
         private string _TamamlayanKullaniciID;
         private string _KullaniciID;
         private string _CariIsim;
+        private string _KaydiAcanIsim;
+        private string _TamamlayanIsim;
 
         public string ID { get { return _ID ?? ""; } set { _ID = value; } }
         public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; } }
@@ -31,6 +33,8 @@ namespace YKPortal.Models.Dto
         public string TamamlayanKullaniciID { get { return _TamamlayanKullaniciID ?? ""; } set { _TamamlayanKullaniciID = value; } }
         public string KullaniciID { get { return _KullaniciID ?? ""; } set { _KullaniciID = value; } }
         public string CariIsim { get { return _CariIsim ?? ""; } set { _CariIsim = value; } }
+        public string KaydiAcanIsim { get { return _KaydiAcanIsim ?? ""; } set { _KaydiAcanIsim = value; } }
+        public string TamamlayanIsim { get { return _TamamlayanIsim ?? ""; } set { _TamamlayanIsim = value; } }
 
     }
 }
