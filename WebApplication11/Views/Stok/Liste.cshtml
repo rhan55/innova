@@ -502,7 +502,7 @@
                 });
                 return columnSettings;
             }
-            // Kolonları aldıktan sonra Cari-datatable cookie'si içerisinde kaydedeceğiz.
+            // Kolonları aldıktan sonra Stok-datatable cookie'si içerisinde kaydedeceğiz.
             function saveDataTableSettingsToCookie(table) {
                 let settings = getDataTableColumnSettings(table);
                 setCookie('Stok-datatable', JSON.stringify(settings), 7);

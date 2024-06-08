@@ -12,6 +12,8 @@ namespace YKPortal.Models.Dto
         private string _UyelikID;
         private string _KullaniciID;
         private string _MenuID;
+        private string _Menu;
+        private string _UstID;
         private bool _Gor;
         private bool _Duzenle;
         private bool _Sil;
@@ -19,6 +21,8 @@ namespace YKPortal.Models.Dto
         public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; } }
         public string KullaniciID { get { return _KullaniciID ?? ""; } set { _KullaniciID = value; } }
         public string MenuID { get { return _MenuID ?? ""; } set { _MenuID = value; } }
+        public string Menu { get { return _Menu ?? ""; } set { _Menu = value; } }
+        public string UstID { get { return _UstID ?? ""; } set { _UstID = value; } }
         public bool Gor { get { return _Gor == null ? false : _Gor; } set { _Gor = value; } }      
         public bool Duzenle { get { return _Duzenle == null ? false : _Duzenle; } set { _Duzenle = value; } }
         public bool Sil { get { return _Sil == null ? false : _Sil; } set { _Sil = value; } }

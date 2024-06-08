@@ -460,9 +460,17 @@ namespace YKPortal.Controllers
                 TamamlayanKullaniciID = Convert.ToString(dt.Rows[0]["TamamlayanKullaniciID"]),
                 CariIsim = cariDto.Isim
             };
+            var tamamlayanKullanici = new KullaniciEkleDto();
 
+            if (ziyaretDto.TamamlayanKullaniciID.Length > 0)
+            {
+                tamamlayanKullanici = KullaniciGetir(ziyaretDto.TamamlayanKullaniciID);
+            }
+            ziyaretDto.TamamlayanIsim = $"{tamamlayanKullanici.Ad} {tamamlayanKullanici.Soyad}";
+            
             ViewBag.Ziyaret = ziyaretDto;
             ViewBag.CariID = ziyaretDto.CariID;
+            
             ZiyaretTipiListesiniOlustur();
 
             return View();
@@ -482,10 +490,12 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@CariID", ziyaretDto.CariID);
             cmd.Parameters.AddWithValue("@Tarih", ziyaretDto.Tarih);
+            cmd.Parameters.AddWithValue("@ZiyaretTipi", ziyaretDto.ZiyaretTipi);
             cmd.Parameters.AddWithValue("@Aciklama", ziyaretDto.Aciklama);
             cmd.Parameters.AddWithValue("@TamamlamaAciklamasi", ziyaretDto.TamamlamaAciklamasi);
             cmd.Parameters.AddWithValue("@TamamlamaTarihi", ziyaretDto.TamamlamaTarihi);
             cmd.Parameters.AddWithValue("@TamamlayanKullaniciID", GetCookie("KullaniciID"));
+ 
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
@@ -537,7 +547,7 @@ namespace YKPortal.Controllers
         }
 
         // Bir tane cari getirmek icin kullandigimiz metod, bu metod sayesinde id uzerinden bir carinin Isim ve ID'sini getirebiliyoruz. Select2 icin kullaniyoruz.
-        private CariDto Getir(string id)
+         private CariDto Getir(string id)
         {
             if (id != null && id.Length > 0)
 

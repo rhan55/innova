@@ -2599,6 +2599,7 @@
     <Content Include="Views\Stok\Liste.cshtml" />
     <Content Include="Views\Cari\ZiyaretiKapat.cshtml" />
     <Content Include="Views\Kullanici\Yetkiler.cshtml" />
+    <Content Include="Views\Stok\Duzenle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

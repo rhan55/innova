@@ -378,20 +378,35 @@ namespace YKPortal.Controllers
             return RedirectToAction("Liste");
         }
 
-        public ActionResult Yetkiler(string id)
+        [HttpGet]
+        public ActionResult Yetkiler(YetkilerDto yetkilerDto)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = " p_KullaniciYetkileri";
+            cmd.CommandText = "p_KullaniciYetkileri";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ID", id);
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-            cmd.Parameters.AddWithValue("@Kullanici", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", yetkilerDto.KullaniciID);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
+            List<YetkilerDto> yetkiler = new List<YetkilerDto>();
 
-            return RedirectToAction("Liste");
+            foreach(DataRow row in dt.Rows)
+            {
+                yetkiler.Add(new YetkilerDto() {
+                    MenuID = Convert.ToString(row["MenuID"]),
+                    KullaniciID = Convert.ToString(row["KullaniciID"]),
+                    UyelikID = Convert.ToString(row["UyelikID"]),
+                    Menu = Convert.ToString(row["Menu"]),
+                    UstID = Convert.ToString(row["UstID"]),
+                    Gor = Convert.ToBoolean(row["Gor"]),
+                    Duzenle = Convert.ToBoolean(row["Duzenle"]),
+                    Sil = Convert.ToBoolean(row["Sil"])
+                });
+            }
+            ViewBag.Yetkiler = yetkiler;
+            return View();
         }
 
         #region Cookie İşlemleri

@@ -77,6 +77,45 @@ namespace YKPortal.Controllers
             return RedirectToAction("Liste");
         }
 
+        public ActionResult Sil(string id)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_StokSil";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return RedirectToAction("Liste");
+        }
+        public ActionResult TopluSil(List<string> idListesi)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            if (idListesi == null)
+            {
+                return RedirectToAction("Liste");
+            }
+
+            foreach (string id in idListesi)
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_StokSil";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ID", id);
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            }
+
+            return RedirectToAction("Liste");
+        }
+
         [HttpGet]
         public ActionResult Liste(StokDto stokDto)
         {
@@ -107,6 +146,32 @@ namespace YKPortal.Controllers
             StokGrupKod2ListesiniOlustur();
 
             return View(dt);
+        }
+        public ActionResult Duzenle(string id)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+           
+            StokGrupKod1ListesiniOlustur();
+            StokGrupKod2ListesiniOlustur();
+            StokGrupKod3ListesiniOlustur();
+            StokGrupKod4ListesiniOlustur();
+            StokGrupKod5ListesiniOlustur();
+            StokGrupKod6ListesiniOlustur();
+
+            var uyelikId = GetCookie("UyelikID");
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_Stok";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            ViewBag.CariID = id;
+          
+            return View(dt);
+
         }
         public JsonResult SelectListe(string search)
         {
