@@ -6,12 +6,12 @@
 }
 <div class="container-fluid d-flex" id="kt_content">
     <div class="row">
-        @Html.Partial("~/Views/Cari/_CariMenu.cshtml", new ViewDataDictionary { { "CariID", Convert.ToString(ViewBag.CariID) } })
+        @Html.Partial("~/Views/Stok/_StokMenu.cshtml", new ViewDataDictionary { { "StokID", Convert.ToString(ViewBag.StokID) } })
         <form method="post" class="col-lg-10" action="/Stok/Duzenle">
             <div class="row">
                 <div class="col-lg-11">
                     <div class="row">
-                        <input type="hidden" name="ID" />
+                        <input type="hidden" name="ID"/>
                         <div class="d-flex align-items-center mt-4 col-lg-4">
                             <div class="form-check ">
                                 <input class="form-check-input" type="checkbox" value="true" id="Durumu" name="Durumu" />

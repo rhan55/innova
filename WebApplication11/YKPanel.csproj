@@ -2602,6 +2602,7 @@
     <Content Include="Views\Stok\Duzenle.cshtml" />
     <Content Include="Views\Stok\ExcelIceAktar.cshtml" />
     <Content Include="Tema\excel\ornek-stok-listesi.xlsx" />
+    <Content Include="Views\Stok\_StokMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
