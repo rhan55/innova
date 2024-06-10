@@ -1,9 +1,7 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Excel ile İçe Aktar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 
 
 <div class="container-fluid">
@@ -11,13 +9,13 @@
         <div class="offset-1 col-10 mt-8">
             <div class="card card-flush">
                 <div class="px-8 pt-8">
-                    <a href="~/Tema/excel/ornek-cari-listesi.xlsx" class="btn btn-light-primary " data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                    <a href="~/Tema/excel/ornek-stok-listesi.xlsx" class="btn btn-light-primary " data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                         <i class="ki-duotone ki-minus-folder fs-2">
                             <span class="path1"></span>
                             <span class="path2"></span>
                         </i>
 
-                        Cari Aktarım Şablonu
+                        Stok Aktarım Şablonu
                     </a>
                 </div>
 
@@ -25,86 +23,72 @@
                     <table class="table table-bordered border-gray-200 rounded-m">
                         <thead>
                             <tr class="fw-bold fs-6 text-gray-400">
-                                <th class="px-3 py-2">Aktif</th>
-                                <th class="px-3 py-2">Isim</th>
-                                <th class="px-3 py-2">Unvan</th>
-                                <th class="px-3 py-2">Alici</th>
-                                <th class="px-3 py-2">Satici</th>
-                                <th class="px-3 py-2">Personel</th>
-                                <th class="px-3 py-2">ServisPersoneli</th>
-                                <th class="px-3 py-2">Adres</th>
-                                <th class="px-3 py-2">Bolge</th>
-                                <th class="px-3 py-2">Ulke</th>
-                                <th class="px-3 py-2">Il</th>
-                                <th class="px-3 py-2">Ilce</th>
-                                <th class="px-3 py-2">PostaKodu</th>
-                                <th class="px-3 py-2">TCKimlikNo</th>
-                                <th class="px-3 py-2">VergiNumarasi</th>
-                                <th class="px-3 py-2">VergiDairesi</th>
-                                <th class="px-3 py-2">VadeGunu</th>
-                                <th class="px-3 py-2">Limit</th>
-                                <th class="px-3 py-2">Telefon1</th>
-                                <th class="px-3 py-2">Telefon2</th>
-                                <th class="px-3 py-2">Faks</th>
-                                <th class="px-3 py-2">CepTelefonu</th>
-                                <th class="px-3 py-2">KullaniciAdi</th>
-                                <th class="px-3 py-2">Parola</th>
-                                <th class="px-3 py-2">EMail</th>
-                                <th class="px-3 py-2">WebSite</th>
-                                <th class="px-3 py-2">Aciklama1</th>
-                                <th class="px-3 py-2">Aciklama2</th>
-                                <th class="px-3 py-2">Aciklama3</th>
-                                <th class="px-3 py-2">Aciklama4</th>
-                                <th class="px-3 py-2">Aciklama5</th>
-                                <th class="px-3 py-2">Aciklama6</th>
+                                <th class="px-3 py-2">Durum</th>
+                                <th class="px-3 py-2">Stok Kodu</th>
+                                <th class="px-3 py-2">İsim</th>
+                                <th class="px-3 py-2">Açıklama</th>
+                                <th class="px-3 py-2">Barkod</th>
+                                <th class="px-3 py-2">Ölçü Birimi</th>
+                                <th class="px-3 py-2">KDV Alış</th>
+                                <th class="px-3 py-2">KDV Satış</th>
+                                <th class="px-3 py-2">Oiv</th>
+                                <th class="px-3 py-2">ÖTV</th>
+                                <th class="px-3 py-2">ÖTV Fiyat</th>
+                                <th class="px-3 py-2">Tevkifat Pay</th>
+                                <th class="px-3 py-2">Tevkifat Payda</th>
+                                <th class="px-3 py-2">Vade Günü</th>
+                                <th class="px-3 py-2">Minimum Stok</th>
+                                <th class="px-3 py-2">Maksimum Stok</th>
+                                <th class="px-3 py-2">Limit Uyarısı</th>
+                                <th class="px-3 py-2">Limit Dışında İşlemi Durdur</th>
+                                <th class="px-3 py-2">Eksi Bakiye Uyarısı</th>
+                                <th class="px-3 py-2">Eksi Bakiyede İşlemi Durdur</th>
+                                <th class="px-3 py-2">Stok Kilitle</th>
+                                <th class="px-3 py-2">İskonto Satış 1</th>
                             </tr>
                         </thead>
                         <tbody>
                             @if (ViewBag.SimulasyonListesi != null)
                             {
-                                foreach (YKPortal.Models.Dto.CariDto cariDto in ViewBag.SimulasyonListesi)
+                                foreach (YKPortal.Models.Dto.StokDto stokDto in ViewBag.SimulasyonListesi)
                                 {
                                     <tr>
-                                        <td class="px-3 py-2">@cariDto.Aktif</td>
-                                        <td class="px-3 py-2">@cariDto.Isim</td>
-                                        <td class="px-3 py-2">@cariDto.Unvan</td>
-                                        <td class="px-3 py-2">@cariDto.Alici</td>
-                                        <td class="px-3 py-2">@cariDto.Satici</td>
-                                        <td class="px-3 py-2">@cariDto.Personel</td>
-                                        <td class="px-3 py-2">@cariDto.ServisPersoneli</td>
-                                        <td class="px-3 py-2">@cariDto.Adres</td>
-                                        <td class="px-3 py-2">@cariDto.Bolge</td>
-                                        <td class="px-3 py-2">@cariDto.Ulke</td>
-                                        <td class="px-3 py-2">@cariDto.Il</td>
-                                        <td class="px-3 py-2">@cariDto.Ilce</td>
-                                        <td class="px-3 py-2">@cariDto.PostaKodu</td>
-                                        <td class="px-3 py-2">@cariDto.TCKimlikNo</td>
-                                        <td class="px-3 py-2">@cariDto.VergiNumarasi</td>
-                                        <td class="px-3 py-2">@cariDto.VergiDairesi</td>
-                                        <td class="px-3 py-2">@cariDto.VadeGunu</td>
-                                        <td class="px-3 py-2">@cariDto.Limit</td>
-                                        <td class="px-3 py-2">@cariDto.Telefon1</td>
-                                        <td class="px-3 py-2">@cariDto.Telefon2</td>
-                                        <td class="px-3 py-2">@cariDto.Faks</td>
-                                        <td class="px-3 py-2">@cariDto.CepTelefonu</td>
-                                        <td class="px-3 py-2">@cariDto.KullaniciAdi</td>
-                                        <td class="px-3 py-2">@cariDto.Parola</td>
-                                        <td class="px-3 py-2">@cariDto.EMail</td>
-                                        <td class="px-3 py-2">@cariDto.WebSite</td>
-                                        <td class="px-3 py-2">@cariDto.Aciklama1</td>
-                                        <td class="px-3 py-2">@cariDto.Aciklama2</td>
-                                        <td class="px-3 py-2">@cariDto.Aciklama3</td>
-                                        <td class="px-3 py-2">@cariDto.Aciklama4</td>
-                                        <td class="px-3 py-2">@cariDto.Aciklama5</td>
-                                        <td class="px-3 py-2">@cariDto.Aciklama6</td>
+                                        <td class="px-3 py-2">@stokDto.Durumu</td>
+                                        <td class="px-3 py-2">@stokDto.Isim</td>
+                                        <td class="px-3 py-2">@stokDto.Kod</td>
+                                        <td class="px-3 py-2">@stokDto.Oiv</td>
+                                        <td class="px-3 py-2">@stokDto.Aciklama</td>
+                                        <td class="px-3 py-2">@stokDto.Barkod</td>
+                                        <td class="px-3 py-2">@stokDto.OlcuBirimi</td>
+                                        <td class="px-3 py-2">@stokDto.GrupKodu1ID</td>
+                                        <td class="px-3 py-2">@stokDto.GrupKodu2ID</td>
+                                        <td class="px-3 py-2">@stokDto.GrupKodu3ID</td>
+                                        <td class="px-3 py-2">@stokDto.GrupKodu4ID</td>
+                                        <td class="px-3 py-2">@stokDto.GrupKodu5ID</td>
+                                        <td class="px-3 py-2">@stokDto.GrupKodu6ID</td>
+                                        <td class="px-3 py-2">@stokDto.KdvAlis</td>
+                                        <td class="px-3 py-2">@stokDto.KdvSatis</td>
+                                        <td class="px-3 py-2">@stokDto.Otv</td>
+                                        <td class="px-3 py-2">@stokDto.OtvFiyat</td>
+                                        <td class="px-3 py-2">@stokDto.TevkifatPay</td>
+                                        <td class="px-3 py-2">@stokDto.TevkifatPayda</td>
+                                        <td class="px-3 py-2">@stokDto.VadeGunu</td>
+                                        <td class="px-3 py-2">@stokDto.MinimumStok</td>
+                                        <td class="px-3 py-2">@stokDto.LimitUyarisi</td>
+                                        <td class="px-3 py-2">@stokDto.LimitDisindaIslemiDurdur</td>
+                                        <td class="px-3 py-2">@stokDto.EksiBakiyeUyarisi</td>
+                                        <td class="px-3 py-2">@stokDto.EksiBakiyedeIslemiDurdur</td>
+                                        <td class="px-3 py-2">@stokDto.StokKilitle</td>
+                                        <td class="px-3 py-2">@stokDto.IskontoSatis1</td>
                                     </tr>
                                 }
                             }
+
                         </tbody>
                     </table>
                 </div>
                 <div>
-                    <form id="iceAktarFormu" action="/Cari/ExcelIceAktar" method="post" class="p-8" enctype="multipart/form-data">
+                    <form id="iceAktarFormu" action="/Stok/ExcelIceAktar" method="post" class="p-8" enctype="multipart/form-data">
                         <div>
                             <label for="file" class="form-label fs-4 fw-bold text-gray-600">Bir Dosya Seçin</label>
                             <input class="form-control mt-2" type="file" name="file" />

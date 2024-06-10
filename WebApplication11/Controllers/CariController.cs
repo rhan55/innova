@@ -107,6 +107,7 @@ namespace YKPortal.Controllers
 
             return RedirectToAction("Liste");
         }
+
         [HttpGet]
         public ActionResult ExcelIceAktar()
         {
@@ -571,7 +572,6 @@ namespace YKPortal.Controllers
             return new CariDto { };
         }
 
-
         [HttpGet]
         public ActionResult Duzenle(string id)
         {
@@ -716,8 +716,6 @@ namespace YKPortal.Controllers
 
             return RedirectToAction("Liste");
         }
-
-
         [HttpGet]
         public ActionResult KisiEkle(string CariID)
         {
@@ -939,7 +937,6 @@ namespace YKPortal.Controllers
 
         #region Cookie İşlemleri
 
-
         public bool AutoGirisKontrol()
         {
             bool GirisKontrol = false;
@@ -981,8 +978,6 @@ namespace YKPortal.Controllers
             return GirisKontrol;
         }
 
-
-
         private string GetCookie(string name)
         {
             //Böyle bir cookie mevcut mu kontrol ediyoruz
@@ -998,8 +993,6 @@ namespace YKPortal.Controllers
         {
 
         }
-
-
         public void IlListesiniOlustur()
         {
             // GrupKodu1 Listesi oluşturma 
@@ -1025,8 +1018,6 @@ namespace YKPortal.Controllers
             }
             ViewBag.Iller = entities;
         }
-
-
         public void UlkeListesiniOlustur()
         {
             // GrupKodu1 Listesi oluşturma 

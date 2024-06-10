@@ -4,218 +4,215 @@
     ViewBag.Title = "Duzenle";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="container-fluid d-flex" id="kt_content">
+    <div class="row">
+        @Html.Partial("~/Views/Cari/_CariMenu.cshtml", new ViewDataDictionary { { "CariID", Convert.ToString(ViewBag.CariID) } })
+        <form method="post" class="col-lg-10" action="/Stok/Duzenle">
+            <div class="row">
+                <div class="col-lg-11">
+                    <div class="row">
+                        <input type="hidden" name="ID" />
+                        <div class="d-flex align-items-center mt-4 col-lg-4">
+                            <div class="form-check ">
+                                <input class="form-check-input" type="checkbox" value="true" id="Durumu" name="Durumu" />
+                                <label class="form-check-label" for="Durumu">
+                                    Durumu
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 form-group mt-4">
+                            <label for="Kod" class=" form-label">Kod</label>
+                            <input type="text" id="Kod" name="Kod" class="form-control p-2 rounded-1" placeholder="" />
+                        </div>
+                        <div class="col-lg-4 form-group mt-4">
+                            <label for="Isim" class=" form-label">Kısa İsim</label>
+                            <input type="text" id="Isim" name="Isim" class="form-control p-2 rounded-1" placeholder="" required />
+                        </div>
+                        <div class="col-lg-4 form-group mt-4">
+                            <label for="Barkod" class="form-label">Barkod</label>
+                            <input type="text" name="Barkod" class="form-control p-2 rounded-1" id="Barkod">
+                        </div>
+                        <div class="col-lg-4 form-group mt-4">
+                            <label for="OlcuBirimi" class="form-label">OlcuBirimi</label>
+                            <input type="text" name="OlcuBirimi" class="form-control p-2 rounded-1" id="OlcuBirimi">
+                        </div>
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="KdvAlis" class=" form-label">KdvAlis</label>
+                            <input type="text" name="KdvAlis" class="form-control p-2 rounded-1" placeholder="" id="KdvAlis" step="any" />
+                        </div>
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="KdvSatis" class=" form-label">KdvSatis</label>
+                            <input type="text" name="KdvSatis" class="form-control p-2 rounded-1" placeholder="" id="KdvSatis" step="any" />
+                        </div>
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="Otv" class=" form-label">Otv</label>
+                            <input type="text" name="Otv" class="form-control p-2 rounded-1" placeholder="" id="Otv" step="any" />
+                        </div>
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="OtvFiyat" class="form-label">OtvFiyat</label>
+                            <input type="text" name="OtvFiyat" class="form-control p-2 rounded-1" placeholder="" id="OtvFiyat" step="any" />
+                        </div>
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="Oiv" class=" form-label">Oiv</label>
+                            <input type="text" name="Oiv" class="form-control p-2 rounded-1" placeholder="" id="Oiv" step="any" />
+                        </div>
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="TevkifatPay" class=" form-label">TevkifatPay</label>
+                            <input type="text" name="TevkifatPay" class="form-control p-2 rounded-1" placeholder="" id="TevkifatPay" step="any" />
+                        </div>
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="TevkifatPayda" class=" form-label">TevkifatPayda</label>
+                            <input type="text" name="TevkifatPayda" class="form-control p-2 rounded-1" placeholder="" id="TevkifatPayda" step="any" />
+                        </div>
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="IskontoSatis1" class=" form-label">IskontoSatis1</label>
+                            <input type="text" name="IskontoSatis1" class="form-control p-2 rounded-1" placeholder="" id="IskontoSatis1" step="any" />
+                        </div>
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="VadeGunu" class=" form-label">VadeGunu</label>
+                            <input type="text" name="VadeGunu" class="form-control p-2 rounded-1" placeholder="" id="VadeGunu" step="any" />
+                        </div>
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="MinimumStok" class=" form-label">MinimumStok</label>
+                            <input type="text" name="MinimumStok" class="form-control p-2 rounded-1" placeholder="" id="MinimumStok" step="any" />
+                        </div>
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="MaxsimumStok" class=" form-label">MaxsimumStok</label>
+                            <input type="text" name="MaxsimumStok" class="form-control p-2 rounded-1" placeholder="" id="MaxsimumStok" step="any" />
+                        </div>
 
-<div class="w-100">
-    <div class="card container mt-8">
-
-        <div class="card-body p-8">
-            <form method="post" action="/Stok/Duzenle">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="row">
-                            <div class="d-flex align-items-center mt-4 col-lg-4">
-                                <div class="form-check ">
-                                    <input class="form-check-input" type="checkbox" value="true" id="Durumu" name="Durumu" />
-                                    <label class="form-check-label" for="Durumu">
-                                        Durumu
-                                    </label>
-                                </div>
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="GrupKodu1ID" class="form-label">Grup Kodu 1</label>
+                            <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu1ID" id="GrupKodu1ID"
+                                    aria-label="Floating label select example">
+                                <option value="">Lütfen Seçim Yapınız</option>
+                                @foreach (GrupKoduDto stokGrupKodlari1 in ViewBag.StokGrupKodlari1)
+                                {
+                                    <option value="@stokGrupKodlari1.ID">@stokGrupKodlari1.Deger</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="GrupKodu2ID" class="form-label">Grup Kodu 2</label>
+                            <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu2ID" id="GrupKodu2ID"
+                                    aria-label="Floating label select example">
+                                <option value="">Lütfen Seçim Yapınız</option>
+                                @foreach (GrupKoduDto stokGrupKodlari2 in ViewBag.StokGrupKodlari2)
+                                {
+                                    <option value="@stokGrupKodlari2.ID">@stokGrupKodlari2.Deger</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="GrupKodu3ID" class="form-label">Grup Kodu 3</label>
+                            <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu3ID" id="GrupKodu3ID"
+                                    aria-label="Floating label select example">
+                                <option value="">Lütfen Seçim Yapınız</option>
+                                @foreach (GrupKoduDto stokGrupKodlari3 in ViewBag.StokGrupKodlari3)
+                                {
+                                    <option value="@stokGrupKodlari3.ID">@stokGrupKodlari3.Deger</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="GrupKodu4ID" class="form-label">Grup Kodu 4</label>
+                            <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu4ID" id="GrupKodu4ID"
+                                    aria-label="Floating label select example">
+                                <option value="">Lütfen Seçim Yapınız</option>
+                                @foreach (GrupKoduDto stokGrupKodlari4 in ViewBag.StokGrupKodlari4)
+                                {
+                                    <option value="@stokGrupKodlari4.ID">@stokGrupKodlari4.Deger</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="GrupKodu5ID" class="form-label">Grup Kodu 5</label>
+                            <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu5ID" id="GrupKodu5ID"
+                                    aria-label="Floating label select example">
+                                <option value="">Lütfen Seçim Yapınız</option>
+                                @foreach (GrupKoduDto stokGrupKodlari5 in ViewBag.StokGrupKodlari5)
+                                {
+                                    <option value="@stokGrupKodlari5.ID">@stokGrupKodlari5.Deger</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="GrupKodu6ID" class="form-label">Grup Kodu 6</label>
+                            <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu6ID" id="GrupKodu6ID"
+                                    aria-label="Floating label select example">
+                                <option value="">Lütfen Seçim Yapınız</option>
+                                @foreach (GrupKoduDto stokGrupKodlari6 in ViewBag.StokGrupKodlari6)
+                                {
+                                    <option value="@stokGrupKodlari6.ID">@stokGrupKodlari6.Deger</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="mt-4 col-lg-2 d-flex align-items-end">
+                            <div class="form-check ">
+                                <input class="form-check-input" type="checkbox" value="true" id="LimitUyarisi" name="LimitUyarisi" />
+                                <label class="form-check-label" for="LimitUyarisi">
+                                    LimitUyarisi
+                                </label>
                             </div>
-                            <div class="col-lg-4 form-group mt-4">
-                                <label for="Kod" class=" form-label">Kod</label>
-                                <input type="text" id="Kod" name="Kod" class="form-control p-2 rounded-1" placeholder="" />
+                        </div>
+                        <div class="mt-4 col-lg-2 d-flex align-items-end">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="true" id="LimitDisindaIslemiDurdur" name="LimitDisindaIslemiDurdur" />
+                                <label class="form-check-label" for="LimitDisindaIslemiDurdur">
+                                    LimitDisindaIslemiDurdur
+                                </label>
                             </div>
-                            <div class="col-lg-4 form-group mt-4">
-                                <label for="Isim" class=" form-label">Kısa İsim</label>
-                                <input type="text" id="Isim" name="Isim" class="form-control p-2 rounded-1" placeholder="" required />
+                        </div>
+                        <div class="mt-4 col-lg-2 d-flex align-items-end">
+                            <div class="form-check ">
+                                <input class="form-check-input" type="checkbox" value="true" id="EksiBakiyeUyarisi" name="EksiBakiyeUyarisi" />
+                                <label class="form-check-label" for="EksiBakiyeUyarisi">
+                                    EksiBakiyeUyarisi
+                                </label>
                             </div>
-                            <div class="col-lg-4 form-group mt-4">
-                                <label for="Barkod" class="form-label">Barkod</label>
-                                <input type="text" name="Barkod" class="form-control p-2 rounded-1" id="Barkod">
+                        </div>
+                        <div class="mt-4 col-lg-2 d-flex align-items-end">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="true" id="EksiBakiyedeIslemiDurdur" name="EksiBakiyedeIslemiDurdur" />
+                                <label class="form-check-label" for="EksiBakiyedeIslemiDurdur">
+                                    EksiBakiyedeIslemiDurdur
+                                </label>
                             </div>
-                            <div class="col-lg-4 form-group mt-4">
-                                <label for="OlcuBirimi" class="form-label">OlcuBirimi</label>
-                                <input type="text" name="OlcuBirimi" class="form-control p-2 rounded-1" id="OlcuBirimi">
+                        </div>
+                        <div class="mt-4 col-lg-2 d-flex align-items-end">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="true" id="StokKilitle" name="StokKilitle" />
+                                <label class="form-check-label" for="StokKilitle">
+                                    StokKilitle
+                                </label>
                             </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="KdvAlis" class=" form-label">KdvAlis</label>
-                                <input type="text" name="KdvAlis" class="form-control p-2 rounded-1" placeholder="" id="KdvAlis" step="any" />
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="KdvSatis" class=" form-label">KdvSatis</label>
-                                <input type="text" name="KdvSatis" class="form-control p-2 rounded-1" placeholder="" id="KdvSatis" step="any" />
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="Otv" class=" form-label">Otv</label>
-                                <input type="text" name="Otv" class="form-control p-2 rounded-1" placeholder="" id="Otv" step="any" />
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="OtvFiyat" class="form-label">OtvFiyat</label>
-                                <input type="text" name="OtvFiyat" class="form-control p-2 rounded-1" placeholder="" id="OtvFiyat" step="any" />
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="Oiv" class=" form-label">Oiv</label>
-                                <input type="text" name="Oiv" class="form-control p-2 rounded-1" placeholder="" id="Oiv" step="any" />
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="TevkifatPay" class=" form-label">TevkifatPay</label>
-                                <input type="text" name="TevkifatPay" class="form-control p-2 rounded-1" placeholder="" id="TevkifatPay" step="any" />
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="TevkifatPayda" class=" form-label">TevkifatPayda</label>
-                                <input type="text" name="TevkifatPayda" class="form-control p-2 rounded-1" placeholder="" id="TevkifatPayda" step="any" />
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="IskontoSatis1" class=" form-label">IskontoSatis1</label>
-                                <input type="text" name="IskontoSatis1" class="form-control p-2 rounded-1" placeholder="" id="IskontoSatis1" step="any" />
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="VadeGunu" class=" form-label">VadeGunu</label>
-                                <input type="text" name="VadeGunu" class="form-control p-2 rounded-1" placeholder="" id="VadeGunu" step="any" />
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="MinimumStok" class=" form-label">MinimumStok</label>
-                                <input type="text" name="MinimumStok" class="form-control p-2 rounded-1" placeholder="" id="MinimumStok" step="any" />
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="MaxsimumStok" class=" form-label">MaxsimumStok</label>
-                                <input type="text" name="MaxsimumStok" class="form-control p-2 rounded-1" placeholder="" id="MaxsimumStok" step="any" />
-                            </div>
-
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="GrupKodu1ID" class="form-label">Grup Kodu 1</label>
-                                <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu1ID" id="GrupKodu1ID"
-                                        aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
-                                    @foreach (GrupKoduDto stokGrupKodlari1 in ViewBag.StokGrupKodlari1)
-                                    {
-                                        <option value="@stokGrupKodlari1.ID">@stokGrupKodlari1.Deger</option>
-                                    }
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="GrupKodu2ID" class="form-label">Grup Kodu 2</label>
-                                <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu2ID" id="GrupKodu2ID"
-                                        aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
-                                    @foreach (GrupKoduDto stokGrupKodlari2 in ViewBag.StokGrupKodlari2)
-                                    {
-                                        <option value="@stokGrupKodlari2.ID">@stokGrupKodlari2.Deger</option>
-                                    }
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="GrupKodu3ID" class="form-label">Grup Kodu 3</label>
-                                <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu3ID" id="GrupKodu3ID"
-                                        aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
-                                    @foreach (GrupKoduDto stokGrupKodlari3 in ViewBag.StokGrupKodlari3)
-                                    {
-                                        <option value="@stokGrupKodlari3.ID">@stokGrupKodlari3.Deger</option>
-                                    }
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="GrupKodu4ID" class="form-label">Grup Kodu 4</label>
-                                <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu4ID" id="GrupKodu4ID"
-                                        aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
-                                    @foreach (GrupKoduDto stokGrupKodlari4 in ViewBag.StokGrupKodlari4)
-                                    {
-                                        <option value="@stokGrupKodlari4.ID">@stokGrupKodlari4.Deger</option>
-                                    }
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="GrupKodu5ID" class="form-label">Grup Kodu 5</label>
-                                <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu5ID" id="GrupKodu5ID"
-                                        aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
-                                    @foreach (GrupKoduDto stokGrupKodlari5 in ViewBag.StokGrupKodlari5)
-                                    {
-                                        <option value="@stokGrupKodlari5.ID">@stokGrupKodlari5.Deger</option>
-                                    }
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="GrupKodu6ID" class="form-label">Grup Kodu 6</label>
-                                <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu6ID" id="GrupKodu6ID"
-                                        aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
-                                    @foreach (GrupKoduDto stokGrupKodlari6 in ViewBag.StokGrupKodlari6)
-                                    {
-                                        <option value="@stokGrupKodlari6.ID">@stokGrupKodlari6.Deger</option>
-                                    }
-                                </select>
-                            </div>
-                            <div class="mt-4 col-lg-2 d-flex align-items-end">
-                                <div class="form-check ">
-                                    <input class="form-check-input" type="checkbox" value="true" id="LimitUyarisi" name="LimitUyarisi" />
-                                    <label class="form-check-label" for="LimitUyarisi">
-                                        LimitUyarisi
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="mt-4 col-lg-2 d-flex align-items-end">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="true" id="LimitDisindaIslemiDurdur" name="LimitDisindaIslemiDurdur" />
-                                    <label class="form-check-label" for="LimitDisindaIslemiDurdur">
-                                        LimitDisindaIslemiDurdur
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="mt-4 col-lg-2 d-flex align-items-end">
-                                <div class="form-check ">
-                                    <input class="form-check-input" type="checkbox" value="true" id="EksiBakiyeUyarisi" name="EksiBakiyeUyarisi" />
-                                    <label class="form-check-label" for="EksiBakiyeUyarisi">
-                                        EksiBakiyeUyarisi
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="mt-4 col-lg-2 d-flex align-items-end">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="true" id="EksiBakiyedeIslemiDurdur" name="EksiBakiyedeIslemiDurdur" />
-                                    <label class="form-check-label" for="EksiBakiyedeIslemiDurdur">
-                                        EksiBakiyedeIslemiDurdur
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="mt-4 col-lg-2 d-flex align-items-end">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="true" id="StokKilitle" name="StokKilitle" />
-                                    <label class="form-check-label" for="StokKilitle">
-                                        StokKilitle
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="mt-4 col-lg-12">
-                                <div class="form-group">
-                                    <label class="form-label" for="Aciklama">Aciklama</label>
-                                    <textarea class="form-control" id="Aciklama" name="Aciklama" rows="3"></textarea>
-                                </div>
+                        </div>
+                        <div class="mt-4 col-lg-12">
+                            <div class="form-group">
+                                <label class="form-label" for="Aciklama">Aciklama</label>
+                                <textarea class="form-control" id="Aciklama" name="Aciklama" rows="3"></textarea>
                             </div>
                         </div>
                     </div>
-
                 </div>
-                <div class="row">
-                    <!--begin::Actions-->
-                    <div class="col-12">
-                        <div class="pt-10">
-                            <a href="/Cari/Liste" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
-                            <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Ekle">
-                                <span class="indicator-label">Kaydet</span>
-                                <span class="indicator-progress">
-                                    Lütfen Bekleyin...
-                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                                </span>
-                            </button>
-                        </div>
+
+            </div>
+            <div class="row">
+                <!--begin::Actions-->
+                <div class="col-12">
+                    <div class="pt-10">
+                        <a href="/Stok/Liste" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
+                        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Ekle">
+                            <span class="indicator-label">Kaydet</span>
+                            <span class="indicator-progress">
+                                Lütfen Bekleyin...
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </button>
                     </div>
-                    <!--end::Actions-->
                 </div>
-            </form>
-        </div>
-
+                <!--end::Actions-->
+            </div>
+        </form>
     </div>
 </div>

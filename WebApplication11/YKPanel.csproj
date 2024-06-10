@@ -2600,6 +2600,8 @@
     <Content Include="Views\Cari\ZiyaretiKapat.cshtml" />
     <Content Include="Views\Kullanici\Yetkiler.cshtml" />
     <Content Include="Views\Stok\Duzenle.cshtml" />
+    <Content Include="Views\Stok\ExcelIceAktar.cshtml" />
+    <Content Include="Tema\excel\ornek-stok-listesi.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

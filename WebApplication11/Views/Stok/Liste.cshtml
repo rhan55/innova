@@ -26,10 +26,6 @@
                                     <div>
                                         <button type="button" id="topluSilButon" class="btn btn-light-primary" data-bs-toggle="modal" data-bs-target="#Stok-toplu-silme">
                                             <span class="indicator-label">Toplu Sil</span>
-                                            <span class="indicator-progress">
-                                                Lütfen Bekleyin...
-                                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                                            </span>
                                         </button>
                                     </div>
                                     <button type="button" class="btn btn-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -83,13 +79,65 @@
                             </div>
                         </div>
 
-                        <div class="mt-5">
-                            <div class="card card-flush">
+                        <div class="mt-5 ">
+                            <div class="card card-flush ">
                                 <div class="card-body">
                                     <!--begin::Filtreleme alanı-->
                                     <form method="POST" action="" class="p-8 content" id="datatableFilters">
                                         <div><h3 class="text-active-gray-600 fw-bold mb-4">Filtreler</h3></div>
 
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <!--begin::Label-->
+                                                <label for="Kod" class="fw-semibold fs-6 mb-2">Kod</label>
+                                                <!--end::Label-->
+                                                <!--begin::Input-->
+                                                <input type="text" name="Kod" id="Kod" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.Kod)" />
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <!--begin::Label-->
+                                                <label for="Isim" class="fw-semibold fs-6 mb-2">Stok Adı</label>
+                                                <!--end::Label-->
+                                                <!--begin::Input-->
+                                                <input type="text" name="Isim" id="Isim" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.Isim)" />
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <!--begin::Label-->
+                                                <label for="GrupKoduAdi1" class="fw-semibold fs-6 mb-2">Grup Kodu1</label>
+                                                <!--end::Label-->
+                                                <!--begin::Input-->
+                                                <input type="text" name="GrupKoduAdi1" id="GrupKoduAdi1" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.GrupKodu1ID)" />
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <!--begin::Label-->
+                                                <label for="GrupKoduAdi2" class="fw-semibold fs-6 mb-2">Grup Kodu2</label>
+                                                <!--end::Label-->
+                                                <!--begin::Input-->
+                                                <input type="text" name="GrupKoduAdi2" id="GrupKoduAdi2" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.GrupKodu2ID)" />
+                                                <!--end::Input-->
+                                            </div>
+
+                                        </div>
+                                        <div class="row mt-2">
+
+                                            <div class="col-lg-3">
+                                                <!--begin::Label-->
+                                                <label for="Aciklama" class="fw-semibold fs-6 mb-2">Açıklama</label>
+                                                <!--end::Label-->
+                                                <!--begin::Input-->
+                                                <input type="text" name="Aciklama" id="Aciklama" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.Aciklama)" />
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="col-lg-3 offset-6 d-flex justify-content-end align-items-end">
+                                                <button type="button" id="filtreleriTemizle" class="btn btn-light me-3 h-40px" data-kt-users-modal-action="cancel">Temizle</button>
+                                                <button type="submit" class="btn btn-primary h-40px" data-kt-users-modal-action="Ara">
+                                                    <span class="indicator-label">Filtrele</span>
+                                                </button>
+                                            </div>
+                                        </div>
 
                                     </form>
                                     <!--end::Filtreleme alanı-->
@@ -162,14 +210,6 @@
                                                                 </button>
                                                             </div>
                                                             <!--end::Menu item-->
-                                                            <!--begin::Menu item-->
-                                                            <div class="menu-item px-3">
-                                                                <button type="button" data-id="@(Convert.ToString(Model.Rows[i]["ID"]))" class="btn btn-sm w-100 menu-link px-3 btn-sil stok-silme" data-bs-toggle="modal" data-bs-target="#Stok-silme">
-                                                                    Yetkiler
-                                                                </button>
-                                                            </div>
-                                                            <!--end::Menu item-->
-                                                         
                                                         </div>
                                                         <!--end::Menu-->
                                                     </td>
