@@ -13,7 +13,7 @@ namespace YKPortal.Controllers
     public class ParametreController : Controller
     {
         // GET: Parametreler
-        public ActionResult MailAyarları()
+        public ActionResult MailAyarlari()
         {
             var parametreler = Parametreler();
 

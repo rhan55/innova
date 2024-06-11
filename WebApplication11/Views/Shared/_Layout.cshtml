@@ -66,7 +66,7 @@
         <div class="page d-flex flex-row flex-column-fluid">
 
             <!--begin::Aside-->
-            <div id="kt_aside" class="aside" data-kt-drawer="true" data-kt-drawer-name="aside" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_aside_mobile_toggle">
+            <div id="kt_aside" class="aside" data-kt-drawer="true" data-kt-drawer-direction="end" data-kt-drawer-name="aside" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="{default:'200px', '300px': '250px'}" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_aside_mobile_toggle">
                 <!--begin::Aside Toolbarl-->
                 <div class="aside-toolbar flex-column-auto" id="kt_aside_toolbar">
                     <!--begin::Aside user-->
@@ -146,11 +146,8 @@
                         <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500" id="#kt_aside_menu" data-kt-menu="true">
                             <!--begin:Menu item-->
                             <div class="d-flex align-items-center position-relative my-1">
-                                <i class="ki-duotone ki-magnifier fs-3 position-absolute m-4">
-                                    <span class="path1 text-gray-500"></span>
-                                    <span class="path2 text-gray-500"></span>
-                                </i>
-                                <input type="text" id="searchInNavigation" class="form-control  w-230px ps-12" placeholder="Ara" />
+                            
+                                <input type="text" id="searchInNavigation" class="form-control px-2 py-0 w-230px" placeholder="Ara" />
                             </div>
                             <div id="navigation">
 
@@ -382,6 +379,7 @@
             {
                 title: "Ana Kayıtlar",
                 icon: "ki-duotone ki-element-11 fs-2",
+                isOpen: true,
                 items: [
                     {
                         title: "Cari",
@@ -418,6 +416,7 @@
             {
                 title: "Tanımlamalar",
                 icon: "ki-duotone ki-element-11 fs-2",
+                isOpen: false,
                 items: [
                     {
                         title: "Kullanıcı Yönetimi",
@@ -537,6 +536,7 @@
 
                 title: "CRM",
                 icon: "ki-duotone ki-element-11 fs-2",
+                isOpen: false,
                 items: [
                     {
                         title: "Tanımlamalar",
@@ -555,14 +555,15 @@
 
             },
             {
-                
                 title: "Ayarlar",
                 icon: "ki-duotone ki-element-11 fs-2",
+                isOpen: false,
                 items: [
                     {
-                        title: "Mail Ayarlar",
+                        title: "Mail Ayarları",
                         isMenu: false,
                         icon: "",
+                        url: "/Parametre/MailAyarlari"
                     },
                     
                 ]
@@ -611,7 +612,7 @@
                      `;
         }
         function createNavigation(navigation, menus) {
-            return ` <div data-kt-menu-trigger="click" class="menu-item here  menu-accordion">
+            return ` <div data-kt-menu-trigger="click" class="menu-item ${navigation.isOpen ? 'show' : ''} menu-accordion">
                            <!--begin:Menu link-->
                            <span class="menu-link">
                                <span class="menu-icon">
@@ -628,6 +629,7 @@
                              ${menus.join('')}
                          </div>`
         }
+
         function buildNavigation(navigationList) {
             return navigationList.map(navigation => {
                 let menus = navigation.items.map(navigationMenu => {
@@ -660,7 +662,7 @@
                                 }
                             })
                         } else {
-                            if (item.title.toLocaleUpperCase("tr-TR").includes(event.target.value.toLocaleUpperCase("tr-TR"))) {
+                            if (menu.title.toLocaleUpperCase("tr-TR").includes(event.target.value.toLocaleUpperCase("tr-TR"))) {
                                 filteredNavigation.push(createLink(menu));
                             }
                         }

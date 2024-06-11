@@ -121,7 +121,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="row mt-2">
+                                        <div class="row mt-4">
 
                                             <div class="col-lg-3">
                                                 <!--begin::Label-->
@@ -131,7 +131,7 @@
                                                 <input type="text" name="Aciklama" id="Aciklama" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.Aciklama)" />
                                                 <!--end::Input-->
                                             </div>
-                                            <div class="col-lg-3 offset-6 d-flex justify-content-end align-items-end">
+                                            <div class="col-lg-3 offset-lg-6 d-flex justify-content-end align-items-end">
                                                 <button type="button" id="filtreleriTemizle" class="btn btn-light me-3 h-40px" data-kt-users-modal-action="cancel">Temizle</button>
                                                 <button type="submit" class="btn btn-primary h-40px" data-kt-users-modal-action="Ara">
                                                     <span class="indicator-label">Filtrele</span>
@@ -403,7 +403,7 @@
 
 
                     //scrollY: true,
-                    //scrollx: true,
+                    scrollX: true,
                     scrollCollopse: true,
                     colResize: true,
                     colReorder: colReorder_options,
@@ -472,7 +472,9 @@
 
                 });
 
-
+                datatable.on('columns-reordered', function (e, settings, details) {
+                    KTMenu.createInstances();
+                });
             }
 
 

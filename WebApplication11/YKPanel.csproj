@@ -2593,7 +2593,7 @@
     <Content Include="Views\Cari\ZiyaretEkle.cshtml" />
     <Content Include="Views\Belge\Detay.cshtml" />
     <Content Include="Views\Belge\Liste.cshtml" />
-    <Content Include="Views\Parametre\MailAyarları.cshtml" />
+    <Content Include="Views\Parametre\MailAyarlari.cshtml" />
     <Content Include="Views\Cari\ZiyaretDuzenle.cshtml" />
     <Content Include="Views\Stok\Ekle.cshtml" />
     <Content Include="Views\Stok\Liste.cshtml" />

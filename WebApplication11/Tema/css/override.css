@@ -61,3 +61,7 @@ tr.selected .menu-link {
     position: -webkit-sticky !important;
     top: 0 !important;
 }
+
+#navigation > .menu-accordion > .menu-link {
+    padding: 0 !important;
+}
