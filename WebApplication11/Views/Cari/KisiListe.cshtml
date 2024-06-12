@@ -3,7 +3,7 @@
     ViewBag.Title = "Kişi Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="container-fluid">
+<div class="container-fluid p-0 m-0">
     <div class="row">
         @Html.Partial("~/Views/Cari/_CariMenu.cshtml", new ViewDataDictionary { { "CariID", Convert.ToString(ViewBag.CariID) } })
         <div class="col-lg-10">
@@ -11,7 +11,7 @@
                 <!--begin::Post-->
                 <div class="post d-flex flex-column-fluid" id="kt_post">
                     <!--begin::Container-->
-                    <div id="kt_content_container" class="container-xxl">
+                    <div id="kt_content_container p-0" class="container-xxl p-0 m-0">
                         <div class="card card-flush">
                             <div class="card-header align-items-center py-5 gap-2 gap-md-5">
                                 <div class="card-title">
@@ -202,6 +202,7 @@
                 // Init datatable --- more info on datatables: https://datatables.net/manual/
                 datatable = $(table).DataTable({
                     "info": false,
+                    scrollX: true,
                     'order': [],
                     paging: false,
                     columnDefs: [
@@ -215,6 +216,10 @@
                         }
                     ]
 
+                });
+
+                datatable.on('columns-reordered', function (e, settings, details) {
+                    KTMenu.createInstances();
                 });
             }
 

@@ -16,7 +16,7 @@
                     <div class="row mb-7">
                         <div class="col-lg-6">
                             <label for="Tarih" class="fw-semibold fs-6 mb-2">Tarih</label>
-                            <input type="datetime-local" name="Tarih" class="form-control p-2 mb-3 mb-lg-0" required />
+                            <input type="datetime-local" name="Tarih" class="form-control p-2 mb-3 mb-lg-0" required value="@DateTime.Now.ToString("yyyy-MM-dd H:m:s")" />
                         </div>
                         <div class="col-lg-6">
                             <label for="Aciklama" class="fw-semibold fs-6 mb-2">Aciklama</label>
@@ -26,10 +26,10 @@
                     <div class="row mb-7">
                         <div class="col-lg-6 mt-4">                            
                             <label for="ZiyaretTipi" class="fw-semibold fs-6 mb-2">Ziyaret Tipi</label>->
-                            <select type="text" name="ZiyaretTipi" class="form-select p-2 mb-3 mb-lg-0" value="@ViewBag.Ziyaret.Tarih">
+                            <select type="text" name="ZiyaretTipi" class="form-select p-2 mb-3 mb-lg-0">
                                 @foreach (GrupKoduDto ziyaretTipi in ViewBag.ZiyaretTipleri)
                                 {
-                                    <option value="@ziyaretTipi.ID" @(ziyaretTipi.ID == ViewBag.Ziyaret.ZiyaretTipi ? "selected" : "")>@ziyaretTipi.Deger</option>
+                                    <option value="@ziyaretTipi.ID">@ziyaretTipi.Deger</option>
                                 }
                             </select>
                         </div>

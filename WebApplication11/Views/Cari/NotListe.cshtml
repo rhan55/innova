@@ -188,6 +188,7 @@
 
                 // Init datatable --- more info on datatables: https://datatables.net/manual/
                 datatable = $(table).DataTable({
+                    scrollX:true,
                     "info": false,
                     'order': [],
                     paging: false,
@@ -195,6 +196,9 @@
 
                     ]
 
+                });
+                datatable.on('columns-reordered', function (e, settings, details) {
+                    KTMenu.createInstances();
                 });
             }
 

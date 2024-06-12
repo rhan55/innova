@@ -10,7 +10,7 @@ using YKPortal.Models.Dto;
 
 namespace YKPortal.Controllers
 {
-    public class KullaniciController: Controller
+    public class KullaniciController : Controller
     {
 
         // GET: Kullanici
@@ -31,7 +31,7 @@ namespace YKPortal.Controllers
             var iller = (List<GrupKoduDto>)ViewBag.Iller;
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            for(var i = 0; i < dt.Rows.Count; i++)
+            for (var i = 0; i < dt.Rows.Count; i++)
             {
                 string id = Convert.ToString(dt.Rows[i]["Il"]);
                 var il = iller.Where(m => m.ID == id).ToList();
@@ -392,9 +392,10 @@ namespace YKPortal.Controllers
 
             List<YetkilerDto> yetkiler = new List<YetkilerDto>();
 
-            foreach(DataRow row in dt.Rows)
+            foreach (DataRow row in dt.Rows)
             {
-                yetkiler.Add(new YetkilerDto() {
+                yetkiler.Add(new YetkilerDto()
+                {
                     MenuID = Convert.ToString(row["MenuID"]),
                     KullaniciID = Convert.ToString(row["KullaniciID"]),
                     UyelikID = Convert.ToString(row["UyelikID"]),
@@ -407,6 +408,35 @@ namespace YKPortal.Controllers
             }
             ViewBag.Yetkiler = yetkiler;
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult YetkiKaydet(List<YetkilerDto> yetkiler)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            if (yetkiler.Count == 0)
+            {
+                RedirectToAction("Liste");
+            }
+
+            foreach (var yetki in yetkiler)
+            {
+                var cmd = new SqlCommand();
+                cmd.CommandText = "p_KullaniciYetkiKaydet";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@KullaniciID", yetki.KullaniciID);
+                cmd.Parameters.AddWithValue("@MenuID", yetki.MenuID);
+                cmd.Parameters.AddWithValue("@Gor", yetki.Gor);
+                cmd.Parameters.AddWithValue("@Duzenle", yetki.Duzenle);
+                cmd.Parameters.AddWithValue("@Sil", yetki.Sil);
+
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            }
+
+            return RedirectToAction("Yetkiler", new { KullaniciID = yetkiler[0].KullaniciID });
         }
 
         #region Cookie İşlemleri

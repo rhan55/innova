@@ -22,29 +22,93 @@
                             <tbody>
                                 @foreach (YetkilerDto yetki in ViewBag.Yetkiler)
                                 {
-                                    <tr>
+                                    <tr data-menuId="@(yetki.MenuID)" data-kullaniciId="@(yetki.KullaniciID)">
                                         <td class="px-3 py-4">
                                             @yetki.Menu
                                         </td>
-                                        <td class="px-2 py-4 text-center">
-                                            <input type="checkbox" @(yetki.Gor ? "checked" : "") />
+                                        <td class=" text-center">
+                                            <label class="w-100 h-100 px-2 py-4" for="@(yetki.MenuID)-Gor">
+                                                <input type="checkbox" @(yetki.Gor ? "checked" : "") id="@(yetki.MenuID)-Gor" name="@(yetki.MenuID)-Gor" data-menuId="@yetki.MenuID" data-tip="Gor" />
+                                            </label>
                                         </td>
-                                        <td class="px-2 py-4 text-center">
-                                            <input type="checkbox" @(yetki.Duzenle ? "checked" : "") />
+                                        <td class=" text-center">
+                                            <label class="w-100 h-100 px-2 py-4" for="@(yetki.MenuID)-Duzenle">
+                                                <input type="checkbox" @(yetki.Duzenle ? "checked" : "") id="@(yetki.MenuID)-Duzenle" name="@(yetki.MenuID)-Duzenle" data-menuId="@yetki.MenuID" data-tip="Duzenle" />
+                                            </label>
                                         </td>
-                                        <td class="px-2 py-4 text-center">
-                                            <input type="checkbox" @(yetki.Sil ? "checked" : "") />
+                                        <td class="text-center">
+                                            <label class="w-100 h-100 px-2 py-4" for="@(yetki.MenuID.Replace("-", ""))-Sil">
+                                                <input type="checkbox" @(yetki.Sil ? "checked" : "") id="@(yetki.MenuID.Replace("-", ""))-Sil" name="@(yetki.MenuID)-Sil" data-menuId="@yetki.MenuID" data-tip="Sil" />
+                                            </label>
                                         </td>
                                     </tr>
                                 }
-
-
-
                             </tbody>
                         </table>
+                    </div>
+                    <div class="d-flex justify-content-end align-items-center">
+                        <button class="btn btn-primary" id="YetkiKaydet">Kaydet</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            let menuIdListesi = [];
+
+            $("tr[data-menuId]").each(function (index, element) {
+                menuIdListesi.push({
+                    MenuID: $(element).attr('data-menuId'),
+                    KullaniciID: $(element).attr('data-kullaniciId'),
+                    Gor: $('input[type="checkbox"][name="' + $(element).attr('data-menuId') + '-Gor"]').is(":checked"),
+                    Duzenle: $('input[type="checkbox"][name="' + $(element).attr('data-menuId') + '-Duzenle"]').is(":checked"),
+                    Sil: $('input[type="checkbox"][name="' + $(element).attr('data-menuId') + '-Sil"]').is(":checked")
+                });
+            });
+
+            $('input[type="checkbox"]').on("change", function () {
+                const checkbox = this;
+                menuIdListesi = menuIdListesi.map(function (menu) {
+                    if (menu.MenuID == $(checkbox).attr("data-menuId")) {
+                        switch ($(checkbox).attr('data-tip')) {
+                            case "Gor":
+                                menu.Gor = $(checkbox).is(":checked");
+                                break;
+                            case "Duzenle":
+                                menu.Duzenle = $(checkbox).is(":checked");
+                                break;
+                            case "Sil":
+                                menu.Sil = $(checkbox).is(":checked");
+                                break;
+                        }
+                    }
+
+                    return menu;
+                });
+            });
+
+            $('button#YetkiKaydet').on("click", function () {
+                $.ajax({
+                    url: "/Kullanici/YetkiKaydet",
+                    method: "POST",
+                    data: { yetkiler: menuIdListesi },
+                    success: function (response) {
+
+                        console.log("Success:", response);
+                        window.location.reload();
+                    },
+                    error: function (xhr, status, error) {
+
+                        console.log("Error:", xhr.responseText);
+                    }
+                })
+            })
+
+        });
+    </script>
+}

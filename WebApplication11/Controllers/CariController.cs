@@ -389,6 +389,7 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Giris");
 
             ViewBag.CariID = CariID;
+            ZiyaretTipiListesiniOlustur();
             return View();
         }
 
