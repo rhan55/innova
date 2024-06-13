@@ -65,3 +65,15 @@ tr.selected .menu-link {
 #navigation > .menu-accordion > .menu-link {
     padding: 0 !important;
 }
+
+div.dt-container div.dt-info {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    
+}
+
+div.dt-container {
+    padding-left: 16px;
+    padding-right: 16px;
+}

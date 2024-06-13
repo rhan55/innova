@@ -31,6 +31,33 @@ namespace YKPortal.Controllers
 
             return View();
         }
+        [HttpPost]
+        public ActionResult MailAyarlari(MailAyarlariDto mailAyarlari)
+        {
+            ParametreKaydet(new ParametreDto { Modul = "EMail", Deger = mailAyarlari.Host, Isim = "Host" });
+            ParametreKaydet(new ParametreDto { Modul = "EMail", Deger = mailAyarlari.Isim, Isim = "Isim" });
+            ParametreKaydet(new ParametreDto { Modul = "EMail", Deger = mailAyarlari.Parola, Isim = "Parola" });
+            ParametreKaydet(new ParametreDto { Modul = "EMail", Deger = mailAyarlari.KullaniciAdi, Isim = "KullaniciAdi" });
+            ParametreKaydet(new ParametreDto { Modul = "EMail", Deger = mailAyarlari.Port, Isim = "Port" });
+            ParametreKaydet(new ParametreDto { Modul = "EMail", Deger = mailAyarlari.SSL ? "1" : "0", Isim = "SSL" });
+
+            var parametreler = Parametreler();
+
+            var parametreListesi = new List<ParametreDto>();
+
+            foreach (var item in parametreler)
+            {
+                if (item.Modul == "EMail")
+                {
+                    parametreListesi.Add(item);
+                }
+            }
+
+            ViewBag.Parametreler = parametreListesi;
+
+            return View(); 
+        }
+
 
         private List<ParametreDto> Parametreler()
         {
@@ -54,6 +81,19 @@ namespace YKPortal.Controllers
             }
 
             return entities;
+        }
+
+        private void ParametreKaydet(ParametreDto parametre)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_ParametreKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Modul", parametre.Modul);
+            cmd.Parameters.AddWithValue("@Deger", parametre.Deger);
+            cmd.Parameters.AddWithValue("@Isim", parametre.Isim);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
         }
 
         private string GetCookie(string name)

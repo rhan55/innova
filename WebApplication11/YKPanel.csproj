@@ -171,6 +171,7 @@
     </Compile>
     <Compile Include="Models\Dto\BelgeDto.cs" />
     <Compile Include="Models\Dto\BelgeKalemDto.cs" />
+    <Compile Include="Models\Dto\MailAyarlariDto.cs" />
     <Compile Include="Models\Dto\YetkilerDto.cs" />
     <Compile Include="Models\Dto\Class1.cs" />
     <Compile Include="Models\Dto\ParametreDto.cs" />

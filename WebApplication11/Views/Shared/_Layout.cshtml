@@ -146,7 +146,7 @@
                         <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500" id="#kt_aside_menu" data-kt-menu="true">
                             <!--begin:Menu item-->
                             <div class="d-flex align-items-center position-relative my-1">
-                            
+
                                 <input type="text" id="searchInNavigation" class="form-control px-2 py-0 w-230px" placeholder="Ara" />
                             </div>
                             <div id="navigation">
@@ -379,7 +379,7 @@
             {
                 title: "Ana Kayıtlar",
                 icon: "ki-duotone ki-element-11 fs-2",
-                isOpen: true,
+                isOpen: false,
                 items: [
                     {
                         title: "Cari",
@@ -547,7 +547,7 @@
                                 title: "Ziyaret Tipleri",
                                 url: "/Tanimlamalar/GrupKodu?grupKodu=Crm_ZiyaretTipi"
                             },
-                           
+
                         ]
                     },
 
@@ -565,9 +565,9 @@
                         icon: "",
                         url: "/Parametre/MailAyarlari"
                     },
-                    
+
                 ]
-            
+
             }
         ];
 
@@ -582,52 +582,53 @@
         function createLink(item) {
 
             return `
-                         <div class="menu-item">
-                             <!--begin:Menu link-->
-                             <a class="menu-link" href="${item.url}">
-                                 <span class="menu-bullet">
-                                     <span class="bullet bullet-dot"></span>
-                                 </span>
-                                 <span class="menu-title">${item.title}</span>
-                             </a>
-                             <!--end:Menu link-->
-                         </div>
-                                 `
+                             <div class="menu-item">
+                                 <!--begin:Menu link-->
+                                 <a class="menu-link" href="${item.url}">
+                                     <span class="menu-bullet">
+                                         <span class="bullet bullet-dot"></span>
+                                     </span>
+                                     <span class="menu-title">${item.title}</span>
+                                 </a>
+                                 <!--end:Menu link-->
+                             </div>
+                                     `
         }
         function createMenu(navigationMenu, links) {
             return `
-                            <div class="menu-sub menu-sub-accordion">
-                            <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                             <span class="menu-link">
-                                 <span class="menu-icon">
-                                     <i class="${navigationMenu.icon}"></i>
-                                 </span>
-                                 <span class="menu-title">${navigationMenu.title}</span>
-                                 <span class="menu-arrow"></span>
-                             </span>
+                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                            <span class="menu-link">
+                                <span class="menu-icon">
+                                    <i class="${navigationMenu.icon}"></i>
+                                </span>
+                                <span class="menu-title">${navigationMenu.title}</span>
+                                <span class="menu-arrow"></span>
+                            </span>
 
-                             <div class="menu-sub menu-sub-accordion">${links.join('')}</div>
-                            </div>
-                            </div>
-                     `;
+                            <div class="menu-sub menu-sub-accordion">${links.join('')}</div>
+                        </div>
+
+                         `;
         }
         function createNavigation(navigation, menus) {
             return ` <div data-kt-menu-trigger="click" class="menu-item ${navigation.isOpen ? 'show' : ''} menu-accordion">
-                           <!--begin:Menu link-->
-                           <span class="menu-link">
-                               <span class="menu-icon">
-                                   <i class="ki-duotone ki-element-11 fs-2">
-                                       <span class="path1"></span>
-                                       <span class="path2"></span>
-                                       <span class="path3"></span>
-                                       <span class="path4"></span>
-                                   </i>
-                               </span>
-                               <span class="menu-title">${navigation.title}</span>
-                               <span class="menu-arrow"></span>
-                           </span>
-                             ${menus.join('')}
-                         </div>`
+                        <!--begin:Menu link-->
+                        <span class="menu-link">
+                            <span class="menu-icon">
+                                <i class="ki-duotone ki-element-11 fs-2">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                    <span class="path3"></span>
+                                    <span class="path4"></span>
+                                </i>
+                            </span>
+                            <span class="menu-title">${navigation.title}</span>
+                            <span class="menu-arrow"></span>
+                        </span>
+                        <div class="menu-sub menu-sub-accordion">
+                            ${menus.join('')}
+                        </div>
+                    </div>`
         }
 
         function buildNavigation(navigationList) {

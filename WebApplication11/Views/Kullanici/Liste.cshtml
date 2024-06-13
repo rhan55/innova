@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table class="table align-middle border rounded table-row-dashed fs-6 g-5 px-4" id="kullanicilar-datatable">
+                    <table class="table align-middle table-row-dashed fs-6 g-5 px-4" id="kullanicilar-datatable">
                         <thead class="p-4">
                             <!--begin::Table row-->
                             <tr class="text-start" style="font-size:15px;">
@@ -216,21 +216,27 @@
 
                 // Init datatable --- more info on datatables: https://datatables.net/manual/
                 datatable = $(table).DataTable({
-                    "info": false,
-                    'order': [],
-                    paging: false,
-                    columnDefs: [
-                        {
-                            target: 1,
-                            visible: false
-                        },
-                        {
-                            target: 2,
-                            visible: false
-                        }
-                    ]
 
-                });
+                    //scrollY: true,
+                    scrollX: true,
+                    scrollCollopse: true,                                                     
+                    language: { url: '//cdn.datatables.net/plug-ins/2.0.7/i18n/tr.json', },
+
+
+                    order: [[1, 'asc']],
+                    layout: {
+                        topStart: {
+                            pageLength: {
+                                menu: [
+                                    [10, 20, 50, 100, -1],
+                                    ['10 Adet', '20 Adet', '50 Adet', '100 Adet', "Tümü"]
+                                ]
+                            }
+                        }
+                    },
+
+
+                });              
             }
 
             // Hook export buttons
