@@ -3,7 +3,7 @@
 }
 
 
-<div class="container">
+<div class="container-fluid p-4">
     <div class="row">
         <div class="col-sm-7">
 
@@ -64,7 +64,7 @@
                                             <!--begin::Action-->
                                             <div class="d-flex m-0 p-0">
                                                 <div class="text-gray-700 fw-semibold fs-6">
-                                                    @{ 
+                                                    @{
                                                         TimeSpan tarihFarki = DateTime.Now - Convert.ToDateTime(sonAktivite.Tarih);
                                                         string tarihBilgisi = "";
                                                         if (tarihFarki.Days > 0)
@@ -79,14 +79,14 @@
                                                         {
                                                             tarihBilgisi += tarihFarki.Minutes + " dakika önce ";
                                                         }
-                                                        else 
+                                                        else
                                                         {
                                                             tarihBilgisi += " şimdi ";
                                                         }
                                                     }
                                                     @if (sonAktivite.Modul == "Kullanıcı" && sonAktivite.Aciklama1 == "Kullanıcı Girişi")
                                                     {
-                                                        
+
                                                         <span>@(sonAktivite.Aciklama2)</span><br />
                                                         <span>@(tarihBilgisi)</span><br />
                                                     }
@@ -126,3 +126,4 @@
             </div>
         </div>
     </div>
+</div>

@@ -10,7 +10,7 @@
         @Html.Partial("~/Views/Cari/_CariMenu.cshtml", new ViewDataDictionary { { "CariID", Convert.ToString(ViewBag.CariID) } })
 
         <form method="post"  class="col-lg-10" action="@Url.Action("Duzenle","Cari",null)">
-            <div class="container py-8">
+            <div class="container py-4">
                 <div class="row">
                     <div class="col-lg-10">
                         <input type="hidden" name="ID" value="@(Convert.ToString(Model.Rows[0]["ID"]))" />

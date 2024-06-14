@@ -77,3 +77,6 @@ div.dt-container {
     padding-left: 16px;
     padding-right: 16px;
 }
+.cari {
+    width: calc(100% - 360px) !important;
+}
