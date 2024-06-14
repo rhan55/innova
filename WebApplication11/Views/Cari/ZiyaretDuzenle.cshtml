@@ -31,7 +31,7 @@
                             <label for="Tarih" class="fw-semibold fs-6 mb-2">Tarih</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="Tarih" class="form-control p-2 mb-3 mb-lg-0" value="@ViewBag.Ziyaret.Tarih" />
+                            <input type="text" readonly name="Tarih" class="form-control p-2 mb-3 mb-lg-0" value="@(ViewBag.Ziyaret.Tarih)" />
 
                             <!--end::Input-->
                         </div>
@@ -67,7 +67,7 @@
                             <label for="TamamlamaTarihi" class="fw-semibold fs-6 mb-2">Tamamlama Tarihi</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="TamamlamaTarihi" class="form-control p-2 mb-3 mb-lg-0" autofocus value="@ViewBag.Ziyaret.TamamlamaTarihi" />
+                            <input type="datetime-local" name="TamamlamaTarihi" class="form-control p-2 mb-3 mb-lg-0" autofocus value="@(@ViewBag.Ziyaret.TamamlamaTarihi)" />
 
                             <!--end::Input-->
                         </div>
@@ -86,7 +86,7 @@
                         <!--begin::Input group-->
                         <div class="col-lg-6 mt-4">
                             <!--begin::Label-->
-                            <label for="TamamlayanKullaniciID" class="fw-semibold fs-6 mb-2">Tamamlayan KullaniciID : @(ViewBag.Ziyaret.TamamlayanIsim)</label>
+                            <label for="TamamlayanKullaniciID" class="fw-semibold fs-6 mb-2">Tamamlayan KullaniciID</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="text" name="TamamlayanKullaniciID" class="form-control p-2 mb-3 mb-lg-0" autofocus value="@ViewBag.Ziyaret.TamamlayanKullaniciID" />

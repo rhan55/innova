@@ -25,11 +25,11 @@ namespace YKPortal.Models.Dto
         public string ID { get { return _ID ?? ""; } set { _ID = value; } }
         public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; } }
         public string CariID { get { return _CariID ?? ""; } set { _CariID = value; } }
-        public string Tarih { get { return _Tarih ?? ""; } set { _Tarih = value; } }
+        public string Tarih { get { return _Tarih ?? string.Empty; } set { _Tarih = value; } }
         public string ZiyaretTipi { get { return _ZiyaretTipi ?? ""; } set { _ZiyaretTipi = value; } }
         public string Aciklama { get { return _Aciklama ?? ""; } set { _Aciklama = value; } }
         public string TamamlamaAciklamasi { get { return _TamamlamaAciklamasi == null ? string.Empty : _TamamlamaAciklamasi; } set { _TamamlamaAciklamasi = value; } }
-        public string TamamlamaTarihi { get { return _TamamlamaTarihi ?? ""; } set { _TamamlamaTarihi = value; } }
+        public string TamamlamaTarihi { get { return _TamamlamaTarihi ?? string.Empty; } set { _TamamlamaTarihi = value; } }
         public string TamamlayanKullaniciID { get { return _TamamlayanKullaniciID ?? ""; } set { _TamamlayanKullaniciID = value; } }
         public string KullaniciID { get { return _KullaniciID ?? ""; } set { _KullaniciID = value; } }
         public string CariIsim { get { return _CariIsim ?? ""; } set { _CariIsim = value; } }

@@ -278,8 +278,8 @@
                                     </div>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
-                                    <div class="menu-item px-3 my-0">
-                                        <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="dark">
+                                    <div class="menu-item p-0">
+                                        <a href="#" class="menu-link p-0" data-kt-element="mode" data-kt-value="dark">
                                             <span class="menu-icon" data-kt-element="icon">
                                                 <i class="ki-duotone ki-moon fs-2">
                                                     <span class="path1"></span>
@@ -291,8 +291,8 @@
                                     </div>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
-                                    <div class="menu-item px-3 my-0">
-                                        <a href="#" class="menu-link px-3 py-2" data-kt-element="mode" data-kt-value="system">
+                                    <div class="menu-item p-0 my-0">
+                                        <a href="#" class="menu-link " data-kt-element="mode" data-kt-value="system">
                                             <span class="menu-icon" data-kt-element="icon">
                                                 <i class="ki-duotone ki-screen fs-2">
                                                     <span class="path1"></span>
@@ -584,7 +584,7 @@
             return `
                              <div class="menu-item">
                                  <!--begin:Menu link-->
-                                 <a class="menu-link" href="${item.url}">
+                                 <a class="menu-link py-0" href="${item.url}">
                                      <span class="menu-bullet">
                                          <span class="bullet bullet-dot"></span>
                                      </span>
@@ -597,7 +597,7 @@
         function createMenu(navigationMenu, links) {
             return `
                         <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                            <span class="menu-link">
+                            <span class="menu-link py-0">
                                 <span class="menu-icon">
                                     <i class="${navigationMenu.icon}"></i>
                                 </span>
@@ -613,7 +613,7 @@
         function createNavigation(navigation, menus) {
             return ` <div data-kt-menu-trigger="click" class="menu-item ${navigation.isOpen ? 'show' : ''} menu-accordion">
                         <!--begin:Menu link-->
-                        <span class="menu-link">
+                        <span class="menu-link py-0">
                             <span class="menu-icon">
                                 <i class="ki-duotone ki-element-11 fs-2">
                                     <span class="path1"></span>

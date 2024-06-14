@@ -357,7 +357,15 @@ namespace YKPortal.Controllers
             {
                 CariDto cariDto = Getir(Convert.ToString(dt.Rows[i]["CariID"]));
                 var kaydiAcan = KullaniciGetir(Convert.ToString(dt.Rows[i]["KullaniciID"]));
-                var tamamlayan = KullaniciGetir(Convert.ToString(dt.Rows[i]["TamamlayanKullaniciID"]));
+                
+                var tamamlayanKullaniciId = Convert.ToString(dt.Rows[i]["TamamlayanKullaniciID"]);
+
+                var tamamlayan = new KullaniciEkleDto();
+
+                if (!string.IsNullOrEmpty(tamamlayanKullaniciId))
+                {
+                    tamamlayan = KullaniciGetir(tamamlayanKullaniciId);
+                }
 
                 ziyaretler.Add(new ZiyaretDto
                 {

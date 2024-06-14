@@ -89,10 +89,10 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@ID", "");
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@CariID", ziyaretDto.CariID);
-            cmd.Parameters.AddWithValue("@Tarih", ziyaretDto.Tarih);
+            cmd.Parameters.AddWithValue("@Tarih", ziyaretDto.Tarih.Length > 0 ? Convert.ToDateTime(ziyaretDto.Tarih).ToString() : null);
             cmd.Parameters.AddWithValue("@Aciklama", ziyaretDto.Aciklama);
             cmd.Parameters.AddWithValue("@TamamlamaAciklamasi", ziyaretDto.TamamlamaAciklamasi);
-            cmd.Parameters.AddWithValue("@TamamlamaTarihi", ziyaretDto.TamamlamaTarihi);
+            cmd.Parameters.AddWithValue("@TamamlamaTarihi", ziyaretDto.TamamlamaTarihi.Length > 0 ? Convert.ToDateTime(ziyaretDto.TamamlamaTarihi).ToString() : null);
             cmd.Parameters.AddWithValue("@TamamlayanKullaniciID", ziyaretDto.TamamlayanKullaniciID);
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
 
@@ -113,7 +113,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@ID", id);
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@CariID", ziyaretDto.CariID);
-            cmd.Parameters.AddWithValue("@Tarih", ziyaretDto.Tarih);
+            cmd.Parameters.AddWithValue("@Tarih", ziyaretDto.Tarih.ToString());
             cmd.Parameters.AddWithValue("@Aciklama", ziyaretDto.Aciklama);
             cmd.Parameters.AddWithValue("@TamamlamaAciklamasi", ziyaretDto.TamamlamaAciklamasi);
             cmd.Parameters.AddWithValue("@TamamlamaTarihi", ziyaretDto.TamamlamaTarihi);
