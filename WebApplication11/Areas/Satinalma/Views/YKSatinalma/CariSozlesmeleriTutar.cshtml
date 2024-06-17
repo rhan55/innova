@@ -1,0 +1,45 @@
+﻿@model System.Data.DataTable
+@{
+    ViewBag.Title = "Cari Tutar Sözleşmeleri";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table >
+    <tr>
+        <td><h2>Cari Tutar Sözleşmeleri</h2></td>
+        <td style="text-align: right;"> <a href="@Url.Action("YeniCariSozlesmeTutar","YKSatinalma",new { KayitID = 0 })" class="btn btn-success" style="color:white;">Yeni Sözleşme Kaydı</a></td>
+    </tr>
+</table>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Başlangıç</th>
+            <th>Bitiş</th>
+            <th>Cari Kodu</th>
+            <th>Cari Adı</th>
+            <th style="text-align:right;">Tutar</th>
+            <th>Açıklama</th>
+            <th>İşlem</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (System.Data.DataRow satir in Model.Rows)
+        {
+            string renk = "";
+            if (Convert.ToDateTime(satir["Bitis"]) <= DateTime.Today)
+            {
+                renk = "background-color:red;color:white;";
+            }
+            <tr style="@(renk)">
+                <td>@Convert.ToDateTime(satir["Baslangic"]).ToString("dd-MM-yyyy")</td>
+                <td>@Convert.ToDateTime(satir["Bitis"]).ToString("dd-MM-yyyy")</td>
+                <td>@satir["CariKodu"]</td>
+                <td>@satir["CariAdi"]</td>
+                <td style="text-align:right;">@String.Format("{0:N2}", Convert.ToDecimal(satir["Tutar"]))</td>
+                <td>@satir["Aciklama"]</td>
+                <td><a href="@Url.Action("YeniCariSozlesmeTutar","YKSatinalma",new { KayitID = satir["ID"] })">Detay</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

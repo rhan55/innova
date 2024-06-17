@@ -1,0 +1,220 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Kullanıcı Listesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int sayi = Model.Rows.Count;
+}
+
+<div>
+    <table style="width:100%;">
+        <tr>
+            <td style="width:100px;"><input type="button" value="Tümünü Seç" class="btn btn-success" onclick="TumunuSec();" /></td>
+            <td style="width:100px;"><input type="button" value="Tümünü Kaldır" class="btn btn-danger" onclick="TumunuKaldir();" /></td>
+            <td style="width:200px;">@(sayi) kayıt mevcut.</td>
+            <td style="text-align:right;"><input type="button" value="SATINALMAYA GÖNDER" class="btn btn-success" onclick="Kaydet();" /></td>
+        </tr>
+    </table>
+    <table border="1" name="TabloListe" id="TabloListe" style="/* Set vertical scroll */ overflow-y: auto; /* Hide the horizontal scroll */ overflow-x: hidden; ">
+        <thead>
+            <tr>
+                <th style="padding: 2px; text-align: left;">Durumu </th>
+                <th style="padding: 2px; text-align: left;">Şube </th>
+                <th style="padding: 2px; text-align: left;">Kategori 1</th>
+                <th style="padding: 2px; text-align: left;">Kategori 2</th>
+                <th style="padding: 2px; text-align: left;">Kategori 3</th>
+                <th style="padding: 2px; text-align: left;">Stok Kodu</th>
+                <th style="padding: 2px; text-align: left;">Stok Adı</th>
+                <th style="padding: 2px; text-align: left;">Bakiye</th>
+                <th style="padding: 2px; text-align: left;">Ölçü Birimi</th>
+                <th style="padding: 2px; text-align: left;">Talep Miktarı</th>
+                <th style="padding: 2px; text-align: left;">Açıklama</th>
+                <th style="padding: 2px; text-align: left;">Red Açıklama</th>
+                <th style="padding: 2px; text-align: left;">Kayıt Tarihi</th>
+                <th style="padding: 2px; text-align: left;">Kayıt Yapan Kullanıcı</th>
+            </tr>
+            <tr>
+                <th style="padding: 2px; text-align: left;"></th>
+                <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime1" id="AranacakKelime1" value="" placeholder="" onkeyup="TabloAramaYap(1,'TabloListe');" style="width:100%;"></th>
+                <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime2" id="AranacakKelime2" value="" placeholder="" onkeyup="TabloAramaYap(2,'TabloListe');" style="width:100%;"></th>
+                <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime3" id="AranacakKelime3" value="" placeholder="" onkeyup="TabloAramaYap(3,'TabloListe');" style="width:100%;"></th>
+                <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime4" id="AranacakKelime4" value="" placeholder="" onkeyup="TabloAramaYap(4,'TabloListe');" style="width:100%;"></th>
+                <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime5" id="AranacakKelime5" value="" placeholder="" onkeyup="TabloAramaYap(5,'TabloListe');" style="width:100%;"></th>
+                <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime6" id="AranacakKelime6" value="" placeholder="" onkeyup="TabloAramaYap(6,'TabloListe');" style="width:100%;"></th>
+                <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime7" id="AranacakKelime7" value="" placeholder="" onkeyup="TabloAramaYap(7,'TabloListe');" style="width:100%;"></th>
+                <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime8" id="AranacakKelime8" value="" placeholder="" onkeyup="TabloAramaYap(8,'TabloListe');" style="width:100%;"></th>
+                <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime9" id="AranacakKelime9" value="" placeholder="" onkeyup="TabloAramaYap(9,'TabloListe');" style="width:100%;"></th>
+                <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime10" id="AranacakKelime10" value="" placeholder="" onkeyup="TabloAramaYap(10,'TabloListe');" style="width:100%;"></th>
+                <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime11" id="AranacakKelime11" value="" placeholder="" onkeyup="TabloAramaYap(11,'TabloListe');" style="width:100%;"></th>
+                <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime12" id="AranacakKelime12" value="" placeholder="" onkeyup="TabloAramaYap(12,'TabloListe');" style="width:100%;"></th>
+                <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime13" id="AranacakKelime13" value="" placeholder="" onkeyup="TabloAramaYap(13,'TabloListe');" style="width:100%;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (DataRow satir in Model.Rows)
+                {
+                    string renk = "";
+                    <tr style="@(renk)" id="TableTr_@satir["ID"]" name="TableTr_@satir["ID"]">
+                        <td class="text-nowrap" style="padding: 2px; text-align: left;width:140px;">
+                            @if (Convert.ToDateTime(satir["KayitTarihi"]) >= DateTime.Today.AddDays(-7))
+                            {
+                                <label style="color:green;">Seç</label>
+                                <input type="radio" name="Durum_@satir["ID"]" id="Durum_E_@satir["ID"]" value="Onay" />
+                                <label style="color:red;">Beklet</label>
+                                <input type="radio" name="Durum_@satir["ID"]" id="Durum_H_@satir["ID"]" value="Red" />
+                            }
+                            else
+                            {
+                                <span></span>
+                            }
+                        </td>
+                        <td class="text-nowrap" style="padding: 2px; text-align: left;">@satir["SubeAdi"]</td>
+                        <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["Kategori1"]</td>
+                        <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["Kategori2"]</td>
+                        <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["Kategori3"]</td>
+                        <td class="text-nowrap" style="padding: 2px; text-align: left;">@satir["StokKodu"]</td>
+                        <td class="text-nowrap" style="padding: 2px; text-align: left;">@satir["StokAdi"]</td>
+                        <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@String.Format("{0:N2}", Convert.ToDecimal(satir["Bakiye"]))</td>
+                        <td class="text-nowrap" style="padding: 2px; text-align: left;">@satir["OlcuBirimi"]</td>
+                        <td class="text-nowrap" style="padding: 2px; text-align: left;"><input type="text" name="Miktar_@satir["ID"]" id="Miktar_@satir["ID"]" value="@satir["TalepMiktari"]" style="text-align:right;" /></td>
+                        <td class="text-nowrap" style="padding: 2px; text-align: left;"><textarea name="Aciklama_@satir["ID"]" id="Aciklama_@satir["ID"]" rows="1">@satir["Aciklama1"]</textarea></td>
+                        <td class="text-nowrap" style="padding: 2px; text-align: left;">@satir["Aciklama2"]</td>
+                        <td class="text-nowrap" style="padding: 2px; text-align: left;">@Convert.ToDateTime(satir["KayitTarihi"]).ToString("dd.MM.yyyy HH:mm:ss")</td>
+                        <td class="text-nowrap" style="padding: 2px; text-align: left;">@satir["KayitYapanKullanici"]</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+@section scripts {
+
+    <script>
+
+        function Kaydet() {
+            var table = document.getElementById("TabloListe");
+            for (var i = 2, row; row = table.rows[i]; i++) {
+                for (var j = 0, col; col = row.cells[j]; j++) {
+                    if (col.querySelector('input') != null) {
+                        var ID = col.querySelector('input').getAttribute("name");
+                        if (ID.toString().startsWith("Durum")) {
+                            var secimKontrol = document.querySelector('input[name="' + ID + '"]:checked');
+                            if (secimKontrol != null) {
+                                var secim = secimKontrol.value;
+                                if (secim != null) {
+                                    if (secim == "Onay") {
+                                        var KayitID = ID.toString().replace("Durum_", "");
+                                        var Miktar = $("#Miktar_" + KayitID).val();
+                                        var Aciklama = $("#Aciklama_" + KayitID).val().toString();
+
+                                        var _data = {
+                                            "KayitID": KayitID,
+                                            "Miktar": parseFloat(Miktar.replace(",",".")),
+                                            "Aciklama": Aciklama
+                                        };
+
+                                        $.ajax({
+                                            url: '/Satinalma/YKSatinalma/TalepOnayla',
+                                            data: _data,
+                                            //dataType: "json",
+                                            enctype: 'multipart/form-data',
+                                            async: false,
+                                            type: "POST",
+                                            //contentType: "application/json; charset=utf-8",
+                                            //dataFilter: function (data) { return data; },
+                                            success: function (data) {
+                                                console.log(data);
+                                                if (data.SonucKodu == "1") {
+                                                    
+                                                } else {
+                                                    Swal.fire({
+                                                        position: "center",
+                                                        icon: "error",
+                                                        title: data.Aciklama,
+                                                        showConfirmButton: true,
+                                                        //timer: 3000
+                                                    });
+                                                    return;
+                                                }
+                                            },
+                                            error: function (msg) {
+                                                console.log(msg.responseText);
+                                                Swal.fire({
+                                                    position: "center",
+                                                    icon: "error",
+                                                    title: msg,
+                                                    showConfirmButton: false,
+                                                    timer: 1500
+                                                });
+                                            }
+                                        });
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Talepler başarıyla onaylandı.",
+                showConfirmButton: true,
+                //timer: 3000
+            }).then(function () {
+                window.location.reload();
+            });;
+        }
+
+        function TumunuSec() {
+            var table = document.getElementById("TabloListe");
+            for (var i = 2, row; row = table.rows[i]; i++) {
+                //satırları dönüyoruz 1 satır veri olduğu için veri satırını dönüyoruz
+                for (var j = 0, col; col = row.cells[j]; j++) {
+                    if (col.querySelector('input') != null) {
+                        var ID = col.querySelector('input').getAttribute("name");
+                        if (ID.toString().startsWith("Durum")) {
+                            var x = document.getElementById(ID.toString().replace("Durum_", "TableTr_"));
+                            if (x.style == null || x.style.display === 'none') {
+
+                            } else {
+                                $("#" + ID.toString().replace("Durum_", "Durum_H_")).attr('checked', false);
+                                $("#" + ID.toString().replace("Durum_", "Durum_E_")).attr('checked', true);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        function TumunuKaldir() {
+            var table = document.getElementById("TabloListe");
+            for (var i = 2, row; row = table.rows[i]; i++) {
+                //satırları dönüyoruz 1 satır veri olduğu için veri satırını dönüyoruz
+                for (var j = 0, col; col = row.cells[j]; j++) {
+                    if (col.querySelector('input') != null) {
+                        var ID = col.querySelector('input').getAttribute("name");
+                        if (ID.toString().startsWith("Durum")) {
+                            var x = document.getElementById(ID.toString().replace("Durum_", "TableTr_"));
+                            if (x.style == null || x.style.display === 'none') {
+
+                            } else {
+                                $("#" + ID.toString().replace("Durum_", "Durum_E_")).attr('checked', false);
+                                $("#" + ID.toString().replace("Durum_", "Durum_H_")).attr('checked', true);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+    </script>
+
+}
+

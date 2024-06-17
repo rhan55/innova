@@ -157,6 +157,8 @@ namespace YKPortal.Controllers
 
             return View(dt);
         }
+
+        [HttpGet]
         public ActionResult Duzenle(string id)
         {
             if (!AutoGirisKontrol())
@@ -181,6 +183,58 @@ namespace YKPortal.Controllers
             ViewBag.StokID = id;
 
             return View(dt);
+
+        }
+        [HttpPost]
+        public ActionResult Duzenle(StokDto stokDto)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            var cmd = new SqlCommand();
+            cmd.CommandText = "p_StokKaydet";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", stokDto.ID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Isim", stokDto.Isim);
+            cmd.Parameters.AddWithValue("@Kod", stokDto.Kod);
+            cmd.Parameters.AddWithValue("@Oiv", stokDto.Oiv);
+            cmd.Parameters.AddWithValue("@Durumu", stokDto.Durumu);
+            cmd.Parameters.AddWithValue("@Aciklama", stokDto.Aciklama);
+            cmd.Parameters.AddWithValue("@Barkod", stokDto.Barkod);
+            cmd.Parameters.AddWithValue("@OlcuBirimi", stokDto.OlcuBirimi);
+            cmd.Parameters.AddWithValue("@GrupKodu1ID", string.IsNullOrEmpty(stokDto.GrupKodu1ID) ? null : stokDto.GrupKodu1ID);
+            cmd.Parameters.AddWithValue("@GrupKodu2ID", string.IsNullOrEmpty(stokDto.GrupKodu2ID) ? null : stokDto.GrupKodu2ID);
+            cmd.Parameters.AddWithValue("@GrupKodu3ID", string.IsNullOrEmpty(stokDto.GrupKodu3ID) ? null : stokDto.GrupKodu3ID);
+            cmd.Parameters.AddWithValue("@GrupKodu4ID", string.IsNullOrEmpty(stokDto.GrupKodu4ID) ? null : stokDto.GrupKodu4ID);
+            cmd.Parameters.AddWithValue("@GrupKodu5ID", string.IsNullOrEmpty(stokDto.GrupKodu5ID) ? null : stokDto.GrupKodu5ID);
+            cmd.Parameters.AddWithValue("@GrupKodu6ID", string.IsNullOrEmpty(stokDto.GrupKodu6ID) ? null : stokDto.GrupKodu6ID);
+            cmd.Parameters.AddWithValue("@KdvAlis", stokDto.KdvAlis);
+            cmd.Parameters.AddWithValue("@KdvSatis", stokDto.KdvSatis);
+            cmd.Parameters.AddWithValue("@Otv", stokDto.Otv);
+            cmd.Parameters.AddWithValue("@OtvFiyat", stokDto.OtvFiyat);
+            cmd.Parameters.AddWithValue("@TevkifatPay", stokDto.TevkifatPay);
+            cmd.Parameters.AddWithValue("@TevkifatPayda", stokDto.TevkifatPayda);
+            cmd.Parameters.AddWithValue("@VadeGunu", stokDto.VadeGunu);
+            cmd.Parameters.AddWithValue("@MinimumStok", stokDto.MinimumStok);
+            cmd.Parameters.AddWithValue("@MaxsimumStok", stokDto.MaxsimumStok);
+            cmd.Parameters.AddWithValue("@LimitUyarisi", stokDto.LimitUyarisi);
+            cmd.Parameters.AddWithValue("@LimitDisindaIslemiDurdur", stokDto.LimitDisindaIslemiDurdur);
+            cmd.Parameters.AddWithValue("@EksiBakiyeUyarisi", stokDto.EksiBakiyeUyarisi);
+            cmd.Parameters.AddWithValue("@EksiBakiyedeIslemiDurdur", stokDto.EksiBakiyedeIslemiDurdur);
+            cmd.Parameters.AddWithValue("@StokKilitle", stokDto.StokKilitle);
+            cmd.Parameters.AddWithValue("@IskontoSatis1", stokDto.IskontoSatis1);
+            cmd.Parameters.AddWithValue("@MarkaID", null);
+            cmd.Parameters.AddWithValue("@ModelID", null);
+            cmd.Parameters.AddWithValue("@RenkID", null);
+            cmd.Parameters.AddWithValue("@BedenID", null);
+            cmd.Parameters.AddWithValue("@KaliteID", null);
+            cmd.Parameters.AddWithValue("@KayitYapanKullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@AnaStokID", null);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return RedirectToAction("Liste");
 
         }
 

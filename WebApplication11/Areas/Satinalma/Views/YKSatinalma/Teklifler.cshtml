@@ -1,0 +1,100 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Teklif Listesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int sayi = Model.Rows.Count;
+
+}
+
+<div>
+    <form action="@Url.Content("~/Satinalma/YKSatinalma/Teklifler")" method="get" style="width:100%;">
+        <table class="table">
+            <tr>
+                <td><span class="form-control">Cari</span></td>
+                <td><input type="text" name="Cari" id="Cari" value="@ViewBag.Cari" style="width:350px;" class="form-control" /></td>
+                <td><span class="form-control">Ürün</span></td>
+                <td><input type="text" name="Stok" id="Stok" value="@ViewBag.Stok" style="width:350px;" class="form-control"  /></td>
+                <td><input type="submit" name="name" value="Getir" class="form-control btn btn-primary" /></td>
+                <td style="width:350px;text-align:right;"><a href="@Url.Action("Teklif","YKSatinalma",new { id = 0})" class="btn btn-info" style="color:white;">Yeni</a></td>
+            </tr>
+        </table>
+    </form>
+    <div style="clear:both;"></div>
+    <div style="overflow-x:auto;height:500px;">
+        <table border="1" name="TabloListe" id="TabloListe" style="; overflow-y: auto; /* Hide the horizontal scroll */ overflow-x: hidden; ">
+            <thead>
+                <tr>
+                    <th style="padding: 2px; text-align: left;">Başlangıç </th>
+                    <th style="padding: 2px; text-align: left;">Bitiş</th>
+                    <th style="padding: 2px; text-align: left;">Cari</th>
+                    <th style="padding: 2px; text-align: left;">Sözleşmeli</th>
+                    <th style="padding: 2px; text-align: left;">Ürün</th>
+                    <th style="padding: 2px; text-align: right;">Miktar</th>
+                    <th style="padding: 2px; text-align: right;">Fiyat</th>
+                    <th style="padding: 2px; text-align: left;">Döviz Birimi</th>
+                    <th style="padding: 2px; text-align: left;">Açıklama 1</th>
+                    <th style="padding: 2px; text-align: left;">Açıklama 2</th>
+                    <th style="padding: 2px; text-align: left;">Açıklama 3</th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime0" id="AranacakKelime0" value="" placeholder="" onkeyup="TabloAramaYap(0,'TabloListe');" style="width:100%;"></th>
+                    <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime1" id="AranacakKelime1" value="" placeholder="" onkeyup="TabloAramaYap(1,'TabloListe');" style="width:100%;"></th>
+                    <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime2" id="AranacakKelime2" value="" placeholder="" onkeyup="TabloAramaYap(2,'TabloListe');" style="width:100%;"></th>
+                    <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime3" id="AranacakKelime3" value="" placeholder="" onkeyup="TabloAramaYap(3,'TabloListe');" style="width:100%;"></th>
+                    <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime4" id="AranacakKelime4" value="" placeholder="" onkeyup="TabloAramaYap(4,'TabloListe');" style="width:100%;"></th>
+                    <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime5" id="AranacakKelime5" value="" placeholder="" onkeyup="TabloAramaYap(5,'TabloListe');" style="width:100%;"></th>
+                    <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime6" id="AranacakKelime6" value="" placeholder="" onkeyup="TabloAramaYap(6,'TabloListe');" style="width:100%;"></th>
+                    <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime7" id="AranacakKelime7" value="" placeholder="" onkeyup="TabloAramaYap(7,'TabloListe');" style="width:100%;"></th>
+                    <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime8" id="AranacakKelime8" value="" placeholder="" onkeyup="TabloAramaYap(8,'TabloListe');" style="width:100%;"></th>
+                    <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime9" id="AranacakKelime9" value="" placeholder="" onkeyup="TabloAramaYap(9,'TabloListe');" style="width:100%;"></th>
+                    <th style="padding: 2px; text-align: left;"><input type="text" name="AranacakKelime10" id="AranacakKelime10" value="" placeholder="" onkeyup="TabloAramaYap(10,'TabloListe');" style="width:100%;"></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (DataRow satir in Model.Rows)
+                    {
+                        string renk = "";
+                        if (Convert.ToDateTime(satir["Bitis"]) < DateTime.Today)
+                        {
+                            renk = "background-color:red;color:white;";
+                        }
+                        else if (Convert.ToDateTime(satir["Bitis"]) >= DateTime.Today)
+                        {
+                            renk = "background-color:green;color:white;";
+                        }
+                        <tr style="@(renk)">
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@Convert.ToDateTime(satir["Baslangic"]).ToString("yyyy-MM-dd")</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@Convert.ToDateTime(satir["Bitis"]).ToString("yyyy-MM-dd")</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["CariAdi"]</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["Sozlesmeli"]</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["StokAdi"]</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: right; padding-right: 5px;">@String.Format("{0:N2}", Convert.ToDecimal(satir["Miktar"] == DBNull.Value ? 0 : satir["Miktar"]))</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: right; padding-right: 5px;">@String.Format("{0:N2}", Convert.ToDecimal(satir["Fiyat"]))</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["DovizBirimi"]</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["Aciklama1"]</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["Aciklama2"]</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["Aciklama3"]</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;"><a href="@Url.Action("Teklif","YKSatinalma",new { id = satir["ID"] })" style="color:white;">Detay</a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section scripts {
+
+    <script>
+
+        
+
+    </script>
+
+}
+

@@ -18,6 +18,7 @@ namespace YKPortal
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "YK", action = "AnaSayfa", id = UrlParameter.Optional }
             );
+
         }
     }
 }

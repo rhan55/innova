@@ -1,0 +1,61 @@
+﻿@model System.Data.DataTable
+@{
+    ViewBag.Title = "Cari Stok Sözleşmesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int ID = Model.Rows.Count == 0 ? 0 : Convert.ToInt32(Model.Rows[0]["ID"]);
+    DateTime Baslangic = Model.Rows.Count == 0 ? DateTime.Today.AddDays(-1) : Convert.ToDateTime(Model.Rows[0]["Baslangic"]);
+    DateTime Bitis = Model.Rows.Count == 0 ? DateTime.Today.AddDays(15) : Convert.ToDateTime(Model.Rows[0]["Bitis"]);
+    int CariID = Model.Rows.Count == 0 ? 0 : Convert.ToInt32(Model.Rows[0]["CariID"]);
+    string CariAdi = Model.Rows.Count == 0 ? "" : Convert.ToString(Model.Rows[0]["CariAdi"]);
+    int StokID = Model.Rows.Count == 0 ? 0 : Convert.ToInt32(Model.Rows[0]["StokID"]);
+    string StokAdi = Model.Rows.Count == 0 ? "" : Convert.ToString(Model.Rows[0]["StokAdi"]);
+    decimal Miktar = Model.Rows.Count == 0 ? 0 : Convert.ToDecimal(Model.Rows[0]["Miktar"]);
+    string Aciklama1 = Model.Rows.Count == 0 ? "" : Convert.ToString(Model.Rows[0]["Aciklama"]);
+
+}
+
+
+<h2>Sözleşme Detayı</h2>
+<form action="@Url.Content("~/Satinalma/YKSatinalma/CariStokSozlesmesiKaydet")" method="post" style="width:100%;">
+    <input type="hidden" name="id" id="id" value="@ID" />
+    <table class="table">
+        <tr>
+            <td style="text-align:right;"><span class="form-control">Başlangıç</span></td>
+            <td><input type="date" name="Baslangic" id="Baslangic" value="@(Convert.ToDateTime(Baslangic).ToString("yyyy-MM-dd"))" /></td>
+        </tr>
+        <tr>
+            <td style="text-align:right;"><span class="form-control">Bitiş</span></td>
+            <td><input type="date" name="Bitis" id="Bitis" value="@(Convert.ToDateTime(Bitis).ToString("yyyy-MM-dd"))" /></td>
+        </tr>
+        <tr>
+            <td style="text-align:right;"><span class="form-control">Cari</span></td>
+            <td>
+                <input type="hidden" name="CariID" id="CariID" value="@CariID" />
+                <input type="text" name="Cari" id="Cari" value="@CariAdi" style="width: 500px;" class="form-control" />
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;"><span class="form-control">Ürün</span></td>
+            <td>
+                <input type="hidden" name="StokID" id="StokID" value="@StokID" />
+                <input type="text" name="Stok" id="Stok" value="@StokAdi" style="width:500px;" class="form-control" />
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align:right;"><span class="form-control">Miktar</span></td>
+            <td> <input type="text" name="Miktar" id="Miktar" value="@Miktar" style="width:150px;text-align:right;" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td style="text-align:right;"><span class="form-control">Açıklama 1</span></td>
+            <td> <input type="text" name="Aciklama" id="Aciklama" value="@Aciklama1" style="width: 500px;" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="submit" name="name" value="Kaydet" class="btn btn-primary" />
+                <a href="@Url.Action("CariStokSozlesmesiSil","YKSatinalma",new { id = ID })" style="color:white;" class="btn btn-danger" onclick=" return confirm('Silmek istediğinizden emin misiniz?')">Sil</a>
+            </td>
+        </tr>
+    </table>
+</form>
+

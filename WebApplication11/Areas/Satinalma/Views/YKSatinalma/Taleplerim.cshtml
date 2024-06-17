@@ -1,0 +1,276 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Kullanıcı Listesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int sayi = Model.Rows.Count;
+
+    int fiyatBekliyor = 0;
+    int TalepOnaylandı = 0;
+    int SatinalmaRed = 0;
+
+    int satinalmadaBekliyor = 0;
+    int satinalmaonay = 0;
+    int costonay = 0;
+    int genelmuduronay = 0;
+    int yonetimonay = 0;
+    int tamamlandi = 0;
+    if (Model != null)
+    {
+        foreach (DataRow satir in Model.Rows)
+        {
+            if (Convert.ToString(satir["Durumu"]) == "Onay4")
+            {
+                tamamlandi++;
+            }
+            else if (Convert.ToString(satir["Durumu"]) == "Onay3")
+            {
+                yonetimonay++;
+            }
+            else if (Convert.ToString(satir["Durumu"]) == "Onay2")
+            {
+                genelmuduronay++;
+            }
+            else if (Convert.ToString(satir["Durumu"]) == "Onay1")
+            {
+                costonay++;
+            }
+            else if (Convert.ToString(satir["Durumu"]) == "Onayda")
+            {
+                satinalmaonay++;
+            }
+            else if (Convert.ToString(satir["Durumu"]) == "Talep Onaylandı" || Convert.ToString(satir["Durumu"]).Trim().Length == 0)
+            {
+                fiyatBekliyor++;
+            }
+            else if (Convert.ToDecimal(satir["SecilenFiyat"]) > 0)
+            {
+                fiyatBekliyor++;
+            }
+            else if (Convert.ToString(satir["Durumu"]).EndsWith("Red"))
+            {
+                SatinalmaRed++;
+            }
+            else
+            {
+                fiyatBekliyor++;
+            }
+        }
+    }
+}
+
+<div>
+    <form action="@Url.Content("~/Satinalma/YKSatinalma/Taleplerim")" method="get" style="width:500px;">
+        <table>
+            <tr>
+                <td>Başlangıç</td>
+                <td><input type="date" name="Tarih1" id="Tarih1" value="@Convert.ToDateTime(ViewBag.Tarih1).ToString("yyyy-MM-dd")" /></td>
+                <td>Bitiş</td>
+                <td><input type="date" name="Tarih2" id="Tarih2" value="@Convert.ToDateTime(ViewBag.Tarih2).ToString("yyyy-MM-dd")" /></td>
+                <td><input type="submit" name="name" value="Getir" /></td>
+                <td><a style="color:white;height:25px;padding:3px;" href="@Url.Content("~/Satinalma/YKSatinalma/TaleplerimExcel/?Tarih1="+Convert.ToDateTime(ViewBag.Tarih1).ToString("yyyy-MM-dd")+"&Tarih2="+Convert.ToDateTime(ViewBag.Tarih2).ToString("yyyy-MM-dd"))" class="btn btn-primary">Excel</a></td>
+            </tr>
+        </table>
+    </form>
+
+    <div style="margin-left:auto;margin-right:auto; width:100%;">
+        <a href="#" onclick="$('#AranacakKelime1').val('Fiyat Bekliyor');TabloAramaYap(1,'TabloListe');">
+            <div style="width: 160px; height: 90px; float: left; text-align: center; color: orange;">
+                <h5><strong>Fiyat Bekliyor</strong></h5>
+                <h1>@String.Format("{0:N0}", fiyatBekliyor)</h1>
+            </div>
+        </a>
+    </div>
+    <div style="margin-left:auto;margin-right:auto; width:100%;">
+        <a href="#" onclick="$('#AranacakKelime1').val('Red');TabloAramaYap(1,'TabloListe');">
+            <div style="width: 160px; height: 90px; float: left; text-align: center; color: red; ">
+                <h5><strong>Red Taleplerim</strong></h5>
+                <h1>@String.Format("{0:N0}", SatinalmaRed)</h1>
+            </div>
+        </a>
+    </div>
+    <div style="margin-left:auto;margin-right:auto; width:100%;">
+        <a href="#" onclick="$('#AranacakKelime1').val('Satınalma Onayında Bekliyor');TabloAramaYap(1,'TabloListe');">
+            <div style="width: 160px; height: 90px; float: left; text-align: center; color: green; ">
+                <h5><strong>Satınalma Onayda</strong></h5>
+                <h1>@String.Format("{0:N0}", satinalmaonay)</h1>
+            </div>
+        </a>
+    </div>
+    <div style="margin-left:auto;margin-right:auto; width:100%;">
+        <a href="#" onclick="$('#AranacakKelime1').val('Costta Bekliyor');TabloAramaYap(1,'TabloListe');">
+            <div style="width: 160px; height: 90px; float: left; text-align: center; color: green; ">
+                <h5><strong>Genel Müdür Yardımcı Onayda</strong></h5>
+                <h1>@String.Format("{0:N0}", costonay)</h1>
+            </div>
+        </a>
+    </div>
+    <div style="margin-left:auto;margin-right:auto; width:100%;">
+        <a href="#" onclick="$('#AranacakKelime1').val('Genel Müdürde Bekliyor');TabloAramaYap(1,'TabloListe');">
+            <div style="width: 180px; height: 90px; float: left; text-align: center; color: green; ">
+                <h5><strong>Genel Müdür Onayda</strong></h5>
+                <h1>@String.Format("{0:N0}", genelmuduronay)</h1>
+            </div>
+        </a>
+    </div>
+    <div style="margin-left:auto;margin-right:auto; width:100%;">
+        <a href="#" onclick="$('#AranacakKelime1').val('Yönetimde Bekliyor');TabloAramaYap(1,'TabloListe');">
+            <div style="width: 160px; height: 90px; float: left; text-align: center; color: green; ">
+                <h5><strong>Yönetim Onayda</strong></h5>
+                <h1>@String.Format("{0:N0}", yonetimonay)</h1>
+            </div>
+        </a>
+    </div>
+    <div style="margin-left:auto;margin-right:auto; width:100%;">
+        <a href="#" onclick="$('#AranacakKelime1').val('Tamamlandı');TabloAramaYap(1,'TabloListe');">
+            <div style="width: 160px; height: 90px; float: left; text-align: center; color: green; ">
+                <h5><strong>Tamamlandı</strong></h5>
+                <h1>@String.Format("{0:N0}", tamamlandi)</h1>
+            </div>
+        </a>
+    </div>
+
+    <div style="clear:both;"></div>
+    <div style="overflow-x:auto;height:500px;" class="tableFixHead">
+        <table border="1" name="TabloListe" id="TabloListe" style="overflow-y: auto; /* Hide the horizontal scroll */ overflow-x: hidden; ">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th style="padding: 2px; text-align: left;">Durumu </th>
+                    <th style="padding: 2px; text-align: left;">Şube Kodu </th>
+                    <th style="padding: 2px; text-align: left;">Kategori 1</th>
+                    <th style="padding: 2px; text-align: left;">Kategori 2</th>
+                    <th style="padding: 2px; text-align: left;">Kategori 3</th>
+                    <th style="padding: 2px; text-align: left;">Stok Kodu</th>
+                    <th style="padding: 2px; text-align: left;">Stok Adı (@(sayi) kayıt mevcut.)</th>
+                    <th style="padding: 2px; text-align: left;">Ölçü Birimi</th>
+                    <th style="padding: 2px; text-align: left;">Talep Miktarı</th>
+                    <th style="padding: 2px; text-align: left;">Talep Miktarı Yedek</th>
+                    <th style="padding: 2px; text-align: left;">Açıklama</th>
+                    <th style="padding: 2px; text-align: left;">Red Açıklaması</th>
+                    <th style="padding: 2px; text-align: left;">Kayıt Tarihi</th>
+                    <th style="padding: 2px; text-align: left;">Kayıt Yapan Kullanıcı</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (DataRow satir in Model.Rows)
+                    {
+                        string renk = "";
+                        if (Convert.ToString(satir["Durumu"]) == "Onay3")
+                        {
+                            renk = "background-color:green;color:white;";
+                        }
+                        else if (Convert.ToString(satir["Durumu"]) == "Onay2")
+                        {
+                            renk = "background-color:green;color:white;";
+                        }
+                        else if (Convert.ToString(satir["Durumu"]) == "Onay1")
+                        {
+                            renk = "background-color:green;color:white;";
+                        }
+                        else if (Convert.ToString(satir["Durumu"]) == "Onayda")
+                        {
+                            renk = "background-color:green;color:white;";
+                        }
+                        else if (Convert.ToDecimal(satir["SecilenFiyat"]) > 0)
+                        {
+                            renk = "background-color:darkcyan;color:white;";
+                        }
+                        else if (Convert.ToString(satir["Durumu"]) == "Talep Onaylandı" || Convert.ToString(satir["Durumu"]) == "")
+                        {
+                            renk = "background-color:orange;";
+                        }
+                        else if (Convert.ToString(satir["Durumu"]).EndsWith("Red"))
+                        {
+                            renk = "background-color:red;color:white;";
+                        }
+                        <tr style="@(renk)">
+                            <td>
+                                @{
+                                    string Dosya = Convert.ToString(satir["Dosya"]);
+                                    if (Dosya.EndsWith(".png") || Dosya.EndsWith(".jpg") || Dosya.EndsWith(".jpeg") || Dosya.EndsWith(".gif"))
+                                    {
+                                        <a href="@Url.Content("~/Uploads/"+Dosya)" target="_blank"><img src="@Url.Content("~/Content/resim.png")" style="height:20px;" /></a>
+                                    }
+                                    else if (Dosya.EndsWith(".xls") || Dosya.EndsWith(".xlsx"))
+                                    {
+                                        <a href="@Url.Content("~/Uploads/"+Dosya)" target="_blank"><img src="@Url.Content("~/Content/excel.png")" style="height:20px;" /></a>
+                                    }
+                                    else if (Dosya.EndsWith(".pdf"))
+                                    {
+                                        <a href="@Url.Content("~/Uploads/"+Dosya)" target="_blank"><img src="@Url.Content("~/Content/pdf.png")" style="height:20px;" /></a>
+                                    }
+                                    else if (Dosya.Length > 0)
+                                    {
+
+                                    }
+                                }
+                            </td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">
+
+                                @if (Convert.ToString(satir["Durumu"]) == "Onay4")
+                                {
+                                    <span>Tamamlandı </span>
+                                }
+                                else if (Convert.ToString(satir["Durumu"]) == "Onay3")
+                                {
+                                    <span>Yönetimde Bekliyor </span>
+                                }
+                                else if (Convert.ToString(satir["Durumu"]) == "Onay2")
+                                {
+                                    <span>Genel Müdürde Bekliyor </span>
+                                }
+                                else if (Convert.ToString(satir["Durumu"]) == "Onay1")
+                                {
+                                    <span>Costta Bekliyor </span>
+                                }
+                                else if (Convert.ToString(satir["Durumu"]) == "Onayda")
+                                {
+                                    <span>Satınalma Onayında Bekliyor</span>
+                                }
+                                else if (Convert.ToDecimal(satir["SecilenFiyat"]) > 0)
+                                {
+                                    <span>Fiyat Bekliyor</span>
+                                }
+                                else if (Convert.ToString(satir["Durumu"]) == "Talep Onaylandı" || Convert.ToString(satir["Durumu"]) == "")
+                                {
+                                    <span>Fiyat Bekliyor </span>
+                                }
+                                else if (Convert.ToString(satir["Durumu"]).EndsWith("Red"))
+                                {
+                                    <span>@Convert.ToString(satir["Durumu"])</span>
+                                }
+                            </td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["SubeKodu"]</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["Kategori1"]</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["Kategori2"]</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["Kategori3"]</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["StokKodu"] @satir["ID"]</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["StokAdi"]</td>
+
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["OlcuBirimi"]</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["TalepMiktari"]</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["TalepMiktariYedek"]</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["Aciklama1"]</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["Aciklama2"]</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@Convert.ToDateTime(satir["KayitTarihi"]).ToString("dd.MM.yyyy HH:mm:ss")</td>
+                            <td class="text-nowrap" style="padding: 2px; text-align: left;padding-right:5px;">@satir["KayitYapanKullanici"]</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section scripts {
+
+    <script>
+
+
+    </script>
+
+}
+

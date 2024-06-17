@@ -51,6 +51,20 @@
     @RenderSection("Styles", required: false)
     <link href="/Tema/css/override.css" rel="stylesheet" type="text/css" />
     <!--end::Global Stylesheets Bundle-->
+
+    <script type="text/javascript">
+
+        function IDGuidOlustur() {
+            return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+                (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+            );
+        }
+
+        function TutarKontroluYap(entity) {
+            $(entity).val(entity.value.replace(",", "."));
+        }
+    </script>
+
     <script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
 </head>
 <!--end::Head-->
@@ -365,6 +379,7 @@
     <script src="https://cdn.amcharts.com/lib/5/geodata/usaLow.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/geodata/worldTimeZonesLow.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/geodata/worldTimeZoneAreasLow.js"></script>
+
     <script src="/Tema/plugins/custom/datatables/datatables.bundle.js"></script>
     <script src="~/Tema/plugins/custom/datatables/datatables.min.js"></script>
     <script src="~/Tema/plugins/custom/datatables/datatables.js"></script>
@@ -477,6 +492,30 @@
                                 title: "Markalar",
                                 url: "/Tanimlamalar/GrupKodu?grupKodu=StokGrupKod1"
                             },
+                            {
+                                title: "Stok Grup Kodu 1",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=StokGrupKod1"
+                            },
+                            {
+                                title: "Stok Grup Kodu 2",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=StokGrupKod2"
+                            },
+                            {
+                                title: "Stok Grup Kodu 3",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=StokGrupKod3"
+                            },
+                            {
+                                title: "Stok Grup Kodu 4",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=StokGrupKod4"
+                            },
+                            {
+                                title: "Stok Grup Kodu 5",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=StokGrupKod5"
+                            },
+                            {
+                                title: "Stok Grup Kodu 6",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=StokGrupKod6"
+                            },
 
                         ]
                     },
@@ -531,6 +570,92 @@
                     }
 
                 ]
+            },
+            {
+
+                title: "Satınalma",
+                icon: "ki-duotone ki-element-11 fs-2",
+                isOpen: false,
+                items: [
+                    {
+                        title: "Talep",
+                        isMenu: true,
+                        icon: "",
+                        items: [
+                            {
+                                title: "Yeni Talep",
+                                url: "/Satinalma/YKSatinalma/YeniTalep"
+                            },
+                            {
+                                title: "Taleplerim",
+                                url: "/Satinalma/YKSatinalma/Taleplerim"
+                            },
+                            {
+                                title: "Red Taleplerim",
+                                url: "/Satinalma/YKSatinalma/TalepOnayi"
+                            },
+                        ]
+                    },
+                    {
+                        title: "Satınalma",
+                        isMenu: true,
+                        icon: "",
+                        items: [
+                            {
+                                title: "Fiyat Teklifleri",
+                                url: "/Satinalma/YKSatinalma/Teklifler"
+                            },
+                            {
+                                title: "Satınalma",
+                                url: "/Satinalma/YKSatinalma/Satinalma"
+                            },
+                            {
+                                title: "Sözleşmeler",
+                                url: "/Satinalma/YKSatinalma/CariSOzlesmeleri"
+                            },
+                        ]
+                    },
+                    {
+                        title: "Onay",
+                        isMenu: true,
+                        icon: "",
+                        items: [
+                            {
+                                title: "Satınalma Onayı",
+                                url: "/Satinalma/YKSatinalma/Onay1"
+                            },
+                            {
+                                title: "Departman Onayı",
+                                url: "/Satinalma/YKSatinalma/Onay2"
+                            },
+                            {
+                                title: "Genel Müdür Yardımcısı Onayı",
+                                url: "/Satinalma/YKSatinalma/Onay3"
+                            },
+                            {
+                                title: "Genel Müdür Onayı",
+                                url: "/Satinalma/YKSatinalma/Onay4"
+                            },
+                            {
+                                title: "Yönetim Onayı",
+                                url: "/Satinalma/YKSatinalma/Onay5"
+                            },
+                        ]
+                    },
+                    {
+                        title: "Rapor",
+                        isMenu: true,
+                        icon: "",
+                        items: [
+                            {
+                                title: "Satınalma Raporu",
+                                url: "/Satinalma/YKSatinalma/Talep Raporu"
+                            },
+                        ]
+                    },
+
+                ]
+
             },
             {
 

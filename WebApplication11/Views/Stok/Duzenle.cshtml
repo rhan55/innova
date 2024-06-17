@@ -10,11 +10,12 @@
         <form method="post" class="col-lg-10" action="/Stok/Duzenle">
             <div class="row">
                 <div class="col-lg-11">
+                    <input type="hidden" name="ID" value="@(Convert.ToString(Model.Rows[0]["ID"]))" />
                     <div class="row">
                         <input type="hidden" name="ID" />
                         <div class="d-flex align-items-center mt-4 col-lg-4">
                             <div class="form-check ">
-                                <input class="form-check-input" type="checkbox" value="true" id="Durumu" name="Durumu" />
+                                <input class="form-check-input" type="checkbox" value="true" id="Durumu" name="Durumu" @(Convert.ToBoolean(Model.Rows[0]["Durumu"]) ? "checked" : "") />
                                 <label class="form-check-label" for="Durumu">
                                     Durumu
                                 </label>
@@ -22,63 +23,63 @@
                         </div>
                         <div class="col-lg-4 form-group mt-4">
                             <label for="Kod" class=" form-label">Kod</label>
-                            <input type="text" id="Kod" name="Kod" class="form-control p-2 rounded-1" placeholder="" />
+                            <input type="text" id="Kod" name="Kod" class="form-control p-2 rounded-1" placeholder="" value="@(Convert.ToString(Model.Rows[0]["Kod"]))" />
                         </div>
                         <div class="col-lg-4 form-group mt-4">
                             <label for="Isim" class=" form-label">Kısa İsim</label>
-                            <input type="text" id="Isim" name="Isim" class="form-control p-2 rounded-1" placeholder="" required />
+                            <input type="text" id="Isim" name="Isim" class="form-control p-2 rounded-1" placeholder="" value="@(Convert.ToString(Model.Rows[0]["Isim"]))" required />
                         </div>
                         <div class="col-lg-4 form-group mt-4">
                             <label for="Barkod" class="form-label">Barkod</label>
-                            <input type="text" name="Barkod" class="form-control p-2 rounded-1" id="Barkod">
+                            <input type="text" name="Barkod" class="form-control p-2 rounded-1" id="Barkod" value="@(Convert.ToString(Model.Rows[0]["Barkod"]))">
                         </div>
                         <div class="col-lg-4 form-group mt-4">
                             <label for="OlcuBirimi" class="form-label">Ölçü Birimi</label>
-                            <input type="text" name="OlcuBirimi" class="form-control p-2 rounded-1" id="OlcuBirimi">
+                            <input type="text" name="OlcuBirimi" class="form-control p-2 rounded-1" id="OlcuBirimi" value="@(Convert.ToString(Model.Rows[0]["OlcuBirimi"]))">
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="KdvAlis" class=" form-label">Kdv Alış</label>
-                            <input type="text" name="KdvAlis" class="form-control p-2 rounded-1" placeholder="" id="KdvAlis" step="any" />
+                            <input type="text" name="KdvAlis" class="form-control p-2 rounded-1" placeholder="" id="KdvAlis" step="any" value="@(Convert.ToString(Model.Rows[0]["KdvAlis"]))" />
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="KdvSatis" class=" form-label">Kdv Satış</label>
-                            <input type="text" name="KdvSatis" class="form-control p-2 rounded-1" placeholder="" id="KdvSatis" step="any" />
+                            <input type="text" name="KdvSatis" class="form-control p-2 rounded-1" placeholder="" id="KdvSatis" step="any" value="@(Convert.ToString(Model.Rows[0]["KdvSatis"]))" />
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="Otv" class=" form-label">Otv</label>
-                            <input type="text" name="Otv" class="form-control p-2 rounded-1" placeholder="" id="Otv" step="any" />
+                            <input type="text" name="Otv" class="form-control p-2 rounded-1" placeholder="" id="Otv" step="any" value="@(Convert.ToString(Model.Rows[0]["Otv"]))" />
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="OtvFiyat" class="form-label">Otv Fiyat</label>
-                            <input type="text" name="OtvFiyat" class="form-control p-2 rounded-1" placeholder="" id="OtvFiyat" step="any" />
+                            <input type="text" name="OtvFiyat" class="form-control p-2 rounded-1" placeholder="" id="OtvFiyat" step="any" value="@(Convert.ToString(Model.Rows[0]["OtvFiyat"]))" />
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="Oiv" class=" form-label">Oiv</label>
-                            <input type="text" name="Oiv" class="form-control p-2 rounded-1" placeholder="" id="Oiv" step="any" />
+                            <input type="text" name="Oiv" class="form-control p-2 rounded-1" placeholder="" id="Oiv" step="any" value="@(Convert.ToString(Model.Rows[0]["Oiv"]))" />
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="TevkifatPay" class=" form-label">Tevkifat Pay</label>
-                            <input type="text" name="TevkifatPay" class="form-control p-2 rounded-1" placeholder="" id="TevkifatPay" step="any" />
+                            <input type="text" name="TevkifatPay" class="form-control p-2 rounded-1" placeholder="" id="TevkifatPay" step="any" value="@(Convert.ToString(Model.Rows[0]["TevkifatPay"]))" />
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="TevkifatPayda" class=" form-label">Tevkifat Payda</label>
-                            <input type="text" name="TevkifatPayda" class="form-control p-2 rounded-1" placeholder="" id="TevkifatPayda" step="any" />
+                            <input type="text" name="TevkifatPayda" class="form-control p-2 rounded-1" placeholder="" id="TevkifatPayda" step="any" value="@(Convert.ToString(Model.Rows[0]["TevkifatPayda"]))" />
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="IskontoSatis1" class=" form-label">İskonto Satış 1</label>
-                            <input type="text" name="IskontoSatis1" class="form-control p-2 rounded-1" placeholder="" id="IskontoSatis1" step="any" />
+                            <input type="text" name="IskontoSatis1" class="form-control p-2 rounded-1" placeholder="" id="IskontoSatis1" step="any" value="@(Convert.ToString(Model.Rows[0]["IskontoSatis1"]))" />
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="VadeGunu" class=" form-label">Vade Günü</label>
-                            <input type="text" name="VadeGunu" class="form-control p-2 rounded-1" placeholder="" id="VadeGunu" step="any" />
+                            <input type="text" name="VadeGunu" class="form-control p-2 rounded-1" placeholder="" id="VadeGunu" step="any" value="@(Convert.ToString(Model.Rows[0]["VadeGunu"]))" />
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="MinimumStok" class=" form-label">Minimum Stok</label>
-                            <input type="text" name="MinimumStok" class="form-control p-2 rounded-1" placeholder="" id="MinimumStok" step="any" />
+                            <input type="text" name="MinimumStok" class="form-control p-2 rounded-1" placeholder="" id="MinimumStok" step="any" value="@(Convert.ToString(Model.Rows[0]["MinimumStok"]))" />
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="MaxsimumStok" class=" form-label">Maxsimum Stok</label>
-                            <input type="text" name="MaxsimumStok" class="form-control p-2 rounded-1" placeholder="" id="MaxsimumStok" step="any" />
+                            <input type="text" name="MaxsimumStok" class="form-control p-2 rounded-1" placeholder="" id="MaxsimumStok" step="any" value="@(Convert.ToString(Model.Rows[0]["MaxsimumStok"]))" />
                         </div>
 
                         <div class="form-group col-lg-4 mt-4">
@@ -88,7 +89,7 @@
                                 <option value="">Lütfen Seçim Yapınız</option>
                                 @foreach (GrupKoduDto stokGrupKodlari1 in ViewBag.StokGrupKodlari1)
                                 {
-                                    <option value="@stokGrupKodlari1.ID">@stokGrupKodlari1.Deger</option>
+                                    <option @(Convert.ToString(Model.Rows[0]["GrupKodu1ID"]) == stokGrupKodlari1.ID ? "selected" : "") value="@stokGrupKodlari1.ID">@stokGrupKodlari1.Deger</option>
                                 }
                             </select>
                         </div>
@@ -99,7 +100,7 @@
                                 <option value="">Lütfen Seçim Yapınız</option>
                                 @foreach (GrupKoduDto stokGrupKodlari2 in ViewBag.StokGrupKodlari2)
                                 {
-                                    <option value="@stokGrupKodlari2.ID">@stokGrupKodlari2.Deger</option>
+                                    <option @(Convert.ToString(Model.Rows[0]["GrupKodu2ID"]) == stokGrupKodlari2.ID ? "selected" : "") value="@stokGrupKodlari2.ID">@stokGrupKodlari2.Deger</option>
                                 }
                             </select>
                         </div>
@@ -110,7 +111,7 @@
                                 <option value="">Lütfen Seçim Yapınız</option>
                                 @foreach (GrupKoduDto stokGrupKodlari3 in ViewBag.StokGrupKodlari3)
                                 {
-                                    <option value="@stokGrupKodlari3.ID">@stokGrupKodlari3.Deger</option>
+                                    <option @(Convert.ToString(Model.Rows[0]["GrupKodu3ID"]) == stokGrupKodlari3.ID ? "selected" : "") value="@stokGrupKodlari3.ID">@stokGrupKodlari3.Deger</option>
                                 }
                             </select>
                         </div>
@@ -121,7 +122,7 @@
                                 <option value="">Lütfen Seçim Yapınız</option>
                                 @foreach (GrupKoduDto stokGrupKodlari4 in ViewBag.StokGrupKodlari4)
                                 {
-                                    <option value="@stokGrupKodlari4.ID">@stokGrupKodlari4.Deger</option>
+                                    <option @(Convert.ToString(Model.Rows[0]["GrupKodu4ID"]) == stokGrupKodlari4.ID ? "selected" : "") value="@stokGrupKodlari4.ID">@stokGrupKodlari4.Deger</option>
                                 }
                             </select>
                         </div>
@@ -132,7 +133,7 @@
                                 <option value="">Lütfen Seçim Yapınız</option>
                                 @foreach (GrupKoduDto stokGrupKodlari5 in ViewBag.StokGrupKodlari5)
                                 {
-                                    <option value="@stokGrupKodlari5.ID">@stokGrupKodlari5.Deger</option>
+                                    <option @(Convert.ToString(Model.Rows[0]["GrupKodu5ID"]) == stokGrupKodlari5.ID ? "selected" : "") value="@stokGrupKodlari5.ID">@stokGrupKodlari5.Deger</option>
                                 }
                             </select>
                         </div>
@@ -143,13 +144,13 @@
                                 <option value="">Lütfen Seçim Yapınız</option>
                                 @foreach (GrupKoduDto stokGrupKodlari6 in ViewBag.StokGrupKodlari6)
                                 {
-                                    <option value="@stokGrupKodlari6.ID">@stokGrupKodlari6.Deger</option>
+                                    <option @(Convert.ToString(Model.Rows[0]["GrupKodu6ID"]) == stokGrupKodlari6.ID ? "selected" : "") value="@stokGrupKodlari6.ID">@stokGrupKodlari6.Deger</option>
                                 }
                             </select>
                         </div>
                         <div class="mt-4 col-lg-2 d-flex align-items-end">
                             <div class="form-check ">
-                                <input class="form-check-input" type="checkbox" value="true" id="LimitUyarisi" name="LimitUyarisi" />
+                                <input class="form-check-input" type="checkbox" value="true" id="LimitUyarisi" name="LimitUyarisi" @(Convert.ToBoolean(Model.Rows[0]["LimitUyarisi"]) ? "checked" : "") />
                                 <label class="form-check-label" for="LimitUyarisi">
                                     Limit Uyarısı
                                 </label>
@@ -157,7 +158,7 @@
                         </div>
                         <div class="mt-4 col-lg-2 d-flex align-items-end">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="true" id="LimitDisindaIslemiDurdur" name="LimitDisindaIslemiDurdur" />
+                                <input class="form-check-input" type="checkbox" value="true" id="LimitDisindaIslemiDurdur" name="LimitDisindaIslemiDurdur" @(Convert.ToBoolean(Model.Rows[0]["LimitDisindaIslemiDurdur"]) ? "checked" : "") />
                                 <label class="form-check-label" for="LimitDisindaIslemiDurdur">
                                     Limit Dışında İşlemi Durdur
                                 </label>
@@ -165,7 +166,7 @@
                         </div>
                         <div class="mt-4 col-lg-2 d-flex align-items-end">
                             <div class="form-check ">
-                                <input class="form-check-input" type="checkbox" value="true" id="EksiBakiyeUyarisi" name="EksiBakiyeUyarisi" />
+                                <input class="form-check-input" type="checkbox" value="true" id="EksiBakiyeUyarisi" name="EksiBakiyeUyarisi" @(Convert.ToBoolean(Model.Rows[0]["EksiBakiyeUyarisi"]) ? "checked" : "") />
                                 <label class="form-check-label" for="EksiBakiyeUyarisi">
                                     Eksi Bakiye Uyarısı
                                 </label>
@@ -173,7 +174,7 @@
                         </div>
                         <div class="mt-4 col-lg-2 d-flex align-items-end">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="true" id="EksiBakiyedeIslemiDurdur" name="EksiBakiyedeIslemiDurdur" />
+                                <input class="form-check-input" type="checkbox" value="true" id="EksiBakiyedeIslemiDurdur" name="EksiBakiyedeIslemiDurdur" @(Convert.ToBoolean(Model.Rows[0]["EksiBakiyedeIslemiDurdur"]) ? "checked" : "") />
                                 <label class="form-check-label" for="EksiBakiyedeIslemiDurdur">
                                     Eksi Bakiyede İşlemi Durdur
                                 </label>
@@ -181,16 +182,16 @@
                         </div>
                         <div class="mt-4 col-lg-2 d-flex align-items-end">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="true" id="StokKilitle" name="StokKilitle" />
+                                <input class="form-check-input" type="checkbox" value="true" id="StokKilitle" name="StokKilitle" @(Convert.ToBoolean(Model.Rows[0]["StokKilitle"]) ? "checked" : "") />
                                 <label class="form-check-label" for="StokKilitle">
                                     Stok Kilitle
-                                </label> 
+                                </label>
                             </div>
                         </div>
                         <div class="mt-4 col-lg-12">
                             <div class="form-group">
                                 <label class="form-label" for="Aciklama">Açıklama</label>
-                                <textarea class="form-control" id="Aciklama" name="Aciklama" rows="3"></textarea>
+                                <textarea class="form-control" id="Aciklama" name="Aciklama" rows="3">@(Model.Rows[0]["Aciklama"])</textarea>
                             </div>
                         </div>
                     </div>

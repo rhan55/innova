@@ -153,6 +153,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Areas\Satinalma\Controllers\YKSatinalmaController.cs" />
+    <Compile Include="Areas\Satinalma\SatinalmaAreaRegistration.cs" />
     <Compile Include="Controllers\AktivasyonController.cs" />
     <Compile Include="Controllers\BelgeController.cs" />
     <Compile Include="Controllers\CariController.cs" />
@@ -171,11 +173,11 @@
     </Compile>
     <Compile Include="Models\Dto\BelgeDto.cs" />
     <Compile Include="Models\Dto\BelgeKalemDto.cs" />
-    <Compile Include="Models\Dto\MailAyarlariDto.cs" />
-    <Compile Include="Models\Dto\YetkilerDto.cs" />
     <Compile Include="Models\Dto\Class1.cs" />
+    <Compile Include="Models\Dto\MailAyarlariDto.cs" />
     <Compile Include="Models\Dto\ParametreDto.cs" />
     <Compile Include="Models\Dto\StokDto.cs" />
+    <Compile Include="Models\Dto\YetkilerDto.cs" />
     <Compile Include="Models\Dto\ZiyaretDto.cs" />
     <Compile Include="Models\Dto\DosyaDto.cs" />
     <Compile Include="Models\Dto\CariDto.cs" />
@@ -190,12 +192,14 @@
     <Compile Include="Models\Dto\KullaniciEkleDto.cs" />
     <Compile Include="Models\IDVeritabani.cs" />
     <Compile Include="Models\YKClasses\YKModelKullanici.cs" />
+    <Compile Include="Models\YKClasses\YKModelSatinalma.cs" />
     <Compile Include="Models\YKClasses\YKUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\YKWebApiController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\aciklama.png" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -216,6 +220,20 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\datatables.css" />
     <Content Include="Content\datatables.min.css" />
+    <Content Include="Content\degistir.png" />
+    <Content Include="Content\excel.png" />
+    <Content Include="Content\geri.png" />
+    <Content Include="Content\listele.png" />
+    <Content Include="Content\onayla.png" />
+    <Content Include="Content\pdf.png" />
+    <Content Include="Content\red.png" />
+    <Content Include="Content\resim.png" />
+    <Content Include="Content\satinalmayagonder.png" />
+    <Content Include="Content\secilenlereonayagonder.png" />
+    <Content Include="Content\talepedenegonder.png" />
+    <Content Include="Content\teklif.png" />
+    <Content Include="Content\tumunukaldir.png" />
+    <Content Include="Content\tumunusec.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -256,6 +274,24 @@
     <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Satinalma\Views\web.config" />
+    <Content Include="Areas\Satinalma\Views\YKSatinalma\CariSozlesmeleri.cshtml" />
+    <Content Include="Areas\Satinalma\Views\YKSatinalma\CariSozlesmeleriTutar.cshtml" />
+    <Content Include="Areas\Satinalma\Views\YKSatinalma\Onay1.cshtml" />
+    <Content Include="Areas\Satinalma\Views\YKSatinalma\Onay2.cshtml" />
+    <Content Include="Areas\Satinalma\Views\YKSatinalma\Onay3.cshtml" />
+    <Content Include="Areas\Satinalma\Views\YKSatinalma\Onay4.cshtml" />
+    <Content Include="Areas\Satinalma\Views\YKSatinalma\Onay5.cshtml" />
+    <Content Include="Areas\Satinalma\Views\YKSatinalma\Satinalma.cshtml" />
+    <Content Include="Areas\Satinalma\Views\YKSatinalma\Taleplerim.cshtml" />
+    <Content Include="Areas\Satinalma\Views\YKSatinalma\TalepOnayi.cshtml" />
+    <Content Include="Areas\Satinalma\Views\YKSatinalma\TalepRaporu.cshtml" />
+    <Content Include="Areas\Satinalma\Views\YKSatinalma\Teklif.cshtml" />
+    <Content Include="Areas\Satinalma\Views\YKSatinalma\Teklifler.cshtml" />
+    <Content Include="Areas\Satinalma\Views\YKSatinalma\YeniCariSozlesme.cshtml" />
+    <Content Include="Areas\Satinalma\Views\YKSatinalma\YeniCariSozlesmeTutar.cshtml" />
+    <Content Include="Areas\Satinalma\Views\YKSatinalma\YeniTalep.cshtml" />
+    <Content Include="Areas\Satinalma\Views\YKSatinalma\YeniTalep2.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -2594,21 +2630,22 @@
     <Content Include="Views\Cari\ZiyaretEkle.cshtml" />
     <Content Include="Views\Belge\Detay.cshtml" />
     <Content Include="Views\Belge\Liste.cshtml" />
-    <Content Include="Views\Parametre\MailAyarlari.cshtml" />
+    <Content Include="Views\Parametre\MailAyarları.cshtml" />
     <Content Include="Views\Cari\ZiyaretDuzenle.cshtml" />
     <Content Include="Views\Stok\Ekle.cshtml" />
     <Content Include="Views\Stok\Liste.cshtml" />
-    <Content Include="Views\Cari\ZiyaretiKapat.cshtml" />
-    <Content Include="Views\Kullanici\Yetkiler.cshtml" />
     <Content Include="Views\Stok\Duzenle.cshtml" />
-    <Content Include="Views\Stok\ExcelIceAktar.cshtml" />
-    <Content Include="Tema\excel\ornek-stok-listesi.xlsx" />
     <Content Include="Views\Stok\_StokMenu.cshtml" />
+    <Content Include="Views\Stok\ExcelIceAktar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Satinalma\Data\" />
+    <Folder Include="Areas\Satinalma\Views\Shared\" />
+    <Folder Include="Pdf\" />
     <Folder Include="Temp\" />
     <Folder Include="Uploads\Dosyalar\" />
+    <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

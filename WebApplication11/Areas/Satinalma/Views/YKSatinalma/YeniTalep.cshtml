@@ -1,0 +1,254 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Satınalma - Yeni Talep";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    DataTable dtSubeler = ViewBag.dtSubeler as DataTable;
+    DataTable dtKategori1 = ViewBag.dtKategori1 as DataTable;
+    int sayi = Model.Rows.Count;
+}
+
+<form action="/Satinalma/YKSatinalma/YeniTalep" method="post">
+    <table style="width:100%;" border="1">
+        <tr>
+            <td style="padding: 3px; text-align: left;">
+                <label>Şube</label>
+                <select id="Sube" name="Sube">
+                    @foreach (DataRow satir in dtSubeler.Rows)
+                    {
+                        if (Convert.ToBoolean(satir["Yetki"]))
+                        {
+                            <option value="@satir["Kod"]" @(ViewBag.Sube == Convert.ToString(satir["Kod"]) ? "selected": "")>@satir["Isim"]</option>
+                        }
+                    }
+                </select>
+            </td>
+            <td style="padding: 3px; text-align: left;">
+                <label>Kategori 1</label>
+                <select id="Kategori1" name="Kategori1" onchange="SecimKategori1();">
+                    <option value="">Kategori Seçimi</option>
+                    @foreach (DataRow satir in dtKategori1.Rows)
+                    {
+                        if (ViewBag.Kategori1 == Convert.ToString(satir["Kategori1"]))
+                        {
+
+                        }
+                        <option value="@satir["Kategori1"]" @(ViewBag.Kategori1 == Convert.ToString(satir["Kategori1"]) ? "selected" : "")>@satir["Kategori1"]</option>
+                    }
+                </select>
+            </td>
+            <td style="padding: 3px; text-align: left;">
+                <label>Kategori 2</label>
+                <select id="Kategori2" name="Kategori2" onchange="SecimKategori2();">
+                </select>
+            </td>
+            <td style="padding: 3px; text-align: left;">
+                <label>Kategori 3</label>
+                <select id="Kategori3" name="Kategori3">
+                </select>
+            </td>
+            <td>
+                <label>Aranacak Kelime</label>
+                <input type="text" value="" id="AranacakKelime" name="AranacakKelime" />
+            </td>
+            <td><input type="submit" name="name" value="Getir" class="btn btn-primary" /></td>
+            <td><input type="button" name="btnKaydet" id="btnKaydet" value="Kaydet" class="btn btn-primary" onclick="Kaydet();" /></td>
+        </tr>
+    </table>
+</form>
+<div style="clear:both;"></div>
+<div>
+    
+    <table border="1" name="TabloListe" id="TabloListe" style="width:100%;"  >
+        <thead>
+            <tr>
+                <th style="padding: 2px; text-align: left;"><strong>Kategori1</strong></th>
+                <th style="padding: 2px; text-align: left;"><strong>Kod</strong></th>
+                <th style="padding: 2px; text-align: left;"><strong>İsim (@(sayi) kayıt mevcut.)</strong></th>
+                <th style="padding: 2px; text-align: right;"><strong>Stok</strong></th>
+                <th style="padding: 2px; text-align: right;"><strong>Talep Miktarı</strong></th>
+                <th style="padding: 2px; text-align: left;"><strong>Açıklama</strong></th>
+                <th style="padding: 2px; text-align: left;"><strong>Dosya</strong></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (DataRow satir in Model.Rows)
+                {
+                    string renk = "";
+                    <tr style="@(renk)">
+                        <td style="padding: 2px;text-align:left;">@satir["Kategori1"]</td>
+                        <td style="padding: 2px;text-align:left;">@satir["StokKodu"]</td>
+                        <td style="padding: 2px;text-align:left;">@satir["StokAdi"]</td>
+                        <td style="padding: 2px;text-align:right;@(Convert.ToDecimal(satir["Bakiye"]) <= 0 ? "background-color:red;color:white;" : "background-color:green;color:white;")">@String.Format("{0:N2} {1}", Convert.ToDecimal(satir["Bakiye"]), satir["OlcuBirimi"])</td>
+                        <td style="padding: 2px;text-align:right;"><input type="text" data-id="@satir["ID"]" name="Miktar_@(Convert.ToString(satir["IDTresiz"]))" id="Miktar_@(Convert.ToString(satir["IDTresiz"]))" value="0" style="text-align:right;width:100%;width:100px;" onchange="TutarKontroluYap(this);" /> @satir["OlcuBirimi"]</td>
+                        <td style="padding: 2px;text-align:left;"><textarea rows="1" id="Aciklama_@(Convert.ToString(satir["IDTresiz"]))" name="Aciklama_@(Convert.ToString(satir["IDTresiz"]))"></textarea></td>
+                        <td style="padding: 2px;text-align:right;"><input type="file" name="Dosya_@(Convert.ToString(satir["IDTresiz"]))" id="Dosya_@(Convert.ToString(satir["IDTresiz"]))" value="" accept="image/png, image/gif, image/jpeg,application/pdf,application/vnd.ms-excel" /></td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+@section scripts {
+
+    <script type="text/javascript">
+        
+            
+            function Kaydet() {
+            $("#btnKaydet").val("Bekleyin...");
+            var table = document.getElementById("TabloListe");
+                var SonucBilgilendirme = "";
+             for (var i = 1, row; row = table.rows[i]; i++)
+             {
+                 //satırları dönüyoruz 1 satır veri olduğu için veri satırını dönüyoruz
+                 for (var j = 1, col; col = row.cells[j]; j++)
+                 {
+                     //kolonları dönüyoruz
+                     if (col.querySelector('input') != null) {
+                         var MiktarID = col.querySelector('input').getAttribute("id");
+                         var Miktar = $("#Miktar_" + MiktarID.split("_")[1]).val();
+                         Miktar = Miktar.toString().replace(",", ".");
+                         
+                         var Aciklama = $("#Aciklama_" + MiktarID.split("_")[1]).val();
+                         var SubeKodu = $("#Sube").val();
+                         if (Miktar > 0) {
+                             var formData = null;// new FormData(document.getElementById("Dosya_" + MiktarID.split("_")[1]));
+                             var formData = new FormData();
+                             //formData.append('id', MiktarID.split("_")[1]);
+                             formData.append('id', col.querySelector('input').getAttribute("data-id"));
+                             formData.append('SubeKodu', SubeKodu);
+                             formData.append('miktar', Miktar);
+                             formData.append('aciklama', Aciklama);
+                             formData.append('Dosya', $('#Dosya_' + MiktarID.split("_")[1])[0].files[0]);
+                             
+                             $.ajax({
+                                 type: "POST",
+                                 url: '/Satinalma/YKSatinalma/TalepKaydet',
+                                 data: formData,
+                                 dataType: "json",
+                                 enctype: 'multipart/form-data',
+                                 async: false,
+                                 contentType: false,
+                                 processData: false,            
+                                 //contentType: "application/json; charset=utf-8",
+                                 //dataFilter: function (data) { return data; },
+                                 success: function (data) {
+                                     if (data.SonucKodu == "1") {
+                                         if (SonucBilgilendirme.indexOf(data.Aciklama) < 0) {
+                                             SonucBilgilendirme += data.Aciklama;
+                                         }
+                                         $("#Miktar_" + MiktarID.split("_")[1]).val("0");
+                                         $("#Aciklama_" + MiktarID.split("_")[1]).val("");
+                                         $("#Dosya_" + MiktarID.split("_")[1]).val("");
+                                     } else {
+                                         Swal.fire({
+                                             position: "center",
+                                             icon: "error",
+                                             title: data.Aciklama,
+                                             showConfirmButton: true,
+                                             //timer: 3000
+                                         });
+                                         return;
+                                     }
+                                 },
+                                 error: function (msg) {
+                                     
+                                     Swal.fire({
+                                         position: "center",
+                                         icon: "error",
+                                         title: msg,
+                                         showConfirmButton: false,
+                                         timer: 1500
+                                     });
+                                     return;
+                                 }
+                             });
+                         }
+
+                     }
+                 }
+                }
+                if (SonucBilgilendirme == "" || SonucBilgilendirme == null) {
+                    SonucBilgilendirme = "Talepler başarıyla kaydedildi.";
+                }
+             Swal.fire({
+                 position: "center",
+                 icon: "success",
+                 title: SonucBilgilendirme,
+                 showConfirmButton: true,
+                 //timer: 3000
+             });
+            $("#btnKaydet").val("Kaydet");
+        }
+
+       
+
+        function SecimKategori1() {
+            var Kategori1 = $("#Kategori1").val();
+            var SecilenKategori2 = "@(ViewBag.Kategori2)";
+
+            $.ajax({
+                async: false,
+                cache: false,
+                type: "GET",
+                url: "/Satinalma/YKSatinalma/JsonGetirKategori2",
+                data: { "Kategori1": Kategori1 },
+                success: function (data2) {
+
+                    $('#Kategori2').empty();
+                    $('#Kategori2')
+                        .append($("<option></option>")
+                            .attr("value", "")
+                            .text("Kategori Seçimi"));
+                    $.each(data2.Data, function (data3, key, value) {
+                        $('#Kategori2')
+                            .append($("<option " + (SecilenKategori2 == key.Isim ? "selected" : "")+"></option>")
+                                .attr("value", key.Isim)
+                                .text(key.Isim));
+                    });
+                    SecimKategori2();
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+        function SecimKategori2() {
+            var Kategori1 = $("#Kategori1").val();
+            var Kategori2 = $("#Kategori2").val();
+            var SecilenKategori3 = "@(ViewBag.Kategori3)";
+
+            $.ajax({
+                async: false,
+                cache: false,
+                type: "GET",
+                url: "/Satinalma/YKSatinalma/JsonGetirKategori3",
+                data: { "Kategori1": Kategori1, "Kategori2": Kategori2 },
+                success: function (data2) {
+
+                    $('#Kategori3').empty();
+                    $('#Kategori3')
+                        .append($("<option></option>")
+                            .attr("value", "")
+                            .text("Kategori Seçimi"));
+                    $.each(data2.Data, function (data3, key, value) {
+                        $('#Kategori3')
+                            .append($("<option " + (SecilenKategori3 == key.Isim ? "selected" : "") +"></option>")
+                                .attr("value", key.Isim)
+                                .text(key.Isim));
+                    });
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+        SecimKategori1();
+        SecimKategori2();
+    </script>
+
+}
+
