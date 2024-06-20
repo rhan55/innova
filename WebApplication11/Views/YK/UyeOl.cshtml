@@ -76,7 +76,7 @@
                         @if (Bilgilendirme != null && Bilgilendirme != "")
                         {
                             <h3>@Bilgilendirme</h3>
-                            <a href="~/YK/Giris" class="btn btn-light ms-3" data-kt-users-modal-action="cancel">Giriş Yap</a>
+                            <a href="~/YK/Giris" class="btn btn-light btn-sm ms-3" data-kt-users-modal-action="cancel">Giriş Yap</a>
 
                         }
                         else
@@ -128,7 +128,7 @@
                                             <label class="required fw-semibold fs-6 mb-2">Firma Kısa Adı</label>
                                             <!--end::Label-->
                                             <!--begin::Input-->
-                                            <input type="text" name="Isim" class="form-control  mb-3 mb-lg-0" placeholder="Firma Kısa Adı"   required />
+                                            <input type="text" name="Isim" class="form-control p-2 mb-3 mb-lg-0" placeholder="Firma Kısa Adı"   required />
 
                                             <!--end::Input-->
                                         </div>
@@ -139,7 +139,7 @@
                                             <label class="required fw-semibold fs-6 mb-2">Ünvan</label>
                                             <!--end::Label-->
                                             <!--begin::Input-->
-                                            <input type="text" name="Unvan" class="form-control  mb-3 mb-lg-0" placeholder="Ünvan" value="@ViewBag.Form.Unvan" required />
+                                            <input type="text" name="Unvan" class="form-control p-2 mb-3 mb-lg-0" placeholder="Ünvan" value="@ViewBag.Form.Unvan" required />
 
                                             <!--end::Input-->
 
@@ -156,7 +156,7 @@
                                                 <label class="required fw-semibold fs-6 mb-2">E-Mail/Kullanıcı Adı</label>
                                                 <!--end::Label-->
                                                 <!--begin::Input-->
-                                                <input type="email" name="EMail" class=" Inputmask form-control  mb-3 mb-lg-0" placeholder="EMail" value="@ViewBag.Form.EMail" required />
+                                                <input type="email" name="EMail" class=" Inputmask form-control p-2 mb-3 mb-lg-0" placeholder="EMail" value="@ViewBag.Form.EMail" required />
                                                 <!--end::Input-->
 
                                             </div>
@@ -166,7 +166,7 @@
                                             <label class="required fw-semibold fs-6 mb-2">Parola</label>
                                             <!--end::Label-->
                                             <!--begin::Input-->
-                                            <input type="password" name="Parola" class="form-control  mb-3 mb-lg-0" placeholder="Parola" value="@ViewBag.Form.Parola" required />
+                                            <input type="password" name="Parola" class="form-control p-2 mb-3 mb-lg-0" placeholder="Parola" value="@ViewBag.Form.Parola" required />
                                             <!--end::Input-->
 
                                         </div>
@@ -180,7 +180,7 @@
                                             <label class="required fw-semibold fs-6 mb-2">Ad</label>
                                             <!--end::Label-->
                                             <!--begin::Input-->
-                                            <input class="form-control " name="Ad" placeholder="Ad" id="exampleFormControlTextarea1"  value="@ViewBag.Form.Ad"required />
+                                            <input class="form-control p-2" name="Ad" placeholder="Ad" id="exampleFormControlTextarea1"  value="@ViewBag.Form.Ad"required />
 
                                             <!--end::Input-->
                                         </div>
@@ -191,7 +191,7 @@
                                             <label class="required fw-semibold fs-6 mb-2">Soyad</label>
                                             <!--end::Label-->
                                             <!--begin::Input-->
-                                            <input class="form-control " name="Soyad" placeholder="Soyad" id="exampleFormControlTextarea1" value="@ViewBag.Form.Soyad" required />
+                                            <input class="form-control p-2" name="Soyad" placeholder="Soyad" id="exampleFormControlTextarea1" value="@ViewBag.Form.Soyad" required />
 
                                             <!--end::Input-->
                                         </div>
@@ -207,7 +207,7 @@
                                             <label class="required fw-semibold fs-6 mb-2">Vergi Dairesi</label>
                                             <!--end::Label-->
                                             <!--begin::Input-->
-                                            <input class="form-control " name="VergiDairesi" placeholder="VergiDairesi" id="exampleFormControlTextarea1" value="@ViewBag.Form.VergiDairesi" required />
+                                            <input class="form-control p-2" name="VergiDairesi" placeholder="VergiDairesi" id="exampleFormControlTextarea1" value="@ViewBag.Form.VergiDairesi" required />
 
                                             <!--end::Input-->
                                         </div>
@@ -218,7 +218,7 @@
                                             <label class="required fw-semibold fs-6 mb-2">Vergi Numarası</label>
                                             <!--end::Label-->
                                             <!--begin::Input-->
-                                            <input class="form-control  @(ViewData.ModelState.ContainsKey("VergiNumarasi") ? "is-invalid" : "")" name="VergiNumarasi" placeholder="Vergi Numarası" id="exampleFormControlTextarea1" required value="@ViewBag.Form.VergiNumarasi" />
+                                            <input class="form-control p-2 @(ViewData.ModelState.ContainsKey("VergiNumarasi") ? "is-invalid" : "")" name="VergiNumarasi" placeholder="Vergi Numarası" id="exampleFormControlTextarea1" required value="@ViewBag.Form.VergiNumarasi" />
                                             <!--end::Input-->
                                             @if (ViewData.ModelState.ContainsKey("VergiNumarasi") && ViewData.ModelState["VergiNumarasi"].Errors.Count() > 0)
                                             {
@@ -240,7 +240,7 @@
                                             <label class="required fw-semibold fs-6 mb-2">İletişim Numarası</label>
                                             <!--end::Label-->
                                             <!--begin::Input-->
-                                            <input type="text" class="form-control  @(ViewData.ModelState.ContainsKey("Iletisim") ? "is-invalid" : "")" name="Iletisim" placeholder="İletişim Numarası" id="exampleFormControlTextarea1" value="@ViewBag.Form.Iletisim" required />
+                                            <input type="text" class="form-control p-2 @(ViewData.ModelState.ContainsKey("Iletisim") ? "is-invalid" : "")" name="Iletisim" placeholder="İletişim Numarası" id="exampleFormControlTextarea1" value="@ViewBag.Form.Iletisim" required />
                                             <!--end::Input-->
                                             @if (ViewData.ModelState.ContainsKey("Iletisim") && ViewData.ModelState["Iletisim"].Errors.Count() > 0)
                                             {
@@ -257,7 +257,7 @@
                                             <label class="required fw-semibold fs-6 mb-2">Adres</label>
                                             <!--end::Label-->
                                             <!--begin::Input-->
-                                            <input class="form-control " name="Adres" placeholder="Adres" id="exampleFormControlTextarea1" value="@ViewBag.Form.Adres" required />
+                                            <input class="form-control p-2" name="Adres" placeholder="Adres" id="exampleFormControlTextarea1" value="@ViewBag.Form.Adres" required />
 
                                             <!--end::Input-->
                                         </div>
@@ -283,7 +283,7 @@
                                         <div class="col-lg-6">
                                             <div class="d-flex flex-column col-lg-12">
                                                 <label class="required fw-semibold fs-6 mb-2">İlçe</label>
-                                                <input type="text" class="form-control  " name="Ilce" placeholder="İletişim Numarası" id="exampleFormControlTextarea1" value="@ViewBag.Form.Ilce" required />
+                                                <input type="text" class="form-control  p-2" name="Ilce" placeholder="İletişim Numarası" id="exampleFormControlTextarea1" value="@ViewBag.Form.Ilce" required />
                                             </div>
                                         </div>
                                         <!--end::Input group-->
@@ -294,14 +294,11 @@
                                 <!--begin::Actions-->
                                 <div class="text-center pt-10">
 
-                                    <button type="submit" class="btn btn-primary ms-3 ps-8 pe-8" data-kt-users-modal-action="UyeOl">
+                                    <button type="submit" class="btn btn-primary btn-sm ms-3 ps-8 pe-8" data-kt-users-modal-action="UyeOl">
                                         <span class="indicator-label">Üye Ol</span>
-                                        <span class="indicator-progress">
-                                            Lütfen Bekleyin...
-                                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                                        </span>
+                                      
                                     </button>
-                                    <a href="~/YK/Giris" class="btn btn-light ms-3" data-kt-users-modal-action="cancel">Giriş Yap</a>
+                                    <a href="~/YK/Giris" class="btn btn-light btn-sm ms-3" data-kt-users-modal-action="cancel">Giriş Yap</a>
                                 </div>
 
                                 <!--end::Actions-->

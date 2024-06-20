@@ -80,3 +80,8 @@ div.dt-container {
 .cari {
     width: calc(100% - 360px) !important;
 }
+@media dosya-search-input  (max-width:500px){
+    body{
+        width:100% !important;
+    }
+}

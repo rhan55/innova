@@ -2630,13 +2630,15 @@
     <Content Include="Views\Cari\ZiyaretEkle.cshtml" />
     <Content Include="Views\Belge\Detay.cshtml" />
     <Content Include="Views\Belge\Liste.cshtml" />
-    <Content Include="Views\Parametre\MailAyarları.cshtml" />
     <Content Include="Views\Cari\ZiyaretDuzenle.cshtml" />
     <Content Include="Views\Stok\Ekle.cshtml" />
     <Content Include="Views\Stok\Liste.cshtml" />
     <Content Include="Views\Stok\Duzenle.cshtml" />
     <Content Include="Views\Stok\_StokMenu.cshtml" />
     <Content Include="Views\Stok\ExcelIceAktar.cshtml" />
+    <Content Include="Views\Kullanici\Yetkiler.cshtml" />
+    <Content Include="Views\Parametre\MailAyarlari.cshtml" />
+    <Content Include="Views\Cari\ZiyaretiKapat.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

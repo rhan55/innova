@@ -6,10 +6,10 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="offset-1 col-10 mt-8">
+        <div class="mt-8">
             <div class="card card-flush">
-                <div class="px-8 pt-8">
-                    <a href="~/Tema/excel/ornek-stok-listesi.xlsx" class="btn btn-light-primary " data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                <div class="px-6 py-4">
+                    <a href="~/Tema/excel/ornek-stok-listesi.xlsx" class="btn btn-light-primary btn-sm fw-bold" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                         <i class="ki-duotone ki-minus-folder fs-2">
                             <span class="path1"></span>
                             <span class="path2"></span>
@@ -19,32 +19,32 @@
                     </a>
                 </div>
 
-                <div class="scroll mt-8 ps-6 pe-6">
+                <div class="scroll ps-6 pe-6">
                     <table class="table table-bordered border-gray-200 rounded-m">
                         <thead>
-                            <tr class="fw-bold fs-6 text-gray-400">
-                                <th class="px-3 py-2">Durum</th>
-                                <th class="px-3 py-2">Stok Kodu</th>
-                                <th class="px-3 py-2">İsim</th>
-                                <th class="px-3 py-2">Açıklama</th>
-                                <th class="px-3 py-2">Barkod</th>
-                                <th class="px-3 py-2">Ölçü Birimi</th>
-                                <th class="px-3 py-2">KDV Alış</th>
-                                <th class="px-3 py-2">KDV Satış</th>
-                                <th class="px-3 py-2">Oiv</th>
-                                <th class="px-3 py-2">ÖTV</th>
-                                <th class="px-3 py-2">ÖTV Fiyat</th>
-                                <th class="px-3 py-2">Tevkifat Pay</th>
-                                <th class="px-3 py-2">Tevkifat Payda</th>
-                                <th class="px-3 py-2">Vade Günü</th>
-                                <th class="px-3 py-2">Minimum Stok</th>
-                                <th class="px-3 py-2">Maksimum Stok</th>
-                                <th class="px-3 py-2">Limit Uyarısı</th>
-                                <th class="px-3 py-2">Limit Dışında İşlemi Durdur</th>
-                                <th class="px-3 py-2">Eksi Bakiye Uyarısı</th>
-                                <th class="px-3 py-2">Eksi Bakiyede İşlemi Durdur</th>
-                                <th class="px-3 py-2">Stok Kilitle</th>
-                                <th class="px-3 py-2">İskonto Satış 1</th>
+                            <tr class="fw-bold fs-6">
+                                <th class="px-3 py-2 text-gray-600">Durum</th>
+                                <th class="px-3 py-2 text-gray-600">Stok Kodu</th>
+                                <th class="px-3 py-2 text-gray-600">İsim</th>
+                                <th class="px-3 py-2 text-gray-600">Açıklama</th>
+                                <th class="px-3 py-2 text-gray-600">Barkod</th>
+                                <th class="px-3 py-2 text-gray-600">Ölçü Birimi</th>
+                                <th class="px-3 py-2 text-gray-600">KDV Alış</th>
+                                <th class="px-3 py-2 text-gray-600">KDV Satış</th>
+                                <th class="px-3 py-2 text-gray-600">Oiv</th>
+                                <th class="px-3 py-2 text-gray-600">ÖTV</th>
+                                <th class="px-3 py-2 text-gray-600">ÖTV Fiyat</th>
+                                <th class="px-3 py-2 text-gray-600">Tevkifat Pay</th>
+                                <th class="px-3 py-2 text-gray-600">Tevkifat Payda</th>
+                                <th class="px-3 py-2 text-gray-600">Vade Günü</th>
+                                <th class="px-3 py-2 text-gray-600">Minimum Stok</th>
+                                <th class="px-3 py-2 text-gray-600">Maksimum Stok</th>
+                                <th class="px-3 py-2 text-gray-600">Limit Uyarısı</th>
+                                <th class="px-3 py-2 text-gray-600">Limit Dışında İşlemi Durdur</th>
+                                <th class="px-3 py-2 text-gray-600">Eksi Bakiye Uyarısı</th>
+                                <th class="px-3 py-2 text-gray-600">Eksi Bakiyede İşlemi Durdur</th>
+                                <th class="px-3 py-2 text-gray-600">Stok Kilitle</th>
+                                <th class="px-3 py-2 text-gray-600">İskonto Satış 1</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,10 +88,10 @@
                     </table>
                 </div>
                 <div>
-                    <form id="iceAktarFormu" action="/Stok/ExcelIceAktar" method="post" class="p-8" enctype="multipart/form-data">
+                    <form id="iceAktarFormu" action="/Stok/ExcelIceAktar" method="post" class="px-8 py-4" enctype="multipart/form-data">
                         <div>
-                            <label for="file" class="form-label fs-4 fw-bold text-gray-600">Bir Dosya Seçin</label>
-                            <input class="form-control mt-2" type="file" name="file" />
+                            <label for="file" class="form-label fs-5 fw-bold text-gray-700">Bir Dosya Seçin</label>
+                            <input class="form-control mt-2 p-2" type="file" name="file" />
                         </div>
                         <!--begin::Actions-->
                         <div>
@@ -101,12 +101,12 @@
                         <div class="col-12">
                             <div class="d-flex pt-6">
                                 <div class="me-4">
-                                    <button type="submit" id="kaydetButonu" class="btn btn-primary" data-kt-users-modal-action="ExcelIceAktar">
+                                    <button type="submit" id="kaydetButonu" class="btn btn-primary btn-sm fw-bold" data-kt-users-modal-action="ExcelIceAktar">
                                         <span class="indicator-label">İçe Aktar</span>
                                     </button>
                                 </div>
                                 <div>
-                                    <button type="submit" id="simulasyonButonu" class="btn btn-light" data-kt-users-modal-action="ExcelIceAktar">
+                                    <button type="submit" id="simulasyonButonu" class="btn btn-light btn-sm fw-bold" data-kt-users-modal-action="ExcelIceAktar">
                                         <span class="indicator-label">Simüle Et</span>
                                     </button>
                                 </div>
@@ -119,7 +119,7 @@
         </div>
 
     </div>
-    <div class="container px-4 mt-8">
+    <div class="container-fluid px-4 mt-8">
         <div class="row ">
             <div class="card card-flush col-12">
                 <div class="card-header p-4">

@@ -10,8 +10,8 @@
     <div class="post" id="kt_post">
         <!--begin::Container-->
         <div id="kt_content_container" class="container-fluid">
-            <div class="card border-0 shadow-none">
-                <div class="card-header align-items-center gap-2 gap-md-5">
+            <div class="card">
+                <div class="card-header border-0 shadow-none align-items-center gap-2 gap-md-5 px-4">
                     <div class="card-title">
                         <!--begin::Search-->
                         <div class="d-flex align-items-center position-relative my-1">
@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 <div class="card-body p-0">
-                    <table class="table align-middle border rounded table-row-dashed fs-6 p-4" id="kullanicilar-datatable">
+                    <table class="table align-middle table-row-dashed fs-6 p-4" id="kullanicilar-datatable">
                         <thead class="p-0">
                             <!--begin::Table row-->
                             <tr class="text-start" style="font-size:15px;">
@@ -94,7 +94,7 @@
                             {
                                 <tr>
 
-                                    <td class="d-flex align-items-center p-2">
+                                    <td class="d-flex align-items-center">
                                         <!--begin:: Avatar -->
                                         <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
                                             <a href="/Kullanici/Duzenle/@(Convert.ToString(Model.Rows[i]["ID"]))">

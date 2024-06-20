@@ -4,14 +4,14 @@
 }
 <div class="container-fluid">
     <div class="row">
-        @Html.Partial("~/Views/Dosya/_DosyaMenu.cshtml", new ViewDataDictionary { { "KayitID", Convert.ToString(ViewBag.KayitID) }, { "Modul", Convert.ToString(ViewBag.Modul) } })
+        @Html.Partial("~/Views/Dosya/_DosyaMenu.cshtml", new ViewDataDictionary { { "KayitID", Convert.ToString(ViewBag.KayitID) }, { "Modul", Convert.ToString(ViewBag.Modul)} })
 
         <div class="col-lg-10">
             <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
                 <!--begin::Post-->
                 <div class="post d-flex flex-column-fluid" id="kt_post">
                     <!--begin::Container-->
-                    <div id="kt_content_container p-0" class="container-xxl">
+                    <div id="kt_content_container p-0" class="container-fluid">
                         <div class="card border-0 shadow-none">
                             <div class="card-body">
                                 <div>
@@ -45,21 +45,21 @@
                         </div>
                         <div class="card card-flush">
 
-                            <div class="card-header align-items-center py-5 gap-2 gap-md-5">
-                                <div class="card-title">
+                            <div class="card-header align-items-center gap-2 gap-md-5 p-4">
+                                <div class="card-title d-flex align-items-center justify-content-center">
                                     <!--begin::Search-->
-                                    <div class="d-flex align-items-center position-relative ms-6 my-1">
+                                    <div class="d-flex align-items-center position-relative">
                                         <i class="ki-duotone ki-magnifier fs-3 position-absolute m-4">
                                             <span class="path1 text-gray-500"></span>
                                             <span class="path2 text-gray-500"></span>
                                         </i>
-                                        <input type="text" data-kt-filter="search" class="form-control  w-250px py-1 ps-14" />
+                                        <input type="text" data-kt-filter="search" class="dosya-search-input form-control py-1 ps-14" />
                                     </div>
                                     <!--end::Search-->
                                 </div>
                                 <div class="card-toolbar flex-row-fluid justify-content-end gap-5 ">
                                     <!--begin::Export dropdown-->
-                                    <button type="button" class="btn btn-light-primary btn-sm fw-bold me-4" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                    <button type="button" class="btn btn-light-primary btn-sm fw-bold" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                         <i class="ki-duotone ki-exit-down fs-2"><span class="path1"></span><span class="path2"></span></i>
                                         Dışarı aktar
                                     </button>
@@ -100,9 +100,9 @@
                                 </div>
                             </div>
                             <!--begin::Card body-->
-                            <div class="card-body">
+                            <div class="card-body p-0">
                                 <!--begin::Table-->
-                                <table class="table align-middle table-row-dashed fs-6 p-4" id="Dosya-datatable">
+                                <table class="table align-middle table-row-dashed fs-6 p-2" id="Dosya-datatable">
                                     <thead>
                                         <tr class="text-start" style="font-size:15px;">
 
@@ -117,17 +117,20 @@
                                             <tr>
 
                                                 <td class="d-flex align-items-center">
-                                                    <div href="" class="text-gray-800 text-hover-primary mb-1">@(Convert.ToString(Model.Rows[i]["Modul"]))</div>
+                                                    <div href="" class="text-gray-800 text-hover-primary ">@(Convert.ToString(Model.Rows[i]["Modul"]))</div>
                                                 </td>
 
                                                 <td>
-                                                    <span class="icon-wrapper">
-                                                        <i class="ki-duotone ki-folder fs-2x text-primary me-4">
-                                                            <span class="path1"></span>
-                                                            <span class="path2"></span>
-                                                        </i>
-                                                    </span>
-                                                    <div href="" class="text-gray-800 text-hover-primary mb-1">@(Convert.ToString(Model.Rows[i]["Dosya"]))</div>
+                                                    <div class="d-flex">
+                                                        <span class="icon-wrapper">
+                                                            <i class="ki-duotone ki-folder fs-2x text-primary me-4">
+                                                                <span class="path1"></span>
+                                                                <span class="path2"></span>
+                                                            </i>
+                                                        </span>
+                                                        <div href="" class="text-gray-800 text-hover-primary ">@(Convert.ToString(Model.Rows[i]["Dosya"]))</div>
+                                                    </div>
+                                                   
                                                 </td>
 
                                                 <td class="text-end">
