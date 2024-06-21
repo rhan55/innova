@@ -1,4 +1,4 @@
-﻿
+﻿@using YKPortal.Models.Dto
 @model System.Data.DataTable
 @{
     ViewBag.Title = "Üye Ol";
@@ -128,7 +128,7 @@
                                             <label class="required fw-semibold fs-6 mb-2">Firma Kısa Adı</label>
                                             <!--end::Label-->
                                             <!--begin::Input-->
-                                            <input type="text" name="Isim" class="form-control p-2 mb-3 mb-lg-0" placeholder="Firma Kısa Adı"   required />
+                                            <input type="text" name="Isim" class="form-control p-2 mb-3 mb-lg-0" placeholder="Firma Kısa Adı" required />
 
                                             <!--end::Input-->
                                         </div>
@@ -180,7 +180,7 @@
                                             <label class="required fw-semibold fs-6 mb-2">Ad</label>
                                             <!--end::Label-->
                                             <!--begin::Input-->
-                                            <input class="form-control p-2" name="Ad" placeholder="Ad" id="exampleFormControlTextarea1"  value="@ViewBag.Form.Ad"required />
+                                            <input class="form-control p-2" name="Ad" placeholder="Ad" id="exampleFormControlTextarea1" value="@ViewBag.Form.Ad" required />
 
                                             <!--end::Input-->
                                         </div>
@@ -269,15 +269,16 @@
                                     <div class="row">
                                         <!--begin::Input group-->
                                         <div class="col-lg-6">
-                                            <div class="d-flex flex-column col-lg-12">
-                                                <label class="required fw-semibold fs-6 mb-2">İl</label>
-                                                <select name="Il" class="form-select form-select-solid" aria-label="Select example" required>
-                                                    @foreach (var il in ViewBag.Iller)
+                                            <div class="form-group">
+                                                <label for="Il" class=" form-label">İl</label>
+                                                <select class="form-select form-select-solid p-2 rounded-1" name="Il" data-control="select2" id="Il"
+                                                        aria-label="Floating label select example">
+                                                    <option value="">Lütfen Seçim Yapınız</option>
+                                                    @foreach (GrupKoduDto il in ViewBag.Iller)
                                                     {
-                                                        <option value="@il" @(ViewBag.Form.Il == il ? "selected" : "")>@il</option>
+                                                        <option value="@il.ID">@il.Deger</option>
                                                     }
                                                 </select>
-
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -296,7 +297,7 @@
 
                                     <button type="submit" class="btn btn-primary btn-sm ms-3 ps-8 pe-8" data-kt-users-modal-action="UyeOl">
                                         <span class="indicator-label">Üye Ol</span>
-                                      
+
                                     </button>
                                     <a href="~/YK/Giris" class="btn btn-light btn-sm ms-3" data-kt-users-modal-action="cancel">Giriş Yap</a>
                                 </div>

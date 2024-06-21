@@ -488,7 +488,7 @@ namespace YKPortal.Controllers
 
         [HttpPost]
         public ActionResult ZiyaretDuzenle(ZiyaretDto ziyaretDto)
-        {
+         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
@@ -1015,7 +1015,7 @@ namespace YKPortal.Controllers
 
 
             DataTable ilDataTable = (DataTable)IDVeritabani.Sorgula(ilCommand, SorgulaTuru.Tablo);
-
+            // Yeni bir Dto üretiyoruz class üzerindem 
             List<GrupKoduDto> entities = new List<GrupKoduDto>();
 
             for (int i = 0; i < ilDataTable.Rows.Count; i++)
@@ -1216,7 +1216,7 @@ namespace YKPortal.Controllers
 
 
             DataTable cariGrupKod6DataTable = (DataTable)IDVeritabani.Sorgula(cariGrupKod6Command, SorgulaTuru.Tablo);
-
+            
             List<GrupKoduDto> entities = new List<GrupKoduDto>();
 
             for (int i = 0; i < cariGrupKod6DataTable.Rows.Count; i++)

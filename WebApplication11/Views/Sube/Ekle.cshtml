@@ -34,65 +34,62 @@
     }
 
     <!--begin::Scroll-->
-<div class="d-flex flex-column scroll-y container mt-10">
-    <!--begin::Row Input group-->
-    <div class="row mb-12">
-        <!--begin::Input group-->
-        <div class="col-lg-6">
-            <!--begin::Label-->
-            <label for="Kod" class="fw-bold text-gray-800 fs-6 mb-2">Kod</label>
-            <!--end::Label-->
-            <!--begin::Input-->
-            <input type="text" id="Kod" name="Kod" class="form-control" required>
-            <!--end::Input-->
-        </div>
-        <!--begin::Input group-->
-        <div class="col-lg-6">
-            <!--begin::Label-->
-            <label for="Isim" class="fw-bold text-gray-800 fs-6 mb-2">Isim</label>
-            <!--end::Label-->
-            <!--begin::Input-->
-            <input type="text" id="Isim" name="Isim" class="form-control" required>
-            <!--end::Input-->
-        </div>
+    <div class="d-flex flex-column scroll-y container mt-10">
+        <!--begin::Row Input group-->
+        <div class="row mb-12">
+            <!--begin::Input group-->
+            <div class="col-lg-6">
+                <!--begin::Label-->
+                <label for="Kod" class="fw-bold text-gray-800 fs-6 mb-2">Kod</label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input type="text" id="Kod" name="Kod" class="form-control p-2" required>
+                <!--end::Input-->
+            </div>
+            <!--begin::Input group-->
+            <div class="col-lg-6">
+                <!--begin::Label-->
+                <label for="Isim" class="fw-bold text-gray-800 fs-6 mb-2">Isim</label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input type="text" id="Isim" name="Isim" class="form-control p-2" required>
+                <!--end::Input-->
+            </div>
 
-    </div>
-    <!--end::Input group-->
-    <!--begin::Row Input group-->
-    <div class="row mb-12">
-        <!--begin::Input group-->
-        <div class="col-lg-6">
-            <!--begin::Label-->
-            <label for="Adres" class="fw-bold text-gray-800 fs-6 mb-2">Adres</label>
-            <!--end::Label-->
-            <!--begin::Input-->
-            <input type="text" id="Adres" name="Adres" class="form-control">
-            <!--end::Input-->
         </div>
-        <!--begin::Input group-->
-        <div class="col-lg-6">
-            <!--begin::Label-->
-            <label for="Telefon" class="fw-bold text-gray-800 fs-6 mb-2">Telefon</label>
-            <!--end::Label-->
-            <!--begin::Input-->
-            <input type="text" id="Telefon" name="Telefon" class="form-control">
-            <!--end::Input-->
-        </div>
+        <!--end::Input group-->
+        <!--begin::Row Input group-->
+        <div class="row">
+            <!--begin::Input group-->
+            <div class="col-lg-6">
+                <!--begin::Label-->
+                <label for="Adres" class="fw-bold text-gray-800 fs-6 mb-2">Adres</label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input type="text" id="Adres" name="Adres" class="form-control p-2">
+                <!--end::Input-->
+            </div>
+            <!--begin::Input group-->
+            <div class="col-lg-6">
+                <!--begin::Label-->
+                <label for="Telefon" class="fw-bold text-gray-800 fs-6 mb-2">Telefon</label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input type="text" id="Telefon" name="Telefon" class="form-control p-2">
+                <!--end::Input-->
+            </div>
 
+        </div>
+        <!--end::Input group-->
+        <!--begin::Actions-->
+        <div class="pt-10">
+            <a href="/Sube/Liste" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
+            <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Kaydet">
+                <span class="indicator-label">Kaydet</span>
+
+            </button>
+        </div>
+        <!--end::Actions-->
     </div>
-    <!--end::Input group-->
-    <!--begin::Actions-->
-    <div class="pt-5">
-        <a href="/Sube/Liste" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
-        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet">
-            <span class="indicator-label">Kaydet</span>
-            <span class="indicator-progress">
-                Lütfen Bekleyin...
-                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-            </span>
-        </button>
-    </div>
-    <!--end::Actions-->
-</div>
 </form>
 <!--end::Form-->

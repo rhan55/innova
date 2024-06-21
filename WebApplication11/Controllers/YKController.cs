@@ -248,7 +248,7 @@ namespace YKPortal.Controllers
         [HttpGet]
         public ActionResult UyeOl()
         {
-            IlListesiniOlusturGenel();
+            IlListesiniOlustur();
 
             return View();
 
@@ -259,8 +259,7 @@ namespace YKPortal.Controllers
         [HttpPost]
         public ActionResult UyeOl(UyelikDto uyelikDto)
         {
-            if (!AutoGirisKontrol())
-                return Redirect("~/YK/Giris");
+           
 
             IlListesiniOlustur();
 
@@ -510,31 +509,9 @@ namespace YKPortal.Controllers
 
         #endregion
 
-        public void IlListesiniOlusturGenel()
-        {
-            // Il Listesi oluşturma
-            SqlCommand ilCommand = new SqlCommand();
-            ilCommand.CommandText = "p_GrupKoduListesi";
-            ilCommand.CommandType = System.Data.CommandType.StoredProcedure;
-            ilCommand.Parameters.AddWithValue("@UyelikID", "GENEL");
-
-            ilCommand.Parameters.AddWithValue("@Kod", "Il");
-            ilCommand.Parameters.AddWithValue("@AranacakKelime", "");
-
-
-            DataTable ilDataTable = (DataTable)IDVeritabani.Sorgula(ilCommand, SorgulaTuru.Tablo);
-
-            var iller = new List<string>();
-
-            for (int i = 0; i < ilDataTable.Rows.Count; i++)
-            {
-                iller.Add(Convert.ToString(ilDataTable.Rows[i]["Deger"]));
-            }
-            ViewBag.Iller = iller;
-        }
         public void IlListesiniOlustur()
         {
-            // Il Listesi oluşturma
+            // GrupKodu1 Listesi oluşturma 
             SqlCommand ilCommand = new SqlCommand();
             ilCommand.CommandText = "p_GrupKoduListesi";
             ilCommand.CommandType = System.Data.CommandType.StoredProcedure;
@@ -545,14 +522,17 @@ namespace YKPortal.Controllers
 
 
             DataTable ilDataTable = (DataTable)IDVeritabani.Sorgula(ilCommand, SorgulaTuru.Tablo);
-
-            var iller = new List<string>();
+            // Yeni bir Dto üretiyoruz class üzerindem 
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
 
             for (int i = 0; i < ilDataTable.Rows.Count; i++)
             {
-                iller.Add(Convert.ToString(ilDataTable.Rows[i]["Deger"]));
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(ilDataTable.Rows[i]["ID"]);
+                entity.Deger = Convert.ToString(ilDataTable.Rows[i]["Deger"]);
+                entities.Add(entity);
             }
-            ViewBag.Iller = iller;
+            ViewBag.Iller = entities;
         }
     }
 }

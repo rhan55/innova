@@ -15,7 +15,7 @@
                     <div class="col-lg-10">
                         <input type="hidden" name="ID" value="@(Convert.ToString(Model.Rows[0]["ID"]))" />
                         <div class="row">
-                            <div class="col-lg-2 d-flex align-items-center ">
+                            <div class="col-lg-2 d-flex align-items-center">
                                 <div class="form-check">
                                     <input class="form-check-input" name="Aktif" type="checkbox" value="true" id="Aktif" @(Convert.ToBoolean(Model.Rows[0]["Aktif"]) ? "checked" : "") />
                                     <label class="form-check-label user-select-none cursor-pointer" for="Aktif">
@@ -301,7 +301,7 @@
                             </div>
                             <div class="col-lg-3 mt-4 mt-lg-0">
                                 <div class="form-group">
-                                    <label for="CepTelefonu" class="form-label ">Cep Telefonu</label>
+                                    <label for="CepTelefonu" class="form-label">Cep Telefonu</label>
                                     <input type="text" name="CepTelefonu" class="form-control p-2 rounded-1" id="CepTelefonu" value="@(Convert.ToString(Model.Rows[0]["CepTelefonu"]))" />
                                 </div>
                             </div>
@@ -458,13 +458,10 @@
                 </div>
                 <div class="row mt-8">
                     <div class="col-12 d-flex align-items-center justify-content-start">
-                        <a href="/Cari/Liste" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
-                        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Ekle">
+                        <a href="/Cari/Liste" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
+                        <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Ekle">
                             <span class="indicator-label">Kaydet</span>
-                            <span class="indicator-progress">
-                                Lütfen Bekleyin...
-                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                            </span>
+                           
                         </button>
                     </div>
                 </div>
@@ -472,10 +469,6 @@
         </form>
     </div>
 </div>
-
-@section Styles {
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-}
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
