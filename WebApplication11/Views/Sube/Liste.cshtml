@@ -9,12 +9,12 @@
     <!--begin::Post-->
     <div class="post d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
-        <div id="kt_content_container" class="container-fluid p-4">
+        <div id="kt_content_container" class="container-fluid">
             <div class="card shadow-none card-flush border-0">
-                <div class="card-header align-items-center py-5 gap-2 gap-md-5 ">
-                    <div class="card-title">
+                <div class="card-header align-items-center p-0 gap-2 gap-md-5">
+                    <div class="card-title px-4">
                         <!--begin::Search-->
-                        <div class="d-flex align-items-center position-relative ms-6 my-1">
+                        <div class="d-flex align-items-center position-relative my-1">
                             <i class="ki-duotone ki-magnifier fs-3 position-absolute m-4">
                                 <span class="path1 text-gray-500"></span>
                                 <span class="path2 text-gray-500"></span>
@@ -109,7 +109,7 @@
                                 <td>
                                     <div href="" class="text-gray-800 text-hover-primary">@(Convert.ToString(Model.Rows[i]["Telefon"]))</div>
                                 </td>
-                                <td class="text-end">
+                                <td class="text-end py-2">
                                     <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                         İşlemler
                                         <i class="ki-duotone ki-down fs-5 ms-1"></i>

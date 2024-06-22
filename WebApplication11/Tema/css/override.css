@@ -85,11 +85,6 @@ div.dt-container {
         width:100% !important;
     }
 }
-
-.select2-dropdown.select2-dropdown--below {
-    padding: 0!important;
-}
-
-.select2-results__option.select2-results__message {
-    padding: 0!important;
+span.select2-search.select2-search--dropdown{
+    padding:0!important;
 }

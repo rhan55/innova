@@ -12,7 +12,7 @@
     }
 }
 <div class="container">
-    <div class="row">
+    <div class="row mt-4">
         <!--begin::Form-->
         <form id="kt_modal_add_user_form" class="form" action="@Url.Action("Ekle","Kullanici",null)" method="post" enctype="multipart/form-data">
 
@@ -47,7 +47,7 @@
                 <!--begin::Input group-->
                 <div class="fv-row mb-7">
                     <!--begin::Label-->
-                    <label class="d-block fw-semibold fs-6 mb-5">Profil Resmi</label>
+                    <label class="d-block fw-semibold fs-6 mb-5 fw-bold">Profil Resmi</label>
                     <!--end::Label-->
                     <!--begin::Image placeholder-->
                     <style>
@@ -153,7 +153,7 @@
                             <label class="required fw-semibold fs-6 mb-2">Telefon</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="Telefon" class="form-control p-2 mb-3 mb-lg-0" placeholder="Full name" value="@kullaniciEkleDto.Telefon" />
+                            <input type="text" name="Telefon" class="form-control p-2 mb-3 mb-lg-0" value="@kullaniciEkleDto.Telefon" />
                             <!--end::Input-->
                         </div>
                     </div>
@@ -174,17 +174,16 @@
                     <!--end::Input group-->
                     <!--begin::Input group-->
                     <div class="col-lg-6">
-                        <div class="d-flex  ">
-                            <div class="d-flex flex-column col-lg-6 pe-3 mt-10">
-                                <select class="form-select form-select-solid  rounded-1" name="Il" data-control="select2" id="Il"
+                        <div class="d-flex">
+                            <div class="d-flex flex-column col-lg-6 mt-10">
+                                <label></label>
+                                <select class="form-control p-2" name="Il" data-control="select2" id="Il"
                                         aria-label="Floating label select example">
                                     <option value="">Lütfen Seçim Yapınız</option>
                                     @foreach (GrupKoduDto il in ViewBag.Iller)
                                     {
                                         <option value="@il.ID">@il.Deger</option>
                                     }
-
-
                                 </select>
                             </div>
 
@@ -227,7 +226,7 @@
                     <a href="/Kullanici/Liste" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
                     <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Kaydet">
                         <span class="indicator-label">Kaydet</span>
-                       
+
                     </button>
                 </div>
             </div>
@@ -236,12 +235,10 @@
             <!--end::Actions-->
         </form>
         <!--end::Form-->
-        </div>
     </div>
-        @section Styles {
-            <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-        }
+</div>
 
-        @section Scripts {
-            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-        }
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+}
