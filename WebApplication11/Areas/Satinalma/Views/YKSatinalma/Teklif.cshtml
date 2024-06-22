@@ -8,7 +8,7 @@
     int ID = Model.Rows.Count == 0 ? 0 : Convert.ToInt32(Model.Rows[0]["ID"]);
     DateTime Baslangic = Model.Rows.Count == 0 ? DateTime.Today.AddDays(-1) : Convert.ToDateTime(Model.Rows[0]["Baslangic"]);
     DateTime Bitis = Model.Rows.Count == 0 ? DateTime.Today.AddDays(15) : Convert.ToDateTime(Model.Rows[0]["Bitis"]);
-    int CariID = Model.Rows.Count == 0 ? 0 : Convert.ToInt32(Model.Rows[0]["CariID"]);
+    string CariID = Model.Rows.Count == 0 ? "" : Convert.ToString(Model.Rows[0]["CariID"]);
     string CariAdi = Model.Rows.Count == 0 ? "" : Convert.ToString(Model.Rows[0]["CariAdi"]);
     string Sozlesmeli = Model.Rows.Count == 0 ? "" : Convert.ToString(Model.Rows[0]["Sozlesmeli"]);
     int StokID = Model.Rows.Count == 0 ? 0 : Convert.ToInt32(Model.Rows[0]["StokID"]);

@@ -63,6 +63,7 @@
         function TutarKontroluYap(entity) {
             $(entity).val(entity.value.replace(",", "."));
         }
+
     </script>
 
     <script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
@@ -70,6 +71,13 @@
 <!--end::Head-->
 <!--begin::Body-->
 <body id="kt_body" class="aside-enabled">
+    <!--begin::Page loading(append to body)-->
+    <div class="page-loader flex-column">
+        <span class="spinner-border text-primary" role="status"></span>
+        <span class="text-muted fs-6 fw-semibold mt-5">Sayfa Yükleniyor...</span>
+    </div>
+    <!--end::Page loading-->
+
     <!--begin::Theme mode setup on page load-->
     <script>var defaultThemeMode = "light"; var themeMode; if (document.documentElement) { if (document.documentElement.hasAttribute("data-bs-theme-mode")) { themeMode = document.documentElement.getAttribute("data-bs-theme-mode"); } else { if (localStorage.getItem("data-bs-theme") !== null) { themeMode = localStorage.getItem("data-bs-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-bs-theme", themeMode); }</script>
     <!--end::Theme mode setup on page load-->
@@ -169,7 +177,7 @@
 
                             @if (KullaniciAdi.EndsWith("@ykyazilim.com.tr"))
                             {
-                                <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="@Url.Action("UyelikListesi", "YK", null)"><span class="menu-icon"><i class="ki-duotone ki-exit-left fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Üyelikler</span></a><!--end:Menu link--></div>
+                                <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="@Url.Action("UyelikListesi", "YK", null)"><span class="menu-icon"><i class="ki-duotone ki-slack fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Üyelikler</span></a><!--end:Menu link--></div>
                             }
 
                             <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="@Url.Action("Cikis","YK",null)"><span class="menu-icon"><i class="ki-duotone ki-exit-left fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Çıkış</span></a><!--end:Menu link--></div>
@@ -363,10 +371,10 @@
     <!--begin::Javascript-->
     <!--begin::Global Javascript Bundle(mandatory for all pages)-->
 
-    <script src="/Tema/plugins/global/plugins.bundle.js"></script>
+    <script src="~/Tema/plugins/global/plugins.bundle.js"></script>
     <script src="~/Tema/plugins/custom/datatables/datatables.min.js"></script>
-    <script src="/Tema/js/scripts.bundle.js"></script>
-    <script src="/Tema/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
+    <script src="~/Tema/js/scripts.bundle.js"></script>
+    <script src="~/Tema/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
     <script src="~/Tema/plugins/custom/vis-timeline/vis-timeline.bundle.js"></script>
 
 
@@ -374,10 +382,29 @@
     <script></script>
     <!--end::Global Javascript Bundle-->
     <script>
+        const loadingEl = document.createElement("div");
+    document.body.prepend(loadingEl);
+    loadingEl.classList.add("page-loader");
+    loadingEl.classList.add("flex-column");
+    loadingEl.innerHTML = `
+        <span class="spinner-border text-primary" role="status"></span>
+        <span class="text-muted fs-6 fw-semibold mt-5">Loading...</span>
+    `;
+
+    // Show page loading
+    KTApp.showPageLoading();
+
+    // Hide after 3 seconds
+    setTimeout(function() {
+        KTApp.hidePageLoading();
+        loadingEl.remove();
+    }, 3000);
+
+
         const navigations = [
             {
                 title: "Ana Kayıtlar",
-                icon: "ki-duotone ki-element-11 fs-2",
+                icon: "ki-duotone ki-category fs-2",
                 isOpen: false,
                 items: [
                     {
@@ -414,7 +441,7 @@
             },
             {
                 title: "Tanımlamalar",
-                icon: "ki-duotone ki-element-11 fs-2",
+                icon: "ki-duotone ki-text fs-2",
                 isOpen: false,
                 items: [
                     {
@@ -558,7 +585,7 @@
             {
 
                 title: "Satınalma",
-                icon: "ki-duotone ki-element-11 fs-2",
+                icon: "ki-duotone ki-basket fs-2",
                 isOpen: false,
                 items: [
                     {
@@ -593,10 +620,10 @@
                                 title: "Satınalma",
                                 url: "/Satinalma/YKSatinalma/Satinalma"
                             },
-                            {
-                                title: "Sözleşmeler",
-                                url: "/Satinalma/YKSatinalma/CariSOzlesmeleri"
-                            },
+                            //{
+                            //    title: "Sözleşmeler",
+                            //    url: "/Satinalma/YKSatinalma/CariSOzlesmeleri"
+                            //},
                         ]
                     },
                     {
@@ -633,7 +660,7 @@
                         items: [
                             {
                                 title: "Satınalma Raporu",
-                                url: "/Satinalma/YKSatinalma/Talep Raporu"
+                                url: "/Satinalma/YKSatinalma/TalepRaporu"
                             },
                         ]
                     },
@@ -644,7 +671,7 @@
             {
 
                 title: "CRM",
-                icon: "ki-duotone ki-element-11 fs-2",
+                icon: "ki-duotone ki-security-user fs-2",
                 isOpen: false,
                 items: [
                     {
@@ -665,7 +692,7 @@
             },
             {
                 title: "Ayarlar",
-                icon: "ki-duotone ki-element-11 fs-2",
+                icon: "ki-duotone ki-setting-2 fs-2",
                 isOpen: false,
                 items: [
                     {
@@ -691,53 +718,53 @@
         function createLink(item) {
 
             return `
-                                             <div class="menu-item">
-                                                 <!--begin:Menu link-->
-                                                 <a class="menu-link py-0" href="${item.url}">
-                                                     <span class="menu-bullet">
-                                                         <span class="bullet bullet-dot"></span>
-                                                     </span>
-                                                     <span class="menu-title">${item.title}</span>
-                                                 </a>
-                                                 <!--end:Menu link-->
-                                             </div>
-                                                     `
+                                                 <div class="menu-item">
+                                                     <!--begin:Menu link-->
+                                                     <a class="menu-link py-0" href="${item.url}">
+                                                         <span class="menu-bullet">
+                                                             <span class="bullet bullet-dot"></span>
+                                                         </span>
+                                                         <span class="menu-title">${item.title}</span>
+                                                     </a>
+                                                     <!--end:Menu link-->
+                                                 </div>
+                                                         `
         }
         function createMenu(navigationMenu, links) {
             return `
-                                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                                            <span class="menu-link py-0">
-                                                <span class="menu-icon">
-                                                    <i class="${navigationMenu.icon}"></i>
+                                            <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                                                <span class="menu-link py-0">
+                                                    <span class="menu-icon">
+                                                        <i class="${navigationMenu.icon}"></i>
+                                                    </span>
+                                                    <span class="menu-title">${navigationMenu.title}</span>
+                                                    <span class="menu-arrow"></span>
                                                 </span>
-                                                <span class="menu-title">${navigationMenu.title}</span>
-                                                <span class="menu-arrow"></span>
-                                            </span>
 
-                                            <div class="menu-sub menu-sub-accordion">${links.join('')}</div>
-                                        </div>
+                                                <div class="menu-sub menu-sub-accordion">${links.join('')}</div>
+                                            </div>
 
-                                         `;
+                                             `;
         }
         function createNavigation(navigation, menus) {
             return ` <div data-kt-menu-trigger="click" class="menu-item ${navigation.isOpen ? 'show' : ''} menu-accordion">
-                                        <!--begin:Menu link-->
-                                        <span class="menu-link py-0">
-                                            <span class="menu-icon">
-                                                <i class="ki-duotone ki-element-11 fs-2">
-                                                    <span class="path1"></span>
-                                                    <span class="path2"></span>
-                                                    <span class="path3"></span>
-                                                    <span class="path4"></span>
-                                                </i>
+                                            <!--begin:Menu link-->
+                                            <span class="menu-link py-0">
+                                                <span class="menu-icon">
+                                                    <i class="${navigation.icon}">
+                                                         <span class="path1"></span>
+                                             <span class="path2"></span>
+                                             <span class="path3"></span>
+                                             <span class="path4"></span>
+                                                    </i>
+                                                </span>
+                                                <span class="menu-title">${navigation.title}</span>
+                                                <span class="menu-arrow"></span>
                                             </span>
-                                            <span class="menu-title">${navigation.title}</span>
-                                            <span class="menu-arrow"></span>
-                                        </span>
-                                        <div class="menu-sub menu-sub-accordion">
-                                            ${menus.join('')}
-                                        </div>
-                                    </div>`
+                                            <div class="menu-sub menu-sub-accordion">
+                                                ${menus.join('')}
+                                            </div>
+                                        </div>`
         }
 
         function buildNavigation(navigationList) {
@@ -782,6 +809,7 @@
 
             navigationContainer.innerHTML = filteredNavigation.join("")
         });
+
 
     </script>
     @RenderSection("Scripts", required: false)

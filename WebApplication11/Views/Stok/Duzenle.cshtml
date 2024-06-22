@@ -39,35 +39,35 @@
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="KdvAlis" class=" form-label">Kdv Alış</label>
-                            <input type="text" name="KdvAlis" class="form-control p-2 rounded-1" placeholder="" id="KdvAlis" step="any" value="@(Convert.ToString(Model.Rows[0]["KdvAlis"]))" />
+                            <input type="text" name="KdvAlis" class="form-control p-2 rounded-1" placeholder="" id="KdvAlis" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["KdvAlis"])))" />
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="KdvSatis" class=" form-label">Kdv Satış</label>
-                            <input type="text" name="KdvSatis" class="form-control p-2 rounded-1" placeholder="" id="KdvSatis" step="any" value="@(Convert.ToString(Model.Rows[0]["KdvSatis"]))" />
+                            <input type="text" name="KdvSatis" class="form-control p-2 rounded-1" placeholder="" id="KdvSatis" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["KdvSatis"])))" />
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="Otv" class=" form-label">Otv</label>
-                            <input type="text" name="Otv" class="form-control p-2 rounded-1" placeholder="" id="Otv" step="any" value="@(Convert.ToString(Model.Rows[0]["Otv"]))" />
+                            <input type="text" name="Otv" class="form-control p-2 rounded-1" placeholder="" id="Otv" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["Otv"])))" />
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="OtvFiyat" class="form-label">Otv Fiyat</label>
-                            <input type="text" name="OtvFiyat" class="form-control p-2 rounded-1" placeholder="" id="OtvFiyat" step="any" value="@(Convert.ToString(Model.Rows[0]["OtvFiyat"]))" />
+                            <input type="text" name="OtvFiyat" class="form-control p-2 rounded-1" placeholder="" id="OtvFiyat" step="any" value="@(String.Format("{0:N2}",Convert.ToDecimal(Model.Rows[0]["OtvFiyat"])))" />
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="Oiv" class=" form-label">Oiv</label>
-                            <input type="text" name="Oiv" class="form-control p-2 rounded-1" placeholder="" id="Oiv" step="any" value="@(Convert.ToString(Model.Rows[0]["Oiv"]))" />
+                            <input type="text" name="Oiv" class="form-control p-2 rounded-1" placeholder="" id="Oiv" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["Oiv"])))" />
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="TevkifatPay" class=" form-label">Tevkifat Pay</label>
-                            <input type="text" name="TevkifatPay" class="form-control p-2 rounded-1" placeholder="" id="TevkifatPay" step="any" value="@(Convert.ToString(Model.Rows[0]["TevkifatPay"]))" />
+                            <input type="text" name="TevkifatPay" class="form-control p-2 rounded-1" placeholder="" id="TevkifatPay" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["TevkifatPay"])))" />
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="TevkifatPayda" class=" form-label">Tevkifat Payda</label>
-                            <input type="text" name="TevkifatPayda" class="form-control p-2 rounded-1" placeholder="" id="TevkifatPayda" step="any" value="@(Convert.ToString(Model.Rows[0]["TevkifatPayda"]))" />
+                            <input type="text" name="TevkifatPayda" class="form-control p-2 rounded-1" placeholder="" id="TevkifatPayda" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["TevkifatPayda"])))" />
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="IskontoSatis1" class=" form-label">İskonto Satış 1</label>
-                            <input type="text" name="IskontoSatis1" class="form-control p-2 rounded-1" placeholder="" id="IskontoSatis1" step="any" value="@(Convert.ToString(Model.Rows[0]["IskontoSatis1"]))" />
+                            <input type="text" name="IskontoSatis1" class="form-control p-2 rounded-1" placeholder="" id="IskontoSatis1" step="any" value="@(String.Format("{0:N2}",Convert.ToDecimal(Model.Rows[0]["IskontoSatis1"])))" />
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="VadeGunu" class=" form-label">Vade Günü</label>
@@ -75,11 +75,11 @@
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="MinimumStok" class=" form-label">Minimum Stok</label>
-                            <input type="text" name="MinimumStok" class="form-control p-2 rounded-1" placeholder="" id="MinimumStok" step="any" value="@(Convert.ToString(Model.Rows[0]["MinimumStok"]))" />
+                            <input type="text" name="MinimumStok" class="form-control p-2 rounded-1" placeholder="" id="MinimumStok" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["MinimumStok"])))" />
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="MaxsimumStok" class=" form-label">Maxsimum Stok</label>
-                            <input type="text" name="MaxsimumStok" class="form-control p-2 rounded-1" placeholder="" id="MaxsimumStok" step="any" value="@(Convert.ToString(Model.Rows[0]["MaxsimumStok"]))" />
+                            <input type="text" name="MaxsimumStok" class="form-control p-2 rounded-1" placeholder="" id="MaxsimumStok" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["MaxsimumStok"])))" />
                         </div>
 
                         <div class="form-group col-lg-4 mt-4">

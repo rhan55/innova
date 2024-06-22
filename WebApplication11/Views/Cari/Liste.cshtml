@@ -22,9 +22,12 @@
                                     <!--end::Export buttons-->
                                 </div>
                                 <div class="card-toolbar flex-row-fluid justify-content-end gap-3">
+                                    <button type="button" id="topluSilButon" class="btn btn-light-primary btn-sm" onclick="$('#DivFiltre').toggle();">
+                                        <span class="indicator-label fw-bold">Filtre</span>
+                                    </button>
                                     <div>
                                         <button type="button" id="topluSilButon" class="btn btn-light-primary btn-sm" data-bs-toggle="modal" data-bs-target="#Cari-toplu-silme">
-                                            <span class="indicator-label fw-bold">Toplu Sil</span>                                         
+                                            <span class="indicator-label fw-bold">Toplu Sil</span>
                                         </button>
                                     </div>
                                     <button type="button" class="btn btn-light-primary btn-sm fw-bold" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -79,7 +82,7 @@
                         </div>
 
                         <div>
-                            <div class="container-fluid">
+                            <div class="container-fluid" id="DivFiltre" name="DivFiltre" style="display:none;">
                                 <div class="card border-0 shadow-none">
                                     <div class="card-body">
                                         <!--begin::Filtreleme alanı-->
@@ -183,8 +186,10 @@
                                                 </td>
 
                                                 <td class="pt-4 ">
-                                                    @(Convert.ToString(Model.Rows[i]["Kod"])) <br />
-                                                    <strong> @(Convert.ToString(Model.Rows[i]["Isim"])) </strong>
+                                                    <a href="/Cari/Duzenle/@(Convert.ToString(Model.Rows[i]["ID"]))">
+                                                        @(Convert.ToString(Model.Rows[i]["Kod"])) - 
+                                                        <strong> @(Convert.ToString(Model.Rows[i]["Isim"])) </strong>
+                                                        </a>
                                                 </td>
                                                 <td class="pt-4 pb-4">
                                                     @(Convert.ToString(Model.Rows[i]["Isim"]))
@@ -381,7 +386,6 @@
                         method: "POST",
                         data: { idListesi: idListesi },
                         success: function (response) {
-
                             console.log("Success:", response);
                             window.location.reload();
                         },
@@ -584,7 +588,7 @@
                             return setting;
                         })
 
-                        console.log(settings);
+                        //console.log(settings);
 
                         setCookie('Cari-datatable', JSON.stringify(settings), 365);
                     }
@@ -592,7 +596,7 @@
 
                 function loadDataTableSettingsFromCookie(table) {
                     let settings = getCookie('Cari-datatable');
-                    console.log(table);
+                    //console.log(table);
                     if (settings) {
                         settings = JSON.parse(settings);
                         settings.forEach(function (setting) {

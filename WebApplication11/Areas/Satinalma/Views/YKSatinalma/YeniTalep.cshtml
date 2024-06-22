@@ -69,7 +69,7 @@
                 <th style="padding: 2px; text-align: right;"><strong>Stok</strong></th>
                 <th style="padding: 2px; text-align: right;"><strong>Talep Miktarı</strong></th>
                 <th style="padding: 2px; text-align: left;"><strong>Açıklama</strong></th>
-                <th style="padding: 2px; text-align: left;"><strong>Dosya</strong></th>
+                <th style="padding: 2px; text-align: left;display:none;"><strong>Dosya</strong></th>
             </tr>
         </thead>
         <tbody>
@@ -85,7 +85,7 @@
                         <td style="padding: 2px;text-align:right;@(Convert.ToDecimal(satir["Bakiye"]) <= 0 ? "background-color:red;color:white;" : "background-color:green;color:white;")">@String.Format("{0:N2} {1}", Convert.ToDecimal(satir["Bakiye"]), satir["OlcuBirimi"])</td>
                         <td style="padding: 2px;text-align:right;"><input type="text" data-id="@satir["ID"]" name="Miktar_@(Convert.ToString(satir["IDTresiz"]))" id="Miktar_@(Convert.ToString(satir["IDTresiz"]))" value="0" style="text-align:right;width:100%;width:100px;" onchange="TutarKontroluYap(this);" /> @satir["OlcuBirimi"]</td>
                         <td style="padding: 2px;text-align:left;"><textarea rows="1" id="Aciklama_@(Convert.ToString(satir["IDTresiz"]))" name="Aciklama_@(Convert.ToString(satir["IDTresiz"]))"></textarea></td>
-                        <td style="padding: 2px;text-align:right;"><input type="file" name="Dosya_@(Convert.ToString(satir["IDTresiz"]))" id="Dosya_@(Convert.ToString(satir["IDTresiz"]))" value="" accept="image/png, image/gif, image/jpeg,application/pdf,application/vnd.ms-excel" /></td>
+                        <td style="padding: 2px; text-align: right; display: none;"><input type="file" name="Dosya_@(Convert.ToString(satir["IDTresiz"]))" id="Dosya_@(Convert.ToString(satir["IDTresiz"]))" value="" accept="image/png, image/gif, image/jpeg,application/pdf,application/vnd.ms-excel" /></td>
                     </tr>
                 }
             }

@@ -23,6 +23,9 @@
                                     <!--end::Export buttons-->
                                 </div>
                                 <div class="card-toolbar flex-row-fluid justify-content-end gap-3">
+                                    <button type="button" id="topluSilButon" class="btn btn-light-primary btn-sm" onclick="$('#DivFiltre').toggle();">
+                                        <span class="indicator-label fw-bold">Filtre</span>
+                                    </button>
                                     <div>
                                         <button type="button" id="topluSilButon" class="btn btn-light-primary btn-sm fw-bold" data-bs-toggle="modal" data-bs-target="#Stok-toplu-silme">
                                             <span class="indicator-label">Toplu Sil</span>
@@ -80,7 +83,7 @@
                         </div>
 
                         <div>
-                            <div class="card border-0 shadow-none ps-4 pe-4">
+                            <div class="card border-0 shadow-none ps-4 pe-4" style="display:none;" id="DivFiltre" name="DivFiltre">
                                 <div class="card-body">
                                     <!--begin::Filtreleme alanı-->
                                     <form method="POST" action="" class="content" id="datatableFilters">
@@ -174,7 +177,7 @@
                                                     </td>
 
                                                     <td class="pt-4 ">
-                                                        @(Convert.ToString(Model.Rows[i]["Kod"])) <br />
+                                                        @(Convert.ToString(Model.Rows[i]["Kod"])) - 
                                                         <strong> @(Convert.ToString(Model.Rows[i]["Isim"])) </strong>
                                                     </td>
                                                     <td class="pt-4 pb-4">

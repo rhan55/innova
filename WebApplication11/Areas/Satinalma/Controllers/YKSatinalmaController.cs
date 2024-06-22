@@ -181,9 +181,9 @@ namespace YKPortal.Areas.Satinalma.Controllers
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.Text;
             cmd.CommandText = @"select Kategori1 from w_Stoklar 
-Where KategoriKodu1 collate SQL_Latin1_General_CP1_CI_AS IN (
-	select MenuID from YetkilerKategori where Kullanici = @KullaniciAdi and Yetki = 1
-) 
+--Where KategoriKodu1 collate SQL_Latin1_General_CP1_CI_AS IN (
+--	select MenuID from YetkilerKategori where Kullanici = @KullaniciAdi and Yetki = 1
+--) 
 Group by KategoriKodu1,Kategori1 order by KategoriKodu1";
             cmd.Parameters.AddWithValue("@KullaniciAdi", KullaniciAdi);
             ViewBag.dtKategori1 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
@@ -1284,7 +1284,7 @@ Group by KategoriKodu1,Kategori1 order by KategoriKodu1";
         #region Onay 1
 
         [HttpPost]
-        public JsonResult SatinalmaFiyatKaldirSatinalma(int Grupla, int KayitID, string StokKodu, int SecilenCariID, decimal SecilenFiyat, string SecilenDovizBirimi)
+        public JsonResult SatinalmaFiyatKaldirSatinalma(int Grupla, int KayitID, string StokKodu, string SecilenCariID, decimal SecilenFiyat, string SecilenDovizBirimi)
         {
             YKJsonResult result = new YKJsonResult();
 
@@ -1319,7 +1319,7 @@ Group by KategoriKodu1,Kategori1 order by KategoriKodu1";
 
 
         [HttpPost]
-        public JsonResult SatinalmaFiyatSecSatinalma(int Grupla, int KayitID, string StokKodu, int SecilenCariID, decimal SecilenFiyat, string SecilenDovizBirimi)
+        public JsonResult SatinalmaFiyatSecSatinalma(int Grupla, int KayitID, string StokKodu, string SecilenCariID, decimal SecilenFiyat, string SecilenDovizBirimi)
         {
             YKJsonResult result = new YKJsonResult();
 
@@ -1735,7 +1735,7 @@ Group by KategoriKodu1,Kategori1 order by KategoriKodu1";
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public JsonResult SatinalmaFiyatKaldir(int Grupla, int KayitID, string StokKodu, int SecilenCariID, decimal SecilenFiyat, string SecilenDovizBirimi)
+        public JsonResult SatinalmaFiyatKaldir(int Grupla, int KayitID, string StokKodu, string SecilenCariID, decimal SecilenFiyat, string SecilenDovizBirimi)
         {
             YKJsonResult result = new YKJsonResult();
 
@@ -1769,7 +1769,7 @@ Group by KategoriKodu1,Kategori1 order by KategoriKodu1";
         }
 
         [HttpPost]
-        public JsonResult SatinalmaFiyatSec(int Grupla, int KayitID, string StokKodu, int SecilenCariID, decimal SecilenFiyat, string SecilenDovizBirimi)
+        public JsonResult SatinalmaFiyatSec(int Grupla, int KayitID, string StokKodu, string SecilenCariID, decimal SecilenFiyat, string SecilenDovizBirimi)
         {
             YKJsonResult result = new YKJsonResult();
 
@@ -2219,7 +2219,8 @@ and (w_SatinalmaStoklar.StokAdi like '%" + AranacakKelime + "%') ";
                     }
                 }
                 result.SonucKodu = "1";
-                //result.Aciklama = "Başarılı.";
+                if(result.Aciklama == "")
+                    result.Aciklama = "Başarılı.";
             }
             catch (Exception err)
             {

@@ -79,91 +79,99 @@
                 </button>
             </td>
             <td>
-                <a href="@Url.Content("~/Satinalma/YKSatinalma/SatinalmaExcel/?Kategori1="+ViewBag.Kategori1+"&Kategori2="+ViewBag.Kategori2+"&Kategori3="+ViewBag.Kategori3+"&Grupla="+ViewBag.Grupla)" class="btn" >Excel</a>
+                <a href="@Url.Content("~/Satinalma/YKSatinalma/SatinalmaExcel/?Kategori1="+ViewBag.Kategori1+"&Kategori2="+ViewBag.Kategori2+"&Kategori3="+ViewBag.Kategori3+"&Grupla="+ViewBag.Grupla)" class="btn">Excel</a>
             </td>
         </tr>
     </table>
 </form>
 
-<div class="modal modal-fullscreen fade YeniTeklif" id="ModalYeniTeklifGirisi" name="ModalYeniTeklifGirisi" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content" style="padding:10px;">
+<div class="modal modal-lg fade YeniTeklif ModalYeniTeklifGirisi " tabindex="-1" id="kt_modal_scrollable_2">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
 
-            <form action="/Satinalma/YKSatinalma/TeklifKaydet" method="post">
-                <input type="hidden" name="Grupla" id="Grupla" value="@Grupla" />
-                <input type="hidden" name="Yonlendir" id="Yonlendir" value="Satınalma" />
-                <input type="hidden" name="Yonlendir1" id="Yonlendir1" value="@ViewBag.Kategori1" />
-                <input type="hidden" name="Yonlendir2" id="Yonlendir2" value="@ViewBag.Kategori2" />
-                <input type="hidden" name="Yonlendir3" id="Yonlendir3" value="@ViewBag.Kategori3" />
+            <div class="modal-body">
 
-                <input type="hidden" name="id" id="id" value="0" />
-                <table class="table">
-                    <tr>
-                        <td style="text-align:right;"><span class="form-control">Başlangıç</span></td>
-                        <td><input type="date" name="Baslangic" id="Baslangic" value="@(Convert.ToDateTime(DateTime.Today.AddDays(-1)).ToString("yyyy-MM-dd"))" /></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right;"><span class="form-control">Bitiş</span></td>
-                        <td><input type="date" name="Bitis" id="Bitis" value="@(Convert.ToDateTime(new DateTime(DateTime.Now.Year, DateTime.Now.Month + 1, 1).AddDays(-1)).ToString("yyyy-MM-dd"))" /></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right;"><span class="form-control">Cari</span></td>
-                        <td>
-                            <input type="hidden" name="CariID" id="CariID" value="" />
-                            <input type="text" name="Cari" id="Cari" value="" style="width: 500px;" class="form-control" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right;"><slan class="form-control">Sözleşmeli</slan></td>
-                        <td>
-                            <select id="Sozlesmeli" name="Sozlesmeli" class="form-control">
-                                <option value="Evet">Sözleşmeli</option>
-                                <option value="Hayır" selected>Sözleşmesiz</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right;"><span class="form-control">Ürün</span></td>
-                        <td>
-                            <input type="hidden" name="StokID" id="StokID" value="" />
-                            <input type="text" name="Stok" id="Stok" value="" style="width:500px;" class="form-control" />
-                        </td>
-                    </tr>
-                    <tr style="display: none;">
-                        <td style="text-align:right;"><span class="form-control">Miktar</span></td>
-                        <td> <input type="text" name="Miktar" id="Miktar" value="0" style="width:150px;text-align:right;" class="form-control" onchange="TutarKontroluYap(this);" /></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right;"><span class="form-control">Fiyat</span></td>
-                        <td> <input type="text" name="Fiyat" id="Fiyat" value="0" style="width:150px;text-align:right;" class="form-control" onchange="TutarKontroluYap(this);" /></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right;"><span class="form-control">Döviz Birimi</span></td>
-                        <td><input type="text" name="DovizBirimi" id="DovizBirimi" value="TL" style="width:150px;" class="form-control" /></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right;"><span class="form-control">Açıklama 1</span></td>
-                        <td> <input type="text" name="Aciklama1" id="Aciklama1" value="" style="width: 500px;" class="form-control" /></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right;"><span class="form-control">Açıklama 2</span></td>
-                        <td> <input type="text" name="Aciklama2" id="Aciklama2" value="" style="width: 500px;" class="form-control" /></td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right;"><span class="form-control">Açıklama 3</span></td>
-                        <td> <input type="text" name="Aciklama3" id="Aciklama3" value="" style="width: 500px;" class="form-control" /></td>
-                    </tr>
-                    <tr>
-                        <td><input type="button" class="close" data-dismiss="modal" aria-label="Close" value="Vazgeç" onclick="$('#ModalYeniTeklifGirisi').toggle();" class="btn btn-danger" /></td>
-                        <td><input type="submit" name="name" value="Kaydet" class="btn btn-primary" /></td>
-                    </tr>
-                </table>
 
-            </form>
+                <h3>Yeni Fiyat Teklifi</h3>
+                <form action="/Satinalma/YKSatinalma/TeklifKaydet" method="post">
+                    <input type="hidden" name="Grupla" id="Grupla" value="@Grupla" />
+                    <input type="hidden" name="Yonlendir" id="Yonlendir" value="Satınalma" />
+                    <input type="hidden" name="Yonlendir1" id="Yonlendir1" value="@ViewBag.Kategori1" />
+                    <input type="hidden" name="Yonlendir2" id="Yonlendir2" value="@ViewBag.Kategori2" />
+                    <input type="hidden" name="Yonlendir3" id="Yonlendir3" value="@ViewBag.Kategori3" />
+
+                    <input type="hidden" name="id" id="id" value="0" />
+                    <table class="table">
+                        <tr>
+                            <td style="text-align:right;"><span class="form-control">Başlangıç</span></td>
+                            <td><input type="date" name="Baslangic" id="Baslangic" value="@(Convert.ToDateTime(DateTime.Today.AddDays(-1)).ToString("yyyy-MM-dd"))" /></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right;"><span class="form-control">Bitiş</span></td>
+                            <td><input type="date" name="Bitis" id="Bitis" value="@(Convert.ToDateTime(new DateTime(DateTime.Now.Year, DateTime.Now.Month + 1, 1).AddDays(-1)).ToString("yyyy-MM-dd"))" /></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right;"><span class="form-control">Cari</span></td>
+                            <td>
+                                <input type="hidden" name="CariID" id="CariID" value="" />
+                                <input type="text" name="Cari" id="Cari" value="" style="width: 500px;" class="form-control" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right;"><slan class="form-control">Sözleşmeli</slan></td>
+                            <td>
+                                <select id="Sozlesmeli" name="Sozlesmeli" class="form-control">
+                                    <option value="Evet">Sözleşmeli</option>
+                                    <option value="Hayır" selected>Sözleşmesiz</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right;"><span class="form-control">Ürün</span></td>
+                            <td>
+                                <input type="hidden" name="StokID" id="StokID" value="" />
+                                <input type="text" name="Stok" id="Stok" value="" style="width:500px;" class="form-control" />
+                            </td>
+                        </tr>
+                        <tr style="display: none;">
+                            <td style="text-align:right;"><span class="form-control">Miktar</span></td>
+                            <td> <input type="text" name="Miktar" id="Miktar" value="0" style="width:150px;text-align:right;" class="form-control" onchange="TutarKontroluYap(this);" /></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right;"><span class="form-control">Fiyat</span></td>
+                            <td> <input type="text" name="Fiyat" id="Fiyat" value="0" style="width:150px;text-align:right;" class="form-control" onchange="TutarKontroluYap(this);" /></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right;"><span class="form-control">Döviz Birimi</span></td>
+                            <td><input type="text" name="DovizBirimi" id="DovizBirimi" value="TL" style="width:150px;" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right;"><span class="form-control">Açıklama 1</span></td>
+                            <td> <input type="text" name="Aciklama1" id="Aciklama1" value="" style="width: 500px;" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right;"><span class="form-control">Açıklama 2</span></td>
+                            <td> <input type="text" name="Aciklama2" id="Aciklama2" value="" style="width: 500px;" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right;"><span class="form-control">Açıklama 3</span></td>
+                            <td> <input type="text" name="Aciklama3" id="Aciklama3" value="" style="width: 500px;" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td><input type="button" class="close btn btn-primary" data-bs-dismiss="modal" value="Vazgeç" /></td>
+                            <td><input type="submit" name="name" value="Kaydet" class="btn btn-primary" /></td>
+                        </tr>
+                    </table>
+
+                </form>
+
+            </div>
+
         </div>
     </div>
 </div>
+
 <div style="clear:both;"></div>
 
 <div style=" height: 100%; overflow: auto; border: 1px solid #000;" class="tableFixHead">
@@ -264,7 +272,7 @@
                             <label style="color:red;">Beklet</label>
                             <input type="radio" name="Durum_@(satir["StokKodu"])@(Grupla == 0 ? "" + satir["ID"] : "")" id="Durum_H_@(satir["StokKodu"])@(Grupla == 0 ? "" + satir["ID"] : "")" value="Red" />
 
-                            <img src="@Url.Content("~/Content/teklif.png")" alt="Yeni Teklif" style="height:18px;cursor:pointer;" data-toggle="modal" data-target=".YeniTeklif" onclick="$('#ModalYeniTeklifGirisi').toggle(); $('#StokID').val('@(satir["StokID"])'); $('#Stok').val('@(satir["StokAdi"])'); " />
+                            <img src="@Url.Content("~/Content/teklif.png")" alt="Yeni Teklif" style="height:18px;cursor:pointer;" data-bs-toggle="modal" data-bs-target="#kt_modal_scrollable_2" onclick="$('#StokID').val('@(satir["StokID"])'); $('#Stok').val('@(satir["StokAdi"])'); " />
                         </div>
                         <div style="float:left;">
                             @{
@@ -349,7 +357,7 @@
                             }
                             else
                             {
-                                <img src="@Url.Content("~/Content/teklif.png")" alt="Yeni Teklif" style="height:18px;cursor:pointer;" data-toggle="modal" data-target=".YeniTeklif" onclick="$('#ModalYeniTeklifGirisi').toggle(); $('#StokID').val('@(satir["StokID"])'); $('#Stok').val('@(satir["StokAdi"])'); $('#CariID').val('@(cari.Split('|')[0])'); $('#Cari').val('@(cari.Split('|')[1])'); " />
+                                <img src="@Url.Content("~/Content/teklif.png")" alt="Yeni Teklif" style="height:18px;cursor:pointer;" data-bs-toggle="modal" data-bs-target="#kt_modal_scrollable_2" onclick="$('#StokID').val('@(satir["StokID"])'); $('#Stok').val('@(satir["StokAdi"])'); $('#CariID').val('@(cari.Split('|')[0])'); $('#Cari').val('@(cari.Split('|')[1])'); " />
                             }
                             <!--</a>-->
                         </td>
@@ -358,6 +366,7 @@
             }
         </tbody>
     </table>
+
 </div>
 
 
@@ -389,6 +398,8 @@
 
 @section scripts {
 
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <script type="text/javascript">
 
 
@@ -1218,8 +1229,70 @@
 
         SecimKategori1();
         SecimKategori2();
+        $(function () {
+
+
+            $("#Stok").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Satinalma/YKSatinalma/JsonGetirStoklar',
+                        data: "{ 'Stok': '" + request.term + "'}",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            response($.map(data.Data, function (item) {
+                                return { value: item.Isim, label: item.Isim + "(" + item.Kod + ")", id: item.ID };
+                            }))
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $("#StokID").val(ui.item.id);
+                },
+                minLength: 1
+            });
+            $("#Cari").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Satinalma/YKSatinalma/JsonGetirCariler',
+                        data: "{ 'Cari': '" + request.term + "'}",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            response($.map(data.Data, function (item) {
+                                return { value: item.Isim, label: item.Isim + "(" + item.Kod + ")", id: item.ID };
+                            }))
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $("#CariID").val(ui.item.id);
+                },
+                minLength: 1
+            });
+
+        });
 
     </script>
 
+    <style>
+        .ui-autocomplete {
+            z-index: 2147483647;
+        }
+    </style>
 }
 

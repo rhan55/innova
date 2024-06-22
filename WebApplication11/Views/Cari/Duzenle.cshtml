@@ -59,7 +59,7 @@
                                 <div class="form-group w-100">
                                     <label for="KayitTarihi" class=" form-label">Kayıt Tarihi</label>
                                     @* Varsayilan gun tarihini cagirdik ve toString ile formatladik. bu format sayesinde input value degerini de atamis olduk *@
-                                    <input type="date" value="@(DateTime.Parse(Convert.ToString(Model.Rows[0]["KayitTarihi"])).ToString("yyyy-MM-dd"))" name="KayitTarihi" id="KayitTarihi" class="form-control p-2 rounded-1" placeholder="" readonly />
+                                    <input type="date" value="@(DateTime.Parse(Convert.ToString(Model.Rows[0]["KayitTarihi"])).ToString("yyyy-MM-dd"))" name="KayitTarihi" id="KayitTarihi" class="form-control p-2 rounded-1" placeholder=""  />
                                 </div>
                             </div>
                         </div>

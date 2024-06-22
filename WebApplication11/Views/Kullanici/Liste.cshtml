@@ -106,8 +106,9 @@
                                         <!--end::Avatar-->
                                         <!--begin::User details-->
                                         <div class="d-flex flex-column">
-                                            <a href="/Kullanici/Duzenle/@(Convert.ToString(Model.Rows[i]["ID"]))" class="text-gray-800 text-hover-primary mb-1">@(Convert.ToString(Model.Rows[i]["Ad"])) @(Convert.ToString(Model.Rows[i]["Soyad"]))</a>
-                                            <span>@(Convert.ToString(Model.Rows[i]["KullaniciAdi"]))</span>
+                                            <a href="/Kullanici/Duzenle/@(Convert.ToString(Model.Rows[i]["ID"]))" class="text-gray-800 text-hover-primary mb-1">
+                                                <span>@(Convert.ToString(Model.Rows[i]["KullaniciAdi"]))</span>
+                                            </a>
                                         </div>
                                         <!--begin::User details-->
                                     </td>
