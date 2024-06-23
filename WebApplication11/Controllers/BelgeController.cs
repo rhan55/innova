@@ -12,15 +12,55 @@ namespace YKPortal.Controllers
 {
     public class BelgeController : Controller
     {
-        public ActionResult Liste(BelgeDto belgeDto)
+        public ActionResult Liste(string Tip="", string AranacakKelime="")
         {
-            return View();
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_BelgeListesi";
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@Tip", Tip);
+            cmd.Parameters.AddWithValue("@AranacakKelime", AranacakKelime);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            return View(dt);
         }
 
         [HttpGet]
-        public ActionResult Detay(int id = 0)
+        public ActionResult Detay(string Tip , int id = 0)
         {
-            return View();
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_Belge";
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@ID", id);
+            DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
+            BelgeDto entity = new BelgeDto();
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                entity.ID = Convert.ToString(ds.Tables[0].Rows[0]["ID"]);
+                entity.Tarih = Convert.ToDateTime(ds.Tables[0].Rows[0]["Tarih"]);
+                entity.BelgeNo = Convert.ToString(ds.Tables[0].Rows[0]["BelgeNo"]);
+                entity.CariID = Convert.ToString(ds.Tables[0].Rows[0]["CariID"]);
+                entity.CariAdi = Convert.ToString(ds.Tables[0].Rows[0]["CariAdi"]);
+                entity.Aciklama = Convert.ToString(ds.Tables[0].Rows[0]["Aciklama"]);
+                entity.Kalemler = new List<BelgeKalemDto>();
+                foreach (DataRow satir in ds.Tables[1].Rows)
+                {
+                    BelgeKalemDto s = new BelgeKalemDto();
+                    s.BelgeID = entity.ID;
+                    s.StokID = Convert.ToString(satir["StokID"]);
+                    s.StokKodu = Convert.ToString(satir["StokKodu"]);
+                    s.StokAdi = Convert.ToString(satir["StokAdi"]);
+                    s.OlcuBirimi = Convert.ToString(satir["OlcuBirimi"]);
+                    s.Miktar = Convert.ToDecimal(satir["Miktar"]);
+                    s.Fiyat = Convert.ToDecimal(satir["Fiyat"]);
+                    s.Iskonto = Convert.ToDecimal(satir["IskontoOrani1"]);
+                    s.Tutar = Convert.ToDecimal(satir["Tutar"]);
+                    
+                    entity.Kalemler.Add(s);
+                }
+            }
+            return View(entity);
         }
 
         [HttpPost]

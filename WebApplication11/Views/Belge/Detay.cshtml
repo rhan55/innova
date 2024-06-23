@@ -1,56 +1,21 @@
 ﻿@using YKPortal.Models.Dto
-@model System.Data.DataTable
+@model BelgeDto
 @{
-    ViewBag.Title = "Duzenle";
+    ViewBag.Title = "Belge Detayı";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container-fluid">
     <div class="row">
-        @Html.Partial("~/Views/Cari/_CariMenu.cshtml", new ViewDataDictionary { { "CariID", Convert.ToString(ViewBag.CariID) } })
 
-        <form class="col-lg-10 row" method="post" action="@Url.Action("Duzenle","Cari",null)">
+
+        <form class="col-lg-10 row" method="post" action="@Url.Action("Detay","Belge",new { Tip = Request.QueryString["Tip"] })">
 
             <div class="col-lg-10 row">
                 <div class="d-flex align-items-center justify-content-between mt-5">
-                    <input type="hidden" name="ID" value="@(Convert.ToString(Model.Rows[0]["ID"]))" />
-                    <div class="form-check">
-                        <input class="form-check-input" name="Aktif" type="checkbox" value="true" id="Aktif" checked />
-                        <label class="form-check-label user-select-none cursor-pointer" for="Aktif">
-                            Aktif
-                        </label>
-                    </div>
+                    <input type="hidden" name="ID" value="@(Model.ID)" />
 
 
-                    <div class="form-check me-5">
-                        <input class="form-check-input" name="Alici" type="checkbox" value="true" id="Alici" @(Convert.ToBoolean(Model.Rows[0]["Alici"]) ? "checked" : "") />
-                        <label class="form-check-label user-select-none cursor-pointer" for="Alici">
-                            Alıcı
-                        </label>
-                    </div>
-                    <div class="form-check me-5">
-                        <input class="form-check-input" name="Satici" type="checkbox" value="true" id="Satici" @(Convert.ToBoolean(Model.Rows[0]["Satici"]) ? "checked" : "") />
-                        <label class="form-check-label user-select-none cursor-pointer" for="Satici">
-                            Satıcı
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" name="Personel" type="checkbox" value="true" id="Personel" @(Convert.ToBoolean(Model.Rows[0]["Personel"]) ? "checked" : "") />
-                        <label class="form-check-label user-select-none cursor-pointer" for="Personel">
-                            Personel
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" name="ServisPersoneli" type="checkbox" value="true" id="ServisPersoneli" @(Convert.ToBoolean(Model.Rows[0]["ServisPersoneli"]) ? "checked" : "") />
-                        <label class="form-check-label user-select-none cursor-pointer" for="ServisPersoneli">
-                            ServisPersoneli
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <label for="KayitTarihi" class="form-label">Kayıt Tarihi</label>
-                        @* Varsayilan gun tarihini cagirdik ve toString ile formatladik. bu format sayesinde input value degerini de atamis olduk *@
-                        <input type="date" value="@(DateTime.Parse(Convert.ToString(Model.Rows[0]["KayitTarihi"])).ToString("yyyy-MM-dd"))" name="KayitTarihi" id="KayitTarihi" class="form-control p-2 rounded-1" placeholder="" readonly />
-                    </div>
 
                 </div>
                 <div class="col-3 mt-4">
