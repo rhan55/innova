@@ -513,17 +513,46 @@ namespace YKPortal.Controllers
         }
 
         [HttpGet]
-        public ActionResult ZiyaretiKapat(ZiyaretDto ziyaretDto)
+        public ActionResult ZiyaretiKapat(string CariID, string ID)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            ViewBag.CariID = ziyaretDto.CariID;
+            ViewBag.CariID =CariID;
+            ViewBag.ID = ID;
+
             ZiyaretTipiListesiniOlustur();
 
             return View();
 
         }
+        [HttpPost]
+        public ActionResult ZiyaretiKapat(ZiyaretDto ziyaretDto)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+            ziyaretDto.UyelikID = GetCookie("UyelikID");
+            ziyaretDto.TamamlayanKullaniciID = GetCookie("KullaniciID");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_ZiyaretKapat";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@ID", ziyaretDto.ID);
+            cmd.Parameters.AddWithValue("@UyelikID", ziyaretDto.UyelikID);
+            cmd.Parameters.AddWithValue("@CariID", ziyaretDto.CariID);
+            cmd.Parameters.AddWithValue("@TamamlamaAciklamasi", ziyaretDto.TamamlamaAciklamasi);
+            cmd.Parameters.AddWithValue("@TamamlamaTarihi", ziyaretDto.TamamlamaTarihi);
+            cmd.Parameters.AddWithValue("@TamamlayanKullaniciID", ziyaretDto.TamamlayanKullaniciID);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            return RedirectToAction("ZiyaretListe", new { CariID = ziyaretDto.CariID });
+            
+        }
+
+
         [HttpGet]
         public JsonResult SelectListe(string search)
         {

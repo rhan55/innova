@@ -239,6 +239,103 @@ namespace YKPortal.Controllers
         }
 
         [HttpGet]
+        public ActionResult NotEkle(string StokID)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            ViewBag.StokID = StokID;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult NotEkle(StokNotDto stokNotDto)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_StokNotKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@ID", "");
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@StokID", stokNotDto.StokID);
+            cmd.Parameters.AddWithValue("@Aciklama", stokNotDto.Aciklama);  
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            return RedirectToAction("NotListe", new { StokID = stokNotDto.StokID });
+
+        }
+       
+      
+        [HttpGet]
+        public ActionResult NotListe(StokNotDto stokNotDto)
+
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_StokNotListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@StokID", stokNotDto.StokID);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            ViewBag.StokID = stokNotDto.StokID;
+            return View(dt);
+        }
+        [HttpGet]
+        public ActionResult NotDuzenle(string ID, string StokID)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_StokNot";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            ViewBag.ID = ID;
+            ViewBag.StokID = StokID;
+
+            return View(dt);
+        }
+        [HttpPost]
+        public ActionResult NotDuzenle(StokNotDto stokNotDto)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_StokNotKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@ID", stokNotDto.ID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@StokID", stokNotDto.StokID);
+            cmd.Parameters.AddWithValue("@Aciklama", stokNotDto.Aciklama);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return RedirectToAction("NotListe", new { StokID = stokNotDto.StokID });
+        }
+
+        [HttpPost]
+        public ActionResult NotSil(string id, string StokID)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_StokNotSil";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@StokID", StokID);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            return RedirectToAction("NotListe", new { StokID = StokID });
+        }
+
+        [HttpGet]
         public ActionResult ExcelIceAktar()
         { 
             return View();

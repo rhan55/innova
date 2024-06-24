@@ -21,64 +21,8 @@
                                 </div>
                             </div>
                             <div class="col-lg-4 form-group mt-4">
-                                <label for="Kod" class=" form-label">Kod</label>
-                                <input type="text" id="Kod" name="Kod" class="form-control p-2 rounded-1" placeholder="" />
-                            </div>
-                            <div class="col-lg-4 form-group mt-4">
                                 <label for="Isim" class=" form-label">Kısa İsim</label>
                                 <input type="text" id="Isim" name="Isim" class="form-control p-2 rounded-1" placeholder="" required />
-                            </div>
-                            <div class="col-lg-4 form-group mt-4">
-                                <label for="Barkod" class="form-label">Barkod</label>
-                                <input type="text" name="Barkod" class="form-control p-2 rounded-1" id="Barkod">
-                            </div>
-                            <div class="col-lg-4 form-group mt-4">
-                                <label for="OlcuBirimi" class="form-label">Ölçü Birimi</label>
-                                <input type="text" name="OlcuBirimi" class="form-control p-2 rounded-1" id="OlcuBirimi" value="Adet">
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="KdvAlis" class=" form-label">Kdv Alış</label>
-                                <input type="text" name="KdvAlis" class="form-control p-2 rounded-1" placeholder="" id="KdvAlis" step="any" value="20" />
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="KdvSatis" class=" form-label">Kdv Satış</label>
-                                <input type="text" name="KdvSatis" class="form-control p-2 rounded-1" placeholder="" id="KdvSatis" step="any" value="20" />
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="Otv" class=" form-label">Otv</label>
-                                <input type="text" name="Otv" class="form-control p-2 rounded-1" placeholder="" id="Otv" step="any" value="0" />
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="OtvFiyat" class="form-label">Otv Fiyat</label>
-                                <input type="text" name="OtvFiyat" class="form-control p-2 rounded-1" placeholder="" id="OtvFiyat" step="any" value="0" />
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="Oiv" class=" form-label">Oiv</label>
-                                <input type="text" name="Oiv" class="form-control p-2 rounded-1" placeholder="" id="Oiv" step="any" value="0" />
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="TevkifatPay" class=" form-label">Tevkifat Pay</label>
-                                <input type="text" name="TevkifatPay" class="form-control p-2 rounded-1" placeholder="" id="TevkifatPay" step="any" value="0" />
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="TevkifatPayda" class=" form-label">Tevkifat Payda</label>
-                                <input type="text" name="TevkifatPayda" class="form-control p-2 rounded-1" placeholder="" id="TevkifatPayda" step="any" value="0" />
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="IskontoSatis1" class=" form-label">Iskonto Satış 1</label>
-                                <input type="text" name="IskontoSatis1" class="form-control p-2 rounded-1" placeholder="" id="IskontoSatis1" step="any" value="0" />
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="VadeGunu" class=" form-label">Vade Günü</label>
-                                <input type="text" name="VadeGunu" class="form-control p-2 rounded-1" placeholder="" id="VadeGunu" step="any" value="0" />
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="MinimumStok" class=" form-label">Minimum Stok</label>
-                                <input type="text" name="MinimumStok" class="form-control p-2 rounded-1" placeholder="" id="MinimumStok" step="any" value="0" />
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="MaxsimumStok" class=" form-label">Maxsimum Stok</label>
-                                <input type="text" name="MaxsimumStok" class="form-control p-2 rounded-1" placeholder="" id="MaxsimumStok" step="any" value="0" />
                             </div>
 
                             <div class="form-group col-lg-4 mt-4">
@@ -92,6 +36,15 @@
                                     }
                                 </select>
                             </div>
+                            <div class="col-lg-4 form-group mt-4">
+                                <label for="Kod" class=" form-label">Kod</label>
+                                <input type="text" id="Kod" name="Kod" class="form-control p-2 rounded-1" placeholder="" />
+                            </div>
+                            <div class="col-lg-4 form-group mt-4">
+                                <label for="Barkod" class="form-label">Barkod</label>
+                                <input type="text" name="Barkod" class="form-control p-2 rounded-1" id="Barkod">
+                            </div>
+
                             <div class="form-group col-lg-4 mt-4">
                                 <label for="GrupKodu2ID" class="form-label">Grup Kodu 2</label>
                                 <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu2ID" id="GrupKodu2ID"
@@ -102,6 +55,15 @@
                                         <option value="@stokGrupKodlari2.ID">@stokGrupKodlari2.Deger</option>
                                     }
                                 </select>
+                            </div>
+
+                            <div class="form-group col-lg-4 mt-4">
+                                <label for="KdvAlis" class=" form-label">Kdv Alış</label>
+                                <input type="text" name="KdvAlis" class="form-control p-2 rounded-1" placeholder="" id="KdvAlis" step="any" value="20" />
+                            </div>
+                            <div class="form-group col-lg-4 mt-4">
+                                <label for="KdvSatis" class=" form-label">Kdv Satış</label>
+                                <input type="text" name="KdvSatis" class="form-control p-2 rounded-1" placeholder="" id="KdvSatis" step="any" value="20" />
                             </div>
                             <div class="form-group col-lg-4 mt-4">
                                 <label for="GrupKodu3ID" class="form-label">Grup Kodu 3</label>
@@ -114,6 +76,17 @@
                                     }
                                 </select>
                             </div>
+
+                            <div class="form-group col-lg-4 mt-4">
+                                <label for="Oiv" class=" form-label">Oiv</label>
+                                <input type="text" name="Oiv" class="form-control p-2 rounded-1" placeholder="" id="Oiv" step="any" value="0" />
+                            </div>
+
+                            <div class="form-group col-lg-4 mt-4">
+                                <label for="Otv" class=" form-label">Otv</label>
+                                <input type="text" name="Otv" class="form-control p-2 rounded-1" placeholder="" id="Otv" step="any" value="0" />
+                            </div>
+
                             <div class="form-group col-lg-4 mt-4">
                                 <label for="GrupKodu4ID" class="form-label">Grup Kodu 4</label>
                                 <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu4ID" id="GrupKodu4ID"
@@ -124,6 +97,15 @@
                                         <option value="@stokGrupKodlari4.ID">@stokGrupKodlari4.Deger</option>
                                     }
                                 </select>
+                            </div>
+                            <div class="form-group col-lg-4 mt-4">
+                                <label for="OtvFiyat" class="form-label">Otv Fiyat</label>
+                                <input type="text" name="OtvFiyat" class="form-control p-2 rounded-1" placeholder="" id="OtvFiyat" step="any" value="0" />
+                            </div>
+
+                            <div class="form-group col-lg-4 mt-4">
+                                <label for="VadeGunu" class=" form-label">Vade Günü</label>
+                                <input type="text" name="VadeGunu" class="form-control p-2 rounded-1" placeholder="" id="VadeGunu" step="any" value="0" />
                             </div>
                             <div class="form-group col-lg-4 mt-4">
                                 <label for="GrupKodu5ID" class="form-label">Grup Kodu 5</label>
@@ -137,6 +119,14 @@
                                 </select>
                             </div>
                             <div class="form-group col-lg-4 mt-4">
+                                <label for="MinimumStok" class=" form-label">Minimum Stok</label>
+                                <input type="text" name="MinimumStok" class="form-control p-2 rounded-1" placeholder="" id="MinimumStok" step="any" value="0" />
+                            </div>
+                            <div class="form-group col-lg-4 mt-4">
+                                <label for="MaxsimumStok" class=" form-label">Maxsimum Stok</label>
+                                <input type="text" name="MaxsimumStok" class="form-control p-2 rounded-1" placeholder="" id="MaxsimumStok" step="any" value="0" />
+                            </div>
+                            <div class="form-group col-lg-4 mt-4">
                                 <label for="GrupKodu6ID" class="form-label">Grup Kodu 6</label>
                                 <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu6ID" id="GrupKodu6ID"
                                         aria-label="Floating label select example">
@@ -147,6 +137,28 @@
                                     }
                                 </select>
                             </div>
+
+                            <div class="form-group col-lg-4 mt-4">
+                                <label for="TevkifatPay" class=" form-label">Tevkifat Pay</label>
+                                <input type="text" name="TevkifatPay" class="form-control p-2 rounded-1" placeholder="" id="TevkifatPay" step="any" value="0" />
+                            </div>
+
+                            <div class="form-group col-lg-4 mt-4">
+                                <label for="TevkifatPayda" class=" form-label">Tevkifat Payda</label>
+                                <input type="text" name="TevkifatPayda" class="form-control p-2 rounded-1" placeholder="" id="TevkifatPayda" step="any" value="0" />
+                            </div>
+
+
+                            <div class="col-lg-4 form-group mt-4">
+                                <label for="OlcuBirimi" class="form-label">Ölçü Birimi</label>
+                                <input type="text" name="OlcuBirimi" class="form-control p-2 rounded-1" id="OlcuBirimi" value="Adet">
+                            </div>
+
+                            <div class="form-group col-lg-4 mt-4">
+                                <label for="IskontoSatis1" class=" form-label">Iskonto Satış 1</label>
+                                <input type="text" name="IskontoSatis1" class="form-control p-2 rounded-1" placeholder="" id="IskontoSatis1" step="any" value="0" />
+                            </div>
+
                             <div class="mt-4 col-lg-2 d-flex align-items-end">
                                 <div class="form-check ">
                                     <input class="form-check-input" type="checkbox" value="true" id="LimitUyarisi" name="LimitUyarisi" />

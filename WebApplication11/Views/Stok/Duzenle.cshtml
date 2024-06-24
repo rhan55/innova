@@ -22,64 +22,8 @@
                             </div>
                         </div>
                         <div class="col-lg-4 form-group mt-4">
-                            <label for="Kod" class=" form-label">Kod</label>
-                            <input type="text" id="Kod" name="Kod" class="form-control p-2 rounded-1" placeholder="" value="@(Convert.ToString(Model.Rows[0]["Kod"]))" />
-                        </div>
-                        <div class="col-lg-4 form-group mt-4">
                             <label for="Isim" class=" form-label">Kısa İsim</label>
                             <input type="text" id="Isim" name="Isim" class="form-control p-2 rounded-1" placeholder="" value="@(Convert.ToString(Model.Rows[0]["Isim"]))" required />
-                        </div>
-                        <div class="col-lg-4 form-group mt-4">
-                            <label for="Barkod" class="form-label">Barkod</label>
-                            <input type="text" name="Barkod" class="form-control p-2 rounded-1" id="Barkod" value="@(Convert.ToString(Model.Rows[0]["Barkod"]))">
-                        </div>
-                        <div class="col-lg-4 form-group mt-4">
-                            <label for="OlcuBirimi" class="form-label">Ölçü Birimi</label>
-                            <input type="text" name="OlcuBirimi" class="form-control p-2 rounded-1" id="OlcuBirimi" value="@(Convert.ToString(Model.Rows[0]["OlcuBirimi"]))">
-                        </div>
-                        <div class="form-group col-lg-4 mt-4">
-                            <label for="KdvAlis" class=" form-label">Kdv Alış</label>
-                            <input type="text" name="KdvAlis" class="form-control p-2 rounded-1" placeholder="" id="KdvAlis" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["KdvAlis"])))" />
-                        </div>
-                        <div class="form-group col-lg-4 mt-4">
-                            <label for="KdvSatis" class=" form-label">Kdv Satış</label>
-                            <input type="text" name="KdvSatis" class="form-control p-2 rounded-1" placeholder="" id="KdvSatis" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["KdvSatis"])))" />
-                        </div>
-                        <div class="form-group col-lg-4 mt-4">
-                            <label for="Otv" class=" form-label">Otv</label>
-                            <input type="text" name="Otv" class="form-control p-2 rounded-1" placeholder="" id="Otv" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["Otv"])))" />
-                        </div>
-                        <div class="form-group col-lg-4 mt-4">
-                            <label for="OtvFiyat" class="form-label">Otv Fiyat</label>
-                            <input type="text" name="OtvFiyat" class="form-control p-2 rounded-1" placeholder="" id="OtvFiyat" step="any" value="@(String.Format("{0:N2}",Convert.ToDecimal(Model.Rows[0]["OtvFiyat"])))" />
-                        </div>
-                        <div class="form-group col-lg-4 mt-4">
-                            <label for="Oiv" class=" form-label">Oiv</label>
-                            <input type="text" name="Oiv" class="form-control p-2 rounded-1" placeholder="" id="Oiv" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["Oiv"])))" />
-                        </div>
-                        <div class="form-group col-lg-4 mt-4">
-                            <label for="TevkifatPay" class=" form-label">Tevkifat Pay</label>
-                            <input type="text" name="TevkifatPay" class="form-control p-2 rounded-1" placeholder="" id="TevkifatPay" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["TevkifatPay"])))" />
-                        </div>
-                        <div class="form-group col-lg-4 mt-4">
-                            <label for="TevkifatPayda" class=" form-label">Tevkifat Payda</label>
-                            <input type="text" name="TevkifatPayda" class="form-control p-2 rounded-1" placeholder="" id="TevkifatPayda" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["TevkifatPayda"])))" />
-                        </div>
-                        <div class="form-group col-lg-4 mt-4">
-                            <label for="IskontoSatis1" class=" form-label">İskonto Satış 1</label>
-                            <input type="text" name="IskontoSatis1" class="form-control p-2 rounded-1" placeholder="" id="IskontoSatis1" step="any" value="@(String.Format("{0:N2}",Convert.ToDecimal(Model.Rows[0]["IskontoSatis1"])))" />
-                        </div>
-                        <div class="form-group col-lg-4 mt-4">
-                            <label for="VadeGunu" class=" form-label">Vade Günü</label>
-                            <input type="text" name="VadeGunu" class="form-control p-2 rounded-1" placeholder="" id="VadeGunu" step="any" value="@(Convert.ToString(Model.Rows[0]["VadeGunu"]))" />
-                        </div>
-                        <div class="form-group col-lg-4 mt-4">
-                            <label for="MinimumStok" class=" form-label">Minimum Stok</label>
-                            <input type="text" name="MinimumStok" class="form-control p-2 rounded-1" placeholder="" id="MinimumStok" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["MinimumStok"])))" />
-                        </div>
-                        <div class="form-group col-lg-4 mt-4">
-                            <label for="MaxsimumStok" class=" form-label">Maxsimum Stok</label>
-                            <input type="text" name="MaxsimumStok" class="form-control p-2 rounded-1" placeholder="" id="MaxsimumStok" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["MaxsimumStok"])))" />
                         </div>
 
                         <div class="form-group col-lg-4 mt-4">
@@ -93,6 +37,16 @@
                                 }
                             </select>
                         </div>
+                        <div class="col-lg-4 form-group mt-4">
+                            <label for="Kod" class=" form-label">Kod</label>
+                            <input type="text" id="Kod" name="Kod" class="form-control p-2 rounded-1" placeholder="" value="@(Convert.ToString(Model.Rows[0]["Kod"]))" />
+                        </div>
+
+                        <div class="col-lg-4 form-group mt-4">
+                            <label for="Barkod" class="form-label">Barkod</label>
+                            <input type="text" name="Barkod" class="form-control p-2 rounded-1" id="Barkod" value="@(Convert.ToString(Model.Rows[0]["Barkod"]))">
+                        </div>
+
                         <div class="form-group col-lg-4 mt-4">
                             <label for="GrupKodu2ID" class="form-label">Grup Kodu 2</label>
                             <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu2ID" id="GrupKodu2ID"
@@ -105,6 +59,15 @@
                             </select>
                         </div>
                         <div class="form-group col-lg-4 mt-4">
+                            <label for="KdvAlis" class=" form-label">Kdv Alış</label>
+                            <input type="text" name="KdvAlis" class="form-control p-2 rounded-1" placeholder="" id="KdvAlis" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["KdvAlis"])))" />
+                        </div>
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="KdvSatis" class=" form-label">Kdv Satış</label>
+                            <input type="text" name="KdvSatis" class="form-control p-2 rounded-1" placeholder="" id="KdvSatis" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["KdvSatis"])))" />
+                        </div>
+
+                        <div class="form-group col-lg-4 mt-4">
                             <label for="GrupKodu3ID" class="form-label">Grup Kodu 3</label>
                             <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu3ID" id="GrupKodu3ID"
                                     aria-label="Floating label select example">
@@ -115,6 +78,17 @@
                                 }
                             </select>
                         </div>
+
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="Oiv" class=" form-label">Oiv</label>
+                            <input type="text" name="Oiv" class="form-control p-2 rounded-1" placeholder="" id="Oiv" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["Oiv"])))" />
+                        </div>
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="Otv" class=" form-label">Otv</label>
+                            <input type="text" name="Otv" class="form-control p-2 rounded-1" placeholder="" id="Otv" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["Otv"])))" />
+                        </div>
+
+
                         <div class="form-group col-lg-4 mt-4">
                             <label for="GrupKodu4ID" class="form-label">Grup Kodu 4</label>
                             <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu4ID" id="GrupKodu4ID"
@@ -126,6 +100,17 @@
                                 }
                             </select>
                         </div>
+
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="OtvFiyat" class="form-label">Otv Fiyat</label>
+                            <input type="text" name="OtvFiyat" class="form-control p-2 rounded-1" placeholder="" id="OtvFiyat" step="any" value="@(String.Format("{0:N2}",Convert.ToDecimal(Model.Rows[0]["OtvFiyat"])))" />
+                        </div>
+
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="VadeGunu" class=" form-label">Vade Günü</label>
+                            <input type="text" name="VadeGunu" class="form-control p-2 rounded-1" placeholder="" id="VadeGunu" step="any" value="@(Convert.ToString(Model.Rows[0]["VadeGunu"]))" />
+                        </div>
+
                         <div class="form-group col-lg-4 mt-4">
                             <label for="GrupKodu5ID" class="form-label">Grup Kodu 5</label>
                             <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu5ID" id="GrupKodu5ID"
@@ -136,6 +121,15 @@
                                     <option @(Convert.ToString(Model.Rows[0]["GrupKodu5ID"]) == stokGrupKodlari5.ID ? "selected" : "") value="@stokGrupKodlari5.ID">@stokGrupKodlari5.Deger</option>
                                 }
                             </select>
+                        </div>
+
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="MinimumStok" class=" form-label">Minimum Stok</label>
+                            <input type="text" name="MinimumStok" class="form-control p-2 rounded-1" placeholder="" id="MinimumStok" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["MinimumStok"])))" />
+                        </div>
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="MaxsimumStok" class=" form-label">Maxsimum Stok</label>
+                            <input type="text" name="MaxsimumStok" class="form-control p-2 rounded-1" placeholder="" id="MaxsimumStok" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["MaxsimumStok"])))" />
                         </div>
                         <div class="form-group col-lg-4 mt-4">
                             <label for="GrupKodu6ID" class="form-label">Grup Kodu 6</label>
@@ -148,6 +142,26 @@
                                 }
                             </select>
                         </div>
+
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="TevkifatPay" class=" form-label">Tevkifat Pay</label>
+                            <input type="text" name="TevkifatPay" class="form-control p-2 rounded-1" placeholder="" id="TevkifatPay" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["TevkifatPay"])))" />
+                        </div>
+
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="TevkifatPayda" class=" form-label">Tevkifat Payda</label>
+                            <input type="text" name="TevkifatPayda" class="form-control p-2 rounded-1" placeholder="" id="TevkifatPayda" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["TevkifatPayda"])))" />
+                        </div>
+                        <div class="col-lg-4 form-group mt-4">
+                            <label for="OlcuBirimi" class="form-label">Ölçü Birimi</label>
+                            <input type="text" name="OlcuBirimi" class="form-control p-2 rounded-1" id="OlcuBirimi" value="@(Convert.ToString(Model.Rows[0]["OlcuBirimi"]))">
+                        </div>
+                        <div class="form-group col-lg-4 mt-4">
+                            <label for="IskontoSatis1" class=" form-label">İskonto Satış 1</label>
+                            <input type="text" name="IskontoSatis1" class="form-control p-2 rounded-1" placeholder="" id="IskontoSatis1" step="any" value="@(String.Format("{0:N2}",Convert.ToDecimal(Model.Rows[0]["IskontoSatis1"])))" />
+                        </div>
+
+
                         <div class="mt-4 col-lg-2 d-flex align-items-end">
                             <div class="form-check ">
                                 <input class="form-check-input" type="checkbox" value="true" id="LimitUyarisi" name="LimitUyarisi" @(Convert.ToBoolean(Model.Rows[0]["LimitUyarisi"]) ? "checked" : "") />
@@ -202,8 +216,8 @@
                 <!--begin::Actions-->
                 <div class="col-12">
                     <div class="pt-10">
-                        <a href="/Stok/Liste" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
-                        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Ekle">
+                        <a href="/Stok/Liste" class="btn btn-light btn-sm fw-bold me-3" data-kt-users-modal-action="cancel">Geri</a>
+                        <button type="submit" class="btn btn-primary btn-sm fw-bold" data-kt-users-modal-action="Ekle">
                             <span class="indicator-label">Kaydet</span>
                             <span class="indicator-progress">
                                 Lütfen Bekleyin...
