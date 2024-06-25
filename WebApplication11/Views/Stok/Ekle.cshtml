@@ -10,7 +10,7 @@
         <div class="p-4">
             <form method="post" action="/Stok/Ekle">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-9">
                         <div class="row">
                             <div class="d-flex align-items-center mt-4 col-lg-4">
                                 <div class="form-check ">
@@ -25,17 +25,6 @@
                                 <input type="text" id="Isim" name="Isim" class="form-control p-2 rounded-1" placeholder="" required />
                             </div>
 
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="GrupKodu1ID" class="form-label">Grup Kodu 1</label>
-                                <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu1ID" id="GrupKodu1ID"
-                                        aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
-                                    @foreach (GrupKoduDto stokGrupKodlari1 in ViewBag.StokGrupKodlari1)
-                                    {
-                                        <option value="@stokGrupKodlari1.ID">@stokGrupKodlari1.Deger</option>
-                                    }
-                                </select>
-                            </div>
                             <div class="col-lg-4 form-group mt-4">
                                 <label for="Kod" class=" form-label">Kod</label>
                                 <input type="text" id="Kod" name="Kod" class="form-control p-2 rounded-1" placeholder="" />
@@ -45,17 +34,6 @@
                                 <input type="text" name="Barkod" class="form-control p-2 rounded-1" id="Barkod">
                             </div>
 
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="GrupKodu2ID" class="form-label">Grup Kodu 2</label>
-                                <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu2ID" id="GrupKodu2ID"
-                                        aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
-                                    @foreach (GrupKoduDto stokGrupKodlari2 in ViewBag.StokGrupKodlari2)
-                                    {
-                                        <option value="@stokGrupKodlari2.ID">@stokGrupKodlari2.Deger</option>
-                                    }
-                                </select>
-                            </div>
 
                             <div class="form-group col-lg-4 mt-4">
                                 <label for="KdvAlis" class=" form-label">Kdv Alış</label>
@@ -65,17 +43,7 @@
                                 <label for="KdvSatis" class=" form-label">Kdv Satış</label>
                                 <input type="text" name="KdvSatis" class="form-control p-2 rounded-1" placeholder="" id="KdvSatis" step="any" value="20" />
                             </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="GrupKodu3ID" class="form-label">Grup Kodu 3</label>
-                                <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu3ID" id="GrupKodu3ID"
-                                        aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
-                                    @foreach (GrupKoduDto stokGrupKodlari3 in ViewBag.StokGrupKodlari3)
-                                    {
-                                        <option value="@stokGrupKodlari3.ID">@stokGrupKodlari3.Deger</option>
-                                    }
-                                </select>
-                            </div>
+
 
                             <div class="form-group col-lg-4 mt-4">
                                 <label for="Oiv" class=" form-label">Oiv</label>
@@ -88,17 +56,6 @@
                             </div>
 
                             <div class="form-group col-lg-4 mt-4">
-                                <label for="GrupKodu4ID" class="form-label">Grup Kodu 4</label>
-                                <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu4ID" id="GrupKodu4ID"
-                                        aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
-                                    @foreach (GrupKoduDto stokGrupKodlari4 in ViewBag.StokGrupKodlari4)
-                                    {
-                                        <option value="@stokGrupKodlari4.ID">@stokGrupKodlari4.Deger</option>
-                                    }
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
                                 <label for="OtvFiyat" class="form-label">Otv Fiyat</label>
                                 <input type="text" name="OtvFiyat" class="form-control p-2 rounded-1" placeholder="" id="OtvFiyat" step="any" value="0" />
                             </div>
@@ -108,34 +65,12 @@
                                 <input type="text" name="VadeGunu" class="form-control p-2 rounded-1" placeholder="" id="VadeGunu" step="any" value="0" />
                             </div>
                             <div class="form-group col-lg-4 mt-4">
-                                <label for="GrupKodu5ID" class="form-label">Grup Kodu 5</label>
-                                <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu5ID" id="GrupKodu5ID"
-                                        aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
-                                    @foreach (GrupKoduDto stokGrupKodlari5 in ViewBag.StokGrupKodlari5)
-                                    {
-                                        <option value="@stokGrupKodlari5.ID">@stokGrupKodlari5.Deger</option>
-                                    }
-                                </select>
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
                                 <label for="MinimumStok" class=" form-label">Minimum Stok</label>
                                 <input type="text" name="MinimumStok" class="form-control p-2 rounded-1" placeholder="" id="MinimumStok" step="any" value="0" />
                             </div>
                             <div class="form-group col-lg-4 mt-4">
                                 <label for="MaxsimumStok" class=" form-label">Maxsimum Stok</label>
                                 <input type="text" name="MaxsimumStok" class="form-control p-2 rounded-1" placeholder="" id="MaxsimumStok" step="any" value="0" />
-                            </div>
-                            <div class="form-group col-lg-4 mt-4">
-                                <label for="GrupKodu6ID" class="form-label">Grup Kodu 6</label>
-                                <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu6ID" id="GrupKodu6ID"
-                                        aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
-                                    @foreach (GrupKoduDto stokGrupKodlari6 in ViewBag.StokGrupKodlari6)
-                                    {
-                                        <option value="@stokGrupKodlari6.ID">@stokGrupKodlari6.Deger</option>
-                                    }
-                                </select>
                             </div>
 
                             <div class="form-group col-lg-4 mt-4">
@@ -207,7 +142,65 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-3">
 
+                        <div class="form-group col-lg-12 mt-12">
+                            <label for="GrupKodu1ID" class="form-label">Grup Kodu 1</label>
+                            <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu1ID" id="GrupKodu1ID"
+                                    aria-label="Floating label select example">
+                                <option value="">Lütfen Seçim Yapınız</option>
+                                @foreach (GrupKoduDto stokGrupKodlari1 in ViewBag.StokGrupKodlari1)
+                                {
+                                    <option value="@stokGrupKodlari1.ID">@stokGrupKodlari1.Deger</option>
+                                }
+                            </select>
+                            <label for="GrupKodu2ID" class="form-label">Grup Kodu 2</label>
+                            <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu2ID" id="GrupKodu2ID"
+                                    aria-label="Floating label select example">
+                                <option value="">Lütfen Seçim Yapınız</option>
+                                @foreach (GrupKoduDto stokGrupKodlari2 in ViewBag.StokGrupKodlari2)
+                                {
+                                    <option value="@stokGrupKodlari2.ID">@stokGrupKodlari2.Deger</option>
+                                }
+                            </select>
+                            <label for="GrupKodu3ID" class="form-label">Grup Kodu 3</label>
+                            <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu3ID" id="GrupKodu3ID"
+                                    aria-label="Floating label select example">
+                                <option value="">Lütfen Seçim Yapınız</option>
+                                @foreach (GrupKoduDto stokGrupKodlari3 in ViewBag.StokGrupKodlari3)
+                                {
+                                    <option value="@stokGrupKodlari3.ID">@stokGrupKodlari3.Deger</option>
+                                }
+                            </select>
+                            <label for="GrupKodu4ID" class="form-label">Grup Kodu 4</label>
+                            <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu4ID" id="GrupKodu4ID"
+                                    aria-label="Floating label select example">
+                                <option value="">Lütfen Seçim Yapınız</option>
+                                @foreach (GrupKoduDto stokGrupKodlari4 in ViewBag.StokGrupKodlari4)
+                                {
+                                    <option value="@stokGrupKodlari4.ID">@stokGrupKodlari4.Deger</option>
+                                }
+                            </select>
+                            <label for="GrupKodu5ID" class="form-label">Grup Kodu 5</label>
+                            <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu5ID" id="GrupKodu5ID"
+                                    aria-label="Floating label select example">
+                                <option value="">Lütfen Seçim Yapınız</option>
+                                @foreach (GrupKoduDto stokGrupKodlari5 in ViewBag.StokGrupKodlari5)
+                                {
+                                    <option value="@stokGrupKodlari5.ID">@stokGrupKodlari5.Deger</option>
+                                }
+                            </select>
+                            <label for="GrupKodu6ID" class="form-label">Grup Kodu 6</label>
+                            <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu6ID" id="GrupKodu6ID"
+                                    aria-label="Floating label select example">
+                                <option value="">Lütfen Seçim Yapınız</option>
+                                @foreach (GrupKoduDto stokGrupKodlari6 in ViewBag.StokGrupKodlari6)
+                                {
+                                    <option value="@stokGrupKodlari6.ID">@stokGrupKodlari6.Deger</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <!--begin::Actions-->

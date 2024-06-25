@@ -9,7 +9,7 @@
         @Html.Partial("~/Views/Stok/_StokMenu.cshtml", new ViewDataDictionary { { "StokID", Convert.ToString(ViewBag.StokID) } })
         <form method="post" class="col-lg-10" action="/Stok/Duzenle">
             <div class="row">
-                <div class="col-lg-11">
+                <div class="col-lg-9">
                     <input type="hidden" name="ID" value="@(Convert.ToString(Model.Rows[0]["ID"]))" />
                     <div class="row">
                         <input type="hidden" name="ID" />
@@ -26,17 +26,6 @@
                             <input type="text" id="Isim" name="Isim" class="form-control p-2 rounded-1" placeholder="" value="@(Convert.ToString(Model.Rows[0]["Isim"]))" required />
                         </div>
 
-                        <div class="form-group col-lg-4 mt-4">
-                            <label for="GrupKodu1ID" class="form-label">Grup Kodu 1</label>
-                            <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu1ID" id="GrupKodu1ID"
-                                    aria-label="Floating label select example">
-                                <option value="">Lütfen Seçim Yapınız</option>
-                                @foreach (GrupKoduDto stokGrupKodlari1 in ViewBag.StokGrupKodlari1)
-                                {
-                                    <option @(Convert.ToString(Model.Rows[0]["GrupKodu1ID"]) == stokGrupKodlari1.ID ? "selected" : "") value="@stokGrupKodlari1.ID">@stokGrupKodlari1.Deger</option>
-                                }
-                            </select>
-                        </div>
                         <div class="col-lg-4 form-group mt-4">
                             <label for="Kod" class=" form-label">Kod</label>
                             <input type="text" id="Kod" name="Kod" class="form-control p-2 rounded-1" placeholder="" value="@(Convert.ToString(Model.Rows[0]["Kod"]))" />
@@ -48,17 +37,6 @@
                         </div>
 
                         <div class="form-group col-lg-4 mt-4">
-                            <label for="GrupKodu2ID" class="form-label">Grup Kodu 2</label>
-                            <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu2ID" id="GrupKodu2ID"
-                                    aria-label="Floating label select example">
-                                <option value="">Lütfen Seçim Yapınız</option>
-                                @foreach (GrupKoduDto stokGrupKodlari2 in ViewBag.StokGrupKodlari2)
-                                {
-                                    <option @(Convert.ToString(Model.Rows[0]["GrupKodu2ID"]) == stokGrupKodlari2.ID ? "selected" : "") value="@stokGrupKodlari2.ID">@stokGrupKodlari2.Deger</option>
-                                }
-                            </select>
-                        </div>
-                        <div class="form-group col-lg-4 mt-4">
                             <label for="KdvAlis" class=" form-label">Kdv Alış</label>
                             <input type="text" name="KdvAlis" class="form-control p-2 rounded-1" placeholder="" id="KdvAlis" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["KdvAlis"])))" />
                         </div>
@@ -67,17 +45,6 @@
                             <input type="text" name="KdvSatis" class="form-control p-2 rounded-1" placeholder="" id="KdvSatis" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["KdvSatis"])))" />
                         </div>
 
-                        <div class="form-group col-lg-4 mt-4">
-                            <label for="GrupKodu3ID" class="form-label">Grup Kodu 3</label>
-                            <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu3ID" id="GrupKodu3ID"
-                                    aria-label="Floating label select example">
-                                <option value="">Lütfen Seçim Yapınız</option>
-                                @foreach (GrupKoduDto stokGrupKodlari3 in ViewBag.StokGrupKodlari3)
-                                {
-                                    <option @(Convert.ToString(Model.Rows[0]["GrupKodu3ID"]) == stokGrupKodlari3.ID ? "selected" : "") value="@stokGrupKodlari3.ID">@stokGrupKodlari3.Deger</option>
-                                }
-                            </select>
-                        </div>
 
                         <div class="form-group col-lg-4 mt-4">
                             <label for="Oiv" class=" form-label">Oiv</label>
@@ -90,18 +57,6 @@
 
 
                         <div class="form-group col-lg-4 mt-4">
-                            <label for="GrupKodu4ID" class="form-label">Grup Kodu 4</label>
-                            <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu4ID" id="GrupKodu4ID"
-                                    aria-label="Floating label select example">
-                                <option value="">Lütfen Seçim Yapınız</option>
-                                @foreach (GrupKoduDto stokGrupKodlari4 in ViewBag.StokGrupKodlari4)
-                                {
-                                    <option @(Convert.ToString(Model.Rows[0]["GrupKodu4ID"]) == stokGrupKodlari4.ID ? "selected" : "") value="@stokGrupKodlari4.ID">@stokGrupKodlari4.Deger</option>
-                                }
-                            </select>
-                        </div>
-
-                        <div class="form-group col-lg-4 mt-4">
                             <label for="OtvFiyat" class="form-label">Otv Fiyat</label>
                             <input type="text" name="OtvFiyat" class="form-control p-2 rounded-1" placeholder="" id="OtvFiyat" step="any" value="@(String.Format("{0:N2}",Convert.ToDecimal(Model.Rows[0]["OtvFiyat"])))" />
                         </div>
@@ -111,17 +66,6 @@
                             <input type="text" name="VadeGunu" class="form-control p-2 rounded-1" placeholder="" id="VadeGunu" step="any" value="@(Convert.ToString(Model.Rows[0]["VadeGunu"]))" />
                         </div>
 
-                        <div class="form-group col-lg-4 mt-4">
-                            <label for="GrupKodu5ID" class="form-label">Grup Kodu 5</label>
-                            <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu5ID" id="GrupKodu5ID"
-                                    aria-label="Floating label select example">
-                                <option value="">Lütfen Seçim Yapınız</option>
-                                @foreach (GrupKoduDto stokGrupKodlari5 in ViewBag.StokGrupKodlari5)
-                                {
-                                    <option @(Convert.ToString(Model.Rows[0]["GrupKodu5ID"]) == stokGrupKodlari5.ID ? "selected" : "") value="@stokGrupKodlari5.ID">@stokGrupKodlari5.Deger</option>
-                                }
-                            </select>
-                        </div>
 
                         <div class="form-group col-lg-4 mt-4">
                             <label for="MinimumStok" class=" form-label">Minimum Stok</label>
@@ -130,17 +74,6 @@
                         <div class="form-group col-lg-4 mt-4">
                             <label for="MaxsimumStok" class=" form-label">Maxsimum Stok</label>
                             <input type="text" name="MaxsimumStok" class="form-control p-2 rounded-1" placeholder="" id="MaxsimumStok" step="any" value="@(String.Format("{0:N0}",Convert.ToDecimal(Model.Rows[0]["MaxsimumStok"])))" />
-                        </div>
-                        <div class="form-group col-lg-4 mt-4">
-                            <label for="GrupKodu6ID" class="form-label">Grup Kodu 6</label>
-                            <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu6ID" id="GrupKodu6ID"
-                                    aria-label="Floating label select example">
-                                <option value="">Lütfen Seçim Yapınız</option>
-                                @foreach (GrupKoduDto stokGrupKodlari6 in ViewBag.StokGrupKodlari6)
-                                {
-                                    <option @(Convert.ToString(Model.Rows[0]["GrupKodu6ID"]) == stokGrupKodlari6.ID ? "selected" : "") value="@stokGrupKodlari6.ID">@stokGrupKodlari6.Deger</option>
-                                }
-                            </select>
                         </div>
 
                         <div class="form-group col-lg-4 mt-4">
@@ -211,24 +144,84 @@
                     </div>
                 </div>
 
-            </div>
-            <div class="row">
-                <!--begin::Actions-->
-                <div class="col-12">
-                    <div class="pt-10">
-                        <a href="/Stok/Liste" class="btn btn-light btn-sm fw-bold me-3" data-kt-users-modal-action="cancel">Geri</a>
-                        <button type="submit" class="btn btn-primary btn-sm fw-bold" data-kt-users-modal-action="Ekle">
-                            <span class="indicator-label">Kaydet</span>
-                            <span class="indicator-progress">
-                                Lütfen Bekleyin...
-                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                            </span>
-                        </button>
+                <div class="col-lg-3">
+
+                    <div class="form-group col-lg-12 mt-12">
+                        <label for="GrupKodu1ID" class="form-label">Grup Kodu 1</label>
+                        <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu1ID" id="GrupKodu1ID"
+                                aria-label="Floating label select example">
+                            <option value="">Lütfen Seçim Yapınız</option>
+                            @foreach (GrupKoduDto stokGrupKodlari1 in ViewBag.StokGrupKodlari1)
+                            {
+                                <option @(Convert.ToString(Model.Rows[0]["GrupKodu1ID"]) == stokGrupKodlari1.ID ? "selected" : "") value="@stokGrupKodlari1.ID">@stokGrupKodlari1.Deger</option>
+                            }
+                        </select>
+                        <label for="GrupKodu2ID" class="form-label">Grup Kodu 2</label>
+                        <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu2ID" id="GrupKodu2ID"
+                                aria-label="Floating label select example">
+                            <option value="">Lütfen Seçim Yapınız</option>
+                            @foreach (GrupKoduDto stokGrupKodlari2 in ViewBag.StokGrupKodlari2)
+                            {
+                                <option @(Convert.ToString(Model.Rows[0]["GrupKodu2ID"]) == stokGrupKodlari2.ID ? "selected" : "") value="@stokGrupKodlari2.ID">@stokGrupKodlari2.Deger</option>
+                            }
+                        </select>
+                        <label for="GrupKodu3ID" class="form-label">Grup Kodu 3</label>
+                        <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu3ID" id="GrupKodu3ID"
+                                aria-label="Floating label select example">
+                            <option value="">Lütfen Seçim Yapınız</option>
+                            @foreach (GrupKoduDto stokGrupKodlari3 in ViewBag.StokGrupKodlari3)
+                            {
+                                <option @(Convert.ToString(Model.Rows[0]["GrupKodu3ID"]) == stokGrupKodlari3.ID ? "selected" : "") value="@stokGrupKodlari3.ID">@stokGrupKodlari3.Deger</option>
+                            }
+                        </select>
+                        <label for="GrupKodu4ID" class="form-label">Grup Kodu 4</label>
+                        <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu4ID" id="GrupKodu4ID"
+                                aria-label="Floating label select example">
+                            <option value="">Lütfen Seçim Yapınız</option>
+                            @foreach (GrupKoduDto stokGrupKodlari4 in ViewBag.StokGrupKodlari4)
+                            {
+                                <option @(Convert.ToString(Model.Rows[0]["GrupKodu4ID"]) == stokGrupKodlari4.ID ? "selected" : "") value="@stokGrupKodlari4.ID">@stokGrupKodlari4.Deger</option>
+                            }
+                        </select>
+                        <label for="GrupKodu5ID" class="form-label">Grup Kodu 5</label>
+                        <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu5ID" id="GrupKodu5ID"
+                                aria-label="Floating label select example">
+                            <option value="">Lütfen Seçim Yapınız</option>
+                            @foreach (GrupKoduDto stokGrupKodlari5 in ViewBag.StokGrupKodlari5)
+                            {
+                                <option @(Convert.ToString(Model.Rows[0]["GrupKodu5ID"]) == stokGrupKodlari5.ID ? "selected" : "") value="@stokGrupKodlari5.ID">@stokGrupKodlari5.Deger</option>
+                            }
+                        </select>
+                        <label for="GrupKodu6ID" class="form-label">Grup Kodu 6</label>
+                        <select class="form-select p-2 rounded-1" data-control="select2" name="GrupKodu6ID" id="GrupKodu6ID"
+                                aria-label="Floating label select example">
+                            <option value="">Lütfen Seçim Yapınız</option>
+                            @foreach (GrupKoduDto stokGrupKodlari6 in ViewBag.StokGrupKodlari6)
+                            {
+                                <option @(Convert.ToString(Model.Rows[0]["GrupKodu6ID"]) == stokGrupKodlari6.ID ? "selected" : "") value="@stokGrupKodlari6.ID">@stokGrupKodlari6.Deger</option>
+                            }
+                        </select>
                     </div>
                 </div>
-                <!--end::Actions-->
-            </div>
-        </form>
+                </div>
+
+                <div class="row">
+                    <!--begin::Actions-->
+                    <div class="col-12">
+                        <div class="pt-10">
+                            <a href="/Stok/Liste" class="btn btn-light btn-sm fw-bold me-3" data-kt-users-modal-action="cancel">Geri</a>
+                            <button type="submit" class="btn btn-primary btn-sm fw-bold" data-kt-users-modal-action="Ekle">
+                                <span class="indicator-label">Kaydet</span>
+                                <span class="indicator-progress">
+                                    Lütfen Bekleyin...
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <!--end::Actions-->
+                </div>
+</form>
     </div>
 </div>
 
