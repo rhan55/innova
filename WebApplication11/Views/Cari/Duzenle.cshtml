@@ -5,11 +5,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container-fluid">
+<div class="container-fluid"> 
     <div class="row">
         @Html.Partial("~/Views/Cari/_CariMenu.cshtml", new ViewDataDictionary { { "CariID", Convert.ToString(ViewBag.CariID) } })
 
-        <form method="post"  class="col-lg-10" action="@Url.Action("Duzenle","Cari",null)">
+        <form method="post" id="cariDuzenleFormu"  class="col-lg-10" action="@Url.Action("Duzenle","Cari",null)">
             <div class="container py-4">
                 <div class="row">
                     <div class="col-lg-10">
@@ -147,13 +147,15 @@
                             <div class="col-lg-3 mt-4 mt-lg-0">
                                 <div class="form-group">
                                     <label for="TCKimlikNo" class=" form-label">TC Kimlik No</label>
-                                    <input type="text" id="TCKimlikNo" name="TCKimlikNo" class="form-control p-2 rounded-1" value="@(Convert.ToString(Model.Rows[0]["TCKimlikNo"]))" placeholder="" />
+                                    <input type="text" step="0.01" id="TCKimlikNo" name="TCKimlikNo" class="form-control p-2 rounded-1" value="@(Convert.ToString(Model.Rows[0]["TCKimlikNo"]))" placeholder="" />
+                                    <div data-error="TCKimlikNo"></div>
                                 </div>
                             </div>
                             <div class="col-lg-3 mt-4 mt-lg-0">
                                 <div class="form-group">
                                     <label for="VergiNumarasi" class=" form-label">Vergi Numarası</label>
-                                    <input type="text" id="VergiNumarasi" name="VergiNumarasi" class="form-control  p-2 rounded-1" value="@(Convert.ToString(Model.Rows[0]["VergiNumarasi"]))" placeholder="" />
+                                    <input type="text" id="VergiNumarasi" name="VergiNumarasi" class="form-control  p-2 rounded-1" value="@(Convert.ToString(Model.Rows[0]["VergiNumarasi"]))" placeholder="" maxlength="11"/>
+                                    <div data-error="VergiNumarasi"></div>
                                 </div>
                             </div>
                             <div class="col-lg-3 mt-4 mt-lg-0">
@@ -474,6 +476,58 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function () {
+
+            Inputmask({
+                "mask": "(999) 999-9999"
+            }).mask("#CepTelefonu").mask("#Faks").mask("Telefon1").mask("Telefon2");
+
+            const VergiNumarasi = document.getElementById('VergiNumarasi')
+            const TCKimlikNo = document.getElementById('TCKimlikNo')
+            const form = document.getElementById('cariDuzenleFormu')
+
+            const onlyNumbers = /^\d+$/;
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                let isValidated = true;
+                const message = {
+                    VergiNumarasi: [],
+                    TCKimlikNo: []
+                };
+
+                if (!VergiNumarasi.value) {
+                    isValidated = false;
+                    message.VergiNumarasi.push("Vergi numarası boş olamaz.")
+                }
+
+                if (!(VergiNumarasi.value.length == 10)) {
+                    isValidated = false;
+                    message.VergiNumarasi.push("Vergi numarasi 10 haneli olmalıdır.")
+                }
+
+                if (!(onlyNumbers.test(VergiNumarasi.value))) {
+                    isValidated = false;
+                    message.VergiNumarasi.push("Vergi numarasında sadece rakamlar kullanılabilir.");
+                }
+
+                if (!TCKimlikNo.value) {
+                    isValidated = false;
+                    message.TCKimlikNo.push("TC Kimlik numarası boş olamaz.")
+                }
+
+                if (!(TCKimlikNo.value.length == 11)) {
+                    isValidated = false;
+                    message.TCKimlikNo.push("TC Kimlik numarası 11 haneli olmalıdır.")
+                }
+
+                if (isValidated) {
+                    form.submit();
+                } else {
+                    document.querySelector('[data-error="VergiNumarasi"]').innerHTML = message.VergiNumarasi.map(error => `<div class="text-danger">${error}</div>`).join("");
+                    document.querySelector('[data-error="TCKimlikNo"]').innerHTML = message.TCKimlikNo.map(error => `<div class="text-danger">${error}</div>`).join("");
+                }
+            });
 
             const anaCariIdSelect = $('#AnaCariID').select2({
                 ajax: {
