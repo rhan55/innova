@@ -52,7 +52,6 @@
     <link href="/Tema/css/style.bundle.css" rel="stylesheet" type="text/css" />
     <link href="/Tema/css/override.css" rel="stylesheet" type="text/css" />
     <!--end::Global Stylesheets Bundle-->
-    <script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
 </head>
 <!--end::Head-->
 <!--begin::Body-->
@@ -81,7 +80,7 @@
                         }
                         else
                         {
-                            <form id="kt_modal_add_user_form" class="form w-100 Uye-Ol-Form" action="@Url.Action("UyeOl", "YK", null)" method="post" enctype="multipart/form-data">
+                            <form id="user_form" class="form w-100 Uye-Ol-Form" action="@Url.Action("UyeOl", "YK", null)" method="post" enctype="multipart/form-data">
                                 <!--begin::Heading-->
                                 <div class="text-center mb-11">
                                     <!--begin::Title-->
@@ -117,8 +116,8 @@
                                     }
                                 }
 
-                                <!--begin::Scroll-->
-                                <div class="d-flex flex-column scroll-y px-5 px-lg-10 container ">
+                                
+                                <div class="d-flex flex-column px-5 px-lg-10 container ">
                                     <!--begin::Row Input group-->
                                     <div class="row mb-6">
                                         <input type="hidden" name="ID" value="" />
@@ -218,15 +217,9 @@
                                             <label class="required fw-semibold fs-6 mb-2">Vergi Numarası</label>
                                             <!--end::Label-->
                                             <!--begin::Input-->
-                                            <input class="form-control p-2 @(ViewData.ModelState.ContainsKey("VergiNumarasi") ? "is-invalid" : "")" name="VergiNumarasi" placeholder="Vergi Numarası" id="exampleFormControlTextarea1" required value="@ViewBag.Form.VergiNumarasi" />
+                                            <input type="text" id="VergiNumarasi" name="VergiNumarasi" class="form-control  p-2 rounded-1" placeholder="" required value="@ViewBag.Form.VergiNumarasi" />
                                             <!--end::Input-->
-                                            @if (ViewData.ModelState.ContainsKey("VergiNumarasi") && ViewData.ModelState["VergiNumarasi"].Errors.Count() > 0)
-                                            {
-                                                foreach (var error in ViewData.ModelState["VergiNumarasi"].Errors)
-                                                {
-                                                    <div class="">@error.ErrorMessage</div>
-                                                }
-                                            }
+                                            <div data-error="VergiNumarasi"></div>
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
@@ -240,15 +233,8 @@
                                             <label class="required fw-semibold fs-6 mb-2">İletişim Numarası</label>
                                             <!--end::Label-->
                                             <!--begin::Input-->
-                                            <input type="text" class="form-control p-2 @(ViewData.ModelState.ContainsKey("Iletisim") ? "is-invalid" : "")" name="Iletisim" placeholder="İletişim Numarası" id="exampleFormControlTextarea1" value="@ViewBag.Form.Iletisim" required />
-                                            <!--end::Input-->
-                                            @if (ViewData.ModelState.ContainsKey("Iletisim") && ViewData.ModelState["Iletisim"].Errors.Count() > 0)
-                                            {
-                                                foreach (var error in ViewData.ModelState["Iletisim"].Errors)
-                                                {
-                                                    <div class="">@error.ErrorMessage</div>
-                                                }
-                                            }
+                                            <input type="text" class="form-control p-2" name="Iletisim" placeholder="İletişim Numarası" id="Iletisim" value="@ViewBag.Form.Iletisim" required />
+
                                         </div>
                                         <!--end::Input group-->
                                         <!--begin::Input group-->
@@ -306,7 +292,7 @@
                             </form>
                         }
                     </div>
-                    <!--end::Scroll-->
+                    
                 </div>
                 <!--end::Wrapper-->
             </div>
@@ -331,13 +317,56 @@
     <!--end::Authentication - Sign-in-->
     <!--end::Root-->
     <!--end::Main-->
-    <!--begin::Javascript-->
-    <script>var hostUrl = "/Tema/";</script>
-    <!--begin::Global Javascript Bundle(mandatory for all pages)-->
-    <script src="/Tema/plugins/global/plugins.bundle.js"></script>
-    <script src="/Tema/js/scripts.bundle.js"></script>
-    <!--end::Global Javascript Bundle-->
-    <!--end::Custom Javascript-->
-    <!--end::Javascript-->
+    <script src="~/Tema/plugins/global/plugins.bundle.js"></script>
+    <script src="~/Tema/plugins/custom/datatables/datatables.min.js"></script>
+    <script src="~/Tema/js/scripts.bundle.js"></script>
+    <script src="~/Tema/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
+    <script src="~/Tema/plugins/custom/vis-timeline/vis-timeline.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+       $(document).ready(function () {
+
+           Inputmask({
+               "mask": "(999) 999-9999"
+           }).mask("#Iletisim");
+
+           const VergiNumarasi = document.getElementById('VergiNumarasi')
+           const form = document.getElementById('user_form')
+
+           const onlyNumbers = /^\d+$/; // REGEX - Düzenli İfadeler : Bu ifadeler ile bir string içerisinde specific arama ve kontrol yapabiliyoruz.
+
+           form.addEventListener('submit', (e) => {
+               e.preventDefault();
+
+               let isValidated = true;
+               const message = {
+                   VergiNumarasi: [],
+               };
+                
+               if (!VergiNumarasi.value) {
+                   isValidated = false;
+                   message.VergiNumarasi.push("Vergi numarası boş olamaz.")
+               }
+
+               if (!(VergiNumarasi.value.length == 10)) {
+                   isValidated = false;
+                   message.VergiNumarasi.push("Vergi numarasi 10 haneli olmalıdır.")
+               }
+
+               if (!(onlyNumbers.test(VergiNumarasi.value))) {
+                   isValidated = false;
+                   message.VergiNumarasi.push("Vergi numarasında sadece rakamlar kullanılabilir.");
+               }
+
+               if (isValidated) {
+                   form.submit();
+               } else {
+                document.querySelector('[data-error="VergiNumarasi"]').innerHTML = message.VergiNumarasi.map(error => `<div class="text-danger">${error}</div>`).join("");
+                }
+            });
+
+       });
+
+    </script>
 </body>
 </html>

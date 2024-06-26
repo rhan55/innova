@@ -9,6 +9,43 @@
         <div class="col-lg-12">
             <div class="card card-flush mt-4">
                 <div class="card-body p-4">
+                    <div class="container border">
+                        <div class="row border-bottom py-1">
+                            <div class="col-lg-6"></div>
+                            <div class="col-lg-2 fw-bold border-start text-center">Gör</div>
+                            <div class="col-lg-2 fw-bold border-start border-end text-center">Düzenle</div>
+                            <div class="col-lg-2 fw-bold border-end text-center">Sil</div>
+                        </div>
+                        @foreach (YetkilerDto yetki in ViewBag.Yetkiler)
+                        {
+                            <div class="row border-bottom">
+                                <div class="col-lg-6 ">
+                                    <div class="d-flex align-items-center h-100">
+                                        @yetki.Menu
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-lg-2  text-center border-start">
+
+                                    <label class="w-100 h-100 px-2 py-4" for="@(yetki.MenuID)-Gor">
+                                        <input type="checkbox" @(yetki.Gor ? "checked" : "") id="@(yetki.MenuID)-Gor" name="@(yetki.MenuID)-Gor" data-menuId="@yetki.MenuID" data-tip="Gor" />
+                                    </label>
+                                </div>
+                                <div class="col-lg-2 text-center border-start border-end">
+                                    <label class="w-100 h-100 px-2 py-4" for="@(yetki.MenuID)-Duzenle">
+                                        <input type="checkbox" @(yetki.Gor ? "checked" : "") id="@(yetki.MenuID)-Gor" name="@(yetki.MenuID)-Gor" data-menuId="@yetki.MenuID" data-tip="Gor" />
+                                    </label>
+                                </div>
+                                <div class="col-lg-2 text-center border-end">
+                                    <label class="w-100 h-100 px-2 py-4" for="@(yetki.MenuID)-Sil">
+                                        <input type="checkbox" @(yetki.Gor ? "checked" : "") id="@(yetki.MenuID)-Gor" name="@(yetki.MenuID)-Gor" data-menuId="@yetki.MenuID" data-tip="Gor" />
+                                    </label>
+                                </div>
+                            </div>
+                        }
+
+
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead class="text-center">
