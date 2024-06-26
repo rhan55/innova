@@ -26,11 +26,38 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Giris");
 
             string redirectUrl = Request.Url.ToString().Replace("http:", "https:");
-            if (!Request.IsLocal && !Request.IsSecureConnection)
+            if (!Request.IsLocal && !Request.IsSecureConnection && ConfigurationManager.AppSettings["SSLYonlendir"] == "1")
             {
                 Response.Redirect(redirectUrl, false);
                 HttpContext.ApplicationInstance.CompleteRequest();
             }
+
+            if(ConfigurationManager.AppSettings["AnaSayfadaAcilisSayfasiKontrolu"] == "1")
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_KullaniciGirisi";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@KullaniciAdi", GetCookie("KullaniciAdi"));
+                cmd.Parameters.AddWithValue("@Parola", GetCookie("Parola"));
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    string Bilgi = Convert.ToString(dt.Rows[0]["Bilgi"]);
+
+                    if (!Bilgi.StartsWith("UYARI!"))
+                    {
+                        if (Convert.ToString(dt.Rows[0]["AcilisSayfasi"]).Trim().Length > 0)
+                        {
+                            return Redirect(Convert.ToString(dt.Rows[0]["AcilisSayfasi"]).Trim());
+                        }
+                    }
+                }
+            }
+
+
+
+
             SonAktiviteler();
             return View();
         }
@@ -79,6 +106,7 @@ namespace YKPortal.Controllers
             if (dt.Rows.Count > 0)
             {
                 string Bilgi = Convert.ToString(dt.Rows[0]["Bilgi"]);
+                
                 if (!Bilgi.StartsWith("UYARI!"))
                 {
                     #region Cookie İşlemleri
@@ -92,6 +120,11 @@ namespace YKPortal.Controllers
                     CreateCookie("Resim", Convert.ToString(dt.Rows[0]["Resim"]));
 
                     #endregion
+
+                    if (Convert.ToString(dt.Rows[0]["AcilisSayfasi"]).Trim().Length > 0)
+                    {
+                        return Redirect(Convert.ToString(dt.Rows[0]["AcilisSayfasi"]).Trim());
+                    }
 
                     return Redirect("~/YK/AnaSayfa");
                 }
@@ -130,11 +163,11 @@ namespace YKPortal.Controllers
             sc.EnableSsl = false;
             sc.Credentials = new NetworkCredential("ilayda@ykyazilim.com.tr", "Ilayda12#");
             MailMessage mail = new MailMessage();
-            mail.From = new MailAddress("ilayda@ykyazilim.com.tr", "YK YAZILIM");
+            mail.From = new MailAddress("ilayda@ykyazilim.com.tr", ConfigurationManager.AppSettings["FirmaAdi"]);
 
             mail.To.Add(email);
 
-            mail.Subject = "YK YAZILIM - Parola Sıfırlama";
+            mail.Subject = ConfigurationManager.AppSettings["FirmaAdi"]+" - Parola Sıfırlama";
             mail.IsBodyHtml = true;
             mail.Body =
                 $@"
@@ -299,6 +332,7 @@ namespace YKPortal.Controllers
                 cmd.Parameters.AddWithValue("@Aciklama1", "");
                 cmd.Parameters.AddWithValue("@Aciklama2", "");
                 cmd.Parameters.AddWithValue("@Aciklama3", "");
+                cmd.Parameters.AddWithValue("@Onay", ConfigurationManager.AppSettings["IlkUyelikdeKullaniciyiOnayliYap"] == "1" ? true : false);
                 cmd.Parameters.AddWithValue("@Kullanici", "");
                 cmd.Parameters.AddWithValue("@Resim", "");
                 dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
@@ -347,6 +381,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@EMail", uyelikDto.EMail);
             cmd.Parameters.AddWithValue("@Iletisim", uyelikDto.Iletisim);
             cmd.Parameters.AddWithValue("@ApiUrl", uyelikDto.ApiUrl);
+            cmd.Parameters.AddWithValue("@AcilisSayfasi", uyelikDto.AcilisSayfasi);
             cmd.Parameters.AddWithValue("@UyelikBaslangicTarihi", uyelikDto.UyelikBaslangicTarihi);
             cmd.Parameters.AddWithValue("@UyelikBitisTarihi", uyelikDto.UyelikBitisTarihi);
             cmd.Parameters.AddWithValue("@Kullanici", GetCookie("KullaniciID"));

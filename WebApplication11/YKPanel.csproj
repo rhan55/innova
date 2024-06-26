@@ -153,6 +153,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Areas\Entegrasyon\Controllers\QuickSigortaController.cs" />
+    <Compile Include="Areas\Entegrasyon\EntegrasyonAreaRegistration.cs" />
     <Compile Include="Areas\Satinalma\Controllers\YKSatinalmaController.cs" />
     <Compile Include="Areas\Satinalma\SatinalmaAreaRegistration.cs" />
     <Compile Include="Controllers\AktivasyonController.cs" />
@@ -294,6 +296,8 @@
     <Content Include="Areas\Satinalma\Views\YKSatinalma\YeniCariSozlesmeTutar.cshtml" />
     <Content Include="Areas\Satinalma\Views\YKSatinalma\YeniTalep.cshtml" />
     <Content Include="Areas\Satinalma\Views\YKSatinalma\YeniTalep2.cshtml" />
+    <Content Include="Areas\Entegrasyon\Views\web.config" />
+    <Content Include="Areas\Entegrasyon\Views\QuickSigorta\AnaSayfa.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -2647,6 +2651,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Entegrasyon\Data\" />
+    <Folder Include="Areas\Entegrasyon\Views\Shared\" />
     <Folder Include="Areas\Satinalma\Data\" />
     <Folder Include="Areas\Satinalma\Views\Shared\" />
     <Folder Include="Pdf\" />

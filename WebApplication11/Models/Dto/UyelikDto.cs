@@ -28,7 +28,7 @@ namespace YKPortal.Models.Dto
         private string _UyelikBaslangicTarihi;
         private string _UyelikBitisTarihi;
         private string _ApiUrl;
-
+        private string _AcilisSayfasi;
 
         public string ID { get { return _ID ?? ""; } set { _ID = value; } }
 
@@ -66,6 +66,7 @@ namespace YKPortal.Models.Dto
         public string UyelikBitisTarihi { get { return _UyelikBitisTarihi ?? ""; } set { _UyelikBitisTarihi = value; } }
 
         public string ApiUrl { get { return _ApiUrl ?? ""; } set { _ApiUrl = value; } }
+        public string AcilisSayfasi { get { return _AcilisSayfasi ?? ""; } set { _AcilisSayfasi = value; } }
 
     }
 }

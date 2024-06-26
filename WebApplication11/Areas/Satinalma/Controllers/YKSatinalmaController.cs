@@ -20,6 +20,9 @@ namespace YKPortal.Areas.Satinalma.Controllers
 
         public ActionResult PdfGoster(string BelgeNo)
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
             string Dosya = "";
             if (BelgeNo.Trim().Length <= 15)
             {
@@ -52,6 +55,7 @@ namespace YKPortal.Areas.Satinalma.Controllers
 
         public JsonResult TeklifDosyasiSil(int KayitID)
         {
+
             YKJsonResult result = new YKJsonResult();
 
             string KullaniciAdi = GetCookie("KullaniciAdi");
@@ -80,6 +84,7 @@ namespace YKPortal.Areas.Satinalma.Controllers
         }
         public JsonResult TeklifDosyasiKaydet(int KayitID, HttpPostedFileBase Dosya = null)
         {
+
             YKJsonResult result = new YKJsonResult();
 
             string KullaniciAdi = GetCookie("KullaniciAdi");
@@ -222,6 +227,7 @@ Group by KategoriKodu1,Kategori1 order by KategoriKodu1";
 
         public bool Gonder(string konu, string icerik, string yol, string KullaniciAdi)
         {
+
             MailMessage ePosta = new MailMessage();
             ePosta.From = new MailAddress(ConfigurationManager.ConnectionStrings["MailKullaniciAdi"].ConnectionString, "Satınalma - Yeni Sipariş Formu");
 

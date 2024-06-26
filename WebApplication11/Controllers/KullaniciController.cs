@@ -211,6 +211,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@Aciklama2", kullaniciEkleDto.Aciklama2);
             cmd.Parameters.AddWithValue("@Aciklama3", kullaniciEkleDto.Aciklama3);
             cmd.Parameters.AddWithValue("@Kullanici", kullaniciEkleDto.Kullanici);
+            cmd.Parameters.AddWithValue("@Onay", kullaniciEkleDto.Onay);
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 

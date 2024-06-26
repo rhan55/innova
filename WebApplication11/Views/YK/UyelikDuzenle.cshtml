@@ -98,9 +98,13 @@
                 <label class="required fw-semibold fs-6 mb-2">Bitiş Tarihi</label>
                 <input type="date" class="form-control p-2" name="UyelikBitisTarihi" id="UyelikBitisTarihi" value="@(Convert.ToDateTime(Model.Rows[0]["UyelikBitisTarihi"]).ToString("yyyy-MM-dd"))" />
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-3">
                 <label class="required fw-semibold fs-6 mb-2">Api URL</label>
                 <input class="form-control p-2" name="ApiUrl" id="ApiUrl" value="@(Convert.ToString(Model.Rows[0]["ApiUrl"]))" />
+            </div>
+            <div class="col-lg-3">
+                <label class="required fw-semibold fs-6 mb-2">Açılış Sayfası</label>
+                <input class="form-control p-2" name="AcilisSayfasi" id="AcilisSayfasi" value="@(Convert.ToString(Model.Rows[0]["AcilisSayfasi"]))" />
             </div>
         </div>
         <!--begin::Actions-->

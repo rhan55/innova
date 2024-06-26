@@ -9,7 +9,7 @@
 <html lang="tr">
 <!--begin::Head-->
 <head>
-    <title>@ViewBag.Title - YK Yazılım</title>
+    <title>@ViewBag.Title - @System.Configuration.ConfigurationManager.AppSettings["FirmaAdi"]</title>
     <meta charset="utf-8" />
     <meta name="description" content="YK YAZILIM ERP - Siz hayal edin biz yazalım." />
     <meta name="keywords" content="yk yazılım, ykyazılım, muhasebe, erp, stok, cari, kasa, fatura, efatura, irsaliye, sipariş, teklif, crm, üretim, müşteri, yazılım" />
@@ -696,6 +696,22 @@
                             },
 
                         ]
+                    },
+
+                ]
+
+            },
+
+            {
+                title: "Entegrasyon",
+                icon: "ki-duotone ki-setting-2 fs-2",
+                isOpen: false,
+                items: [
+                    {
+                        title: "Quick - Seyehat Sigortası",
+                        isMenu: false,
+                        icon: "",
+                        url: "/Entegrasyon/QuickSigorta/AnaSayfa"
                     },
 
                 ]

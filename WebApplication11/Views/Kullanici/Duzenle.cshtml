@@ -135,13 +135,23 @@
                         </div>
 
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-3">
                         <div>
                             <!--begin::Label-->
                             <label class="required fw-semibold fs-6 mb-2">Telefon</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="text" name="Telefon" class="form-control p-2 mb-3 mb-lg-0" placeholder="Full name" value="@(Convert.ToString(Model.Rows[0]["Telefon"]))" />
+                            <input type="text" name="Telefon" class="form-control p-2 mb-3 mb-lg-0" value="@(Convert.ToString(Model.Rows[0]["Telefon"]))" />
+                            <!--end::Input-->
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div>
+                            <!--begin::Label-->
+                            <label class="required fw-semibold fs-6 mb-2">Onay</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <input type="checkbox" name="Onay" class="checked "  value="1" @(Convert.ToBoolean(Model.Rows[0]["Onay"]) == true ? "checked" : "") />
                             <!--end::Input-->
                         </div>
                     </div>
