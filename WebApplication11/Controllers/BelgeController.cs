@@ -26,7 +26,7 @@ namespace YKPortal.Controllers
         }
 
         [HttpGet]
-        public ActionResult Detay(string Tip , int id = 0)
+        public ActionResult Detay(string Tip , string id = "")
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -35,6 +35,14 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@ID", id);
             DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
             BelgeDto entity = new BelgeDto();
+            switch (Request.QueryString["Tip"])
+            {
+                case "AI":
+                    entity.BelgeTipi = BelgeTipi.AlisIrsaliyesi;
+                    break;
+                default:
+                    break;
+            }
             if (ds.Tables[0].Rows.Count > 0)
             {
                 entity.ID = Convert.ToString(ds.Tables[0].Rows[0]["ID"]);
@@ -42,16 +50,18 @@ namespace YKPortal.Controllers
                 entity.BelgeNo = Convert.ToString(ds.Tables[0].Rows[0]["BelgeNo"]);
                 entity.CariID = Convert.ToString(ds.Tables[0].Rows[0]["CariID"]);
                 entity.CariAdi = Convert.ToString(ds.Tables[0].Rows[0]["CariAdi"]);
-                entity.Aciklama = Convert.ToString(ds.Tables[0].Rows[0]["Aciklama"]);
+                entity.Aciklama = Convert.ToString(ds.Tables[0].Rows[0]["Aciklama1"]);
                 entity.Kalemler = new List<BelgeKalemDto>();
                 foreach (DataRow satir in ds.Tables[1].Rows)
                 {
                     BelgeKalemDto s = new BelgeKalemDto();
+                    s.ID = Convert.ToString(satir["ID"]);
                     s.BelgeID = entity.ID;
                     s.StokID = Convert.ToString(satir["StokID"]);
                     s.StokKodu = Convert.ToString(satir["StokKodu"]);
                     s.StokAdi = Convert.ToString(satir["StokAdi"]);
                     s.OlcuBirimi = Convert.ToString(satir["OlcuBirimi"]);
+                    s.Seri = Convert.ToString(satir["Seri"]);
                     s.Miktar = Convert.ToDecimal(satir["Miktar"]);
                     s.Fiyat = Convert.ToDecimal(satir["Fiyat"]);
                     s.Iskonto = Convert.ToDecimal(satir["IskontoOrani1"]);
@@ -60,19 +70,56 @@ namespace YKPortal.Controllers
                     entity.Kalemler.Add(s);
                 }
             }
+            else
+            {
+                entity.Tarih = DateTime.Today;
+            }
             return View(entity);
         }
 
         [HttpPost]
-        public JsonResult KaydetUst(BelgeDto belge,List<BelgeKalemDto> kalemler)
+        public ActionResult Kaydet(string Tip = "",string ID="", string BelgeNo="", string Tarih = "", string CariID = "", string Aciklama = "", string Kalemler = "")
         {
             JsonResult result = new JsonResult();
 
             #region Kayıt işlemi gerçekleştirilecek.
+            string KullaniciID = GetCookie("KullaniciID");
 
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_BelgeKaydet";
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Tip", Tip);
+            cmd.Parameters.AddWithValue("@BelgeNo", BelgeNo);
+            cmd.Parameters.AddWithValue("@Tarih", Tarih);
+            cmd.Parameters.AddWithValue("@CariID", CariID);
+            cmd.Parameters.AddWithValue("@Aciklama1", Aciklama);
+            cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
+            ID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+
+            foreach (string item in Kalemler.Split('~'))
+            {
+                if (item.Trim().Length > 0)
+                {
+                    cmd.Parameters.Clear();
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "p_BelgeKalemKaydet";
+                    cmd.Parameters.AddWithValue("@ID", item.Split('|')[0]);
+                    cmd.Parameters.AddWithValue("@BelgeID", ID);
+                    cmd.Parameters.AddWithValue("@StokID", item.Split('|')[1]);
+                    cmd.Parameters.AddWithValue("@Seri", item.Split('|')[2]);
+                    cmd.Parameters.AddWithValue("@Miktar", Convert.ToDecimal(item.Split('|')[3]));
+                    cmd.Parameters.AddWithValue("@Fiyat", Convert.ToDecimal(item.Split('|')[4]));
+                    cmd.Parameters.AddWithValue("@IskontoOrani1", 0);
+                    cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                }
+            }
             #endregion
 
-            result.Data = belge.ID;
+            result.Data = ID;
+            //return Redirect(Request.Url.Authority+"/Belge/Detay/"+ID+"&Tip="+Tip);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

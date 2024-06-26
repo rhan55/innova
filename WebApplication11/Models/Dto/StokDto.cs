@@ -14,6 +14,7 @@ namespace YKPortal.Models.Dto
         private bool _Durumu;
         private string _Kod;
         private string _Isim;
+        private string _SeriNo;
         private string _Aciklama;
         private string _Barkod;
         private string _OlcuBirimi;
@@ -53,6 +54,7 @@ namespace YKPortal.Models.Dto
         public bool Durumu { get { return _Durumu == null ? false : _Durumu; } set { _Durumu = value; } }
         public string Kod { get { return _Kod ?? ""; } set { _Kod = value; } }
         public string Isim { get { return _Isim ?? ""; } set { _Isim = value; } }
+        public string SeriNo { get { return _SeriNo ?? ""; } set { _SeriNo = value; } }
         public string Aciklama { get { return _Aciklama ?? ""; } set { _Aciklama = value; } }
         public string Barkod { get { return _Barkod ?? ""; } set { _Barkod = value; } }
         public string OlcuBirimi { get { return _OlcuBirimi ?? ""; } set { _OlcuBirimi = value; } }

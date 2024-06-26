@@ -513,6 +513,29 @@ namespace YKPortal.Controllers
             }
             return RedirectToAction("Liste");
         }
+        public JsonResult SelectStokSeriListe(string StokID)
+        {
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_StokSerileri";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@StokID", StokID);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            var liste = new List<StokDto>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                liste.Add(new StokDto
+                {
+                    SeriNo = Convert.ToString(dt.Rows[i]["SeriNo"]),
+                });
+            }
+
+            return Json(liste, JsonRequestBehavior.AllowGet);
+
+        }
         public JsonResult SelectListe(string search)
         {
 
@@ -522,10 +545,6 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@Kod", "");
             cmd.Parameters.AddWithValue("@Isim", search);
-            cmd.Parameters.AddWithValue("@Unvan", "");
-            cmd.Parameters.AddWithValue("@TCKimlikNo", "");
-            cmd.Parameters.AddWithValue("@VergiNumarasi", "");
-            cmd.Parameters.AddWithValue("@CepTelefonu", "");
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             var liste = new List<StokDto>();
