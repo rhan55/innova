@@ -988,12 +988,12 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@DovizTipi", cariHareketDto.DovizTipi);
             cmd.Parameters.AddWithValue("@Kur ", cariHareketDto.Kur);
             cmd.Parameters.AddWithValue("@DovizTutar", cariHareketDto.DovizTutar);
-            cmd.Parameters.AddWithValue("@PlasiyerID", cariHareketDto.PlasiyerID);
-            cmd.Parameters.AddWithValue("@BaglantiID", cariHareketDto.BaglantiID);
+            cmd.Parameters.AddWithValue("@PlasiyerID", string.Empty);
+            cmd.Parameters.AddWithValue("@BaglantiID", string.Empty);
             cmd.Parameters.AddWithValue("@Baglanti", cariHareketDto.Baglanti);
-            cmd.Parameters.AddWithValue("@GrupKodu1ID", cariHareketDto.GrupKodu1ID);
-            cmd.Parameters.AddWithValue("@GrupKodu2ID", cariHareketDto.GrupKodu2ID);
-            cmd.Parameters.AddWithValue("@Kullanici", cariHareketDto.Kullanici);
+            cmd.Parameters.AddWithValue("@GrupKodu1ID", string.Empty);
+            cmd.Parameters.AddWithValue("@GrupKodu2ID", string.Empty);
+            cmd.Parameters.AddWithValue("@Kullanici", GetCookie("KullaniciID"));
             
           
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);

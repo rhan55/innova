@@ -407,7 +407,9 @@ namespace YKPortal.Controllers
                     Sil = Convert.ToBoolean(row["Sil"])
                 });
             }
-            ViewBag.Yetkiler = yetkiler;
+
+            YetkiYapisiniOlustur(yetkiler);
+
             return View();
         }
 
@@ -528,6 +530,23 @@ namespace YKPortal.Controllers
                 entities.Add(entity);
             }
             ViewBag.Iller = entities;
+        }
+
+        public void YetkiYapisiniOlustur(List<YetkilerDto> yetkiler)
+        {
+            var enUstMenuler = yetkiler.Where(m => m.UstID == string.Empty).ToList();
+
+            enUstMenuler.ForEach(m =>
+            {
+
+                m.AltListe = yetkiler.Where(x => x.UstID == m.MenuID).ToList();
+
+                m.AltListe.ForEach(t =>
+                {
+                    t.AltListe = yetkiler.Where(x => x.UstID == t.MenuID).ToList();
+                });
+            });
+            ViewBag.Yetkiler = enUstMenuler;
         }
     }
 }

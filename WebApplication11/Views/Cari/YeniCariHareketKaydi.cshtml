@@ -21,10 +21,11 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="Tarih" class="fw-semibold fs-6 mb-2">Tarih</label>
-                                <input type="date" name="Tarih" class="form-control p-2 mb-3 mb-lg-0" required" />
+                                <label for="BelgeNo" class="fw-semibold fs-6 mb-2">Belge No</label>
+                                <input type="text" name="BelgeNo" id="BelgeNo" class="form-control p-2 mb-3 mb-lg-0" required" />
                             </div>
                         </div>
+                  
                     </div>
 
                     <div class="row mb-7">
@@ -38,7 +39,7 @@
                                     <option value="">Lütfen Seçim Yapınız</option>
                                     @foreach (GrupKoduDto cariGrupKodlari5 in ViewBag.CariHareketTipleri)
                                     {
-                                        <option value="@cariGrupKodlari5.ID">@cariGrupKodlari5.Deger</option>
+                                        <option value="@cariGrupKodlari5.Deger">@cariGrupKodlari5.Deger</option>
                                     }
                                 </select>
                             </div>
@@ -70,9 +71,23 @@
                                     <option value="">Lütfen Seçim Yapınız</option>
                                     @foreach (GrupKoduDto grupKodu in ViewBag.DovizBirimleri)
                                     {
-                                        <option value="@grupKodu.ID">@grupKodu.Deger</option>
+                                        <option value="@grupKodu.Deger">@grupKodu.Deger</option>
                                     }
                                 </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-7">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="Tarih" class="fw-semibold fs-6 mb-2">Tarih</label>
+                                <input type="date" name="Tarih" class="form-control p-2 mb-3 mb-lg-0" required" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="VadeTarihi" class="fw-semibold fs-6 mb-2">Vade Tarihi</label>
+                                <input type="date" name="VadeTarihi" id="VadeTarihi" class="form-control p-2 mb-3 mb-lg-0" required" />
                             </div>
                         </div>
                     </div>
@@ -122,7 +137,7 @@
                         var results = [];
                         if (data && data.length > 0) {
                             data.forEach(function (item) {
-                                results.push({ id: item.Isim, text: item.Isim })
+                                results.push({ id: item.ID, text: item.Isim })
                             });
                         }
 
@@ -143,9 +158,9 @@
                 }
             });
 
-            Inputmask("999.999.999,99", {
-                "numericInput": true
-            }).mask("#Tutar");
+            //Inputmask("999.999.999,99", {
+            //    "numericInput": true
+            //}).mask("#Tutar");
         });
     </script>
 }
