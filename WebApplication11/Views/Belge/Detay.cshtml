@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Belge Detayı";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
+    string Tip = Request.QueryString["Tip"];
 }
 
 
@@ -54,7 +54,7 @@
                         @if (Request.Browser.IsMobileDevice)
                         {
                             <td colspan="3" style="text-align:center;"><strong>ÜRÜN</strong></td>
-                            <td style="text-align:center;"><strong>SERİ</strong></td>
+                            <td colspan="2" style="text-align:center;"><strong>SERİ</strong></td>
                         }
                         else
                         {
@@ -64,6 +64,7 @@
                             <td style="text-align:center;"><strong>BİRİM</strong></td>
                             <td style="text-align:center;"><strong>FİYAT</strong></td>
                             <td style="text-align:center;"><strong>TUTAR</strong></td>
+                            <td style="text-align:center;"><strong></strong></td>
                         }
                     </tr>
                 </thead>
@@ -86,12 +87,18 @@
 
                                             </td>
                                             <td>
-                                                <select class="form-select form-select-solid p-2 rounded-1" name="Seri_@(ID)" id="Seri_@(ID)"
-                                                        aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                    <option value="@satir.Seri" selected>@satir.Seri</option>
-                                                </select>
+                                                @if (Tip == "AI")
+                                                {
+                                                    <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control" />
+                                                }
+                                                else
+                                                {
+                                                    <select class="form-select form-select-solid p-2 rounded-1" name="Seri_@(ID)" id="Seri_@(ID)"
+                                                            aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                                        <option value="@satir.Seri" selected>@satir.Seri</option>
+                                                    </select>
+                                                }
                                             </td>
-
                                         </tr>
                                         <tr>
                                             <td style="text-align: right;"><strong>Miktar</strong></td>
@@ -100,48 +107,54 @@
                                             <td style="text-align: right;"><strong>Tutar</strong></td>
                                         </tr>
                                         <tr>
-                                            <td><input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" class="form-control" style="text-align:right;" /></td>
+                                            <td><input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))"  onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');"  class="form-control" style="text-align:right;" /></td>
                                             <td><input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control" readonly /></td>
-                                            <td><input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" class="form-control" style="text-align:right;" /></td>
-                                            <td><input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" class="form-control" style="text-align:right;" readonly /></td>
+                                            <td><input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))"  onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control" style="text-align:right;" /></td>
+                                            <td><input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))"  onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control" style="text-align:right;" readonly /></td>
                                         </tr>
                                     </table>
                                 </td>
+                                <td><button type='button' class="deleteBtn" data-ID2="@(ID)">Sil</button></td>
                             </tr>
                         }
                         else
                         {
-                            <tr data-ID="@satir.ID" data-ID2="@ID">
-                                            <td>
-                                                <select class="form-select form-select-solid p-2 rounded-1" name="StokID_@(ID)" id="StokID_@(ID)" style="min-width:150px;"
-                                                        aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                    <option value="@satir.StokID" selected>@satir.StokAdi</option>
-                                                </select>
+                            <tr data-ID="@satir.ID" data-ID2="@ID" >
+                                <td>
+                                    <select class="form-select form-select-solid p-2 rounded-1" name="StokID_@(ID)" id="StokID_@(ID)" style="min-width:150px;max-width:350px;"
+                                            aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                        <option value="@satir.StokID" selected>@satir.StokAdi</option>
+                                    </select>
 
-                                            </td>
-                                            <td>
-                                                <select class="form-select form-select-solid p-2 rounded-1" name="Seri_@(ID)" id="Seri_@(ID)" 
-                                                        aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                    <option value="@satir.Seri" selected>@satir.Seri</option>
-                                                </select>
-                                            </td>
+                                </td>
+                                <td>
+                                    @if (Tip == "AI")
+                                    {
+                                        <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control" />
+                                    }
+                                    else
+                                    {
+                                        <select class="form-select form-select-solid p-2 rounded-1" name="Seri_@(ID)" id="Seri_@(ID)"
+                                                aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                            <option value="@satir.Seri" selected>@satir.Seri</option>
+                                        </select>
+                                    }
+                                </td>
+                                <td style="max-width:100px;"><input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control" style="text-align:right;" /></td>
+                                <td style="max-width:100px;"><input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control" readonly /></td>
+                                <td style="max-width:150px;"><input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control" style="text-align:right;" /></td>
+                                <td style="max-width:150px;"><input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control" style="text-align:right;" readonly /></td>
+                                <td><button type='button' class="deleteBtn" data-ID2="@(ID)">Sil</button></td>
 
-                                            <td style="max-width:100px;"><input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" class="form-control" style="text-align:right;" /></td>
-                                            <td style="max-width:100px;"><input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control" readonly /></td>
-                                            <td style="max-width:150px;"><input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" class="form-control" style="text-align:right;" /></td>
-                                            <td style="max-width:150px;"><input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" class="form-control" style="text-align:right;" readonly /></td>
-                                      
                             </tr>
                         }
                     }
                 </tbody>
             </table>
         </div>
-
-
-
     </div>
 </form>
+<button name="btnYeniSatir" id="btnYeniSatir" onclick="YeniSatirAc();" class="btn btn-primary" style="width:150px;">+ Yeni Satır Aç</button>
 
 <!--begin::Actions-->
 <div class="col-12">
@@ -170,11 +183,109 @@
 
     <script>
 
+        $(".deleteBtn").click(function () {
+            $(this).closest("tr").remove();
+        });
+
+        function SatirSil(SatirID) {
+            $("#TR_" + SatirID).remove();
+        }
+
+        function TutarHesapla(miktarid, fiyatid, tutarid) {
+            $("#" + tutarid).val((parseFloat($("#" + miktarid).val().replace(",", ".")) * parseFloat($("#" + fiyatid).val().replace(",", "."))).toFixed(2));
+        }
+
+        function YeniSatirAc() {
+            var Tip = "@(Tip)";
+            var IsMobile = "@(Request.Browser.IsMobileDevice == true ? "1" : "0")";
+            var YeniID = IDGuidOlustur().replace(/-/g, "");
+
+            var deger = "";
+            if (IsMobile == "1") {
+
+                deger += "<tr data-ID='' data-ID2='" + YeniID + "' id='TR_" + YeniID +"' name='TR_" + YeniID +"'>                                                                                                             ";
+                           deger += "     <td colspan='4'>                                                                                                                               ";
+                           deger += "         <table style='width:100%;margin-bottom:15px;'>                                                                                             ";
+                           deger += "             <tr>                                                                                                                                   ";
+                           deger += "                 <td colspan='3'>                                                                                                                   ";
+                           deger += "                     <select class='form-select form-select-solid p-2 rounded-1' name='StokID_" + YeniID + "' id='StokID_" + YeniID + "' style='width:100%;'          ";
+                           deger += "                             aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız'>             ";
+                           deger += "                                                                                   ";
+                           deger += "                     </select>                                                                                                                      ";
+                           deger += "                                                                                                                                                    ";
+                           deger += "                 </td>                                                                                                                              ";
+                           deger += "                 <td>                                                                                                                               ";
+                            if (Tip == 'AI') {
+                                deger += "                         <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control' />                         ";
+                            } else {
+                                deger += "                         <select class='form-select form-select-solid p-2 rounded-1' name='Seri_" + YeniID + "' id='Seri_" + YeniID + ")'                              ";
+
+                                deger += "                                 aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız'>         ";
+                                deger += "                         </select>                                                                                                                  ";
+                            }
+                           deger += "                 </td>                                                                                                                              ";
+                           deger += "             </tr>                                                                                                                                  ";
+                           deger += "             <tr>                                                                                                                                   ";
+                           deger += "                 <td style='text-align: right;'><strong>Miktar</strong></td>                                                                        ";
+                           deger += "                 <td><strong>Birim</strong></td>                                                                                                    ";
+                           deger += "                 <td style='text-align: right;'><strong>Fiyat</strong></td>                                                                         ";
+                           deger += "                 <td style='text-align: right;'><strong>Tutar</strong></td>                                                                         ";
+                           deger += "             </tr>                                                                                                                                  ";
+                           deger += "             <tr>                                                                                                                                   ";
+                deger += "                 <td><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");' class='form-control' style='text-align:right;' /></td>              ";
+                           deger += "                 <td><input type='text' name='OlcuBirimi_" + YeniID + "' id='OlcuBirimi_" + YeniID + "' value='' class='form-control' readonly /></td>                   ";
+                deger += "                 <td><input type='text' name='Fiyat_" + YeniID + "' id='Fiyat_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");' class='form-control' style='text-align:right;' /></td>                 ";
+                           deger += "                 <td><input type='text' name='Tutar_" + YeniID + "' id='Tutar_" + YeniID + "' value='0'  onchange='TutarHesapla(\"Miktar_"+YeniID+"\",\"Fiyat_"+YeniID+"\",\"Tutar_"+YeniID+"\");'  class='form-control' style='text-align:right;' readonly /></td>        ";
+                           deger += "             </tr>";
+                           deger += "         </table>";
+                deger += "     </td><td><button type='button' class='deleteBtn' onclick='SatirSil(\"" + YeniID +"\")' data-ID2='"+YeniID+"'>Sil</button></td>";
+                           deger += " </tr>";
+
+
+            } else {
+
+                deger += "<tr data-ID='' data-ID2='" + YeniID + "' id='TR_" + YeniID + "' name='TR_" + YeniID +"'>";
+                deger += "      <td id='TD_" + YeniID + "' name='TD_" + YeniID + "'>";
+                deger += "      </td>";
+                deger += "      <td>";
+                if (Tip == "AI") {
+                    deger += "              <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control' />";
+                } else {
+                    deger += "              <select class='form-select form-select-solid p-2 rounded-1' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "'";
+                    deger += "                      aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız'>";
+                    deger += "              </select>";
+                    deger += "";
+                }
+                deger += "      </td>";
+                deger += "      <td style='max-width:100px;'><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");' class='form-control' style='text-align:right;' /></td>";
+                deger += "      <td style='max-width:100px;'><input type='text' name='OlcuBirimi_" + YeniID + "' id ='OlcuBirimi_" + YeniID + "' value = '' class='form-control' readonly /></td > ";
+                deger += "      <td style='max-width:150px;'><input type='text' name='Fiyat_" + YeniID + "' id = 'Fiyat_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");' class='form-control' style = 'text-align:right;' /></td > ";
+                deger += "      <td style='max-width:150px;'><input type='text' name='Tutar_" + YeniID + "' id = 'Tutar_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");' class='form-control' style = 'text-align:right;' readonly /></td > ";
+                deger += "      <td><button type='button' class='deleteBtn' onclick='SatirSil(\""+YeniID+"\")' data-ID2='"+YeniID+"'>Sil</button></td></tr>";
+            }
+            var newSelect = $("<select class='form-select form-select-solid p-2 rounded-1 ' name='StokID_" + YeniID + "' id='StokID_" + YeniID + "' style='min-width:150px;max-width:350px;' aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız' ></select>");
+
+            $('#TabloKalemler tbody').append(deger);
+            $("#TD_" + YeniID + "").append(newSelect);
+
+            newSelect.select2();
+
+            StokAramaOlustur("StokID_" + YeniID + "");
+        }
+
         function Kaydet() {
 
+            if ($("#BelgeNo").val() == "") {
+                alert("Lütfen belge numarası yazınız.");
+                return;
+            }
+            if ($("#CariID").val() == "" || $("#CariID").val() == null) {
+                alert("Lütfen cari seçiniz.");
+                return;
+            }
 
             var kalemler = "";
-            $('#TabloKalemler tr').each(function () {
+            $('#TabloKalemler tbody tr').each(function () {
                 var $data = $(this).attr("data-ID2");
                 var KalemID = $(this).attr("data-ID");
                 if ($data != "" && $data != null) {
@@ -187,6 +298,10 @@
                 }
             });
 
+            if (kalemler == "") {
+                alert("Lütfen kalem giriniz.");
+                return;
+            }
 
             var _data = { "Tip": "@Request.QueryString["Tip"]", "ID": $("#ID").val(), "BelgeNo": $("#BelgeNo").val(), "Tarih": $("#Tarih").val(), "CariID": $("#CariID").val(), "Aciklama": $("#Aciklama").val(), "Kalemler": kalemler };
             console.log(_data);
@@ -249,12 +364,54 @@
 
 
         });
+
+        function StokAramaOlustur(stokid) {
+            $(function () {
+
+                const StokIDSelect = $('#' + stokid).select2({
+                    ajax: {
+                        url: "/Stok/SelectListe",
+                        data: function (params) {
+                            var query = {
+                                search: params.term,
+                            }
+
+                            // Query parameters will be ?search=[term]&type=public
+                            return query;
+                        },
+                        processResults: function (data) {
+                            var results = [];
+                            if (data && data.length > 0) {
+                                data.forEach(function (item) {
+                                    results.push({ id: item.ID, text: item.Isim })
+                                });
+                            }
+
+                            return {
+                                results: results
+                            };
+                        }
+                    },
+                    delay: 250,
+                    minimumInputLength: 3,
+                    language: {
+                        placeholder: function () {
+                            return "Arama yapmak için en az 3 karakter girin";
+                        },
+                        inputTooShort: function () {
+                            return "En az lütfen en az 3 karakter girin";
+                        }
+                    }
+                });
+
+
+            });
+        }
     </script>
 
     @foreach (BelgeKalemDto satir in Model.Kalemler)
     {
         <script>
-
 
 
             $(function () {

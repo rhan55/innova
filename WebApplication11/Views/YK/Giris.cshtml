@@ -172,10 +172,13 @@
                             </div>
                             <!--end::Submit button-->
                             <!--begin::Sign up-->
-                            <div class="text-gray-500 text-center fw-semibold fs-6">
-                                Üye değil misiniz?
-                                <a href="/YK/UyeOl" class="link-primary">Üye olun</a>
-                            </div>
+                            @if (System.Configuration.ConfigurationManager.AppSettings["YeniUyelikKaydi"] == "1")
+                            {
+                                <div class="text-gray-500 text-center fw-semibold fs-6">
+                                    Üye değil misiniz?
+                                    <a href="/YK/UyeOl" class="link-primary">Üye olun</a>
+                                </div>
+                            }
                             <!--end::Sign up-->
                         </form>
                         <!--end::Form-->

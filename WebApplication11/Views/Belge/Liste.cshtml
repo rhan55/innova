@@ -21,8 +21,7 @@
 
             <!--begin::Table row-->
             <tr>
-                <th><strong>Tarih</strong></th>
-                <th><strong>Belge No</strong></th>
+                <th><strong>Tarih<br />Belge No</strong></th>
                 <th><strong>Cari</strong></th>
                 <th style="text-align:right;"><strong>Tutar</strong></th>
                 <th><strong>İşlemler</strong></th>
@@ -36,9 +35,8 @@
                 {
                     <tr>
                         <td style="vertical-align: middle;">
-                            @(Convert.ToDateTime(Model.Rows[i]["Tarih"]).ToString("dd-MM-yyyy"))
-                        </td>
-                        <td style="vertical-align: middle;">
+                            @(Convert.ToDateTime(Model.Rows[i]["Tarih"]).ToString("dd-MM-yyyy")) <br />
+                        
                             @(Convert.ToString(Model.Rows[i]["BelgeNo"]))
                         </td>
                         <td style="vertical-align: middle;">

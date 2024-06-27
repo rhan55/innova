@@ -14,6 +14,14 @@ namespace YKPortal.Controllers
     {
         public ActionResult Liste(string Tip="", string AranacakKelime="")
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            if (Tip == "")
+            {
+                return Redirect("~/");
+            }
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "p_BelgeListesi";
@@ -28,6 +36,9 @@ namespace YKPortal.Controllers
         [HttpGet]
         public ActionResult Detay(string Tip , string id = "")
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "p_Belge";
@@ -98,6 +109,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
             ID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
 
+            string silinenler = "";
             foreach (string item in Kalemler.Split('~'))
             {
                 if (item.Trim().Length > 0)
@@ -113,9 +125,24 @@ namespace YKPortal.Controllers
                     cmd.Parameters.AddWithValue("@Fiyat", Convert.ToDecimal(item.Split('|')[4]));
                     cmd.Parameters.AddWithValue("@IskontoOrani1", 0);
                     cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
-                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    silinenler += Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek))+",";
                 }
             }
+
+            cmd.Parameters.Clear();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_BelgeKalemSilinenKontrol";
+            cmd.Parameters.AddWithValue("@BelgeID", ID);
+            cmd.Parameters.AddWithValue("@ID", silinenler);
+            IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+
+            cmd.Parameters.Clear();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_BelgeTamamla";
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
+            IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
             #endregion
 
             result.Data = ID;

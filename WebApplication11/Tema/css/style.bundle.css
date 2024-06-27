@@ -3320,8 +3320,8 @@ textarea.form-control-lg {
 }
 
 .btn {
-    --bs-btn-padding-x: 1.5rem;
-    --bs-btn-padding-y: 0.775rem;
+    --bs-btn-padding-x: 0.8rem;
+    --bs-btn-padding-y: 0.2rem;
     --bs-btn-font-size: 1.1rem;
     --bs-btn-font-weight: 500;
     --bs-btn-line-height: 1.5;
@@ -40038,7 +40038,7 @@ textarea.form-control-lg {
 
     .btn:not(.btn-outline):not(.btn-dashed):not(.btn-bordered):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon):not(.btn-hover-outline) {
         border: 0;
-        padding: calc(.775rem + 1px) calc(1.5rem + 1px)
+        padding: calc(.15rem + 1px) calc(1.5rem + 1px)
     }
 
         .btn-group-lg > .btn:not(.btn-outline):not(.btn-dashed):not(.btn-bordered):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon):not(.btn-hover-outline), .btn:not(.btn-outline):not(.btn-dashed):not(.btn-bordered):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon):not(.btn-hover-outline).btn-lg {
@@ -40046,7 +40046,7 @@ textarea.form-control-lg {
         }
 
         .btn-group-sm > .btn:not(.btn-outline):not(.btn-dashed):not(.btn-bordered):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon):not(.btn-hover-outline), .btn:not(.btn-outline):not(.btn-dashed):not(.btn-bordered):not(.border-hover):not(.border-active):not(.btn-flush):not(.btn-icon):not(.btn-hover-outline).btn-sm {
-            padding: calc(.55rem + 1px) calc(1rem + 1px)
+            padding: calc(.15rem + 1px) calc(1rem + 1px)
         }
 
     .btn.btn-link {
