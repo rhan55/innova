@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
@@ -18,73 +19,117 @@
                         </div>
                         @foreach (YetkilerDto yetki in ViewBag.Yetkiler)
                         {
-                            <div class="row border-bottom">
-                                <div class="col-lg-6 ">
-                                    <div class="d-flex align-items-center h-100">
-                                        @yetki.Menu
-                                    </div>
-                                    
-                                </div>
-                                <div class="col-lg-2  text-center border-start">
+                            <div data-component="table-item" data-ustMenuId="@yetki.MenuID">
+                                <div class="row border-bottom yetki-satiri" data-menuId="@yetki.MenuID" data-kullaniciId="@yetki.KullaniciID">
+                                    <div class="col-lg-6">
+                                        <div class="d-flex align-items-center h-100">
+                                            @if (yetki.AltListe.Count > 0)
+                                            {
+                                                <button data-toggle="first-sub-table" class="btn btn-icon btn-sm rounded-circle">
+                                                    <i class="ki-duotone ki-down "></i>
+                                                    <i class="ki-duotone ki-up hidden"></i>
+                                                </button>
+                                            }
 
-                                    <label class="w-100 h-100 px-2 py-4" for="@(yetki.MenuID)-Gor">
-                                        <input type="checkbox" @(yetki.Gor ? "checked" : "") id="@(yetki.MenuID)-Gor" name="@(yetki.MenuID)-Gor" data-menuId="@yetki.MenuID" data-tip="Gor" />
-                                    </label>
+                                            @yetki.Menu
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2  text-center border-start">
+
+                                        <label class="w-100 h-100 px-2 py-4" for="@(yetki.MenuID)-Gor">
+                                            <input type="checkbox" @(yetki.Gor ? "checked" : "") id="@(yetki.MenuID)-Gor" name="@(yetki.MenuID)-Gor" data-menuId="@yetki.MenuID" data-tip="Gor" />
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-2 text-center border-start border-end">
+                                        <label class="w-100 h-100 px-2 py-4" for="@(yetki.MenuID)-Duzenle">
+                                            <input type="checkbox" @(yetki.Duzenle ? "checked" : "") id="@(yetki.MenuID)-Duzenle" name="@(yetki.MenuID)-Duzenle" data-menuId="@yetki.MenuID" data-tip="Duzenle" />
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-2 text-center border-end">
+                                        <label class="w-100 h-100 px-2 py-4" for="@(yetki.MenuID)-Sil">
+                                            <input type="checkbox" @(yetki.Gor ? "checked" : "") id="@(yetki.MenuID)-Sil" name="@(yetki.MenuID)-Sil" data-menuId="@yetki.MenuID" data-tip="Sil" />
+                                        </label>
+                                    </div>
                                 </div>
-                                <div class="col-lg-2 text-center border-start border-end">
-                                    <label class="w-100 h-100 px-2 py-4" for="@(yetki.MenuID)-Duzenle">
-                                        <input type="checkbox" @(yetki.Gor ? "checked" : "") id="@(yetki.MenuID)-Gor" name="@(yetki.MenuID)-Gor" data-menuId="@yetki.MenuID" data-tip="Gor" />
-                                    </label>
-                                </div>
-                                <div class="col-lg-2 text-center border-end">
-                                    <label class="w-100 h-100 px-2 py-4" for="@(yetki.MenuID)-Sil">
-                                        <input type="checkbox" @(yetki.Gor ? "checked" : "") id="@(yetki.MenuID)-Gor" name="@(yetki.MenuID)-Gor" data-menuId="@yetki.MenuID" data-tip="Gor" />
-                                    </label>
-                                </div>
+                                @if (yetki.AltListe.Count > 0)
+                                {
+                                    <div class="first-sub-table hidden" >
+                                        @foreach (var altYetki in yetki.AltListe)
+                                        {
+                                            <div data-component="table-item" data-ustMenuId="@altYetki.MenuID">
+                                                <div class="row border-bottom yetki-satiri" data-menuId="@altYetki.MenuID" data-kullaniciId="@altYetki.KullaniciID">
+                                                    <div class="col-lg-6 ps-8">
+                                                        <div class="d-flex align-items-center h-100">
+                                                            @if (altYetki.AltListe.Count > 0)
+                                                            {
+                                                                <button data-toggle="second-sub-table" class="btn btn-icon btn-sm rounded-circle">
+                                                                    <i class="ki-duotone ki-down"></i>
+                                                                    <i class="ki-duotone ki-up hidden"></i>
+                                                                </button>
+                                                            }
+
+                                                            @altYetki.Menu
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-2  text-center border-start">
+
+                                                        <label class="w-100 h-100 px-2 py-4" for="@(altYetki.MenuID)-Gor">
+                                                            <input type="checkbox" @(altYetki.Gor ? "checked" : "") id="@(altYetki.MenuID)-Gor" name="@(altYetki.MenuID)-Gor" data-menuId="@altYetki.MenuID" data-tip="Gor" />
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-2 text-center border-start border-end">
+                                                        <label class="w-100 h-100 px-2 py-4" for="@(altYetki.MenuID)-Duzenle">
+                                                            <input type="checkbox" @(altYetki.Duzenle ? "checked" : "") id="@(altYetki.MenuID)-Duzenle" name="@(altYetki.MenuID)-Duzenle" data-menuId="@altYetki.MenuID" data-tip="Duzenle" />
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-2 text-center border-end">
+                                                        <label class="w-100 h-100 px-2 py-4" for="@(altYetki.MenuID)-Sil">
+                                                            <input type="checkbox" @(altYetki.Sil ? "checked" : "") id="@(altYetki.MenuID)-Sil" name="@(altYetki.MenuID)-Sil" data-menuId="@altYetki.MenuID" data-tip="Sil" />
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                @if (altYetki.AltListe.Count > 0)
+                                                {
+                                                    <div class="second-sub-table hidden">
+                                                        @foreach (var enAltYetki in altYetki.AltListe)
+                                                        {
+                                                            <div class="row border-bottom yetki-satiri" data-menuId="@enAltYetki.MenuID" data-kullaniciId="@enAltYetki.KullaniciID">
+                                                                <div class="col-lg-6 ps-28">
+                                                                    <div class="d-flex align-items-center h-100">
+                                                                        @enAltYetki.Menu
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-lg-2  text-center border-start">
+
+                                                                    <label class="w-100 h-100 px-2 py-4" for="@(enAltYetki.MenuID)-Gor">
+                                                                        <input type="checkbox" @(enAltYetki.Gor ? "checked" : "") id="@(enAltYetki.MenuID)-Gor" name="@(enAltYetki.MenuID)-Gor" data-menuId="@enAltYetki.MenuID" data-tip="Gor" />
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-lg-2 text-center border-start border-end">
+                                                                    <label class="w-100 h-100 px-2 py-4" for="@(enAltYetki.MenuID)-Duzenle">
+                                                                        <input type="checkbox" @(enAltYetki.Duzenle ? "checked" : "") id="@(enAltYetki.MenuID)-Duzenle" name="@(enAltYetki.MenuID)-Duzenle" data-menuId="@enAltYetki.MenuID" data-tip="Duzenle" />
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-lg-2 text-center border-end">
+                                                                    <label class="w-100 h-100 px-2 py-4" for="@(enAltYetki.MenuID)-Sil">
+                                                                        <input type="checkbox" @(enAltYetki.Sil ? "checked" : "") id="@(enAltYetki.MenuID)-Sil" name="@(enAltYetki.MenuID)-Sil" data-menuId="@enAltYetki.MenuID" data-tip="Sil" />
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                }
                             </div>
                         }
 
-
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead class="text-center">
-                                <tr>
-                                    <th class="px-2 py-4"></th>
-                                    <th class="px-2 py-4">Gör</th>
-                                    <th class="px-2 py-4">Düzenle</th>
-                                    <th class="px-2 py-4">Sil</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (YetkilerDto yetki in ViewBag.Yetkiler)
-                                {
-                                    <tr data-menuId="@(yetki.MenuID)" data-kullaniciId="@(yetki.KullaniciID)">
-                                        <td class="px-3 py-4">
-                                            @yetki.Menu
-                                        </td>
-                                        <td class=" text-center">
-                                            <label class="w-100 h-100 px-2 py-4" for="@(yetki.MenuID)-Gor">
-                                                <input type="checkbox" @(yetki.Gor ? "checked" : "") id="@(yetki.MenuID)-Gor" name="@(yetki.MenuID)-Gor" data-menuId="@yetki.MenuID" data-tip="Gor" />
-                                            </label>
-                                        </td>
-                                        <td class=" text-center">
-                                            <label class="w-100 h-100 px-2 py-4" for="@(yetki.MenuID)-Duzenle">
-                                                <input type="checkbox" @(yetki.Duzenle ? "checked" : "") id="@(yetki.MenuID)-Duzenle" name="@(yetki.MenuID)-Duzenle" data-menuId="@yetki.MenuID" data-tip="Duzenle" />
-                                            </label>
-                                        </td>
-                                        <td class="text-center">
-                                            <label class="w-100 h-100 px-2 py-4" for="@(yetki.MenuID.Replace("-", ""))-Sil">
-                                                <input type="checkbox" @(yetki.Sil ? "checked" : "") id="@(yetki.MenuID.Replace("-", ""))-Sil" name="@(yetki.MenuID)-Sil" data-menuId="@yetki.MenuID" data-tip="Sil" />
-                                            </label>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="d-flex justify-content-end align-items-center">
-                        <button class="btn btn-sm fw-bold btn-primary" id="YetkiKaydet">Kaydet</button>
+                    <div class="d-flex align-items-center justify-content-end mt-6">
+                        <button id="YetkiKaydet" class="btn btn-primary btn-sm fw-bold">Kaydet</button>
                     </div>
                 </div>
             </div>
@@ -92,13 +137,37 @@
     </div>
 </div>
 
+
 @section Scripts {
     <script>
         $(document).ready(function () {
 
             let menuIdListesi = [];
 
-            $("tr[data-menuId]").each(function (index, element) {
+            $('input[type="checkbox"]').on('click', function () {
+                var input = $(this);
+
+                input.closest('[data-ustMenuId="' + input.attr('data-menuId') + '"]').find('[data-tip="' + input.attr('data-tip') + '"]').each(function (index, element) {
+                    $(element).prop('checked', input.is(":checked"));
+                    $(element).trigger("change");
+                })
+                
+            })    
+
+            $('[data-toggle="first-sub-table"]').on("click", function (e) {
+                $(this).parent().parent().parent().parent().find(".first-sub-table").toggleClass("hidden");
+                $(this).find('.ki-down').toggleClass("hidden");
+                $(this).find('.ki-up').toggleClass("hidden");
+            });
+
+            $('[data-toggle="second-sub-table"]').on("click", function (e) {
+                $(this).parent().parent().parent().parent().find(".second-sub-table").toggleClass("hidden");
+
+                $(this).find('.ki-down').toggleClass("hidden");
+                $(this).find('.ki-up').toggleClass("hidden");
+            });
+
+            $(".yetki-satiri[data-menuId]").each(function (index, element) {
                 menuIdListesi.push({
                     MenuID: $(element).attr('data-menuId'),
                     KullaniciID: $(element).attr('data-kullaniciId'),
