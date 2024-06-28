@@ -30,6 +30,9 @@ namespace YKPortal.Models.Dto
         private string _Baglanti;
         private string _GrupKodu1ID;
         private string _GrupKodu2ID;
+        private string _BaslangicTarihi;
+        private string _BitisTarihi;
+
         
 
 
@@ -52,7 +55,8 @@ namespace YKPortal.Models.Dto
         public string Baglanti { get { return _Baglanti ?? ""; } set { _Baglanti = value; } }
         public string GrupKodu1ID { get { return _GrupKodu1ID ?? ""; } set { _GrupKodu1ID = value; } }
         public string GrupKodu2ID { get { return _GrupKodu2ID ?? ""; } set { _GrupKodu2ID = value; } }
-
+        public string BaslangicTarihi { get { return _BaslangicTarihi ?? ""; } set { _BaslangicTarihi = value; } }
+        public string BitisTarihi { get { return _BitisTarihi ?? ""; } set { _BitisTarihi = value; } }
 
     }
 }

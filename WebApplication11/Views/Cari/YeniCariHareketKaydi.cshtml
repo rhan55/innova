@@ -14,7 +14,7 @@
                         <div class="col-lg-6 ">
                             <div class="form-group">
                                 <label for="CariID" class=" form-label">Cari İsim</label>
-                                <select class="form-control p-2 rounded-1" name="CariID" id="CariID"
+                                <select class="form-control p-2 rounded-1" name="CariID" id="CariID" required
                                         aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
                                 </select>
                             </div>
@@ -36,7 +36,7 @@
                                 <label for="HareketTipi" class="fw-semibold fs-6 mb-2">Hareket Tipi/Türü</label>
                                 <select class="form-control p-2 rounded-1" data-control="select2" name="HareketTipi" id="HareketTipi"
                                         aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
+                               
                                     @foreach (GrupKoduDto cariGrupKodlari5 in ViewBag.CariHareketTipleri)
                                     {
                                         <option value="@cariGrupKodlari5.Deger">@cariGrupKodlari5.Deger</option>
@@ -60,7 +60,7 @@
                         <div class="col-lg-3">
                             <div class="form-group">
                                 <label for="Tutar" class="fw-semibold fs-6 mb-2">Tutar</label>
-                                <input type="text" name="Tutar" id="Tutar" class="form-control p-2 mb-3 mb-lg-0" autofocus required />
+                                <input type="text" name="Tutar" id="Tutar" value="0" class="form-control p-2 mb-3 mb-lg-0" autofocus required />
                             </div>
                         </div>
                         <div class="col-lg-3">
@@ -68,10 +68,10 @@
                                 <label for="DovizTipi" class="fw-semibold fs-6 mb-2">Döviz Birimi</label>
                                 <select class="form-control p-2 rounded-1" data-control="select2" name="DovizTipi" id="DovizTipi" required
                                         aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
+                                  
                                     @foreach (GrupKoduDto grupKodu in ViewBag.DovizBirimleri)
                                     {
-                                        <option value="@grupKodu.Deger">@grupKodu.Deger</option>
+                                        <option value="@grupKodu.Deger" @(grupKodu.Deger == "TL" ? "selected": "")>@grupKodu.Deger</option>
                                     }
                                 </select>
                             </div>
@@ -81,13 +81,13 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="Tarih" class="fw-semibold fs-6 mb-2">Tarih</label>
-                                <input type="date" name="Tarih" class="form-control p-2 mb-3 mb-lg-0" required" />
+                                <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" name="Tarih" class="form-control p-2 mb-3 mb-lg-0" required" />
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="VadeTarihi" class="fw-semibold fs-6 mb-2">Vade Tarihi</label>
-                                <input type="date" name="VadeTarihi" id="VadeTarihi" class="form-control p-2 mb-3 mb-lg-0" required" />
+                                <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" name="VadeTarihi" id="VadeTarihi" class="form-control p-2 mb-3 mb-lg-0" required" />
                             </div>
                         </div>
                     </div>

@@ -2651,6 +2651,7 @@
     <Content Include="Views\Stok\NotListe.cshtml" />
     <Content Include="Views\Cari\YeniCariHareketKaydi.cshtml" />
     <Content Include="Views\Cari\CariEkstre.cshtml" />
+    <Content Include="Views\Cari\HareketListesi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

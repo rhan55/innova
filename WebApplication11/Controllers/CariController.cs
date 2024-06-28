@@ -1005,9 +1005,23 @@ namespace YKPortal.Controllers
 
 
         [HttpGet]
-        public ActionResult CariEkstre()
+        public ActionResult HareketListesi(CariHareketDto cariHareketDto)
         {
-            return View();
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_CariHareketListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+     
+            cmd.Parameters.AddWithValue("@CariID", cariHareketDto.CariID);
+            cmd.Parameters.AddWithValue("@BaslangicTarihi",string.Empty);
+            cmd.Parameters.AddWithValue("@BitisTarihi", string.Empty);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return View(dt);
         }
 
 

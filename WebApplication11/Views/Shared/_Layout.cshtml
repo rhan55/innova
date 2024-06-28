@@ -77,7 +77,6 @@
         <span class="text-muted fs-6 fw-semibold mt-5">Sayfa Yükleniyor...</span>
     </div>
     <!--end::Page loading-->
-
     <!--begin::Theme mode setup on page load-->
     <script>var defaultThemeMode = "light"; var themeMode; if (document.documentElement) { if (document.documentElement.hasAttribute("data-bs-theme-mode")) { themeMode = document.documentElement.getAttribute("data-bs-theme-mode"); } else { if (localStorage.getItem("data-bs-theme") !== null) { themeMode = localStorage.getItem("data-bs-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-bs-theme", themeMode); }</script>
     <!--end::Theme mode setup on page load-->
@@ -95,8 +94,8 @@
                     <!--begin::User-->
                     <div class="aside-user d-flex align-items-sm-center justify-content-center py-5">
                         <!--begin:: Avatar -->
-                        <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                            <a href="/Kullanici/Duzenle?ID=@KullaniciID">
+                        <div class=" ">
+                            <a class="symbol symbol-circle symbol-50px overflow-hidden" href="/Kullanici/Duzenle?ID=@KullaniciID">
                                 <div class="symbol-label">
                                     <img src="@(Resim)" alt="@(Isim)" class="w-100 h-100 object-fit-cover" />
                                 </div>
@@ -383,22 +382,22 @@
     <!--end::Global Javascript Bundle-->
     <script>
         const loadingEl = document.createElement("div");
-    document.body.prepend(loadingEl);
-    loadingEl.classList.add("page-loader");
-    loadingEl.classList.add("flex-column");
-    loadingEl.innerHTML = `
-        <span class="spinner-border text-primary" role="status"></span>
-        <span class="text-muted fs-6 fw-semibold mt-5">Loading...</span>
-    `;
+        document.body.prepend(loadingEl);
+        loadingEl.classList.add("page-loader");
+        loadingEl.classList.add("flex-column");
+        loadingEl.innerHTML = `
+                <span class="spinner-border text-primary" role="status"></span>
+                <span class="text-muted fs-6 fw-semibold mt-5">Loading...</span>
+            `;
 
-    // Show page loading
-    KTApp.showPageLoading();
+        // Show page loading
+        KTApp.showPageLoading();
 
-    // Hide after 3 seconds
-    setTimeout(function() {
-        KTApp.hidePageLoading();
-        loadingEl.remove();
-    }, 3000);
+        // Hide after 3 seconds
+        setTimeout(function () {
+            KTApp.hidePageLoading();
+            loadingEl.remove();
+        }, 3000);
 
 
         const navigations = [
@@ -420,14 +419,7 @@
                                 title: "Cari Ekle",
                                 url: "/Cari/Ekle"
                             },
-                            {
-                                title: "Cari Ekstre",
-                                url: "/Cari/Ekstre"
-                            },
-                            {
-                                title: "Yeni Cari Hareket Kaydı",
-                                url: "/Cari/YeniCariHareketKaydi"
-                            },
+                           
                         ]
                     },
                     {
@@ -445,6 +437,22 @@
                             },
                         ]
                     }
+                ]
+            },
+
+            {
+                title: "Cari",
+                isMenu: true,
+                icon: "ki-duotone ki-address-book fs-2",
+                items: [
+                    {
+                        title: "Hareket Kaydı",
+                        url: "/Cari/YeniCariHareketKaydi"
+                    },
+                    {
+                        title: "Hareket Listesi/Cari Ekstresi ",
+                        url: "/Cari/HareketListesi"
+                    },
                 ]
             },
             {
@@ -753,53 +761,53 @@
         function createLink(item) {
 
             return `
-                                                 <div class="menu-item">
-                                                     <!--begin:Menu link-->
-                                                     <a class="menu-link py-0" href="${item.url}">
-                                                         <span class="menu-bullet">
-                                                             <span class="bullet bullet-dot"></span>
-                                                         </span>
-                                                         <span class="menu-title">${item.title}</span>
-                                                     </a>
-                                                     <!--end:Menu link-->
-                                                 </div>
-                                                         `
+                                                         <div class="menu-item">
+                                                             <!--begin:Menu link-->
+                                                             <a class="menu-link py-0" href="${item.url}">
+                                                                 <span class="menu-bullet">
+                                                                     <span class="bullet bullet-dot"></span>
+                                                                 </span>
+                                                                 <span class="menu-title">${item.title}</span>
+                                                             </a>
+                                                             <!--end:Menu link-->
+                                                         </div>
+                                                                 `
         }
         function createMenu(navigationMenu, links) {
             return `
-                                            <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                                                <span class="menu-link py-0">
-                                                    <span class="menu-icon">
-                                                        <i class="${navigationMenu.icon}"></i>
-                                                    </span>
-                                                    <span class="menu-title">${navigationMenu.title}</span>
-                                                    <span class="menu-arrow"></span>
-                                                </span>
+                                                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                                                        <span class="menu-link py-0">
+                                                            <span class="menu-icon">
+                                                                <i class="${navigationMenu.icon}"></i>
+                                                            </span>
+                                                            <span class="menu-title">${navigationMenu.title}</span>
+                                                            <span class="menu-arrow"></span>
+                                                        </span>
 
-                                                <div class="menu-sub menu-sub-accordion">${links.join('')}</div>
-                                            </div>
+                                                        <div class="menu-sub menu-sub-accordion">${links.join('')}</div>
+                                                    </div>
 
-                                             `;
+                                                     `;
         }
         function createNavigation(navigation, menus) {
             return ` <div data-kt-menu-trigger="click" class="menu-item ${navigation.isOpen ? 'show' : ''} menu-accordion">
-                                            <!--begin:Menu link-->
-                                            <span class="menu-link py-0">
-                                                <span class="menu-icon">
-                                                    <i class="${navigation.icon}">
-                                                         <span class="path1"></span>
-                                             <span class="path2"></span>
-                                             <span class="path3"></span>
-                                             <span class="path4"></span>
-                                                    </i>
-                                                </span>
-                                                <span class="menu-title">${navigation.title}</span>
-                                                <span class="menu-arrow"></span>
-                                            </span>
-                                            <div class="menu-sub menu-sub-accordion">
-                                                ${menus.join('')}
-                                            </div>
-                                        </div>`
+                                                    <!--begin:Menu link-->
+                                                    <span class="menu-link py-0">
+                                                        <span class="menu-icon">
+                                                            <i class="${navigation.icon}">
+                                                                 <span class="path1"></span>
+                                                     <span class="path2"></span>
+                                                     <span class="path3"></span>
+                                                     <span class="path4"></span>
+                                                            </i>
+                                                        </span>
+                                                        <span class="menu-title">${navigation.title}</span>
+                                                        <span class="menu-arrow"></span>
+                                                    </span>
+                                                    <div class="menu-sub menu-sub-accordion">
+                                                        ${menus.join('')}
+                                                    </div>
+                                                </div>`
         }
 
         function buildNavigation(navigationList) {
