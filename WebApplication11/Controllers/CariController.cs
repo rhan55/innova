@@ -998,28 +998,40 @@ namespace YKPortal.Controllers
           
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            return RedirectToAction("Liste");
-           
-
+            return RedirectToAction("HareketListesi", new {CariID = cariHareketDto.CariID });
         }
 
 
         [HttpGet]
         public ActionResult HareketListesi(CariHareketDto cariHareketDto)
         {
+
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "p_CariHareketListesi";
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-     
-            cmd.Parameters.AddWithValue("@CariID", cariHareketDto.CariID);
-            cmd.Parameters.AddWithValue("@BaslangicTarihi",string.Empty);
-            cmd.Parameters.AddWithValue("@BitisTarihi", string.Empty);
+            DataTable dt = new DataTable();
 
-            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            if (cariHareketDto.CariID != string.Empty)
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_CariHareketListesi";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+                cmd.Parameters.AddWithValue("@CariID", cariHareketDto.CariID);
+                cmd.Parameters.AddWithValue("@BaslangicTarihi", string.Empty);
+                cmd.Parameters.AddWithValue("@BitisTarihi", string.Empty);
+
+                dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            } else
+            {
+                dt = new DataTable();
+            }
+
+            if (cariHareketDto.CariID != string.Empty)
+            {
+                ViewBag.Cari = Getir(cariHareketDto.CariID);
+            }
 
             return View(dt);
         }
