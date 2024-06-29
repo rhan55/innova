@@ -15,9 +15,9 @@ namespace YKPortal.Models.Dto
         private string _UyelikID;
         private string _CariID;
         private string _Kullanici;
-        private string _Tarih;
+        private DateTime _Tarih;
         private string _Aciklama;
-        private string _VadeTarihi;
+        private DateTime _VadeTarihi;
         private string _BelgeNo;
         private string _HareketTipi;
         private string _GC;
@@ -40,9 +40,9 @@ namespace YKPortal.Models.Dto
         public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; } }
         public string CariID { get { return _CariID ?? ""; } set { _CariID = value; } }
         public string Kullanici { get { return _Kullanici ?? ""; } set { _Kullanici = value; } }
-        public string Tarih { get { return _Tarih ?? ""; } set { _Tarih = value; } }
+        public DateTime Tarih { get { return _Tarih == null ? DateTime.Today : _Tarih; } set { _Tarih = value; } }
         public string Aciklama { get { return _Aciklama ?? ""; } set { _Aciklama = value; } }
-        public string VadeTarihi { get { return _VadeTarihi ?? ""; } set { _VadeTarihi = value; } }
+        public DateTime VadeTarihi { get { return _VadeTarihi == null ? DateTime.Today : _VadeTarihi; } set { _VadeTarihi = value; } }
         public string BelgeNo { get { return _BelgeNo ?? ""; } set { _BelgeNo = value; } }
         public string HareketTipi { get { return _HareketTipi ?? ""; } set { _HareketTipi = value; } }
         public string GC { get { return _GC ?? ""; } set { _GC = value; } }

@@ -9,7 +9,7 @@
         default:
             break;
     }
-    ViewBag.Title = Modul+" Listesi";
+    ViewBag.Title = Modul + " Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -36,8 +36,8 @@
                     <tr>
                         <td style="vertical-align: middle;">
                             @(Convert.ToDateTime(Model.Rows[i]["Tarih"]).ToString("dd-MM-yyyy")) <br />
-                        
-                            @(Convert.ToString(Model.Rows[i]["BelgeNo"]))
+
+                            <span style="color:blue;">@(Convert.ToString(Model.Rows[i]["BelgeNo"]))</span>
                         </td>
                         <td style="vertical-align: middle;">
                             @(Convert.ToString(Model.Rows[i]["CariIsim"]))
@@ -45,7 +45,7 @@
                         <td style="text-align:right;vertical-align:middle;">
                             @(String.Format("{0:N2}",Convert.ToDecimal(Model.Rows[i]["Tutar"]))) @(Convert.ToString(Model.Rows[i]["DovizBirimi"]))
                         </td>
-                        <td>
+                        <td style="vertical-align: middle;">
                             <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                 İşlemler
                                 <i class="ki-duotone ki-down fs-5 ms-1"></i>
@@ -76,6 +76,6 @@
 
 @section Scripts {
     <script>
- 
+
     </script>
 }

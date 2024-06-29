@@ -6,359 +6,452 @@
 
 
 <form id="cariEkleFormu" method="post" action="/Cari/Ekle">
+
+
+
+
     <div class="container py-8">
         <div class="row">
             <div class="col-lg-10">
-                <div class="row">
-                    <div class="col-lg-2 d-flex align-items-center ">
-                        <div class="form-check">
-                            <input class="form-check-input" name="Aktif" type="checkbox" value="true" id="Aktif" checked />
-                            <label class="form-check-label user-select-none cursor-pointer" for="Aktif">
-                                Aktif
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 d-flex align-items-center mt-4 mt-lg-0">
-                        <div class="form-check">
-                            <input class="form-check-input" name="Alici" type="checkbox" value="true" id="Alici" />
-                            <label class="form-check-label user-select-none cursor-pointer" for="Alici">
-                                Alıcı
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 d-flex align-items-center mt-4 mt-lg-0">
-                        <div class="form-check">
-                            <input class="form-check-input" name="Satici" type="checkbox" value="true" id="Satici" />
-                            <label class="form-check-label user-select-none cursor-pointer" for="Satici">
-                                Satıcı
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 d-flex align-items-center mt-4 mt-lg-0">
-                        <div class="form-check">
-                            <input class="form-check-input" name="Personel" type="checkbox" value="true" id="Personel" />
-                            <label class="form-check-label user-select-none cursor-pointer" for="Personel">
-                                Personel
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 d-flex align-items-center mt-4 mt-lg-0">
-                        <div class="form-check">
-                            <input class="form-check-input" name="ServisPersoneli" type="checkbox" value="true" id="ServisPersoneli" />
-                            <label class="form-check-label user-select-none cursor-pointer" for="ServisPersoneli">
-                                Servis Personeli
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 d-flex align-items-center mt-4 mt-lg-0">
-                        <div class="form-group w-100">
-                            <label for="KayitTarihi" class=" form-label">Kayıt Tarihi</label>
-                            @* Varsayilan gun tarihini cagirdik ve toString ile formatladik. bu format sayesinde input value degerini de atamis olduk *@
-                            <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" name="KayitTarihi" id="KayitTarihi" class="form-control p-2 rounded-1" placeholder="" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="Kod" class=" form-label">Kod</label>
-                            <input type="text" id="Kod" name="Kod" class="form-control p-2 rounded-1" placeholder="" />
-                        </div>
-                    </div>
-                    <div class="col-lg-8 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="Isim" class=" form-label">Kısa İsim</label>
-                            <input type="text" id="Isim" name="Isim" class="form-control p-2 rounded-1" placeholder="" required />
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-lg-12 ">
-                        <div class="form-group">
-                            <label for="Unvan" class=" form-label">Ünvan</label>
-                            <input type="text" id="Unvan" name="Unvan" class="form-control p-2 rounded-1" placeholder="" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-lg-12">
-                        <div class="form-group">
-                            <label for="Adres" class=" form-label">Adres</label>
-                            <textarea type="text" id="Adres" name="Adres" class="form-control p-2 rounded-1" placeholder=""></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                            <label for="Bolge" class=" form-label">Bölge</label>
-                            <input type="text" id="Bolge" name="Bolge" class="form-control p-2 rounded-1" placeholder="" />
-                        </div>
-                    </div>
-                    <div class="col-lg-3 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="Ulke" class=" form-label">Ülke</label>
-                            <select class="form-control p-2 rounded-1" data-control="select2" name="Ulke" id="Ulke"
-                                    aria-label="Floating label select example">
-                                <option value="">Lütfen Seçim Yapınız</option>
-                                @foreach (GrupKoduDto ulke in ViewBag.Ulkeler)
-                                {
-                                    <option value="@ulke.ID">@ulke.Deger</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-3  mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="Il" class=" form-label">İl</label>
-                            <select class="form-control p-2 rounded-1" name="Il" data-control="select2" id="Il"
-                                    aria-label="Floating label select example">
-                                <option value="">Lütfen Seçim Yapınız</option>
-                                @foreach (GrupKoduDto il in ViewBag.Iller)
-                                {
-                                    <option value="@il.ID">@il.Deger</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-3  mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="Ilce" class=" form-label">İlçe</label>
-                            <input type="text" id="Ilce" name="Ilce" class="form-control p-2 rounded-1" placeholder="" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                            <label for="PostaKodu" class=" form-label">Posta Kodu</label>
-                            <input type="text" id="PostaKodu" name="PostaKodu" class="form-control  p-2 rounded-1" placeholder="" />
-                        </div>
-                    </div>
-                    <div class="col-lg-3 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="TCKimlikNo" class=" form-label">TC Kimlik No</label>
-                            <input type="text" id="TCKimlikNo" name="TCKimlikNo" class="form-control p-2 rounded-1" placeholder="" />
-                            <div data-error="TCKimlikNo"></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="VergiNumarasi" class=" form-label">Vergi Numarası</label>
-                            <input type="text" id="VergiNumarasi" name="VergiNumarasi" class="form-control  p-2 rounded-1" placeholder=""/>
-                            <div data-error="VergiNumarasi"></div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="VergiDairesi" class=" form-label">Vergi Dairesi</label>
-                            <input type="text" id="VergiDairesi" name="VergiDairesi" class="form-control p-2 rounded-1" placeholder="" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                            <label for="DovizID" class=" form-label">Döviz</label>
-                            <input id="DovizID" type="text" name="DovizID" class="form-control  p-2 rounded-1" placeholder="" />
-                        </div>
-                    </div>
-                    <div class="col-lg-3 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="VadeGunu" class=" form-label">Vade Günü</label>
-                            <input id="VadeGunu" type="text" name="VadeGunu" class="form-control p-2 rounded-1" placeholder="" />
-                        </div>
-                    </div>
-                    <div class="col-lg-3 d-flex align-items-end pb-1 mt-4 mt-lg-0">
-                        <div class="form-check">
-                            <input class="form-check-input" name="Kilitli " type="checkbox" value="true" id="Kilitli " />
-                            <label class="form-check-label user-select-none cursor-pointer" for="Kilitli ">
-                                Kilitli
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="KilitAciklamasi" class=" form-label">Kilit Açıklaması</label>
-                            <input id="KilitAciklamasi" type="text" name="KilitAciklamasi" class="form-control p-2 rounded-1" placeholder="" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-lg-3">
-                        <div class="form-group">
-                            <label for="Limit" class=" form-label">Limit</label>
-                            <input type="text" name="Limit" class="form-control p-2 rounded-1" placeholder="" id="Limit" step="any" />
-                        </div>
-                    </div>
-                    <div class="col-lg-3 d-flex align-items-end pb-1 mt-4 mt-lg-0">
-                        <div class="form-check">
-                            <input class="form-check-input" name="LimitAsimindaUyar" type="checkbox" value="true" id="LimitAsimindaUyar " />
-                            <label class="form-check-label user-select-none cursor-pointer" for="LimitAsimindaUyar ">
-                                Limit Aşımında Uyar
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 d-flex align-items-end pb-1 mt-4 mt-lg-0">
-                        <div class="form-check">
-                            <input class="form-check-input" name="LimitAsimindaDurdur" type="checkbox" value="true" id="LimitAsimindaDurdur " />
-                            <label class="form-check-label user-select-none cursor-pointer" for="LimitAsimindaDurdur">
-                                Limit Aşımında Durdur
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="Iskonto1" class=" form-label">İskonto 1</label>
-                            <input type="text" class="form-control p-2 rounded-1" name="Iskonto1" id="Iskonto1" step="any" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="ListeFiyat" class=" form-label">Liste Fiyat</label>
-                            <input id="ListeFiyat" type="text" name="ListeFiyat" class="form-control p-2 rounded-1" placeholder="" step="any" />
-                        </div>
-                    </div>
-                    <div class="col-lg-4 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="MuhasebeKodu" class=" form-label">Muhasebe Kodu</label>
-                            <input id="MuhasebeKodu" type="text" name="MuhasebeKodu" class="form-control  p-2 rounded-1" placeholder="" />
-                        </div>
-                    </div>
-                    <div class="col-lg-4 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="RiskAciklama" class=" form-label ">Risk Açıklama</label>
-                            <input type="text" id="RiskAciklama" name="RiskAciklama" class="form-control p-2 rounded-1" placeholder="" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-lg-4 ">
-                        <div class="form-group">
-                            <label for="PlasiyerID" class=" form-label">Plasiyer</label>
-                            <select class="form-control p-2 rounded-1" data-control="select2" name="PlasiyerID" id="PlasiyerID"
-                                    aria-label="Floating label select example">
-                                <option value="">Lütfen Seçim Yapınız</option>
-                                @foreach (SatisPersoneliDto plasiyer in ViewBag.PlasiyerID)
-                                {
-                                    <option value="@plasiyer.ID">@plasiyer.Isim</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="AnaCariID" class=" form-label">Ana Cari</label>
-                            <select class="form-control p-2 rounded-1" name="AnaCariID" id="AnaCariID"
-                                    aria-label="Floating label select example" data-control="select2" data-placeholder="Select an option">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <div class="form-group">
-                                <label for="TeslimCariID" class=" form-label">Teslim Cari</label>
-                                <select class="form-control p-2 rounded-1" name="TeslimCariID" id="TeslimCariID"
-                                        aria-label="Floating label select example" data-control="select2" data-placeholder="Select an option">
-                                </select>
+
+
+
+                <div class="card-body">
+                    <!--begin::Nav-->
+                    <ul class="nav nav-pills nav-pills-custom row position-relative mx-0 mb-9">
+                        <!--begin::Item-->
+                        <li class="nav-item col-4 mx-0 p-0">
+                            <!--begin::Link-->
+                            <a class="nav-link active d-flex justify-content-center w-100 border-0 h-100" data-bs-toggle="pill" href="#kt_list_widget_10_tab_1">
+                                <!--begin::Subtitle-->
+                                <span class="nav-text text-gray-800 fw-bold fs-6 mb-3">Genel Bilgiler</span>
+                                <!--end::Subtitle-->
+                                <!--begin::Bullet-->
+                                <span class="bullet-custom position-absolute z-index-2 bottom-0 w-100 h-4px bg-primary rounded"></span>
+                                <!--end::Bullet-->
+                            </a>
+                            <!--end::Link-->
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="nav-item col-4 mx-0 px-0">
+                            <!--begin::Link-->
+                            <a class="nav-link d-flex justify-content-center w-100 border-0 h-100" data-bs-toggle="pill" href="#kt_list_widget_10_tab_2">
+                                <!--begin::Subtitle-->
+                                <span class="nav-text text-gray-800 fw-bold fs-6 mb-3">Ticari Bilgiler</span>
+                                <!--end::Subtitle-->
+                                <!--begin::Bullet-->
+                                <span class="bullet-custom position-absolute z-index-2 bottom-0 w-100 h-4px bg-primary rounded"></span>
+                                <!--end::Bullet-->
+                            </a>
+                            <!--end::Link-->
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="nav-item col-4 mx-0 px-0">
+                            <!--begin::Link-->
+                            <a class="nav-link d-flex justify-content-center w-100 border-0 h-100" data-bs-toggle="pill" href="#kt_list_widget_10_tab_3">
+                                <!--begin::Subtitle-->
+                                <span class="nav-text text-gray-800 fw-bold fs-6 mb-3">Açıklamalar</span>
+                                <!--end::Subtitle-->
+                                <!--begin::Bullet-->
+                                <span class="bullet-custom position-absolute z-index-2 bottom-0 w-100 h-4px bg-primary rounded"></span>
+                                <!--end::Bullet-->
+                            </a>
+                            <!--end::Link-->
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Bullet-->
+                        <span class="position-absolute z-index-1 bottom-0 w-100 h-4px bg-light rounded"></span>
+                        <!--end::Bullet-->
+                    </ul>
+                    <!--end::Nav-->
+                    <!--begin::Tab Content-->
+                    <div class="tab-content">
+                        <!--begin::Tap pane-->
+                        <div class="tab-pane fade show active" id="kt_list_widget_10_tab_1">
+
+                            <div class="row">
+                                <div class="col-lg-2 d-flex align-items-center ">
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="Aktif" type="checkbox" value="true" id="Aktif" checked />
+                                        <label class="form-check-label user-select-none cursor-pointer" for="Aktif">
+                                            Aktif
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 d-flex align-items-center mt-4 mt-lg-0">
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="Alici" type="checkbox" value="true" id="Alici" />
+                                        <label class="form-check-label user-select-none cursor-pointer" for="Alici">
+                                            Alıcı
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 d-flex align-items-center mt-4 mt-lg-0">
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="Satici" type="checkbox" value="true" id="Satici" />
+                                        <label class="form-check-label user-select-none cursor-pointer" for="Satici">
+                                            Satıcı
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 d-flex align-items-center mt-4 mt-lg-0">
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="Personel" type="checkbox" value="true" id="Personel" />
+                                        <label class="form-check-label user-select-none cursor-pointer" for="Personel">
+                                            Personel
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 d-flex align-items-center mt-4 mt-lg-0">
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="ServisPersoneli" type="checkbox" value="true" id="ServisPersoneli" />
+                                        <label class="form-check-label user-select-none cursor-pointer" for="ServisPersoneli">
+                                            Servis Personeli
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 d-flex align-items-center mt-4 mt-lg-0">
+                                    <div class="form-group w-100">
+                                        <label for="KayitTarihi" class=" form-label">Kayıt Tarihi</label>
+                                        @* Varsayilan gun tarihini cagirdik ve toString ile formatladik. bu format sayesinde input value degerini de atamis olduk *@
+                                        <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" name="KayitTarihi" id="KayitTarihi" class="form-control p-2 rounded-1" placeholder="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="Kod" class=" form-label">Kod</label>
+                                        <input type="text" id="Kod" name="Kod" class="form-control p-2 rounded-1" placeholder="" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-8 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="Isim" class=" form-label">Kısa İsim</label>
+                                        <input type="text" id="Isim" name="Isim" class="form-control p-2 rounded-1" placeholder="" required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-lg-12 ">
+                                    <div class="form-group">
+                                        <label for="Unvan" class=" form-label">Ünvan</label>
+                                        <input type="text" id="Unvan" name="Unvan" class="form-control p-2 rounded-1" placeholder="" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <!--end::Tap pane-->
+                        <!--begin::Tap pane-->
+                        <div class="tab-pane fade" id="kt_list_widget_10_tab_2">
+
+                            <div class="row mt-4">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label for="Adres" class=" form-label">Adres</label>
+                                        <textarea type="text" id="Adres" name="Adres" class="form-control p-2 rounded-1" placeholder=""></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label for="Bolge" class=" form-label">Bölge</label>
+                                        <input type="text" id="Bolge" name="Bolge" class="form-control p-2 rounded-1" placeholder="" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="Ulke" class=" form-label">Ülke</label>
+                                        <select class="form-control p-2 rounded-1" data-control="select2" name="Ulke" id="Ulke"
+                                                aria-label="Floating label select example">
+                                            <option value="">Lütfen Seçim Yapınız</option>
+                                            @foreach (GrupKoduDto ulke in ViewBag.Ulkeler)
+                                            {
+                                                <option value="@ulke.ID">@ulke.Deger</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3  mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="Il" class=" form-label">İl</label>
+                                        <select class="form-control p-2 rounded-1" name="Il" data-control="select2" id="Il"
+                                                aria-label="Floating label select example">
+                                            <option value="">Lütfen Seçim Yapınız</option>
+                                            @foreach (GrupKoduDto il in ViewBag.Iller)
+                                            {
+                                                <option value="@il.ID">@il.Deger</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3  mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="Ilce" class=" form-label">İlçe</label>
+                                        <input type="text" id="Ilce" name="Ilce" class="form-control p-2 rounded-1" placeholder="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label for="PostaKodu" class=" form-label">Posta Kodu</label>
+                                        <input type="text" id="PostaKodu" name="PostaKodu" class="form-control  p-2 rounded-1" placeholder="" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="TCKimlikNo" class=" form-label">TC Kimlik No</label>
+                                        <input type="text" id="TCKimlikNo" name="TCKimlikNo" class="form-control p-2 rounded-1" placeholder="" />
+                                        <div data-error="TCKimlikNo"></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="VergiNumarasi" class=" form-label">Vergi Numarası</label>
+                                        <input type="text" id="VergiNumarasi" name="VergiNumarasi" class="form-control  p-2 rounded-1" placeholder="" />
+                                        <div data-error="VergiNumarasi"></div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="VergiDairesi" class=" form-label">Vergi Dairesi</label>
+                                        <input type="text" id="VergiDairesi" name="VergiDairesi" class="form-control p-2 rounded-1" placeholder="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label for="DovizID" class=" form-label">Döviz</label>
+                                        <input id="DovizID" type="text" name="DovizID" class="form-control  p-2 rounded-1" placeholder="" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="VadeGunu" class=" form-label">Vade Günü</label>
+                                        <input id="VadeGunu" type="text" name="VadeGunu" class="form-control p-2 rounded-1" placeholder="" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 d-flex align-items-end pb-1 mt-4 mt-lg-0">
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="Kilitli " type="checkbox" value="true" id="Kilitli " />
+                                        <label class="form-check-label user-select-none cursor-pointer" for="Kilitli ">
+                                            Kilitli
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="KilitAciklamasi" class=" form-label">Kilit Açıklaması</label>
+                                        <input id="KilitAciklamasi" type="text" name="KilitAciklamasi" class="form-control p-2 rounded-1" placeholder="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label for="Limit" class=" form-label">Limit</label>
+                                        <input type="text" name="Limit" class="form-control p-2 rounded-1" placeholder="" id="Limit" step="any" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 d-flex align-items-end pb-1 mt-4 mt-lg-0">
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="LimitAsimindaUyar" type="checkbox" value="true" id="LimitAsimindaUyar " />
+                                        <label class="form-check-label user-select-none cursor-pointer" for="LimitAsimindaUyar ">
+                                            Limit Aşımında Uyar
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 d-flex align-items-end pb-1 mt-4 mt-lg-0">
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="LimitAsimindaDurdur" type="checkbox" value="true" id="LimitAsimindaDurdur " />
+                                        <label class="form-check-label user-select-none cursor-pointer" for="LimitAsimindaDurdur">
+                                            Limit Aşımında Durdur
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="Iskonto1" class=" form-label">İskonto 1</label>
+                                        <input type="text" class="form-control p-2 rounded-1" name="Iskonto1" id="Iskonto1" step="any" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="ListeFiyat" class=" form-label">Liste Fiyat</label>
+                                        <input id="ListeFiyat" type="text" name="ListeFiyat" class="form-control p-2 rounded-1" placeholder="" step="any" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="MuhasebeKodu" class=" form-label">Muhasebe Kodu</label>
+                                        <input id="MuhasebeKodu" type="text" name="MuhasebeKodu" class="form-control  p-2 rounded-1" placeholder="" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="RiskAciklama" class=" form-label ">Risk Açıklama</label>
+                                        <input type="text" id="RiskAciklama" name="RiskAciklama" class="form-control p-2 rounded-1" placeholder="" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-lg-4 ">
+                                    <div class="form-group">
+                                        <label for="PlasiyerID" class=" form-label">Plasiyer</label>
+                                        <select class="form-control p-2 rounded-1" data-control="select2" name="PlasiyerID" id="PlasiyerID"
+                                                aria-label="Floating label select example">
+                                            <option value="">Lütfen Seçim Yapınız</option>
+                                            @foreach (SatisPersoneliDto plasiyer in ViewBag.PlasiyerID)
+                                            {
+                                                <option value="@plasiyer.ID">@plasiyer.Isim</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="AnaCariID" class=" form-label">Ana Cari</label>
+                                        <select class="form-control p-2 rounded-1" name="AnaCariID" id="AnaCariID"
+                                                aria-label="Floating label select example" data-control="select2" data-placeholder="Select an option">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label for="TeslimCariID" class=" form-label">Teslim Cari</label>
+                                            <select class="form-control p-2 rounded-1" name="TeslimCariID" id="TeslimCariID"
+                                                    aria-label="Floating label select example" data-control="select2" data-placeholder="Select an option">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-lg-3">
+                                    <div class="form-group ">
+                                        <label for="Telefon1" class="form-label">Telefon 1</label>
+                                        <input type="text" name="Telefon1" class="form-control p-2 rounded-1" id="Telefon1" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="Telefon2" class="form-label">Telefon 2</label>
+                                        <input type="text" name="Telefon2" class="form-control p-2 rounded-1" id="Telefon2" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="Faks" class="form-label">Faks</label>
+                                        <input type="text" name="Faks" class="form-control p-2 rounded-1" id="Faks" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="CepTelefonu" class="form-label ">Cep Telefonu</label>
+                                        <input type="text" name="CepTelefonu" class="form-control p-2 rounded-1" id="CepTelefonu" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-lg-3 ">
+                                    <div class="form-group">
+                                        <label for="KullaniciAdi" class=" form-label"> Kullanıcı Adı</label>
+                                        <input id="KullaniciAdi" type="text" name="KullaniciAdi" class="form-control p-2 rounded-1" placeholder="" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="Parola" class=" form-label">Parola</label>
+                                        <input id="Parola" type="password" name="Parola" class="form-control p-2 rounded-1" placeholder="" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="EMail" class="form-label ">Email</label>
+                                        <input type="text" name="EMail" class="form-control p-2 rounded-1" id="EMail" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="WebSite" class="form-label">Web Sitesi</label>
+                                        <input type="text" name="WebSite" class="form-control p-2 rounded-1" id="WebSite" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Tap pane-->
+                        <!--begin::Tap pane-->
+                        <div class="tab-pane fade" id="kt_list_widget_10_tab_3">
+
+                            <div class="row mt-4">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="Aciklama1" class="form-label">Açıklama 1</label>
+                                        <textarea type="text" name="Aciklama1" class="form-control p-2 rounded-1" id="Aciklama1"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="Aciklama2" class="form-label">Açıklama 2</label>
+                                        <textarea type="text" name="Aciklama2" class="form-control p-2 rounded-1" id="Aciklama2"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="Aciklama3" class="form-label">Açıklama 3</label>
+                                        <textarea type="text" name="Aciklama3" class="form-control p-2 rounded-1" id="Aciklama3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="Aciklama4" class="form-label">Açıklama 4</label>
+                                        <textarea type="text" name="Aciklama4" class="form-control p-2 rounded-1" id="Aciklama4"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="Aciklama5" class="form-label">Açıklama 5</label>
+                                        <textarea type="text" name="Aciklama5" class="form-control p-2 rounded-1" id="Aciklama5"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 mt-4 mt-lg-0">
+                                    <div class="form-group">
+                                        <label for="Aciklama6" class="form-label">Açıklama 6</label>
+                                        <textarea type="text" name="Aciklama6" class="form-control p-2 rounded-1" id="Aciklama6"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Tap pane-->
+                    </div>
+                    <!--end::Tab Content-->
+                </div>
+
+
+
+
+                <div class="row mt-8">
+                    <div class="col-12 d-flex align-items-center justify-content-start">
+                        <a href="/Cari/Liste" class="btn btn-light me-3 btn-sm fw-bold" data-kt-users-modal-action="cancel">Geri</a>
+                        <button type="submit" class="btn btn-primary btn-sm fw-bold" data-kt-users-modal-action="Ekle">
+                            <span class="indicator-label">Kaydet</span>
+                        </button>
                     </div>
                 </div>
-                <div class="row mt-4">
-                    <div class="col-lg-3">
-                        <div class="form-group ">
-                            <label for="Telefon1" class="form-label">Telefon 1</label>
-                            <input type="text" name="Telefon1" class="form-control p-2 rounded-1" id="Telefon1" />
-                        </div>
-                    </div>
-                    <div class="col-lg-3 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="Telefon2" class="form-label">Telefon 2</label>
-                            <input type="text" name="Telefon2" class="form-control p-2 rounded-1" id="Telefon2" />
-                        </div>
-                    </div>
-                    <div class="col-lg-3 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="Faks" class="form-label">Faks</label>
-                            <input type="text" name="Faks" class="form-control p-2 rounded-1" id="Faks" />
-                        </div>
-                    </div>
-                    <div class="col-lg-3 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="CepTelefonu" class="form-label ">Cep Telefonu</label>
-                            <input type="text" name="CepTelefonu" class="form-control p-2 rounded-1" id="CepTelefonu" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-lg-3 ">
-                        <div class="form-group">
-                            <label for="KullaniciAdi" class=" form-label"> Kullanıcı Adı</label>
-                            <input id="KullaniciAdi" type="text" name="KullaniciAdi" class="form-control p-2 rounded-1" placeholder="" />
-                        </div>
-                    </div>
-                    <div class="col-lg-3 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="Parola" class=" form-label">Parola</label>
-                            <input id="Parola" type="password" name="Parola" class="form-control p-2 rounded-1" placeholder="" />
-                        </div>
-                    </div>
-                    <div class="col-lg-3 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="EMail" class="form-label ">Email</label>
-                            <input type="text" name="EMail" class="form-control p-2 rounded-1" id="EMail" />
-                        </div>
-                    </div>
-                    <div class="col-lg-3 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="WebSite" class="form-label">Web Sitesi</label>
-                            <input type="text" name="WebSite" class="form-control p-2 rounded-1" id="WebSite" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="Aciklama1" class="form-label">Açıklama 1</label>
-                            <textarea type="text" name="Aciklama1" class="form-control p-2 rounded-1" id="Aciklama1"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="Aciklama2" class="form-label">Açıklama 2</label>
-                            <textarea type="text" name="Aciklama2" class="form-control p-2 rounded-1" id="Aciklama2"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="Aciklama3" class="form-label">Açıklama 3</label>
-                            <textarea type="text" name="Aciklama3" class="form-control p-2 rounded-1" id="Aciklama3"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label for="Aciklama4" class="form-label">Açıklama 4</label>
-                            <textarea type="text" name="Aciklama4" class="form-control p-2 rounded-1" id="Aciklama4"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="Aciklama5" class="form-label">Açıklama 5</label>
-                            <textarea type="text" name="Aciklama5" class="form-control p-2 rounded-1" id="Aciklama5"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 mt-4 mt-lg-0">
-                        <div class="form-group">
-                            <label for="Aciklama6" class="form-label">Açıklama 6</label>
-                            <textarea type="text" name="Aciklama6" class="form-control p-2 rounded-1" id="Aciklama6"></textarea>
-                        </div>
-                    </div>
-                </div>
+
+
+
+
             </div>
             <div class="col-lg-2 mt-4 mt-lg-0">
                 <div>
@@ -431,14 +524,7 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-8">
-            <div class="col-12 d-flex align-items-center justify-content-start">
-                <a href="/Cari/Liste" class="btn btn-light me-3 btn-sm fw-bold" data-kt-users-modal-action="cancel">Geri</a>
-                <button type="submit" class="btn btn-primary btn-sm fw-bold" data-kt-users-modal-action="Ekle">
-                    <span class="indicator-label">Kaydet</span>                   
-                </button>
-            </div>
-        </div>
+        
     </div>
 </form>
 
@@ -467,27 +553,27 @@
                     TCKimlikNo: []
                 };
 
-                if (!VergiNumarasi.value) {
-                    isValidated = false;
-                    message.VergiNumarasi.push("Vergi numarası boş olamaz.")
-                }
+                //if (!VergiNumarasi.value) {
+                //    isValidated = false;
+                //    message.VergiNumarasi.push("Vergi numarası boş olamaz.")
+                //}
 
-                if (!(VergiNumarasi.value.length == 10)) {
+                if (!(VergiNumarasi.value.length == 10) && VergiNumarasi.value.length > 0) {
                     isValidated = false;
                     message.VergiNumarasi.push("Vergi numarasi 10 haneli olmalıdır.")
                 }
 
-                if (!(onlyNumbers.test(VergiNumarasi.value))) {
+                if (!(onlyNumbers.test(VergiNumarasi.value)) && VergiNumarasi.value.length > 0) {
                     isValidated = false;
                     message.VergiNumarasi.push("Vergi numarasında sadece rakamlar kullanılabilir.");
                 }
 
-                if (!TCKimlikNo.value) {
-                    isValidated = false;
-                    message.TCKimlikNo.push("TC Kimlik numarası boş olamaz.")
-                }
+                //if (!TCKimlikNo.value) {
+                //    isValidated = false;
+                //    message.TCKimlikNo.push("TC Kimlik numarası boş olamaz.")
+                //}
 
-                if (!(TCKimlikNo.value.length == 11)) {
+                if (!(TCKimlikNo.value.length == 11) && TCKimlikNo.value.length > 0) {
                     isValidated = false;
                     message.TCKimlikNo.push("TC Kimlik numarası 11 haneli olmalıdır.")
                 }

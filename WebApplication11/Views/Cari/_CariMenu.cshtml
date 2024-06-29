@@ -1,5 +1,20 @@
-﻿@{
+﻿@using YKPortal.Models
+@using System.Data.SqlClient
+@using System.Data
+@{
     var cariID = ViewData["CariID"];
+    var Isim = "";
+
+    SqlCommand cmd = new SqlCommand();
+    cmd.CommandText = "p_Cari";
+    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+    cmd.Parameters.AddWithValue("@ID", cariID);
+    cmd.Parameters.AddWithValue("@UyelikID", Request.Cookies["UyelikID"].Value);
+
+    DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+    Isim = Convert.ToString(dt.Rows[0]["Isim"]);
+
 }
 
 <div class="col-lg-2">
@@ -76,8 +91,15 @@
         <!--end::Menu item-->
         <!--begin::Menu item-->
         <div class="menu-item p-0">
-            <a href="/Cari/YeniCariHareketKaydi?CariID=@ViewData["CariID"]" class="menu-link rounded-0 py-0 px-2">
-                
+            <a href="/Cari/YeniCariHareketKaydi?CariID=@(ViewData["CariID"])&Isim=@(Isim)" class="menu-link rounded-0 py-0 px-2">
+                <span class="menu-icon">
+                    <i class="ki-duotone ki-brush fs-3">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                        <span class="path3"></span>
+                        <span class="path4"></span>
+                    </i>
+                </span>
                 <span class="menu-title">Yeni Cari Hareket</span>
             </a>
         </div>
@@ -85,8 +107,15 @@
         <!--begin::Menu item-->
         <div class="menu-item p-0">
             <a href="/Cari/HareketListesi?CariID=@ViewData["CariID"]" class="menu-link rounded-0 py-0 px-2">
-               
-                <span class="menu-title">Cari Ekstre/Hareket Listesi</span>
+                <span class="menu-icon">
+                    <i class="ki-duotone ki-book-square fs-3">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                        <span class="path3"></span>
+                        <span class="path4"></span>
+                    </i>
+                </span>
+                <span class="menu-title">Cari Ekstre</span>
             </a>
         </div>
         <!--end::Menu item-->

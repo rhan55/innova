@@ -1,20 +1,14 @@
 ﻿using System.Data.SqlClient;
 using System.Data;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using YKPortal.Models;
 using YKPortal.Models.Dto;
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Web;
-using System.Web.Http.Results;
-using System.Configuration;
 using System.Data.OleDb;
-using System.Web.Services;
 using System.Collections;
-using Newtonsoft.Json;
-using System.Web.Razor.Parser.SyntaxTree;
 
 namespace YKPortal.Controllers
 {
@@ -358,7 +352,7 @@ namespace YKPortal.Controllers
             {
                 CariDto cariDto = Getir(Convert.ToString(dt.Rows[i]["CariID"]));
                 var kaydiAcan = KullaniciGetir(Convert.ToString(dt.Rows[i]["KullaniciID"]));
-                
+
                 var tamamlayanKullaniciId = Convert.ToString(dt.Rows[i]["TamamlayanKullaniciID"]);
 
                 var tamamlayan = new KullaniciEkleDto();
@@ -381,10 +375,10 @@ namespace YKPortal.Controllers
                     KullaniciID = Convert.ToString(dt.Rows[i]["KullaniciID"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["KullaniciID"]),
                     CariIsim = cariDto.Isim,
                     KaydiAcanIsim = kaydiAcan.Ad,
-                    TamamlayanIsim = tamamlayan.Ad 
+                    TamamlayanIsim = tamamlayan.Ad
                 });
             }
-         
+
             ViewBag.Ziyaretler = ziyaretler;
             ViewBag.CariID = CariID;
 
@@ -478,10 +472,10 @@ namespace YKPortal.Controllers
                 tamamlayanKullanici = KullaniciGetir(ziyaretDto.TamamlayanKullaniciID);
             }
             ziyaretDto.TamamlayanIsim = $"{tamamlayanKullanici.Ad} {tamamlayanKullanici.Soyad}";
-            
+
             ViewBag.Ziyaret = ziyaretDto;
             ViewBag.CariID = ziyaretDto.CariID;
-            
+
             ZiyaretTipiListesiniOlustur();
 
             return View();
@@ -489,7 +483,7 @@ namespace YKPortal.Controllers
 
         [HttpPost]
         public ActionResult ZiyaretDuzenle(ZiyaretDto ziyaretDto)
-         {
+        {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
@@ -506,7 +500,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@TamamlamaAciklamasi", ziyaretDto.TamamlamaAciklamasi);
             cmd.Parameters.AddWithValue("@TamamlamaTarihi", ziyaretDto.TamamlamaTarihi);
             cmd.Parameters.AddWithValue("@TamamlayanKullaniciID", GetCookie("KullaniciID"));
- 
+
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
@@ -519,7 +513,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            ViewBag.CariID =CariID;
+            ViewBag.CariID = CariID;
             ViewBag.ID = ID;
 
             ZiyaretTipiListesiniOlustur();
@@ -550,7 +544,7 @@ namespace YKPortal.Controllers
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             return RedirectToAction("ZiyaretListe", new { CariID = ziyaretDto.CariID });
-            
+
         }
 
 
@@ -587,7 +581,7 @@ namespace YKPortal.Controllers
         }
 
         // Bir tane cari getirmek icin kullandigimiz metod, bu metod sayesinde id uzerinden bir carinin Isim ve ID'sini getirebiliyoruz. Select2 icin kullaniyoruz.
-         private CariDto Getir(string id)
+        private CariDto Getir(string id)
         {
             if (id != null && id.Length > 0)
 
@@ -955,7 +949,7 @@ namespace YKPortal.Controllers
         }
 
         [HttpGet]
-        public ActionResult YeniCariHareketKaydi(string CariID) 
+        public ActionResult YeniCariHareketKaydi(string CariID, string KayitID)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
@@ -963,7 +957,41 @@ namespace YKPortal.Controllers
             ViewBag.CariID = CariID;
             CariHareketTipiListesiniOlustur();
             DovizBirimleriListesiniOlustur();
-            return View();
+
+            CariHareketDto entity = new CariHareketDto();
+            if (CariID != null && KayitID != null)
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_CariHareketi";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@CariID", CariID);
+                cmd.Parameters.AddWithValue("@ID", KayitID);
+                DataTable dtHareket = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dtHareket.Rows.Count > 0)
+                {
+                    entity.ID = Convert.ToString(dtHareket.Rows[0]["ID"]);
+                    entity.CariID = Convert.ToString(dtHareket.Rows[0]["CariID"]);
+                    entity.BelgeNo = Convert.ToString(dtHareket.Rows[0]["BelgeNo"]);
+                    entity.Tarih = Convert.ToDateTime(dtHareket.Rows[0]["Tarih"]);
+                    entity.VadeTarihi = Convert.ToDateTime(dtHareket.Rows[0]["VadeTarihi"]);
+                    entity.HareketTipi = Convert.ToString(dtHareket.Rows[0]["HareketTipi"]);
+                    entity.GC = Convert.ToString(dtHareket.Rows[0]["GC"]);
+                    entity.Tutar = Convert.ToDecimal(dtHareket.Rows[0]["Tutar"]);
+                    entity.DovizTipi = Convert.ToString(dtHareket.Rows[0]["DovizTipi"]);
+                    entity.Aciklama = Convert.ToString(dtHareket.Rows[0]["Aciklama"]);
+                }
+            }
+            else
+            {
+                entity.Tarih = DateTime.Today;
+                entity.VadeTarihi = DateTime.Today;
+                entity.Tutar = 0;
+                entity.DovizTipi = "TL";
+            }
+
+            return View(entity);
         }
 
         [HttpPost]
@@ -975,7 +1003,7 @@ namespace YKPortal.Controllers
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariHareketiKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ID", "");
+            cmd.Parameters.AddWithValue("@ID", cariHareketDto.ID);
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@CariID", cariHareketDto.CariID);
             cmd.Parameters.AddWithValue("@Tarih", cariHareketDto.Tarih);
@@ -994,11 +1022,11 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@GrupKodu1ID", string.Empty);
             cmd.Parameters.AddWithValue("@GrupKodu2ID", string.Empty);
             cmd.Parameters.AddWithValue("@Kullanici", GetCookie("KullaniciID"));
-            
-          
+
+
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            return RedirectToAction("HareketListesi", new {CariID = cariHareketDto.CariID });
+            return RedirectToAction("HareketListesi", new { CariID = cariHareketDto.CariID });
         }
 
 
@@ -1023,7 +1051,8 @@ namespace YKPortal.Controllers
                 cmd.Parameters.AddWithValue("@BitisTarihi", string.Empty);
 
                 dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-            } else
+            }
+            else
             {
                 dt = new DataTable();
             }
@@ -1037,7 +1066,8 @@ namespace YKPortal.Controllers
         }
 
 
-        public KullaniciEkleDto KullaniciGetir(string ID) {
+        public KullaniciEkleDto KullaniciGetir(string ID)
+        {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_Kullanici";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -1046,7 +1076,7 @@ namespace YKPortal.Controllers
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            if (dt.Rows.Count == 0 )
+            if (dt.Rows.Count == 0)
             {
                 return new KullaniciEkleDto();
             }
@@ -1329,7 +1359,7 @@ namespace YKPortal.Controllers
 
 
             DataTable cariGrupKod6DataTable = (DataTable)IDVeritabani.Sorgula(cariGrupKod6Command, SorgulaTuru.Tablo);
-            
+
             List<GrupKoduDto> entities = new List<GrupKoduDto>();
 
             for (int i = 0; i < cariGrupKod6DataTable.Rows.Count; i++)

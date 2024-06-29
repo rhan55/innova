@@ -1,4 +1,5 @@
 ﻿@using YKPortal.Models.Dto
+@model YKPortal.Models.Dto.CariHareketDto
 @{
     ViewBag.Title = "YeniCariHareketKaydi";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,34 +10,50 @@
     <div class="row">
         <div class="col-lg-12">
             <form id="kt_modal_add_user_form" class="form" action="@Url.Action("YeniCariHareketKaydi","Cari",null)" method="post">
+                <input type="hidden" name="ID" id="ID" value="@Model.ID" />
                 <div class="d-flex flex-column container px-5 px-lg-10 mt-10">
                     <div class="row mb-7">
                         <div class="col-lg-6 ">
                             <div class="form-group">
                                 <label for="CariID" class=" form-label">Cari İsim</label>
-                                <select class="form-control p-2 rounded-1" name="CariID" id="CariID" required
-                                        aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                <select class="form-select form-select-solid p-2 rounded-1" name="CariID" id="CariID" required aria-label="Floating label select example" data-control="select2" data-placeholder="arama yapmak için birşeyler yazın...">
+                                    @if (Request.QueryString["CariID"] != null)
+                                    {
+                                        <option value="@Request.QueryString["CariID"]" selected>@Request.QueryString["Isim"]</option>
+                                    }
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-2">
                             <div class="form-group">
                                 <label for="BelgeNo" class="fw-semibold fs-6 mb-2">Belge No</label>
-                                <input type="text" name="BelgeNo" id="BelgeNo" class="form-control p-2 mb-3 mb-lg-0" required" />
+                                <input type="text" name="BelgeNo" id="BelgeNo" value="@Model.BelgeNo" class="form-control p-2 mb-3 mb-lg-0" required" />
                             </div>
                         </div>
-                  
+
                     </div>
 
                     <div class="row mb-7">
 
-                        <div class="col-lg-3">
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label for="Tarih" class="fw-semibold fs-6 mb-2">Tarih</label>
+                                <input type="date" value="@(Model.Tarih == null ? DateTime.Now.ToString("yyyy-MM-dd") : Model.Tarih.ToString("yyyy-MM-dd") )" name="Tarih" class="form-control p-2 mb-3 mb-lg-0" required" />
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label for="VadeTarihi" class="fw-semibold fs-6 mb-2">Vade Tarihi</label>
+                                <input type="date" value="@(Model.VadeTarihi == null ? DateTime.Now.ToString("yyyy-MM-dd") : Model.VadeTarihi.ToString("yyyy-MM-dd") )" name="VadeTarihi" id="VadeTarihi" class="form-control p-2 mb-3 mb-lg-0" required" />
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
 
                             <div class="form-group">
                                 <label for="HareketTipi" class="fw-semibold fs-6 mb-2">Hareket Tipi/Türü</label>
                                 <select class="form-control p-2 rounded-1" data-control="select2" name="HareketTipi" id="HareketTipi"
                                         aria-label="Floating label select example">
-                               
+
                                     @foreach (GrupKoduDto cariGrupKodlari5 in ViewBag.CariHareketTipleri)
                                     {
                                         <option value="@cariGrupKodlari5.Deger">@cariGrupKodlari5.Deger</option>
@@ -44,50 +61,34 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-3 mt-10">
+                        <div class="col-lg-2 mt-10">
                             <div class="flex">
                                 <label class="form-label flex items-center gap-2.5 text-nowrap me-4">
-                                    <input class="form-check-input" name="GC" type="radio" value="G" checked />
+                                    <input class="form-check-input" name="GC" type="radio" value="G" @(Model.GC == "" ? "checked" : (Model.GC == "G" ? "checked" : "") )  />
                                     Borç
                                 </label>
                                 <label class="form-label flex items-center gap-2.5 text-nowrap">
-                                    <input class="form-check-input " name="GC" type="radio" value="C" />
+                                    <input class="form-check-input " name="GC" type="radio" value="C" @(Model.GC == "C" ? "checked" : "") />
                                     Alacak
                                 </label>
                             </div>
 
                         </div>
-                        <div class="col-lg-3">
-                            <div class="form-group">
+                        <div class="col-lg-2">
+                            <div class="form-group" style="text-align:right;">
                                 <label for="Tutar" class="fw-semibold fs-6 mb-2">Tutar</label>
-                                <input type="text" name="Tutar" id="Tutar" value="0" class="form-control p-2 mb-3 mb-lg-0" autofocus required />
+                                <input type="text" name="Tutar" id="Tutar" value="@String.Format("{0:N2}",Model.Tutar).Replace(".","")" class="form-control p-2 mb-3 mb-lg-0" autofocus required style="text-align:right;" />
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-2">
                             <div class="form-group">
                                 <label for="DovizTipi" class="fw-semibold fs-6 mb-2">Döviz Birimi</label>
-                                <select class="form-control p-2 rounded-1" data-control="select2" name="DovizTipi" id="DovizTipi" required
-                                        aria-label="Floating label select example">
-                                  
+                                <select class="form-control p-2 rounded-1" data-control="select2" name="DovizTipi" id="DovizTipi" required aria-label="Floating label select example">
                                     @foreach (GrupKoduDto grupKodu in ViewBag.DovizBirimleri)
                                     {
-                                        <option value="@grupKodu.Deger" @(grupKodu.Deger == "TL" ? "selected": "")>@grupKodu.Deger</option>
+                                        <option value="@grupKodu.Deger" @(grupKodu.Deger == (Model.DovizTipi == "" ? "TL" : Model.DovizTipi) ? "selected" : "")>@grupKodu.Deger</option>
                                     }
                                 </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-7">
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label for="Tarih" class="fw-semibold fs-6 mb-2">Tarih</label>
-                                <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" name="Tarih" class="form-control p-2 mb-3 mb-lg-0" required" />
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label for="VadeTarihi" class="fw-semibold fs-6 mb-2">Vade Tarihi</label>
-                                <input type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" name="VadeTarihi" id="VadeTarihi" class="form-control p-2 mb-3 mb-lg-0" required" />
                             </div>
                         </div>
                     </div>
@@ -95,14 +96,14 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label for="Aciklama" class=" form-label ">Açıklama</label>
-                                <textarea type="text" name="Aciklama" class="form-control p-2 rounded-1" id="Aciklama"></textarea>
+                                <textarea type="text" name="Aciklama" class="form-control p-2 rounded-1" id="Aciklama">@Model.BelgeNo</textarea>
                             </div>
                         </div>
                     </div>
 
                     <!--begin::Actions-->
                     <div class="pt-10">
-                        <a href="/Cari/Liste" class="btn btn-light btn-sm fw-bold me-3" data-kt-users-modal-action="cancel">Geri</a>
+                        <a href="/Cari/HareketListesi/?CariID=@Request.QueryString["CariID"]" class="btn btn-light btn-sm fw-bold me-3" data-kt-users-modal-action="cancel">Geri</a>
                         <button type="submit" class="btn btn-primary btn-sm fw-bold" data-kt-users-modal-action="Kaydet">
                             <span class="indicator-label">Kaydet</span>
                         </button>
@@ -121,8 +122,10 @@
 @section Scripts{
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        $(document).ready(function () {
-            const cariIdSelect = $('#CariID').select2({
+
+        $(function () {
+
+            const CariIDSelect = $('#CariID').select2({
                 ajax: {
                     url: "/Cari/SelectListe",
                     data: function (params) {
@@ -144,7 +147,7 @@
                         return {
                             results: results
                         };
-                    },
+                    }
                 },
                 delay: 250,
                 minimumInputLength: 3,
@@ -153,14 +156,13 @@
                         return "Arama yapmak için en az 3 karakter girin";
                     },
                     inputTooShort: function () {
-                        return "Lütfen en az 3 karakter girin";
+                        return "En az lütfen en az 3 karakter girin";
                     }
                 }
             });
 
-            //Inputmask("999.999.999,99", {
-            //    "numericInput": true
-            //}).mask("#Tutar");
+
         });
+
     </script>
 }
