@@ -2631,7 +2631,6 @@
     <Content Include="Views\Dosya\Liste.cshtml" />
     <Content Include="Views\Cari\_CariMenu.cshtml" />
     <Content Include="Views\Dosya\_DosyaMenu.cshtml" />
-    <Content Include="Views\Dosya\Ekle.cshtml" />
     <Content Include="Views\Ziyaret\Ziyaretler.cshtml" />
     <Content Include="Views\Cari\ZiyaretListe.cshtml" />
     <Content Include="Views\Cari\ZiyaretEkle.cshtml" />
@@ -2650,7 +2649,6 @@
     <Content Include="Views\Stok\NotDuzenle.cshtml" />
     <Content Include="Views\Stok\NotListe.cshtml" />
     <Content Include="Views\Cari\YeniCariHareketKaydi.cshtml" />
-    <Content Include="Views\Cari\CariEkstre.cshtml" />
     <Content Include="Views\Cari\HareketListesi.cshtml" />
   </ItemGroup>
   <ItemGroup>

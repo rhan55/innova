@@ -76,6 +76,7 @@
                         <tr class="text-start" style="font-size:15px;">
 
                             <th class="min-w-125px"><strong>Değer</strong></th>
+                            <th class="min-w-125px"><strong>Aktif</strong></th>
 
                             <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
                         </tr>
@@ -86,10 +87,11 @@
                             <tr>
 
                                 <td class="">
-                                    <!--begin::User details-->
+
                                     <div href="" class="text-gray-800 text-hover-primary">@(Convert.ToString(Model.Rows[i]["Deger"]))</div>
-                                    <!--begin::User details-->
+
                                 </td>
+                                <td>@(Convert.ToBoolean(Model.Rows[i]["Aktif"]) ? "Aktif" : "Pasif") </td>
                                 <td class="text-end">
                                     <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                         İşlemler

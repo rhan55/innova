@@ -1064,7 +1064,19 @@ namespace YKPortal.Controllers
 
             return View(dt);
         }
+        public ActionResult HareketSil(string ID, string CariID)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_CariHareketiSil";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Kullanici", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@CariID", CariID);
 
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            return RedirectToAction("HareketListesi", new { CariID = CariID });
+        }
 
         public KullaniciEkleDto KullaniciGetir(string ID)
         {
