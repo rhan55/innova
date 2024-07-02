@@ -76,7 +76,7 @@
                                 </div>
                             </div>
 
-                            <div class="card-body px-4">
+                            <div class="card-body px-4 scroll-x">
                                 <table class="table align-middle rounded-0 table-row-dashed  fs-6 g-5" id="Cari-Kisi-datatable">
                                     <thead>
                                         <!--begin::Table row-->
@@ -86,7 +86,7 @@
                                             <th class="min-w-125px"><strong>Görev</strong></th>
                                             <th class="min-w-125px"><strong>Telefon</strong></th>
                                             <th class="min-w-125px"><strong>Aktif</strong></th>
-                                            <th class="text-end min-w-100px no-export"><strong>İşemler</strong></th>
+                                            <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
 
                                         </tr>
                                         <!--end::Table row-->
@@ -165,11 +165,11 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Vazgeç</button>
+                <button type="button" class="btn btn-light btn-sm fw-bold" data-bs-dismiss="modal">Vazgeç</button>
                 <form method="post" id="silme-formu" action="@Url.Action("KisiSil","Cari",null)">
                     <input type="hidden" name="id" value="" />
                     <input type="hidden" name="CariID" value="@ViewBag.CariID" />
-                    <button type="submit" class="btn btn-danger">Sil</button>
+                    <button type="submit" class="btn btn-danger btn-sm fw-bold">Sil</button>
                 </form>
             </div>
         </div>
@@ -202,7 +202,7 @@
                 // Init datatable --- more info on datatables: https://datatables.net/manual/
                 datatable = $(table).DataTable({
                     "info": false,
-                    scrollX: true,
+                   
                     'order': [],
                     paging: false,
                     columnDefs: [

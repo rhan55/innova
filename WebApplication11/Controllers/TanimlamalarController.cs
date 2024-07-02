@@ -59,6 +59,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@Kod", grupKoduDto.Kod);
+            cmd.Parameters.AddWithValue("@Aktif", grupKoduDto.Aktif);
             cmd.Parameters.AddWithValue("@Deger", grupKoduDto.Deger);
 
 
@@ -97,6 +98,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@UyelikID", grupKoduDto.UyelikID);
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@Kod", grupKoduDto.Kod);
+            cmd.Parameters.AddWithValue("@Aktif", string.Empty);
             cmd.Parameters.AddWithValue("@Deger", grupKoduDto.Deger);
             IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
             return RedirectToAction("GrupKodu", new { grupKodu = grupKoduDto.Kod });

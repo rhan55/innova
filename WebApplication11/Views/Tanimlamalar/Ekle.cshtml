@@ -29,19 +29,31 @@
                 <input type="text" name="Deger" class="form-control  mb-3 p-2 mb-lg-0 btn-sm fw-bold" autofocus placeholder="Değer" required />
                 <!--end::Input-->
             </div>
+
             <!--end::Input group-->
-            <!--begin::Actions-->
-            <div class="pt-10">
-                <a href="/Tanimlamalar/GrupKodu?grupKodu=@ViewBag.GrupKodu" class="btn btn-light me-3 btn-sm fw-bold" data-kt-users-modal-action="cancel">Geri</a>
-                <button type="submit" class="btn btn-primary btn-sm fw-bold" data-kt-users-modal-action="Kaydet">
-                    <span class="indicator-label">Kaydet</span>
-                    
-                </button>
+            <div class="row mt-4">
+                <div class="col-lg-2 d-flex align-items-center ">
+                    <div class="form-check">
+                        <input class="form-check-input" name="Aktif" type="checkbox" value="true" id="Aktif" />
+                        <label class="form-check-label user-select-none cursor-pointer" for="Aktif">
+                            Aktif
+                        </label>
+                    </div>
+                </div>
             </div>
-            <!--end::Actions-->
+
         </div>
+
         <!--end::Row Input group-->
-       
+        <!--begin::Actions-->
+        <div class="pt-4">
+            <a onclick="history.back()" class="btn btn-light me-3 btn-sm fw-bold" data-kt-users-modal-action="cancel">Geri</a>
+            <button type="submit" class="btn btn-primary btn-sm fw-bold" data-kt-users-modal-action="Kaydet">
+                <span class="indicator-label">Kaydet</span>
+
+            </button>
+        </div>
+        <!--end::Actions-->
     </div>
-  
+
 </form>
