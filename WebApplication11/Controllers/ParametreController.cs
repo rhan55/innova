@@ -15,7 +15,10 @@ namespace YKPortal.Controllers
         // GET: Parametreler
         public ActionResult MailAyarlari()
         {
-            var parametreler = Parametreler();
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            var parametreler = ParametreleriGetir();
 
             var parametreListesi = new List<ParametreDto>();
 
@@ -34,6 +37,9 @@ namespace YKPortal.Controllers
         [HttpPost]
         public ActionResult MailAyarlari(MailAyarlariDto mailAyarlari)
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
             ParametreKaydet(new ParametreDto { Modul = "EMail", Deger = mailAyarlari.Host, Isim = "Host" });
             ParametreKaydet(new ParametreDto { Modul = "EMail", Deger = mailAyarlari.Isim, Isim = "Isim" });
             ParametreKaydet(new ParametreDto { Modul = "EMail", Deger = mailAyarlari.Parola, Isim = "Parola" });
@@ -41,7 +47,7 @@ namespace YKPortal.Controllers
             ParametreKaydet(new ParametreDto { Modul = "EMail", Deger = mailAyarlari.Port, Isim = "Port" });
             ParametreKaydet(new ParametreDto { Modul = "EMail", Deger = mailAyarlari.SSL ? "1" : "0", Isim = "SSL" });
 
-            var parametreler = Parametreler();
+            var parametreler = ParametreleriGetir();
 
             var parametreListesi = new List<ParametreDto>();
 
@@ -59,8 +65,9 @@ namespace YKPortal.Controllers
         }
 
 
-        private List<ParametreDto> Parametreler()
+        private List<ParametreDto> ParametreleriGetir()
         {
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_Parametreler";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -77,14 +84,48 @@ namespace YKPortal.Controllers
                 entity.Deger = Convert.ToString(dt.Rows[i]["Deger"]);
                 entity.Isim = Convert.ToString(dt.Rows[i]["Isim"]);
                 entity.Modul = Convert.ToString(dt.Rows[i]["Modul"]);
+                entity.Tip = Convert.ToString(dt.Rows[i]["Tip"]);
+                entity.Kategori = Convert.ToString(dt.Rows[i]["Kategori"]);
                 entities.Add(entity);
             }
 
             return entities;
         }
 
-        private void ParametreKaydet(ParametreDto parametre)
+        [HttpGet]
+        private ActionResult Parametreler()
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_Parametreler";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var entities = new List<ParametreDto>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                ParametreDto entity = new ParametreDto();
+                entity.ID = Convert.ToString(dt.Rows[i]["ID"]);
+                entity.Deger = Convert.ToString(dt.Rows[i]["Deger"]);
+                entity.Isim = Convert.ToString(dt.Rows[i]["Isim"]);
+                entity.Modul = Convert.ToString(dt.Rows[i]["Modul"]);
+                entity.Tip = Convert.ToString(dt.Rows[i]["Tip"]);
+                entity.Kategori = Convert.ToString(dt.Rows[i]["Kategori"]);
+                entities.Add(entity);
+            }
+
+            return View(entities);
+        }
+        private ActionResult ParametreKaydet(ParametreDto parametre)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_ParametreKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -94,6 +135,49 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@Isim", parametre.Isim);
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return Json("OK", JsonRequestBehavior.AllowGet);
+        }
+
+        public bool AutoGirisKontrol()
+        {
+            bool GirisKontrol = false;
+
+            string KullaniciAdi = GetCookie("KullaniciAdi");
+            string Parola = GetCookie("Parola");
+
+            if (KullaniciAdi != null)
+            {
+
+                ViewBag.KullaniciAdi = KullaniciAdi;
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandText = "p_KullaniciGirisi";
+                cmd.Parameters.AddWithValue("@KullaniciAdi", KullaniciAdi);
+                cmd.Parameters.AddWithValue("@Parola", Parola);
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    string Bilgi = Convert.ToString(dt.Rows[0]["Bilgi"]);
+                    if (!Bilgi.StartsWith("UYARI!"))
+                    {
+
+                        GirisKontrol = true;
+                    }
+                    else
+                    {
+                        GirisKontrol = false;
+                    }
+                }
+                else
+                {
+                    GirisKontrol = false;
+                }
+            }
+
+            return GirisKontrol;
         }
 
         private string GetCookie(string name)

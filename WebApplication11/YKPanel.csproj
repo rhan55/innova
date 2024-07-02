@@ -2652,6 +2652,7 @@
     <Content Include="Views\Cari\YeniCariHareketKaydi.cshtml" />
     <Content Include="Views\Cari\CariEkstre.cshtml" />
     <Content Include="Views\Cari\HareketListesi.cshtml" />
+    <Content Include="Views\Parametre\Parametreler.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
