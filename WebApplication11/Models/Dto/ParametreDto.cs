@@ -9,7 +9,8 @@ namespace YKPortal.Models.Dto
 {
     public class ParametreDto
     {
-        private string _ID; 
+        private string _ID;
+        private string _StandartID;
         private string _UyelikID;
         private string _Modul;
         private string _Isim;
@@ -18,6 +19,7 @@ namespace YKPortal.Models.Dto
         private string _Kategori;
 
         public string ID { get { return _ID ?? ""; } set { _ID = value; } }
+        public string StandartID { get { return _StandartID ?? ""; } set { _StandartID = value; } }
         public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; } }
         public string Isim { get { return _Isim ?? ""; } set { _Isim = value; } }
         public string Modul { get { return _Modul ?? ""; } set { _Modul = value; } }

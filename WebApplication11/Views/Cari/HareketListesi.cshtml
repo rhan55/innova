@@ -29,7 +29,6 @@
                                 <div class="">
                                     <form action="/Cari/HareketListesi" class="cari-listesi " method="get" style="float:left;">
                                         <input type="hidden" name="ID" value="@ViewBag.ID" />
-                                        <input type="hidden" name="CariID" value="@ViewBag.CariID" />
                                         <div class="form-group me-6">
                                             <label for="CariID" class="form-label">Cari Seç</label>
                                             <select class="form-select form-select-solid p-2 rounded-1 w-300px p-1" name="CariID" id="CariID" aria-label="Floating label select example" data-control="select2" data-placeholder="arama yapmak için birşeyler yazın...">
@@ -183,7 +182,7 @@
                 <button type="button" class="btn btn-light btn-sm fw-bold" data-bs-dismiss="modal">Vazgeç</button>
                 <form method="post" id="silme-formu" action="@Url.Action("HareketSil","Cari",null)">
                     <input type="hidden" name="id" value="" />
-                    <input type="hidden" name="CariID" value="@ViewBag.CariID" />
+                    <input type="hidden" name="CariID" value="@CariID" />
                     <button type="submit" class="btn btn-danger btn-sm fw-bold">Sil</button>
                 </form>
             </div>

@@ -2650,7 +2650,7 @@
     <Content Include="Views\Stok\NotListe.cshtml" />
     <Content Include="Views\Cari\YeniCariHareketKaydi.cshtml" />
     <Content Include="Views\Cari\HareketListesi.cshtml" />
-    <Content Include="Views\Parametre\Parametreler.cshtml" />
+    <Content Include="Views\Parametre\ParametreListesi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

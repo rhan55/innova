@@ -93,7 +93,7 @@ namespace YKPortal.Controllers
         }
 
         [HttpGet]
-        private ActionResult Parametreler()
+        public ActionResult ParametreListesi()
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
@@ -115,11 +115,28 @@ namespace YKPortal.Controllers
                 entity.Isim = Convert.ToString(dt.Rows[i]["Isim"]);
                 entity.Modul = Convert.ToString(dt.Rows[i]["Modul"]);
                 entity.Tip = Convert.ToString(dt.Rows[i]["Tip"]);
+                entity.StandartID = Convert.ToString(dt.Rows[i]["StandartID"]);
                 entity.Kategori = Convert.ToString(dt.Rows[i]["Kategori"]);
                 entities.Add(entity);
             }
 
             return View(entities);
+        }
+
+        [HttpPost]
+        public JsonResult ParametreyiKaydet(string Modul, string Isim, string Deger)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_ParametreKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Modul", Modul);
+            cmd.Parameters.AddWithValue("@Deger", Deger);
+            cmd.Parameters.AddWithValue("@Isim", Isim);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return Json("OK", JsonRequestBehavior.AllowGet);
         }
         private ActionResult ParametreKaydet(ParametreDto parametre)
         {

@@ -1,0 +1,151 @@
+﻿@using YKPortal.Models.Dto
+@using System.Collections
+@model List<ParametreDto>
+@{
+    ViewBag.Title = "Parametreler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    ArrayList kategoriler = new ArrayList();
+    foreach (ParametreDto item in Model)
+    {
+        if (item.Kategori.Trim().Length > 0)
+        {
+            if (!kategoriler.Contains(item.Kategori))
+            {
+                kategoriler.Add(item.Kategori);
+            }
+        }
+    }
+
+    bool Ilk = true;
+    bool Ilk2 = true;
+
+    int sira = 0;
+    int sira2 = 0;
+}
+<div class="container">
+    <div class="row">
+
+        <div class="card-body">
+            <!--begin::Nav-->
+            <ul class="nav nav-pills nav-pills-custom row position-relative mx-0 mb-9">
+
+                @foreach (string kategori in kategoriler)
+                {
+                    sira++;
+                    <!--begin::Item-->
+                    <li class="nav-item col-4 mx-0 p-0">
+                        <!--begin::Link-->
+                        <a class="nav-link @(Ilk == true ? "active" : "") d-flex justify-content-center w-100 border-0 h-100" data-bs-toggle="pill" href="#kt_list_widget_10_tab_@(sira)">
+                            <!--begin::Subtitle-->
+                            <span class="nav-text text-gray-800 fw-bold fs-6 mb-3">@kategori</span>
+                            <!--end::Subtitle-->
+                            <!--begin::Bullet-->
+                            <span class="bullet-custom position-absolute z-index-2 bottom-0 w-100 h-4px bg-primary rounded"></span>
+                            <!--end::Bullet-->
+                        </a>
+                        <!--end::Link-->
+                    </li>
+                    <!--end::Item-->
+                    Ilk = false;
+                }
+
+                <!--begin::Bullet-->
+                <span class="position-absolute z-index-1 bottom-0 w-100 h-4px bg-light rounded"></span>
+                <!--end::Bullet-->
+            </ul>
+            <!--end::Nav-->
+            <!--begin::Tab Content-->
+            <div class="tab-content">
+
+                @foreach (string kategori in kategoriler)
+                {
+                    sira2++;
+                    <!--begin::Tap pane-->
+                    <div class="tab-pane fade show @(Ilk2 == true ? "active" : "")" id="kt_list_widget_10_tab_@(sira2)" style="margin:10px;">
+                        @foreach (ParametreDto item in Model)
+                        {
+                            if (item.Kategori == kategori)
+                            {
+                                if (item.Tip == "text")
+                                {
+                                    <span>@item.Isim</span><br />
+                                    <input type="text" name="@item.StandartID.Replace("-","")" id="@item.StandartID.Replace("-","")" value="@item.Deger" />
+                                    <input type="button" name="name" value="Kaydet" onclick="Kaydet('@item.ID', '@item.StandartID.Replace("-","")', '@item.UyelikID', '@item.Modul', '@item.Isim', '@item.Tip')" />
+                                }
+                                else if (item.Tip == "checkbox")
+                                {
+                                    <label for="@item.ID.Replace("-","")">@item.Isim</label>
+                                    <input type="checkbox" name="@item.StandartID.Replace("-","")" id="@item.StandartID.Replace("-","")" value="@item.Deger" @(item.Deger == "1" ? "checked" : "") />
+                                    <input type="button" name="name" value="Kaydet" onclick="Kaydet('@item.ID', '@item.StandartID.Replace("-","")', '@item.UyelikID', '@item.Modul', '@item.Isim', '@item.Tip')" />
+                                }
+                                else if (item.Tip == "textarea")
+                                {
+                                    <label for="@item.ID.Replace("-","")">@item.Isim</label><br />
+                                    <textarea style="width:100%;" rows="5" name="@item.StandartID.Replace("-","")" id="@item.StandartID.Replace("-","")">@Html.Raw(item.Deger)</textarea><br />
+
+                                    <input type="button" name="name" value="Kaydet" onclick="Kaydet('@item.ID', '@item.StandartID.Replace("-","")', '@item.UyelikID', '@item.Modul', '@item.Isim', '@item.Tip')" />
+                                }
+                                <hr />
+                            }
+                            Ilk2 = false;
+                        }
+
+                    </div>
+                    <!--end::Tap pane-->
+                }
+
+            </div>
+            <!--end::Tab Content-->
+        </div>
+
+    </div>
+</div>
+
+<!--end::Form-->
+@section Styles {
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+}
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script type="text/javascript">
+
+        function Kaydet(id, id2, uyelikid, modul, isim, tip) {
+            var deger = "";
+            if (tip == "text") {
+                deger = $("#" + id2).val();
+            } else if (tip == "textarea") {
+                deger = $("#" + id2).val();
+            } else if (tip == "checkbox") {
+                deger = $("#" + id2).is(":checked") == false ? 0 : 1;
+            }
+
+            var _data = { "Modul": modul, "Isim": isim, "Deger": deger };
+            console.log(_data);
+            var formData = new FormData();
+            formData.append("Modul", modul);
+            formData.append("Isim", isim);
+            formData.append("Deger", deger);
+            $.ajax({
+                url: '/Parametre/ParametreyiKaydet',
+                data: formData,
+                //dataType: "json",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                //contentType: "application/json; charset=utf-8",
+                dataFilter: function (data) { return data; },
+                success: function (data) {
+                    alert("Kaydedildi!");
+                },
+                error: function (msg) {
+                    console.log(msg);
+                }
+            });
+        }
+
+    </script>
+}
