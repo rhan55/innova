@@ -1,6 +1,6 @@
 ﻿@using YKPortal.Models.Dto
 @{
-    ViewBag.Title = "Ziyaret Listesi";
+    ViewBag.Title = "Aktivite Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,7 +9,7 @@
         @Html.Partial("~/Views/Cari/_CariMenu.cshtml", new ViewDataDictionary { { "CariID", Convert.ToString(ViewBag.CariID) } })
         <div class="col-10 p-4">
             <div class="d-flex align-items-center justify-content-end mt-6">
-                <a href="/Cari/ZiyaretEkle?CariID=@ViewBag.CariID" class="btn btn-primary btn-sm">Ziyaret Ekle</a>
+                <a href="/Cari/ZiyaretEkle?CariID=@ViewBag.CariID" class="btn btn-primary btn-sm">Aktivite Ekle</a>
             </div>
             <div>
                 <div class="timeline timeline-border-dashed">
@@ -46,7 +46,7 @@
                                                 </div>
                                                 <!--end::Menu item-->
                                                 <div class="menu-item p-0">
-                                                    <a href="/Cari/ZiyaretiKapat?CariID=@ziyaret.CariID&ID=@ziyaret.ID" class="menu-link rounded-0 px-2 py-0">Ziyareti Kapat</a>
+                                                    <a href="/Cari/ZiyaretiKapat?CariID=@ziyaret.CariID&ID=@ziyaret.ID" class="menu-link rounded-0 px-2 py-0">Aktiviteyi Kapat</a>
                                                 </div>
                                                 <!--begin::Menu item-->
                                                 <div class="menu-item p-0">
@@ -108,7 +108,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Ziyaret Silme İşlemi</h3>
+                <h3 class="modal-title">Aktivite Silme İşlemi</h3>
 
                 <!--begin::Close-->
                 <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
@@ -118,15 +118,15 @@
             </div>
 
             <div class="modal-body">
-                <p>Ziyareti silmek istediğinize emin misiniz?</p>
+                <p>Aktiviteyi silmek istediğinize emin misiniz?</p>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Vazgeç</button>
+                <button type="button" class="btn btn-light btn-sm fw-bold" data-bs-dismiss="modal">Vazgeç</button>
                 <form method="post" id="silme-formu" action="@Url.Action("ZiyaretSil","Cari",null)">
                     <input type="hidden" name="id" value="" />
                     <input type="hidden" name="CariID" value="@ViewBag.CariID" />
-                    <button type="submit" class="btn btn-danger">Sil</button>
+                    <button type="submit" class="btn btn-danger btn-sm fw-bold">Sil</button>
                 </form>
             </div>
         </div>

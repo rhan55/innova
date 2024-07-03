@@ -1,7 +1,7 @@
 ﻿@using YKPortal.Models.Dto
-@model YKPortal.Models.Dto.CariHareketDto
+@model YKPortal.Models.Dto.StokHareketDto
 @{
-    ViewBag.Title = "YeniCariHareketKaydi";
+    ViewBag.Title = "YeniStokHareketKaydi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,28 +9,33 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <form id="kt_modal_add_user_form" class="form" action="@Url.Action("YeniCariHareketKaydi","Cari",null)" method="post">
+            <form id="kt_modal_add_user_form" class="form" action="@Url.Action("YeniStokHareketKaydi","Stok",null)" method="post">
                 <input type="hidden" name="ID" id="ID" value="@Model.ID" />
                 <div class="d-flex flex-column container px-5 px-lg-10 mt-10">
                     <div class="row mb-7">
                         <div class="col-lg-6 ">
                             <div class="form-group">
-                                <label for="CariID" class=" form-label">Cari İsim</label>
-                                <select class="form-select form-select-solid p-2 rounded-1" name="CariID" id="CariID" required aria-label="Floating label select example" data-control="select2" data-placeholder="arama yapmak için birşeyler yazın...">
-                                    @if (Request.QueryString["CariID"] != null)
+                                <label for="StokID" class=" form-label">Stok İsim</label>
+                                <select class="form-select form-select-solid p-2 rounded-1" name="StokID" id="StokID" required aria-label="Floating label select example" data-control="select2" data-placeholder="arama yapmak için birşeyler yazın...">
+                                    @if (Request.QueryString["StokID"] != null)
                                     {
-                                        <option value="@Request.QueryString["CariID"]" selected>@Request.QueryString["Isim"]</option>
+                                        <option value="@Request.QueryString["StokID"]" selected>@Request.QueryString["Isim"]</option>
                                     }
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-2">
+                        <div class="col-lg-3">
                             <div class="form-group">
                                 <label for="BelgeNo" class="fw-semibold fs-6 mb-2">Belge No</label>
                                 <input type="text" name="BelgeNo" id="BelgeNo" value="@Model.BelgeNo" class="form-control p-2 mb-3 mb-lg-0" required" />
                             </div>
                         </div>
-
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label for="Miktar" class="fw-semibold fs-6 mb-2">Miktar</label>
+                                <input type="text" name="Miktar" id="Miktar" value="@Model.Miktar" class="form-control p-2 mb-3 mb-lg-0" required" />
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row mb-7">
@@ -54,9 +59,9 @@
                                 <select class="form-control p-2 rounded-1" data-control="select2" name="HareketTipi" id="HareketTipi"
                                         aria-label="Floating label select example">
 
-                                    @foreach (GrupKoduDto cariGrupKodlari5 in ViewBag.CariHareketTipleri)
+                                    @foreach (GrupKoduDto stokGrupKodlari5 in ViewBag.StokHareketTipleri)
                                     {
-                                        <option value="@cariGrupKodlari5.Deger">@cariGrupKodlari5.Deger</option>
+                                        <option value="@stokGrupKodlari5.Deger">@stokGrupKodlari5.Deger</option>
                                     }
                                 </select>
                             </div>
@@ -151,9 +156,9 @@
 
         $(function () {
 
-            const CariIDSelect = $('#CariID').select2({
+            const StokIDSelect = $('#StokID').select2({
                 ajax: {
-                    url: "/Cari/SelectListe",
+                    url: "/Stok/SelectListe",
                     data: function (params) {
                         var query = {
                             search: params.term,

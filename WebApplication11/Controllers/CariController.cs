@@ -1014,7 +1014,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@GC", cariHareketDto.GC);
             cmd.Parameters.AddWithValue("@Tutar", cariHareketDto.Tutar);
             cmd.Parameters.AddWithValue("@DovizTipi", cariHareketDto.DovizTipi);
-            cmd.Parameters.AddWithValue("@Kur ", cariHareketDto.Kur);
+            cmd.Parameters.AddWithValue("@Kur", cariHareketDto.Kur);
             cmd.Parameters.AddWithValue("@DovizTutar", cariHareketDto.DovizTutar);
             cmd.Parameters.AddWithValue("@PlasiyerID", string.Empty);
             cmd.Parameters.AddWithValue("@BaglantiID", string.Empty);

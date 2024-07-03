@@ -176,18 +176,18 @@
     <Compile Include="Models\Dto\BelgeDto.cs" />
     <Compile Include="Models\Dto\BelgeKalemDto.cs" />
     <Compile Include="Models\Dto\CariHareketDto.cs" />
-    <Compile Include="Models\Dto\Class1.cs" />
     <Compile Include="Models\Dto\MailAyarlariDto.cs" />
     <Compile Include="Models\Dto\ParametreDto.cs" />
     <Compile Include="Models\Dto\StokDto.cs" />
+    <Compile Include="Models\Dto\StokHareketDto.cs" />
     <Compile Include="Models\Dto\StokNotDto.cs" />
     <Compile Include="Models\Dto\YetkilerDto.cs" />
+    <Compile Include="Models\Dto\DepoDto.cs" />
     <Compile Include="Models\Dto\ZiyaretDto.cs" />
     <Compile Include="Models\Dto\DosyaDto.cs" />
     <Compile Include="Models\Dto\CariDto.cs" />
     <Compile Include="Models\Dto\CariKisiDto.cs" />
     <Compile Include="Models\Dto\CariNotDto.cs" />
-    <Compile Include="Models\Dto\DepoDto.cs" />
     <Compile Include="Models\Dto\SatisPersonelleri.cs" />
     <Compile Include="Models\Dto\SonAktivitelerDto.cs" />
     <Compile Include="Models\Dto\SubeDto.cs" />
@@ -2651,6 +2651,8 @@
     <Content Include="Views\Cari\YeniCariHareketKaydi.cshtml" />
     <Content Include="Views\Cari\HareketListesi.cshtml" />
     <Content Include="Views\Parametre\ParametreListesi.cshtml" />
+    <Content Include="Views\Stok\YeniStokHareketKaydi.cshtml" />
+    <Content Include="Views\Stok\HareketListesi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

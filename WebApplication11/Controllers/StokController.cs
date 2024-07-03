@@ -513,6 +513,127 @@ namespace YKPortal.Controllers
             }
             return RedirectToAction("Liste");
         }
+
+        [HttpGet]
+        public ActionResult YeniStokHareketKaydi(string StokID, string KayitID)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            ViewBag.StokID = StokID;
+            StokHareketTipiListesiniOlustur();
+            DovizBirimleriListesiniOlustur();
+
+            StokHareketDto entity = new StokHareketDto();
+            if (StokID != null && KayitID != null)
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_StokHareketi";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@StokID", StokID);
+                cmd.Parameters.AddWithValue("@ID", KayitID);
+                DataTable dtHareket = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dtHareket.Rows.Count > 0)
+                {
+                    entity.ID = Convert.ToString(dtHareket.Rows[0]["ID"]);
+                    entity.StokID = Convert.ToString(dtHareket.Rows[0]["StokID"]);
+                    entity.BelgeNo = Convert.ToString(dtHareket.Rows[0]["BelgeNo"]);
+                    entity.Tarih = Convert.ToDateTime(dtHareket.Rows[0]["Tarih"]);
+                    entity.VadeTarihi = Convert.ToDateTime(dtHareket.Rows[0]["VadeTarihi"]);
+                    entity.HareketTipi = Convert.ToString(dtHareket.Rows[0]["HareketTipi"]);
+                    entity.GC = Convert.ToString(dtHareket.Rows[0]["GC"]);
+                    entity.Miktar = Convert.ToDecimal(dtHareket.Rows[0]["Miktar"]);
+                    entity.Tutar = Convert.ToDecimal(dtHareket.Rows[0]["Tutar"]);
+                    entity.DovizTipi = Convert.ToString(dtHareket.Rows[0]["DovizTipi"]);
+                    entity.Aciklama = Convert.ToString(dtHareket.Rows[0]["Aciklama"]);
+                }
+            }
+            else
+            {
+                entity.Tarih = DateTime.Today;
+                entity.VadeTarihi = DateTime.Today;
+                entity.Tutar = 0;
+                entity.Miktar = 0;
+                entity.DovizTipi = "TL";
+            }
+
+            return View(entity);
+        }
+
+        [HttpPost]
+        public ActionResult YeniStokHareketKaydi(StokHareketDto stokHareketDto)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_StokHareketiKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", stokHareketDto.ID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@StokID", stokHareketDto.StokID);
+            cmd.Parameters.AddWithValue("@Tarih", stokHareketDto.Tarih);
+            cmd.Parameters.AddWithValue("@VadeTarihi", stokHareketDto.VadeTarihi);
+            cmd.Parameters.AddWithValue("@BelgeNo", stokHareketDto.BelgeNo);
+            cmd.Parameters.AddWithValue("@Aciklama", stokHareketDto.Aciklama);
+            cmd.Parameters.AddWithValue("@HareketTipi", stokHareketDto.HareketTipi);
+            cmd.Parameters.AddWithValue("@GC", stokHareketDto.GC);
+            cmd.Parameters.AddWithValue("@Tutar", stokHareketDto.Tutar);
+            cmd.Parameters.AddWithValue("@DovizTipi", stokHareketDto.DovizTipi);
+            cmd.Parameters.AddWithValue("@Miktar", stokHareketDto.Miktar);
+            cmd.Parameters.AddWithValue("@Kur", stokHareketDto.Kur);
+            cmd.Parameters.AddWithValue("@DovizTutar", stokHareketDto.DovizTutar);
+            cmd.Parameters.AddWithValue("@PlasiyerID", string.Empty);
+            cmd.Parameters.AddWithValue("@BaglantiID", string.Empty);
+            cmd.Parameters.AddWithValue("@Baglanti", stokHareketDto.Baglanti);
+            cmd.Parameters.AddWithValue("@GrupKodu1ID", string.Empty);
+            cmd.Parameters.AddWithValue("@GrupKodu2ID", string.Empty);
+            cmd.Parameters.AddWithValue("@Kullanici", GetCookie("KullaniciID"));
+
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return RedirectToAction("HareketListesi", new { StokID = stokHareketDto.StokID });
+        }
+
+
+        [HttpGet]
+        public ActionResult HareketListesi(StokHareketDto stokHareketDto)
+        {
+
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            DataTable dt = new DataTable();
+
+            if (stokHareketDto.StokID != string.Empty)
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_StokHareketListesi";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+                cmd.Parameters.AddWithValue("@StokID", stokHareketDto.StokID);
+                cmd.Parameters.AddWithValue("@BaslangicTarihi", string.Empty);
+                cmd.Parameters.AddWithValue("@BitisTarihi", string.Empty);
+
+                dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            }
+            else
+            {
+                dt = new DataTable();
+            }
+
+            if (stokHareketDto.StokID != string.Empty)
+            {
+                ViewBag.Stok = Getir(stokHareketDto.StokID);
+            }
+
+            return View(dt);
+        }
+
         public JsonResult SelectStokSeriListe(string StokID)
         {
 
@@ -819,7 +940,58 @@ namespace YKPortal.Controllers
             }
             ViewBag.StokGrupKodlari6 = entities;
         }
+        public void StokHareketTipiListesiniOlustur()
+        {
+            //GrupKodu1 Listesi oluşturma
+            SqlCommand stokHareketTipiCommand = new SqlCommand();
+            stokHareketTipiCommand.CommandText = "p_GrupKoduListesi";
+            stokHareketTipiCommand.CommandType = System.Data.CommandType.StoredProcedure;
+            stokHareketTipiCommand.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
 
+            stokHareketTipiCommand.Parameters.AddWithValue("@Kod", "HareketTipi");
+            stokHareketTipiCommand.Parameters.AddWithValue("@AranacakKelime", "");
+
+
+            DataTable stokHareketTipiDataTable = (DataTable)IDVeritabani.Sorgula(stokHareketTipiCommand, SorgulaTuru.Tablo);
+
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
+
+            for (int i = 0; i < stokHareketTipiDataTable.Rows.Count; i++)
+            {
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(stokHareketTipiDataTable.Rows[i]["ID"]);
+                entity.Deger = Convert.ToString(stokHareketTipiDataTable.Rows[i]["Deger"]);
+                entities.Add(entity);
+            }
+            ViewBag.StokHareketTipleri = entities;
+        }
+
+        public void DovizBirimleriListesiniOlustur()
+        {
+            //GrupKodu1 Listesi oluşturma
+            SqlCommand grupKoduCommand = new SqlCommand();
+            grupKoduCommand.CommandText = "p_GrupKoduListesi";
+            grupKoduCommand.CommandType = System.Data.CommandType.StoredProcedure;
+            grupKoduCommand.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+            grupKoduCommand.Parameters.AddWithValue("@Kod", "DovizBirimi");
+            grupKoduCommand.Parameters.AddWithValue("@AranacakKelime", "");
+
+
+            DataTable grupKoduDataTable = (DataTable)IDVeritabani.Sorgula(grupKoduCommand, SorgulaTuru.Tablo);
+
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
+
+            for (int i = 0; i < grupKoduDataTable.Rows.Count; i++)
+            {
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(grupKoduDataTable.Rows[i]["ID"]);
+                entity.Deger = Convert.ToString(grupKoduDataTable.Rows[i]["Deger"]);
+                entities.Add(entity);
+            }
+            ViewBag.DovizBirimleri = entities;
+        }
+      
         #endregion
     }
 }

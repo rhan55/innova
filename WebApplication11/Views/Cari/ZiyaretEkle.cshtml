@@ -1,6 +1,6 @@
 ﻿@using YKPortal.Models.Dto
 @{
-    ViewBag.Title = "Ziyaret Ekle";
+    ViewBag.Title = "Aktivite Ekle";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -25,7 +25,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6 mt-4">                            
-                            <label for="ZiyaretTipi" class="fw-semibold fs-6 mb-2">Ziyaret Tipi</label>->
+                            <label for="ZiyaretTipi" class="fw-semibold fs-6 mb-2">Aktivite Tipi</label>->
                             <select type="text" name="ZiyaretTipi" class="form-select p-2 mb-3 mb-lg-0">
                                 @foreach (GrupKoduDto ziyaretTipi in ViewBag.ZiyaretTipleri)
                                 {

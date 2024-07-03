@@ -1,6 +1,6 @@
 ﻿@using YKPortal.Models.Dto;
 @{
-    ViewBag.Title = "Ziyaretler";
+    ViewBag.Title = "Aktiviteler";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,7 +10,7 @@
             <div class="timeline timeline-border-dashed">
                 @foreach (ZiyaretDto ziyaret in ViewBag.Ziyaretler)
                 {
-                    <div class="timeline-item ">
+                    <div class="timeline-item">
                         <div class="timeline-line"></div>
                         <div class="timeline-icon">
                             <i class="ki-duotone ki-people fs-2">
@@ -41,7 +41,7 @@
                                             </div>
                                             <!--end::Menu item-->
                                             <div class="menu-item px-3">
-                                                <a href="/Cari/ZiyaretiKapat?CariID=@ziyaret.CariID&@ziyaret.ID" class="menu-link px-3">Ziyareti Kapat</a>
+                                                <a href="/Cari/ZiyaretiKapat?CariID=@ziyaret.CariID&@ziyaret.ID" class="menu-link px-3">Aktiviteyi Kapat</a>
                                             </div>
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-3">
@@ -102,7 +102,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Ziyaret Silme İşlemi</h3>
+                <h3 class="modal-title">Aktivite Silme İşlemi</h3>
 
                 <!--begin::Close-->
                 <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
@@ -112,14 +112,14 @@
             </div>
 
             <div class="modal-body">
-                <p>Ziyareti silmek istediğinize emin misiniz?</p>
+                <p>Aktiviteyi silmek istediğinize emin misiniz?</p>
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Vazgeç</button>
+                <button type="button" class="btn btn-light btn-sm fw-bold" data-bs-dismiss="modal">Vazgeç</button>
                 <form method="post" id="silme-formu" action="@Url.Action("Sil","Ziyaret",null)">
                     <input type="hidden" name="id" value="" />
-                    <button type="submit" class="btn btn-danger">Sil</button>
+                    <button type="submit" class="btn btn-danger btn-sm fw-bold">Sil</button>
                 </form>
             </div>
         </div>
