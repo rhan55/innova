@@ -327,7 +327,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@CepTelefonu", cariDto.CepTelefonu);
 
             ViewBag.Filters = cariDto;
-
+            ViewBag.Isim = cariDto.Isim;
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
             return View(dt);

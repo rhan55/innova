@@ -134,9 +134,9 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@Kod", stokDto.Kod);
             cmd.Parameters.AddWithValue("@Isim", stokDto.Isim);
-
+           
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
+            
             var stokListesi = new List<StokDto>();
 
             foreach (DataRow dr in dt.Rows)
@@ -147,11 +147,16 @@ namespace YKPortal.Controllers
                     Isim = Convert.ToString(dr["Isim"]),
                     Kod = Convert.ToString(dr["Kod"]),
                     Aciklama = Convert.ToString(dr["Aciklama"])
+                   
                 });
             }
-
+            ViewBag.Isim = stokDto.Isim;
+            ViewBag.StokID = stokDto.StokID;
+            ViewBag.KayitYapanKullaniciID = stokDto.KayitYapanKullaniciID;
+            
             ViewBag.StokListesi = stokListesi;
             ViewBag.Filters = stokDto;
+           
             StokGrupKod1ListesiniOlustur();
             StokGrupKod2ListesiniOlustur();
 

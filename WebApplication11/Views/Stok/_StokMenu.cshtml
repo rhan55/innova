@@ -1,4 +1,24 @@
-﻿<div class="col-lg-2">
+﻿@using YKPortal.Models
+@using System.Data.SqlClient
+@using System.Data
+@{
+    var stokID = ViewData["StokID"];
+    var Isim = "";
+
+    SqlCommand cmd = new SqlCommand();
+    cmd.CommandText = "p_Stok";
+    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+    cmd.Parameters.AddWithValue("@ID", stokID);
+    cmd.Parameters.AddWithValue("@UyelikID", Request.Cookies["UyelikID"].Value);
+
+    DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+    Isim = Convert.ToString(dt.Rows[0]["Isim"]);
+
+}
+
+
+<div class="col-lg-2">
     <!--begin::Menu-->
     <div class="menu menu-rounded menu-column menu-title-gray-700 menu-icon-gray-500 menu-arrow-gray-500 menu-bullet-gray-500 menu-arrow-gray-500 menu-state-bg fw-semibold"
          data-kt-menu="true">
@@ -38,6 +58,36 @@
                     </i>
                 </span>
                 <span class="menu-title">Dosyalar</span>
+            </a>
+        </div>
+        <!--end::Menu item-->
+        <!--begin::Menu item-->
+        <div class="menu-item p-0">
+            <a href="/Stok/YeniStokHareketKaydi?StokID=@(ViewData["StokID"])&Isim=@(Isim)" class="menu-link rounded-0 py-0 px-2">
+                <span class="menu-icon">
+                    <i class="ki-duotone ki-brush fs-3">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                        <span class="path3"></span>
+                        <span class="path4"></span>
+                    </i>
+                </span>
+                <span class="menu-title">Yeni Stok Hareket</span>
+            </a>
+        </div>
+        <!--end::Menu item-->
+        <!--begin::Menu item-->
+        <div class="menu-item p-0">
+            <a href="/Stok/HareketListesi?StokID=@ViewData["StokID"]" class="menu-link rounded-0 py-0 px-2">
+                <span class="menu-icon">
+                    <i class="ki-duotone ki-book-square fs-3">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                        <span class="path3"></span>
+                        <span class="path4"></span>
+                    </i>
+                </span>
+                <span class="menu-title">Stok Ekstre</span>
             </a>
         </div>
         <!--end::Menu item-->

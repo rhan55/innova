@@ -10,6 +10,7 @@ namespace YKPortal.Models.YKClasses
     {
         private string _KullaniciID;
         private string _Isim;
+        private DateTime _BitisGünü;
         private string _KullaniciAdi;
         private string _Parola;
         private string _UyelikIsim;
@@ -19,6 +20,7 @@ namespace YKPortal.Models.YKClasses
         public string ID { get; set; }
         public string KullaniciID { get { return _KullaniciID ?? ""; } set { _KullaniciID = value; } }
         public string Isim { get { return _Isim ?? ""; } set { _Isim = value; } }
+        public DateTime BitisGünü { get { return _BitisGünü == null ? DateTime.Today : _BitisGünü; } set { _BitisGünü = value; } }
         public string KullaniciAdi { get { return _KullaniciAdi ?? ""; } set { _KullaniciAdi = value; } }
         public string Parola { get { return _Parola ?? ""; } set { _Parola = value; } }
         public string UyelikIsim { get { return _UyelikIsim ?? ""; } set { _UyelikIsim = value; } }
