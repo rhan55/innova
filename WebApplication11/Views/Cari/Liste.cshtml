@@ -1,4 +1,5 @@
 ﻿@model System.Data.DataTable
+
 @{
     ViewBag.Title = "Cari Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -198,9 +199,9 @@
 
                                                 <td class="pt-4 ">
                                                     <a href="/Cari/Duzenle/@(Convert.ToString(Model.Rows[i]["ID"]))">
-                                                        @(Convert.ToString(Model.Rows[i]["Kod"])) - 
+                                                        @(Convert.ToString(Model.Rows[i]["Kod"])) -
                                                         <strong> @(Convert.ToString(Model.Rows[i]["Isim"])) </strong>
-                                                        </a>
+                                                    </a>
                                                 </td>
                                                 <td class="pt-4 pb-4">
                                                     @(Convert.ToString(Model.Rows[i]["Isim"]))
@@ -252,7 +253,7 @@
                                                             <a href="/Cari/ZiyaretListe?CariID=@(Convert.ToString(Model.Rows[i]["ID"]))" class="menu-link py-0  px-2">Ziyaretler</a>
                                                         </div>
                                                         <div class="menu-item p-0">
-                                                            <a href="/Cari/YeniCariHareketKaydi?CariID=@(Convert.ToString(Model.Rows[i]["ID"]))" class="menu-link py-0  px-2">Yeni Cari Hareket</a>
+                                                            <a href="/Cari/YeniCariHareketKaydi?CariID=@(Convert.ToString(Model.Rows[i]["ID"]))&Isim=@ViewBag.Isim" class="menu-link py-0  px-2">Yeni Cari Hareket</a>
                                                         </div>
 
                                                         <!--end::Menu item-->
@@ -274,393 +275,393 @@
         </div>
     </div>
 </div>
-    <div class="modal fade" id="Cari-silme" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Cari Silme İşlemi</h3>
+<div class="modal fade" id="Cari-silme" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Cari Silme İşlemi</h3>
 
-                    <!--begin::Close-->
-                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
-                    </div>
-                    <!--end::Close-->
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
                 </div>
+                <!--end::Close-->
+            </div>
 
-                <div class="modal-body">
-                    <p>Cariyi silmek istediğinize emin misiniz?</p>
-                </div>
+            <div class="modal-body">
+                <p>Cariyi silmek istediğinize emin misiniz?</p>
+            </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light btn-sm fw-bold" data-bs-dismiss="modal">Vazgeç</button>
-                    <form method="post" id="silme-formu" action="@Url.Action("Sil","Cari",null)">
-                        <input type="hidden" name="id" value="" />
-                        <button type="submit" class="btn btn-danger btn-sm fw-bold">Sil</button>
-                    </form>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light btn-sm fw-bold" data-bs-dismiss="modal">Vazgeç</button>
+                <form method="post" id="silme-formu" action="@Url.Action("Sil","Cari",null)">
+                    <input type="hidden" name="id" value="" />
+                    <button type="submit" class="btn btn-danger btn-sm fw-bold">Sil</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="modal fade" id="Cari-toplu-silme" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Cari Silme İşlemi</h3>
+<div class="modal fade" id="Cari-toplu-silme" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Cari Silme İşlemi</h3>
 
-                    <!--begin::Close-->
-                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
-                    </div>
-                    <!--end::Close-->
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
                 </div>
+                <!--end::Close-->
+            </div>
 
-                <div class="modal-body">
-                    <p>Seçtiğiniz carileri silmek istediğinize emin misiniz?</p>
-                </div>
+            <div class="modal-body">
+                <p>Seçtiğiniz carileri silmek istediğinize emin misiniz?</p>
+            </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Vazgeç</button>
-                    <button type="button" id="topluSilOnay" class="btn btn-danger">Sil</button>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Vazgeç</button>
+                <button type="button" id="topluSilOnay" class="btn btn-danger">Sil</button>
             </div>
         </div>
     </div>
-    @section Styles {
-    }
-    @section Scripts {
-        <script>
+</div>
+@section Styles {
+}
+@section Scripts {
+    <script>
 
-            function setCookie(name, value, days) {
-                let expires = "";
-                if (days) {
-                    let date = new Date();
-                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                    expires = "; expires=" + date.toUTCString();
-                }
-                document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        function setCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                let date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        function getCookie(name) {
+            let nameEQ = name + "=";
+            let ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        var select = document.querySelectorAll("#select")
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const cariDatatable = KTDatatablesExample.init();
+
+            cariDatatable.loadDataTableSettingsFromCookie(cariDatatable.datatable);
+
+            cariDatatable.datatable.on('column-visibility.dt', function (e, settings, column, state) {
+                cariDatatable.saveDataTableColumnSettingsToCookie(cariDatatable.datatable, column, state)
+            });
+
+            document.querySelectorAll('.btn-sil').forEach(silButonu => {
+                silButonu.addEventListener('click', function () {
+                    document.querySelector('form#silme-formu input[name="id"]').value = silButonu.dataset.id;
+                });
+            });
+
+            const filtreleriTemizle = document.querySelector("#filtreleriTemizle");
+
+            if (filtreleriTemizle) {
+
+                filtreleriTemizle.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    document.querySelector("form#datatableFilters").querySelectorAll("input").forEach(input => {
+                        input.value = ""
+                    })
+                    document.querySelector("form#datatableFilters").submit();
+                });
             }
 
-            function getCookie(name) {
-                let nameEQ = name + "=";
-                let ca = document.cookie.split(';');
-                for (let i = 0; i < ca.length; i++) {
-                    let c = ca[i];
-                    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-                    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-                }
-                return null;
-            }
+            $('#topluSilOnay').on('click', function () {
+                topluSil();
+            })
 
-            var select = document.querySelectorAll("#select")
+            function topluSil() {
+                var idListesi = [];
+                $('#Cari-datatable tr.selected .btn-sil.cari-silme').each(function (event) {
+                    var id = $(this).attr('data-id');
+                    idListesi.push(id);
 
+                })
+                $.ajax({
+                    url: "/Cari/TopluSil",
+                    method: "POST",
+                    data: { idListesi: idListesi },
+                    success: function (response) {
+                        console.log("Success:", response);
+                        window.location.reload();
+                    },
+                    error: function (xhr, status, error) {
 
-            document.addEventListener('DOMContentLoaded', function () {
-
-                const cariDatatable = KTDatatablesExample.init();
-
-                cariDatatable.loadDataTableSettingsFromCookie(cariDatatable.datatable);
-
-                cariDatatable.datatable.on('column-visibility.dt', function (e, settings, column, state) {
-                    cariDatatable.saveDataTableColumnSettingsToCookie(cariDatatable.datatable, column, state)
-                });
-
-                document.querySelectorAll('.btn-sil').forEach(silButonu => {
-                    silButonu.addEventListener('click', function () {
-                        document.querySelector('form#silme-formu input[name="id"]').value = silButonu.dataset.id;
-                    });
-                });
-
-                const filtreleriTemizle = document.querySelector("#filtreleriTemizle");
-
-                if (filtreleriTemizle) {
-
-                    filtreleriTemizle.addEventListener("click", function (e) {
-                        e.preventDefault();
-                        document.querySelector("form#datatableFilters").querySelectorAll("input").forEach(input => {
-                            input.value = ""
-                        })
-                        document.querySelector("form#datatableFilters").submit();
-                    });
-                }
-
-                $('#topluSilOnay').on('click', function () {
-                    topluSil();
+                        console.log("Error:", xhr.responseText);
+                    }
                 })
 
-                function topluSil() {
-                    var idListesi = [];
-                    $('#Cari-datatable tr.selected .btn-sil.cari-silme').each(function (event) {
-                        var id = $(this).attr('data-id');
-                        idListesi.push(id);
-
-                    })
-                    $.ajax({
-                        url: "/Cari/TopluSil",
-                        method: "POST",
-                        data: { idListesi: idListesi },
-                        success: function (response) {
-                            console.log("Success:", response);
-                            window.location.reload();
-                        },
-                        error: function (xhr, status, error) {
-
-                            console.log("Error:", xhr.responseText);
-                        }
-                    })
-
-                }
-
-            });
-
-            var colResize_options = {
-                isEnabled: true,
-                hoverClass: 'dt-colresizable-hover',
-                hasBoundCheck: true,
-                minBoundClass: 'dt-colresizable-bound-min',
-                isResizable: function (column) { return true; },
-                onResize: function (column) { },
-                onResizeEnd: function (column) { },
-                getMinWidthOf: function ($thNode) { }
-
-            }
-            var colReorder_options = {
-                realtime: false
             }
 
-            // Class definition
-            var KTDatatablesExample = function () {
-                // Shared variables
-                var table;
-                var datatable;
+        });
+
+        var colResize_options = {
+            isEnabled: true,
+            hoverClass: 'dt-colresizable-hover',
+            hasBoundCheck: true,
+            minBoundClass: 'dt-colresizable-bound-min',
+            isResizable: function (column) { return true; },
+            onResize: function (column) { },
+            onResizeEnd: function (column) { },
+            getMinWidthOf: function ($thNode) { }
+
+        }
+        var colReorder_options = {
+            realtime: false
+        }
+
+        // Class definition
+        var KTDatatablesExample = function () {
+            // Shared variables
+            var table;
+            var datatable;
 
 
-                // Private functions
-                var initDatatable = function () {
-                    // Set date data order
-                    const tableRows = table.querySelectorAll('tbody tr');
+            // Private functions
+            var initDatatable = function () {
+                // Set date data order
+                const tableRows = table.querySelectorAll('tbody tr');
 
-                    // Init datatable --- more info on datatables: https://datatables.net/manual/
-                    datatable = $(table).DataTable({
-                        /* "info": false,*/
-                        //scrollY: true,
-                        //scrollX: "100%",
-                        //scrollY: true,
-                        scrollCollopse: true,
-                        colResize: true,
-                        colReorder: colReorder_options,
-                        autoWidth: true,
-                        caching: true,
-                        select: {
-                            style: "multi",
-                            style: 'bootstrap',
-                            selector: 'td:first-child'
+                // Init datatable --- more info on datatables: https://datatables.net/manual/
+                datatable = $(table).DataTable({
+                    /* "info": false,*/
+                    //scrollY: true,
+                    //scrollX: "100%",
+                    //scrollY: true,
+                    scrollCollopse: true,
+                    colResize: true,
+                    colReorder: colReorder_options,
+                    autoWidth: true,
+                    caching: true,
+                    select: {
+                        style: "multi",
+                        style: 'bootstrap',
+                        selector: 'td:first-child'
+                    },
+                    order: [
+                        [2, "asc"],
+                    ],
+                    ordering: true,
+                    paging: true,
+                    pageLength: 10,
+
+
+                    language: { url: '//cdn.datatables.net/plug-ins/2.0.7/i18n/tr.json', },
+
+                    columnDefs: [
+                        {
+                            targets: [0, 7],
+                            orderable: false
                         },
-                        order: [
-                            [2, "asc"],
-                        ],
-                        ordering: true,
-                        paging: true,
-                        pageLength: 10,
-
-
-                        language: { url: '//cdn.datatables.net/plug-ins/2.0.7/i18n/tr.json', },
-
-                        columnDefs: [
-                            {
-                                targets: [0, 7],
-                                orderable: false
-                            },
-                            {
-                                render: DataTable.render.select(),
-                                targets: 0,
-                                width: "40px"
-                            },
-                            {
-                                targets: [2, 3, 8],
-                                visible: false
-                            },
-                            {
-                                targets: [0, 7, 8, 2, 3],
-                                className: 'noVis'
-                            }
-
-                        ],
-
-                        order: [[1, 'asc']],
-                        layout: {
-                            topStart: {
-                                buttons: [
-                                    {
-                                        extend: 'colvis',
-                                        columns: ':not(.noVis)',
-                                        popoverTitle: 'Görünecek Kolonları Seçiniz'
-                                    }
-
-                                ],
-                            },
-                            topEnd: {
-                                pageLength: {
-                                    menu: [
-                                        [10, 20, 50, 100, -1],
-                                        ['10 Adet', '20 Adet', '50 Adet', '100 Adet', "Tümü"]
-                                    ]
-                                }
-                            }
+                        {
+                            render: DataTable.render.select(),
+                            targets: 0,
+                            width: "40px"
                         },
-
-
-                    });
-                    datatable.on('columns-reordered', function (e, settings, details) {
-                        KTMenu.createInstances();
-                    });
-                }
-
-
-                // Hook export buttons
-                var exportButtons = () => {
-                    const documentTitle = 'Cari-Listesi-' + moment(new Date()).format("DD-MM-YYYY");
-                    var buttons = new $.fn.dataTable.Buttons(table, {
-                        buttons: [
-                            {
-                                extend: 'copyHtml5',
-                                title: documentTitle,
-                                exportOptions: {
-                                    columns: ['th:not(.no-export)'],
-                                }
-                            },
-                            {
-                                extend: 'excelHtml5',
-                                title: documentTitle,
-                                exportOptions: {
-                                    columns: ['th:not(.no-export)'],
-                                }
-                            },
-                            {
-                                extend: 'csvHtml5',
-                                title: documentTitle,
-                                exportOptions: {
-                                    columns: ['th:not(.no-export)'],
-                                }
-                            },
-                            {
-                                extend: 'pdfHtml5',
-                                title: documentTitle,
-                                exportOptions: {
-                                    columns: ['th:not(.no-export)'],
-                                }
-                            }
-                        ]
-                    }).container().appendTo($('#kt_datatable_example_buttons'));
-
-                    // Hook dropdown menu click event to datatable export buttons
-                    const exportButtons = document.querySelectorAll('#kt_datatable_example_export_menu [data-kt-export]');
-                    exportButtons.forEach(exportButton => {
-                        exportButton.addEventListener('click', e => {
-                            e.preventDefault();
-
-                            // Get clicked export value
-                            const exportValue = e.target.getAttribute('data-kt-export');
-                            const target = document.querySelector('.dt-buttons .buttons-' + exportValue);
-
-                            // Trigger click event on hidden datatable export buttons
-                            target.click();
-                        });
-                    });
-                }
-
-                // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
-                function getDataTableColumnSettings(table) {
-                    let columnSettings = [];
-                    table.columns().every(function () {
-                        let column = this;
-
-                        columnSettings.push({
-                            index: column.index(),
-                            visible: column.visible(),
-
-                        });
-                    });
-                    return columnSettings;
-                }
-                // Kolonları aldıktan sonra Cari-datatable cookie'si içerisinde kaydedeceğiz.
-                function saveDataTableSettingsToCookie(table) {
-                    let settings = getDataTableColumnSettings(table);
-                    setCookie('Cari-datatable', JSON.stringify(settings), 7);
-                }
-
-                function saveDataTableColumnSettingsToCookie(table, column, state) {
-                    var settings = getCookie("Cari-datatable");
-
-                    if (settings) {
-                        settings = JSON.parse(settings);
-                        settings = settings.map(setting => {
-                            if (column == setting.index) {
-                                setting.visible = state;
-                            }
-
-                            return setting;
-                        })
-
-                        //console.log(settings);
-
-                        setCookie('Cari-datatable', JSON.stringify(settings), 365);
-                    }
-                }
-
-                function loadDataTableSettingsFromCookie(table) {
-                    let settings = getCookie('Cari-datatable');
-                    //console.log(table);
-                    if (settings) {
-                        settings = JSON.parse(settings);
-                        settings.forEach(function (setting) {
-                            let column = table.column(setting.index);
-                            column.visible(setting.visible);
-                            // Burada başka kolon özelliklerini güncelleyebilirsiniz
-                        });
-                        table.columns.adjust().draw();
-                    } else {
-                        saveDataTableSettingsToCookie(table);
-                    }
-                }
-
-                // Public methods
-                return {
-                    init: function () {
-                        table = document.querySelector('#Cari-datatable');
-
-                        if (!table) {
-                            return;
+                        {
+                            targets: [2, 3, 8],
+                            visible: false
+                        },
+                        {
+                            targets: [0, 7, 8, 2, 3],
+                            className: 'noVis'
                         }
 
-                        initDatatable();
-                        exportButtons();
+                    ],
 
-                        return {
-                            // Datatable API ile kolon özelliklerini alacağız
-                            loadDataTableSettingsFromCookie,
-                            saveDataTableSettingsToCookie,
-                            saveDataTableColumnSettingsToCookie,
-                            datatable
+                    order: [[1, 'asc']],
+                    layout: {
+                        topStart: {
+                            buttons: [
+                                {
+                                    extend: 'colvis',
+                                    columns: ':not(.noVis)',
+                                    popoverTitle: 'Görünecek Kolonları Seçiniz'
+                                }
+
+                            ],
+                        },
+                        topEnd: {
+                            pageLength: {
+                                menu: [
+                                    [10, 20, 50, 100, -1],
+                                    ['10 Adet', '20 Adet', '50 Adet', '100 Adet', "Tümü"]
+                                ]
+                            }
                         }
-
                     },
 
-                };
-            }();
+
+                });
+                datatable.on('columns-reordered', function (e, settings, details) {
+                    KTMenu.createInstances();
+                });
+            }
+
+
+            // Hook export buttons
+            var exportButtons = () => {
+                const documentTitle = 'Cari-Listesi-' + moment(new Date()).format("DD-MM-YYYY");
+                var buttons = new $.fn.dataTable.Buttons(table, {
+                    buttons: [
+                        {
+                            extend: 'copyHtml5',
+                            title: documentTitle,
+                            exportOptions: {
+                                columns: ['th:not(.no-export)'],
+                            }
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            title: documentTitle,
+                            exportOptions: {
+                                columns: ['th:not(.no-export)'],
+                            }
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            title: documentTitle,
+                            exportOptions: {
+                                columns: ['th:not(.no-export)'],
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            title: documentTitle,
+                            exportOptions: {
+                                columns: ['th:not(.no-export)'],
+                            }
+                        }
+                    ]
+                }).container().appendTo($('#kt_datatable_example_buttons'));
+
+                // Hook dropdown menu click event to datatable export buttons
+                const exportButtons = document.querySelectorAll('#kt_datatable_example_export_menu [data-kt-export]');
+                exportButtons.forEach(exportButton => {
+                    exportButton.addEventListener('click', e => {
+                        e.preventDefault();
+
+                        // Get clicked export value
+                        const exportValue = e.target.getAttribute('data-kt-export');
+                        const target = document.querySelector('.dt-buttons .buttons-' + exportValue);
+
+                        // Trigger click event on hidden datatable export buttons
+                        target.click();
+                    });
+                });
+            }
+
+            // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
+            function getDataTableColumnSettings(table) {
+                let columnSettings = [];
+                table.columns().every(function () {
+                    let column = this;
+
+                    columnSettings.push({
+                        index: column.index(),
+                        visible: column.visible(),
+
+                    });
+                });
+                return columnSettings;
+            }
+            // Kolonları aldıktan sonra Cari-datatable cookie'si içerisinde kaydedeceğiz.
+            function saveDataTableSettingsToCookie(table) {
+                let settings = getDataTableColumnSettings(table);
+                setCookie('Cari-datatable', JSON.stringify(settings), 7);
+            }
+
+            function saveDataTableColumnSettingsToCookie(table, column, state) {
+                var settings = getCookie("Cari-datatable");
+
+                if (settings) {
+                    settings = JSON.parse(settings);
+                    settings = settings.map(setting => {
+                        if (column == setting.index) {
+                            setting.visible = state;
+                        }
+
+                        return setting;
+                    })
+
+                    //console.log(settings);
+
+                    setCookie('Cari-datatable', JSON.stringify(settings), 365);
+                }
+            }
+
+            function loadDataTableSettingsFromCookie(table) {
+                let settings = getCookie('Cari-datatable');
+                //console.log(table);
+                if (settings) {
+                    settings = JSON.parse(settings);
+                    settings.forEach(function (setting) {
+                        let column = table.column(setting.index);
+                        column.visible(setting.visible);
+                        // Burada başka kolon özelliklerini güncelleyebilirsiniz
+                    });
+                    table.columns.adjust().draw();
+                } else {
+                    saveDataTableSettingsToCookie(table);
+                }
+            }
+
+            // Public methods
+            return {
+                init: function () {
+                    table = document.querySelector('#Cari-datatable');
+
+                    if (!table) {
+                        return;
+                    }
+
+                    initDatatable();
+                    exportButtons();
+
+                    return {
+                        // Datatable API ile kolon özelliklerini alacağız
+                        loadDataTableSettingsFromCookie,
+                        saveDataTableSettingsToCookie,
+                        saveDataTableColumnSettingsToCookie,
+                        datatable
+                    }
+
+                },
+
+            };
+        }();
 
 
 
 
-            $('#Cari-datatable').on('click', 'thead th', function () {
+        $('#Cari-datatable').on('click', 'thead th', function () {
 
-                var index = table.column(this).index();
+            var index = table.column(this).index();
 
-                alert(index);
+            alert(index);
 
-            });
+        });
 
 
 
-        </script>
-    }
+    </script>
+}

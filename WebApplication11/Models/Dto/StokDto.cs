@@ -9,7 +9,8 @@ namespace YKPortal.Models.Dto
 {
     public class StokDto
     {
-        private string _ID; 
+        private string _ID;
+        private string _StokID;
         private string _UyelikID;
         private bool _Durumu;
         private string _Kod;
@@ -50,6 +51,7 @@ namespace YKPortal.Models.Dto
         private string _AnaStokID;
 
         public string ID { get { return _ID ?? ""; } set { _ID = value; } }
+        public string StokID { get { return _StokID ?? ""; } set { _StokID = value; } }
         public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; } }
         public bool Durumu { get { return _Durumu == null ? false : _Durumu; } set { _Durumu = value; } }
         public string Kod { get { return _Kod ?? ""; } set { _Kod = value; } }

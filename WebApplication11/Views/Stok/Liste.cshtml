@@ -216,6 +216,9 @@
                                                         <a href="/Stok/Duzenle/@(Convert.ToString(Model.Rows[i]["ID"]))" class="menu-link py-0 px-2">Düzenle</a>
                                                     </div>
                                                     <!--end::Menu item-->
+                                                    <div class="menu-item p-0">
+                                                        <a href="/Stok/YeniStokHareketKaydi?StokID=@(Convert.ToString(Model.Rows[i]["ID"]))&Isim=@ViewBag.Isim" class="menu-link py-0  px-2">Yeni Stok Hareket</a>
+                                                    </div>
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item p-0">
                                                         <button type="button" data-id="@(Convert.ToString(Model.Rows[i]["ID"]))" class="btn btn-sm w-100 menu-link rounded-0 py-0 px-2 btn-sil stok-silme" data-bs-toggle="modal" data-bs-target="#Stok-silme">

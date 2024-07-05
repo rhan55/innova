@@ -32,7 +32,7 @@ namespace YKPortal.Controllers
                 HttpContext.ApplicationInstance.CompleteRequest();
             }
 
-            if(ConfigurationManager.AppSettings["AnaSayfadaAcilisSayfasiKontrolu"] == "1")
+            if (ConfigurationManager.AppSettings["AnaSayfadaAcilisSayfasiKontrolu"] == "1")
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "p_KullaniciGirisi";
@@ -106,7 +106,7 @@ namespace YKPortal.Controllers
             if (dt.Rows.Count > 0)
             {
                 string Bilgi = Convert.ToString(dt.Rows[0]["Bilgi"]);
-                
+
                 if (!Bilgi.StartsWith("UYARI!"))
                 {
                     #region Cookie İşlemleri
@@ -139,7 +139,7 @@ namespace YKPortal.Controllers
         public ActionResult SifremiUnuttum()
         {
             return View();
-        }   
+        }
 
         [HttpPost]
         public ActionResult SifremiUnuttum(string email)
@@ -167,7 +167,7 @@ namespace YKPortal.Controllers
 
             mail.To.Add(email);
 
-            mail.Subject = ConfigurationManager.AppSettings["FirmaAdi"]+" - Parola Sıfırlama";
+            mail.Subject = ConfigurationManager.AppSettings["FirmaAdi"] + " - Parola Sıfırlama";
             mail.IsBodyHtml = true;
             mail.Body =
                 $@"
@@ -210,26 +210,6 @@ namespace YKPortal.Controllers
             return View();
         }
 
-
-        //[HttpPost]
-        //public ActionResult SifremiUnuttum(string kullaniciId)
-        //{
-        //    SqlCommand cmd = new SqlCommand();
-        //    cmd.CommandText = "p_KullaniciAdiBul";
-        //    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-        //    cmd.Parameters.AddWithValue("@KullaniciAdi", kullaniciId);
-
-        //    DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-        //    if (dt.Rows.Count == 0)
-        //    {
-        //        ViewBag.Bilgi = "Kullanıcı Bulunamadı";
-        //        return View();
-
-        //    }
-
-        //    ViewBag.Bilgi = "Şifre bilgileriniz mail adresinize gönderildi.";
-        //    return View();
-        //}
 
         [HttpPost]
         public ActionResult KullaniciOnayla(string kullaniciid)
@@ -292,7 +272,7 @@ namespace YKPortal.Controllers
         [HttpPost]
         public ActionResult UyeOl(UyelikDto uyelikDto)
         {
-           
+
 
             IlListesiniOlustur();
 
@@ -415,7 +395,7 @@ namespace YKPortal.Controllers
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_UyelikSil";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ID", uyelikDto.ID);   
+            cmd.Parameters.AddWithValue("@ID", uyelikDto.ID);
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
@@ -435,7 +415,7 @@ namespace YKPortal.Controllers
             DataTable dt2 = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
             return View();
         }
-        
+
 
 
         #region Cookie İşlemleri
@@ -447,6 +427,7 @@ namespace YKPortal.Controllers
 
             string KullaniciAdi = GetCookie("KullaniciAdi");
             string Parola = GetCookie("Parola");
+          
 
             if (KullaniciAdi != null)
             {
@@ -458,7 +439,15 @@ namespace YKPortal.Controllers
                 cmd.CommandText = "p_KullaniciGirisi";
                 cmd.Parameters.AddWithValue("@KullaniciAdi", KullaniciAdi);
                 cmd.Parameters.AddWithValue("@Parola", Parola);
+
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+
+                // HttpCookie bitisGunuCookie = new HttpCookie("BitisGunuCookie");
+                //bitisGunuCookie.Value = BitisGunu.ToString(); // bitisGunu DateTime tipinde olmalı
+                //bitisGunuCookie.Expires = DateTime.Now.AddDays(30); // Örnek olarak cookie'nin 30 gün geçerli olmasını sağlar
+                //Response.Cookies.Add(bitisGunuCookie);
+
 
                 if (dt.Rows.Count > 0)
                 {
@@ -511,7 +500,6 @@ namespace YKPortal.Controllers
 
             return GirisKontrol;
         }
-
 
 
         private void CreateCookie(string name, string value)
