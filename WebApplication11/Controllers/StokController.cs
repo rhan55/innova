@@ -134,9 +134,9 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@Kod", stokDto.Kod);
             cmd.Parameters.AddWithValue("@Isim", stokDto.Isim);
-           
+
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-            
+
             var stokListesi = new List<StokDto>();
 
             foreach (DataRow dr in dt.Rows)
@@ -147,16 +147,16 @@ namespace YKPortal.Controllers
                     Isim = Convert.ToString(dr["Isim"]),
                     Kod = Convert.ToString(dr["Kod"]),
                     Aciklama = Convert.ToString(dr["Aciklama"])
-                   
+
                 });
             }
             ViewBag.Isim = stokDto.Isim;
             ViewBag.StokID = stokDto.StokID;
             ViewBag.KayitYapanKullaniciID = stokDto.KayitYapanKullaniciID;
-            
+
             ViewBag.StokListesi = stokListesi;
             ViewBag.Filters = stokDto;
-           
+
             StokGrupKod1ListesiniOlustur();
             StokGrupKod2ListesiniOlustur();
 
@@ -267,13 +267,13 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@StokID", stokNotDto.StokID);
-            cmd.Parameters.AddWithValue("@Aciklama", stokNotDto.Aciklama);  
+            cmd.Parameters.AddWithValue("@Aciklama", stokNotDto.Aciklama);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             return RedirectToAction("NotListe", new { StokID = stokNotDto.StokID });
 
         }
-       
-      
+
+
         [HttpGet]
         public ActionResult NotListe(StokNotDto stokNotDto)
 
@@ -342,7 +342,7 @@ namespace YKPortal.Controllers
 
         [HttpGet]
         public ActionResult ExcelIceAktar()
-        { 
+        {
             return View();
         }
         [HttpPost]
@@ -603,7 +603,6 @@ namespace YKPortal.Controllers
             return RedirectToAction("HareketListesi", new { StokID = stokHareketDto.StokID });
         }
 
-
         [HttpGet]
         public ActionResult HareketListesi(StokHareketDto stokHareketDto)
         {
@@ -638,6 +637,111 @@ namespace YKPortal.Controllers
 
             return View(dt);
         }
+
+        [HttpGet]
+        public ActionResult FiyatEkle(string StokID, string ID)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            ViewBag.StokID = StokID;
+
+
+            StokFiyatDto entity = new StokFiyatDto();
+            if (StokID != null)
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_StokFiyat";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@ID", "");
+                DataTable dtStokFiyat = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dtStokFiyat.Rows.Count > 0)
+                {
+
+                    entity.ID = Convert.ToString(dtStokFiyat.Rows[0]["ID"]);             
+                    entity.StokID = Convert.ToString(dtStokFiyat.Rows[0]["StokID"]);
+                    entity.CariID = Convert.ToString(dtStokFiyat.Rows[0]["CariID"]);
+                    entity.FiyatGurubu = Convert.ToString(dtStokFiyat.Rows[0]["FiyatGurubu"]);
+                    entity.Tip = Convert.ToString(dtStokFiyat.Rows[0]["Tip"]);
+                    entity.Fiyat = Convert.ToDecimal(dtStokFiyat.Rows[0]["Fiyat"]);
+                    entity.BaslangicTarihi = Convert.ToDateTime(dtStokFiyat.Rows[0]["BaslangicTarihi"]);
+                    entity.BitisTarihi = Convert.ToDateTime(dtStokFiyat.Rows[0]["BitisTarihi"]);
+                }
+            }
+            else
+            {
+                entity.BaslangicTarihi = DateTime.Today;
+                entity.BitisTarihi = DateTime.Today;
+                entity.Fiyat = 0;
+
+            }
+
+            return View(entity);
+        }
+
+        [HttpGet]
+        public ActionResult FiyatListesi(StokFiyatDto stokFiyatDto)
+        {
+
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            DataTable dt = new DataTable();
+
+            if (stokFiyatDto.StokID != string.Empty)
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_StokHareketListesi";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@StokID", stokFiyatDto.StokID);
+          
+                dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            }
+            else
+            {
+                dt = new DataTable();
+            }
+
+            if (stokFiyatDto.StokID != string.Empty)
+            {
+                ViewBag.Stok = Getir(stokFiyatDto.StokID);
+            }
+
+            return View(dt);
+        }
+
+        [HttpPost]
+        public ActionResult FiyatEkle(StokFiyatDto stokFiyatDto)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_StokFiyatKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", "");
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@StokID", stokFiyatDto.StokID);
+            cmd.Parameters.AddWithValue("@CariID", stokFiyatDto.CariID);
+            cmd.Parameters.AddWithValue("@FiyatGurubu", stokFiyatDto.FiyatGurubu);
+            cmd.Parameters.AddWithValue("@Tip", stokFiyatDto.Tip);
+            cmd.Parameters.AddWithValue("@Fiyat", stokFiyatDto.Fiyat);
+            cmd.Parameters.AddWithValue("@BaslangicTarihi", stokFiyatDto.BaslangicTarihi);
+            cmd.Parameters.AddWithValue("@BitisTarihi ", stokFiyatDto.BitisTarihi);
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+
+
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return RedirectToAction("FiyatListesi", new { StokID = stokFiyatDto.StokID });
+        }
+
+
+
 
         public JsonResult SelectStokSeriListe(string StokID)
         {
@@ -953,7 +1057,7 @@ namespace YKPortal.Controllers
             stokHareketTipiCommand.CommandType = System.Data.CommandType.StoredProcedure;
             stokHareketTipiCommand.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
 
-            stokHareketTipiCommand.Parameters.AddWithValue("@Kod", "HareketTipi");
+            stokHareketTipiCommand.Parameters.AddWithValue("@Kod", "StokHareketTipi");
             stokHareketTipiCommand.Parameters.AddWithValue("@AranacakKelime", "");
 
 
@@ -996,7 +1100,7 @@ namespace YKPortal.Controllers
             }
             ViewBag.DovizBirimleri = entities;
         }
-      
+
         #endregion
     }
 }

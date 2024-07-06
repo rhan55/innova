@@ -25,6 +25,23 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
+            //  string Bitis = GetCookie("BitisTarihi");
+            // if (Bitis != null)
+            //   {
+            // 15 gün içinde kalan gün sayısını hesapla
+            //   DateTime now = DateTime.Now;
+            //   DateTime BitisGunu = now.AddDays(15); // 15 gün sonrası
+
+            //   int kalanGun = (BitisGunu - now).Days;
+
+            // View'e kalan gün sayısını ve bitiş tarihini gönder
+            //  ViewBag.KalanGun = kalanGun;
+            //  ViewBag.BitisGunu = BitisGunu.ToString("dd/MM/yyyy");
+            //
+            //  }
+
+
+
             string redirectUrl = Request.Url.ToString().Replace("http:", "https:");
             if (!Request.IsLocal && !Request.IsSecureConnection && ConfigurationManager.AppSettings["SSLYonlendir"] == "1")
             {
@@ -103,6 +120,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@Parola", txtParola);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
+
             if (dt.Rows.Count > 0)
             {
                 string Bilgi = Convert.ToString(dt.Rows[0]["Bilgi"]);
@@ -118,11 +136,13 @@ namespace YKPortal.Controllers
                     CreateCookie("KullaniciAdi", Convert.ToString(dt.Rows[0]["KullaniciAdi"]));
                     CreateCookie("Parola", Convert.ToString(dt.Rows[0]["Parola"]));
                     CreateCookie("Resim", Convert.ToString(dt.Rows[0]["Resim"]));
+                    // CreateCookie("BitisTarihi",Convert.ToString(dt.Rows[0]["BitisTarihi"]));
 
                     #endregion
 
                     if (Convert.ToString(dt.Rows[0]["AcilisSayfasi"]).Trim().Length > 0)
                     {
+
                         return Redirect(Convert.ToString(dt.Rows[0]["AcilisSayfasi"]).Trim());
                     }
 
@@ -427,10 +447,10 @@ namespace YKPortal.Controllers
 
             string KullaniciAdi = GetCookie("KullaniciAdi");
             string Parola = GetCookie("Parola");
-          
+           
 
             if (KullaniciAdi != null)
-            {
+                {
 
                 ViewBag.KullaniciAdi = KullaniciAdi;
 

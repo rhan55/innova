@@ -33,7 +33,7 @@
                         <div class="col-lg-3">
                             <div class="form-group">
                                 <label for="Miktar" class="fw-semibold fs-6 mb-2">Miktar</label>
-                                <input type="text" name="Miktar" id="Miktar" value="@Model.Miktar" class="form-control p-2 mb-3 mb-lg-0" required" />
+                                <input type="text" name="Miktar" id="Miktar" value="@Model.Miktar" class="form-control p-2 mb-3 mb-lg-0 text-end" required" />
                             </div>
                         </div>
                     </div>
@@ -141,7 +141,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-light btn-sm fw-bold" data-bs-dismiss="modal">Vazgeç</button>
-                <form method="post" id="silme-formu" action="@Url.Action("Sil","Cari",null)">
+                <form method="post" id="silme-formu" action="@Url.Action("HareketSil","Stok",null)">
                     <input type="hidden" name="id" value="" />
                     <button type="submit" class="btn btn-danger btn-sm fw-bold">Sil</button>
                 </form>

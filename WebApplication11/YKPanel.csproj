@@ -179,6 +179,7 @@
     <Compile Include="Models\Dto\MailAyarlariDto.cs" />
     <Compile Include="Models\Dto\ParametreDto.cs" />
     <Compile Include="Models\Dto\StokDto.cs" />
+    <Compile Include="Models\Dto\StokFiyatDto.cs" />
     <Compile Include="Models\Dto\StokHareketDto.cs" />
     <Compile Include="Models\Dto\StokNotDto.cs" />
     <Compile Include="Models\Dto\YetkilerDto.cs" />
@@ -2653,6 +2654,8 @@
     <Content Include="Views\Parametre\ParametreListesi.cshtml" />
     <Content Include="Views\Stok\YeniStokHareketKaydi.cshtml" />
     <Content Include="Views\Stok\HareketListesi.cshtml" />
+    <Content Include="Views\Stok\FiyatEkle.cshtml" />
+    <Content Include="Views\Stok\FiyatListesi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

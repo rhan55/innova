@@ -1,0 +1,105 @@
+﻿@using YKPortal.Models.Dto
+@model YKPortal.Models.Dto.StokFiyatDto
+@{
+    ViewBag.Title = "FiyatEkle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    
+    <div class="row">
+        <div class="col-lg-12">
+            <form id="kt_modal_add_user_form" class="form" action="@Url.Action("FiyatEkle","Stok",null)" method="post">
+                <input type="hidden" name="ID" />
+                <div class="d-flex flex-column container px-5 px-lg-10 mt-10">
+                    <div class="row mb-7">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="FiyatGrubu" class=" form-label">Fiyat Grubu</label>
+                                <input type="text" name="FiyatGrubu" id="FiyatGrubu" value="@Model.FiyatGurubu" class="form-control p-2 mb-3 mb-lg-0" required" />
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="Fiyat" class="fw-semibold fs-6 mb-2">Fiyat</label>
+                                <input type="text" name="Fiyat" id="Fiyat" value="@String.Format("{0:N2}",Model.Fiyat).Replace(".","")" class="form-control p-2 mb-3 mb-lg-0" required" />
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mt-10">
+                            <div class="flex">
+                                <label class="form-label flex items-center gap-2.5 text-nowrap me-4">
+                                    <input class="form-check-input" name="Tip" type="radio" value="A" @(Model.Tip == "" ? "checked" : (Model.Tip == "A" ? "checked" : "") ) />
+                                    Alış
+                                </label>
+                                <label class="form-label flex items-center gap-2.5 text-nowrap">
+                                    <input class="form-check-input " name="Tip" type="radio" value="S" @(Model.Tip == "S" ? "checked" : "") />
+                                    Satış
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-7">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="BaslangicTarihi" class="fw-semibold fs-6 mb-2">Baslangıç Tarihi</label>
+                                <input type="date" value="@Model.BaslangicTarihi" name="BaslangicTarihi" class="form-control p-2 mb-3 mb-lg-0" required" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="BitisTarihi" class="fw-semibold fs-6 mb-2">Bitiş Tarihi</label>
+                                <input type="date" value="@Model.BaslangicTarihi" name="BitisTarihi" id="BitisTarihi" class="form-control p-2 mb-3 mb-lg-0" required" />
+                            </div>
+                        </div>
+
+                        
+                    </div>
+
+
+                    <!--begin::Actions-->
+                    <div class="pt-10">
+                        <a onclick="history.back()" class="btn btn-light btn-sm fw-bold me-3" data-kt-users-modal-action="cancel">Geri</a>
+                        <button type="submit" class="btn btn-primary btn-sm fw-bold" data-kt-users-modal-action="Kaydet">
+                            <span class="indicator-label">Kaydet</span>
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm fw-bold btn-sil Hareket-silme" data-bs-toggle="modal" data-bs-target="#Fiyat-silme">
+                            Sil
+                        </button>
+                    </div>
+                    <!--end::Actions-->
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="Fiyat-silme" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Fiyat Silme İşlemi</h3>
+
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body">
+                <p>Fiyatı silmek istediğinize emin misiniz?</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light btn-sm fw-bold" data-bs-dismiss="modal">Vazgeç</button>
+                <form method="post" id="silme-formu" action="@Url.Action("FiyatSil","Stok",null)">
+                    <input type="hidden" name="id" value="" />
+                    <button type="submit" class="btn btn-danger btn-sm fw-bold">Sil</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
