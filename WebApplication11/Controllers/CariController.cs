@@ -551,7 +551,7 @@ namespace YKPortal.Controllers
         [HttpGet]
         public JsonResult SelectListe(string search)
         {
-
+            
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;

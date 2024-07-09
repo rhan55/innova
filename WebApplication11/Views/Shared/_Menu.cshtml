@@ -1,0 +1,513 @@
+﻿@model YKPortal.Models.Dto.YetkilerDto
+
+@section Scripts {
+    <script>
+
+
+        const loadingEl = document.createElement("div");
+        document.body.prepend(loadingEl);
+        loadingEl.classList.add("page-loader");
+        loadingEl.classList.add("flex-column");
+        loadingEl.innerHTML = `
+                              <span class="spinner-border text-primary" role="status"></span>
+                              <span class="text-muted fs-6 fw-semibold mt-5">Loading...</span>
+                          `;
+
+        // Show page loading
+        KTApp.showPageLoading();
+
+        // Hide after 3 seconds
+        setTimeout(function () {
+            KTApp.hidePageLoading();
+            loadingEl.remove();
+        }, 3000);
+
+
+        const navigations = [
+            {
+                title: "Ana Kayıtlar",
+                icon: "ki-duotone ki-category fs-2",
+                isOpen: false,
+                items: [
+                    {
+                        title: "Cari",
+                        isMenu: true,
+                        icon: "",
+                        items: [
+                            {
+                                title: "Cari Liste",
+                                url: "/Cari/Liste"
+                            },
+                            {
+                                title: "Cari Ekle",
+                                url: "/Cari/Ekle"
+                            },
+
+                        ]
+                    },
+                    {
+                        "title": "Stok",
+                        isMenu: true,
+                        icon: "",
+                        items: [
+                            {
+                                title: "Stok Liste",
+                                url: "/Stok/Liste"
+                            },
+                            {
+                                title: "Stok Ekle",
+                                url: "/Stok/Ekle"
+                            },
+                        ]
+                    }
+                ]
+            },
+
+            {
+                title: "Cari",
+                isMenu: true,
+                icon: "ki-duotone ki-brush fs-3",
+                items: [
+                    {
+                        title: "Yeni Hareket Kaydı",
+                        url: "/Cari/YeniCariHareketKaydi"
+
+                    },
+                    {
+                        title: "Cari Ekstre",
+                        url: "/Cari/HareketListesi"
+                    },
+                ]
+            },
+            {
+                title: "Tanımlamalar",
+                icon: "ki-duotone ki-text fs-2",
+                isOpen: false,
+                items: [
+                    {
+                        title: "Kullanıcı Yönetimi",
+                        isMenu: true,
+                        icon: "ki-duotone ki-address-book fs-2",
+                        items: [
+                            {
+                                title: "Kullanıcı Listesi",
+                                url: "/Kullanici/Liste"
+                            },
+                            {
+                                title: "Yeni Kullanıcı",
+                                url: "/Kullanici/Ekle"
+                            },
+                        ]
+                    },
+                    {
+
+                        title: "CRM",
+                        isMenu: true,
+                        icon: "ki-duotone ki-address-book fs-2",
+                        items: [
+                            {
+                                title: "Ziyaret Tipleri",
+
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=Crm_ZiyaretTipi"
+                            },
+
+
+                        ]
+                    },
+                    {
+                        title: "Genel Tanımlamalar",
+                        isMenu: true,
+                        icon: "ki-duotone ki-address-book fs-2",
+                        items: [
+                            {
+                                title: "Ülkeler",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=Ulke"
+                            },
+                            {
+                                title: "İller",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=Il"
+                            },
+                            {
+                                title: "Depolar",
+                                url: "/Depo/Liste"
+                            },
+                            {
+                                title: "Şubeler",
+                                url: "/Sube/Liste"
+                            },
+                            {
+                                title: "Döviz Birimleri",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=DovizBirimi"
+                            },
+                        ]
+                    },
+                    {
+                        title: "Stok Tanımlamaları",
+                        isMenu: true,
+                        icon: "",
+                        items: [
+                            {
+                                title: "Kaliteler",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=StokGrupKod1"
+                            },
+                            {
+                                title: "Bedenler",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=StokGrupKod1"
+                            },
+                            {
+                                title: "Renkler",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=StokGrupKod1"
+                            },
+                            {
+                                title: "Markalar",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=StokGrupKod1"
+                            },
+                            {
+                                title: "Stok Grup Kodu 1",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=StokGrupKod1"
+                            },
+                            {
+                                title: "Stok Grup Kodu 2",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=StokGrupKod2"
+                            },
+                            {
+                                title: "Stok Grup Kodu 3",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=StokGrupKod3"
+                            },
+                            {
+                                title: "Stok Grup Kodu 4",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=StokGrupKod4"
+                            },
+                            {
+                                title: "Stok Grup Kodu 5",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=StokGrupKod5"
+                            },
+                            {
+                                title: "Stok Grup Kodu 6",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=StokGrupKod6"
+                            },
+                            {
+                                title: "Stok Hareket Tipi",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=StokHareketTipi"
+                            },
+
+                        ]
+                    },
+                    {
+                        title: "Cari Tanımlamaları",
+                        isMenu: true,
+                        icon: "",
+                        items: [
+                            {
+                                title: "Cari Grup Kodu 1",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=CariGrupKod1"
+                            },
+                            {
+                                title: "Cari Grup Kodu 2",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=CariGrupKod2"
+                            },
+                            {
+                                title: "Cari Grup Kodu 3",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=CariGrupKod3"
+                            },
+                            {
+                                title: "Cari Grup Kodu 4",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=CariGrupKod4"
+                            },
+                            {
+                                title: "Cari Grup Kodu 5",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=CariGrupKod5"
+                            },
+                            {
+                                title: "Cari Grup Kodu 6",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=CariGrupKod6"
+                            },
+                            {
+                                title: "Ziyaret Tipi",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=Crm_ZiyaretTipi"
+                            },
+                            {
+                                title: "Cari Hareket Tipi",
+                                url: "/Tanimlamalar/GrupKodu?grupKodu=CariHareketTipi"
+                            },
+                        ]
+                    },
+                    {
+                        title: "Satış Personelleri",
+                        isMenu: true,
+                        icon: "",
+                        items: [
+                            {
+                                title: "Satış Personeli Listesi",
+                                url: "/SatisPersoneli/Liste"
+                            },
+                            {
+                                title: "Satış Personeli Ekle",
+                                url: "/SatisPersoneli/Ekle"
+                            },]
+                    }
+
+                ]
+            },
+            {
+
+                title: "Satınalma",
+                icon: "ki-duotone ki-basket fs-2",
+                isOpen: false,
+                items: [
+                    {
+                        title: "Talep",
+                        isMenu: true,
+                        icon: "",
+                        items: [
+                            {
+                                title: "Yeni Talep",
+                                url: "/Satinalma/YKSatinalma/YeniTalep"
+                            },
+                            {
+                                title: "Taleplerim",
+                                url: "/Satinalma/YKSatinalma/Taleplerim"
+                            },
+                            {
+                                title: "Red Taleplerim",
+                                url: "/Satinalma/YKSatinalma/TalepOnayi"
+                            },
+                        ]
+                    },
+                    {
+                        title: "Satınalma",
+                        isMenu: true,
+                        icon: "",
+                        items: [
+                            {
+                                title: "Fiyat Teklifleri",
+                                url: "/Satinalma/YKSatinalma/Teklifler"
+                            },
+                            {
+                                title: "Satınalma",
+                                url: "/Satinalma/YKSatinalma/Satinalma"
+                            },
+                            //{
+                            //    title: "Sözleşmeler",
+                            //    url: "/Satinalma/YKSatinalma/CariSOzlesmeleri"
+                            //},
+                        ]
+                    },
+                    {
+                        title: "Onay",
+                        isMenu: true,
+                        icon: "",
+                        items: [
+                            {
+                                title: "Satınalma Onayı",
+                                url: "/Satinalma/YKSatinalma/Onay1"
+                            },
+                            {
+                                title: "Departman Onayı",
+                                url: "/Satinalma/YKSatinalma/Onay2"
+                            },
+                            {
+                                title: "Genel Müdür Yardımcısı Onayı",
+                                url: "/Satinalma/YKSatinalma/Onay3"
+                            },
+                            {
+                                title: "Genel Müdür Onayı",
+                                url: "/Satinalma/YKSatinalma/Onay4"
+                            },
+                            {
+                                title: "Yönetim Onayı",
+                                url: "/Satinalma/YKSatinalma/Onay5"
+                            },
+                        ]
+                    },
+                    {
+                        title: "Rapor",
+                        isMenu: true,
+                        icon: "",
+                        items: [
+                            {
+                                title: "Satınalma Raporu",
+                                url: "/Satinalma/YKSatinalma/TalepRaporu"
+                            },
+                        ]
+                    },
+                    {
+                        title: "Mal Kabul",
+                        isMenu: true,
+                        icon: "",
+                        items: [
+                            {
+                                title: "Alış İrsaliyesi",
+                                url: "/Belge/Liste/?Tip=AI"
+                            },
+                        ]
+                    },
+
+                ]
+
+            },
+
+
+            {
+                title: "Entegrasyon",
+                icon: "ki-duotone ki-setting-2 fs-2",
+                isOpen: false,
+                items: [
+                    {
+                        title: "Quick - Seyehat Sigortası",
+                        isMenu: false,
+                        icon: "",
+                        url: "/Entegrasyon/QuickSigorta/AnaSayfa"
+                    },
+
+                ]
+
+            },
+            {
+                title: "Ayarlar",
+                icon: "ki-duotone ki-setting-2 fs-2",
+                isOpen: false,
+                items: [
+                    {
+                        title: "Mail Ayarları",
+                        isMenu: false,
+                        icon: "",
+                        url: "/Parametre/MailAyarlari"
+                    },
+                    {
+                        title: "Parametreler",
+                        isMenu: false,
+                        icon: "",
+                        url: "/Parametre/ParametreListesi"
+                    },
+
+                ]
+
+            }
+        ];
+
+        const navigationContainer = document.querySelector("#navigation");
+
+        const searchInNavigation = document.querySelector("#searchInNavigation");
+
+        let navigationData = buildNavigation(navigations);
+
+        navigationContainer.innerHTML = navigationData.join("")
+
+        function createLink(item) {
+
+            return `
+                                                                       <div class="menu-item">
+                                                                           <!--begin:Menu link-->
+                                                                           <a class="menu-link py-0" href="${item.url}">
+                                                                               <span class="menu-bullet">
+                                                                                   <span class="bullet bullet-dot"></span>
+                                                                               </span>
+                                                                               <span class="menu-title">${item.title}</span>
+                                                                           </a>
+                                                                           <!--end:Menu link-->
+                                                                       </div>
+                                                                               `
+        }
+        function createMenu(navigationMenu, links) {
+            return `
+                                                                  <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                                                                      <span class="menu-link py-0">
+                                                                          <span class="menu-icon">
+                                                                              <i class="${navigationMenu.icon}"></i>
+                                                                          </span>
+                                                                          <span class="menu-title">${navigationMenu.title}</span>
+                                                                          <span class="menu-arrow"></span>
+                                                                      </span>
+
+                                                                      <div class="menu-sub menu-sub-accordion">${links.join('')}</div>
+                                                                  </div>
+
+                                                                   `;
+        }
+        function createNavigation(navigation, menus) {
+            return ` <div data-kt-menu-trigger="click" class="menu-item ${navigation.isOpen ? 'show' : ''} menu-accordion">
+                                                                  <!--begin:Menu link-->
+                                                                  <span class="menu-link py-0">
+                                                                      <span class="menu-icon">
+                                                                          <i class="${navigation.icon}">
+                                                                               <span class="path1"></span>
+                                                                   <span class="path2"></span>
+                                                                   <span class="path3"></span>
+                                                                   <span class="path4"></span>
+                                                                          </i>
+                                                                      </span>
+                                                                      <span class="menu-title">${navigation.title}</span>
+                                                                      <span class="menu-arrow"></span>
+                                                                  </span>
+                                                                  <div class="menu-sub menu-sub-accordion">
+                                                                      ${menus.join('')}
+                                                                  </div>
+                                                              </div>`
+        }
+
+        function buildNavigation(navigationList) {
+            return navigationList.map(navigation => {
+                let menus = navigation.items.map(navigationMenu => {
+                    if (navigationMenu.isMenu) {
+                        var links = navigationMenu.items.map(link => {
+                            return createLink(link);
+                        })
+
+                        return createMenu(navigationMenu, links);
+                    } else {
+                        return createLink(navigationMenu);
+                    }
+                })
+
+                return createNavigation(navigation, menus);
+            })
+        }
+
+        searchInNavigation.addEventListener("input", function (event) {
+            let filteredNavigation = [];
+            if (event.target.value == "") {
+                filteredNavigation = buildNavigation(navigations);
+            } else {
+                navigations.forEach(navigation => {
+                    navigation.items.forEach(menu => {
+                        if (menu.isMenu) {
+                            menu.items.forEach(link => {
+                                if (link.title.toLocaleUpperCase("tr-TR").includes(event.target.value.toLocaleUpperCase("tr-TR"))) {
+                                    filteredNavigation.push(createLink(link));
+                                }
+                            })
+                        } else {
+                            if (menu.title.toLocaleUpperCase("tr-TR").includes(event.target.value.toLocaleUpperCase("tr-TR"))) {
+                                filteredNavigation.push(createLink(menu));
+                            }
+                        }
+                    })
+                })
+            }
+
+            navigationContainer.innerHTML = filteredNavigation.join("")
+        });
+
+        
+
+        $('button#YetkiKaydet').on("click", function () {
+            $.ajax({
+                url: "/Shared/YetkiListesiniGetir",
+                method: "POST",
+
+                success: function (response) {
+
+                    console.log("Success:", response);
+                    window.location.reload();
+                },
+                error: function (xhr, status, error) {
+
+                    console.log("Error:", xhr.responseText);
+                }
+            })
+        })
+
+    </script>
+}
+

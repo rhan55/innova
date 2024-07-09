@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
@@ -14,6 +14,8 @@ namespace YKPortal.Models.Dto
         private string _MenuID;
         private string _Menu;
         private string _UstID;
+        private string _icon;
+        private string _url;
         private bool _Gor;
         private bool _Duzenle;
         private bool _Sil;
@@ -24,6 +26,8 @@ namespace YKPortal.Models.Dto
         public string KullaniciID { get { return _KullaniciID ?? ""; } set { _KullaniciID = value; } }
         public string MenuID { get { return _MenuID ?? ""; } set { _MenuID = value; } }
         public string Menu { get { return _Menu ?? ""; } set { _Menu = value; } }
+        public string url { get { return _url ?? ""; } set { _url = value; } }
+        public string icon { get { return _icon ?? ""; } set { _icon = value; } }
         public string UstID { get { return _UstID ?? ""; } set { _UstID = value; } }
         public bool Gor { get { return _Gor == null ? false : _Gor; } set { _Gor = value; } }      
         public bool Duzenle { get { return _Duzenle == null ? false : _Duzenle; } set { _Duzenle = value; } }

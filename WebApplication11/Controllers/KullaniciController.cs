@@ -408,6 +408,7 @@ namespace YKPortal.Controllers
                 });
             }
 
+
             YetkiYapisiniOlustur(yetkiler);
 
             return View();
