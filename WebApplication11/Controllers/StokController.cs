@@ -638,6 +638,26 @@ namespace YKPortal.Controllers
             return View(dt);
         }
 
+         public ActionResult HareketSil(string KayitID, string StokID)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_StokHareketiSil";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@ID", KayitID);
+            cmd.Parameters.AddWithValue("@Kullanici", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@StokID", StokID);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+           
+            return RedirectToAction("HareketListesi", new { StokID = StokID });
+        }
+
+
         [HttpGet]
         public ActionResult FiyatEkle(string StokID, string ID)
         {

@@ -11,7 +11,7 @@
     string Resim = HttpUtility.UrlDecode(Request.Cookies["Resim"].Value);
     string KullaniciID = HttpUtility.UrlDecode(Request.Cookies["KullaniciID"].Value);
     string UyelikID = HttpUtility.UrlDecode(Request.Cookies["UyelikID"].Value);
-
+    string UyelikBitisTarihi = HttpUtility.UrlDecode(Request.Cookies["UyelikBitisTarihi"].Value);
 
     SqlCommand cmd = new SqlCommand();
     cmd.CommandText = "p_KullaniciYetkileri";
@@ -38,9 +38,6 @@
             });
         }
     }
-
-
-
 
 
 }
@@ -227,7 +224,6 @@
                                     </div>
                                 </form>
 
-                                <div class="text-white">ABC</div>
 
                             </div>
 
@@ -308,6 +304,9 @@
                                     <!--end::Item-->
                                 </ul>
                                 <!--end::Breadcrumb-->
+                            </div>
+                            <div id="GeriSayim">
+
                             </div>
                             <!--end::Page title-->
                             <!--begin::Theme mode-->
@@ -447,18 +446,6 @@
 
             let menuIdListesi = [];
 
-
-
-
-
-
-
-
-
-
-
-
-
             const loadingEl = document.createElement("div");
             document.body.prepend(loadingEl);
             loadingEl.classList.add("page-loader");
@@ -540,7 +527,7 @@
                          }
 
 
-                     
+
 
             ];
 
@@ -648,79 +635,61 @@
             });
 
 
+      
 
+       
+        // Cookie'den UyelikBitisTarihi bilgisini alacak fonksiyon
+        function getUyelikBitisTarihiFromCookie() {
+            var name = "UyelikBitisTarihi=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var cookieArray = decodedCookie.split(';');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            /*
-            $('[data-toggle="first-sub-table"]').on("click", function (e) {
-                $(this).parent().parent().parent().parent().find(".first-sub-table").toggleClass("hidden");
-                $(this).find('.ki-down').toggleClass("hidden");
-                $(this).find('.ki-up').toggleClass("hidden");
-            });
-
-            $('[data-toggle="second-sub-table"]').on("click", function (e) {
-                $(this).parent().parent().parent().parent().find(".second-sub-table").toggleClass("hidden");
-
-                $(this).find('.ki-down').toggleClass("hidden");
-                $(this).find('.ki-up').toggleClass("hidden");
-            });
-
-            $(".yetki-satiri[data-menuId]").each(function (index, element) {
-                menuIdListesi.push({
-                    MenuID: $(element).attr('data-menuId'),
-                    KullaniciID: $(element).attr('data-kullaniciId'),
-                    icon:  $(element).attr('data-menuId') + '-icon"]'.is("form"),
-                    url: $(element).attr('data-menuId') + '-url"]'.is("form"),
-
-                });
-            });
-            */
-
-
-            /*
-            $.ajax({
-                url: "/Shared/YetkiListesiniGetir",
-                method: "POST",
-                data: { yetkiler: menuIdListesi },
-                success: function (response) {
-
-                    console.log("Success:", response);
-                    window.location.reload();
-                },
-                error: function (xhr, status, error) {
-
-                    console.log("Error:", xhr.responseText);
+            for (var i = 0; i < cookieArray.length; i++) {
+                var cookie = cookieArray[i];
+                while (cookie.charAt(0) == ' ') {
+                    cookie = cookie.substring(1);
                 }
-            })
-            */
+                if (cookie.indexOf(name) == 0) {
+                    return cookie.substring(name.length, cookie.length);
+                }
+            }
+            return null;
+        }
 
+        // Geri sayım fonksiyonu
+        function geriSayim() {
+            var uyelikBitisTarihiString = getUyelikBitisTarihiFromCookie();
 
-        });
+            if (!uyelikBitisTarihiString) {
+                console.log("UyelikBitisTarihi cookie bulunamadı!");
+                return;
+            }
 
+            var uyelikBitisTarihi = new Date(uyelikBitisTarihiString);
+            var simdikiZaman = new Date().getTime();
+            var kalanSure = uyelikBitisTarihi - simdikiZaman;
 
+            var gun = Math.floor(kalanSure / (1000 * 60 * 60 * 24));
+            var saat = Math.floor((kalanSure % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var dakika = Math.floor((kalanSure % (1000 * 60 * 60)) / (1000 * 60));
+            var saniye = Math.floor((kalanSure % (1000 * 60)) / 1000);
+
+            // HTML içeriğini güncelliyoruz
+            document.getElementById("GeriSayim").innerHTML = "Üyelik bitişine " + gun + " gün " + saat + " saat " + dakika + " dakika " + saniye + " saniye kaldı.";
+
+            // Eğer bitiş tarihi geçmişse, geri sayımı durdur
+            if (kalanSure < 0) {
+                clearInterval(geriSayimDongusu);
+                document.getElementById("GeriSayim").innerHTML = "Üyelik süresi dolmuştur.";
+            }
+        }
+
+        // Geri sayım fonksiyonunu her saniyede bir güncelleyen bir döngü başlatıyoruz
+        geriSayim(); // Sayfa ilk yüklendiğinde hemen geri sayım başlasın
+        var geriSayimDongusu = setInterval(geriSayim, 1000);
+
+      
+       });
 
     </script>
     @RenderSection("Scripts", required: false)

@@ -327,6 +327,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@CepTelefonu", cariDto.CepTelefonu);
             
             ViewBag.Filters = cariDto;
+            ViewBag.CariID = cariDto.AnaCariID;
             ViewBag.Isim = cariDto.Isim;
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
@@ -1064,19 +1065,27 @@ namespace YKPortal.Controllers
 
             return View(dt);
         }
-        public ActionResult HareketSil(string ID, string CariID)
+
+        public ActionResult HareketSil(string KayitID, string CariID)
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariHareketiSil";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ID", ID);
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@ID", KayitID);
             cmd.Parameters.AddWithValue("@Kullanici", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@CariID", CariID);
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
             return RedirectToAction("HareketListesi", new { CariID = CariID });
         }
+
+
 
         public KullaniciEkleDto KullaniciGetir(string ID)
         {

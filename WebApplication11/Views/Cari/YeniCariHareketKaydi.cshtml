@@ -1,9 +1,12 @@
 ﻿@using YKPortal.Models.Dto
+
 @model YKPortal.Models.Dto.CariHareketDto
 @{
     ViewBag.Title = "YeniCariHareketKaydi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
 
 <div class="container">
 
@@ -136,8 +139,8 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-light btn-sm fw-bold" data-bs-dismiss="modal">Vazgeç</button>
-                <form method="post" id="silme-formu" action="@Url.Action("Sil","Cari",null)">
-                    <input type="hidden" name="id" value="" />
+                <form method="post" id="silme-formu" action="@Url.Action("HareketSil","Cari",null)">
+                   
                     <button type="submit" class="btn btn-danger btn-sm fw-bold">Sil</button>
                 </form>
             </div>

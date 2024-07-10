@@ -25,20 +25,20 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            //  string Bitis = GetCookie("BitisTarihi");
-            // if (Bitis != null)
-            //   {
-            // 15 gün içinde kalan gün sayısını hesapla
-            //   DateTime now = DateTime.Now;
-            //   DateTime BitisGunu = now.AddDays(15); // 15 gün sonrası
+            string Bitis = GetCookie("UyelikBitisTarihi");
+            if (Bitis != null)
+            {
 
-            //   int kalanGun = (BitisGunu - now).Days;
+                DateTime now = DateTime.Now;
+                DateTime BitisGunu = now.AddDays(15); // 15 gün sonrası
 
-            // View'e kalan gün sayısını ve bitiş tarihini gönder
-            //  ViewBag.KalanGun = kalanGun;
-            //  ViewBag.BitisGunu = BitisGunu.ToString("dd/MM/yyyy");
-            //
-            //  }
+                int kalanGun = (BitisGunu - now).Days;
+
+
+                ViewBag.KalanGun = kalanGun;
+                ViewBag.BitisGunu = BitisGunu.ToString("dd/MM/yyyy");
+
+            }
 
 
 
@@ -136,7 +136,7 @@ namespace YKPortal.Controllers
                     CreateCookie("KullaniciAdi", Convert.ToString(dt.Rows[0]["KullaniciAdi"]));
                     CreateCookie("Parola", Convert.ToString(dt.Rows[0]["Parola"]));
                     CreateCookie("Resim", Convert.ToString(dt.Rows[0]["Resim"]));
-                    // CreateCookie("BitisTarihi",Convert.ToString(dt.Rows[0]["BitisTarihi"]));
+                    CreateCookie("UyelikBitisTarihi", Convert.ToString(dt.Rows[0]["UyelikBitisTarihi"]));
 
                     #endregion
 
@@ -447,10 +447,10 @@ namespace YKPortal.Controllers
 
             string KullaniciAdi = GetCookie("KullaniciAdi");
             string Parola = GetCookie("Parola");
-           
+
 
             if (KullaniciAdi != null)
-                {
+            {
 
                 ViewBag.KullaniciAdi = KullaniciAdi;
 
