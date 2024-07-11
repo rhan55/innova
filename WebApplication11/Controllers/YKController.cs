@@ -25,20 +25,20 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            string Bitis = GetCookie("UyelikBitisTarihi");
-            if (Bitis != null)
-            {
+            //string Bitis = GetCookie("UyelikBitisTarihi");
+            //if (Bitis != null)
+            //{
 
-                DateTime now = DateTime.Now;
-                DateTime BitisGunu = now.AddDays(15); // 15 gün sonrası
+            //    DateTime now = DateTime.Now;
+            //    DateTime BitisGunu = now.AddDays(15); // 15 gün sonrası
 
-                int kalanGun = (BitisGunu - now).Days;
+            //    int kalanGun = (BitisGunu - now).Days;
 
 
-                ViewBag.KalanGun = kalanGun;
-                ViewBag.BitisGunu = BitisGunu.ToString("dd/MM/yyyy");
+            //    ViewBag.KalanGun = kalanGun;
+            //    ViewBag.BitisGunu = BitisGunu.ToString("dd/MM/yyyy");
 
-            }
+            //}
 
 
 
@@ -56,6 +56,7 @@ namespace YKPortal.Controllers
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@KullaniciAdi", GetCookie("KullaniciAdi"));
                 cmd.Parameters.AddWithValue("@Parola", GetCookie("Parola"));
+                cmd.Parameters.AddWithValue("@UyelikBitisTarihi", GetCookie("UyelikBitisTarihi"));
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
                 if (dt.Rows.Count > 0)

@@ -7,23 +7,47 @@
 
 
 <div class="container">
-    
+
     <div class="row">
         <div class="col-lg-12">
             <form id="kt_modal_add_user_form" class="form" action="@Url.Action("FiyatEkle","Stok",null)" method="post">
                 <input type="hidden" name="ID" />
                 <div class="d-flex flex-column container px-5 px-lg-10 mt-10">
                     <div class="row mb-7">
-                        <div class="col-lg-4">
+                        <div class="col-lg-6 ">
                             <div class="form-group">
-                                <label for="FiyatGrubu" class=" form-label">Fiyat Grubu</label>
-                                <input type="text" name="FiyatGrubu" id="FiyatGrubu" value="@Model.FiyatGurubu" class="form-control p-2 mb-3 mb-lg-0" required" />
+                                <label for="StokID" class=" form-label">Stok İsim</label>
+                                <select class="form-select form-select-solid p-2 rounded-1" name="StokID" id="StokID" required aria-label="Floating label select example" data-control="select2" data-placeholder="arama yapmak için birşeyler yazın..." >
+                                    @if (Request.QueryString["StokID"] != null)
+                                    {
+                                        <option value="@Request.QueryString["StokID"]" selected>@Request.QueryString["Isim"]</option>
+                                    }
+                                </select>
                             </div>
                         </div>
+                        <div class="col-lg-6 ">
+                            <div class="form-group">
+                                <label for="CariID" class=" form-label">Cari İsim</label>
+                                <select class="form-select form-select-solid p-2 rounded-1" name="CariID" id="CariID" required aria-label="Floating label select example" data-control="select2" data-placeholder="arama yapmak için birşeyler yazın...">
+                                    @if (Request.QueryString["CariID"] != null)
+                                    {
+                                        <option value="@Request.QueryString["CariID"]" selected>@Request.QueryString["Isim"]</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-7">
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="Fiyat" class="fw-semibold fs-6 mb-2">Fiyat</label>
                                 <input type="text" name="Fiyat" id="Fiyat" value="@String.Format("{0:N2}",Model.Fiyat).Replace(".","")" class="form-control p-2 mb-3 mb-lg-0" required" />
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="FiyatGrubu" class=" form-label">Fiyat Grubu</label>
+                                <input type="text" name="FiyatGrubu" id="FiyatGrubu" value="@Model.FiyatGurubu" class="form-control p-2 mb-3 mb-lg-0" required" />
                             </div>
                         </div>
                         <div class="col-lg-4 mt-10">
@@ -40,6 +64,7 @@
                         </div>
                     </div>
 
+
                     <div class="row mb-7">
                         <div class="col-lg-6">
                             <div class="form-group">
@@ -54,7 +79,7 @@
                             </div>
                         </div>
 
-                        
+
                     </div>
 
 
@@ -103,3 +128,87 @@
 </div>
 
 
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+
+        $(function () {
+
+            const CariIDSelect = $('#CariID').select2({
+                ajax: {
+                    url: "/Stok/CariSelectListe",
+                    data: function (params) {
+                        var query = {
+                            search: params.term,
+                        }
+
+                        // Query parameters will be ?search=[term]&type=public
+                        return query;
+                    },
+                    processResults: function (data) {
+                        var results = [];
+                        if (data && data.length > 0) {
+                            data.forEach(function (item) {
+                                results.push({ id: item.ID, text: item.Isim })
+                            });
+                        }
+
+                        return {
+                            results: results
+                        };
+                    }
+                },
+                delay: 250,
+                minimumInputLength: 3,
+                language: {
+                    placeholder: function () {
+                        return "Arama yapmak için en az 3 karakter girin";
+                    },
+                    inputTooShort: function () {
+                        return "En az lütfen en az 3 karakter girin";
+                    }
+                }
+            });
+
+            $(function () {
+
+                const StokIDSelect = $('#StokID').select2({
+                    ajax: {
+                        url: "/Stok/SelectListe",
+                        data: function (params) {
+                            var query = {
+                                search: params.term,
+                            }
+
+                            // Query parameters will be ?search=[term]&type=public
+                            return query;
+                        },
+                        processResults: function (data) {
+                            var results = [];
+                            if (data && data.length > 0) {
+                                data.forEach(function (item) {
+                                    results.push({ id: item.ID, text: item.Isim })
+                                });
+                            }
+
+                            return {
+                                results: results
+                            };
+                        }
+                    },
+                    delay: 250,
+                    minimumInputLength: 3,
+                    language: {
+                        placeholder: function () {
+                            return "Arama yapmak için en az 3 karakter girin";
+                        },
+                        inputTooShort: function () {
+                            return "En az lütfen en az 3 karakter girin";
+                        }
+                    }
+                });
+
+            });
+        });
+    </script>
+}

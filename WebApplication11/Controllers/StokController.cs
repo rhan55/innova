@@ -725,11 +725,32 @@ namespace YKPortal.Controllers
                 dt = new DataTable();
             }
 
-            if (stokFiyatDto.StokID != string.Empty)
+
+
+            if (stokFiyatDto.CariID != string.Empty)
             {
-                ViewBag.Stok = Getir(stokFiyatDto.StokID);
+                ViewBag.Cari = Getir(stokFiyatDto.CariID);
+            }
+            if (stokFiyatDto.CariID != string.Empty)
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_StokHareketListesi";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@StokID", stokFiyatDto.StokID);
+
+                dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            }
+            else
+            {
+                dt = new DataTable();
             }
 
+            if (stokFiyatDto.CariID != string.Empty)
+            {
+                ViewBag.Cari = Getir(stokFiyatDto.CariID);
+            }
+            ViewBag.StokID =stokFiyatDto.StokID;
             return View(dt);
         }
 
@@ -745,7 +766,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@ID", "");
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@StokID", stokFiyatDto.StokID);
-            cmd.Parameters.AddWithValue("@CariID", stokFiyatDto.CariID);
+            cmd.Parameters.AddWithValue("@CariID",null);
             cmd.Parameters.AddWithValue("@FiyatGurubu", stokFiyatDto.FiyatGurubu);
             cmd.Parameters.AddWithValue("@Tip", stokFiyatDto.Tip);
             cmd.Parameters.AddWithValue("@Fiyat", stokFiyatDto.Fiyat);
@@ -753,7 +774,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@BitisTarihi ", stokFiyatDto.BitisTarihi);
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
 
-
+   
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
@@ -802,6 +823,37 @@ namespace YKPortal.Controllers
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 liste.Add(new StokDto
+                {
+                    ID = Convert.ToString(dt.Rows[i]["ID"]),
+                    Isim = Convert.ToString(dt.Rows[i]["Isim"]),
+                    Kod = Convert.ToString(dt.Rows[i]["Kod"]),
+                });
+            }
+
+            return Json(liste, JsonRequestBehavior.AllowGet);
+
+        }
+       
+        public JsonResult CariSelectListe(string search)
+        {
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_CariListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Kod", "");
+            cmd.Parameters.AddWithValue("@Isim", search);
+            cmd.Parameters.AddWithValue("@Unvan", "");
+            cmd.Parameters.AddWithValue("@TCKimlikNo", "");
+            cmd.Parameters.AddWithValue("@VergiNumarasi", "");
+            cmd.Parameters.AddWithValue("@CepTelefonu", "");
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            var liste = new List<CariDto>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                liste.Add(new CariDto
                 {
                     ID = Convert.ToString(dt.Rows[i]["ID"]),
                     Isim = Convert.ToString(dt.Rows[i]["Isim"]),

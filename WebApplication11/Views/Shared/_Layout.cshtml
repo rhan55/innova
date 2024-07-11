@@ -1,4 +1,5 @@
 ﻿
+
 @using YKPortal.Models.Dto
 @using System.Data
 @using System.Data.SqlClient
@@ -545,7 +546,7 @@
                                                                <div class="menu-item">
                                                                    <!--begin:Menu link-->
                                                                    <a class="menu-link py-0" href="${item.url}">
-                                                                       <span class="menu-bullet">
+                                                                       <span class="menu-bullet ps-12">
                                                                            <span class="bullet bullet-dot"></span>
                                                                        </span>
                                                                        <span class="menu-title">${item.title}</span>
@@ -557,7 +558,7 @@
             function createMenu(navigationMenu, links) {
                 return `
                                                           <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                                                              <span class="menu-link py-0">
+                                                              <span class="menu-link py-0 ps-4">
                                                                   <span class="menu-icon">
                                                                       <i class="${navigationMenu.icon}"></i>
                                                                   </span>
@@ -633,63 +634,95 @@
 
                 navigationContainer.innerHTML = filteredNavigation.join("")
             });
+            function getRemainingDays() {
+                var cookieName = "UyelikBitisTarihi";
+                var countdownDiv = document.getElementById("countdownDiv");
 
+                // Çerezden bitiş tarihini al
+                var cookieValue = getCookie(cookieName);
 
-      
+                if (cookieValue) {
+                    var expireDate = new Date(cookieValue);
+                    var currentDate = new Date();
 
-       
-        // Cookie'den UyelikBitisTarihi bilgisini alacak fonksiyon
-        function getUyelikBitisTarihiFromCookie() {
-            var name = "UyelikBitisTarihi=";
-            var decodedCookie = decodeURIComponent(document.cookie);
-            var cookieArray = decodedCookie.split(';');
+                    // Kalan günleri hesapla
+                    var timeDiff = expireDate.getTime() - currentDate.getTime();
+                    var remainingDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
-            for (var i = 0; i < cookieArray.length; i++) {
-                var cookie = cookieArray[i];
-                while (cookie.charAt(0) == ' ') {
-                    cookie = cookie.substring(1);
+                    // Sayaçı div içine yerleştir
+                    if (remainingDays <= 15) {
+                        countdownDiv.textContent = "Üyeliğinizin bitmesine " + remainingDays + " gün kaldı.";
+                    } else {
+                        countdownDiv.textContent = "Üyeliğinizin bitiş tarihine çok zaman var.";
+                    }
+                } else {
+                    countdownDiv.textContent = "Üyelik bitiş tarihi çerezi bulunamadı.";
                 }
-                if (cookie.indexOf(name) == 0) {
-                    return cookie.substring(name.length, cookie.length);
-                }
             }
-            return null;
-        }
+            //function getCookie(cookieName) {
+            //    var name = cookieName + "=";
+            //    var decodedCookie = decodeURIComponent(document.cookie);
+            //    var cookieArray = decodedCookie.split(';');
 
-        // Geri sayım fonksiyonu
-        function geriSayim() {
-            var uyelikBitisTarihiString = getUyelikBitisTarihiFromCookie();
+            //    for (var i = 0; i < cookieArray.length; i++) {
+            //        var cookie = cookieArray[i].trim();
+            //        if (cookie.indexOf(name) === 0) {
+            //            return cookie.substring(name.length, cookie.length);
+            //        }
+            //    }
+            //    return null;
+            //}
 
-            if (!uyelikBitisTarihiString) {
-                console.log("UyelikBitisTarihi cookie bulunamadı!");
-                return;
-            }
+            ////// Örnek olarak "UyelikBitisTarihi" çerezini alalım
+            // var uyelikBitisTarihi = getCookie("UyelikBitisTarihi");
+            //if (uyelikBitisTarihi != null) {
 
-            var uyelikBitisTarihi = new Date(uyelikBitisTarihiString);
-            var simdikiZaman = new Date().getTime();
-            var kalanSure = uyelikBitisTarihi - simdikiZaman;
+            //    function getRemainingDays() {
+            //        var cookieName = "UyelikBitisTarihi";
+            //        var countdownDiv = document.getElementById("countdownDiv");
+            //      // Çerezden bitiş tarihini al
+            //        var cookieValue = getCookie(cookieName);
 
-            var gun = Math.floor(kalanSure / (1000 * 60 * 60 * 24));
-            var saat = Math.floor((kalanSure % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var dakika = Math.floor((kalanSure % (1000 * 60 * 60)) / (1000 * 60));
-            var saniye = Math.floor((kalanSure % (1000 * 60)) / 1000);
+            //        if (cookieValue) {
+            //            var expireDate = new Date(cookieValue);
+            //            var currentDate = new Date();
 
-            // HTML içeriğini güncelliyoruz
-            document.getElementById("GeriSayim").innerHTML = "Üyelik bitişine " + gun + " gün " + saat + " saat " + dakika + " dakika " + saniye + " saniye kaldı.";
+            //            // Kalan günleri hesapla
+            //            var timeDiff = expireDate.getTime() - currentDate.getTime();
+            //            var remainingDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+            // //Sayaçı div içine yerleştir
+            //            if (remainingDays <= 15) {
+            //                countdownDiv.textContent = "Üyeliğinizin bitmesine " + remainingDays + " gün kaldı.";
+            //            } else {
+            //                countdownDiv.textContent = "Üyeliğinizin bitiş tarihine çok zaman var.";
+            //            }
+            //       } else {
+            //            countdownDiv.textContent = "Üyelik bitiş tarihi çerezi bulunamadı.";
+            //        }
+            //    }
 
-            // Eğer bitiş tarihi geçmişse, geri sayımı durdur
-            if (kalanSure < 0) {
-                clearInterval(geriSayimDongusu);
-                document.getElementById("GeriSayim").innerHTML = "Üyelik süresi dolmuştur.";
-            }
-        }
+            //    function getCookie(cookieName) {
+            //        var name = cookieName + "=";
+            //        var decodedCookie = decodeURIComponent(document.cookie);
+            //        var cookieArray = decodedCookie.split(';');
 
-        // Geri sayım fonksiyonunu her saniyede bir güncelleyen bir döngü başlatıyoruz
-        geriSayim(); // Sayfa ilk yüklendiğinde hemen geri sayım başlasın
-        var geriSayimDongusu = setInterval(geriSayim, 1000);
+            //        for (var i = 0; i < cookieArray.length; i++) {
+            //           var cookie = cookieArray[i].trim();
+            //            if (cookie.indexOf(name) === 0) {
+            //               return cookie.substring(name.length, cookie.length);
+            //            }
+            //        }
+            //        return null;
+            //   }
 
-      
-       });
+            //    // Sayfa yüklendiğinde sayaç güncellensin
+            //    document.addEventListener("DOMContentLoaded", function () {
+            //      getRemainingDays();
+            //    });
+
+            //}
+
+      });
 
     </script>
     @RenderSection("Scripts", required: false)
