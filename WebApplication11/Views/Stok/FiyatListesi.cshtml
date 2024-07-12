@@ -12,9 +12,10 @@
         Isim = ViewBag.Cari.Isim;
     }
 
+   
 }
 
-<div class="container-fluid m-0 p-0">
+<div class="container-fluid m-0 p-4">
     <div class="row p-0 m-0">
         <div class="col-lg-12 p-0">
             <div class="content d-flex justify-center flex-column flex-column-fluid p-0" id="kt_content">
@@ -25,40 +26,6 @@
                         <div class="card card-flush border-0 shadow-none m-0 p-0">
                             <div class="card-header align-items-center border-0 shadow-0 gap-2 gap-md-5 m-0">
                                 <div>
-
-                                    <form action="/Stok/FiyatListesi" class="stok-listesi " method="get" style="float:left;">
-
-                                        <div class="col-lg-4 mt-4 mt-lg-0">
-
-                                        </div>
-                                        <input type="hidden" name="ID" value="@ViewBag.ID" />
-                                        <div class="form-group me-6 mt-0">
-                                            <label for="StokID" class="form-label">Stok Seç</label>
-                                            <select class="form-select form-select-solid p-2 rounded-1 w-300px p-1" name="StokID" id="StokID" aria-label="Floating label select example" data-control="select2" data-placeholder="arama yapmak için birşeyler yazın...">
-                                                @if (CariID != "")
-                                                {
-                                                    <option value="@ViewBag.StokID" selected>@Isim</option>
-                                                }
-                                            </select>
-                                            <button type="submit" class="btn btn-primary btn-sm fw-bold">Seç</button>
-                                        </div>
-                                    </form>
-
-                                    @if (ViewBag.StokID != "")
-                                    {
-                                        <a href="/Stok/FiyatEkle/?StokID=@(ViewBag.StokID)&Isim=@(Isim)" class="btn btn-primary btn-sm fw-bold me-4" style=" float:left;margin-left: 3px;">
-                                            <i class="ki-duotone ki-plus fs-2"></i>Fiyat Ekle
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a href="/Stok/FiyatEkle/" class="btn btn-primary btn-sm fw-bold me-4" style=" float:left;margin-left: 3px;">
-                                            <i class="ki-duotone ki-plus fs-2"></i>Fiyat Ekle
-                                        </a>
-                                    }
-
-
-
                                     <form action="/Stok/FiyatListesi" class="stok-listesi " method="get" style="float:left;">
 
                                         <div class="col-lg-4 mt-4 mt-lg-0">
@@ -79,7 +46,7 @@
 
                                     @if (CariID != "")
                                     {
-                                        <a href="/Stok/FiyatEkle/?CariID=@(CariID)&Isim=@(Isim)" class="btn btn-primary btn-sm fw-bold me-4" style=" float:left;margin-left: 3px;">
+                                        <a href="/Stok/FiyatEkle/?CariID=@(CariID)&Isim=@(Isim)&StokID=@ViewBag.StokID" class="btn btn-primary btn-sm fw-bold me-4" style=" float:left;margin-left: 3px;">
                                             <i class="ki-duotone ki-plus fs-2"></i>Fiyat Ekle
                                         </a>
                                     }
@@ -133,11 +100,20 @@
                                         <td class="pt-4 pb-4">
                                             @(Convert.ToDateTime(Model.Rows[i]["BitisTarihi"]).ToString("dd-MM-yyyy"))
                                         </td>
-                                        <td class="pt-4 pb-4" style="text-align:right;">
-                                            @(String.Format("{0:N2}", Convert.ToString(Model.Rows[i]["Tip"]) == "A" ? Convert.ToDecimal(Model.Rows[i]["Tip"]) : 0 ))
-                                        </td>
-                                        <td class="pt-4 pb-4" style="text-align:right;">
-                                            @(String.Format("{0:N2}", Convert.ToString(Model.Rows[i]["Tip"]) == "S" ? Convert.ToDecimal(Model.Rows[i]["Tip"]) : 0 ))
+    
+                                        <td>
+                                            @if (Convert.ToString(Model.Rows[i]["Tip"]) == "A")
+                                            {
+                                                <span style="color: green;">Alış</span>
+                                            }
+                                            else if (Convert.ToString(Model.Rows[i]["Tip"]) == "S")
+                                            {
+                                                <span style="color: blue;">Satış</span>
+                                            }                                          
+                                            else
+                                            {
+                                                <span>Bilinmeyen</span>
+                                            }
                                         </td>
 
 
@@ -249,47 +225,6 @@
 
         var select = document.querySelectorAll("#select")
 
-
-        $(function () {
-
-            const StokIDSelect = $('#StokID').select2({
-                ajax: {
-                    url: "/Stok/SelectListe",
-                    data: function (params) {
-                        var query = {
-                            search: params.term,
-                        }
-
-                        // Query parameters will be ?search=[term]&type=public
-                        return query;
-                    },
-                    processResults: function (data) {
-                        var results = [];
-                        if (data && data.length > 0) {
-                            data.forEach(function (item) {
-                                results.push({ id: item.ID, text: item.Isim })
-                            });
-                        }
-
-                        return {
-                            results: results
-                        };
-                    }
-                },
-                delay: 250,
-                minimumInputLength: 3,
-                language: {
-                    placeholder: function () {
-                        return "Arama yapmak için en az 3 karakter girin";
-                    },
-                    inputTooShort: function () {
-                        return "En az lütfen en az 3 karakter girin";
-                    }
-                }
-            });
-
-
-        });
 
         $(function () {
 

@@ -713,7 +713,7 @@ namespace YKPortal.Controllers
             if (stokFiyatDto.StokID != string.Empty)
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "p_StokHareketListesi";
+                cmd.CommandText = "p_StokFiyatListesi";
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
                 cmd.Parameters.AddWithValue("@StokID", stokFiyatDto.StokID);
@@ -734,7 +734,7 @@ namespace YKPortal.Controllers
             if (stokFiyatDto.CariID != string.Empty)
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "p_StokHareketListesi";
+                cmd.CommandText = "p_StokFiyatListesi";
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
                 cmd.Parameters.AddWithValue("@StokID", stokFiyatDto.StokID);

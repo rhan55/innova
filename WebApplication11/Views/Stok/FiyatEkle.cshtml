@@ -17,7 +17,7 @@
                         <div class="col-lg-6 ">
                             <div class="form-group">
                                 <label for="StokID" class=" form-label">Stok İsim</label>
-                                <select class="form-select form-select-solid p-2 rounded-1" name="StokID" id="StokID" required aria-label="Floating label select example" data-control="select2" data-placeholder="arama yapmak için birşeyler yazın..." >
+                                <select class="form-select form-select-solid p-2 rounded-1" name="StokID" id="StokID" required aria-label="Floating label select example" data-control="select2" data-placeholder="arama yapmak için birşeyler yazın...">
                                     @if (Request.QueryString["StokID"] != null)
                                     {
                                         <option value="@Request.QueryString["StokID"]" selected>@Request.QueryString["Isim"]</option>
@@ -50,16 +50,23 @@
                                 <input type="text" name="FiyatGrubu" id="FiyatGrubu" value="@Model.FiyatGurubu" class="form-control p-2 mb-3 mb-lg-0" required" />
                             </div>
                         </div>
-                        <div class="col-lg-4 mt-10">
+                        
+
+                        <div class="col-lg-4">
                             <div class="flex">
-                                <label class="form-label flex items-center gap-2.5 text-nowrap me-4">
-                                    <input class="form-check-input" name="Tip" type="radio" value="A" @(Model.Tip == "" ? "checked" : (Model.Tip == "A" ? "checked" : "") ) />
-                                    Alış
-                                </label>
-                                <label class="form-label flex items-center gap-2.5 text-nowrap">
-                                    <input class="form-check-input " name="Tip" type="radio" value="S" @(Model.Tip == "S" ? "checked" : "") />
-                                    Satış
-                                </label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="Tip" id="TekSeferlik" value="A" checked>
+                                    <label class="form-check-label" for="TipAlis">
+                                        Alış
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="Tip" id="TipSatis" value="S">
+                                    <label class="form-check-label" for="TipSatis">
+                                        Satış
+                                    </label>
+                                </div>
+
                             </div>
                         </div>
                     </div>

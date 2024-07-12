@@ -443,6 +443,7 @@ namespace YKPortal.Controllers
             return RedirectToAction("Yetkiler", new { KullaniciID = yetkiler[0].KullaniciID });
         }
 
+   
         #region Cookie İşlemleri
 
         public bool AutoGirisKontrol()

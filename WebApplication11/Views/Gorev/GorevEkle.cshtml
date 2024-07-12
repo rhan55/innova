@@ -1,0 +1,162 @@
+﻿@using YKPortal.Models.Dto
+@{
+    ViewBag.Title = "GorevEkle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <!--begin::Form-->
+            <form id="kt_modal_add_user_form" class="form" action="@Url.Action("GorevEkle","Gorev",null)" method="post" enctype="multipart/form-data">
+                <!--begin::Scroll-->
+                <div class="d-flex flex-column scroll-y px-5 px-lg-10  mt-10">
+                    <input type="hidden" name="ID" value="@ViewBag.ID" />
+
+                    <!--begin::Row Input group-->
+                    <div class="row mb-7">
+                        <!--begin::Input group-->
+                        <div class="col-lg-8">
+                            <!--begin::Label-->
+                            <label for="Aciklama" class="fw-semibold fs-6 mb-2">Açıklama</label>
+                            <!--end::Label-->
+                            <!--begin::texarea-->
+                            <textarea type="text" id="Aciklama" name="Aciklama" class="form-control p-2 mb-3 mb-lg-0" value=""></textarea>
+                            <!--end::Input-->
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="GorevTipiID" class="form-label">Görev Tipi</label>
+                            <select class="form-control p-2 rounded-1" data-control="select2" name="GorevTipiID" id="GorevTipiID"
+                                    aria-label="Floating label select example">
+                                <option value="">Lütfen Seçim Yapınız</option>
+                                @foreach (GrupKoduDto gorevTipi in ViewBag.GorevTipleri)
+                                {
+                                    <option value="@gorevTipi.ID">@gorevTipi.Deger</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <!--end::Input group-->
+                    <div class="row">
+                        <!--begin::Input group-->
+                        <div class="col-lg-6">
+                            <!--begin::Label-->
+                            <label for="BaslangicTarihi" class=" fw-semibold fs-6 mb-2">Başlangıç Tarihi</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <input type="datetime-local" name="BaslangicTarihi" id="BaslangicTarihi" class="form-control p-2 mb-3 mb-lg-0" value="" />
+                            <!--end::Input-->
+                        </div>
+                        <!--end::Input group-->
+                        <div class="col-lg-6">
+                            <div class="d-flex justify-content-end align-items-center mt-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="periyot" id="TekSeferlik" value="T" checked>
+                                    <label class="form-check-label" for="periyotTekSeferlik">
+                                        Tek Seferlik
+                                    </label>
+                                </div>
+                                <div class="form-check ms-16">
+                                    <input class="form-check-input" type="radio" name="periyot" id="periyotGunluk" value="G">
+                                    <label class="form-check-label" for="periyotGunluk">
+                                        Günlük
+                                    </label>
+                                </div>
+                                <div class="form-check ms-16">
+                                    <input class="form-check-input" type="radio" name="periyot" id="periyotHaftalik" value="H">
+                                    <label class="form-check-label" for="periyotHaftalik">
+                                        Haftalık
+                                    </label>
+                                </div>
+                                <div class="form-check ms-16">
+                                    <input class="form-check-input" type="radio" name="periyot" id="periyotYillik" value="Y">
+                                    <label class="form-check-label" for="periyotYillik">
+                                        Yıllık
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--begin::Actions-->
+                    <div class="pt-10">
+                        <a onclick="history.back()" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
+                        <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Kaydet">
+                            <span class="indicator-label">Kaydet</span>
+                            <span class="indicator-progress">
+                                Lütfen Bekleyin...
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </button>
+                    </div>
+
+                    <!--end::Actions-->
+                </div>
+                <!--begin::Row Input group-->
+            </form>
+            <!--end::Form-->
+        </div>
+        <!--end::Scroll-->
+
+    </div>
+
+</div>
+
+
+
+@section Scripts {
+
+
+}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+
+
+
+        const gorevTipidSelect = $('#GorevTipiID').select2({
+            ajax: {
+                url: "/Gorev/GorevTipiListesiniOlustur",
+                data: function (params) {
+                    var query = {
+                        search: params.term,
+                    }
+
+                    // Query parameters will be ?search=[term]&type=public
+                    return query;
+                },
+                processResults: function (data) {
+                    var results = [];
+                    if (data && data.length > 0) {
+                        data.forEach(function (item) {
+                            results.push({ id: item.ID, text: item.Isim })
+                        });
+                    }
+
+                    return {
+                        results: results
+                    };
+                },
+            },
+            delay: 250,
+            minimumInputLength: 3,
+            language: {
+                placeholder: function () {
+                    return "Arama yapmak için en az 3 karakter girin";
+                },
+                inputTooShort: function () {
+                    return "Lütfen en az 3 karakter girin";
+                }
+            }
+        });
+
+
+
+
+
+    });
+
+</script>
+}

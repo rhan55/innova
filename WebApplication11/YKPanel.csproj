@@ -162,6 +162,7 @@
     <Compile Include="Controllers\CariController.cs" />
     <Compile Include="Controllers\DosyaController.cs" />
     <Compile Include="Controllers\DepoController.cs" />
+    <Compile Include="Controllers\GorevController.cs" />
     <Compile Include="Controllers\KullaniciController.cs" />
     <Compile Include="Controllers\ParametreController.cs" />
     <Compile Include="Controllers\SatisPersoneliController.cs" />
@@ -176,6 +177,7 @@
     <Compile Include="Models\Dto\BelgeDto.cs" />
     <Compile Include="Models\Dto\BelgeKalemDto.cs" />
     <Compile Include="Models\Dto\CariHareketDto.cs" />
+    <Compile Include="Models\Dto\GorevDto.cs" />
     <Compile Include="Models\Dto\MailAyarlariDto.cs" />
     <Compile Include="Models\Dto\ParametreDto.cs" />
     <Compile Include="Models\Dto\StokDto.cs" />
@@ -2658,6 +2660,8 @@
     <Content Include="Views\Stok\FiyatEkle.cshtml" />
     <Content Include="Views\Stok\FiyatListesi.cshtml" />
     <Content Include="Views\Shared\_Menu.cshtml" />
+    <Content Include="Views\Gorev\GorevEkle.cshtml" />
+    <Content Include="Views\Gorev\GorevListe.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
