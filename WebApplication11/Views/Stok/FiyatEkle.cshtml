@@ -25,64 +25,45 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-6 ">
-                            <div class="form-group">
-                                <label for="CariID" class=" form-label">Cari İsim</label>
-                                <select class="form-select form-select-solid p-2 rounded-1" name="CariID" id="CariID" required aria-label="Floating label select example" data-control="select2" data-placeholder="arama yapmak için birşeyler yazın...">
-                                    @if (Request.QueryString["CariID"] != null)
-                                    {
-                                        <option value="@Request.QueryString["CariID"]" selected>@Request.QueryString["Isim"]</option>
-                                    }
-                                </select>
-                            </div>
-                        </div>
                     </div>
-                    <div class="row mb-7">
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <label for="Fiyat" class="fw-semibold fs-6 mb-2">Fiyat</label>
-                                <input type="text" name="Fiyat" id="Fiyat" value="@String.Format("{0:N2}",Model.Fiyat).Replace(".","")" class="form-control p-2 mb-3 mb-lg-0" required" />
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
+                    <div class="row mb-12">
+
+                        <div class="col-lg-2">
                             <div class="form-group">
                                 <label for="FiyatGrubu" class=" form-label">Fiyat Grubu</label>
                                 <input type="text" name="FiyatGrubu" id="FiyatGrubu" value="@Model.FiyatGurubu" class="form-control p-2 mb-3 mb-lg-0" required" />
                             </div>
                         </div>
-                        
-
-                        <div class="col-lg-4">
-                            <div class="flex">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="Tip" id="TekSeferlik" value="A" checked>
-                                    <label class="form-check-label" for="TipAlis">
-                                        Alış
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="Tip" id="TipSatis" value="S">
-                                    <label class="form-check-label" for="TipSatis">
-                                        Satış
-                                    </label>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="row mb-7">
-                        <div class="col-lg-6">
+                        <div class="col-lg-2">
                             <div class="form-group">
                                 <label for="BaslangicTarihi" class="fw-semibold fs-6 mb-2">Baslangıç Tarihi</label>
                                 <input type="date" value="@Model.BaslangicTarihi" name="BaslangicTarihi" class="form-control p-2 mb-3 mb-lg-0" required" />
                             </div>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-2">
                             <div class="form-group">
                                 <label for="BitisTarihi" class="fw-semibold fs-6 mb-2">Bitiş Tarihi</label>
                                 <input type="date" value="@Model.BaslangicTarihi" name="BitisTarihi" id="BitisTarihi" class="form-control p-2 mb-3 mb-lg-0" required" />
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label for="Fiyat" class="fw-semibold fs-6 mb-2" >Fiyat</label>
+                                <input type="text" name="Fiyat" id="Fiyat" value="@String.Format("{0:N2}",Model.Fiyat).Replace(".","")" class="form-control p-2 mb-3 mb-lg-0" required" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-3 mt-10">
+                            <div class="flex">
+                                    <input class="form-check-input" type="radio" name="Tip" id="TekSeferlik" value="A" checked>
+                                    <label class="form-check-label" for="TipAlis">
+                                        Alış Fiyatı
+                                    </label>
+                                    <input class="form-check-input" type="radio" name="Tip" id="TipSatis" value="S">
+                                    <label class="form-check-label" for="TipSatis">
+                                        Satış Fiyatı
+                                    </label>
                             </div>
                         </div>
 

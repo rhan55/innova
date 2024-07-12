@@ -84,7 +84,7 @@
                                         {
                                             ToplamBorc += Convert.ToString(Model.Rows[i]["GC"]) == "G" ? Convert.ToDecimal(Model.Rows[i]["Tutar"]) : 0;
                                             ToplamAlacak += Convert.ToString(Model.Rows[i]["GC"]) == "C" ? Convert.ToDecimal(Model.Rows[i]["Tutar"]) : 0;
-                                            <tr>
+                                            <tr style="@(Convert.ToString(Model.Rows[i]["GC"]) == "G" ? "color:green;" : "color:darkred;")">
                                                 <td class="pt-4 pb-4">
                                                     @(Convert.ToDateTime(Model.Rows[i]["Tarih"]).ToString("dd-MM-yyyy"))
                                                 </td>

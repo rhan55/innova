@@ -1,7 +1,7 @@
 ﻿@using YKPortal.Models.Dto
 @model YKPortal.Models.Dto.StokHareketDto
 @{
-    ViewBag.Title = "YeniStokHareketKaydi";
+    ViewBag.Title = "Yeni Stok Hareket Kaydı";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -29,12 +29,6 @@
                             <div class="form-group">
                                 <label for="BelgeNo" class="fw-semibold fs-6 mb-2">Belge No</label>
                                 <input type="text" name="BelgeNo" id="BelgeNo" value="@Model.BelgeNo" class="form-control p-2 mb-3 mb-lg-0" required" />
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="form-group">
-                                <label for="Miktar" class="fw-semibold fs-6 mb-2">Miktar</label>
-                                <input type="text" name="Miktar" id="Miktar" value="@Model.Miktar" class="form-control p-2 mb-3 mb-lg-0 text-end" required" />
                             </div>
                         </div>
                     </div>
@@ -71,15 +65,23 @@
                             <div class="flex">
                                 <label class="form-label flex items-center gap-2.5 text-nowrap me-4">
                                     <input class="form-check-input" name="GC" type="radio" value="G" @(Model.GC == "" ? "checked" : (Model.GC == "G" ? "checked" : "") ) />
-                                    Borç
+                                    Giriş
                                 </label>
                                 <label class="form-label flex items-center gap-2.5 text-nowrap">
                                     <input class="form-check-input " name="GC" type="radio" value="C" @(Model.GC == "C" ? "checked" : "") />
-                                    Alacak
+                                    Çıkış
                                 </label>
                             </div>
 
                         </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label for="Miktar" style="text-align:right;" class="fw-semibold fs-6 mb-2">Miktar</label>
+                                <input type="text" name="Miktar" id="Miktar" value="@Model.Miktar" class="form-control p-2 mb-3 mb-lg-0 text-end" required" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-lg-2">
                             <div class="form-group" style="text-align:right;">
                                 <label for="Tutar" class="fw-semibold fs-6 mb-2">Tutar</label>
@@ -97,9 +99,7 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-8">
                             <div class="form-group">
                                 <label for="Aciklama" class=" form-label ">Açıklama</label>
                                 <textarea type="text" name="Aciklama" class="form-control p-2 rounded-1" id="Aciklama">@Model.BelgeNo</textarea>

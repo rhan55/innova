@@ -3,7 +3,7 @@
     ViewBag.Title = "Stok Hareket Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
     decimal ToplamBorc = 0;
-    decimal ToplamAlacak = 0;
+    decimal ToplamMiktar = 0;
 
     string StokID = "";
     string Isim = "";
@@ -70,9 +70,8 @@
                                             <th class="min-w-125px"><strong>Vade Tarihi</strong></th>
                                             <th class="min-w-125px"><strong>Belge No</strong></th>
                                             <th class="min-w-125px"><strong>Hareket Tipi</strong></th>
-                                            <th class="min-w-125px"><strong>Miktar</strong></th>
-                                            <th class="min-w-125px" style="text-align:right;"><strong>Borç</strong></th>
-                                            <th class="min-w-125px mt-8" style="text-align:right;"><strong>Alacak</strong></th>
+                                            <th class="min-w-125px" style="text-align:right;"><strong>Miktar</strong></th>
+                                            <th class="min-w-125px" style="text-align:right;"><strong>Tutar</strong></th>
                                             <th class="min-w-125px"><strong>Döviz Tipi</strong></th>
                                             <th class="min-w-125px"><strong>Açıklama</strong></th>
                                             <th class="text-end min-w-100px"><strong>İşlemler</strong></th>
@@ -82,9 +81,9 @@
                                     <tbody class="text-gray-600 fw-semibold">
                                         @for (var i = 0; i < Model.Rows.Count; i++)
                                         {
-                                            ToplamBorc += Convert.ToString(Model.Rows[i]["GC"]) == "G" ? Convert.ToDecimal(Model.Rows[i]["Tutar"]) : 0;
-                                            ToplamAlacak += Convert.ToString(Model.Rows[i]["GC"]) == "C" ? Convert.ToDecimal(Model.Rows[i]["Tutar"]) : 0;
-                                            <tr>
+                                            ToplamBorc += Convert.ToString(Model.Rows[i]["GC"]) == "G" ? Convert.ToDecimal(Model.Rows[i]["Tutar"]) : Convert.ToDecimal(Model.Rows[i]["Tutar"]) * -1;
+                                            ToplamMiktar += Convert.ToString(Model.Rows[i]["GC"]) == "G" ? Convert.ToDecimal(Model.Rows[i]["Miktar"]) : Convert.ToDecimal(Model.Rows[i]["Miktar"]) * -1;
+                                            <tr style="@(Convert.ToString(Model.Rows[i]["GC"]) == "G" ? "color:green;" : "color:darkred;")">
                                                 <td class="pt-4 pb-4">
                                                     @(Convert.ToDateTime(Model.Rows[i]["Tarih"]).ToString("dd-MM-yyyy"))
                                                 </td>
@@ -97,14 +96,11 @@
                                                 <td class="pt-4 pb-4">
                                                     @(Convert.ToString(Model.Rows[i]["HareketTipi"]))
                                                 </td>
-                                                <td class="pt-4 pb-4">
-                                                    @(Convert.ToString(Model.Rows[i]["Miktar"]))
+                                                <td class="pt-4 pb-4" style="text-align:right;">
+                                                    @(String.Format("{0:N2}", Convert.ToDecimal(Model.Rows[i]["Miktar"])))
                                                 </td>
                                                 <td class="pt-4 pb-4" style="text-align:right;">
-                                                    @(String.Format("{0:N2}", Convert.ToString(Model.Rows[i]["GC"]) == "G" ? Convert.ToDecimal(Model.Rows[i]["Tutar"]) : 0 ))
-                                                </td>
-                                                <td class="pt-4 pb-4" style="text-align:right;">
-                                                    @(String.Format("{0:N2}", Convert.ToString(Model.Rows[i]["GC"]) == "C" ? Convert.ToDecimal(Model.Rows[i]["Tutar"]) : 0 ))
+                                                    @(String.Format("{0:N2}", Convert.ToString(Model.Rows[i]["GC"]) == "G" ? Convert.ToDecimal(Model.Rows[i]["Tutar"]) : Convert.ToDecimal(Model.Rows[i]["Tutar"])*-1))
                                                 </td>
                                                 <td class="pt-4 pb-4">
                                                     @(Convert.ToString(Model.Rows[i]["DovizTipi"]))
@@ -139,16 +135,15 @@
                                                 </td>
                                             </tr>
                                         }
-                                    <tr class="text-start" style="font-size:15px;@(ToplamBorc-ToplamAlacak < 0 ? "color:red;" : "color:green;")">
+                                    <tr class="text-start" style="font-size:15px;@(ToplamBorc-ToplamMiktar < 0 ? "color:red;" : "color:green;")">
                                         <th class="min-w-125px"></th>
                                         <th class="min-w-125px"></th>
                                         <th class="min-w-125px"></th>
                                         <th class="min-w-125px"></th>
-                                        <th class="min-w-125px"></th>
+                                        <th class="min-w-125px" style="text-align:right;"><strong>@(String.Format("{0:N2}", ToplamMiktar))</strong></th>
                                         <th class="min-w-125px" style="text-align:right;"><strong>@(String.Format("{0:N2}", ToplamBorc))</strong></th>
-                                        <th class="min-w-125px mt-8" style="text-align:right;"><strong>@(String.Format("{0:N2}", ToplamAlacak))</strong></th>
                                         <th class="min-w-125px"></th>
-                                        <th class="min-w-125px mt-8" style=""><strong>@(String.Format("Bakiye : {0:N2}", ToplamBorc-ToplamAlacak))</strong></th>
+                                        <th class="min-w-125px mt-8"></th>
                                         <th class="min-w-125px"></th>
                                     </tr>
                                     </tbody>
