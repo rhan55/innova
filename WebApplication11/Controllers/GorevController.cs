@@ -47,11 +47,56 @@ namespace YKPortal.Controllers
             return RedirectToAction("GorevListe");
         }
 
-        public ActionResult GorevListe(GorevDto gorevDto)
+        [HttpGet]
+        public ActionResult GorevDuzenle(string ID)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
+            GorevTipiListesiniOlustur();
+            var uyelikId = GetCookie("UyelikID");
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_Gorev";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID",ID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            ViewBag.ID = ID;
+
+            return View(dt);
+
+        }
+
+        [HttpPost]
+        public ActionResult GorevDuzenle(GorevDto gorevDto)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_GorevKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@ID", gorevDto.ID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@GorevTipiID", gorevDto.GorevTipiID);
+            cmd.Parameters.AddWithValue("@Aciklama", gorevDto.Aciklama);
+            cmd.Parameters.AddWithValue("@BaslangicTarihi", gorevDto.BaslangicTarihi);
+            cmd.Parameters.AddWithValue("@Periyot", gorevDto.Periyot);
+
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return RedirectToAction("GorevListe");
+        }
+        [HttpGet]
+        public ActionResult GorevListe(GorevDto gorevDto)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+            GorevTipiListesiniOlustur();
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_GorevListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -63,7 +108,22 @@ namespace YKPortal.Controllers
 
             return View(dt);
         }
+        [HttpPost]
+        public ActionResult GorevSil(string id)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
 
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_GorevSil";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return RedirectToAction("GorevListe");
+        }
 
         #region Cookie İşlemleri
 

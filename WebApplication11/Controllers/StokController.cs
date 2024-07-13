@@ -759,7 +759,22 @@ namespace YKPortal.Controllers
         }
 
 
+        public ActionResult FiyatSil(string id, string StokID)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
 
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_StokFiyatSil";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@StokID", StokID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return RedirectToAction("FiyatListe");
+        }
 
         public JsonResult SelectStokSeriListe(string StokID)
         {

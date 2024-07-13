@@ -2662,6 +2662,7 @@
     <Content Include="Views\Shared\_Menu.cshtml" />
     <Content Include="Views\Gorev\GorevEkle.cshtml" />
     <Content Include="Views\Gorev\GorevListe.cshtml" />
+    <Content Include="Views\Gorev\GorevDuzenle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
