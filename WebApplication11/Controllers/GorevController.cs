@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using YKPortal.Models.Dto;
 using YKPortal.Models;
+using YKPortal.Models.YKClasses;
+using System.Net;
 
 namespace YKPortal.Controllers
 {
@@ -105,6 +107,37 @@ namespace YKPortal.Controllers
                     cmd.Parameters.AddWithValue("@SecilenKullaniciID", kullanici);
                     cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
                     IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                    #region Kullanıcıya sms gönderme
+
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "p_Kullanici";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                    cmd.Parameters.AddWithValue("@ID", kullanici);
+                    string telefon = Convert.ToString(((DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo)).Rows[0]["Telefon"])
+                        .Replace(" ", "")
+                        .Replace("-", "")
+                        .Replace("_", "");
+                    if (telefon.Trim().Length > 0)
+                    {
+                        string aciklama = gorevDto.Aciklama;
+                        if (aciklama.Length > 100)
+                        {
+                            aciklama = aciklama.Substring(0,90)+"...";
+                        }
+                        aciklama += " app.ykyazilim.com.tr";
+                        string url = @"http://idyazilim.com/Site/SmsGonder/?telefon=" + telefon + "&" +
+                            "KullaniciAdi=" + YKUtils.SmsKullaniciAdi + "&" +
+                            "Parola=" + YKUtils.SmsParola + "&" +
+                            "Isim=" + YKUtils.SmsIsim + "&" +
+                            "Sirket=YK YAZILIM&" +
+                            "Program=" + "YK App" + "&" +
+                            "mesaj=" + GetCookie("Isim")+" kullanıcısı "+gorevDto.BaslangicTarihi.ToString("dd-MM-yyyy HH:mm") + " tarihli görev atadı, görev ayrıntı : " + aciklama + "";
+                        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                        var sonuc = request.GetResponse();
+                    }
+                    #endregion
                 }
             }
 
@@ -232,8 +265,8 @@ namespace YKPortal.Controllers
             return RedirectToAction("GorevListe");
         }
         [HttpGet]
-        public ActionResult GorevListe(GorevDto gorevDto, DateTime? Baslangic=null, DateTime? Bitis = null, 
-            string GorevTipiID = "", string KayitYapanKullanici = "", string AtananKullanici="")
+        public ActionResult GorevListe(GorevDto gorevDto, DateTime? Baslangic = null, DateTime? Bitis = null,
+            string GorevTipiID = "", string KayitYapanKullanici = "", string AtananKullanici = "")
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
