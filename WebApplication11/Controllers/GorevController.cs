@@ -282,7 +282,7 @@ namespace YKPortal.Controllers
         }
         [HttpGet]
         public ActionResult GorevListe(GorevDto gorevDto, DateTime? Baslangic = null, DateTime? Bitis = null,
-            string GorevTipiID = "", string KayitYapanKullanici = "", string AtananKullanici = "")
+            string Durum="", string GorevTipiID = "", string KayitYapanKullanici = "", string AtananKullanici = "")
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
@@ -313,16 +313,17 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@Bitis", Bitis);
             cmd.Parameters.AddWithValue("@GorevTipiID", GorevTipiID);
             cmd.Parameters.AddWithValue("@KayitYapanKullanici", KayitYapanKullanici);
-            cmd.Parameters.AddWithValue("@AtananKullanici", AtananKullanici);
-            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            cmd.Parameters.AddWithValue("@Durum", Durum);
+            DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
 
             ViewBag.Baslangic = Baslangic;
             ViewBag.Bitis = Bitis;
             ViewBag.GorevTipiID = GorevTipiID;
             ViewBag.KayitYapanKullanici = KayitYapanKullanici;
             ViewBag.AtananKullanici = AtananKullanici;
+            ViewBag.Durum = Durum;
 
-            return View(dt);
+            return View(ds);
         }
         [HttpPost]
         public ActionResult GorevSil(string id)

@@ -135,6 +135,16 @@
                         <td><strong>@Convert.ToString(Model.Tables[0].Rows[0]["GorevtipiAdi"])</strong></td>
                     </tr>
                     <tr>
+                        <td style="vertical-align: top; width: 140px;">Atanan Kullanıcılar</td>
+                        <td style="vertical-align: top; padding-left: 5px; padding-right: 5px;">:</td>
+                        <td>
+                            @foreach (DataRow kullanici in Model.Tables[1].Rows)
+                            {
+                                <span>@kullanici["Isim"]</span><br />
+                            }
+                        </td>
+                    </tr>
+                    <tr>
                         <td style="vertical-align: top; width: 140px;">Açıklama</td>
                         <td style="vertical-align: top; padding-left: 5px; padding-right: 5px;">:</td>
                         <td>@Convert.ToString(Model.Tables[0].Rows[0]["Aciklama"])</td>
