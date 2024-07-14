@@ -1,6 +1,4 @@
-﻿
-
-@using YKPortal.Models.Dto
+﻿@using YKPortal.Models.Dto
 @using System.Data
 @using System.Data.SqlClient
 @using YKPortal.Models
@@ -174,7 +172,7 @@
 
                                         <!--begin::Menu item-->
                                         <div class="menu-item">
-                                            <a href="@Url.Action("Profil","Kullanici",null)" class="menu-link px-4 py-0">Profilime Git</a>
+                                            <a href="@Url.Action("Profil", "Kullanici", null)" class="menu-link px-4 py-0">Profilime Git</a>
                                         </div>
                                         <!--end::Menu item-->
                                         <!--begin::Menu item-->
@@ -233,7 +231,7 @@
                                 <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="@Url.Action("UyelikListesi", "YK", null)"><span class="menu-icon"><i class="ki-duotone ki-slack fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Üyelikler</span></a><!--end:Menu link--></div>
                             }
 
-                            <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="@Url.Action("Cikis","YK",null)"><span class="menu-icon"><i class="ki-duotone ki-exit-left fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Çıkış</span></a><!--end:Menu link--></div>
+                            <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="@Url.Action("Cikis", "YK", null)"><span class="menu-icon"><i class="ki-duotone ki-exit-left fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Çıkış</span></a><!--end:Menu link--></div>
                         </div>
                         <!--end::Menu-->
 
@@ -292,7 +290,7 @@
                                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 pt-1">
                                     <!--begin::Item-->
                                     <li class="breadcrumb-item text-muted">
-                                        <a href="@Url.Action("AnaSayfa","YK",null)" class="text-muted text-hover-primary">Ana Sayfa</a>
+                                        <a href="@Url.Action("AnaSayfa", "YK", null)" class="text-muted text-hover-primary">Ana Sayfa</a>
                                     </li>
                                     <!--end::Item-->
                                     <!--begin::Item-->
@@ -307,7 +305,15 @@
                                 <!--end::Breadcrumb-->
                             </div>
                             <div id="GeriSayim">
-
+                                @{
+                                    TimeSpan ts = Convert.ToDateTime(UyelikBitisTarihi) - DateTime.Today;
+                                    if (ts.Days <= 15)
+                                    {
+                                        <a href="#">
+                                            <span style="color: red;font-size:15px; vertical-align: middle;"><br /><strong>Üyeliğinizin bitmesine @(ts.Days) gün kaldı.<br />Üyelik sürenizi uzatmak için tıklayınız.</strong></span>
+                                        </a>
+                                    }
+                                }
                             </div>
                             <!--end::Page title-->
                             <!--begin::Theme mode-->
@@ -634,36 +640,37 @@
 
                 navigationContainer.innerHTML = filteredNavigation.join("")
             });
-            function getRemainingDays() {
-                var cookieName = "UyelikBitisTarihi";
-                var countdownDiv = document.getElementById("countdownDiv");
-
-                // Çerezden bitiş tarihini al
-                var cookieValue = getCookie(cookieName);
-
-                if (cookieValue) {
-                    var expireDate = new Date(cookieValue);
-                    var currentDate = new Date();
-
-                    // Kalan günleri hesapla
-                    var timeDiff = expireDate.getTime() - currentDate.getTime();
-                    var remainingDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-
-                    // Sayaçı div içine yerleştir
-                    if (remainingDays <= 15) {
-                        countdownDiv.textContent = "Üyeliğinizin bitmesine " + remainingDays + " gün kaldı.";
-                    } else {
-                        countdownDiv.textContent = "Üyeliğinizin bitiş tarihine çok zaman var.";
-                    }
-                } else {
-                    countdownDiv.textContent = "Üyelik bitiş tarihi çerezi bulunamadı.";
-                }
-            }
+            //function getRemainingDays() {
+            //    var cookieName = "UyelikBitisTarihi";
+            //    var countdownDiv = document.getElementById("countdownDiv");
+            //
+            //    // Çerezden bitiş tarihini al
+            //    var cookieValue = getCookie(cookieName);
+            //
+            //    if (cookieValue) {
+            //        var expireDate = new Date(cookieValue);
+            //        var currentDate = new Date();
+            //
+            //        // Kalan günleri hesapla
+            //        var timeDiff = expireDate.getTime() - currentDate.getTime();
+            //        var remainingDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+            //
+            //        // Sayaçı div içine yerleştir
+            //        if (remainingDays <= 15) {
+            //            countdownDiv.textContent = "Üyeliğinizin bitmesine " + remainingDays + " gün kaldı.";
+            //        } else {
+            //            countdownDiv.textContent = "Üyeliğinizin bitiş tarihine çok zaman var. Gün : " + remainingDays;
+            //        }
+            //    } else {
+            //        countdownDiv.textContent = "Üyelik bitiş tarihi çerezi bulunamadı.";
+            //    }
+            //}
+            //getRemainingDays();
             //function getCookie(cookieName) {
             //    var name = cookieName + "=";
             //    var decodedCookie = decodeURIComponent(document.cookie);
             //    var cookieArray = decodedCookie.split(';');
-
+            //
             //    for (var i = 0; i < cookieArray.length; i++) {
             //        var cookie = cookieArray[i].trim();
             //        if (cookie.indexOf(name) === 0) {
