@@ -56,20 +56,14 @@ namespace YKPortal.Controllers
 
             cmd.CommandText = "p_DosyaKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
             cmd.Parameters.AddWithValue("@ID", "");
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@Modul", cariDosyaDto.Modul);
             cmd.Parameters.AddWithValue("@KayitID", cariDosyaDto.KayitID);
-
-          
             Dosya.SaveAs(Server.MapPath($"/Uploads/Dosyalar/{Dosya.FileName}"));
-
             cmd.Parameters.AddWithValue("@Dosya", Dosya.FileName);
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
-
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
             response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
             response.Content = new StringContent("Dosya yuklendi.");
             return response;
@@ -133,7 +127,6 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Giris");
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_DosyaSil";
-
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@ID", cariDosyaDto.ID);
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));

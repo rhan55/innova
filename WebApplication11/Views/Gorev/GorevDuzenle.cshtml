@@ -1,7 +1,13 @@
 ﻿@using YKPortal.Models.Dto
+@using System.Data
+@model System.Data.DataSet
 @{
-    ViewBag.Title = "GorevDuzenle";
+    ViewBag.Title = "Görev Düzenle";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    DataTable dtKullanicilar = ViewBag.Kullanicilar as DataTable;
+    string KullaniciID = Request.Cookies["KullaniciID"].Value;
+
 }
 
 
@@ -9,93 +15,243 @@
     <div class="row">
         <div class="col-lg-12">
             <!--begin::Form-->
-            <form id="kt_modal_add_user_form" class="form" action="@Url.Action("GorevDuzenle","Gorev",null)" method="post" enctype="multipart/form-data">
-                <!--begin::Scroll-->
-                <div class="d-flex flex-column scroll-y px-5 px-lg-10  mt-10">
-                    <input type="hidden" name="ID" value="@ViewBag.ID" />
+            @if (Convert.ToString(Model.Tables[0].Rows[0]["KayitYapanKullanici"]) == KullaniciID)
+            {
+                <form id="kt_modal_add_user_form" class="form" action="@Url.Action("GorevDuzenle","Gorev",null)" method="post" enctype="multipart/form-data">
+                    <!--begin::Scroll-->
+                    <div class="d-flex flex-column scroll-y px-5 px-lg-10  mt-10">
+                        <input type="hidden" name="ID" value="@ViewBag.ID" />
 
-                    <!--begin::Row Input group-->
-                    <div class="row mb-7">
-                        <!--begin::Input group-->
-                        <div class="col-lg-8">
-                            <!--begin::Label-->
-                            <label for="Aciklama" class="fw-semibold fs-6 mb-2">Açıklama</label>
-                            <!--end::Label-->
-                            <!--begin::texarea-->
-                            <textarea type="text" id="Aciklama" name="Aciklama" class="form-control p-2 mb-3 mb-lg-0">@(Convert.ToString(Model.Rows[0]["Aciklama"]))</textarea>
-                            <!--end::Input-->
-                        </div>
-                        <div class="col-lg-4">
-                            <label for="GorevTipiID" class="form-label">Görev Tipi</label>
-                            <select class="form-control p-2 rounded-1" data-control="select2" name="GorevTipiID" id="GorevTipiID"
-                                    aria-label="Floating label select example">
-                                <option value="">Lütfen Seçim Yapınız</option>
-                                @foreach (GrupKoduDto gorevTipi in ViewBag.GorevTipleri)
-                                {
-                                    <option @(Convert.ToString(Model.Rows[0]["GorevTipiID"]) == gorevTipi.ID ? "selected" : "") value="@gorevTipi.ID">@gorevTipi.Deger</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                    <!--end::Input group-->
-                    <div class="row">
-                        <!--begin::Input group-->
-                        <div class="col-lg-6">
-                            <!--begin::Label-->
-                            <label for="BaslangicTarihi" class=" fw-semibold fs-6 mb-2">Başlangıç Tarihi</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <input type="datetime" name="BaslangicTarihi" id="BaslangicTarihi" value="@(DateTime.Parse(Convert.ToString(Model.Rows[0]["BaslangicTarihi"])).ToString("yyyy-MM-dd"))" class="form-control p-2 mb-3 mb-lg-0" value="" />
-                            <!--end::Input-->
-                        </div>
-                        <!--end::Input group-->
-                        <div class="col-lg-6">
-                            <div class="d-flex justify-content-end align-items-center  mt-10">
-                                <div class="form-check  ms-16">
-                                    <input class="form-check-input" type="radio" name="periyot" id="TekSeferlik" value="T"
-                                         @(Convert.ToString(Model.Rows[0]["Periyot"])== "T" ? "checked" : "")>
-                                    <label class="form-check-label" for="TekSeferlik">
-                                        Tek Seferlik
-                                    </label>
-                                </div>
-                                <div class="form-check  ms-16">
-                                    <input class="form-check-input" type="radio" name="periyot" id="periyotGunluk" value="G"
-                                           @(Convert.ToString(Model.Rows[0]["Periyot"]) == "G" ? "checked" : "")>
-
-                                    <label class="form-check-label" for="periyotGunluk">
-                                        Günlük
-                                    </label>
-                                </div>
-                                <div class="form-check ms-16">
-                                    <input class="form-check-input" type="radio" name="periyot" id="periyotHaftalik" value="H"
-                                           @(Convert.ToString(Model.Rows[0]["Periyot"]) == "H" ? "checked" : "")>
-                                    <label class="form-check-label" for="periyotHaftalik">
-                                        Haftalık
-                                    </label>
-                                </div>
-                                <div class="form-check ms-16">
-                                    <input class="form-check-input" type="radio" name="periyot" id="periyotYillik" value="Y"
-                                           @(Convert.ToString(Model.Rows[0]["Periyot"]) == "Y" ? "checked" : "")>
-
-                                    <label class="form-check-label" for="periyotYillik">
-                                        Yıllık
-                                    </label>
-                                </div>
+                        <!--begin::Row Input group-->
+                        <div class="row mb-7">
+                            <!--begin::Input group-->
+                            <div class="col-lg-8">
+                                <!--begin::Label-->
+                                <label for="Aciklama" class="fw-semibold fs-6 mb-2">Açıklama</label>
+                                <!--end::Label-->
+                                <!--begin::texarea-->
+                                <textarea type="text" id="Aciklama" name="Aciklama" class="form-control p-2 mb-3 mb-lg-0">@(Convert.ToString(Model.Tables[0].Rows[0]["Aciklama"]))</textarea>
+                                <!--end::Input-->
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="GorevTipiID" class="form-label">Görev Tipi</label>
+                                <select class="form-control p-2 rounded-1" data-control="select2" name="GorevTipiID" id="GorevTipiID"
+                                        aria-label="Floating label select example">
+                                    <option value="">Lütfen Seçim Yapınız</option>
+                                    @foreach (GrupKoduDto gorevTipi in ViewBag.GorevTipleri)
+                                    {
+                                        <option @(Convert.ToString(Model.Tables[0].Rows[0]["GorevTipiID"]) == gorevTipi.ID ? "selected" : "") value="@gorevTipi.ID">@gorevTipi.Deger</option>
+                                    }
+                                </select>
                             </div>
                         </div>
-                    </div>
-                    <!--begin::Actions-->
-                    <div class="pt-10">
-                        <a onclick="history.back()" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
-                        <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Duzenle">
-                            <span class="indicator-label">Düzenle</span>
-                        </button>
+                        <!--end::Input group-->
+                        <div class="row">
+                            <!--begin::Input group-->
+                            <div class="col-lg-2">
+                                <!--begin::Label-->
+                                <label for="BaslangicTarihi" class=" fw-semibold fs-6 mb-2">Başlangıç Tarihi</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <input type="datetime-local" name="BaslangicTarihi" id="BaslangicTarihi" value="@(DateTime.Parse(Convert.ToString(Model.Tables[0].Rows[0]["BaslangicTarihi"])).ToString("yyyy-MM-dd HH:mm"))" class="form-control p-2 mb-3 mb-lg-0" value="" />
+                                <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+                            <div class="col-lg-6">
+                                <div class="d-flex justify-content-end align-items-center  mt-10">
+                                    <div class="form-check  ms-16">
+                                        <input class="form-check-input" type="radio" name="periyot" id="TekSeferlik" value="T"
+                                               @(Convert.ToString(Model.Tables[0].Rows[0]["Periyot"]) == "T" ? "checked" : "")>
+                                        <label class="form-check-label" for="TekSeferlik">
+                                            Tek Seferlik
+                                        </label>
+                                    </div>
+                                    <div class="form-check  ms-16">
+                                        <input class="form-check-input" type="radio" name="periyot" id="periyotGunluk" value="G"
+                                               @(Convert.ToString(Model.Tables[0].Rows[0]["Periyot"]) == "G" ? "checked" : "") disabled>
+                                        <label class="form-check-label" for="periyotGunluk">
+                                            Günlük
+                                        </label>
+                                    </div>
+                                    <div class="form-check ms-16">
+                                        <input class="form-check-input" type="radio" name="periyot" id="periyotHaftalik" value="H"
+                                               @(Convert.ToString(Model.Tables[0].Rows[0]["Periyot"]) == "H" ? "checked" : "") disabled>
+                                        <label class="form-check-label" for="periyotHaftalik">
+                                            Haftalık
+                                        </label>
+                                    </div>
+                                    <div class="form-check ms-16">
+                                        <input class="form-check-input" type="radio" name="periyot" id="periyotYillik" value="Y"
+                                               @(Convert.ToString(Model.Tables[0].Rows[0]["Periyot"]) == "Y" ? "checked" : "") disabled>
+
+                                        <label class="form-check-label" for="periyotYillik">
+                                            Yıllık
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <br /><br />
+                                <input type="file" name="file" id="file" value="" multiple />
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="Kullanicilar">Görev atanacak kullanıcılar</label>
+                                <select id="Kullanicilar" name="Kullanicilar" class="form-control" style="height:200px;" multiple>
+                                    @foreach (DataRow drKullanici in dtKullanicilar.Rows)
+                                    {
+                                        <option value="@drKullanici["ID"]" @(Model.Tables[1].Select(" KullaniciID = '" + drKullanici["ID"] + "' ").Count() > 0 ? "selected" : "")>@drKullanici["Ad"] @drKullanici["Soyad"] - @drKullanici["Aciklama1"]</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <!--begin::Actions-->
+                        <div class="pt-10">
+                            <a href="@Url.Content("~/Gorev/GorevListe")" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
+                            <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Duzenle">
+                                <span class="indicator-label">Düzenle</span>
+                            </button>
+                        </div>
+
+                        <!--end::Actions-->
                     </div>
 
-                    <!--end::Actions-->
-                </div>
-               
-            </form>
+                </form>
+
+            }
+
+            @if (Convert.ToString(Model.Tables[0].Rows[0]["KayitYapanKullanici"]) != KullaniciID)
+            {
+                <br />
+                <h2 style="text-align:center;">Kaydı Oluşturan : @(Model.Tables[0].Rows[0]["KaydiAcan"])  - Kayıt Tarihi : @(Convert.ToDateTime(Model.Tables[0].Rows[0]["KayitTarihi"]).ToString("dd-MM-yyyy HH:mm"))</h2>
+                <table class="form-control tab-content" style="background-color:#226faa; color:white;">
+                    <tr>
+                        <td style="vertical-align:top;width:140px;">Başlangıç Tarihi</td>
+                        <td style="vertical-align:top;padding-left:5px;padding-right:5px;">:</td>
+                        <td><strong>@Convert.ToDateTime(Model.Tables[0].Rows[0]["BaslangicTarihi"]).ToString("dd-MM-yyyy HH:mm")</strong></td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top; width: 140px;">Görev Tipi</td>
+                        <td style="vertical-align: top; padding-left: 5px; padding-right: 5px;">:</td>
+                        <td><strong>@Convert.ToString(Model.Tables[0].Rows[0]["GorevtipiAdi"])</strong></td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top; width: 140px;">Açıklama</td>
+                        <td style="vertical-align: top; padding-left: 5px; padding-right: 5px;">:</td>
+                        <td>@Convert.ToString(Model.Tables[0].Rows[0]["Aciklama"])</td>
+                    </tr>
+                </table>
+
+            }
+
+            <div style="text-align:center;">
+                @foreach (DataRow resim in Model.Tables[3].Rows)
+                {
+                    <div style="float: left;width:150px;">
+                        @if (Convert.ToString(resim["Dosya"]).EndsWith(".jpg") ||
+                             Convert.ToString(resim["Dosya"]).EndsWith(".jpeg") ||
+                             Convert.ToString(resim["Dosya"]).EndsWith(".png") ||
+                             Convert.ToString(resim["Dosya"]).EndsWith(".gif")
+                            )
+                        {
+                            <img src="@Url.Content("~/Uploads/Dosyalar/"+resim["Dosya"])" style="height:150px;margin:3px;" alt="@(resim["Dosya"])" />
+
+                        }
+                        else
+                        {
+                            @resim["Isim"]
+                        }
+                        <br />
+                        <a href="@Url.Content("~/Uploads/Dosyalar/"+resim["Dosya"])" target="_blank">İndir</a>
+
+                        @if (Convert.ToString(Model.Tables[0].Rows[0]["KayitYapanKullanici"]) == KullaniciID)
+                        {
+                            <a href="@Url.Content("~/Gorev/DosyaSil/?GorevID="+resim["KayitID"]+"&KayitID="+resim["ID"])" onclick="return confirm('Silmek istediğinizden emin misiniz?')">Sil</a>
+                        }
+                    </div>
+                }
+            </div>
+
+            <div style="clear:both;"></div>
+            @if(Model.Tables[2].Rows.Count > 0)
+            {
+            <table class="form-control tab-content" style="background-color: #398439; color: white;">
+                <thead>
+                    <tr>
+                        <th style="padding: 5px;"><strong>GÖREVİ<br />SONUÇLANDIRAN</strong></th>
+                        <th style="padding: 5px;"><strong>SONUÇLANMA<br />TARİHİ</strong></th>
+                        <th style="padding: 5px;"><strong>SONUÇ<br />AÇIKLAMASI</strong></th>
+                    </tr>
+                    <tr>
+                        <th colspan="3"><hr /></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (DataRow sonuc in Model.Tables[2].Rows)
+                    {
+                        <tr>
+                            <td style="padding: 5px; vertical-align:top;">@sonuc["KaydiKapatan"]</td>
+                            <td style="padding: 5px; vertical-align: top;">@Convert.ToDateTime(sonuc["TamamlamaTarihi"]).ToString("dd-MM-yyyy HH:mm")</td>
+                            <td style="padding: 5px;">
+                                @sonuc["Aciklama"]
+                                <hr />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            }
+            @if (Model.Tables[2].Select(" KullaniciID = '" + KullaniciID + "' ").Count() == 0 &&
+                 Model.Tables[1].Select(" KullaniciID = '" + KullaniciID + "' ").Count() > 0)
+            {
+                <form id="" class="" action="@Url.Action("GorevTamamla","Gorev",new { GorevID = Model.Tables[0].Rows[0]["ID"] })" method="post" enctype="multipart/form-data">
+                    <!--begin::Scroll-->
+
+                    <div class="d-flex flex-column scroll-y px-5 px-lg-10  mt-10">
+                        <h3>GÖREV SONUÇLANDIRMA</h3>
+
+                        <!--begin::Row Input group-->
+                        <div class="row mb-7">
+                            <!--begin::Input group-->
+                            <div class="col-lg-12">
+                                <!--begin::Label-->
+                                <label for="Aciklama" class="fw-semibold fs-6 mb-2">Sonuç Açıklaması</label>
+                                <!--end::Label-->
+                                <!--begin::texarea-->
+                                <textarea type="text" id="Aciklama" name="Aciklama" class="form-control p-2 mb-3 mb-lg-0"></textarea>
+                                <!--end::Input-->
+                            </div>
+                        </div>
+                        <!--end::Input group-->
+                        <div class="row">
+                            <!--begin::Input group-->
+                            <div class="col-lg-3">
+                                <!--begin::Label-->
+                                <label for="BaslangicTarihi" class=" fw-semibold fs-6 mb-2">Görev Sonuçlandırma Tarihi</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <input type="datetime-local" name="TamamlamaTarihi" id="TamamlamaTarihi" value="@(DateTime.Now.ToString("yyyy-MM-dd HH:mm"))" class="form-control p-2 mb-3 mb-lg-0" value="" />
+                                <!--end::Input-->
+                            </div>
+                        </div>
+                        <!--begin::Actions-->
+                        <div class="pt-10">
+                            <a href="@Url.Content("~/Gorev/GorevListe")" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
+                            <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Duzenle">
+                                <span class="indicator-label">Görevi Sonuçlandır</span>
+                            </button>
+                        </div>
+
+                        <!--end::Actions-->
+                    </div>
+
+                </form>
+
+            }
+            else
+            {
+                <br />
+                <a href="@Url.Content("~/Gorev/GorevListe")" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
+            }
         </div>
         <!--begin::Row Input group-->
     </div>
@@ -163,4 +319,3 @@
     });
 
 </script>
-}

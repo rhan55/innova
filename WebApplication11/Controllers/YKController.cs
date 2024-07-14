@@ -56,7 +56,6 @@ namespace YKPortal.Controllers
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@KullaniciAdi", GetCookie("KullaniciAdi"));
                 cmd.Parameters.AddWithValue("@Parola", GetCookie("Parola"));
-                cmd.Parameters.AddWithValue("@UyelikBitisTarihi", GetCookie("UyelikBitisTarihi"));
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
                 if (dt.Rows.Count > 0)

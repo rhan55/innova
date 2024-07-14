@@ -3,24 +3,28 @@
 @{
     ViewBag.Title = "FiyatEkle";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string StokID = ViewBag.StokID;
+    string Isim = ViewBag.Isim;
 }
 
 
 <div class="container">
 
     <div class="row">
-        <div class="col-lg-12">
+        @Html.Partial("~/Views/Stok/_StokMenu.cshtml", new ViewDataDictionary { { "StokID", Convert.ToString(ViewBag.StokID) } })
+        <div class="col-lg-10">
             <form id="kt_modal_add_user_form" class="form" action="@Url.Action("FiyatEkle","Stok",null)" method="post">
-                <input type="hidden" name="ID" />
+                <input type="hidden" name="ID" value="@Model.ID" />
                 <div class="d-flex flex-column container px-5 px-lg-10 mt-10">
                     <div class="row mb-7">
                         <div class="col-lg-6 ">
                             <div class="form-group">
                                 <label for="StokID" class=" form-label">Stok İsim</label>
                                 <select class="form-select form-select-solid p-2 rounded-1" name="StokID" id="StokID" required aria-label="Floating label select example" data-control="select2" data-placeholder="arama yapmak için birşeyler yazın...">
-                                    @if (Request.QueryString["StokID"] != null)
+                                    @if (StokID != "")
                                     {
-                                        <option value="@Request.QueryString["StokID"]" selected>@Request.QueryString["Isim"]</option>
+                                        <option value="@StokID" selected>@Isim</option>
                                     }
                                 </select>
                             </div>
@@ -31,39 +35,39 @@
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <label for="FiyatGrubu" class=" form-label">Fiyat Grubu</label>
-                                <input type="text" name="FiyatGrubu" id="FiyatGrubu" value="@Model.FiyatGurubu" class="form-control p-2 mb-3 mb-lg-0" required" />
+                                <input type="text" name="FiyatGrubu" id="FiyatGrubu" value="@Model.FiyatGrubu" class="form-control p-2 mb-3 mb-lg-0" required" />
                             </div>
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <label for="BaslangicTarihi" class="fw-semibold fs-6 mb-2">Baslangıç Tarihi</label>
-                                <input type="date" value="@Model.BaslangicTarihi" name="BaslangicTarihi" class="form-control p-2 mb-3 mb-lg-0" required" />
+                                <input type="date" value="@Model.BaslangicTarihi.ToString("yyyy-MM-dd")" name="BaslangicTarihi" class="form-control p-2 mb-3 mb-lg-0" required" />
                             </div>
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <label for="BitisTarihi" class="fw-semibold fs-6 mb-2">Bitiş Tarihi</label>
-                                <input type="date" value="@Model.BaslangicTarihi" name="BitisTarihi" id="BitisTarihi" class="form-control p-2 mb-3 mb-lg-0" required" />
+                                <input type="date" value="@Model.BaslangicTarihi.ToString("yyyy-MM-dd")" name="BitisTarihi" id="BitisTarihi" class="form-control p-2 mb-3 mb-lg-0" required" />
                             </div>
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group">
-                                <label for="Fiyat" class="fw-semibold fs-6 mb-2" >Fiyat</label>
-                                <input type="text" name="Fiyat" id="Fiyat" value="@String.Format("{0:N2}",Model.Fiyat).Replace(".","")" class="form-control p-2 mb-3 mb-lg-0" required" />
+                                <label for="Fiyat" class="fw-semibold fs-6 mb-2">Fiyat</label>
+                                <input type="text" name="Fiyat" id="Fiyat" value="@String.Format("{0:N2}",Model.Fiyat).Replace(".","")" style="text-align:right;" class="form-control p-2 mb-3 mb-lg-0" required" />
                             </div>
                         </div>
 
 
                         <div class="col-lg-3 mt-10">
                             <div class="flex">
-                                    <input class="form-check-input" type="radio" name="Tip" id="TekSeferlik" value="A" checked>
-                                    <label class="form-check-label" for="TipAlis">
-                                        Alış Fiyatı
-                                    </label>
-                                    <input class="form-check-input" type="radio" name="Tip" id="TipSatis" value="S">
-                                    <label class="form-check-label" for="TipSatis">
-                                        Satış Fiyatı
-                                    </label>
+                                <input class="form-check-input" type="radio" name="Tip" id="TekSeferlik" value="A" @(Model.Tip == "A" ? "checked" : "") >
+                                <label class="form-check-label" for="TipAlis">
+                                    Alış Fiyatı
+                                </label>
+                                <input class="form-check-input" type="radio" name="Tip" id="TipSatis" value="S" @(Model.Tip == "S" ? "checked" : "")>
+                                <label class="form-check-label" for="TipSatis">
+                                    Satış Fiyatı
+                                </label>
                             </div>
                         </div>
 
@@ -77,9 +81,12 @@
                         <button type="submit" class="btn btn-primary btn-sm fw-bold" data-kt-users-modal-action="Kaydet">
                             <span class="indicator-label">Kaydet</span>
                         </button>
-                        <button type="button" class="btn btn-danger btn-sm fw-bold btn-sil Hareket-silme" data-bs-toggle="modal" data-bs-target="#Fiyat-silme">
-                            Sil
-                        </button>
+                        @if (Model.ID != "")
+                        {
+                            <button type="button" class="btn btn-danger btn-sm fw-bold btn-sil Hareket-silme" data-bs-toggle="modal" data-bs-target="#Fiyat-silme">
+                                Sil
+                            </button>
+                        }
                     </div>
                     <!--end::Actions-->
                 </div>
@@ -106,8 +113,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-light btn-sm fw-bold" data-bs-dismiss="modal">Vazgeç</button>
-                <form method="post" id="silme-formu" action="@Url.Action("FiyatSil","Stok",null)">
-                    <input type="hidden" name="id" value="" />
+                <form method="post" id="silme-formu" action="@Url.Action("FiyatSil","Stok", new { StokID = Model.StokID, ID = Model.ID })">
                     <button type="submit" class="btn btn-danger btn-sm fw-bold">Sil</button>
                 </form>
             </div>

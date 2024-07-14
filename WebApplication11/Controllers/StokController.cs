@@ -665,7 +665,14 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Giris");
 
             ViewBag.StokID = StokID;
-
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_Stok";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@ID", StokID);
+                ViewBag.Isim = Convert.ToString(((DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo)).Rows[0]["Isim"]);
+            }
 
             StokFiyatDto entity = new StokFiyatDto();
             if (ID != null)
@@ -674,7 +681,7 @@ namespace YKPortal.Controllers
                 cmd.CommandText = "p_StokFiyat";
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-                cmd.Parameters.AddWithValue("@ID", "");
+                cmd.Parameters.AddWithValue("@ID", ID);
                 DataTable dtStokFiyat = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
                 if (dtStokFiyat.Rows.Count > 0)
@@ -740,7 +747,7 @@ namespace YKPortal.Controllers
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_StokFiyatKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ID", "");
+            cmd.Parameters.AddWithValue("@ID", stokFiyatDto.ID);
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@StokID", stokFiyatDto.StokID);
             cmd.Parameters.AddWithValue("@CariID", null);
@@ -773,7 +780,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            return RedirectToAction("FiyatListe");
+            return Redirect("~/Stok/FiyatListesi/?StokID="+StokID);
         }
 
         public JsonResult SelectStokSeriListe(string StokID)

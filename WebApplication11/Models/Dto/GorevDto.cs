@@ -14,6 +14,7 @@ namespace YKPortal.Models.Dto
         private string _Aciklama;
         private DateTime _BaslangicTarihi;
         private string _Periyot;
+        private string[] _Kullanicilar;
 
         public string ID { get { return _ID ?? ""; } set { _ID = value; } }
         public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; } }
@@ -22,6 +23,7 @@ namespace YKPortal.Models.Dto
         public string Aciklama { get { return _Aciklama ?? ""; } set { _Aciklama = value; } }
         public DateTime BaslangicTarihi { get { return _BaslangicTarihi == null ? DateTime.Today : _BaslangicTarihi; } set { _BaslangicTarihi = value; } }
         public string Periyot { get { return _Periyot ?? ""; } set { _Periyot = value; } }
+        public string[] Kullanicilar { get { return _Kullanicilar ?? null; } set { _Kullanicilar = value; } }
     }
 }
 
