@@ -1,13 +1,14 @@
 ﻿@using YKPortal.Models.Dto
+@using System.Data
 @model BelgeDto
 @{
     ViewBag.Title = "Belge Detayı";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string Tip = Request.QueryString["Tip"];
+
+    DataTable dtDepolar = ViewBag.Depolar as DataTable;
+
 }
-
-
-
 
 <form method="post" action="@Url.Action("Detay","Belge",new { Tip = Request.QueryString["Tip"] })">
 
@@ -24,9 +25,9 @@
             <label for="Tarih" class=" form-label">Tarih</label>
             <input type="date" name="Tarih" id="Tarih" value="@(Convert.ToDateTime(Model.Tarih).ToString("yyyy-MM-dd"))" class="form-control p-2 rounded-1" placeholder="" />
         </div>
-        <div class="col-6">
+        <div class="col-6" style="@(Tip == "DT" ? "display:none;" : "")">
             <div class="form-group">
-                <label for="exampleFormControlInput1" class=" form-label">Cari</label>
+                <label for="CariID" class=" form-label">Cari</label>
                 <select class="form-select form-select-solid p-2 rounded-1" name="CariID" id="CariID"
                         aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
                     @if (Model.CariID != "")
@@ -37,10 +38,38 @@
             </div>
         </div>
 
-        <div class="col-6">
+        <div class="col-@(Tip == "DT" ? "12" : "6")">
             <label for="Aciklama" class=" form-label">Açıklama</label>
             <input type="text" name="Aciklama" id="Aciklama" value="@(Convert.ToString(Model.Aciklama))" class="form-control p-2 rounded-1" placeholder="" />
         </div>
+
+        <div class="col-6">
+            <div class="form-group">
+                <label for="DepoCikisID" class=" form-label">Çıkış Depo</label>
+                <select class="form-select form-select-solid p-2 rounded-1" name="DepoCikisID" id="DepoCikisID"
+                        aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                    @foreach (DataRow drDepo in dtDepolar.Rows)
+                    {
+                        <option value="@drDepo["ID"]">@drDepo["Isim"]</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label for="DepoGirisID" class=" form-label">Giriş Depo</label>
+                <select class="form-select form-select-solid p-2 rounded-1" name="DepoGirisID" id="DepoGirisID"
+                        aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                    @foreach (DataRow drDepo in dtDepolar.Rows)
+                    {
+                        <option value="@drDepo["ID"]">@drDepo["Isim"]</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+
+
         <div style="text-align:center;vertical-align:middle;">
             <div style="clear:both;height:5px;width:100%;background-color:black;margin:5px;"></div>
             <h4>KALEMLER</h4>
@@ -91,6 +120,11 @@
                                                 {
                                                     <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control" />
                                                 }
+                                                else if (Tip == "DT")
+                                                {
+
+                                                    <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control" />
+                                                }
                                                 else
                                                 {
                                                     <select class="form-select form-select-solid p-2 rounded-1" name="Seri_@(ID)" id="Seri_@(ID)"
@@ -107,10 +141,10 @@
                                             <td style="text-align: right;"><strong>Tutar</strong></td>
                                         </tr>
                                         <tr>
-                                            <td><input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))"  onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');"  class="form-control" style="text-align:right;" /></td>
+                                            <td><input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control" style="text-align:right;" /></td>
                                             <td><input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control" readonly /></td>
-                                            <td><input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))"  onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control" style="text-align:right;" /></td>
-                                            <td><input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))"  onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control" style="text-align:right;" readonly /></td>
+                                            <td><input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control" style="text-align:right;" /></td>
+                                            <td><input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control" style="text-align:right;" readonly /></td>
                                         </tr>
                                     </table>
                                 </td>
@@ -119,7 +153,7 @@
                         }
                         else
                         {
-                            <tr data-ID="@satir.ID" data-ID2="@ID" >
+                            <tr data-ID="@satir.ID" data-ID2="@ID">
                                 <td>
                                     <select class="form-select form-select-solid p-2 rounded-1" name="StokID_@(ID)" id="StokID_@(ID)" style="min-width:150px;max-width:350px;"
                                             aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
@@ -159,10 +193,10 @@
 <!--begin::Actions-->
 <div class="col-12">
     <div class="pt-10">
-        <a onclick="history.back()" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
+        <a href="@Url.Content("~/Belge/Liste/?Tip="+Request.QueryString["Tip"])" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
         <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet" onclick="Kaydet();">
             <span class="indicator-label">Kaydet</span>
-            
+
         </button>
     </div>
 </div>
@@ -180,6 +214,9 @@
 
     <script>
 
+        var Tip = "@(Tip)";
+
+
         $(".deleteBtn").click(function () {
             $(this).closest("tr").remove();
         });
@@ -193,7 +230,6 @@
         }
 
         function YeniSatirAc() {
-            var Tip = "@(Tip)";
             var IsMobile = "@(Request.Browser.IsMobileDevice == true ? "1" : "0")";
             var YeniID = IDGuidOlustur().replace(/-/g, "");
 
@@ -213,6 +249,8 @@
                            deger += "                 </td>                                                                                                                              ";
                            deger += "                 <td>                                                                                                                               ";
                             if (Tip == 'AI') {
+                                deger += "                         <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control' />                         ";
+                            } else if (Tip == 'DT') {
                                 deger += "                         <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control' />                         ";
                             } else {
                                 deger += "                         <select class='form-select form-select-solid p-2 rounded-1' name='Seri_" + YeniID + "' id='Seri_" + YeniID + ")'                              ";
@@ -247,6 +285,8 @@
                 deger += "      <td>";
                 if (Tip == "AI") {
                     deger += "              <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control' />";
+                } else if (Tip == "DT") {
+                    deger += "              <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control' />";
                 } else {
                     deger += "              <select class='form-select form-select-solid p-2 rounded-1' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "'";
                     deger += "                      aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız'>";
@@ -272,11 +312,11 @@
 
         function Kaydet() {
 
-            if ($("#BelgeNo").val() == "") {
+            if ($("#BelgeNo").val() == "" && Tip == "AI") {
                 alert("Lütfen belge numarası yazınız.");
                 return;
             }
-            if ($("#CariID").val() == "" || $("#CariID").val() == null) {
+            if (($("#CariID").val() == "" || $("#CariID").val() == null) && Tip == "AI") {
                 alert("Lütfen cari seçiniz.");
                 return;
             }
@@ -300,7 +340,17 @@
                 return;
             }
 
-            var _data = { "Tip": "@Request.QueryString["Tip"]", "ID": $("#ID").val(), "BelgeNo": $("#BelgeNo").val(), "Tarih": $("#Tarih").val(), "CariID": $("#CariID").val(), "Aciklama": $("#Aciklama").val(), "Kalemler": kalemler };
+            var _data = {
+                "Tip": Tip,
+                "ID": $("#ID").val(),
+                "BelgeNo": $("#BelgeNo").val(),
+                "Tarih": $("#Tarih").val(),
+                "CariID": $("#CariID").val(),
+                "DepoCikisID": $("#DepoCikisID").val(),
+                "DepoGirisID": $("#DepoGirisID").val(),
+                "Aciklama": $("#Aciklama").val(),
+                "Kalemler": kalemler
+            };
             console.log(_data);
             $.ajax({
                     url: '/Belge/Kaydet',

@@ -12,6 +12,27 @@ namespace YKPortal.Controllers
 {
     public class BelgeController : Controller
     {
+        public ActionResult Sil(string Tip = "", string ID = "")
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            if (Tip == "")
+            {
+                return Redirect("~/");
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_BelgeSil";
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@Tip", Tip);
+            IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+            return Redirect("~/Belge/Liste/?Tip="+Tip);
+        }
+
         public ActionResult Liste(string Tip="", string AranacakKelime="")
         {
             if (!AutoGirisKontrol())
@@ -85,11 +106,23 @@ namespace YKPortal.Controllers
             {
                 entity.Tarih = DateTime.Today;
             }
+
+            {
+                SqlCommand cmdDepolar = new SqlCommand();
+                cmdDepolar.CommandType = System.Data.CommandType.StoredProcedure;
+                cmdDepolar.CommandText = "p_DepoListesi";
+                cmdDepolar.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmdDepolar.Parameters.AddWithValue("@AranacakKelime", "");
+                ViewBag.Depolar = (DataTable)IDVeritabani.Sorgula(cmdDepolar, SorgulaTuru.Tablo);
+            }
+
             return View(entity);
         }
 
         [HttpPost]
-        public ActionResult Kaydet(string Tip = "",string ID="", string BelgeNo="", string Tarih = "", string CariID = "", string Aciklama = "", string Kalemler = "")
+        public ActionResult Kaydet(string Tip = "",string ID="", string BelgeNo="", string Tarih = "", string CariID = "", 
+            string DepoCikisID="", string DepoGirisID="",
+            string Aciklama = "", string Kalemler = "")
         {
             JsonResult result = new JsonResult();
 
@@ -105,6 +138,8 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@BelgeNo", BelgeNo);
             cmd.Parameters.AddWithValue("@Tarih", Tarih);
             cmd.Parameters.AddWithValue("@CariID", CariID);
+            cmd.Parameters.AddWithValue("@DepoCikisID", DepoCikisID);
+            cmd.Parameters.AddWithValue("@DepoGirisID", DepoGirisID);
             cmd.Parameters.AddWithValue("@Aciklama1", Aciklama);
             cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
             ID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));

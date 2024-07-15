@@ -94,7 +94,6 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@Telefon", depoDto.Telefon);
             cmd.Parameters.AddWithValue("@Isim", depoDto.Isim);
             cmd.Parameters.AddWithValue("@Adres", depoDto.Adres);
-            cmd.Parameters.AddWithValue("@KullaniciID", depoDto.KullaniciID);
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             return RedirectToAction("Liste");
