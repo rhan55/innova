@@ -74,8 +74,8 @@
 
                         @if (Bilgilendirme != null && Bilgilendirme != "")
                         {
-                            <h3>@Bilgilendirme</h3>
-                            <a href="~/YK/Giris" class="btn btn-light btn-sm ms-3" data-kt-users-modal-action="cancel">Giriş Yap</a>
+                            <h2 class="ms-3 lh-sm text-gray-700">@Bilgilendirme</h2>
+                            <a href="~/YK/Giris" class="btn btn-light btn-sm ms-3 mt-10" data-kt-users-modal-action="cancel">Giriş Yap</a>
 
                         }
                         else
@@ -155,7 +155,7 @@
                                                 <label class="required fw-semibold fs-6 mb-2">E-Mail/Kullanıcı Adı</label>
                                                 <!--end::Label-->
                                                 <!--begin::Input-->
-                                                <input type="email" name="EMail" class=" Inputmask form-control p-2 mb-3 mb-lg-0" placeholder="EMail" value="@ViewBag.Form.EMail" required />
+                                                <input type="email" name="EMail" class=" Inputmask form-control p-2 mb-3 mb-lg-0" placeholder="E-Mail" value="@ViewBag.Form.EMail" required />
                                                 <!--end::Input-->
 
                                             </div>
@@ -282,10 +282,10 @@
                                 <div class="text-center pt-10">
 
                                     <button type="submit" class="btn btn-primary btn-sm ms-3 ps-8 pe-8" data-kt-users-modal-action="UyeOl">
-                                        <span class="indicator-label">Üye Ol</span>
+                                        <span class="indicator-label btn-sm fw-bold">Üye Ol</span>
 
                                     </button>
-                                    <a href="~/YK/Giris" class="btn btn-light btn-sm ms-3" data-kt-users-modal-action="cancel">Giriş Yap</a>
+                                    <a href="~/YK/Giris" class="btn btn-light btn-sm fw-bold ms-3" data-kt-users-modal-action="cancel">Giriş Yap</a>
                                 </div>
 
                                 <!--end::Actions-->
@@ -301,12 +301,12 @@
         </div>
         <!--end::Body-->
         <!--begin::Aside-->
-        <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2" style="background-image: url(/Tema/media/misc/auth-bg.png)">
+        <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover w-100 h-100 bgi-position-center order-1 order-lg-2" style="background-image: url(/Tema/media/misc/auth-bg.png)">
             <!--begin::Content-->
-            <div class="d-flex flex-column flex-center ">
+            <div class="d-flex flex-column flex-center w-100 h-100">
 
                 <!--begin::Image-->
-                <img class="auth-right-bg-image" src="~/Tema/media/Photo/800x800.png" alt="" />
+                <img class="auth-right-bg-image w-100 h-100"  src="~/Tema/media/Photo/800x800.png" alt="" />
                 <!--end::Image-->
 
             </div>
@@ -350,7 +350,7 @@
 
                if (!(VergiNumarasi.value.length == 10)) {
                    isValidated = false;
-                   message.VergiNumarasi.push("Vergi numarasi 10 haneli olmalıdır.")
+                   message.VergiNumarasi.push("Vergi numarası 10 haneli olmalıdır.")
                }
 
                if (!(onlyNumbers.test(VergiNumarasi.value))) {

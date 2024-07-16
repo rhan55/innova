@@ -53,7 +53,7 @@
     <!--end::Theme mode setup on page load-->
     <!--begin::Main-->
     <!--begin::Root-->
-    <div class="d-flex flex-column flex-root">
+    <div class="d-flex flex-column flex-root  h-100 overflow:hidden;">
         <!--begin::Authentication - Sign-in -->
         <div class="d-flex flex-column flex-lg-row flex-column-fluid">
             <!--begin::Body-->
@@ -67,7 +67,7 @@
                             <!--begin::Heading-->
                             <div class="text-center mb-11">
                                 <!--begin::Title-->
-                                <h1 class="text-gray-900 fw-bolder mb-3">Kullanıcı Girişi</h1>
+                                <h1 class="text-gray-700 fw-bolder mb-3">Kullanıcı Girişi</h1>
                                 <!--end::Title-->
                                
                             </div>
@@ -144,7 +144,7 @@
                             <!--end::Input group=-->
                             <div class="fv-row mb-3">
                                 <!--begin::Password-->
-                                <input type="password" placeholder="Password" name="txtParola" id="txtParola" autocomplete="off" class="form-control bg-transparent" />
+                                <input type="password" placeholder="Şifre" name="txtParola" id="txtParola" autocomplete="off" class="form-control bg-transparent" />
                                 <!--end::Password-->
                             </div>
                             <!--end::Input group=-->
@@ -158,16 +158,11 @@
                             <!--end::Wrapper--> 
                             <!--begin::Submit button-->
                             <div class="d-grid mb-10">
-                                <button type="submit" id="kt_sign_in_submit" class="btn btn-primary">
+                                <button type="submit" id="kt_sign_in_submit" class="btn btn-primary btn-sm fw-bold">
                                     <!--begin::Indicator label-->
-                                    <span class="indicator-label">Giriş Yap</span>
+                                    <span class="indicator-label fw-bold">Giriş Yap</span>
                                     <!--end::Indicator label-->
-                                    <!--begin::Indicator progress-->
-                                    <span class="indicator-progress">
-                                        Please wait...
-                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                                    </span>
-                                    <!--end::Indicator progress-->
+                               
                                 </button>
                             </div>
                             <!--end::Submit button-->
@@ -176,7 +171,7 @@
                             {
                                 <div class="text-gray-500 text-center fw-semibold fs-6">
                                     Üye değil misiniz?
-                                    <a href="/YK/UyeOl" class="link-primary">Üye olun</a>
+                                    <a href="/YK/UyeOl" class="link-primary btn-sm fw-bold">Üye olun</a>
                                 </div>
                             }
                             <!--end::Sign up-->
@@ -190,12 +185,12 @@
             </div>
             <!--end::Body-->
             <!--begin::Aside-->
-            <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2" style="background-image: url(/Tema/media/misc/auth-bg.png)">
+            <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover  h-100 w-100 bgi-position-center order-1 order-lg-2">
                 <!--begin::Content-->
-                <div class="d-flex flex-column flex-center ">
+                <div class="d-flex flex-column flex-center  h-100 w-100">
                    
                     <!--begin::Image-->
-                    <img class="auth-right-bg-image" src="~/Tema/media/Photo/800x800.png" alt="" />
+                    <img class="auth-right-bg-image h-100 w-100 overflow-y-hidden" src="~/Tema/media/Photo/800x800.png" alt="" />
                     <!--end::Image-->
                    
                 </div>

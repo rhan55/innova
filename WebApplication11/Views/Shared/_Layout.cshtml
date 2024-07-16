@@ -304,20 +304,25 @@
                                 </ul>
                                 <!--end::Breadcrumb-->
                             </div>
-                            <div id="GeriSayim">
-                                @{
-                                    TimeSpan ts = Convert.ToDateTime(UyelikBitisTarihi) - DateTime.Today;
-                                    if (ts.Days <= 15)
-                                    {
-                                        <a href="#">
-                                            <span style="color: red;font-size:15px; vertical-align: middle;"><br /><strong>Üyeliğinizin bitmesine @(ts.Days) gün kaldı.<br />Üyelik sürenizi uzatmak için tıklayınız.</strong></span>
-                                        </a>
-                                    }
-                                }
-                            </div>
+                           
                             <!--end::Page title-->
                             <!--begin::Theme mode-->
                             <div class="d-flex align-items-center p-0">
+                                <div id="GeriSayim" class="me-10">
+
+                                    @{
+                                        TimeSpan ts = Convert.ToDateTime(UyelikBitisTarihi) - DateTime.Today;
+                                        if (ts.Days <= 256 && ts != null)
+                                        {
+                                            <div>
+                                                <p class="text-danger fw-semibold m-0"><span>Üyeliğinizin bitmesine @(ts.Days) gün kaldı.</span></p>
+                                                <a href="/POSAPI/UyelikPaketleri">Üyeliğinizi Uzatmak için paketlere göz atın.</a>
+                                            </div>
+
+                                        }
+
+                                    }
+                                </div>
                                 <!--begin::Menu toggle-->
                                 <a href="#" class="btn btn-sm btn-icon btn-icon-muted btn-active-icon-primary" data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
                                     <i class="ki-duotone ki-night-day theme-light-show fs-1">
