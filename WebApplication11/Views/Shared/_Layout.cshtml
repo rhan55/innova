@@ -312,7 +312,7 @@
 
                                     @{
                                         TimeSpan ts = Convert.ToDateTime(UyelikBitisTarihi) - DateTime.Today;
-                                        if (ts.Days <= 256 && ts != null)
+                                        if (ts.Days <= 15 && ts != null)
                                         {
                                             <div>
                                                 <p class="text-danger fw-semibold m-0"><span>Üyeliğinizin bitmesine @(ts.Days) gün kaldı.</span></p>
