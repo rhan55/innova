@@ -178,7 +178,7 @@
                                 <th class="min-w-125px mt-8"><strong>GrupKodu1</strong></th>
                                 <th class="min-w-125px"><strong>GrupKodu2</strong></th>
                                 <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
-                                <th class="text-end min-w-100px no-export"><strong>ID</strong></th>
+                                <th class="text-end max-w-1px d-none no-export"><strong>ID</strong></th>
                             </tr>
                             <!--end::Table row-->
                         </thead>
@@ -234,7 +234,7 @@
                                         </div>
                                         <!--end::Menu-->
                                     </td>
-                                    <td>@(Convert.ToString(Model.Rows[i]["ID"]))</td>
+                                    <td class="d-none">@(Convert.ToString(Model.Rows[i]["ID"]))</td>
                                 </tr>
                             }
                         </tbody>
@@ -245,8 +245,7 @@
         <!--end::Container-->
     </div>
 </div>
-</div>
-</div>
+
 
 <div class="modal fade" id="Stok-silme" tabindex="-1">
     <div class="modal-dialog">
@@ -305,6 +304,7 @@
 @section Scripts {
     <script>
 
+      
         function setCookie(name, value, days) {
             let expires = "";
             if (days) {
@@ -443,7 +443,7 @@
 
                     columnDefs: [
                         {
-                            targets: [0, 7],
+                            targets: [0, 6],
                             orderable: false
                         },
                         {

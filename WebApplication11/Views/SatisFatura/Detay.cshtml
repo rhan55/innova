@@ -9,259 +9,22 @@
     DataTable dtDepolar = ViewBag.Depolar as DataTable;
 }
 
-<div class="container">
-    <div class="card">
-        <form method="post" action="@Url.Action("Detay","SatisFatura",new { Tip = Request.QueryString["Tip"] })">
-
-
-            <div class="col-lg-12 row" style="padding-left:15px;">
-                <div class="d-flex align-items-center justify-content-between mt-5">
-                    <input type="hidden" name="ID" id="ID" value="@(Model.ID)" />
-                </div>
-                <div class="col-6">
-                    <label for="BelgeNo" class=" form-label">Belge No</label>
-                    <input type="text" name="BelgeNo" id="BelgeNo" value="@(Convert.ToString(Model.BelgeNo))" class="form-control p-2 rounded-1" placeholder="" />
-                </div>
-                <div class="col-6">
-                    <label for="Tarih" class=" form-label">Tarih</label>
-                    <input type="date" name="Tarih" id="Tarih" value="@(Convert.ToDateTime(Model.Tarih).ToString("yyyy-MM-dd"))" class="form-control p-2 rounded-1" placeholder="" />
-                </div>
-
-
-                <div class="col-6" style="@(Tip == "DT" ? "display:none;" : "")">
-                    <div class="form-group">
-                        <label for="CariID" class=" form-label">Cari</label>
-                        <select class="form-select form-select-solid p-2 rounded-1" name="CariID" id="CariID"
-                                aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                            @if (Model.CariID != "")
-                            {
-                                <option value="@Model.CariID" selected>@Model.CariAdi</option>
-                            }
-                        </select>
-                    </div>
-                </div>
-
-                <div class="col-@(Tip == "DT" ? "12" : "6")">
-                    <label for="Aciklama" class=" form-label">Açıklama</label>
-                    <input type="text" name="Aciklama" id="Aciklama" value="@(Convert.ToString(Model.Aciklama))" class="form-control p-2 rounded-1" placeholder="" />
-                </div>
-
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="DepoCikisID" class=" form-label">Çıkış Depo</label>
-                        <select class="form-select form-select-solid p-2 rounded-1" name="DepoCikisID" id="DepoCikisID"
-                                aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                            @foreach (DataRow drDepo in dtDepolar.Rows)
-                            {
-                                <option value="@drDepo["ID"]">@drDepo["Isim"]</option>
-                            }
-                        </select>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="DepoGirisID" class=" form-label">Giriş Depo</label>
-                        <select class="form-select form-select-solid p-2 rounded-1" name="DepoGirisID" id="DepoGirisID"
-                                aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                            @foreach (DataRow drDepo in dtDepolar.Rows)
-                            {
-                                <option value="@drDepo["ID"]">@drDepo["Isim"]</option>
-                            }
-                        </select>
-                    </div>
-                </div>
-
-
-
-                <div class="my-5" style="text-align:center;vertical-align:middle;">
-                    <div class="bg-gray-200" style="clear:both;height:1px;width:100%;"></div>
-                    <h4 class="text-gray-700 mt-3">KALEMLER</h4>
-                    <div class="bg-gray-200" style="clear:both;height:1px;width:100%;"></div>
-                </div>
-                <br />
-                <div class="row">
-                    <table class="table" border="1" id="TabloKalemler" name="TabloKalemler">
-                        <thead>
-                            <tr style="padding:5px;">
-                                @if (Request.Browser.IsMobileDevice)
-                                {
-                                    <td colspan="3" style="text-align:center;"><strong>ÜRÜN</strong></td>
-                                    <td colspan="2" style="text-align:center;"><strong>SERİ</strong></td>
-                                }
-                                else
-                                {
-                                    <td style="text-align:center;"><strong>ÜRÜN</strong></td>
-                                    <td style="text-align:center;"><strong>SERİ</strong></td>
-                                    <td style="text-align:center;"><strong>MİKTAR</strong></td>
-                                    <td style="text-align:center;"><strong>BİRİM</strong></td>
-                                    <td style="text-align:center;"><strong>FİYAT</strong></td>
-                                    <td style="text-align:center;"><strong>TUTAR</strong></td>
-                                    <td style="text-align:center;"><strong></strong></td>
-                                }
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (BelgeKalemDto satir in Model.Kalemler)
-                            {
-                                string ID = satir.ID.Replace("-", "");
-                                if (Request.Browser.IsMobileDevice)
-                                {
-
-                                    <tr data-ID="@satir.ID" data-ID2="@ID">
-                                        <td colspan="4">
-                                            <table style="width:100%;margin-bottom:15px;">
-                                                <tr>
-                                                    <td colspan="3">
-                                                        <select class="form-select form-select-solid p-2 rounded-1" name="StokID_@(ID)" id="StokID_@(ID)" style="width:100%;"
-                                                                aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                            <option value="@satir.StokID" selected>@satir.StokAdi</option>
-                                                        </select>
-
-                                                    </td>
-                                                    <td>
-                                                        @if (Tip == "SF")
-                                                        {
-                                                            <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control" />
-                                                        }
-                                                        else if (Tip == "DT")
-                                                        {
-
-                                                            <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control" />
-                                                        }
-                                                        else
-                                                        {
-                                                            <select class="form-select form-select-solid p-2 rounded-1" name="Seri_@(ID)" id="Seri_@(ID)"
-                                                                    aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                                <option value="@satir.Seri" selected>@satir.Seri</option>
-                                                            </select>
-                                                        }
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="text-align: right;"><strong>Miktar</strong></td>
-                                                    <td><strong>Birim</strong></td>
-                                                    <td style="text-align: right;"><strong>Fiyat</strong></td>
-                                                    <td style="text-align: right;"><strong>Tutar</strong></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control" style="text-align:right;" /></td>
-                                                    <td><input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control p-2" readonly /></td>
-                                                    <td><input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control" style="text-align:right;" /></td>
-                                                    <td><input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control" style="text-align:right;" readonly /></td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                        <td><button type='button' class="deleteBtn" data-ID2="@(ID)">Sil</button></td>
-                                    </tr>
-                                }
-                                else
-                                {
-                                    <tr data-ID="@satir.ID" data-ID2="@ID">
-                                        <td>
-                                            <select class="form-select form-select-solid p-2 rounded-1" name="StokID_@(ID)" id="StokID_@(ID)" style="min-width:150px;max-width:350px;"
-                                                    aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                <option value="@satir.StokID" selected>@satir.StokAdi</option>
-                                            </select>
-
-                                        </td>
-                                        <td>
-                                            @if (Tip == "SF")
-                                            {
-                                                <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control" />
-                                            }
-                                            else
-                                            {
-                                                <select class="form-select form-select-solid p-2 rounded-1" name="Seri_@(ID)" id="Seri_@(ID)"
-                                                        aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                    <option value="@satir.Seri" selected>@satir.Seri</option>
-                                                </select>
-                                            }
-                                        </td>
-                                        <td style="max-width:100px;"><input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control" style="text-align:right;" /></td>
-                                        <td style="max-width:100px;"><input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control p-2" readonly /></td>
-                                        <td style="max-width:150px;"><input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control" style="text-align:right;" /></td>
-                                        <td style="max-width:150px;"><input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control" style="text-align:right;" readonly /></td>
-                                        <td><button type='button' class="deleteBtn" data-ID2="@(ID)">Sil</button></td>
-
-                                    </tr>
-                                }
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </form>
-        <div class="ps-4">
-            <button name="btnYeniSatir" id="btnYeniSatir" onclick="YeniSatirAc();" class="btn btn-primary" style="width:150px;">+ Yeni Satır Aç</button>
-        </div>
-
-
-        <!--begin::Actions-->
-        <div class="col-12 ps-4">
-            <div class="pt-10">
-                <a href="@Url.Content("~/SatisFatura/Liste/?Tip="+Request.QueryString["Tip"])" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
-                <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet" onclick="Kaydet();">
-                    <span class="indicator-label">Kaydet</span>
-
-                </button>
-            </div>
-        </div>
-        <!--end::Actions-->
-
-
-    </div>
-</div>
-
-
-
-
-
-
-
 <div class="d-flex flex-column flex-column-fluid">
 
     <!--begin::Toolbar-->
     <div id="kt_app_toolbar" class="app-toolbar  py-3 py-lg-6 ">
 
-        <!--begin::Toolbar container-->
-        <div id="kt_app_toolbar_container" class="app-container  container-xxl d-flex flex-stack ">
-
-
-
-            <!--begin::Page title-->
-            <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3 ">
-
-            </div>
-            <!--end::Page title-->
-            <!--begin::Actions-->
-            <div class="d-flex align-items-center gap-2 gap-lg-3">
-                <!--begin::Filter menu-->
-                <div class="m-0">
-                    <!--begin::Primary button-->
-                    <a href="#" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_create_app">
-                        Create
-                    </a>
-                    <!--end::Primary button-->
-                </div>
-                <!--end::Actions-->
-            </div>
-            <!--end::Toolbar container-->
-        </div>
-        <!--end::Toolbar-->
         <!--begin::Content-->
         <div id="kt_app_content" class="app-content  flex-column-fluid ">
 
-
             <!--begin::Content container-->
-            <div id="kt_app_content_container" class="app-container  container-xxl ">
+            <div id="kt_app_content_container" class="app-container  container">
                 <!--begin::Layout-->
-                <div class="d-flex flex-column flex-lg-row">
+                <div class="row">
                     <!--begin::Content-->
-                    <div class="flex-lg-row-fluid mb-10 mb-lg-0 me-lg-7 me-xl-10 col-lg-10">
-
-
+                   
                         <!--begin::Card-->
-                        <div class="card">
+                        <div class="card col-lg-8">
                             <!--begin::Card body-->
                             <div class="card-body p-12">
                                 <!--begin::Form-->
@@ -270,8 +33,8 @@
                                     <div class="d-flex flex-column align-items-start flex-xxl-row">
 
                                         <!--begin::Input group-->
-                                        <div class="d-flex flex-center flex-equal fw-row text-nowrap order-1 order-xxl-2 me-4" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-original-title="Enter invoice number" data-kt-initialized="1">
-                                            <span class="fs-2x fw-bold text-gray-800">Invoice #</span>
+                                        <div class="d-flex flex-equal fw-row text-nowrap order-1 order-xxl-2 me-4" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-original-title="Enter invoice number" data-kt-initialized="1">
+                                            <span class="fs-2x fw-bold text-gray-700">Fatura #</span>
                                             <input type="text" class="form-control form-control-flush fw-bold text-muted fs-3 w-125px" value="2021001" placehoder="...">
                                         </div>
                                         <!--end::Input group-->
@@ -289,9 +52,6 @@
                                             <!--end::Input-->
                                         </div>
 
-
-
-
                                         <!--end::Input group-->
                                     </div>
                                     <!--end::Top-->
@@ -308,7 +68,7 @@
                                                 <input type="hidden" name="ID" id="ID" value="@(Model.ID)" />
                                             </div>
                                             <div class="col-lg-6">
-                                                <label for="BelgeNo" class="form-label fs-6 fw-bold text-gray-700 mb-3">Belge No</label>
+                                                <label for="BelgeNo" class="form-label fs-6 fw-bold text-gray-600 mb-3">Belge No</label>
 
                                                 <!--begin::Input group-->
                                                 <div class="mb-4">
@@ -325,10 +85,11 @@
                                                 <!--begin::Input group-->
                                                 <div class="mb-4">
                                                     <div class="" style="@(Tip == "DT" ? "display:none;" : "")">
-                                                        <div class="form-group">
-                                                            <label for="CariID" class="form-label fs-6 fw-bold text-gray-700 mb-3">Cari</label>
-                                                            <select class="form-select p-2 rounded-1" name="CariID" id="CariID"
+                                                        <div class="form-group ">
+                                                            <label for="CariID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Cari</label>
+                                                            <select class="form-select form-select-solid p-2 rounded-1" name="CariID" id="CariID"
                                                                     aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                                                
                                                                 @if (Model.CariID != "")
                                                                 {
                                                                     <option value="@Model.CariID" selected>@Model.CariAdi</option>
@@ -343,14 +104,14 @@
 
                                         <div class="row mb-4">
                                             <div class="col-@(Tip == "DT")">
-                                                <label for="Aciklama" class=" form-label">Açıklama</label>
+                                                <label for="Aciklama" class="form-label fs-6 fw-bold text-gray-600 mb-3">Açıklama</label>
                                                 <textarea type="text" name="Aciklama" id="Aciklama" class="form-control p-2 rounded-1"> @(Convert.ToString(Model.Aciklama)) </textarea>
                                             </div>
                                         </div>
                                         <div class="row mb-4">
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <label for="DepoCikisID" class=" form-label">Çıkış Depo</label>
+                                                    <label for="DepoCikisID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Çıkış Depo</label>
                                                     <select class="form-select form-select-solid p-2 rounded-1" name="DepoCikisID" id="DepoCikisID"
                                                             aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
                                                         @foreach (DataRow drDepo in dtDepolar.Rows)
@@ -362,7 +123,7 @@
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
-                                                    <label for="DepoGirisID" class=" form-label">Giriş Depo</label>
+                                                    <label for="DepoGirisID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Giriş Depo</label>
                                                     <select class="form-select form-select-solid p-2 rounded-1" name="DepoGirisID" id="DepoGirisID"
                                                             aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
                                                         @foreach (DataRow drDepo in dtDepolar.Rows)
@@ -374,6 +135,8 @@
                                             </div>
 
                                         </div>
+
+
                                         <div class="my-8" style="text-align:center;vertical-align:middle;">
                                             <div class="bg-gray-200" style="clear:both;height:1px;width:100%;"></div>
                                             <h4 class="text-gray-700 mt-3">KALEMLER</h4>
@@ -382,9 +145,8 @@
 
                                         <!--end::Row-->
                                         <!--begin::Table wrapper-->
-                                        <div class="table-responsive mb-10 mt-10">
-                                            <!--begin::Table-->
-                                            <table class="table" border="1" id="TabloKalemler" name="TabloKalemler">
+                                        <div class="row p-3">
+                                            <table class="table" id="TabloKalemler" name="TabloKalemler">
                                                 <thead>
                                                     <tr style="padding:5px;">
                                                         @if (Request.Browser.IsMobileDevice)
@@ -394,13 +156,13 @@
                                                         }
                                                         else
                                                         {
-                                                            <td style="text-align:center;"><strong>ÜRÜN</strong></td>
-                                                            <td style="text-align:center;"><strong>SERİ</strong></td>
-                                                            <td style="text-align:center;"><strong>MİKTAR</strong></td>
-                                                            <td style="text-align:center;"><strong>BİRİM</strong></td>
-                                                            <td style="text-align:center;"><strong>FİYAT</strong></td>
-                                                            <td style="text-align:center;"><strong>TUTAR</strong></td>
-                                                            <td style="text-align:center;"><strong></strong></td>
+                                                            <td class="me-4 text-gray-600"><strong>ÜRÜN</strong></td>
+                                                            <td class="me-4 text-gray-600"><strong>SERİ</strong></td>
+                                                            <td class="me-4 text-gray-600"><strong>MİKTAR</strong></td>
+                                                            <td class="me-4 text-gray-600"><strong>BİRİM</strong></td>
+                                                            <td  class="me-4 text-gray-600" ><strong>FİYAT</strong></td>
+                                                            <td  class="me-4 text-gray-600"><strong>TUTAR</strong></td>
+                                                            <td><strong></strong></td>
                                                         }
                                                     </tr>
                                                 </thead>
@@ -415,13 +177,14 @@
                                                                 <td colspan="4">
                                                                     <table style="width:100%;margin-bottom:15px;">
                                                                         <tr>
-                                                                            <td colspan="3">
-                                                                                <select class="form-select form-select-solid p-2 rounded-1" name="StokID_@(ID)" id="StokID_@(ID)" style="width:100%;"
+                                                                            <td class="min-w-300px w-475px" colspan="3">
+                                                                                <select class="form-select Depo-cikis form-select-solid p-2 rounded-1"name='StokID_" + YeniID + "' id='StokID_" + YeniID + "' style="width:100%;"
                                                                                         aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
                                                                                     <option value="@satir.StokID" selected>@satir.StokAdi</option>
                                                                                 </select>
 
                                                                             </td>
+
                                                                             <td>
                                                                                 @if (Tip == "SF")
                                                                                 {
@@ -448,27 +211,37 @@
                                                                             <td style="text-align: right;"><strong>Tutar</strong></td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td><input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2" style="text-align:right;" /></td>
-                                                                            <td><input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control p-2" readonly /></td>
-                                                                            <td><input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2" style="text-align:right;" /></td>
-                                                                            <td><input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2" style="text-align:right;" readonly /></td>
+                                                                            <td>
+                                                                                <input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                                            </td>
+                                                                            <td>
+                                                                                <input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control p-2 me-10" readonly />
+                                                                            </td>
+                                                                            <td>
+                                                                                <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                                            </td>
+                                                                            <td>
+                                                                                <input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" readonly />
+                                                                            </td>
                                                                         </tr>
                                                                     </table>
                                                                 </td>
-                                                                <td><button type='button' class="deleteBtn" data-ID2="@(ID)">Sil</button></td>
+                                                                <td>
+                                                                     <button type='button' class="deleteBtn pt-2" data-ID2="@(ID)">Sil</button>
+                                                                </td>
                                                             </tr>
                                                         }
                                                         else
                                                         {
-                                                            <tr data-ID="@satir.ID" data-ID2="@ID">
-                                                                <td>
+                                                            <tr class="border-bottom border-bottom-dashed" data-ID="@satir.ID" data-ID2="@ID">
+                                                                <td class="pe-7">
                                                                     <select class="form-select form-select-solid p-2 rounded-1" name="StokID_@(ID)" id="StokID_@(ID)" style="min-width:150px;max-width:350px;"
                                                                             aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
                                                                         <option value="@satir.StokID" selected>@satir.StokAdi</option>
                                                                     </select>
 
                                                                 </td>
-                                                                <td>
+                                                                <td class="ps-0">
                                                                     @if (Tip == "SF")
                                                                     {
                                                                         <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
@@ -481,11 +254,22 @@
                                                                         </select>
                                                                     }
                                                                 </td>
-                                                                <td style="max-width:100px;"><input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2" style="text-align:right;" /></td>
-                                                                <td style="max-width:100px;"><input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control p-2" readonly /></td>
-                                                                <td style="max-width:150px;"><input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2" style="text-align:right;" /></td>
-                                                                <td style="max-width:150px;"><input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2" style="text-align:right;" readonly /></td>
-                                                                <td><button type='button' class="deleteBtn" data-ID2="@(ID)">Sil</button></td>
+
+                                                                <td style="max-width:200px;">
+                                                                     <input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                                </td>
+                                                                <td style="max-width:200px;">
+                                                                     <input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control p-2" readonly />
+                                                                </td>                                                              
+                                                                <td class="pt-8 text-end" style="max-width:150px;"> 
+                                                                     <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                                </td>
+                                                                <td class="pt-5 text-end" style="max-width:150px;">
+                                                                    <input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" readonly />
+                                                                </td>
+                                                                <td>
+                                                                     <button type='button' class="deleteBtn pt-2" data-ID2="@(ID)">Sil</button>
+                                                                </td>
 
                                                             </tr>
                                                         }
@@ -498,13 +282,13 @@
                                     </div>
                                 </form>
 
-                                <div class="ps-4">
+                                <div>
                                     <button name="btnYeniSatir" id="btnYeniSatir" onclick="YeniSatirAc();" class="btn btn-primary" style="width:150px;">+ Yeni Satır Aç</button>
                                 </div>
 
 
                                 <!--begin::Actions-->
-                                <div class="col-12 ps-4">
+                                <div class="col-lg-12">
                                     <div class="pt-10">
                                         <a href="@Url.Content("~/SatisFatura/Liste/?Tip="+Request.QueryString["Tip"])" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
                                         <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet" onclick="Kaydet();">
@@ -515,8 +299,19 @@
                                 </div>
                                 <!--end::Actions-->
                                 <!--end::Table-->
-                                <!--begin::Item template-->
-                                <table class="table d-none" data-kt-element="item-template">
+                                <table class="table g-5 gs-0 mb-0 fw-bold text-gray-700" data-kt-element="items">
+                                    <!--begin::Table head-->
+                                    <thead>
+                                        <tr class="border-bottom fs-7 fw-bold text-gray-700 text-uppercase">
+                                            <th class="min-w-300px w-475px">Item</th>
+                                            <th class="min-w-100px w-100px">QTY</th>
+                                            <th class="min-w-150px w-150px">Price</th>
+                                            <th class="min-w-100px w-150px text-end">Total</th>
+                                            <th class="min-w-75px w-75px text-end">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <!--end::Table head-->
+                                    <!--begin::Table body-->
                                     <tbody>
                                         <tr class="border-bottom border-bottom-dashed" data-kt-element="item">
                                             <td class="pe-7">
@@ -526,14 +321,14 @@
                                             </td>
 
                                             <td class="ps-0">
-                                                <input type="text" class="form-control form-control-solid" min="1" name="quantity[]" placeholder="1" data-kt-element="quantity">
+                                                <input type="text" class="form-control form-control-solid" min="1" name="quantity[]" placeholder="1" value="1" data-kt-element="quantity">
                                             </td>
 
                                             <td>
-                                                <input type="text" class="form-control form-control-solid text-end" name="price[]" placeholder="0.00" data-kt-element="price">
+                                                <input type="text" class="form-control form-control-solid text-end" name="price[]" placeholder="0.00" value="0.00" data-kt-element="price">
                                             </td>
 
-                                            <td class="pt-8 text-end">
+                                            <td class="pt-8 text-end text-nowrap">
                                                 $<span data-kt-element="total">0.00</span>
                                             </td>
 
@@ -544,123 +339,49 @@
                                             </td>
                                         </tr>
                                     </tbody>
-                                </table>
+                                    <!--end::Table body-->
+                                    <!--begin::Table foot-->
+                                    <tfoot>
+                                        <tr class="border-top border-top-dashed align-top fs-6 fw-bold text-gray-700">
+                                            <th class="text-primary">
+                                                <button class="btn btn-link py-1" data-kt-element="add-item">Add item</button>
+                                            </th>
 
-                                <table class="table d-none" data-kt-element="empty-template">
-                                    <tbody>
-                                        <tr data-kt-element="empty">
-                                            <th colspan="5" class="text-muted text-center py-10">
-                                                No items
+                                            <th colspan="2" class="border-bottom border-bottom-dashed ps-0">
+                                                <div class="d-flex flex-column align-items-start">
+                                                    <div class="fs-5">Subtotal</div>
+
+                                                    <button class="btn btn-link py-1" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-original-title="Coming soon" data-kt-initialized="1">Add tax</button>
+
+                                                    <button class="btn btn-link py-1" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-original-title="Coming soon" data-kt-initialized="1">Add discount</button>
+                                                </div>
+                                            </th>
+
+                                            <th colspan="2" class="border-bottom border-bottom-dashed text-end">
+                                                $<span data-kt-element="sub-total">0.00</span>
                                             </th>
                                         </tr>
-                                    </tbody>
-                                </table>
-                                <!--end::Item template-->
-                                <!--begin::Notes-->
-                                <div class="mb-0">
-                                    <label class="form-label fs-6 fw-bold text-gray-700">Notes</label>
 
-                                    <textarea name="notes" class="form-control form-control-solid" rows="3" placeholder="Thanks for your business"></textarea>
-                                </div>
-                                <!--end::Notes-->
-                                <!--end::Wrapper-->
+                                        <tr class="align-top fw-bold text-gray-700">
+                                            <th></th>
+
+                                            <th colspan="2" class="fs-4 ps-0">Total</th>
+
+                                            <th colspan="2" class="text-end fs-4 text-nowrap">
+                                                $<span data-kt-element="grand-total">0.00</span>
+                                            </th>
+                                        </tr>
+                                    </tfoot>
+                                    <!--end::Table foot-->
+                                </table>
 
                             </div>
                             <!--end::Form-->
                         </div>
                         <!--end::Card body-->
-                    </div>
+                    
                     <!--begin::Sidebar-->
-                    <div class="flex-lg-auto min-w-lg-300px col-lg-2">
-                        <!--begin::Card-->
-                        <div class="card" data-kt-sticky="true" data-kt-sticky-name="invoice" data-kt-sticky-offset="{default: false, lg: '200px'}" data-kt-sticky-width="{lg: '250px', lg: '300px'}" data-kt-sticky-left="auto" data-kt-sticky-top="150px" data-kt-sticky-animation="false" data-kt-sticky-zindex="95" style="">
-
-                            <!--begin::Card body-->
-                            <div class="card-body p-10">
-                                <!--begin::Input group-->
-                                <div class="mb-10">
-                                    <!--begin::Label-->
-                                    <label class="form-label fw-bold fs-6 text-gray-700">Currency</label>
-                                    <!--end::Label-->
-                                    <!--begin::Select-->
-                                    <select name="currnecy" aria-label="Select a Timezone" data-control="select2" data-placeholder="Select currency" class="form-select form-select-solid select2-hidden-accessible" data-select2-id="select2-data-9-a9tf" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                                        <option value="" data-select2-id="select2-data-11-zo9h"></option>
-
-                                        <option data-kt-flag="flags/united-states.svg" value="USD">USD&nbsp;-&nbsp;USA dollar</option>
-                                        <option data-kt-flag="flags/united-kingdom.svg" value="GBP">GBP&nbsp;-&nbsp;British pound</option>
-                                        <option data-kt-flag="flags/australia.svg" value="AUD">AUD&nbsp;-&nbsp;Australian dollar</option>
-                                        <option data-kt-flag="flags/japan.svg" value="JPY">JPY&nbsp;-&nbsp;Japanese yen</option>
-                                        <option data-kt-flag="flags/sweden.svg" value="SEK">SEK&nbsp;-&nbsp;Swedish krona</option>
-                                        <option data-kt-flag="flags/canada.svg" value="CAD">CAD&nbsp;-&nbsp;Canadian dollar</option>
-                                        <option data-kt-flag="flags/switzerland.svg" value="CHF">CHF&nbsp;-&nbsp;Swiss franc</option>
-                                    </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-10-m3yx" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-solid" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-currnecy-d6-container" aria-controls="select2-currnecy-d6-container"><span class="select2-selection__rendered" id="select2-currnecy-d6-container" role="textbox" aria-readonly="true" title="Select currency"><span class="select2-selection__placeholder">Select currency</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                    <!--end::Select-->
-                                </div>
-                                <!--end::Input group-->
-                                <!--begin::Separator-->
-                                <div class="separator separator-dashed mb-8"></div>
-                                <!--end::Separator-->
-                                <!--begin::Input group-->
-                                <div class="mb-8">
-                                    <!--begin::Option-->
-                                    <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid flex-stack mb-5">
-                                        <span class="form-check-label ms-0 fw-bold fs-6 text-gray-700">
-                                            Payment method
-                                        </span>
-
-                                        <input class="form-check-input" type="checkbox" checked="checked" value="">
-                                    </label>
-                                    <!--end::Option-->
-                                    <!--begin::Option-->
-                                    <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid flex-stack mb-5">
-                                        <span class="form-check-label ms-0 fw-bold fs-6 text-gray-700">
-                                            Late fees
-                                        </span>
-
-                                        <input class="form-check-input" type="checkbox" value="">
-                                    </label>
-                                    <!--end::Option-->
-                                    <!--begin::Option-->
-                                    <label class="form-check form-switch form-switch-sm form-check-custom form-check-solid flex-stack">
-                                        <span class="form-check-label ms-0 fw-bold fs-6 text-gray-700">
-                                            Notes
-                                        </span>
-
-                                        <input class="form-check-input" type="checkbox" value="">
-                                    </label>
-                                    <!--end::Option-->
-                                </div>
-                                <!--end::Input group-->
-                                <!--begin::Separator-->
-                                <div class="separator separator-dashed mb-8"></div>
-                                <!--end::Separator-->
-                                <!--begin::Actions-->
-                                <div class="mb-0">
-                                    <!--begin::Row-->
-                                    <div class="row mb-5">
-                                        <!--begin::Col-->
-                                        <div class="col">
-                                            <a href="#" class="btn btn-light btn-active-light-primary w-100">Preview</a>
-                                        </div>
-                                        <!--end::Col-->
-                                        <!--begin::Col-->
-                                        <div class="col">
-                                            <a href="#" class="btn btn-light btn-active-light-primary w-100">Download</a>
-                                        </div>
-                                        <!--end::Col-->
-                                    </div>
-                                    <!--end::Row-->
-
-                                    <button type="submit" href="#" class="btn btn-primary w-100" id="kt_invoice_submit_button">
-                                        <i class="ki-duotone ki-triangle fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>                Send Invoice
-                                    </button>
-                                </div>
-                                <!--end::Actions-->
-                            </div>
-                            <!--end::Card body-->
-                        </div>
-                        <!--end::Card-->
-                    </div>
+                    
                     <!--end::Sidebar-->
                     <!--end::Card-->
                 </div>
@@ -718,9 +439,9 @@
                            deger += "                 </td>                                                                                                                              ";
                            deger += "                 <td>                                                                                                                               ";
                             if (Tip == 'SF') {
-                                deger += "                         <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2' />                         ";
+                                deger += "                         <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2 me-10' />                         ";
                             } else if (Tip == 'DT') {
-                                deger += "                         <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2' />                         ";
+                                deger += "                         <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2 me-10' />                         ";
                             } else {
                                 deger += "                         <select class='form-select form-select-solid p-2 rounded-1' name='Seri_" + YeniID + "' id='Seri_" + YeniID + ")'                              ";
 
@@ -736,13 +457,13 @@
                            deger += "                 <td style='text-align: right;'><strong>Tutar</strong></td>                                                                         ";
                            deger += "             </tr>                                                                                                                                  ";
                            deger += "             <tr>                                                                                                                                   ";
-                deger += "                 <td><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");' class='form-control' style='text-align:right;' /></td>              ";
-                deger += "                 <td><input type='text' name='OlcuBirimi_" + YeniID + "' id='OlcuBirimi_" + YeniID + "' value='' class='form-control p-2' readonly /></td>                   ";
-                deger += "                 <td><input type='text' name='Fiyat_" + YeniID + "' id='Fiyat_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");' class='form-control' style='text-align:right;' /></td>                 ";
-                           deger += "                 <td><input type='text' name='Tutar_" + YeniID + "' id='Tutar_" + YeniID + "' value='0'  onchange='TutarHesapla(\"Miktar_"+YeniID+"\",\"Fiyat_"+YeniID+"\",\"Tutar_"+YeniID+"\");'  class='form-control' style='text-align:right;' readonly /></td>        ";
+                deger += "                 <td><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");' class='form-control me-10' style='text-align:right;' /></td>              ";
+                deger += "                 <td><input type='text' name='OlcuBirimi_" + YeniID + "' id='OlcuBirimi_" + YeniID + "' value='' class='form-control p-2 me-10' readonly /></td>                   ";
+                deger += "                 <td><input type='text' name='Fiyat_" + YeniID + "' id='Fiyat_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");'  style='text-align:right;' /></td>                 ";
+                deger += "                 <td><input type='text' name='Tutar_" + YeniID + "' id='Tutar_" + YeniID + "' value='0'  onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");'  class='form-control me-10' style='text-align:right;' readonly /></td>        ";
                            deger += "             </tr>";
                            deger += "         </table>";
-                deger += "     </td><td><button type='button' class='deleteBtn' onclick='SatirSil(\"" + YeniID +"\")' data-ID2='"+YeniID+"'>Sil</button></td>";
+                deger += "     </td><td><button type='button' class='deleteBtn pt-2' onclick='SatirSil(\"" + YeniID +"\")' data-ID2='"+YeniID+"'>Sil</button></td>";
                            deger += " </tr>";
 
 
@@ -753,9 +474,9 @@
                 deger += "      </td>";
                 deger += "      <td>";
                 if (Tip == "SF") {
-                    deger += "              <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2' />";
+                    deger += "              <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2 me-10' />";
                 } else if (Tip == "DT") {
-                    deger += "              <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2' />";
+                    deger += "              <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2 me-10' />";
                 } else {
                     deger += "              <select class='form-select form-select-solid p-2 rounded-1' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "'";
                     deger += "                      aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız'>";
@@ -763,11 +484,11 @@
                     deger += "";
                 }
                 deger += "      </td>";
-                deger += "      <td style='max-width:100px;'><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");' class='form-control p-2' style='text-align:right;' /></td>";
-                deger += "      <td style='max-width:100px;'><input type='text' name='OlcuBirimi_" + YeniID + "' id ='OlcuBirimi_" + YeniID + "' value = '' class='form-control p-2' readonly /></td > ";
-                deger += "      <td style='max-width:150px;'><input type='text' name='Fiyat_" + YeniID + "' id = 'Fiyat_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");' class='form-control p-2' style = 'text-align:right;' /></td > ";
-                deger += "      <td style='max-width:150px;'><input type='text' name='Tutar_" + YeniID + "' id = 'Tutar_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");' class='form-control p-2' style = 'text-align:right;' readonly /></td > ";
-                deger += "      <td><button type='button' class='deleteBtn' onclick='SatirSil(\""+YeniID+"\")' data-ID2='"+YeniID+"'>Sil</button></td></tr>";
+                deger += "      <td style='max-width:100px;'><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");' class='form-control p-2 me-10' style='text-align:right;' /></td>";
+                deger += "      <td style='max-width:100px;'><input type='text' name='OlcuBirimi_" + YeniID + "' id ='OlcuBirimi_" + YeniID + "' value = '' class='form-control p-2 me-10' readonly /></td > ";
+                deger += "      <td style='max-width:150px;'><input type='text' name='Fiyat_" + YeniID + "' id = 'Fiyat_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");' class='form-control p-2 me-10' style = 'text-align:right;' /></td > ";
+                deger += "      <td style='max-width:150px;'><input type='text' name='Tutar_" + YeniID + "' id = 'Tutar_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");' class='form-control p-2 me-10' style = 'text-align:right;' readonly /></td > ";
+                deger += "      <td><button type='button' class='deleteBtn pt-2' onclick='SatirSil(\""+YeniID+"\")' data-ID2='"+YeniID+"'>Sil</button></td></tr>";
             }
             var newSelect = $("<select class='form-select form-select-solid p-2 rounded-1 ' name='StokID_" + YeniID + "' id='StokID_" + YeniID + "' style='min-width:150px;max-width:350px;' aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız' ></select>");
 

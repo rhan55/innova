@@ -122,10 +122,17 @@ div.dt-container {
     padding-left: 20px !important;
     padding-right: 20px !important;
     border-radius: 5px !important;
-    margin-top: 7px !important;
+    padding-top: 6px !important;
+  
+
   
 }
 
 .form-control .kalemler-input {
     padding: 0px !important;
 }
+
+.form-select .form-select-solid .p-2 rounded-1 .bg-gray-100 .fatura {
+    background-color: #f9f9f9 !important;
+}
+

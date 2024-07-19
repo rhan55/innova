@@ -118,71 +118,72 @@ namespace YKPortal.Controllers
             return View(entity);
         }
 
-        //[HttpPost]
-        //public ActionResult Kaydet(string Tip = "", string ID = "", string BelgeNo = "", string Tarih = "", string CariID = "",
-        //    string DepoCikisID = "", string DepoGirisID = "",
-        //    string Aciklama = "", string Kalemler = "")
-        //{
-        //    JsonResult result = new JsonResult();
+        [HttpPost]
+        public ActionResult Kaydet(string Tip = "", string ID = "", string BelgeNo = "", string Tarih = "", string CariID = "",
+           string DepoCikisID = "", string DepoGirisID = "",
+            string Aciklama = "", string Kalemler = "")
+        {
+           JsonResult result = new JsonResult();
 
-        //    #region Kayıt işlemi gerçekleştirilecek.
-        //    string KullaniciID = GetCookie("KullaniciID");
+            #region Kayıt işlemi gerçekleştirilecek.
+            string KullaniciID = GetCookie("KullaniciID");
 
-        //    SqlCommand cmd = new SqlCommand();
-        //    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-        //    cmd.CommandText = "p_BelgeKaydet";
-        //    cmd.Parameters.AddWithValue("@ID", ID);
-        //    cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-        //    cmd.Parameters.AddWithValue("@Tip", Tip);
-        //    cmd.Parameters.AddWithValue("@BelgeNo", BelgeNo);
-        //    cmd.Parameters.AddWithValue("@Tarih", Tarih);
-        //    cmd.Parameters.AddWithValue("@CariID", CariID);
-        //    cmd.Parameters.AddWithValue("@DepoCikisID", DepoCikisID);
-        //    cmd.Parameters.AddWithValue("@DepoGirisID", DepoGirisID);
-        //    cmd.Parameters.AddWithValue("@Aciklama1", Aciklama);
-        //    cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
-        //    ID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_BelgeKaydet";
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Tip", Tip);
+            cmd.Parameters.AddWithValue("@BelgeNo", BelgeNo);
+            cmd.Parameters.AddWithValue("@Tarih", Tarih);
+            cmd.Parameters.AddWithValue("@CariID", CariID);
+            cmd.Parameters.AddWithValue("@DepoCikisID", DepoCikisID);
+            cmd.Parameters.AddWithValue("@DepoGirisID", DepoGirisID);
+            cmd.Parameters.AddWithValue("@Aciklama1", Aciklama);
+            cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
+            ID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
 
-        //    string silinenler = "";
-        //    foreach (string item in Kalemler.Split('~'))
-        //    {
-        //        if (item.Trim().Length > 0)
-        //        {
-        //            cmd.Parameters.Clear();
-        //            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-        //            cmd.CommandText = "p_BelgeKalemKaydet";
-        //            cmd.Parameters.AddWithValue("@ID", item.Split('|')[0]);
-        //            cmd.Parameters.AddWithValue("@BelgeID", ID);
-        //            cmd.Parameters.AddWithValue("@StokID", item.Split('|')[1]);
-        //            cmd.Parameters.AddWithValue("@Seri", item.Split('|')[2]);
-        //            cmd.Parameters.AddWithValue("@Miktar", Convert.ToDecimal(item.Split('|')[3]));
-        //            cmd.Parameters.AddWithValue("@Fiyat", Convert.ToDecimal(item.Split('|')[4]));
-        //            cmd.Parameters.AddWithValue("@IskontoOrani1", 0);
-        //            cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
-        //            silinenler += Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek)) + ",";
-        //        }
-        //    }
+            string silinenler = "";
+            foreach (string item in Kalemler.Split('~'))
+            {
+               if (item.Trim().Length > 0)
+                {
+                   cmd.Parameters.Clear();
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "p_BelgeKalemKaydet";
+                  cmd.Parameters.AddWithValue("@ID", item.Split('|')[0]);
+                 cmd.Parameters.AddWithValue("@BelgeID", ID);
+                    cmd.Parameters.AddWithValue("@StokID", item.Split('|')[1]);
+                    cmd.Parameters.AddWithValue("@Seri", item.Split('|')[2]);
+                    cmd.Parameters.AddWithValue("@Miktar", Convert.ToDecimal(item.Split('|')[3]));
+                    cmd.Parameters.AddWithValue("@Fiyat", Convert.ToDecimal(item.Split('|')[4]));
+                    cmd.Parameters.AddWithValue("@IskontoOrani1", 0);
+                   cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
+                    silinenler += Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek)) + ",";
+               }
+           }
 
-        //    cmd.Parameters.Clear();
-        //    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-        //    cmd.CommandText = "p_BelgeKalemSilinenKontrol";
-        //    cmd.Parameters.AddWithValue("@BelgeID", ID);
-        //    cmd.Parameters.AddWithValue("@ID", silinenler);
-        //    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+           cmd.Parameters.Clear();
+           cmd.CommandType = System.Data.CommandType.StoredProcedure;
+           cmd.CommandText = "p_BelgeKalemSilinenKontrol";
+           cmd.Parameters.AddWithValue("@BelgeID", ID);
+            cmd.Parameters.AddWithValue("@ID", silinenler);
+           IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
 
 
-        //    cmd.Parameters.Clear();
-        //    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-        //    cmd.CommandText = "p_BelgeTamamla";
-        //    cmd.Parameters.AddWithValue("@ID", ID);
-        //    cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
-        //    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
-        //    #endregion
+           cmd.Parameters.Clear();
+           cmd.CommandType = System.Data.CommandType.StoredProcedure;
+           cmd.CommandText = "p_BelgeTamamla";
+           cmd.Parameters.AddWithValue("@ID", ID);
+           cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
+            IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+            #endregion
 
-        //    result.Data = ID;
-        //    //return Redirect(Request.Url.Authority+"/Belge/Detay/"+ID+"&Tip="+Tip);
-        //    return Json(result, JsonRequestBehavior.AllowGet);
-        //}
+            result.Data = ID;
+          
+
+           return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
 
         [HttpGet]

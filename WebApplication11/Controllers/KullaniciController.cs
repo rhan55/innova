@@ -521,7 +521,7 @@ namespace YKPortal.Controllers
 
 
             DataTable ilDataTable = (DataTable)IDVeritabani.Sorgula(ilCommand, SorgulaTuru.Tablo);
-
+            // Yeni bir Dto üretiyoruz class üzerindem 
             List<GrupKoduDto> entities = new List<GrupKoduDto>();
 
             for (int i = 0; i < ilDataTable.Rows.Count; i++)
