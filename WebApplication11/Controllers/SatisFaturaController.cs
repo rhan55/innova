@@ -148,17 +148,17 @@ namespace YKPortal.Controllers
             {
                if (item.Trim().Length > 0)
                 {
-                   cmd.Parameters.Clear();
+                    cmd.Parameters.Clear();
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "p_BelgeKalemKaydet";
-                  cmd.Parameters.AddWithValue("@ID", item.Split('|')[0]);
-                 cmd.Parameters.AddWithValue("@BelgeID", ID);
+                    cmd.Parameters.AddWithValue("@ID", item.Split('|')[0]);
+                    cmd.Parameters.AddWithValue("@BelgeID", ID);
                     cmd.Parameters.AddWithValue("@StokID", item.Split('|')[1]);
                     cmd.Parameters.AddWithValue("@Seri", item.Split('|')[2]);
                     cmd.Parameters.AddWithValue("@Miktar", Convert.ToDecimal(item.Split('|')[3]));
                     cmd.Parameters.AddWithValue("@Fiyat", Convert.ToDecimal(item.Split('|')[4]));
                     cmd.Parameters.AddWithValue("@IskontoOrani1", 0);
-                   cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
+                    cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
                     silinenler += Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek)) + ",";
                }
            }

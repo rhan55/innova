@@ -19,7 +19,7 @@
                                 <span class="path1 text-gray-500"></span>
                                 <span class="path2 text-gray-500"></span>
                             </i>
-                            <input type="text" data-kt-filter="search" class="form-control  w-250px py-1 ps-14"/>
+                            <input type="text" data-kt-filter="search" class="form-control  w-250px py-1 ps-14" />
                         </div>
                         <!--end::Search-->
                     </div>
@@ -73,7 +73,6 @@
                     </div>
                 </div>
                 <!--begin::Card body-->
-             
                 <!--end::Card body-->
             </div>
             <div class="my-4">
@@ -83,7 +82,7 @@
                         <tr class="text-start" style="font-size:15px;">
 
                             <th class="min-w-125px"><strong>Kod</strong></th>
-                            <th class="min-w-125px"><strong>İsim</strong></th>
+                            <th class="min-w-125px "><strong>İsim</strong></th>
                             <th class="min-w-125px"><strong>Adres</strong></th>
                             <th class="min-w-125px"><strong>Telefon</strong></th>
                             <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
@@ -95,22 +94,22 @@
                             <tr>
 
                                 <td>
-                                    <div href="" class="text-gray-800 text-hover-primary">@(Convert.ToString(Model.Rows[i]["Kod"]))</div>
+                                    <div href="" class="text-gray-600 text-hover-primary">@(Convert.ToString(Model.Rows[i]["Kod"]))</div>
                                 </td>
 
                                 <td>
-                                    <div href="" class="text-gray-800 text-hover-primary ">@(Convert.ToString(Model.Rows[i]["Isim"]))</div>
+                                    <div href="" class="text-gray-600 text-hover-primary ">@(Convert.ToString(Model.Rows[i]["Isim"]))</div>
                                 </td>
 
                                 <td>
-                                    <div href="" class="text-gray-800 text-hover-primary">@(Convert.ToString(Model.Rows[i]["Adres"]))</div>
+                                    <div href="" class="text-gray-600 text-hover-primary">@(Convert.ToString(Model.Rows[i]["Adres"]))</div>
                                 </td>
 
                                 <td>
-                                    <div href="" class="text-gray-800 text-hover-primary">@(Convert.ToString(Model.Rows[i]["Telefon"]))</div>
+                                    <div href="" id="Telefon" class="text-gray-600 text-hover-primary">@(Convert.ToString(Model.Rows[i]["Telefon"]))</div>
                                 </td>
                                 <td class="text-end py-2">
-                                    <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                    <a href="#" class=" text-gray-700 fw-bold btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                         İşlemler
                                         <i class="ki-duotone ki-down fs-5 ms-1"></i>
                                     </a>
@@ -174,14 +173,9 @@
 
 @section Scripts {
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('.btn-sil').forEach(silButonu => {
-                silButonu.addEventListener('click', function () {
-                    document.querySelector('form#silme-formu input[name="id"]').value = silButonu.dataset.id;
-                   
-                })
-            })
-        });
+
+       
+
 
         // Class definition
         var KTDatatablesExample = function () {
