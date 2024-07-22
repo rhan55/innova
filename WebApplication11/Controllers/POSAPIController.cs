@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using YKPortal.Models.Dto;
 using YKPortal.Models;
 
+
 namespace YKPortal.Controllers
 {
     public class POSAPIController : Controller
@@ -17,15 +18,19 @@ namespace YKPortal.Controllers
         [HttpGet]
         public ActionResult UyelikPaketleri()
         {
-           if (!AutoGirisKontrol())
-              return Redirect("~/YK/Giris");
-        //    SqlCommand cmd = new SqlCommand();
-        //    cmd.CommandText = " p_UyelikPaketleri";
-        //    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-        //    cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-        //    DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
 
-           return View();
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_UyelikPaketleri";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            UyelikPaketleriViewModel model = new UyelikPaketleriViewModel();
+            model.UyelikPaketleri = dt;
+
+            return View(model);
         }
 
         [HttpGet]
@@ -33,6 +38,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
 
             return View();
         }

@@ -60,8 +60,7 @@ namespace YKPortal.Controllers
             return RedirectToAction("Liste");
         }
 
-
-
+        [HttpGet]
         public ActionResult Duzenle(string id)
         {
             if (!AutoGirisKontrol())
@@ -86,7 +85,7 @@ namespace YKPortal.Controllers
             cmd.CommandText = "p_SubeKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-            cmd.Parameters.AddWithValue("@ID", subeDto.ID);
+            cmd.Parameters.AddWithValue("@ID",subeDto.ID);
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@Kod", subeDto.Kod);
             cmd.Parameters.AddWithValue("@Isim", subeDto.Isim);

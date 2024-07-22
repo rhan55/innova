@@ -1,13 +1,18 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Web;
+using System.Web.Razor.Parser.SyntaxTree;
+using System.Xml.Linq;
 
 namespace YKPortal.Models.Dto
 {
     public class POSAPI
     {
+
         private string _UyelikID;
         private string _KullaniciID;
         private string _Uygulama;

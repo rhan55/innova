@@ -179,6 +179,7 @@
     <Compile Include="Models\Dto\BelgeDto.cs" />
     <Compile Include="Models\Dto\BelgeKalemDto.cs" />
     <Compile Include="Models\Dto\CariHareketDto.cs" />
+    <Compile Include="Models\Dto\UyelikPaketleriViewModel.cs" />
     <Compile Include="Models\Dto\GorevDto.cs" />
     <Compile Include="Models\Dto\MailAyarlariDto.cs" />
     <Compile Include="Models\Dto\ParametreDto.cs" />
@@ -2670,6 +2671,7 @@
     <Content Include="Views\SatisFatura\YeniSatisFatura.cshtml" />
     <Content Include="Views\SatisFatura\Detay.cshtml" />
     <Content Include="Views\SatisFatura\Liste.cshtml" />
+    <Content Include="Views\POSAPI\UyelikOdemesi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

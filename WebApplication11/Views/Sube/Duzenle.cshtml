@@ -10,8 +10,8 @@
     <form id="kt_modal_add_user_form" class="form" action="@Url.Action("Duzenle","Sube",null)" method="post" enctype="multipart/form-data">
 
         <!--begin::Scroll-->
-        <div class="d-flex flex-column scroll-y container mt-10">
-            <input type="hidden" name="ID" value="" />
+        <div class="d-flex flex-column mt-10">
+            <input type="hidden" name="ID" value="@(Convert.ToString(Model.Rows[0]["ID"]))" />
 
             <!--begin::Row Input group-->
             <div class="row mb-12">
@@ -37,7 +37,7 @@
             </div>
             <!--end::Input group-->
             <!--begin::Row Input group-->
-            <div class="row">
+           
             <div class="row">
                 <!--begin::Input group-->
                 <div class="col-lg-6">
@@ -63,7 +63,7 @@
             <!--begin::Actions-->
             <div class="pt-10">
                 <a onclick="history.back()" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
-                <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Duzenle">
+                <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet">
                     <span class="indicator-label">Kaydet</span>
                     <span class="indicator-progress">
                         Lütfen Bekleyin...
