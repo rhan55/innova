@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace YKPortal.Models.Dto
 {
-    public class POSAPI
+    public class POSAPIDto
     {
 
         private string _UyelikID;
@@ -18,7 +18,7 @@ namespace YKPortal.Models.Dto
         private string _Uygulama;
         private string _Tutar;
         private string _UzatilacakAy;
-        private string _Durum;
+        private string _Durumu;
         private string _OrderID;
         private string _KrediKartIsim;
         private string _KrediKartNo;
@@ -34,7 +34,7 @@ namespace YKPortal.Models.Dto
         public string Uygulama { get { return _Uygulama ?? ""; } set { _Uygulama = value; } }
         public string Tutar { get { return _Tutar ?? ""; } set { _Tutar = value; } }
         public string UzatilacakAy { get { return _UzatilacakAy ?? ""; } set { _UzatilacakAy = value; } }
-        public string Durum { get { return _Durum ?? ""; } set { _Durum = value; } }
+        public string Durumu { get { return _Durumu ?? ""; } set { _Durumu = value; } }
         public string OrderID { get { return _OrderID ?? ""; } set { _OrderID = value; } }
         public string KrediKartIsim { get { return _KrediKartIsim ?? ""; } set { _KrediKartIsim = value; } }
         public string KrediKartNo { get { return _KrediKartNo ?? ""; } set { _KrediKartNo = value; } }

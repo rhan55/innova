@@ -164,6 +164,7 @@
     <Compile Include="Controllers\DepoController.cs" />
     <Compile Include="Controllers\GorevController.cs" />
     <Compile Include="Controllers\KullaniciController.cs" />
+    <Compile Include="Controllers\OdemeController.cs" />
     <Compile Include="Controllers\ParametreController.cs" />
     <Compile Include="Controllers\POSAPIController.cs" />
     <Compile Include="Controllers\SatisFaturaController.cs" />
@@ -183,7 +184,7 @@
     <Compile Include="Models\Dto\GorevDto.cs" />
     <Compile Include="Models\Dto\MailAyarlariDto.cs" />
     <Compile Include="Models\Dto\ParametreDto.cs" />
-    <Compile Include="Models\Dto\POSAPI.cs" />
+    <Compile Include="Models\Dto\POSAPIDto.cs" />
     <Compile Include="Models\Dto\StokDto.cs" />
     <Compile Include="Models\Dto\StokFiyatDto.cs" />
     <Compile Include="Models\Dto\StokHareketDto.cs" />
@@ -2672,6 +2673,9 @@
     <Content Include="Views\SatisFatura\Detay.cshtml" />
     <Content Include="Views\SatisFatura\Liste.cshtml" />
     <Content Include="Views\POSAPI\UyelikOdemesi.cshtml" />
+    <Content Include="Views\Odeme\OdemeSonucu.cshtml" />
+    <Content Include="Views\Odeme\UyelikPaketleri.cshtml" />
+    <Content Include="Views\Odeme\Odeme.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

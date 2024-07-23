@@ -97,18 +97,19 @@ namespace YKPortal.Controllers
     
             return RedirectToAction("Liste");
         }
-        public ActionResult Sil(string id)
+        public ActionResult Sil(string id, SubeDto subeDto)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_SubeSil";
             cmd.CommandType = System.Data.CommandType.StoredProcedure; 
-            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@ID", "");
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
      
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            ViewBag.ID = subeDto.ID;
 
             return RedirectToAction("Liste");
         }
@@ -178,3 +179,4 @@ namespace YKPortal.Controllers
         #endregion
     }
 }
+

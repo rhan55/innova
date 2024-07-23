@@ -7,12 +7,49 @@ using System.Web;
 using System.Web.Mvc;
 using YKPortal.Models.Dto;
 using YKPortal.Models;
-
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace YKPortal.Controllers
 {
+
+    public class ParamPosService
+    {
+        private readonly HttpClient _httpClient;
+
+        public ParamPosService()
+        {
+            _httpClient = new HttpClient();
+        }
+
+        public async Task<string> SendPaymentRequest(POSAPIDto request)
+        {
+            var values = new Dictionary<string, string>
+        {
+            { "KrediKartIsim", request.KrediKartIsim },
+            { "KrediKartNo", request.KrediKartNo },
+            { "KrediKartSonKullanim", request.KrediKartSonKullanim },
+            { "KrediKartCVV", request.KrediKartCVV },
+            { "OrderID", request.OrderID },
+            { "Tutar", request.Tutar.ToString() }
+        };
+
+            var content = new FormUrlEncodedContent(values);
+            var response = await _httpClient.PostAsync("https://api.parampos.com.tr/odeme", content);
+
+            return await response.Content.ReadAsStringAsync();
+        }
+    }
+
+
     public class POSAPIController : Controller
     {
+     
 
         // GET: POSAPI
         [HttpGet]
@@ -42,7 +79,7 @@ namespace YKPortal.Controllers
 
             return View();
         }
-   
+
         #region Cookie İşlemleri
 
         public bool AutoGirisKontrol()
@@ -86,6 +123,8 @@ namespace YKPortal.Controllers
             return GirisKontrol;
         }
 
+
+
         private string GetCookie(string name)
         {
             //Böyle bir cookie mevcut mu kontrol ediyoruz
@@ -97,6 +136,17 @@ namespace YKPortal.Controllers
             return null;
         }
 
+        private class KullaniciListesi
+        {
+
+        }
+
+
         #endregion
     }
+
+
+
 }
+    
+
