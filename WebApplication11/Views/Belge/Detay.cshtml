@@ -19,7 +19,7 @@
         </div>
         <div class="col-6">
             <label for="BelgeNo" class=" form-label">Belge No</label>
-            <input type="text" name="BelgeNo" id="BelgeNo" value="@(Convert.ToString(Model.BelgeNo))" class="form-control p-2 rounded-1" placeholder="" />
+            <input type="text" name="BelgeNo" id="BelgeNo" maxlength="15" value="@(Convert.ToString(Model.BelgeNo))" class="form-control p-2 rounded-1" placeholder="" />
         </div>
         <div class="col-6">
             <label for="Tarih" class=" form-label">Tarih</label>
@@ -40,10 +40,10 @@
 
         <div class="col-@(Tip == "DT" ? "12" : "6")">
             <label for="Aciklama" class=" form-label">Açıklama</label>
-            <input type="text" name="Aciklama" id="Aciklama" value="@(Convert.ToString(Model.Aciklama))" class="form-control p-2 rounded-1" placeholder="" />
+            <input type="text" name="Aciklama" id="Aciklama" maxlength="50" value="@(Convert.ToString(Model.Aciklama))" class="form-control p-2 rounded-1" placeholder="" />
         </div>
 
-        <div class="col-6">
+        <div class="col-6" style="@(Tip == "DT" ? "" : "display:none;")">
             <div class="form-group">
                 <label for="DepoCikisID" class=" form-label">Çıkış Depo</label>
                 <select class="form-select form-select-solid p-2 rounded-1" name="DepoCikisID" id="DepoCikisID"
@@ -55,7 +55,7 @@
                 </select>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-6" style="">
             <div class="form-group">
                 <label for="DepoGirisID" class=" form-label">Giriş Depo</label>
                 <select class="form-select form-select-solid p-2 rounded-1" name="DepoGirisID" id="DepoGirisID"
@@ -118,11 +118,6 @@
                                             <td>
                                                 @if (Tip == "AI")
                                                 {
-                                                    <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control" />
-                                                }
-                                                else if (Tip == "DT")
-                                                {
-
                                                     <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control" />
                                                 }
                                                 else
@@ -250,12 +245,8 @@
                            deger += "                 <td>                                                                                                                               ";
                             if (Tip == 'AI') {
                                 deger += "                         <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control' />                         ";
-                            } else if (Tip == 'DT') {
-                                deger += "                         <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control' />                         ";
                             } else {
-                                deger += "                         <select class='form-select form-select-solid p-2 rounded-1' name='Seri_" + YeniID + "' id='Seri_" + YeniID + ")'                              ";
-
-                                deger += "                                 aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız'>         ";
+                                deger += "                         <select name='Seri_" + YeniID + "' id='Seri_" + YeniID + ")' class='form-control' >         ";
                                 deger += "                         </select>                                                                                                                  ";
                             }
                            deger += "                 </td>                                                                                                                              ";
@@ -285,12 +276,9 @@
                 deger += "      <td>";
                 if (Tip == "AI") {
                     deger += "              <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control' />";
-                } else if (Tip == "DT") {
-                    deger += "              <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control' />";
                 } else {
-                    deger += "              <select class='form-select form-select-solid p-2 rounded-1' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "'";
-                    deger += "                      aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız'>";
-                    deger += "              </select>";
+                    deger += "              <select  name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' class='form-control'>";
+                    deger += "        </select>";
                     deger += "";
                 }
                 deger += "      </td>";
@@ -398,13 +386,13 @@
                     }
                 },
                 delay: 250,
-                minimumInputLength: 3,
+                minimumInputLength: 1,
                 language: {
                     placeholder: function () {
-                        return "Arama yapmak için en az 3 karakter girin";
+                        return "Arama yapmak için en az 1 karakter girin";
                     },
                     inputTooShort: function () {
-                        return "En az lütfen en az 3 karakter girin";
+                        return "En az lütfen en az 1 karakter girin";
                     }
                 }
             });
@@ -439,18 +427,48 @@
                             };
                         }
                     },
+
                     delay: 250,
-                    minimumInputLength: 3,
+                    minimumInputLength: 1,
                     language: {
                         placeholder: function () {
-                            return "Arama yapmak için en az 3 karakter girin";
+                            return "Arama yapmak için en az 1 karakter girin";
                         },
                         inputTooShort: function () {
-                            return "En az lütfen en az 3 karakter girin";
+                            return "En az lütfen en az 1 karakter girin";
                         }
                     }
                 });
 
+                $('#' + stokid).on('select2:selecting', function (e) {
+                    var stok_id = (e.params.args.data.id);
+                   
+                    $.ajax({
+                        url: '/Belge/SelectStokSeriListe',
+                        data: "{ 'StokID': '" + stok_id + "', 'DepoID': '"+$("#DepoCikisID").val()+"' }",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataFilter: function (data) { return data; },
+                    success: function (data) {
+                        // waitingDialog.hide();
+
+                        $('#Seri_' + stokid.replace("StokID_", "")).find('option').remove();
+                            var deger = "";
+                        for (var i = 0; i < data.Data.length; i++) {
+                            deger += "<option value='" + data.Data[i].SeriNo + "'>" + data.Data[i].SeriNo + ' - Bakiye : ' + data.Data[i].Bakiye.toFixed(0) + "</option>";
+                        }
+                        console.log(stokid.replace("StokID_", ""));
+                        console.log(deger);
+                        $('#Seri_' + stokid.replace("StokID_", "")).append(deger);
+                        
+                    },
+                        error: function (msg) {
+                            console.log(msg);
+                    }
+                });
+
+                });
 
             });
         }
@@ -490,13 +508,13 @@
                         }
                     },
                     delay: 250,
-                    minimumInputLength: 3,
+                    minimumInputLength: 1,
                     language: {
                         placeholder: function () {
-                            return "Arama yapmak için en az 3 karakter girin";
+                            return "Arama yapmak için en az 1 karakter girin";
                         },
                         inputTooShort: function () {
-                            return "En az lütfen en az 3 karakter girin";
+                            return "En az lütfen en az 1 karakter girin";
                         }
                     }
                 });
@@ -517,7 +535,7 @@
                     success: function (data) {
                         // waitingDialog.hide();
 
-                            $('#Seri_@(satir.ID.Replace("-","")) option').remove();
+                            $('#Seri_@(satir.ID.Replace("-",""))').remove();
                             var deger = "";
                             for (var i = 0; i < data.length; i++) {
                                 deger += "<option value='"+data[i].SeriNo+"'>" + data[i].SeriNo + "</option>";

@@ -49,6 +49,7 @@ namespace YKPortal.Models.Dto
         private string _KaliteID;
         private string _KayitYapanKullaniciID;
         private string _AnaStokID;
+        private decimal _Bakiye;
 
         public string ID { get { return _ID ?? ""; } set { _ID = value; } }
         public string StokID { get { return _StokID ?? ""; } set { _StokID = value; } }
@@ -90,6 +91,8 @@ namespace YKPortal.Models.Dto
         public string KaliteID { get { return _KaliteID ?? ""; } set { _KaliteID = value; } }
         public string KayitYapanKullaniciID { get { return _KayitYapanKullaniciID ?? ""; } set { _KayitYapanKullaniciID = value; } }
         public string AnaStokID { get { return _AnaStokID ?? ""; } set { _AnaStokID = value; } }
+        public decimal Bakiye { get { return _Bakiye == null ? 0 : _Bakiye; } set { _Bakiye = value; } }
+        
     }
 } 
 
