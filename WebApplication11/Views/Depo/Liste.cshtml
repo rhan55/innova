@@ -68,15 +68,15 @@
     </div>
     <div class="card card-flush mt-4 scroll-x">
         <!--begin::Table-->
-        <table class="table align-middle table-row-dashed fs-6 gy-5 " id="depo-datatable">
+        <table class="table align-middle table-row-dashed fs-6" id="depo-datatable">
             <thead>
                 <tr class="text-start" style="font-size:15px;">
 
-                    <th class="min-w-125px ps-5"><strong>Kod</strong></th>
+                    <th class="min-w-125px"><strong>Kod</strong></th>
                     <th class="min-w-125px"><strong>İsim</strong></th>
                     <th class="min-w-125px"><strong>Adres</strong></th>
                     <th class="min-w-125px"><strong>Telefon</strong></th>
-                    <th class="text-end min-w-100px no-export pe-5"><strong>İşlemler</strong></th>
+                    <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
                 </tr>
             </thead>
             <tbody class="text-gray-600 fw-semibold">
@@ -85,19 +85,19 @@
                     <tr class="">
 
                         <td class="align-items-center p-0">
-                            <div href="" class="text-gray-800 text-hover-primary ">@(Convert.ToString(Model.Rows[i]["Kod"]))</div>
+                            <div href="" class="text-gray-600 text-hover-primary ">@(Convert.ToString(Model.Rows[i]["Kod"]))</div>
                         </td>
                         <td class="align-items-center p-0">
-                            <div href="" class="text-gray-800 text-hover-primary ">@(Convert.ToString(Model.Rows[i]["Isim"]))</div>
+                            <div href="" class="text-gray-600 text-hover-primary ">@(Convert.ToString(Model.Rows[i]["Isim"]))</div>
                         </td>
                         <td class=" align-items-center p-0">
-                            <div href="" class="text-gray-800 text-hover-primary ">@(Convert.ToString(Model.Rows[i]["Adres"]))</div>
+                            <div href="" class="text-gray-600 text-hover-primary ">@(Convert.ToString(Model.Rows[i]["Adres"]))</div>
                         </td>
                         <td class="align-items-center p-0">
-                            <div href="" class="text-gray-800 text-hover-primary ">@(Convert.ToString(Model.Rows[i]["Telefon"]))</div>
+                            <div href="" class="text-gray-600 text-hover-primary ">@(Convert.ToString(Model.Rows[i]["Telefon"]))</div>
                         </td>
                         <td class="text-end py-1">
-                            <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                            <a href="#" class="btn btn-light fw-bold  btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                 İşlemler
                                 <i class="ki-duotone ki-down fs-5 ms-1"></i>
                             </a>

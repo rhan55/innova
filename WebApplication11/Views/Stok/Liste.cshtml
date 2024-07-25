@@ -4,18 +4,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<div class="container-fluid  m-0 p-0">
+<div class="container-fluid p-0">
     <div class="row p-0 m-0">
-
         <div class="col-lg-12 p-0">
-            <div class="content d-flex justify-center flex-column flex-column-fluid" id="kt_content">
+            <div class="content d-flex justify-center flex-column flex-column-fluid p-0" id="kt_content">
                 <!--begin::Post-->
-                <div class="post d-flex flex-column-fluid" id="kt_post">
+                <div class="post d-flex flex-column" id="kt_post">
                     <!--begin::Container-->
                     <div id="kt_content_container" class="container-fluid p-0 m-0">
-                        <div class="card shadow-none border-0">
-                            <div class="card-header align-items-center shadow-none border-0 py-5 gap-2">
+                        <div class="card card-flush border-0 shadow-none m-0 p-0">
+                            <div class="card-header align-items-center border-0 shadow-0 gap-2 gap-md-5 p-0 m-0">
 
                                 <div class="card-title">
                                     <!--begin::Export buttons-->
@@ -178,7 +176,7 @@
                                 <th class="min-w-125px mt-8"><strong>GrupKodu1</strong></th>
                                 <th class="min-w-125px"><strong>GrupKodu2</strong></th>
                                 <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
-                                <th class="text-end min-w-100px no-export"><strong>ID</strong></th>
+                                <th class="text-end max-w-1px d-none no-export"><strong>ID</strong></th>
                             </tr>
                             <!--end::Table row-->
                         </thead>
@@ -234,7 +232,7 @@
                                         </div>
                                         <!--end::Menu-->
                                     </td>
-                                    <td>@(Convert.ToString(Model.Rows[i]["ID"]))</td>
+                                    <td class="d-none">@(Convert.ToString(Model.Rows[i]["ID"]))</td>
                                 </tr>
                             }
                         </tbody>
@@ -245,8 +243,7 @@
         <!--end::Container-->
     </div>
 </div>
-</div>
-</div>
+
 
 <div class="modal fade" id="Stok-silme" tabindex="-1">
     <div class="modal-dialog">
@@ -305,6 +302,7 @@
 @section Scripts {
     <script>
 
+      
         function setCookie(name, value, days) {
             let expires = "";
             if (days) {
@@ -443,7 +441,7 @@
 
                     columnDefs: [
                         {
-                            targets: [0, 7],
+                            targets: [0, 6],
                             orderable: false
                         },
                         {

@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "UyelikPaketleri";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model IEnumerable<YKPortal.Models.UyelikPaket>
+
+<div class="container">
+    <div class="row d-flex align-items-center justify-content-center">
+        @foreach (var paket in Model)
+        {
+            <div class="col-xl-5">
+                <div class="d-flex h-100 align-items-center">
+                    <div class="w-100 d-flex flex-column flex-center rounded-3 bg-light bg-opacity-75 py-15 px-10">
+                        <div class="mb-7 text-center">
+                            <input type="hidden" name="ID" value="@paket.UyelikID" />
+                            <h1 name="Isim" class="text-gray-900 mb-5 fw-bolder">@paket.PaketAdi</h1>
+                            <div name="Aciklama" class="text-gray-600 fw-semibold mb-5">@paket.Aciklama</div>
+                            <img src="@paket.ResimUrl" alt="@paket.PaketAdi" class="img-fluid mb-5" />
+                            <div class="text-center">
+                                <span class="mb-2 text-primary fw-bold fs-3">₺</span>
+                                <span name="Tutar" class="fs-3x fw-bold text-primary">@paket.Tutar.ToString("F2")</span>
+                                <span class="fs-4 fw-semibold opacity-50">/<span name="Ay">@paket.UzatilacakAy</span></span>
+                                <span class="fs-4 fw-semibold opacity-50">Ay</span>
+                            </div>
+                        </div>
+                        <div class="w-100 mb-10">
+                            <!-- Özellikler kısmını burada güncelleyebilirsiniz -->
+                        </div>
+                        <div>
+                            <a href="@Url.Action("Odeme", "Odeme", new { id = paket.UyelikID })" class="btn btn-primary">Seç</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

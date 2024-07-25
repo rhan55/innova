@@ -1,0 +1,39 @@
+﻿@model YKPortal.Models.UyelikPaket
+@{
+    ViewBag.Title = "Odeme";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@using (Html.BeginForm("Odeme", "Home", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container">
+        <h2>@Model.PaketAdi - ₺@Model.Tutar</h2>
+        <div class="form-group">
+            @Html.HiddenFor(m => m.UyelikID)
+            <label for="KullaniciID">Kullanıcı ID:</label>
+            <input type="text" id="KullaniciID" name="KullaniciID" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="KrediKartIsim">Kredi Kartı İsmi:</label>
+            <input type="text" id="KrediKartIsim" name="KrediKartIsim" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="KrediKartNo">Kredi Kartı Numarası:</label>
+            <input type="text" id="KrediKartNo" name="KrediKartNo" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="KrediKartSonKullanim">Son Kullanım Tarihi:</label>
+            <input type="text" id="KrediKartSonKullanim" name="KrediKartSonKullanim" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="KrediKartCVV">CVV:</label>
+            <input type="text" id="KrediKartCVV" name="KrediKartCVV" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">Ödeme Yap</button>
+    </div>
+}
+

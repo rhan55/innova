@@ -49,7 +49,7 @@
             <!--begin::Input group-->
             <div class="col-lg-6">
                 <!--begin::Label-->
-                <label for="Isim" class="fw-bold text-gray-800 fs-6 mb-2">Isim</label>
+                <label for="Isim" class="fw-bold text-gray-800 fs-6 mb-2">İsim</label>
                 <!--end::Label-->
                 <!--begin::Input-->
                 <input type="text" id="Isim" name="Isim" class="form-control p-2" required>
@@ -93,3 +93,17 @@
     </div>
 </form>
 <!--end::Form-->
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            Inputmask({
+                "mask": "(999) 999-9999"
+            }).mask("#Telefon");
+
+        });
+
+    </script>
+}
