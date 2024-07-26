@@ -170,23 +170,31 @@
                                     </div>
                                 </div>
                             </div>
+                            <style>
+                                .max-w-250 {
+                                    max-width: 250px!important;
+                                }
 
+                                .max-w-360 {
+                                    max-width: 360px !important;
+                                }
+                            </style>
                             <div class="my-4 scroll-x">
-                                <table class="table align-middle border rounded table-row-dashed fs-6 display nowrap w-100" id="Cari-datatable">
-
+                                <table class="table p-2 align-middle border rounded table-row-dashed fs-6 display nowrap w-100" id="Cari-datatable">
+                                    
                                     <thead>
 
                                         <!--begin::Table row-->
                                         <tr class="text-start" style="font-size:15px;">
                                             <th id="select" class="min-w-40px max-w-40 no-export"></th>
-                                            <th class="min-w-125px"><strong>Cari Kodu</strong></th>
-                                            <th class="min-w-125px"><strong>Cari İsmi</strong></th>
-                                            <th class="min-w-125px no-export"><strong>İsim</strong></th>
+                                            <th class="min-w-125px" ><strong>Cari Kodu</strong></th>
+                                            <th class="min-w-125px max-w-360"><strong>Cari İsmi</strong></th>
+                                            <th class="min-w-125px max-w-360 no-export"><strong>Ünvan</strong></th>
                                             <th class="min-w-125px mt-8"><strong>Cep Telefonu</strong></th>
                                             <th class="min-w-125px mt-8"><strong>GrupKodu1</strong></th>
                                             <th class="min-w-125px"><strong>GrupKodu2</strong></th>
                                             <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
-                                            <th class="text-end min-w-100px d-none no-export"><strong>ID</strong></th>
+                                            <th class="text-end min-w-100px  no-export"><strong>ID</strong></th>
                                         </tr>
                                         <!--end::Table row-->
                                     </thead>
@@ -202,11 +210,14 @@
                                             </td>
                                             <td class="pt-4 ">
                                                 <a href="/Cari/Duzenle/@(Convert.ToString(Model.Rows[i]["ID"]))">
-                                                    <strong> @(Convert.ToString(Model.Rows[i]["Isim"])) </strong>
+                                                    <strong class="text-wrap max-w-360 d-block"> @(Convert.ToString(Model.Rows[i]["Isim"])) </strong>
                                                 </a>
                                             </td>
                                             <td class="pt-4 pb-4">
-                                                @(Convert.ToString(Model.Rows[i]["Isim"]))
+                                                <span class="text-wrap max-w-360 d-block">
+                                                    @(Convert.ToString(Model.Rows[i]["Unvan"]))
+                                                </span>
+                                             
                                             </td>
                                             <td class="pt-4 pb-4">
                                                 @(Convert.ToString(Model.Rows[i]["CepTelefonu"]))
@@ -260,7 +271,7 @@
                                                 </div>
                                                 <!--end::Menu-->
                                             </td>
-                                            <td class="d-none">@(Convert.ToString(Model.Rows[i]["ID"]))</td>
+                                            <td class="">@(Convert.ToString(Model.Rows[i]["ID"]))</td>
                                         </tr>
                                         }
                                     </tbody>
@@ -468,26 +479,23 @@
 
                     columnDefs: [
                         {
-                            targets: [0, 8],// Sütunu seç
+                            targets: [8],// Sütunu seç
                            
                             "visible": false, // Sütunu gizle
                             "searchable": false // Aranabilirlik özelliğini kapat (isteğe bağlı)
-
                         },
                         {
                             render: DataTable.render.select(),
                             targets: 0,
-                            width: "40px"
+                            width: "40px",
+                            visible: true,
+                            orderable: false,
+                            searchable: false,
                         },
                         {
-                            targets: [],
-                            visible: false
-                        },
-                        {
-                            targets: [0,3],
+                            targets: [0,3,8],
                             className: 'noVis'
-                        }
-
+                        },
                     ],
 
                     order: [[1, 'asc']],

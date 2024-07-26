@@ -1,7 +1,8 @@
 ﻿@model System.Data.DataTable
+
 @{
     ViewBag.Title = "Giriş";
-      Layout = null;
+    Layout = null;
 }
 <!DOCTYPE html>
 <html lang="tr">
@@ -69,10 +70,9 @@
                                 <!--begin::Title-->
                                 <h1 class="text-gray-700 fw-bolder mb-3">Kullanıcı Girişi</h1>
                                 <!--end::Title-->
-                               
+
                             </div>
                             <!--begin::Heading-->
-
                             <!--ALERT-->
                             @if (Model != null)
                             {
@@ -135,7 +135,7 @@
                                 }
                             }
 
-                            <!--begin::Input group=-->                     
+                            <!--begin::Input group=-->
                             <div class="fv-row mb-8">
                                 <!--begin::Email-->
                                 <input type="text" placeholder="Kullanıcı Adı" name="txtKullaniciAdi" id="txtKullaniciAdi" autocomplete="off" class="form-control bg-transparent" />
@@ -155,14 +155,14 @@
                                 <a href="/YK/SifremiUnuttum" class="link-primary">Şifremi Unuttum</a>
                                 <!--end::Link-->
                             </div>
-                            <!--end::Wrapper--> 
+                            <!--end::Wrapper-->
                             <!--begin::Submit button-->
                             <div class="d-grid mb-10">
                                 <button type="submit" id="kt_sign_in_submit" class="btn btn-primary btn-sm fw-bold">
                                     <!--begin::Indicator label-->
                                     <span class="indicator-label fw-bold">Giriş Yap</span>
                                     <!--end::Indicator label-->
-                               
+
                                 </button>
                             </div>
                             <!--end::Submit button-->
@@ -181,18 +181,18 @@
                     <!--end::Wrapper-->
                 </div>
                 <!--end::Form-->
-               
+
             </div>
             <!--end::Body-->
             <!--begin::Aside-->
             <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover  h-100 w-100 bgi-position-center order-1 order-lg-2">
                 <!--begin::Content-->
                 <div class="d-flex flex-column flex-center  h-100 w-100">
-                   
+
                     <!--begin::Image-->
                     <img class="auth-right-bg-image h-100 w-100 overflow-y-hidden" src="~/Tema/media/Photo/800x800.png" alt="" />
                     <!--end::Image-->
-                   
+
                 </div>
                 <!--end::Content-->
             </div>
