@@ -186,6 +186,71 @@ namespace YKPortal.Controllers
            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public ActionResult Duzenle(string Tip, string id = "")
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_Belge";
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@ID", id);
+            DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
+            BelgeDto entity = new BelgeDto();
+            switch (Request.QueryString["Tip"])
+            {
+                case "SF":
+                    entity.BelgeTipi = BelgeTipi.SatisFaturasi;
+                    break;
+                default:
+                    break;
+            }
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                entity.ID = Convert.ToString(ds.Tables[0].Rows[0]["ID"]);
+                entity.Tarih = Convert.ToDateTime(ds.Tables[0].Rows[0]["Tarih"]);
+                entity.BelgeNo = Convert.ToString(ds.Tables[0].Rows[0]["BelgeNo"]);
+                entity.CariID = Convert.ToString(ds.Tables[0].Rows[0]["CariID"]);
+                entity.CariAdi = Convert.ToString(ds.Tables[0].Rows[0]["CariAdi"]);
+                entity.Aciklama = Convert.ToString(ds.Tables[0].Rows[0]["Aciklama1"]);
+                entity.Kalemler = new List<BelgeKalemDto>();
+                foreach (DataRow satir in ds.Tables[1].Rows)
+                {
+                    BelgeKalemDto s = new BelgeKalemDto();
+                    s.ID = Convert.ToString(satir["ID"]);
+                    s.BelgeID = entity.ID;
+                    s.StokID = Convert.ToString(satir["StokID"]);
+                    s.StokKodu = Convert.ToString(satir["StokKodu"]);
+                    s.StokAdi = Convert.ToString(satir["StokAdi"]);
+                    s.OlcuBirimi = Convert.ToString(satir["OlcuBirimi"]);
+                    s.Seri = Convert.ToString(satir["Seri"]);
+                    s.Miktar = Convert.ToDecimal(satir["Miktar"]);
+                    s.Fiyat = Convert.ToDecimal(satir["Fiyat"]);
+                    s.Iskonto = Convert.ToDecimal(satir["IskontoOrani1"]);
+                    s.Tutar = Convert.ToDecimal(satir["Tutar"]);
+
+                    entity.Kalemler.Add(s);
+                }
+            }
+            else
+            {
+                entity.Tarih = DateTime.Today;
+            }
+
+            {
+                SqlCommand cmdDepolar = new SqlCommand();
+                cmdDepolar.CommandType = System.Data.CommandType.StoredProcedure;
+                cmdDepolar.CommandText = "p_DepoListesi";
+                cmdDepolar.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmdDepolar.Parameters.AddWithValue("@AranacakKelime", "");
+                ViewBag.Depolar = (DataTable)IDVeritabani.Sorgula(cmdDepolar, SorgulaTuru.Tablo);
+            }
+
+            return View(entity);
+        }
+
 
         [HttpGet]
         public ActionResult FaturaListesi()
@@ -195,6 +260,8 @@ namespace YKPortal.Controllers
           
             return View();
         }
+
+
         [HttpPost]
         public JsonResult CariAra(string aranacakKelime)
         {

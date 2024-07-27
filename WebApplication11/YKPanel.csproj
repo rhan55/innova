@@ -2669,13 +2669,13 @@
     <Content Include="Views\Gorev\GorevListe.cshtml" />
     <Content Include="Views\Gorev\GorevDuzenle.cshtml" />
     <Content Include="Views\POSAPI\UyelikPaketleri.cshtml" />
-    <Content Include="Views\SatisFatura\YeniSatisFatura.cshtml" />
     <Content Include="Views\SatisFatura\Detay.cshtml" />
     <Content Include="Views\SatisFatura\Liste.cshtml" />
     <Content Include="Views\POSAPI\UyelikOdemesi.cshtml" />
     <Content Include="Views\Odeme\OdemeSonucu.cshtml" />
     <Content Include="Views\Odeme\UyelikPaketleri.cshtml" />
     <Content Include="Views\Odeme\Odeme.cshtml" />
+    <Content Include="Views\SatisFatura\Duzenle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

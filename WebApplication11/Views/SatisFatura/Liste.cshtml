@@ -14,88 +14,102 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<div style="margin:3px;" class="scroll-x">
-    <a href="@Url.Action("Detay","SatisFatura",new { Tip = Request.QueryString["Tip"], KayitID = "" })" class="btn btn-sm btn-primary" style="width:100px;">Yeni Fatura</a>
-    <table border="1" class="table">
-        <thead>
-
-            <!--begin::Table row-->
-            <tr>
-                <th><strong>Tarih</strong></th>
-                <th><strong>Belge No</strong></th>
-                @if (Request.QueryString["Tip"] == "SF")
-                {
-                    <th><strong>Cari</strong></th>
+<div class="container-fluid">
+    <div class="row mt-4">
+        <div style="margin:3px;" class="scroll-x">
+            <div class="text-end">
+                <a href="@Url.Action("Detay","SatisFatura",new { Tip = Request.QueryString["Tip"], KayitID = "" })" class="btn btn-sm btn-primary " style="width:100px;">Yeni Fatura</a>
+            </div>
+         
+            <style>
+                .max-w-500 {
+                    max-width: 250px !important;
                 }
-                else if (Request.QueryString["Tip"] == "DT")
-                {
-                    <th><strong>Çıkış Depo</strong></th>
-                    <th><strong>Giriş Depo</strong></th>
+
+                .max-w-500 {
+                    max-width: 360px !important;
                 }
-                <th style="text-align:right;"><strong>Tutar</strong></th>
-                <th><strong>İşlemler</strong></th>
-            </tr>
-            <!--end::Table row-->
-        </thead>
-        <tbody>
-            @if (Model != null)
-            {
-                for (var i = 0; i < Model.Rows.Count; i++)
-                {
+            </style>
+            <table class="table p-4 align-middle border rounded table-row-dashed fs-6 g-5 mt-4">
+                <thead>
+
+                    <!--begin::Table row-->
                     <tr>
-                        <td style="vertical-align: middle;">
-                            @(Convert.ToDateTime(Model.Rows[i]["Tarih"]).ToString("dd-MM-yyyy"))
-                        </td>
-                        <td style="vertical-align: middle;">
-                            <span style="color:blue;">@(Convert.ToString(Model.Rows[i]["BelgeNo"]))</span>
-                        </td>
+                        <th><strong>Tarih</strong></th>
+                        <th><strong>Belge No</strong></th>
                         @if (Request.QueryString["Tip"] == "SF")
                         {
-                            <td style="vertical-align: middle;">
-                                @(Convert.ToString(Model.Rows[i]["CariIsim"]))
-                            </td>
+                            <th class="max-w-500"><strong>Cari</strong></th>
                         }
                         else if (Request.QueryString["Tip"] == "DT")
                         {
-                            <td style="vertical-align: middle;">
-                                @(Convert.ToString(Model.Rows[i]["DepoCikis"]))
-                            </td>
-                            <td style="vertical-align: middle;">
-                                @(Convert.ToString(Model.Rows[i]["DepoGiris"]))
-                            </td>
+                            <th><strong>Çıkış Depo</strong></th>
+                            <th><strong>Giriş Depo</strong></th>
                         }
-                        <td style="text-align:right;vertical-align:middle;">
-                            @(String.Format("{0:N2}",Convert.ToDecimal(Model.Rows[i]["Tutar"]))) @(Convert.ToString(Model.Rows[i]["DovizBirimi"]))
-                        </td>
-                        <td style="vertical-align: middle;">
-                            <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                İşlemler
-                                <i class="ki-duotone ki-down fs-5 ms-1"></i>
-                            </a>
-                            <!--begin::Menu-->
-                            <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
-                                <!--begin::Menu item-->
-                                <div class="menu-item px-2">
-                                    <a href="/SatisFatura/Detay/@(Convert.ToString(Model.Rows[i]["ID"]))?Tip=@(Request.QueryString["SF"])" class="menu-link px-3">Düzenle</a>
-                                </div>
-                                <!--end::Menu item-->
-                                <!--begin::Menu item-->
-                                <div class="menu-item px-2">
-                                    <a href="/SatisFatura/Sil/@(Convert.ToString(Model.Rows[i]["ID"]))?Tip=@(Request.QueryString["SF"])" class="menu-link px-3" onclick="return confirm('Silmek istediğinizden emin misiniz?')">Sil</a>
-                                </div>
-                                <!--end::Menu item-->
-                            </div>
-                            <!--end::Menu-->
-                        </td>
+                        <th style="text-align:right;"><strong>Tutar</strong></th>
+                        <th class="text-end"><strong>İşlemler</strong></th>
                     </tr>
-                }
-            }
-        </tbody>
-    </table>
+                    <!--end::Table row-->
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        for (var i = 0; i < Model.Rows.Count; i++)
+                        {
+                            <tr>
+                                <td class="text-gray-600 fw-semibold" style="vertical-align: middle;">
+                                    @(Convert.ToDateTime(Model.Rows[i]["Tarih"]).ToString("dd-MM-yyyy"))
+                                </td>
+                                <td style="vertical-align: middle;">
+                                    <span style="color:blue;">@(Convert.ToString(Model.Rows[i]["BelgeNo"]))</span>
+                                </td>
+                                @if (Request.QueryString["Tip"] == "SF")
+                                {
+                                    <td class="text-wrap max-w-500 d-block text-gray-600 fw-semibold" style="vertical-align: middle;">
+                                        @(Convert.ToString(Model.Rows[i]["CariIsim"]))
+                                    </td>
+                                }
+                                else if (Request.QueryString["Tip"] == "DT")
+                                {
+                                    <td class="text-gray-600 fw-semibold" style="vertical-align: middle;">
+                                        @(Convert.ToString(Model.Rows[i]["DepoCikis"]))
+                                    </td>
+                                    <td class="text-gray-600 fw-semibold" style="vertical-align: middle;">
+                                        @(Convert.ToString(Model.Rows[i]["DepoGiris"]))
+                                    </td>
+                                }
+                                <td class="text-gray-600 fw-semibold" style="text-align:right;vertical-align:middle;">
+                                    @(String.Format("{0:N2}",Convert.ToDecimal(Model.Rows[i]["Tutar"]))) @(Convert.ToString(Model.Rows[i]["DovizBirimi"]))
+                                </td>
+                                <td class="text-end" style="vertical-align: middle;">
+                                    <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm  fw-bold" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                        İşlemler
+                                        <i class="ki-duotone ki-down fs-5 ms-1"></i>
+                                    </a>
+                                    <!--begin::Menu-->
+                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px p-0" data-kt-menu="true">
+                                        <!--begin::Menu item-->
+                                        <div class="menu-item px-0 py-0">
+                                            <a href="/SatisFatura/Duzenle?id=@(Convert.ToString(Model.Rows[i]["ID"]))&Tip=@(Request.QueryString["Tip"])" class="menu-link rounded-0 py-0  px-2">Düzenle</a>
+                                        </div>
+                                        <!--end::Menu item-->
+                                        <!--begin::Menu item-->
+                                        <div class="menu-item px-0 py-0">
+                                            <a href="/SatisFatura/Sil?id=@(Convert.ToString(Model.Rows[i]["ID"]))&Tip=@(Request.QueryString["Tip"])" class="menu-link rounded-0 py-0  px-2" onclick="return confirm('Silmek istediğinizden emin misiniz?')">Sil</a>
+                                        </div>
+                                        <!--end::Menu item-->
+                                    </div>
+                                    <!--end::Menu-->
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
 
+        </div>
+    </div>
 </div>
-
 
 @section Scripts {
     <script>
