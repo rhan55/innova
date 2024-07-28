@@ -15,7 +15,8 @@ namespace YKPortal.Models.Dto
         private string _KayitID;
         private string _Dosya;
         private string _KullaniciID;
-   
+        public byte[] ImageByte { get; set; }
+
 
         public string ID { get { return _ID ?? ""; } set { _ID = value; } }
         public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; } }
