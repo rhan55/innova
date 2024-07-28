@@ -1,7 +1,8 @@
-﻿@using YKPortal.Models.Dto
-@using System.Data
+﻿@using System.Data
+@using YKPortal.Models.Dto;
+@model System.Data.DataTable
 @{
-    ViewBag.Title = "Yeni Görev";
+    ViewBag.Title = "Destek";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     DataTable dtKullanicilar = ViewBag.Kullanicilar as DataTable;
@@ -12,24 +13,26 @@
     <div class="row">
         <div class="col-lg-12">
             <!--begin::Form-->
-            <form id="kt_modal_add_user_form" class="form" action="@Url.Action("GorevEkle","Gorev",null)" method="post" enctype="multipart/form-data">
+            <form id="kt_modal_add_user_form" class="form" action="@Url.Action("YeniDestek","Destek",new { Area = "D" })" method="post" enctype="multipart/form-data">
                 <!--begin::Scroll-->
                 <div class="d-flex flex-column scroll-y px-5 px-lg-10  mt-10">
                     <input type="hidden" name="ID" value="@ViewBag.ID" />
 
                     <!--begin::Row Input group-->
                     <div class="row mb-7">
-                        <!--begin::Input group-->
-                        <div class="col-lg-8">
+
+                        <div class="col-lg-12">
                             <!--begin::Label-->
-                            <label for="Aciklama" class="fw-semibold fs-6 mb-2">Açıklama</label>
+                            <label for="BaslangicTarihi" class=" fw-semibold fs-6 mb-2">Tarih</label>
                             <!--end::Label-->
-                            <!--begin::texarea-->
-                            <textarea type="text" id="Aciklama" name="Aciklama" class="form-control p-2 mb-3 mb-lg-0" value="" required></textarea>
+                            <!--begin::Input-->
+                            <input type="datetime-local" name="BaslangicTarihi" id="BaslangicTarihi" readonly class="form-control p-2 mb-3 mb-lg-0"
+                                   value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm")" />
                             <!--end::Input-->
                         </div>
-                        <div class="col-lg-4">
-                            <label for="GorevTipiID" class="form-label">Görev Tipi</label>
+                        <!--begin::Input group-->
+                        <div class="col-lg-12">
+                            <label for="GorevTipiID" class="form-label">Kategori</label>
                             <select class="form-control p-2 rounded-1" data-control="select2" name="GorevTipiID" id="GorevTipiID"
                                     aria-label="Floating label select example" required>
                                 <option value="">Lütfen Seçim Yapınız</option>
@@ -39,21 +42,31 @@
                                 }
                             </select>
                         </div>
+                        <div class="col-lg-12">
+                            <label for="Kullanicilar">Departman</label>
+                            <select class="form-control p-2 rounded-1" data-control="select2" id="Kullanicilar" name="Kullanicilar"
+                                    aria-label="Floating label select example" required>
+                                <option value="">Lütfen Seçim Yapınız</option>
+                                @foreach (DataRow drKullanici in dtKullanicilar.Rows)
+                                {
+                                    <option value="@drKullanici["ID"]">@drKullanici["Ad"] @drKullanici["Soyad"] - @drKullanici["Aciklama1"]</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-lg-12">
+                            <!--begin::Label-->
+                            <label for="Aciklama" class="fw-semibold fs-6 mb-2">Açıklama</label>
+                            <!--end::Label-->
+                            <!--begin::texarea-->
+                            <textarea type="text" id="Aciklama" name="Aciklama" class="form-control p-2 mb-3 mb-lg-0" value="" required></textarea>
+                            <!--end::Input-->
+                        </div>
                     </div>
                     <!--end::Input group-->
                     <div class="row">
                         <!--begin::Input group-->
-                        <div class="col-lg-2">
-                            <!--begin::Label-->
-                            <label for="BaslangicTarihi" class=" fw-semibold fs-6 mb-2">Başlangıç Tarihi</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <input type="datetime-local" name="BaslangicTarihi" id="BaslangicTarihi" class="form-control p-2 mb-3 mb-lg-0"
-                                   value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm")" />
-                            <!--end::Input-->
-                        </div>
                         <!--end::Input group-->
-                        <div class="col-lg-6">
+                        <div class="col-lg-6" style="display:none;">
                             <div class="d-flex justify-content-end align-items-center mt-10">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="periyot" id="TekSeferlik" value="T" checked>
@@ -81,33 +94,25 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4"><br /><br />
+                        <div class="col-lg-12">
+                            <br />Dosya Eki<br />
                             <input type="file" name="file Gorev" id="file" value="" multiple />
                         </div>
-                            <div class="col-lg-12">
-                                <label for="Kullanicilar">Görev atanacak kullanıcılar</label>
-                                <select id="Kullanicilar" name="Kullanicilar" class="form-control" style="height:200px;" multiple>
-                                    @foreach (DataRow drKullanici in dtKullanicilar.Rows)
-                                    {
-                                        <option value="@drKullanici["ID"]">@drKullanici["Ad"] @drKullanici["Soyad"] - @drKullanici["Aciklama1"]</option>
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <!--begin::Actions-->
-                        <div class="pt-10">
-                            <a onclick="history.back()" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
-                            <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Kaydet">
-                                <span class="indicator-label">Kaydet</span>
-                                <span class="indicator-progress">
-                                    Lütfen Bekleyin...
-                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                                </span>
-                            </button>
-                        </div>
-
-                        <!--end::Actions-->
                     </div>
+                    <!--begin::Actions-->
+                    <div class="pt-10">
+                        <a onclick="history.back()" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
+                        <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Kaydet">
+                            <span class="indicator-label">Kaydet</span>
+                            <span class="indicator-progress">
+                                Lütfen Bekleyin...
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </button>
+                    </div>
+
+                    <!--end::Actions-->
+                </div>
                 <!--begin::Row Input group-->
             </form>
             <!--end::Form-->
@@ -119,11 +124,14 @@
 </div>
 
 
-
-@section Scripts {
-
+@section Styles {
 
 }
+@section scripts {
+
+}
+
+
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
 

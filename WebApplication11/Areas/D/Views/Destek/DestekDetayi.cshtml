@@ -1,0 +1,227 @@
+﻿@using YKPortal.Models.Dto
+@using System.Data
+@model System.Data.DataSet
+@{
+    ViewBag.Title = "Destek Detayı";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    DataTable dtKullanicilar = ViewBag.Kullanicilar as DataTable;
+    string KullaniciID = Request.Cookies["KullaniciID"].Value;
+
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <!--begin::Form-->
+          
+
+         
+                <br />
+                <h2 style="text-align:center;">Kaydı Oluşturan : @(Model.Tables[0].Rows[0]["KaydiAcan"])  - Kayıt Tarihi : @(Convert.ToDateTime(Model.Tables[0].Rows[0]["KayitTarihi"]).ToString("dd-MM-yyyy HH:mm"))</h2>
+                <table class="form-control tab-content" style="background-color:#226faa; color:white;">
+                    <tr>
+                        <td style="vertical-align:top;width:140px;">Başlangıç Tarihi</td>
+                        <td style="vertical-align:top;padding-left:5px;padding-right:5px;">:</td>
+                        <td><strong>@Convert.ToDateTime(Model.Tables[0].Rows[0]["BaslangicTarihi"]).ToString("dd-MM-yyyy HH:mm")</strong></td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top; width: 140px;">Görev Tipi</td>
+                        <td style="vertical-align: top; padding-left: 5px; padding-right: 5px;">:</td>
+                        <td><strong>@Convert.ToString(Model.Tables[0].Rows[0]["GorevtipiAdi"])</strong></td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top; width: 140px;">Atanan Kullanıcılar</td>
+                        <td style="vertical-align: top; padding-left: 5px; padding-right: 5px;">:</td>
+                        <td>
+                            @foreach (DataRow kullanici in Model.Tables[1].Rows)
+                            {
+                                <span>@kullanici["Isim"]</span><br />
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top; width: 140px;">Açıklama</td>
+                        <td style="vertical-align: top; padding-left: 5px; padding-right: 5px;">:</td>
+                        <td>@Convert.ToString(Model.Tables[0].Rows[0]["Aciklama"])</td>
+                    </tr>
+                </table>
+
+
+            <div style="text-align:center;">
+                @foreach (DataRow resim in Model.Tables[3].Rows)
+                {
+                    <div style="float: left;width:150px;">
+                        @if (Convert.ToString(resim["Dosya"]).ToLower().EndsWith(".jpg") ||
+                             Convert.ToString(resim["Dosya"]).ToLower().EndsWith(".jpeg") ||
+                             Convert.ToString(resim["Dosya"]).ToLower().EndsWith(".png") ||
+                             Convert.ToString(resim["Dosya"]).ToLower().EndsWith(".gif")
+                            )
+                        {
+                            <img src="@Url.Content("~/Uploads/Dosyalar/"+resim["Dosya"])" style="height:150px;margin:3px;" alt="@(resim["Dosya"])" />
+
+                        }
+                        else
+                        {
+                            @resim["Isim"]
+                        }
+                        <br />
+                        <a href="@Url.Content("~/Uploads/Dosyalar/"+resim["Dosya"])" target="_blank">İndir</a>
+
+                        @if (Convert.ToString(Model.Tables[0].Rows[0]["KayitYapanKullanici"]) == KullaniciID)
+                        {
+                            <a href="@Url.Content("~/Gorev/DosyaSil/?GorevID="+resim["KayitID"]+"&KayitID="+resim["ID"])" onclick="return confirm('Silmek istediğinizden emin misiniz?')">Sil</a>
+                        }
+                    </div>
+                }
+            </div>
+
+            <div style="clear:both;"></div>
+            @if(Model.Tables[2].Rows.Count > 0)
+            {
+            <table class="form-control tab-content" style="background-color: #398439; color: white;">
+                <thead>
+                    <tr>
+                        <th style="padding: 5px;"><strong>GÖREVİ<br />SONUÇLANDIRAN</strong></th>
+                        <th style="padding: 5px;"><strong>SONUÇLANMA<br />TARİHİ</strong></th>
+                        <th style="padding: 5px;"><strong>SONUÇ<br />AÇIKLAMASI</strong></th>
+                    </tr>
+                    <tr>
+                        <th colspan="3"><hr /></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (DataRow sonuc in Model.Tables[2].Rows)
+                    {
+                        <tr>
+                            <td style="padding: 5px; vertical-align:top;">@sonuc["KaydiKapatan"]</td>
+                            <td style="padding: 5px; vertical-align: top;">@Convert.ToDateTime(sonuc["TamamlamaTarihi"]).ToString("dd-MM-yyyy HH:mm")</td>
+                            <td style="padding: 5px;">
+                                @sonuc["Aciklama"]
+                                <hr />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            }
+            @if (Model.Tables[2].Select(" KullaniciID = '" + KullaniciID + "' ").Count() == 0 &&
+                 Model.Tables[1].Select(" KullaniciID = '" + KullaniciID + "' ").Count() > 0)
+            {
+                <form id="" class="" action="@Url.Action("GorevTamamla","Gorev",new { GorevID = Model.Tables[0].Rows[0]["ID"] })" method="post" enctype="multipart/form-data">
+                    <!--begin::Scroll-->
+
+                    <div class="d-flex flex-column scroll-y px-5 px-lg-10  mt-10">
+                        <h3>GÖREV SONUÇLANDIRMA</h3>
+
+                        <!--begin::Row Input group-->
+                        <div class="row mb-7">
+                            <!--begin::Input group-->
+                            <div class="col-lg-12">
+                                <!--begin::Label-->
+                                <label for="Aciklama" class="fw-semibold fs-6 mb-2">Sonuç Açıklaması</label>
+                                <!--end::Label-->
+                                <!--begin::texarea-->
+                                <textarea type="text" id="Aciklama" name="Aciklama" class="form-control p-2 mb-3 mb-lg-0"></textarea>
+                                <!--end::Input-->
+                            </div>
+                        </div>
+                        <!--end::Input group-->
+                        <div class="row">
+                            <!--begin::Input group-->
+                            <div class="col-lg-3">
+                                <!--begin::Label-->
+                                <label for="BaslangicTarihi" class=" fw-semibold fs-6 mb-2">Görev Sonuçlandırma Tarihi</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <input type="datetime-local" name="TamamlamaTarihi" id="TamamlamaTarihi" value="@(DateTime.Now.ToString("yyyy-MM-dd HH:mm"))" class="form-control p-2 mb-3 mb-lg-0" value="" />
+                                <!--end::Input-->
+                            </div>
+                        </div>
+                        <!--begin::Actions-->
+                        <div class="pt-10">
+                            <a onclick="history.back()"  class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
+                            <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Duzenle">
+                                <span class="indicator-label">Görevi Sonuçlandır</span>
+                            </button>
+                        </div>
+
+                        <!--end::Actions-->
+                    </div>
+
+                </form>
+
+            }
+            else
+            {
+                <br />
+                <a onclick="history.back()"  class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
+            }
+        </div>
+        <!--begin::Row Input group-->
+    </div>
+    <!--end::Form-->
+</div>
+
+<!--end::Scroll-->
+
+
+
+
+
+@section Scripts {
+
+
+}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+
+
+
+        const gorevTipidSelect = $('#GorevTipiID').select2({
+            ajax: {
+                url: "/Gorev/GorevTipiListesiniOlustur",
+                data: function (params) {
+                    var query = {
+                        search: params.term,
+                    }
+
+                    // Query parameters will be ?search=[term]&type=public
+                    return query;
+                },
+                processResults: function (data) {
+                    var results = [];
+                    if (data && data.length > 0) {
+                        data.forEach(function (item) {
+                            results.push({ id: item.ID, text: item.Isim })
+                        });
+                    }
+
+                    return {
+                        results: results
+                    };
+                },
+            },
+            delay: 250,
+            minimumInputLength: 3,
+            language: {
+                placeholder: function () {
+                    return "Arama yapmak için en az 3 karakter girin";
+                },
+                inputTooShort: function () {
+                    return "Lütfen en az 3 karakter girin";
+                }
+            }
+        });
+
+
+
+
+
+    });
+
+</script>

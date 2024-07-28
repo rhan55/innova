@@ -125,6 +125,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\D\DAreaRegistration.cs" />
+    <Compile Include="Areas\D\Controllers\DestekController.cs" />
+    <Compile Include="Areas\B2BLogo\B2BLogoAreaRegistration.cs" />
+    <Compile Include="Areas\B2BLogo\Controllers\B2BLogoController.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
     <Compile Include="Areas\HelpPage\Controllers\HelpController.cs" />
@@ -308,6 +312,18 @@
     <Content Include="Areas\Satinalma\Views\YKSatinalma\YeniTalep2.cshtml" />
     <Content Include="Areas\Entegrasyon\Views\web.config" />
     <Content Include="Areas\Entegrasyon\Views\QuickSigorta\AnaSayfa.cshtml" />
+    <Content Include="Areas\B2BLogo\Views\B2BLogo\AnaSayfa.cshtml" />
+    <Content Include="Areas\B2BLogo\Views\B2BLogo\Giris.cshtml" />
+    <Content Include="Areas\B2BLogo\Views\B2BLogo\Siparis.cshtml" />
+    <Content Include="Areas\B2BLogo\Views\Shared\Error.cshtml" />
+    <Content Include="Areas\B2BLogo\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\B2BLogo\Views\web.config" />
+    <Content Include="Areas\D\Views\Destek\YeniDestek.cshtml" />
+    <Content Include="Areas\D\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\D\Views\Shared\Error.cshtml" />
+    <Content Include="Areas\D\Views\web.config" />
+    <Content Include="Areas\D\Views\Destek\AnaSayfa.cshtml" />
+    <Content Include="Areas\D\Views\Destek\DestekDetayi.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -2679,6 +2695,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\B2BLogo\Data\" />
+    <Folder Include="Areas\D\Data\" />
     <Folder Include="Areas\Entegrasyon\Data\" />
     <Folder Include="Areas\Entegrasyon\Views\Shared\" />
     <Folder Include="Areas\Satinalma\Data\" />

@@ -10,9 +10,9 @@ namespace YKPortal.Models.YKClasses
 {
     public class YKUtils
     {
-        public static string SmsKullaniciAdi = "8503461774";
-        public static string SmsParola = "1986*1986ry";
-        public static string SmsIsim = "YK YAZILIM";
+        public static string SmsKullaniciAdi = ConfigurationManager.AppSettings["SmsKullaniciAdi"];
+        public static string SmsParola = ConfigurationManager.AppSettings["SmsParola"];
+        public static string SmsIsim = ConfigurationManager.AppSettings["SmsIsim"];
         public static string GetIPAdress()
         {
             ServicePointManager.Expect100Continue = true;

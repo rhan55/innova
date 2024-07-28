@@ -131,7 +131,7 @@
                     <div class="aside-user d-flex align-items-sm-center justify-content-center py-5">
                         <!--begin:: Avatar -->
                         <div class=" ">
-                            <a class="symbol symbol-circle symbol-50px overflow-hidden" href="/Kullanici/Duzenle?ID=@KullaniciID">
+                            <a class="symbol symbol-circle symbol-50px overflow-hidden" href="/Kullanici/Profil">
                                 <div class="symbol-label">
                                     <img src="@(Resim)" alt="@(Isim)" class="w-100 h-100 object-fit-cover" />
                                 </div>
@@ -145,7 +145,7 @@
                                 <!--begin::Info-->
                                 <div class="flex-grow-1 me-2">
                                     <!--begin::Username-->
-                                    <a href="#" class="text-white text-hover-primary fs-6 fw-bold">@(Isim)</a>
+                                    <a href="@Url.Action("Profil", "Kullanici", new { Area = "" })" class="text-white text-hover-primary fs-6 fw-bold">@(Isim)</a>
                                     <!--end::Username-->
                                     <!--begin::Description-->
                                     <span class="text-gray-600 fw-semibold d-block fs-8 mb-1">@(UyelikIsim)</span>
@@ -172,7 +172,7 @@
 
                                         <!--begin::Menu item-->
                                         <div class="menu-item">
-                                            <a href="@Url.Action("Profil", "Kullanici", null)" class="menu-link px-4 py-0">Profilime Git</a>
+                                            <a href="@Url.Action("Profil", "Kullanici", new { Area = "" })" class="menu-link px-4 py-0">Profilime Git</a>
                                         </div>
                                         <!--end::Menu item-->
                                         <!--begin::Menu item-->
@@ -228,10 +228,10 @@
 
                             @if (KullaniciAdi.EndsWith("@ykyazilim.com.tr"))
                             {
-                                <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="@Url.Action("UyelikListesi", "YK", null)"><span class="menu-icon"><i class="ki-duotone ki-slack fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Üyelikler</span></a><!--end:Menu link--></div>
+                                <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="@Url.Action("UyelikListesi", "YK", new { Area = "" })"><span class="menu-icon"><i class="ki-duotone ki-slack fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Üyelikler</span></a><!--end:Menu link--></div>
                             }
 
-                            <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="@Url.Action("Cikis", "YK", null)"><span class="menu-icon"><i class="ki-duotone ki-exit-left fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Çıkış</span></a><!--end:Menu link--></div>
+                            <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="@Url.Action("Cikis", "YK", new { Area = "" })"><span class="menu-icon"><i class="ki-duotone ki-exit-left fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Çıkış</span></a><!--end:Menu link--></div>
                         </div>
                         <!--end::Menu-->
 
@@ -499,7 +499,7 @@
                                  {
                                        @Html.Raw("    {");
                                           @Html.Raw("    title: '"+ altyetki.Menu+"',");
-                                          @Html.Raw("       url: '"+ altyetki.url+"'");
+                                          @Html.Raw("       url: '"+ Url.Content(altyetki.url)+"'");
                                           @Html.Raw("   },");
 
                                  }
@@ -519,7 +519,7 @@
 
                                                  @Html.Raw("    {");
                                                  @Html.Raw("    title: '"+alt2yetki.Menu+"',");
-                                                 @Html.Raw("       url: '"+alt2yetki.url+"'");
+                                                 @Html.Raw("       url: '"+Url.Content(alt2yetki.url)+"'");
                                                  @Html.Raw("   },");
 
 
