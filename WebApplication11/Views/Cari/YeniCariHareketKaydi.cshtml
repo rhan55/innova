@@ -20,9 +20,9 @@
                             <div class="form-group">
                                 <label for="CariID" class=" form-label">Cari İsim</label>
                                 <select class="form-select form-select-solid p-2 rounded-1" name="CariID" id="CariID" required aria-label="Floating label select example" data-control="select2" data-placeholder="arama yapmak için birşeyler yazın...">
-                                    @if (Request.QueryString["CariID"] != null)
+                                    @if (ViewBag.CariID != null)
                                     {
-                                        <option value="@Request.QueryString["CariID"]" selected>@Request.QueryString["Isim"]</option>
+                                        <option value="@ViewBag.CariID" selected>@ViewBag.CariIsim</option>
                                     }
                                 </select>
                             </div>

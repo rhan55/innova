@@ -954,8 +954,9 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-
+            var cari = Getir(CariID);
             ViewBag.CariID = CariID;
+            ViewBag.CariIsim = cari.Isim;
             CariHareketTipiListesiniOlustur();
             DovizBirimleriListesiniOlustur();
 

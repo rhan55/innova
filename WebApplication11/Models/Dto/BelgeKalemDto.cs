@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace YKPortal.Models.Dto
@@ -18,6 +19,7 @@ namespace YKPortal.Models.Dto
         private decimal _Fiyat;
         private decimal _Iskonto;
         private decimal _Tutar;
+        private decimal _KdvOrani;
         public string ID { get { return _ID ?? ""; } set { _ID = value; } }
         public string BelgeID { get { return _BelgeID ?? ""; } set { _BelgeID = value; } }
         public string StokID { get { return _StokID ?? ""; } set { _StokID = value; } }
@@ -29,5 +31,6 @@ namespace YKPortal.Models.Dto
         public decimal Fiyat { get { return _Fiyat == null ? 0 : _Fiyat; } set { _Fiyat = value; } }
         public decimal Iskonto { get { return _Iskonto == null ? 0 : _Iskonto; } set { _Iskonto = value; } }
         public decimal Tutar { get { return _Tutar == null ? 0 : _Tutar; } set { _Tutar = value; } }
+        public decimal KdvOrani { get { return _KdvOrani == null ? 0 : _KdvOrani; } set { _KdvOrani = value; } }
     }
 }
