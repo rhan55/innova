@@ -15,6 +15,8 @@ namespace YKPortal.Models.Dto
         private string _CariID;
         private string _CariAdi;
         private string _Aciklama;
+        private string _DepoGirisID;
+        private string _DepoCikisID;
         private List<BelgeKalemDto> _Kalemler;
         public string ID { get { return _ID ?? ""; } set { _ID = value; } }
         public BelgeTipi BelgeTipi { get { return _BelgeTipi == null ? BelgeTipi.Genel : _BelgeTipi; } set { _BelgeTipi = value; } }
@@ -23,6 +25,8 @@ namespace YKPortal.Models.Dto
         public string CariID { get { return _CariID ?? ""; } set { _CariID = value; } }
         public string CariAdi { get { return _CariAdi ?? ""; } set { _CariAdi = value; } }
         public string Aciklama { get { return _Aciklama ?? ""; } set { _Aciklama = value; } }
+        public string DepoGirisID { get { return _DepoGirisID ?? ""; } set { _DepoGirisID = value; } }
+        public string DepoCikisID { get { return _DepoCikisID ?? ""; } set { _DepoCikisID = value; } }
         public List<BelgeKalemDto> Kalemler { get { return _Kalemler == null ? new List<BelgeKalemDto>() : _Kalemler; } set { _Kalemler = value; } }
     }
 

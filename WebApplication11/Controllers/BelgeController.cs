@@ -83,6 +83,8 @@ namespace YKPortal.Controllers
                 entity.CariID = Convert.ToString(ds.Tables[0].Rows[0]["CariID"]);
                 entity.CariAdi = Convert.ToString(ds.Tables[0].Rows[0]["CariAdi"]);
                 entity.Aciklama = Convert.ToString(ds.Tables[0].Rows[0]["Aciklama1"]);
+                entity.DepoCikisID = Convert.ToString(ds.Tables[0].Rows[0]["DepoCikisID"]);
+                entity.DepoGirisID = Convert.ToString(ds.Tables[0].Rows[0]["DepoGirisID"]);
                 entity.Kalemler = new List<BelgeKalemDto>();
                 foreach (DataRow satir in ds.Tables[1].Rows)
                 {
@@ -122,7 +124,7 @@ namespace YKPortal.Controllers
         [HttpPost]
         public ActionResult Kaydet(string Tip = "",string ID="", string BelgeNo="", string Tarih = "", string CariID = "", 
             string DepoCikisID="", string DepoGirisID="",
-            string Aciklama = "", string Kalemler = "")
+            string Aciklama = "", List<BelgeKalemDto> Kalemler = null)
         {
             JsonResult result = new JsonResult();
 
@@ -145,22 +147,23 @@ namespace YKPortal.Controllers
             ID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
 
             string silinenler = "";
-            foreach (string item in Kalemler.Split('~'))
+            if (Kalemler != null)
             {
-                if (item.Trim().Length > 0)
+                foreach (BelgeKalemDto item in Kalemler)
                 {
                     cmd.Parameters.Clear();
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "p_BelgeKalemKaydet";
-                    cmd.Parameters.AddWithValue("@ID", item.Split('|')[0]);
+                    cmd.Parameters.AddWithValue("@ID", item.ID);
                     cmd.Parameters.AddWithValue("@BelgeID", ID);
-                    cmd.Parameters.AddWithValue("@StokID", item.Split('|')[1]);
-                    cmd.Parameters.AddWithValue("@Seri", item.Split('|')[2]);
-                    cmd.Parameters.AddWithValue("@Miktar", Convert.ToDecimal(item.Split('|')[3]));
-                    cmd.Parameters.AddWithValue("@Fiyat", Convert.ToDecimal(item.Split('|')[4]));
+                    cmd.Parameters.AddWithValue("@StokID", item.StokID);
+                    cmd.Parameters.AddWithValue("@Seri", item.Seri);
+                    cmd.Parameters.AddWithValue("@Miktar", Convert.ToDecimal(item.Miktar));
+                    cmd.Parameters.AddWithValue("@Fiyat", Convert.ToDecimal(item.Fiyat));
                     cmd.Parameters.AddWithValue("@IskontoOrani1", 0);
+                    cmd.Parameters.AddWithValue("@KdvOrani", 0);
                     cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
-                    silinenler += Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek))+",";
+                    silinenler += Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek)) + ",";
                 }
             }
 

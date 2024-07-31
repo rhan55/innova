@@ -82,6 +82,8 @@ namespace YKPortal.Controllers
                 entity.CariID = Convert.ToString(ds.Tables[0].Rows[0]["CariID"]);
                 entity.CariAdi = Convert.ToString(ds.Tables[0].Rows[0]["CariAdi"]);
                 entity.Aciklama = Convert.ToString(ds.Tables[0].Rows[0]["Aciklama1"]);
+                entity.DepoCikisID = Convert.ToString(ds.Tables[0].Rows[0]["DepoCikisID"]);
+                entity.DepoGirisID = Convert.ToString(ds.Tables[0].Rows[0]["DepoGirisID"]);
                 entity.Kalemler = new List<BelgeKalemDto>();
                 foreach (DataRow satir in ds.Tables[1].Rows)
                 {
@@ -157,7 +159,8 @@ namespace YKPortal.Controllers
                     cmd.Parameters.AddWithValue("@Seri", item.Seri);
                     cmd.Parameters.AddWithValue("@Miktar", Convert.ToDecimal(item.Miktar));
                     cmd.Parameters.AddWithValue("@Fiyat", Convert.ToDecimal(item.Fiyat));
-                    cmd.Parameters.AddWithValue("@IskontoOrani1", 0);
+                    cmd.Parameters.AddWithValue("@IskontoOrani1", Convert.ToDecimal(item.IskontoOrani1));
+                    cmd.Parameters.AddWithValue("@KdvOrani", Convert.ToDecimal(item.KdvOrani));
                     cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
                     silinenler += Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek)) + ",";
                 }
