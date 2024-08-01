@@ -171,6 +171,9 @@
     <Compile Include="Controllers\OdemeController.cs" />
     <Compile Include="Controllers\ParametreController.cs" />
     <Compile Include="Controllers\POSAPIController.cs" />
+    <Compile Include="Controllers\SatinalmaSiparisiController.cs" />
+    <Compile Include="Controllers\SatisSiparisiController.cs" />
+    <Compile Include="Controllers\SatinalmaFaturaController.cs" />
     <Compile Include="Controllers\SatisFaturaController.cs" />
     <Compile Include="Controllers\SatisPersoneliController.cs" />
     <Compile Include="Controllers\StokController.cs" />
@@ -2692,6 +2695,15 @@
     <Content Include="Views\Odeme\UyelikPaketleri.cshtml" />
     <Content Include="Views\Odeme\Odeme.cshtml" />
     <Content Include="Views\SatisFatura\Duzenle.cshtml" />
+    <Content Include="Views\SatinalmaFatura\Detay.cshtml" />
+    <Content Include="Views\SatinalmaFatura\Duzenle.cshtml" />
+    <Content Include="Views\SatinalmaFatura\Liste.cshtml" />
+    <Content Include="Views\SatisSiparisi\Liste.cshtml" />
+    <Content Include="Views\SatisSiparisi\Detay.cshtml" />
+    <Content Include="Views\SatisSiparisi\Duzenle.cshtml" />
+    <Content Include="Views\SatinalmaSiparisi\Liste.cshtml" />
+    <Content Include="Views\SatinalmaSiparisi\Detay.cshtml" />
+    <Content Include="Views\SatinalmaSiparisi\Duzenle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
