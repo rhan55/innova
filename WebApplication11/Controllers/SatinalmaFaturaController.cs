@@ -97,7 +97,8 @@ namespace YKPortal.Controllers
                     s.Seri = Convert.ToString(satir["Seri"]);
                     s.Miktar = Convert.ToDecimal(satir["Miktar"]);
                     s.Fiyat = Convert.ToDecimal(satir["Fiyat"]);
-                    s.Iskonto = Convert.ToDecimal(satir["IskontoOrani1"]);
+                    s.IskontoOrani1 = Convert.ToDecimal(satir["IskontoOrani1"]);
+                    s.KdvOrani = Convert.ToDecimal(satir["KdvOrani"]);
                     s.Tutar = Convert.ToDecimal(satir["Tutar"]);
 
                     entity.Kalemler.Add(s);
@@ -231,7 +232,8 @@ namespace YKPortal.Controllers
                     s.Seri = Convert.ToString(satir["Seri"]);
                     s.Miktar = Convert.ToDecimal(satir["Miktar"]);
                     s.Fiyat = Convert.ToDecimal(satir["Fiyat"]);
-                    s.Iskonto = Convert.ToDecimal(satir["IskontoOrani1"]);
+                    s.IskontoOrani1 = Convert.ToDecimal(satir["IskontoOrani1"]);
+                    s.KdvOrani = Convert.ToDecimal(satir["KdvOrani"]);
                     s.Tutar = Convert.ToDecimal(satir["Tutar"]);
 
                     entity.Kalemler.Add(s);

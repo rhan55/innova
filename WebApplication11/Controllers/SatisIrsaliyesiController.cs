@@ -10,7 +10,7 @@ using YKPortal.Models.Dto;
 
 namespace YKPortal.Controllers
 {
-    public class SatisFaturaController : Controller
+    public class SatisIrsaliyesiController : Controller
     {
         public ActionResult Sil(string Tip = "", string ID = "")
         {
@@ -68,7 +68,7 @@ namespace YKPortal.Controllers
             BelgeDto entity = new BelgeDto();
             switch (Request.QueryString["Tip"])
             {
-                case "SF":
+                case "SS":
                     entity.BelgeTipi = BelgeTipi.SatisFaturasi;
                     break;
                 default:
@@ -145,7 +145,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@Aciklama1", Aciklama);
             cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
             ID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
-            
+
             string silinenler = "";
             if (Kalemler != null)
             {
@@ -205,7 +205,7 @@ namespace YKPortal.Controllers
             BelgeDto entity = new BelgeDto();
             switch (Request.QueryString["Tip"])
             {
-                case "SF":
+                case "SS":  
                     entity.BelgeTipi = BelgeTipi.SatisFaturasi;
                     break;
                 default:

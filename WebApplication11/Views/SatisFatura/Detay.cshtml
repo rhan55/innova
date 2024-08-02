@@ -605,6 +605,8 @@
                     var Seri = $("#Seri_" + $data).val();
                     var Miktar = $("#Miktar_" + $data).val();
                     var Fiyat = $("#Fiyat_" + $data).val();
+                    var KdvOrani = $('#KdvOrani_' + $data).val();
+                    var IskontoOrani1 = $('#IskontoOrani1_' + $data).val();
 
                     // Kalem objesini oluştur ve kalemler dizisine ekle
                     var kalem = {
@@ -612,7 +614,9 @@
                         StokID: StokID,
                         Seri: Seri,
                         Miktar: Miktar,
-                        Fiyat: Fiyat
+                        Fiyat: Fiyat,
+                        KdvOrani: KdvOrani,
+                        IskontoOrani1: IskontoOrani1
                     };
                     kalemler.push(kalem);
                 }

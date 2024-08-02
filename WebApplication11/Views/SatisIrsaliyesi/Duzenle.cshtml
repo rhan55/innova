@@ -3,7 +3,7 @@
 @using System.Data
 @model BelgeDto
 @{
-    ViewBag.Title = "Fatura Düzenle";
+    ViewBag.Title = "Satış İrsaliyesi Düzenle";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string Tip = Request.QueryString["Tip"];
 
@@ -28,7 +28,7 @@
                         <!--begin::Card body-->
                         <div class="card-body p-12">
                             <!--begin::Form-->
-                            <form method="get" action="@Url.Action("Duzenle","SatisFatura",new { Tip = Request.QueryString["Tip"] })">
+                            <form method="get" action="@Url.Action("Duzenle","SatisIrsaliyesi",new { Tip = Request.QueryString["Tip"] })">
                                 <!--begin::Wrapper-->
                                 <div class="d-flex flex-column align-items-start flex-xxl-row">
 
@@ -162,7 +162,7 @@
                                                                         </td>
 
                                                                         <td>
-                                                                            @if (Tip == "SF")
+                                                                            @if (Tip == "SI")
                                                                             {
                                                                                 <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
                                                                             }
@@ -228,7 +228,7 @@
 
                                                             </td>
                                                             <td class="ps-0">
-                                                                @if (Tip == "SF")
+                                                                @if (Tip == "SI")
                                                                 {
                                                                     <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
                                                                 }
@@ -496,7 +496,7 @@
                            deger += "                                                                                                                                                    ";
                            deger += "                 </td>                                                                                                                              ";
                            deger += "                 <td>                                                                                                                               ";
-                            if (Tip == 'SF') {
+                            if (Tip == 'SI') {
                                 deger += "                         <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2 me-10' />                         ";
                             } else if (Tip == 'DT') {
                                 deger += "                         <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2 me-10' />                         ";
@@ -534,7 +534,7 @@
                 deger += "      <td style='max-width:150px;' id='TD_" + YeniID + "' name='TD_" + YeniID + "'>";
                 deger += "      </td>";
                 deger += "      <td style='max-width:100px;'>";
-                if (Tip == "SF") {
+                if (Tip == "SI") {
                     deger += "              <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2 me-10' />";
                 } else if (Tip == "DT") {
                     deger += "              <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2 me-10' />";
@@ -566,13 +566,13 @@
 
         function Kaydet() {
             // Belge numarası kontrolü (SF tipi için zorunlu)
-            if ($("#BelgeNo").val() == "" && Tip == "SF") {
+            if ($("#BelgeNo").val() == "" && Tip == "SI") {
                 alert("Lütfen belge numarası yazınız.");
                 return;
             }
 
             // Cari seçimi kontrolü (SF tipi için zorunlu)
-            if (($("#CariID").val() == "" || $("#CariID").val() == null) && Tip == "SF") {
+            if (($("#CariID").val() == "" || $("#CariID").val() == null) && Tip == "SI") {
                 alert("Lütfen cari seçiniz.");
                 return;
             }
@@ -627,7 +627,7 @@
 
             // AJAX isteği gönderimi
             $.ajax({
-                url: '/SatisFatura/Kaydet',
+                url: '/SatisIrsaliyesi/Kaydet',
                 data: JSON.stringify(_data), // Veriyi JSON formatına dönüştür
                 contentType: "application/json",
                 dataType: "json",
@@ -635,7 +635,7 @@
                 success: function (data) {
                     alert("Belge Kaydedildi!");
                     // Detay sayfasını aç
-                    window.open("/SatisFatura/Detay/" + data.Data + "?Tip=@(Request.QueryString["Tip"])","_parent");
+                    window.open("/SatisIrsaliyesi/Detay/" + data.Data + "?Tip=@(Request.QueryString["Tip"])","_parent");
                 },
                 error: function (msg) {
                     console.log(msg);

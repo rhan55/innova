@@ -172,6 +172,8 @@
     <Compile Include="Controllers\ParametreController.cs" />
     <Compile Include="Controllers\POSAPIController.cs" />
     <Compile Include="Controllers\SatinalmaSiparisiController.cs" />
+    <Compile Include="Controllers\SatinalmaIrsaliyesiController.cs" />
+    <Compile Include="Controllers\SatisIrsaliyesiController.cs" />
     <Compile Include="Controllers\SatisSiparisiController.cs" />
     <Compile Include="Controllers\SatinalmaFaturaController.cs" />
     <Compile Include="Controllers\SatisFaturaController.cs" />
@@ -2704,6 +2706,9 @@
     <Content Include="Views\SatinalmaSiparisi\Liste.cshtml" />
     <Content Include="Views\SatinalmaSiparisi\Detay.cshtml" />
     <Content Include="Views\SatinalmaSiparisi\Duzenle.cshtml" />
+    <Content Include="Views\SatisIrsaliyesi\Liste.cshtml" />
+    <Content Include="Views\SatisIrsaliyesi\Detay.cshtml" />
+    <Content Include="Views\SatisIrsaliyesi\Duzenle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

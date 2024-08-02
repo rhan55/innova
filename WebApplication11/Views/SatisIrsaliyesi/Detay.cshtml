@@ -1,9 +1,8 @@
-﻿
-@using YKPortal.Models.Dto
+﻿@using YKPortal.Models.Dto
 @using System.Data
 @model BelgeDto
 @{
-    ViewBag.Title = "Fatura Düzenle";
+    ViewBag.Title = "Satış İrsaliyesi Detayı";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string Tip = Request.QueryString["Tip"];
 
@@ -13,7 +12,7 @@
 <div class="d-flex flex-column flex-column-fluid">
 
     <!--begin::Toolbar-->
-    <div id="kt_app_toolbar" class="app-toolbar  py-3 py-lg-6 ">
+    <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
 
         <!--begin::Content-->
         <div id="kt_app_content" class="app-content  flex-column-fluid ">
@@ -28,7 +27,7 @@
                         <!--begin::Card body-->
                         <div class="card-body p-12">
                             <!--begin::Form-->
-                            <form method="get" action="@Url.Action("Duzenle","SatisFatura",new { Tip = Request.QueryString["Tip"] })">
+                            <form method="post" action="@Url.Action("Detay","SatisIrsaliyesi",new { Tip = Request.QueryString["Tip"] })">
                                 <!--begin::Wrapper-->
                                 <div class="d-flex flex-column align-items-start flex-xxl-row">
 
@@ -43,7 +42,7 @@
 
                                         <!--begin::Input-->
                                         <div class="position-relative d-flex align-items-center w-150px">
-                                            <label for="Tarih" class="form-label fs-6 fw-bold text-gray-700 pt-2 pe-2">Tarih</label>
+                                            <label for="Tarih" class="form-label fs-6 fw-bold text-gray-600 mb-3 pt-2 pe-2">Tarih</label>
                                             <!--begin::Datepicker-->
                                             <input type="date" name="Tarih" id="Tarih" value="@(Convert.ToDateTime(Model.Tarih).ToString("yyyy-MM-dd"))" class="form-control form-control-solid p-2 rounded-1" placeholder="" />
                                             <!--end::Datepicker-->
@@ -63,16 +62,26 @@
                                 <div class="mb-0">
                                     <!--begin::Row-->
                                     <div class="row mb-4">
+                                        <!--begin::Col-->
                                         <div class="d-flex align-items-center justify-content-between mt-5">
                                             <input type="hidden" name="ID" id="ID" value="@(Model.ID)" />
                                         </div>
                                         <div class="col-lg-4">
                                             <label for="BelgeNo" class="form-label fs-6 fw-bold text-gray-600 mb-3">Belge No</label>
+
+                                            <!--begin::Input group-->
                                             <div class="mb-4">
                                                 <input type="text" name="BelgeNo" id="BelgeNo" value="@(Convert.ToString(Model.BelgeNo))" class="form-control p-2 rounded-1" placeholder="" />
                                             </div>
+                                            <!--end::Input group-->
+                                            <!--begin::Input group-->
+
                                         </div>
+                                        <!--end::Col-->
+                                        <!--begin::Col-->
                                         <div class="col-lg-4">
+
+                                            <!--begin::Input group-->
                                             <div class="mb-4">
                                                 <div class="" style="@(Tip == "DT" ? "display:none;" : "")">
                                                     <div class="form-group ">
@@ -88,6 +97,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
@@ -96,24 +106,32 @@
                                                         aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
                                                     @foreach (DataRow drDepo in dtDepolar.Rows)
                                                     {
-                                                        <option value="@drDepo["ID"]">@drDepo["Isim"]</option>
+                                                        if (Model.DepoCikisID == drDepo["ID"].ToString())
+                                                        {
+                                                            <option value="@drDepo["ID"]" selected>@drDepo["Isim"]</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@drDepo["ID"]">@drDepo["Isim"]</option>
+                                                        }
+
+                                                        <!-- @drDepo["ID"] -->
                                                     }
                                                 </select>
                                             </div>
                                         </div>
-
                                     </div>
-                                    <!--end::Row-->
-                                    <!--begin::Row-->
+
                                     <div class="row mb-4">
                                         <div class="col-@(Tip == "DT" ? "12" : "12")">
                                             <label for="Aciklama" class="form-label fs-6 fw-bold text-gray-600 mb-3">Açıklama</label>
                                             <textarea type="text" name="Aciklama" id="Aciklama" class="form-control p-2 rounded-1"> @(Convert.ToString(Model.Aciklama)) </textarea>
                                         </div>
                                     </div>
+
                                     <div class="my-8" style="text-align:center;vertical-align:middle;">
                                         <div class="bg-gray-200" style="clear:both;height:1px;width:100%;"></div>
-                                        <h4 class="text-gray-700 mt-3">KALEMLER</h4>
+                                        <h4 class="fw-bold text-gray-600 mt-3">KALEMLER</h4>
                                         <div class="bg-gray-200" style="clear:both;height:1px;width:100%;"></div>
                                     </div>
 
@@ -162,7 +180,7 @@
                                                                         </td>
 
                                                                         <td>
-                                                                            @if (Tip == "SF")
+                                                                            @if (Tip == "SI")
                                                                             {
                                                                                 <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
                                                                             }
@@ -228,7 +246,7 @@
 
                                                             </td>
                                                             <td class="ps-0">
-                                                                @if (Tip == "SF")
+                                                                @if (Tip == "SI")
                                                                 {
                                                                     <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
                                                                 }
@@ -496,7 +514,7 @@
                            deger += "                                                                                                                                                    ";
                            deger += "                 </td>                                                                                                                              ";
                            deger += "                 <td>                                                                                                                               ";
-                            if (Tip == 'SF') {
+                            if (Tip == 'SI') {
                                 deger += "                         <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2 me-10' />                         ";
                             } else if (Tip == 'DT') {
                                 deger += "                         <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2 me-10' />                         ";
@@ -534,7 +552,7 @@
                 deger += "      <td style='max-width:150px;' id='TD_" + YeniID + "' name='TD_" + YeniID + "'>";
                 deger += "      </td>";
                 deger += "      <td style='max-width:100px;'>";
-                if (Tip == "SF") {
+                if (Tip == "SI") {
                     deger += "              <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2 me-10' />";
                 } else if (Tip == "DT") {
                     deger += "              <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2 me-10' />";
@@ -572,7 +590,7 @@
             }
 
             // Cari seçimi kontrolü (SF tipi için zorunlu)
-            if (($("#CariID").val() == "" || $("#CariID").val() == null) && Tip == "SF") {
+            if (($("#CariID").val() == "" || $("#CariID").val() == null) && Tip == "SI") {
                 alert("Lütfen cari seçiniz.");
                 return;
             }
@@ -627,7 +645,7 @@
 
             // AJAX isteği gönderimi
             $.ajax({
-                url: '/SatisFatura/Kaydet',
+                url: '/SatisIrsaliyesi/Kaydet',
                 data: JSON.stringify(_data), // Veriyi JSON formatına dönüştür
                 contentType: "application/json",
                 dataType: "json",
@@ -635,7 +653,7 @@
                 success: function (data) {
                     alert("Belge Kaydedildi!");
                     // Detay sayfasını aç
-                    window.open("/SatisFatura/Detay/" + data.Data + "?Tip=@(Request.QueryString["Tip"])","_parent");
+                    window.open("/SatisIrsaliyesi/Detay/" + data.Data + "?Tip=@(Request.QueryString["Tip"])","_parent");
                 },
                 error: function (msg) {
                     console.log(msg);
