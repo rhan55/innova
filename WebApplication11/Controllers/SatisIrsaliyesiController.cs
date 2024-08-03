@@ -68,7 +68,7 @@ namespace YKPortal.Controllers
             BelgeDto entity = new BelgeDto();
             switch (Request.QueryString["Tip"])
             {
-                case "SS":
+                case "SI":
                     entity.BelgeTipi = BelgeTipi.SatisFaturasi;
                     break;
                 default:
@@ -205,7 +205,7 @@ namespace YKPortal.Controllers
             BelgeDto entity = new BelgeDto();
             switch (Request.QueryString["Tip"])
             {
-                case "SS":  
+                case "SI":  
                     entity.BelgeTipi = BelgeTipi.SatisFaturasi;
                     break;
                 default:
