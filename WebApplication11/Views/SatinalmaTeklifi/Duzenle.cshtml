@@ -3,13 +3,12 @@
 @model BelgeDto
 @{
 
-    ViewBag.Title = "Satınalma İrsaliyesi Detayı";
+    ViewBag.Title = "Satınalma Teklifi Detayı";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string Tip = Request.QueryString["Tip"];
 
     DataTable dtDepolar = ViewBag.Depolar as DataTable;
 }
-
 
 <div class="d-flex flex-column flex-column-fluid">
 
@@ -29,7 +28,7 @@
                         <!--begin::Card body-->
                         <div class="card-body p-12">
                             <!--begin::Form-->
-                            <form method="post" action="@Url.Action("Detay","SatinalmaIrsaliyesi",new { Tip = Request.QueryString["Tip"] })">
+                            <form method="post" action="@Url.Action("Detay","SatinalmaTeklifi",new { Tip = Request.QueryString["Tip"] })">
                                 <!--begin::Wrapper-->
                                 <div class="d-flex flex-column align-items-start flex-xxl-row">
 
@@ -68,7 +67,7 @@
                                         <div class="d-flex align-items-center justify-content-between mt-5">
                                             <input type="hidden" name="ID" id="ID" value="@(Model.ID)" />
                                         </div>
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-6">
                                             <label for="BelgeNo" class="form-label fs-6 fw-bold text-gray-600 mb-3">Belge No</label>
 
                                             <!--begin::Input group-->
@@ -81,7 +80,7 @@
                                         </div>
                                         <!--end::Col-->
                                         <!--begin::Col-->
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-6">
 
                                             <!--begin::Input group-->
                                             <div class="mb-4">
@@ -101,27 +100,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="DepoCikisID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Çıkış Depo</label>
-                                                <select class="form-select form-select-solid p-2 rounded-1" name="DepoCikisID" id="DepoCikisID"
-                                                        aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                    @foreach (DataRow drDepo in dtDepolar.Rows)
-                                                    {
-                                                        if (Model.DepoCikisID == drDepo["ID"].ToString())
-                                                        {
-                                                            <option value="@drDepo["ID"]" selected>@drDepo["Isim"]</option>
-                                                        }
-                                                        else
-                                                        {
-                                                            <option value="@drDepo["ID"]">@drDepo["Isim"]</option>
-                                                        }
 
-                                                        <!-- @drDepo["ID"] -->
-                                                    }
-                                                </select>
-                                            </div>
-                                        </div>
                                     </div>
 
                                     <div class="row mb-4">
@@ -182,7 +161,7 @@
                                                                         </td>
 
                                                                         <td>
-                                                                            @if (Tip == "AI")
+                                                                            @if (Tip == "AT")
                                                                             {
                                                                                 <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
                                                                             }
@@ -248,7 +227,7 @@
 
                                                             </td>
                                                             <td class="ps-0">
-                                                                @if (Tip == "AI")
+                                                                @if (Tip == "AT")
                                                                 {
                                                                     <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
                                                                 }
@@ -384,7 +363,7 @@
                             <!--begin::Actions-->
                             <div class="col-lg-12">
                                 <div class="">
-                                    <a href="@Url.Content("~/SatinalmaIrsaliyesi/Liste/?Tip="+Request.QueryString["Tip"])" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
+                                    <a href="@Url.Content("~/SatinalmaTeklifi/Liste/?Tip="+Request.QueryString["Tip"])" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
                                     <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet" onclick="Kaydet();">
                                         <span class="indicator-label">Kaydet</span>
 
@@ -516,7 +495,7 @@
                            deger += "                                                                                                                                                    ";
                            deger += "                 </td>                                                                                                                              ";
                            deger += "                 <td>                                                                                                                               ";
-                            if (Tip == 'AI') {
+                            if (Tip == 'AT') {
                                 deger += "                         <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2 me-10' />                         ";
                             } else if (Tip == 'DT') {
                                 deger += "                         <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2 me-10' />                         ";
@@ -554,7 +533,7 @@
                 deger += "      <td style='max-width:150px;' id='TD_" + YeniID + "' name='TD_" + YeniID + "'>";
                 deger += "      </td>";
                 deger += "      <td style='max-width:100px;'>";
-                if (Tip == "AI") {
+                if (Tip == "AT") {
                     deger += "              <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2 me-10' />";
                 } else if (Tip == "DT") {
                     deger += "              <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2 me-10' />";
@@ -585,14 +564,14 @@
         }
 
         function Kaydet() {
-            // Belge numarası kontrolü (AF tipi için zorunlu)
-            if ($("#BelgeNo").val() == "" && Tip == "AI") {
+            // Belge numarası kontrolü (SS tipi için zorunlu)
+            if ($("#BelgeNo").val() == "" && Tip == "AT") {
                 alert("Lütfen belge numarası yazınız.");
                 return;
             }
 
             // Cari seçimi kontrolü (AF tipi için zorunlu)
-            if (($("#CariID").val() == "" || $("#CariID").val() == null) && Tip == "AI") {
+            if (($("#CariID").val() == "" || $("#CariID").val() == null) && Tip == "AT") {
                 alert("Lütfen cari seçiniz.");
                 return;
             }
@@ -647,7 +626,7 @@
 
             // AJAX isteği gönderimi
             $.ajax({
-                url: '/SatinalmaIrsaliyesi/Kaydet',
+                url: '/SatinalmaTeklifi/Kaydet',
                 data: JSON.stringify(_data), // Veriyi JSON formatına dönüştür
                 contentType: "application/json",
                 dataType: "json",
@@ -655,7 +634,7 @@
                 success: function (data) {
                     alert("Belge Kaydedildi!");
                     // Detay sayfasını aç
-                    window.open("/SatinalmaIrsaliyesi/Detay/" + data.Data + "?Tip=@(Request.QueryString["Tip"])","_parent");
+                    window.open("/SatinalmaTeklifi/Detay/" + data.Data + "?Tip=@(Request.QueryString["Tip"])","_parent");
                 },
                 error: function (msg) {
                     console.log(msg);
@@ -829,7 +808,5 @@
         </script>
     }
 }
-
-
 
 

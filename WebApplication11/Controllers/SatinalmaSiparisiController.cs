@@ -30,7 +30,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@Tip", Tip);
             IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
-            return Redirect("~/SatisFatura/Liste/?Tip=" + Tip);
+            return Redirect("~/SatinalmaSiparisi/Liste/?Tip=" + Tip);
         }
 
         public ActionResult Liste(string Tip = "", string AranacakKelime = "")

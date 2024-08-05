@@ -10,7 +10,7 @@ using YKPortal.Models.Dto;
 
 namespace YKPortal.Controllers
 {
-    public class SatinalmaFaturaController : Controller
+    public class SatisTeklifiController : Controller
     {
         public ActionResult Sil(string Tip = "", string ID = "")
         {
@@ -30,7 +30,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@Tip", Tip);
             IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
-            return Redirect("~/SatinalmaFatura/Liste/?Tip=" + Tip);
+            return Redirect("~/SatisTeklifi/Liste/?Tip=" + Tip);
         }
 
         public ActionResult Liste(string Tip = "", string AranacakKelime = "")
@@ -68,7 +68,7 @@ namespace YKPortal.Controllers
             BelgeDto entity = new BelgeDto();
             switch (Request.QueryString["Tip"])
             {
-                case "AF":
+                case "ST":
                     entity.BelgeTipi = BelgeTipi.SatisFaturasi;
                     break;
                 default:
@@ -205,7 +205,7 @@ namespace YKPortal.Controllers
             BelgeDto entity = new BelgeDto();
             switch (Request.QueryString["Tip"])
             {
-                case "AF":  
+                case "ST":  
                     entity.BelgeTipi = BelgeTipi.SatisFaturasi;
                     break;
                 default:
