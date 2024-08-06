@@ -13,8 +13,8 @@
             <!--begin::Form-->
             <form id="kt_modal_add_user_form" class="form" action="@Url.Action("KisiDuzenle","Cari",null)" method="post" enctype="multipart/form-data">
 
-                <input type="hidden" name="ID" value="@ViewBag.ID"/>
-                <input type="hidden" name="CariID" value="@ViewBag.CariID"/>
+                <input type="hidden" name="ID" value="@ViewBag.ID" />
+                <input type="hidden" name="CariID" value="@ViewBag.CariID" />
                 <!--begin::Scroll-->
                 <div class="d-flex flex-column scroll-y px-5 px-lg-10 container mt-10">
 
@@ -90,7 +90,7 @@
                         <a onclick="history.back()" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
                         <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Duzenle">
                             <span class="indicator-label">Düzenle</span>
-                            
+
                         </button>
                     </div>
                     <!--end::Actions-->
@@ -100,3 +100,18 @@
         </div>
     </div>
 </div>
+
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            Inputmask({
+                "mask": "(999) 999-9999"
+            }).mask("#Telefon");
+
+        });
+
+    </script>
+}
