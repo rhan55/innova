@@ -166,6 +166,7 @@
     <Compile Include="Controllers\CariController.cs" />
     <Compile Include="Controllers\DosyaController.cs" />
     <Compile Include="Controllers\DepoController.cs" />
+    <Compile Include="Controllers\EmailTemplateController.cs" />
     <Compile Include="Controllers\GorevController.cs" />
     <Compile Include="Controllers\KullaniciController.cs" />
     <Compile Include="Controllers\OdemeController.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="Models\Dto\BelgeDto.cs" />
     <Compile Include="Models\Dto\BelgeKalemDto.cs" />
     <Compile Include="Models\Dto\CariHareketDto.cs" />
+    <Compile Include="Models\Dto\EmailTemplateDto.cs" />
     <Compile Include="Models\Dto\UyelikPaketleriViewModel.cs" />
     <Compile Include="Models\Dto\GorevDto.cs" />
     <Compile Include="Models\Dto\MailAyarlariDto.cs" />
@@ -265,6 +267,16 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="MailTemalari\MusteriUrunArizasiKabulEdildiginde.html" />
+    <Content Include="MailTemalari\ServisSureciDevamEderken.html" />
+    <Content Include="MailTemalari\MusteriUrunuTarafimizcaTeslimAldiktanSonra.html" />
+    <Content Include="MailTemalari\YedekParcaGidecek.html" />
+    <Content Include="MailTemalari\UrunIncelemeyeGelecek.html" />
+    <Content Include="MailTemalari\SızdırmaProblemi.html" />
+    <Content Include="MailTemalari\IsiProblemi.html" />
+    <Content Include="MailTemalari\KargoMaili.html" />
+    <Content Include="MailTemalari\RedMaili.html" />
+    <Content Include="MailTemalari\KabulMaili.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\bootstrap-grid.css.map" />
@@ -2741,6 +2753,7 @@
     <Folder Include="Temp\" />
     <Folder Include="Uploads\Dosyalar\" />
     <Folder Include="Views\Default\" />
+    <Folder Include="Views\EmailTemplate\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

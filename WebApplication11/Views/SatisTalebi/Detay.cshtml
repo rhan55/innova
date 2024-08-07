@@ -1,9 +1,7 @@
-﻿
-@using YKPortal.Models.Dto
+﻿@using YKPortal.Models.Dto
 @using System.Data
 @model BelgeDto
 @{
-
     ViewBag.Title = "Satış Talebi Detayı";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string Tip = Request.QueryString["Tip"];
@@ -68,7 +66,7 @@
                                         <div class="d-flex align-items-center justify-content-between mt-5">
                                             <input type="hidden" name="ID" id="ID" value="@(Model.ID)" />
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
                                             <label for="BelgeNo" class="form-label fs-6 fw-bold text-gray-600 mb-3">Belge No</label>
 
                                             <!--begin::Input group-->
@@ -81,7 +79,7 @@
                                         </div>
                                         <!--end::Col-->
                                         <!--begin::Col-->
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
 
                                             <!--begin::Input group-->
                                             <div class="mb-4">
@@ -101,7 +99,27 @@
                                             </div>
 
                                         </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="DepoCikisID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Çıkış Depo</label>
+                                                <select class="form-select form-select-solid p-2 rounded-1" name="DepoCikisID" id="DepoCikisID"
+                                                        aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                                    @foreach (DataRow drDepo in dtDepolar.Rows)
+                                                    {
+                                                        if (Model.DepoCikisID == drDepo["ID"].ToString())
+                                                        {
+                                                            <option value="@drDepo["ID"]" selected>@drDepo["Isim"]</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@drDepo["ID"]">@drDepo["Isim"]</option>
+                                                        }
 
+                                                        <!-- @drDepo["ID"] -->
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="row mb-4">
@@ -133,10 +151,10 @@
                                                         <td class="me-4 text-gray-600"><strong>ÜRÜN</strong></td>
                                                         <td class="me-4 text-gray-600"><strong>SERİ</strong></td>
                                                         <td class="me-4 text-gray-600"><strong>BİRİM</strong></td>
-                                                        <td class="me-4 text-gray-600"><strong>İSKONTO ORANI</strong></td>
                                                         <td class="me-4 text-gray-600"><strong>KDV ORANI</strong></td>
                                                         <td class="me-4 text-gray-600"><strong>MİKTAR</strong></td>
                                                         <td class="me-4 text-gray-600"><strong>FİYAT</strong></td>
+                                                        <td class="me-4 text-gray-600"><strong>İSKONTO ORANI</strong></td>
                                                         <td class="me-4 text-gray-600"><strong>TUTAR</strong></td>
                                                         <td><strong></strong></td>
                                                     }
@@ -183,10 +201,10 @@
                                                                     <tr>
 
                                                                         <td><strong>Birim</strong></td>
-                                                                        <td style="text-align: right;"><strong>İskonto Oranı</strong></td>
                                                                         <td style="text-align: right;"><strong>Kdv Oranı</strong></td>
                                                                         <td style="text-align: right;"><strong>Miktar</strong></td>
                                                                         <td style="text-align: right;"><strong>Fiyat</strong></td>
+                                                                        <td style="text-align: right;"><strong>İskonto Oranı</strong></td>
                                                                         <td style="text-align: right;"><strong>Tutar</strong></td>
                                                                     </tr>
                                                                     <tr>
@@ -194,9 +212,7 @@
                                                                         <td>
                                                                             <input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control p-2 me-10" />
                                                                         </td>
-                                                                        <td>
-                                                                            <input type="text" data-kt-element="iskonto-data" name="IskontoOrani1_@(ID)" id="IskontoOrani1_@(ID)" value="@(String.Format("{0:N2}",satir.IskontoOrani1))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                                        </td>
+
                                                                         <td>
                                                                             <input type="text" data-kt-element="kdv-data" name="KdvOrani_@(ID)" id="KdvOrani_@(ID)" value="@(String.Format("{0:N2}",satir.KdvOrani))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
                                                                         </td>
@@ -205,6 +221,9 @@
                                                                         </td>
                                                                         <td>
                                                                             <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="text" data-kt-element="iskonto-data" name="IskontoOrani1_@(ID)" id="IskontoOrani1_@(ID)" value="@(String.Format("{0:N2}",satir.IskontoOrani1))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
                                                                         </td>
                                                                         <td>
                                                                             <input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" readonly />
@@ -245,9 +264,7 @@
                                                             <td style="max-width:200px;">
                                                                 <input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control p-2" />
                                                             </td>
-                                                            <td>
-                                                                <input type="text" data-kt-element="iskonto-data" name="IskontoOrani1_@(ID)" id="IskontoOrani1_@(ID)" value="@(String.Format("{0:N2}",satir.IskontoOrani1))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                            </td>
+
                                                             <td>
                                                                 <input type="text" data-kt-element="kdv-data" name="KdvOrani_@(ID)" id="KdvOrani_@(ID)" value="@(String.Format("{0:N2}",satir.KdvOrani))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
                                                             </td>
@@ -256,6 +273,9 @@
                                                             </td>
                                                             <td class="text-end" style="max-width:150px;">
                                                                 <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" data-kt-element="iskonto-data" name="IskontoOrani1_@(ID)" id="IskontoOrani1_@(ID)" value="@(String.Format("{0:N2}",satir.IskontoOrani1))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
                                                             </td>
                                                             <td class="text-end" style="max-width:150px;">
                                                                 <input type="text" data-kt-element="tutar-data" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" readonly />
@@ -510,17 +530,19 @@
                            deger += "             </tr>                                                                                                                                  ";
                            deger += "             <tr>        ";
                            deger += "                 <td><strong>Birim</strong></td>                                                                                                    ";
+                           deger += "                 <td><strong>KDV Oranı</strong></td>                                                                                                    ";
                            deger += "                 <td style='text-align: right;'><strong>Miktar</strong></td>                                                                        ";
                            deger += "                 <td style='text-align: right;'><strong>Fiyat</strong></td>                                                                         ";
+                           deger += "                 <td><strong>İskonto Oranı</strong></td>                                                                                                    ";
                            deger += "                 <td style='text-align: right;'><strong>Tutar</strong></td>                                                                         ";
                            deger += "             </tr>                                                                                                                                  ";
                            deger += "             <tr>                                                                                                                                   ";
 
                 deger += "                 <td><input type='text' name='OlcuBirimi_" + YeniID + "' id='OlcuBirimi_" + YeniID + "' value='Adet' class='form-control p-2 me-10' /></td>                   ";
-                deger += "                 <td><input type='text' data-kt-element='iskonto-data' name='IskontoOrani1_" + YeniID + "' id='IskontoOrani1_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control ' style='text-align:right;' /></td>              ";
                 deger += "                 <td><input type='text' data-kt-element='kdv-data' name='KdvOrani_" + YeniID + "' id='KdvOrani_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control ' style='text-align:right;' /></td>              ";
                 deger += "                 <td><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control me-10' style='text-align:right;' /></td>              ";
                 deger += "                 <td><input type='text' name='Fiyat_" + YeniID + "' id='Fiyat_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");'  style='text-align:right;' /></td>                 ";
+                deger += "                 <td><input type='text' data-kt-element='iskonto-data' name='IskontoOrani1_" + YeniID + "' id='IskontoOrani1_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control ' style='text-align:right;' /></td>              ";
                 deger += "                 <td><input type='text' data-kt-element='tutar-data' name='Tutar_" + YeniID + "' id='Tutar_" + YeniID + "' value='0'  onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");'  class='form-control me-10' style='text-align:right;' readonly /></td>        ";
                            deger += "             </tr>";
                            deger += "         </table>";
@@ -547,10 +569,10 @@
                 deger += "      </td>";
 
                 deger += "      <td style='max-width:100px;'><input type='text' name='OlcuBirimi_" + YeniID + "' id ='OlcuBirimi_" + YeniID + "' value='Adet' class='form-control p-2 me-10' /></td > ";
-                deger += "                 <td><input type='text' data-kt-element='iskonto-data' name='IskontoOrani1_" + YeniID + "' id='IskontoOrani1_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' /></td>              ";
                 deger += "      <td style='max-width:100px;'><input type='text' data-kt-element='kdv-data' name='KdvOrani_" + YeniID + "' id='KdvOrani_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' /></td>              ";
                 deger += "      <td style='max-width:100px;'><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' /></td>";
-                deger += "      <td style='max-width:150px;'><input type='text' name='Fiyat_" + YeniID + "' id = 'Fiyat_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");' class='form-control p-2 me-10' style = 'text-align:right;' /></td > ";
+                deger += "      <td style='max-width:150px;'><input type='text' name='Fiyat_" + YeniID + "' id = 'Fiyat_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style = 'text-align:right;' /></td > ";
+                deger += "                 <td><input type='text' data-kt-element='iskonto-data' name='IskontoOrani1_" + YeniID + "' id='IskontoOrani1_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' /></td>              ";
                 deger += "      <td style='max-width:150px;'><input type='text' data-kt-element='tutar-data' name='Tutar_" + YeniID + "' id = 'Tutar_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");' class='form-control p-2 me-10' style = 'text-align:right;' readonly /></td > ";
                 deger += "      <td><button type='button' class='deleteBtn pt-2' onclick='SatirSil(\""+YeniID+"\")' data-ID2='"+YeniID+"'>Sil</button></td></tr>";
             }
@@ -565,13 +587,13 @@
         }
 
         function Kaydet() {
-            // Belge numarası kontrolü (SS tipi için zorunlu)
+            // Belge numarası kontrolü (SF tipi için zorunlu)
             if ($("#BelgeNo").val() == "" && Tip == "STL") {
                 alert("Lütfen belge numarası yazınız.");
                 return;
             }
 
-            // Cari seçimi kontrolü (AF tipi için zorunlu)
+            // Cari seçimi kontrolü (SF tipi için zorunlu)
             if (($("#CariID").val() == "" || $("#CariID").val() == null) && Tip == "STL") {
                 alert("Lütfen cari seçiniz.");
                 return;
@@ -628,7 +650,7 @@
             // AJAX isteği gönderimi
             $.ajax({
                 url: '/SatisTalebi/Kaydet',
-                data: JSON.stringify(_data), // Veriyi JSON formatına dönüştür 
+                data: JSON.stringify(_data), // Veriyi JSON formatına dönüştür
                 contentType: "application/json",
                 dataType: "json",
                 type: "POST",
@@ -809,5 +831,6 @@
         </script>
     }
 }
+
 
 
