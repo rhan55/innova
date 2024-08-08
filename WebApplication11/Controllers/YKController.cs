@@ -71,10 +71,6 @@ namespace YKPortal.Controllers
                     }
                 }
             }
-
-
-
-
             SonAktiviteler();
             return View();
         }
