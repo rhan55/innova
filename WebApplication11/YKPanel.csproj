@@ -125,6 +125,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Depo\Controllers\DepoController.cs" />
+    <Compile Include="Areas\Depo\DepoAreaRegistration.cs" />
     <Compile Include="Areas\D\DAreaRegistration.cs" />
     <Compile Include="Areas\D\Controllers\DestekController.cs" />
     <Compile Include="Areas\B2BLogo\B2BLogoAreaRegistration.cs" />
@@ -345,6 +347,11 @@
     <Content Include="Areas\D\Views\web.config" />
     <Content Include="Areas\D\Views\Destek\AnaSayfa.cshtml" />
     <Content Include="Areas\D\Views\Destek\DestekDetayi.cshtml" />
+    <Content Include="Areas\Depo\Views\Depo\AnaSayfa.cshtml" />
+    <Content Include="Areas\Depo\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Depo\Views\Shared\Error.cshtml" />
+    <Content Include="Areas\Depo\Views\web.config" />
+    <Content Include="Areas\Depo\Views\Depo\Menuler.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -376,6 +383,24 @@
     <Content Include="Tema\favicons\mstile-310x150.png" />
     <Content Include="Tema\favicons\mstile-310x310.png" />
     <Content Include="Tema\favicons\mstile-70x70.png" />
+    <Content Include="Tema\media\flags\Uretim_CheckList.png" />
+    <Content Include="Tema\media\flags\Uretim_DevamEden.png" />
+    <Content Include="Tema\media\flags\Uretim_Fireler.png" />
+    <Content Include="Tema\media\flags\Uretim_Hammadde_StokGirisi.png" />
+    <Content Include="Tema\media\flags\Uretim_Irsaliye_Olustur.png" />
+    <Content Include="Tema\media\flags\Uretim_Is_Emirleri.png" />
+    <Content Include="Tema\media\flags\Uretim_KaliteKontrol.png" />
+    <Content Include="Tema\media\flags\Uretim_Nakkliye.png" />
+    <Content Include="Tema\media\flags\Uretim_QR.png" />
+    <Content Include="Tema\media\flags\Uretim_QR2.png" />
+    <Content Include="Tema\media\flags\Uretim_Recete.png" />
+    <Content Include="Tema\media\flags\Uretim_Sevkiyat_Kabul.png" />
+    <Content Include="Tema\media\flags\Uretim_Stok_Cikisi.png" />
+    <Content Include="Tema\media\flags\Uretim_Stok_Girisi.png" />
+    <Content Include="Tema\media\flags\Uretim_Stok_Kontrol_Onayi.png" />
+    <Content Include="Tema\media\flags\Uretim_Stok_Red.png" />
+    <Content Include="Tema\media\flags\Uretim_Tamamlananlar.png" />
+    <Content Include="Tema\media\flags\Uretim_Transfer_Onayi.png" />
     <Content Include="Tema\media\Logolar\BeyazLogo.png" />
     <Content Include="Tema\media\logos\custom-1.png" />
     <Content Include="Tema\media\logos\custom-1.svg" />
@@ -2744,6 +2769,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\B2BLogo\Data\" />
+    <Folder Include="Areas\Depo\Data\" />
     <Folder Include="Areas\D\Data\" />
     <Folder Include="Areas\Entegrasyon\Data\" />
     <Folder Include="Areas\Entegrasyon\Views\Shared\" />

@@ -232,7 +232,8 @@ namespace YKPortal.Controllers
 
                         var kullanici = Duzenle(Convert.ToString(dt.Rows[0]["ID"]));
 
-                        return View(kullanici);
+                        return Redirect("~/Kullanici/Liste");
+                        //return View(kullanici);
                     }
                 }
 

@@ -25,126 +25,83 @@
                     <!--begin::Card-->
                     <div class="card col-lg-12">
                         <!--begin::Card body-->
-                        <div class="card-body p-12">
+                        <div class="card-body">
                             <!--begin::Card body-->
                             <div class="card-body">
                                 <!--begin::Form-->
                                 <form method="post" action="@Url.Action("Detay","SatisFatura",new { Tip = Request.QueryString["Tip"] })">
-                                    <!--begin::Wrapper-->
-                                    <div class="d-flex flex-column align-items-start flex-xxl-row">
 
-                                        <!--begin::Input group-->
-                                        <div class="d-flex flex-equal fw-row text-nowrap order-1 order-xxl-2 me-4" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-original-title="Enter invoice number" data-kt-initialized="1">
-                                            <span class="fs-2x fw-bold text-gray-700">Fatura #</span>
-                                            <input type="text" class="form-control form-control-flush fw-bold text-muted fs-3 w-125px" value="2021001" placehoder="...">
-                                        </div>
-                                        <!--end::Input group-->
-                                        <!--begin::Input group-->
-                                        <div class="d-flex align-items-center justify-content-end flex-equal order-3 fw-row" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-original-title="Specify invoice due date" data-kt-initialized="1">
+                                    <input type="hidden" name="ID" id="ID" value="@(Model.ID)" />
+                                    <table>
+                                        <tr>
+                                            <td>Belge No</td>
+                                            <td>:</td>
+                                            <td>
+                                                <input type="text" name="BelgeNo" id="BelgeNo" value="@(Convert.ToString(Model.BelgeNo))" class="form-control p-2 rounded-1" placeholder="" />
+                                            </td>
+                                            <td style="width:5px;"></td>
+                                            <td>Cari</td>
+                                            <td>:</td>
+                                            <td style="width:200px;">
+                                                <select class="form-select form-select-solid p-2 rounded-1" name="CariID" id="CariID"
+                                                        aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
 
-                                            <!--begin::Input-->
-                                            <div class="position-relative d-flex align-items-center w-150px">
-                                                <label for="Tarih" class="form-label fs-6 fw-bold text-gray-700 pt-2 pe-2">Tarih</label>
-                                                <!--begin::Datepicker-->
+                                                    @if (Model.CariID != "")
+                                                    {
+                                                        <option value="@Model.CariID" selected>@Model.CariAdi</option>
+                                                    }
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr style="@(Tip == "AI" ? "display:none;" : "")">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td style="width:5px;"></td>
+                                            <td>Çıkış Depo</td>
+                                            <td>:</td>
+                                            <td>
+                                                <select class="form-select form-select-solid p-2 rounded-1" name="DepoCikisID" id="DepoCikisID"
+                                                        aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                                    @foreach (DataRow drDepo in dtDepolar.Rows)
+                                                    {
+                                                        <option value="@drDepo["ID"]" @(Model.DepoCikisID == drDepo["ID"].ToString() ? "selected" : "")>@drDepo["Isim"]</option>
+                                                    }
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tarih</td>
+                                            <td>:</td>
+                                            <td>
                                                 <input type="date" name="Tarih" id="Tarih" value="@(Convert.ToDateTime(Model.Tarih).ToString("yyyy-MM-dd"))" class="form-control form-control-solid p-2 rounded-1" placeholder="" />
-                                                <!--end::Datepicker-->
+                                            </td>
+                                            <td style="width:5px;"></td>
+                                            <td>Giriş Depo</td>
+                                            <td>:</td>
+                                            <td>
+                                                <select class="form-select form-select-solid p-2 rounded-1" name="DepoGirisID" id="DepoGirisID"
+                                                        aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                                    @foreach (DataRow drDepo in dtDepolar.Rows)
+                                                    {
+                                                        <option value="@drDepo["ID"]" @(Model.DepoGirisID == drDepo["ID"].ToString() ? "selected" : "")>@drDepo["Isim"]</option>
+                                                    }
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
 
-                                            </div>
-                                            <!--end::Input-->
-                                        </div>
 
-                                        <!--end::Input group-->
-                                    </div>
-                                    <!--end::Top-->
-                                    <!--begin::Separator-->
-                                    <div class="separator separator-dashed my-2"></div>
-                                    <!--end::Separator-->
+
                                     <!--begin::Wrapper-->
 
                                     <div class="mb-0">
-                                        <!--begin::Row-->
-                                        <div class="row mb-4">
-                                            <!--begin::Col-->
-                                            <div class="d-flex align-items-center justify-content-between mt-5">
-                                                <input type="hidden" name="ID" id="ID" value="@(Model.ID)" />
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <label for="BelgeNo" class="form-label fs-6 fw-bold text-gray-600 mb-3">Belge No</label>
 
-                                                <!--begin::Input group-->
-                                                <div class="mb-4">
-                                                    <input type="text" name="BelgeNo" id="BelgeNo" value="@(Convert.ToString(Model.BelgeNo))" class="form-control p-2 rounded-1" placeholder="" />
-                                                </div>
-                                                <!--end::Input group-->
-                                                <!--begin::Input group-->
-
-                                            </div>
-                                            <!--end::Col-->
-                                            <!--begin::Col-->
-                                            <div class="col-lg-3">
-
-                                                <!--begin::Input group-->
-                                                <div class="mb-4">
-                                                    <div class="" style="@(Tip == "DT" ? "display:none;" : "")">
-                                                        <div class="form-group ">
-                                                            <label for="CariID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Cari</label>
-                                                            <select class="form-select form-select-solid p-2 rounded-1" name="CariID" id="CariID"
-                                                                    aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-
-                                                                @if (Model.CariID != "")
-                                                                {
-                                                                    <option value="@Model.CariID" selected>@Model.CariAdi</option>
-                                                                }
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <div class="col-lg-3" style="">
-                                                <div class="form-group">
-                                                    <label for="DepoGirisID" class=" form-label mb-3">Giriş Depo</label>
-                                                    <select class="form-select form-select-solid p-2 rounded-1" name="DepoGirisID" id="DepoGirisID"
-                                                            aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                        @foreach (DataRow drDepo in dtDepolar.Rows)
-                                                        {
-                                                            <option value="@drDepo["ID"]" @(Model.DepoGirisID == drDepo["ID"].ToString() ? "selected" : "")>@drDepo["Isim"]</option>
-                                                        }
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label for="DepoCikisID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Çıkış Depo</label>
-                                                    <select class="form-select form-select-solid p-2 rounded-1" name="DepoCikisID" id="DepoCikisID"
-                                                            aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                        @foreach (DataRow drDepo in dtDepolar.Rows)
-                                                        {
-                                                            <option value="@drDepo["ID"]" @(Model.DepoCikisID == drDepo["ID"].ToString() ? "selected" : "")>@drDepo["Isim"]</option>
-                                                        }
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="row mb-4">
-                                            <div class="col-@(Tip == "DT" ? "12" : "12")">
-                                                <label for="Aciklama" class="form-label fs-6 fw-bold text-gray-600 mb-3">Açıklama</label>
-                                                <textarea type="text" name="Aciklama" id="Aciklama" class="form-control p-2 rounded-1"> @(Convert.ToString(Model.Aciklama)) </textarea>
-                                            </div>
-                                        </div>
-
-                                        <div class="my-8" style="text-align:center;vertical-align:middle;">
-                                            <div class="bg-gray-200" style="clear:both;height:1px;width:100%;"></div>
-                                            <h4 class="text-gray-700 mt-3">KALEMLER</h4>
-                                            <div class="bg-gray-200" style="clear:both;height:1px;width:100%;"></div>
-                                        </div>
 
                                         <!--end::Row-->
                                         <!--begin::Table wrapper-->
                                         <div class="row p-3">
-                                            <table class="table" id="TabloKalemler" name="TabloKalemler">
+                                            <table class="table" id="TabloKalemler" name="TabloKalemler" border="1">
                                                 <thead>
                                                     <tr style="padding:5px;">
                                                         @if (Request.Browser.IsMobileDevice)
@@ -287,17 +244,29 @@
                                                         </th>
                                                 </tfoot>
                                             </table>
-                                          
+
 
                                         </div>
                                     </div>
                                 </form>
                                 <!--begin::Actions-->
                                 <div class="col-lg-12">
-                                    <div class="">
+
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <td style="width:75px;">Açıklama</td>
+                                            <td>:</td>
+                                            <td colspan="5">
+                                                <textarea type="text" rows="5" name="Aciklama" id="Aciklama" class="form-control p-2 rounded-1"> @(Convert.ToString(Model.Aciklama)) </textarea>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <div class="" style="text-align:right;">
+                                        <br />
                                         <a href="@Url.Content("~/Belge/Liste/?Tip="+Request.QueryString["Tip"])" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
-                                        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet" onclick="Kaydet();">
-                                            <span class="indicator-label">Kaydet</span>
+                                        <button type="submit" class="btn btn-success" data-kt-users-modal-action="Kaydet" id="Kaydet" name="Kaydet" onclick="Kaydet();">
+                                            <span class="indicator-label">Belgeyi Kaydet</span>
 
                                         </button>
                                     </div>
@@ -419,17 +388,17 @@
         }
 
         function Kaydet() {
-
+            $("#Kaydet").text("Lütfen bekleyin....");
             if ($("#BelgeNo").val() == "" && Tip == "AI") {
                 alert("Lütfen belge numarası yazınız.");
+                $("#Kaydet").text("Kaydet");
                 return;
             }
             if (($("#CariID").val() == "" || $("#CariID").val() == null) && Tip == "AI") {
                 alert("Lütfen cari seçiniz.");
+                $("#Kaydet").text("Kaydet");
                 return;
             }
-
-
             // Kalemler verisinin toplanması
             var kalemler = [];
             $('#TabloKalemler tbody tr').each(function () {
@@ -482,11 +451,15 @@
                 dataType: "json",
                 type: "POST",
                 success: function (data) {
+                    $("#Kaydet").text("Kaydet");
                     alert("Belge Kaydedildi!");
                     // Detay sayfasını aç
-                    window.open("/Belge/Detay/" + data.Data + "?Tip=@(Request.QueryString["Tip"])","_parent");
+                    //window.open("/Belge/Detay/" + data.Data + "?Tip=@(Request.QueryString["Tip"])","_parent");
+                    window.open("/Belge/Liste?Tip=@(Request.QueryString["Tip"])", "_parent");
+
                 },
                 error: function (msg) {
+                    $("#Kaydet").text("Kaydet");
                     console.log(msg);
                 }
             });
