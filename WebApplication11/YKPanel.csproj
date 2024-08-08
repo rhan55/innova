@@ -166,7 +166,7 @@
     <Compile Include="Controllers\CariController.cs" />
     <Compile Include="Controllers\DosyaController.cs" />
     <Compile Include="Controllers\DepoController.cs" />
-    <Compile Include="Controllers\EmailTemplateController.cs" />
+    <Compile Include="Controllers\MailKaliplariController.cs" />
     <Compile Include="Controllers\GorevController.cs" />
     <Compile Include="Controllers\KullaniciController.cs" />
     <Compile Include="Controllers\OdemeController.cs" />
@@ -194,7 +194,7 @@
     <Compile Include="Models\Dto\BelgeDto.cs" />
     <Compile Include="Models\Dto\BelgeKalemDto.cs" />
     <Compile Include="Models\Dto\CariHareketDto.cs" />
-    <Compile Include="Models\Dto\EmailTemplateDto.cs" />
+    <Compile Include="Models\Dto\MailKalibiDto.cs" />
     <Compile Include="Models\Dto\UyelikPaketleriViewModel.cs" />
     <Compile Include="Models\Dto\GorevDto.cs" />
     <Compile Include="Models\Dto\MailAyarlariDto.cs" />
@@ -2740,6 +2740,8 @@
     <Content Include="Views\SatinalmaTalebi\Liste.cshtml" />
     <Content Include="Views\SatinalmaTalebi\Detay.cshtml" />
     <Content Include="Views\SatinalmaTalebi\Duzenle.cshtml" />
+    <Content Include="Views\MailKaliplari\Ekle.cshtml" />
+    <Content Include="Views\MailKaliplari\Liste.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2753,7 +2755,6 @@
     <Folder Include="Temp\" />
     <Folder Include="Uploads\Dosyalar\" />
     <Folder Include="Views\Default\" />
-    <Folder Include="Views\EmailTemplate\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
