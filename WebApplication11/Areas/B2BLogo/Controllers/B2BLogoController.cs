@@ -123,8 +123,6 @@ namespace YKPortal.Areas.B2BLogo.Controllers
             DataTable dtKayitlar = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             ViewBag.AranacakKelime = AranacakKelime;
 
-
-
             return View(dtKayitlar);
         }
         public JsonResult SepeteEkle(string StokKodu = "", decimal Miktar=0, decimal Fiyat=0)

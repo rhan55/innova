@@ -269,16 +269,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="MailTemalari\MusteriUrunArizasiKabulEdildiginde.html" />
-    <Content Include="MailTemalari\ServisSureciDevamEderken.html" />
-    <Content Include="MailTemalari\MusteriUrunuTarafimizcaTeslimAldiktanSonra.html" />
-    <Content Include="MailTemalari\YedekParcaGidecek.html" />
-    <Content Include="MailTemalari\UrunIncelemeyeGelecek.html" />
-    <Content Include="MailTemalari\SızdırmaProblemi.html" />
-    <Content Include="MailTemalari\IsiProblemi.html" />
-    <Content Include="MailTemalari\KargoMaili.html" />
-    <Content Include="MailTemalari\RedMaili.html" />
-    <Content Include="MailTemalari\KabulMaili.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\bootstrap-grid.css.map" />
