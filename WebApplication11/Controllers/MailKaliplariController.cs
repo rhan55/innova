@@ -177,5 +177,53 @@ namespace YKPortal.Controllers
         }
 
         #endregion
+        private bool YetkiKontrolu(string YetkiUrl, string Tip = "Gor")
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_KullaniciYetkileri";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            List<YetkilerDto> yetkiler = new List<YetkilerDto>();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                yetkiler.Add(new YetkilerDto()
+                {
+                    MenuID = Convert.ToString(row["MenuID"]),
+                    KullaniciID = Convert.ToString(row["KullaniciID"]),
+                    UyelikID = Convert.ToString(row["UyelikID"]),
+                    Menu = Convert.ToString(row["Menu"]),
+                    UstID = Convert.ToString(row["UstID"]),
+                    Gor = Convert.ToBoolean(row["Gor"]),
+                    Duzenle = Convert.ToBoolean(row["Duzenle"]),
+                    Sil = Convert.ToBoolean(row["Sil"]),
+                    url = Convert.ToString(row["url"]),
+                });
+            }
+            var yetki = yetkiler.Where(m => m.url == YetkiUrl).FirstOrDefault();
+            if (yetki != null)
+            {
+                if (Tip == "Gor")
+                {
+                    return yetki.Gor;
+                }
+                else if (Tip == "Duzenle")
+                {
+                    return yetki.Duzenle;
+                }
+                else if (Tip == "Sil")
+                {
+                    return yetki.Sil;
+                }
+                return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

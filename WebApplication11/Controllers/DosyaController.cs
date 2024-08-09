@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using YKPortal.Models;
 using YKPortal.Models.Dto;
 using System.Net.Http;
+using System.Collections.Generic;
 
 namespace YKPortal.Controllers
 {
@@ -16,7 +17,12 @@ namespace YKPortal.Controllers
         public ActionResult Liste(DosyaDto cariDosyaDto)
         {
             if (!AutoGirisKontrol())
+
                 return Redirect("~/YK/Giris");
+            if (!YetkiKontrolu("/Dosya/Liste", "Duzenle"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_DosyaListesi";
@@ -37,6 +43,7 @@ namespace YKPortal.Controllers
         [HttpPost]
         public HttpResponseMessage Ekle(DosyaDto cariDosyaDto, HttpPostedFileBase Dosya)
         {
+           
             HttpResponseMessage response;
 
             if (Dosya == null && Dosya.ContentLength <= 0)
@@ -50,8 +57,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return new HttpResponseMessage(System.Net.HttpStatusCode.Unauthorized);
 
-  
-
+          
             SqlCommand cmd = new SqlCommand();
 
             cmd.CommandText = "p_DosyaKaydet";
@@ -69,11 +75,16 @@ namespace YKPortal.Controllers
             return response;
 
         }
-
+        [HttpGet]
         public ActionResult Duzenle(DosyaDto cariDosyaDto, string id)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/Dosya/Liste", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
 
             var uyelikId = GetCookie("UyelikID");
             SqlCommand cmd = new SqlCommand();
@@ -94,6 +105,11 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/Dosya/Liste", "Duzenle"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_DosyaKaydet";
@@ -125,6 +141,12 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+
+            if (!YetkiKontrolu("/Dosya/Liste", "Sil"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_DosyaSil";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -205,5 +227,53 @@ namespace YKPortal.Controllers
 
 
         #endregion
+        private bool YetkiKontrolu(string YetkiUrl, string Tip = "Gor")
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_KullaniciYetkileri";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            List<YetkilerDto> yetkiler = new List<YetkilerDto>();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                yetkiler.Add(new YetkilerDto()
+                {
+                    MenuID = Convert.ToString(row["MenuID"]),
+                    KullaniciID = Convert.ToString(row["KullaniciID"]),
+                    UyelikID = Convert.ToString(row["UyelikID"]),
+                    Menu = Convert.ToString(row["Menu"]),
+                    UstID = Convert.ToString(row["UstID"]),
+                    Gor = Convert.ToBoolean(row["Gor"]),
+                    Duzenle = Convert.ToBoolean(row["Duzenle"]),
+                    Sil = Convert.ToBoolean(row["Sil"]),
+                    url = Convert.ToString(row["url"]),
+                });
+            }
+            var yetki = yetkiler.Where(m => m.url == YetkiUrl).FirstOrDefault();
+            if (yetki != null)
+            {
+                if (Tip == "Gor")
+                {
+                    return yetki.Gor;
+                }
+                else if (Tip == "Duzenle")
+                {
+                    return yetki.Duzenle;
+                }
+                else if (Tip == "Sil")
+                {
+                    return yetki.Sil;
+                }
+                return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
