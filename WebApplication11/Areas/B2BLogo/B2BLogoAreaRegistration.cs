@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace YKPortal.Areas.Entegrasyon
+namespace YKPortal.Areas.B2BLogo
 {
     public class B2BLogoAreaRegistration : AreaRegistration 
     {

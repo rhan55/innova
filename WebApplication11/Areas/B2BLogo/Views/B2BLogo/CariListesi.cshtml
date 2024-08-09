@@ -1,0 +1,44 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Cari Listesi";
+    Layout = "~/Views/Shared/_LayoutSade.cshtml";
+}
+
+<div style="margin:5px;">
+    @if (Session["B2BLogo_CariKodu"] != null)
+    {
+        <div style="text-align:center;font-size:20px;margin:5px;"><strong>Cari Kodu : <span>@Session["B2BLogo_CariKodu"]</span> - Cari Adı : <span>@Session["B2BLogo_CariAdi"]</span></strong></div>
+    }
+    <form action="/B2BLogo/B2BLogo/CariListesi" method="get">
+        <input type="text" name="AranacakKelime" id="AranacakKelime" value="@ViewBag.AranacakKelime" class="form-control" placeholder="aranacak kelime..." />
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Kod</td>
+                <td>İsim</td>
+                <td>Plasiyer</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow satir in Model.Rows)
+            {
+                <tr>
+                    <td>@satir["Kod"]</td>
+                    <td><a href="/B2BLogo/B2BLogo/CariSec/?CariKodu=@(satir["ID"])">@satir["Isim"]</a></td>
+                    <td>@satir["Plasiyer"]</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Styles {
+
+}
+@section scripts {
+
+
+
+}
+

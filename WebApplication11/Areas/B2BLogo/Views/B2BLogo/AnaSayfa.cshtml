@@ -1,14 +1,66 @@
 ﻿@using System.Data
 @model System.Data.DataTable
 @{
-    ViewBag.Title = "B2BLogo";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-
+    ViewBag.Title = "Bayi Sipariş Sistemi";
+    Layout = "~/Views/Shared/_LayoutSade.cshtml";
 }
 
-B2B
+<div style="margin-left:auto;margin-right:auto;">
+    @if (Session["B2BLogo_CariKodu"] != null)
+    {
+        <div style="text-align:center;font-size:20px;margin:5px;"><strong>Cari Kodu : <span>@Session["B2BLogo_CariKodu"]</span> - Cari Adı : <span>@Session["B2BLogo_CariAdi"]</span></strong></div>
+    }
+    <a href="/B2BLogo/B2BLogo/CariListesi" style="color: white;">
+        <div class="tum-kenar-oval"
+             style="width:200px;height:50px;text-align:center;background-color:black;color:white;padding:0px;font-size:20px;padding-top:10px;">
+            Cari Seçimi
+        </div>
+    </a>
+    <a href="/B2BLogo/B2BLogo/Siparislerim" style="color: white;">
+        <div class="tum-kenar-oval"
+             style="width:200px;height:50px;text-align:center;background-color:black;color:white;padding:0px;font-size:20px;padding-top:10px;">
+            Siparişlerim
+        </div>
+    </a>
+    <a href="/B2BLogo/B2BLogo/CariEkstre" style="color: white;">
+        <div class="tum-kenar-oval"
+             style="width:200px;height:50px;text-align:center;background-color:black;color:white;padding:0px;font-size:20px;padding-top:10px;">
+            Cari Ekstre
+        </div>
+    </a>
+    <a href="/B2BLogo/B2BLogo/YeniSiparis" style="color: white;">
+        <div class="tum-kenar-oval"
+             style="width:200px;height:50px;text-align:center;background-color:black;color:white;padding:0px;font-size:20px;padding-top:10px;">
+            Yeni Sipariş
+        </div>
+    </a>
+    <a href="/B2BLogo/B2BLogo/Sepetim" style="color: white;">
+        <div class="tum-kenar-oval"
+             style="width:200px;height:50px;text-align:center;background-color:black;color:white;padding:0px;font-size:20px;padding-top:10px;">
+            Sepetim
+        </div>
+    </a>
+</div>
+<div>
+    <img src="~/Tema/media/slayts/1.png" style="width:100%;" />
+</div>
+
 
 @section Styles {
+
+    <style>
+        .tum-kenar-oval {
+            border: 2px solid #a1a1a1;
+            padding: 10px 40px;
+            background: green;
+            width: 200px;
+            height: 100px;
+            border-radius: 15px;
+            color: white;
+            margin: 20px;
+            float: left;
+        }
+    </style>
 }
 @section scripts {
 
