@@ -10,6 +10,7 @@
     {
         <div style="text-align:center;font-size:20px;margin:5px;"><strong>Cari Kodu : <span>@Session["B2BLogo_CariKodu"]</span> - Cari Adı : <span>@Session["B2BLogo_CariAdi"]</span></strong></div>
     }
+    <a href="/B2BLogo/B2BLogo/AnaSayfa" class="btn btn-primary">Geri</a>
     <form action="/B2BLogo/B2BLogo/CariListesi" method="get">
         <input type="text" name="AranacakKelime" id="AranacakKelime" value="@ViewBag.AranacakKelime" class="form-control" placeholder="aranacak kelime..." />
     </form>
@@ -34,7 +35,16 @@
     </table>
 </div>
 @section Styles {
+    <style>
+        table, th, td {
+            border-bottom: 1px solid rgba(128, 128, 128, 0.356);
+        }
 
+        tr:hover {
+            background-color: lightgray;
+            color: white;
+        }
+    </style>
 }
 @section scripts {
 

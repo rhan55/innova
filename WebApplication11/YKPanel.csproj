@@ -345,6 +345,7 @@
     <Content Include="Areas\B2BLogo\Views\B2BLogo\SiparisDetay.cshtml" />
     <Content Include="Areas\B2BLogo\Views\B2BLogo\CariEkstre.cshtml" />
     <Content Include="Areas\B2BLogo\Views\B2BLogo\YeniSiparis.cshtml" />
+    <Content Include="Areas\B2BLogo\Views\B2BLogo\Sepetim.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -2759,6 +2760,7 @@
     <Content Include="Views\SatinalmaTalebi\Liste.cshtml" />
     <Content Include="Views\SatinalmaTalebi\Detay.cshtml" />
     <Content Include="Views\SatinalmaTalebi\Duzenle.cshtml" />
+    <Content Include="Views\Shared\_LayoutSade.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2786,6 +2788,20 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="UnityObjects">
+      <Guid>{51F6657D-9972-45FD-8D5D-98849802A9C9}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

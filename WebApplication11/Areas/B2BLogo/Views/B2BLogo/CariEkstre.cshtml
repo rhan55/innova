@@ -26,14 +26,14 @@
         <tbody>
             @foreach (DataRow satir in Model.Rows)
             {
-                bakiye = Convert.ToDecimal(satir["Borc"]) - Convert.ToDecimal(satir["Alacak"]);
+                bakiye += Convert.ToDecimal(satir["Borc"]) - Convert.ToDecimal(satir["Alacak"]);
                 <tr>
                     <td>@Convert.ToDateTime(satir["Tarih"]).ToString("dd-MM-yyyy")</td>
                     <td>@satir["BelgeNo"]</td>
                     <td>@satir["Aciklama"]</td>
                     <td style="text-align: right; padding-right: 10px;">@String.Format("{0:N2}", Convert.ToDecimal(satir["Borc"]))</td>
                     <td style="text-align: right; padding-right: 10px;">@String.Format("{0:N2}", Convert.ToDecimal(satir["Alacak"]))</td>
-                    <td style="text-align: right; padding-right: 10px;">@String.Format("{0:N2}", Convert.ToDecimal(satir["Bakiye"]))</td>
+                    <td style="text-align: right; padding-right: 10px;">@String.Format("{0:N2}", bakiye)</td>
                 </tr>
             }
             <tr>
@@ -49,6 +49,16 @@
 </div>
 @section Styles {
 
+    <style>
+        table, th, td {
+            border-bottom: 1px solid rgba(128, 128, 128, 0.356);
+        }
+
+        tr:hover {
+            background-color: lightgray;
+            color: white;
+        }
+    </style>
 }
 @section scripts {
 
