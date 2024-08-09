@@ -1,0 +1,99 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Cari Listesi";
+    Layout = "~/Views/Shared/_LayoutSade.cshtml";
+}
+
+<div style="margin:5px;">
+    @if (Session["B2BLogo_CariKodu"] != null)
+    {
+        <div style="text-align:center;font-size:20px;margin:5px;"><strong>Cari Kodu : <span>@Session["B2BLogo_CariKodu"]</span> - Cari Adı : <span>@Session["B2BLogo_CariAdi"]</span></strong></div>
+    }
+    <form action="/B2BLogo/B2BLogo/YeniSiparis" method="get">
+        <input type="text" name="AranacakKelime" id="AranacakKelime" value="@ViewBag.AranacakKelime" class="form-control" placeholder="aranacak kelime..." />
+    </form>
+    <table class="table" border="1">
+        <thead>
+            <tr>
+                <td>Kod</td>
+                <td>İsim</td>
+                <td style="text-align:right;padding-right:5px;">Stok Adeti</td>
+                <td>Birim</td>
+                <td style="text-align:right;">Fiyat</td>
+                <td style="text-align:right;">Sipariş Miktari</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow satir in Model.Rows)
+            {
+                <tr style="border: 1px solid #bbb;">
+                    <td>@satir["Kod"]</td>
+                    <td>@satir["Isim"]</td>
+                    <td style="text-align: right; padding-right: 5px;">@String.Format("{0:N2}", Convert.ToDecimal(satir["Bakiye"]))</td>
+                    <td>@satir["OlcuBirimi"]</td>
+                    <td style="text-align:right;">@String.Format("{0:N2}", Convert.ToDecimal(satir["Fiyat"]))</td>
+                    <td style="text-align:right;"><input type="text" name="Miktar_@(satir["ID"].ToString().Replace("-",""))" id="Miktar_@(satir["ID"].ToString().Replace("-",""))" value="" onkeydown="SepeteEkle('@(satir["ID"])','@(satir["ID"].ToString().Replace("-",""))','@(Convert.ToDecimal(satir["Fiyat"]))')" style="text-align:right;" /></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Styles {
+    <style>
+        table, th, td {
+            border-bottom: 1px solid rgba(128, 128, 128, 0.356);
+        }
+
+        tr:hover {
+            background-color: lightgray;
+            color: white;
+        }
+    </style>
+}
+@section scripts {
+
+    <script>
+        function SepeteEkle(id,id2, fiyat) {
+            if (event.keyCode == 13) {
+                if ($("#Miktar_" + (id2)).val() != "") {
+                    $.ajax({
+                        async: false,
+                        cache: false,
+                        type: "GET",
+                        url: "/B2BLogo/B2BLogo/SepeteEkle",
+                        data: { "StokKodu": id, "Miktar": $("#Miktar_" + (id2)).val(), "Fiyat": fiyat },
+                        success: function (data) {
+
+                            //Satırları siliyoruz
+                            if (data.SonucKodu == "1") {
+                                Swal.fire({
+                                    position: "center",
+                                    icon: "success",
+                                    title: "Ürün sepete eklenmiştir.",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                            } else {
+                               
+                                Swal.fire({
+                                    position: "center",
+                                    icon: "error",
+                                    title: "Ürün sepete eklenemedi!. "+data.Aciklama,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                            }
+                        },
+                        error: function (data) {
+
+                            $("#EnjeksiyonKullaniciBarkoduOkut").val("");
+                        }
+                    });
+                }
+            }
+        }
+    </script>
+
+}
+

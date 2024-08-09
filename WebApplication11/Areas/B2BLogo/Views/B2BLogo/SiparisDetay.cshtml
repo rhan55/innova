@@ -1,0 +1,81 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Sipariş Detayı";
+    Layout = "~/Views/Shared/_LayoutSade.cshtml";
+    decimal toplam = 0;
+}
+
+<div style="margin:5px;">
+    @if (Session["B2BLogo_CariKodu"] != null)
+    {
+        <div style="text-align:center;font-size:20px;margin:5px;"><strong>Cari Kodu : <span>@Session["B2BLogo_CariKodu"]</span> - Cari Adı : <span>@Session["B2BLogo_CariAdi"]</span></strong></div>
+    }
+    <a href="/B2BLogo/B2BLogo/Siparislerim" class="btn btn-primary">Geri</a>
+    <table style="font-size:17px;">
+        <tr>
+            <td>Cari Kodu</td>
+            <td>:</td>
+            <td>@Model.Rows[0]["CariKodu"]</td>
+        </tr>
+        <tr>
+            <td>Cari Adı</td>
+            <td>:</td>
+            <td>@Model.Rows[0]["CariAdi"]</td>
+        </tr>
+        <tr>
+            <td>Tarih</td>
+            <td>:</td>
+            <td>@Convert.ToDateTime(Model.Rows[0]["Tarih"]).ToString("dd-MM-yyyy")</td>
+        </tr>
+        <tr>
+            <td>Belge No</td>
+            <td>:</td>
+            <td>@Model.Rows[0]["BelgeNo"]</td>
+        </tr>
+    </table>
+    <table class="table" border="1">
+        <thead>
+            <tr>
+                <th><strong>Stok Kodu</strong></th>
+                <th><strong>Stok Adı</strong></th>
+                <th style="text-align:right;padding-right:10px;"><strong>Miktar</strong></th>
+                <th><strong>Birim</strong></th>
+                <th style="text-align:right;padding-right:10px;"><strong>Birim Fiyat</strong></th>
+                <th style="text-align:right;padding-right:10px;"><strong>Tutar</strong></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow satir in Model.Rows)
+            {
+                toplam += Convert.ToDecimal(satir["Tutar"]);
+                <tr>
+                    <td>@satir["StokKodu"]</td>
+                    <td>@satir["StokAdi"]</td>
+                    <td style="text-align: right; padding-right: 10px;">@String.Format("{0:N2}", Convert.ToDecimal(satir["Miktar"]))</td>
+                    <td>@satir["OlcuBirimi"]</td>
+                    <td style="text-align: right; padding-right: 10px;">@String.Format("{0:N2}", Convert.ToDecimal(satir["Fiyat"]))</td>
+                    <td style="text-align: right; padding-right: 10px;">@String.Format("{0:N2}", Convert.ToDecimal(satir["Tutar"]))</td>
+                </tr>
+
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td style="text-align: right; padding-right: 10px;"></td>
+                <td></td>
+                <td style="text-align: right; padding-right: 10px;"><strong>TOPLAM</strong></td>
+                <td style="text-align: right; padding-right: 10px;"><strong>@String.Format("{0:N2}", toplam)</strong></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+@section Styles {
+
+}
+@section scripts {
+
+
+
+}
+

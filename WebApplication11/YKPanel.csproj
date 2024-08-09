@@ -336,8 +336,6 @@
     <Content Include="Areas\Entegrasyon\Views\web.config" />
     <Content Include="Areas\Entegrasyon\Views\QuickSigorta\AnaSayfa.cshtml" />
     <Content Include="Areas\B2BLogo\Views\B2BLogo\AnaSayfa.cshtml" />
-    <Content Include="Areas\B2BLogo\Views\B2BLogo\Giris.cshtml" />
-    <Content Include="Areas\B2BLogo\Views\B2BLogo\Siparis.cshtml" />
     <Content Include="Areas\B2BLogo\Views\Shared\Error.cshtml" />
     <Content Include="Areas\B2BLogo\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\B2BLogo\Views\web.config" />
@@ -352,6 +350,11 @@
     <Content Include="Areas\Depo\Views\Shared\Error.cshtml" />
     <Content Include="Areas\Depo\Views\web.config" />
     <Content Include="Areas\Depo\Views\Depo\Menuler.cshtml" />
+    <Content Include="Areas\B2BLogo\Views\B2BLogo\CariListesi.cshtml" />
+    <Content Include="Areas\B2BLogo\Views\B2BLogo\Siparislerim.cshtml" />
+    <Content Include="Areas\B2BLogo\Views\B2BLogo\SiparisDetay.cshtml" />
+    <Content Include="Areas\B2BLogo\Views\B2BLogo\CariEkstre.cshtml" />
+    <Content Include="Areas\B2BLogo\Views\B2BLogo\YeniSiparis.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -419,6 +422,7 @@
     <Content Include="Tema\media\logos\mail.svg" />
     <Content Include="Tema\media\Photo\800x800.png" />
     <Content Include="Tema\media\Photo\Web sitesi_03.jpg" />
+    <Content Include="Tema\media\slayts\1.png" />
     <Content Include="Tema\plugins\custom\datatables\datatables.css" />
     <Content Include="Tema\plugins\custom\datatables\datatables.min.css" />
     <Content Include="Tema\css\override.css" />
@@ -2765,6 +2769,7 @@
     <Content Include="Views\SatinalmaTalebi\Liste.cshtml" />
     <Content Include="Views\SatinalmaTalebi\Detay.cshtml" />
     <Content Include="Views\SatinalmaTalebi\Duzenle.cshtml" />
+    <Content Include="Views\Shared\_LayoutSade.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

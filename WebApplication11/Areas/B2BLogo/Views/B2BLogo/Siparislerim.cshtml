@@ -1,0 +1,46 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Siparişlerim";
+    Layout = "~/Views/Shared/_LayoutSade.cshtml";
+}
+
+<div style="margin:5px;">
+    @if (Session["B2BLogo_CariKodu"] != null)
+    {
+        <div style="text-align:center;font-size:20px;margin:5px;"><strong>Cari Kodu : <span>@Session["B2BLogo_CariKodu"]</span> - Cari Adı : <span>@Session["B2BLogo_CariAdi"]</span></strong></div>
+    }
+    <a href="/B2BLogo/B2BLogo/AnaSayfa" class="btn btn-primary">Geri</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th><strong>Tarih</strong></th>
+                <th><strong>Belge No</strong></th>
+                <th><strong>Açıklama</strong></th>
+                <th style="text-align:right;padding-right:10px;"><strong>Tutar</strong></th>
+                <th><strong>İşlem</strong></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow satir in Model.Rows)
+            {
+                <tr>
+                    <td>@Convert.ToDateTime(satir["Tarih"]).ToString("dd-MM-yyyy")</td>
+                    <td>@satir["BelgeNo"]</td>
+                    <td>@satir["Aciklama1"]</td>
+                    <td style="text-align: right; padding-right: 10px;">@String.Format("{0:N2}", Convert.ToDecimal(satir["Tutar"]))</td>
+                    <td><a href="/B2BLogo/B2BLogo/SiparisDetay/?Belgeno=@(satir["BelgeNo"])">Detay</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Styles {
+
+}
+@section scripts {
+
+
+
+}
+
