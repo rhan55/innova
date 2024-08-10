@@ -19,7 +19,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
 
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/Dosya/Liste", "Duzenle"))
+            if (!YetkiKontrolu("/Dosya/Liste", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }

@@ -210,7 +210,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/SatisFatura/Detay", "Gor"))
+            if (!YetkiKontrolu("/SatisFatura/Liste", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }

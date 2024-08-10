@@ -18,7 +18,8 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/Tanimlamalar/Liste", "Gor"))
+
+            if (!YetkiKontrolu("/Tanimlamalar/GrupKodu", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -85,7 +86,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/Tanimlamalar/Ekle", "Gor"))
+            if (!YetkiKontrolu("/Tanimlamalar/Liste", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -107,7 +108,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Tanimlamalar/Ekle", "Duzenle"))
+            if (!YetkiKontrolu("/Tanimlamalar/Liste", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }

@@ -16,6 +16,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
             if (!YetkiKontrolu("/SatisTalebi/Liste", "Sil"))
             {
                 return Redirect("~/YK/Anasayfa");
@@ -208,7 +209,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/SatisTalebi/Detay", "Duzenle"))
+            if (!YetkiKontrolu("/SatisTalebi/Liste", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }

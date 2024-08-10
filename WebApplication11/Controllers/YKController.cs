@@ -25,22 +25,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            //string Bitis = GetCookie("UyelikBitisTarihi");
-            //if (Bitis != null)
-            //{
-
-            //    DateTime now = DateTime.Now;
-            //    DateTime BitisGunu = now.AddDays(15); // 15 gün sonrası
-
-            //    int kalanGun = (BitisGunu - now).Days;
-
-
-            //    ViewBag.KalanGun = kalanGun;
-            //    ViewBag.BitisGunu = BitisGunu.ToString("dd/MM/yyyy");
-
-            //}
-
-
+        
 
             string redirectUrl = Request.Url.ToString().Replace("http:", "https:");
             if (!Request.IsLocal && !Request.IsSecureConnection && ConfigurationManager.AppSettings["SSLYonlendir"] == "1")
@@ -193,7 +178,7 @@ namespace YKPortal.Controllers
                                 <table border=""0"" style=""padding: 16px 24px;width: 100%;text-align: center;max-width: 600px;margin-left: auto;margin-right: auto;"" >
                                     <tbody>
                                         <tr >
-                                            <td><img width=""240px"" style=""margin-left: auto;margin-right: auto;padding-bottom: 16px;"" src=""https://app.ykyazilim.com.tr/Tema/media/Logolar/orijinal.png""/></td>
+                                            <td><img width=""80px"" style=""margin-left: auto;margin-right: auto;padding-bottom: 16px;"" src=""https://app.ykyazilim.com.tr/Tema/media/Logolar/orijinal.png""/></td>
                                         </tr>
                                         <tr>
                                             <td style=""font-size: 24px; padding-top: 24px; padding-bottom: 24px;"">Merhaba Sayın, {dt.Rows[0]["Ad"]} {dt.Rows[0]["Soyad"]}</td>

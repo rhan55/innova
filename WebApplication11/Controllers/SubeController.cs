@@ -36,6 +36,11 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
+            if (!YetkiKontrolu("/Sube/Ekle", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
+
             return View();
         }
 
@@ -44,6 +49,11 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/Sube/Ekle", "Duzele"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_SubeKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -65,7 +75,12 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-       
+
+            if (!YetkiKontrolu("/Sube/Liste", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_Sube";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -80,7 +95,12 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-          
+
+            if (!YetkiKontrolu("/Sube/Liste", "Duzenle"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_SubeKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -101,6 +121,12 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/Sube/Liste", "Sil"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_SubeSil";
             cmd.CommandType = System.Data.CommandType.StoredProcedure; 

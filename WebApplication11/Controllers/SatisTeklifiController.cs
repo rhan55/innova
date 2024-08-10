@@ -41,6 +41,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
             if (!YetkiKontrolu("/SatisTeklifi/Liste", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
@@ -208,7 +209,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/SatisTeklifi/Detay", "Duzenle"))
+            if (!YetkiKontrolu("/SatisTeklifi/Liste", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -279,7 +280,12 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-          
+
+            if (!YetkiKontrolu("/SatisTeklifi/FaturaListesi", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
+
             return View();
         }
 

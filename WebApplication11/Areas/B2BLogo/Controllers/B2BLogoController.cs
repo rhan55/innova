@@ -249,7 +249,7 @@ namespace YKPortal.Areas.B2BLogo.Controllers
                                 transactions_lines[transactions_lines.Count - 1].FieldByName("DUE_DATE").Value = DateTime.Today.ToString("dd.MM.yyyy");
                                 //transactions_lines[transactions_lines.Count - 1].FieldByName("CURR_PRICE").Value = 160;
                                 //transactions_lines[transactions_lines.Count - 1].FieldByName("PC_PRICE").Value = 1000;
-                                transactions_lines[transactions_lines.Count - 1].FieldByName("RC_XRATE").Value = 1;
+                                transactions_lines[transactions_lines.Count( - 1].FieldByName("RC_XRATE").Value = 1;
                                 transactions_lines[transactions_lines.Count - 1].FieldByName("SOURCE_WH").Value = 1;
                                 transactions_lines[transactions_lines.Count - 1].FieldByName("SOURCE_COST_GRP").Value = 1;
                                 transactions_lines[transactions_lines.Count - 1].FieldByName("DATA_SITEID").Value = 1;
