@@ -55,6 +55,12 @@ namespace YKPortal.Controllers
         [HttpGet]
         public ActionResult Liste(SatisPersoneliDto satisPersoneliDto)
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+            if (!YetkiKontrolu("/SatisPersoneli/Liste", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_PlasiyerListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -68,7 +74,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/SatisPersoneli/Ekle", "Gor"))
+            if (!YetkiKontrolu("/SatisPersoneli/Liste", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -88,7 +94,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/SatisPersoneli/Ekle", "Duzenle"))
+            if (!YetkiKontrolu("/SatisPersoneli/Liste", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }

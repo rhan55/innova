@@ -20,7 +20,10 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-       
+            if (!YetkiKontrolu("/Cari/Ekle", "Gor"))
+                return Redirect("~/YK/Anasayfa");
+
+            
             IlListesiniOlustur();
             UlkeListesiniOlustur();
             PlasiyerIDListesiniOlustur();
@@ -40,7 +43,8 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-       
+            if (!YetkiKontrolu("/Cari/Ekle", "Duzenle"))
+                return Redirect("~/YK/Anasayfa");
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariKaydet";
@@ -109,6 +113,9 @@ namespace YKPortal.Controllers
         [HttpGet]
         public ActionResult ExcelIceAktar()
         {
+            if (!YetkiKontrolu("/Cari/Liste", "Gor"))
+                return Redirect("~/YK/Anasayfa");
+
             return View();
         }
 
@@ -116,6 +123,8 @@ namespace YKPortal.Controllers
         public ActionResult ExcelIceAktar(string tip, HttpPostedFileBase file) // parametreyi öylesine verdik,
         //get ve post metodunun ikiside parametresi olamaz hata veri o yüzden
         {
+            if (!YetkiKontrolu("/Cari/Liste", "Duzenle"))
+                return Redirect("~/YK/Anasayfa");
 
             int AktarilanKayitSayisi = 0;
             int AktarilanHataliKayitSayisi = 0;
@@ -318,7 +327,9 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-      
+            if (!YetkiKontrolu("/Cari/Liste", "Gor"))
+                return Redirect("~/YK/Anasayfa");
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -343,7 +354,9 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-         
+
+            if (!YetkiKontrolu("/Cari/Liste", "Gor"))
+                return Redirect("~/YK/Anasayfa");
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_ZiyaretListesi";
@@ -396,7 +409,9 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-          
+
+            if (!YetkiKontrolu("/Cari/Liste", "Gor"))
+                return Redirect("~/YK/Anasayfa");
 
             ViewBag.CariID = CariID;
             ZiyaretTipiListesiniOlustur();
@@ -409,7 +424,8 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-          
+            if (!YetkiKontrolu("/Cari/Liste", "Duzenle"))
+                return Redirect("~/YK/Anasayfa");
 
             SqlCommand cmd = new SqlCommand();
 
@@ -434,7 +450,9 @@ namespace YKPortal.Controllers
 
         public ActionResult ZiyaretSil(string id, string CariID)
         {
-           
+            if (!YetkiKontrolu("/Cari/Liste", "Sil"))
+                return Redirect("~/YK/Anasayfa");
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_ZiyaretSil";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -453,7 +471,8 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-         
+            if (!YetkiKontrolu("/Cari/Liste", "Gor"))
+                return Redirect("~/YK/Anasayfa");
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_Ziyaret";
@@ -500,8 +519,9 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-         
-
+            if (!YetkiKontrolu("/Cari/Liste", "Duzenle"))
+                return Redirect("~/YK/Anasayfa");
+            ziyaretDto.TamamlamaTarihi = ziyaretDto.TamamlamaTarihi.Replace("T", " ");
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_ZiyaretKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -529,7 +549,8 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-          
+            if (!YetkiKontrolu("/Cari/Liste", "Gor"))
+                return Redirect("~/YK/Anasayfa");
 
             ViewBag.CariID = CariID;
             ViewBag.ID = ID;
@@ -545,7 +566,8 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-           
+            if (!YetkiKontrolu("/Cari/Liste", "Duzenle"))
+                return Redirect("~/YK/Anasayfa");
 
             ziyaretDto.UyelikID = GetCookie("UyelikID");
             ziyaretDto.TamamlayanKullaniciID = GetCookie("KullaniciID");
@@ -570,8 +592,9 @@ namespace YKPortal.Controllers
         [HttpGet]
         public JsonResult SelectListe(string search)
         {
+            if (!YetkiKontrolu("/Cari/Ekle", "Gor"))
+                return Json(new { Message = "Yetki Yok" }, JsonRequestBehavior.AllowGet);
 
-            
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -631,7 +654,8 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-        
+            if (!YetkiKontrolu("/Cari/Liste", "Gor"))
+                return Redirect("~/YK/Anasayfa");
 
             IlListesiniOlustur();
             UlkeListesiniOlustur();
@@ -668,6 +692,9 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/Cari/Liste", "Duzenle"))
+                return Redirect("~/YK/Anasayfa");
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariKaydet";
@@ -739,7 +766,9 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-          
+            if (!YetkiKontrolu("/Cari/Liste", "Sil"))
+                return Redirect("~/YK/Anasayfa");
+
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariSil";
@@ -758,12 +787,13 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
+            if (!YetkiKontrolu("/Cari/Liste", "Sil"))
+                return Redirect("~/YK/Anasayfa");
+
             if (idListesi == null)
             {
                 return RedirectToAction("Liste");
             }
-
-           
 
             foreach (string id in idListesi)
             {
@@ -785,7 +815,8 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-         
+            if (!YetkiKontrolu("/Cari/Liste", "Gor"))
+                return Redirect("~/YK/Anasayfa");
 
             ViewBag.CariID = CariID;
 
@@ -798,7 +829,8 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-           
+            if (!YetkiKontrolu("/Cari/Liste", "Duzenle"))
+                return Redirect("~/YK/Anasayfa");
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariKisiKaydet";
@@ -819,9 +851,12 @@ namespace YKPortal.Controllers
             return RedirectToAction("KisiListe", new { CariID = cariKisiDto.CariID });
         }
 
+        [HttpGet]
         public ActionResult KisiListe(CariKisiDto cariKisiDto)
         {
-           
+            if (!YetkiKontrolu("/Cari/Liste", "Gor"))
+                return Redirect("~/YK/Anasayfa");
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariKisiListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -839,7 +874,8 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-          
+            if (!YetkiKontrolu("/Cari/Liste", "Gor"))
+                return Redirect("~/YK/Anasayfa");
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariKisi";
@@ -859,7 +895,10 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            
+
+            if (!YetkiKontrolu("/Cari/Liste", "Duzenle"))
+                return Redirect("~/YK/Anasayfa");
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariKisiKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -884,7 +923,10 @@ namespace YKPortal.Controllers
         [HttpPost]
         public ActionResult KisiSil(string id, string CariID)
         {
-            
+
+            if (!YetkiKontrolu("/Cari/Liste", "Sil"))
+                return Redirect("~/YK/Anasayfa");
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariKisiSil";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -903,6 +945,9 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
+            if (!YetkiKontrolu("/Cari/Liste", "Gor"))
+                return Redirect("~/YK/Anasayfa");
+
             ViewBag.CariID = CariID;
             return View();
         }
@@ -913,7 +958,9 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-         
+            if (!YetkiKontrolu("/Cari/Liste", "Duzenle"))
+                return Redirect("~/YK/Anasayfa");
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariNotKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -928,9 +975,10 @@ namespace YKPortal.Controllers
         }
         [HttpGet]
         public ActionResult NotListe(CariNotDto cariNotDto)
-
         {
-           
+            if (!YetkiKontrolu("/Cari/Liste", "Gor"))
+                return Redirect("~/YK/Anasayfa");
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariNotListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -947,7 +995,8 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            
+            if (!YetkiKontrolu("/Cari/Liste", "Gor"))
+                return Redirect("~/YK/Anasayfa");
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariNot";
@@ -968,7 +1017,9 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-           
+            if (!YetkiKontrolu("/Cari/Liste", "Duzenle"))
+                return Redirect("~/YK/Anasayfa");
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariNotKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -986,7 +1037,9 @@ namespace YKPortal.Controllers
         [HttpPost]
         public ActionResult NotSil(string id, string CariID)
         {
-           
+            if (!YetkiKontrolu("/Cari/Liste", "Sil"))
+                return Redirect("~/YK/Anasayfa");
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariNotSil";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -1004,6 +1057,10 @@ namespace YKPortal.Controllers
           
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/Cari/Liste", "Gor"))
+                return Redirect("~/YK/Anasayfa");
+
             var cari = Getir(CariID);
             ViewBag.CariID = CariID;
             ViewBag.CariIsim = cari.Isim;
@@ -1052,7 +1109,8 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            
+            if (!YetkiKontrolu("/Cari/Liste", "Duzenle"))
+                return Redirect("~/YK/Anasayfa");
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariHareketiKaydet";
@@ -1087,10 +1145,11 @@ namespace YKPortal.Controllers
         [HttpGet]
         public ActionResult HareketListesi(CariHareketDto cariHareketDto)
         {
-           
-
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/Cari/Liste", "Gor"))
+                return Redirect("~/YK/Anasayfa");
 
             DataTable dt = new DataTable();
 
@@ -1124,7 +1183,10 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-  
+
+            if (!YetkiKontrolu("/Cari/Liste", "Sil"))
+                return Redirect("~/YK/Anasayfa");
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariHareketiSil";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -1215,8 +1277,7 @@ namespace YKPortal.Controllers
             return null;
         }
 
- 
-        public void IlListesiniOlustur()
+        private void IlListesiniOlustur()
         {
             // GrupKodu1 Listesi oluşturma 
             SqlCommand ilCommand = new SqlCommand();
@@ -1241,7 +1302,7 @@ namespace YKPortal.Controllers
             }
             ViewBag.Iller = entities;
         }
-        public void UlkeListesiniOlustur()
+        private void UlkeListesiniOlustur()
         {
             // GrupKodu1 Listesi oluşturma 
             SqlCommand ulkeCommand = new SqlCommand();
@@ -1266,7 +1327,7 @@ namespace YKPortal.Controllers
             }
             ViewBag.Ulkeler = entities;
         }
-        public void PlasiyerIDListesiniOlustur()
+        private void PlasiyerIDListesiniOlustur()
         {
             // Il Listesi oluşturma
             SqlCommand plasiyerCommand = new SqlCommand();
@@ -1288,7 +1349,7 @@ namespace YKPortal.Controllers
             ViewBag.PlasiyerID = entities;
         }
 
-        public void CariGrupKod1ListesiniOlustur()
+        private void CariGrupKod1ListesiniOlustur()
         {
             //GrupKodu1 Listesi oluşturma
             SqlCommand cariGrupKod1Command = new SqlCommand();
@@ -1313,7 +1374,7 @@ namespace YKPortal.Controllers
             }
             ViewBag.CariGrupKodlari1 = entities;
         }
-        public void CariGrupKod2ListesiniOlustur()
+        private void CariGrupKod2ListesiniOlustur()
         {
             // GrupKodu1 Listesi oluşturma 
             SqlCommand cariGrupKod2Command = new SqlCommand();
@@ -1339,7 +1400,7 @@ namespace YKPortal.Controllers
             ViewBag.CariGrupKodlari2 = entities;
         }
 
-        public void CariGrupKod3ListesiniOlustur()
+        private void CariGrupKod3ListesiniOlustur()
         {
             // GrupKodu1 Listesi oluşturma 
             SqlCommand cariGrupKod3Command = new SqlCommand();
@@ -1365,7 +1426,7 @@ namespace YKPortal.Controllers
             ViewBag.CariGrupKodlari3 = entities;
         }
 
-        public void CariGrupKod4ListesiniOlustur()
+        private void CariGrupKod4ListesiniOlustur()
         {
             // GrupKodu1 Listesi oluşturma 
             SqlCommand cariGrupKod4Command = new SqlCommand();
@@ -1391,7 +1452,7 @@ namespace YKPortal.Controllers
             ViewBag.CariGrupKodlari4 = entities;
         }
 
-        public void CariGrupKod5ListesiniOlustur()
+        private void CariGrupKod5ListesiniOlustur()
         {
             // GrupKodu1 Listesi oluşturma 
             SqlCommand cariGrupKod5Command = new SqlCommand();
@@ -1417,7 +1478,7 @@ namespace YKPortal.Controllers
             ViewBag.CariGrupKodlari5 = entities;
         }
 
-        public void CariGrupKod6ListesiniOlustur()
+        private void CariGrupKod6ListesiniOlustur()
         {
             // GrupKodu1 Listesi oluşturma 
             SqlCommand cariGrupKod6Command = new SqlCommand();
@@ -1443,7 +1504,7 @@ namespace YKPortal.Controllers
             ViewBag.CariGrupKodlari6 = entities;
         }
 
-        public void ZiyaretTipiListesiniOlustur()
+        private void ZiyaretTipiListesiniOlustur()
         {
             // GrupKodu1 Listesi oluşturma 
             SqlCommand ziyaretTipiCommand = new SqlCommand();
@@ -1469,7 +1530,7 @@ namespace YKPortal.Controllers
             ViewBag.ZiyaretTipleri = entities;
         }
 
-        public void CariHareketTipiListesiniOlustur()
+        private void CariHareketTipiListesiniOlustur()
         {
             //GrupKodu1 Listesi oluşturma
             SqlCommand cariHareketTipiCommand = new SqlCommand();
@@ -1495,7 +1556,7 @@ namespace YKPortal.Controllers
             ViewBag.CariHareketTipleri = entities;
         }
 
-        public void DovizBirimleriListesiniOlustur()
+        private void DovizBirimleriListesiniOlustur()
         {
             //GrupKodu1 Listesi oluşturma
             SqlCommand grupKoduCommand = new SqlCommand();
@@ -1520,7 +1581,7 @@ namespace YKPortal.Controllers
             }
             ViewBag.DovizBirimleri = entities;
         }
-        public List<GrupKoduDto> CariGrupKodListesiniGetir(string kodAdi)
+        private List<GrupKoduDto> CariGrupKodListesiniGetir(string kodAdi)
         {
             // GrupKodu1 Listesi oluşturma 
             SqlCommand cariGrupKod1Command = new SqlCommand();

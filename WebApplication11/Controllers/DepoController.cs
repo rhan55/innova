@@ -83,7 +83,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Depo/Duzenle", "Gor"))
+            if (!YetkiKontrolu("/Depo/Liste", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -104,7 +104,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Depo/Duzenle", "Duzenle"))
+            if (!YetkiKontrolu("/Depo/Liste", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -132,7 +132,7 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Giris");
 
 
-            if (!YetkiKontrolu("/Depo/Sil", "Sil"))
+            if (!YetkiKontrolu("/Depo/Liste", "Sil"))
             {
                 return Redirect("~/YK/Anasayfa");
             }

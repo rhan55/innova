@@ -19,7 +19,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Kullanici/Liste", "Gor"))
+            if (!YetkiKontrolu("/Kullanici/Yetkiler", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -144,12 +144,13 @@ namespace YKPortal.Controllers
             return View(dt);
         }
 
+        [HttpGet]
         public ActionResult Duzenle(string id)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Kullanici/Duzenle", "Gor"))
+            if (!YetkiKontrolu("/Kullanici/Yetkiler", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -173,7 +174,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Kullanici/Duzenle", "Duzenle"))
+            if (!YetkiKontrolu("/Kullanici/Yetkiler", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -273,7 +274,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Kullanici/Profil", "Gor"))
+            if (!YetkiKontrolu("/Kullanici/Yetkiler", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -298,7 +299,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Kullanici/Profil", "Duzenle"))
+            if (!YetkiKontrolu("/Kullanici/Yetkiler", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -379,7 +380,7 @@ namespace YKPortal.Controllers
 
             return RedirectToAction("Profil");
         }
-
+        [HttpGet]
         private ActionResult Detay()
         {
             if (!AutoGirisKontrol())
@@ -391,6 +392,8 @@ namespace YKPortal.Controllers
             }
             return View();
         }
+
+        [HttpPost]
         private ActionResult Detay(string id)
         {
             if (!AutoGirisKontrol())
@@ -416,7 +419,7 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Giris");
 
 
-            if (!YetkiKontrolu("/Kullanici/Sil", "Sil"))
+            if (!YetkiKontrolu("/Kullanici/Yetkiler", "Sil"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -478,7 +481,7 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Giris");
 
 
-            if (!YetkiKontrolu("/Kullanici/YetkiKaydet", "Duzenle"))
+            if (!YetkiKontrolu("/Kullanici/Yetkiler", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }

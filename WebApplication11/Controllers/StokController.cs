@@ -26,7 +26,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/StokController/Ekle", "Gor"))
+            if (!YetkiKontrolu("/Stok/Ekle", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -44,7 +44,8 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/StokController/Ekle", "Duzenle"))
+
+            if (!YetkiKontrolu("/Stok/Ekle", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -99,7 +100,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/StokController/Liste", "Sil"))
+            if (!YetkiKontrolu("/Stok/Liste", "Sil"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -118,6 +119,12 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/Stok/Liste", "Sil"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
+
 
             if (idListesi == null)
             {
@@ -142,6 +149,11 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/Stok/Liste", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
 
             var cmd = new SqlCommand();
             cmd.CommandText = "p_StokListesi";
@@ -184,6 +196,10 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
+            if (!YetkiKontrolu("/Stok/Liste", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
 
             StokGrupKod1ListesiniOlustur();
             StokGrupKod2ListesiniOlustur();
@@ -210,6 +226,11 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+           
+            if (!YetkiKontrolu("/Stok/Liste", "Duzenle"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
 
             var cmd = new SqlCommand();
             cmd.CommandText = "p_StokKaydet";
@@ -263,6 +284,14 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+            if (!YetkiKontrolu("/Stok/Liste", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
 
             ViewBag.StokID = StokID;
             return View();
@@ -273,7 +302,12 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+        
 
+            if (!YetkiKontrolu("/Stok/Liste", "Duzenle"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_StokNotKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -293,6 +327,15 @@ namespace YKPortal.Controllers
         public ActionResult NotListe(StokNotDto stokNotDto)
 
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+            if (!YetkiKontrolu("/Stok/Liste", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_StokNotListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -308,6 +351,12 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+
+            if (!YetkiKontrolu("/Stok/Liste", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_StokNot";
@@ -327,6 +376,12 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+
+            if (!YetkiKontrolu("/Stok/Liste", "Duzenle"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_StokNotKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -344,6 +399,13 @@ namespace YKPortal.Controllers
         [HttpPost]
         public ActionResult NotSil(string id, string StokID)
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/Stok/Liste", "Duzenle"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_StokNotSil";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -358,11 +420,22 @@ namespace YKPortal.Controllers
         [HttpGet]
         public ActionResult ExcelIceAktar()
         {
+
+            if (!YetkiKontrolu("/Stok/Liste", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
+
             return View();
+
         }
         [HttpPost]
         public ActionResult ExcelIceAktar(string tip, HttpPostedFileBase file)
         {
+            if (!YetkiKontrolu("/Stok/Liste", "Duzenle"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
 
             int AktarilanKayitSayisi = 0;
             int AktarilanHataliKayitSayisi = 0;
@@ -540,6 +613,11 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
+            if (!YetkiKontrolu("/Stok/YeniStokHareketKaydi", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
+
             ViewBag.StokID = StokID;
             StokHareketTipiListesiniOlustur();
             DovizBirimleriListesiniOlustur();
@@ -588,6 +666,12 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
+            if (!YetkiKontrolu("/Stok/YeniStokHareketKaydi", "Duzenle"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
+
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_StokHareketiKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -625,6 +709,11 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
+            if (!YetkiKontrolu("/Stok/HareketListesi", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
+
             DataTable dt = new DataTable();
 
             if (stokHareketDto.StokID != string.Empty)
@@ -658,6 +747,10 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
+            if (!YetkiKontrolu("/Stok/HareketListesi", "Sil"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_StokHareketiSil";
@@ -678,6 +771,11 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/Stok/FiyatEkle", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
 
             ViewBag.StokID = StokID;
             {
@@ -723,12 +821,50 @@ namespace YKPortal.Controllers
             return View(entity);
         }
 
+
+        [HttpPost]
+        public ActionResult FiyatEkle(StokFiyatDto stokFiyatDto)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/Stok/FiyatEkle", "Duzenle"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_StokFiyatKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", stokFiyatDto.ID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@StokID", stokFiyatDto.StokID);
+            cmd.Parameters.AddWithValue("@CariID", null);
+            cmd.Parameters.AddWithValue("@FiyatGrubu", stokFiyatDto.FiyatGrubu);
+            cmd.Parameters.AddWithValue("@Tip", stokFiyatDto.Tip);
+            cmd.Parameters.AddWithValue("@Fiyat", stokFiyatDto.Fiyat);
+            cmd.Parameters.AddWithValue("@BaslangicTarihi", stokFiyatDto.BaslangicTarihi);
+            cmd.Parameters.AddWithValue("@BitisTarihi ", stokFiyatDto.BitisTarihi);
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+
+
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return RedirectToAction("FiyatListesi", new { StokID = stokFiyatDto.StokID });
+        }
+
         [HttpGet]
         public ActionResult FiyatListesi(string StokID)
         {
 
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/Stok/FiyatListesi", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
 
             DataTable dt = new DataTable();
             {
@@ -753,38 +889,17 @@ namespace YKPortal.Controllers
             return View(dt);
         }
 
-        [HttpPost]
-        public ActionResult FiyatEkle(StokFiyatDto stokFiyatDto)
-        {
-            if (!AutoGirisKontrol())
-                return Redirect("~/YK/Giris");
-
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "p_StokFiyatKaydet";
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ID", stokFiyatDto.ID);
-            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-            cmd.Parameters.AddWithValue("@StokID", stokFiyatDto.StokID);
-            cmd.Parameters.AddWithValue("@CariID", null);
-            cmd.Parameters.AddWithValue("@FiyatGrubu", stokFiyatDto.FiyatGrubu);
-            cmd.Parameters.AddWithValue("@Tip", stokFiyatDto.Tip);
-            cmd.Parameters.AddWithValue("@Fiyat", stokFiyatDto.Fiyat);
-            cmd.Parameters.AddWithValue("@BaslangicTarihi", stokFiyatDto.BaslangicTarihi);
-            cmd.Parameters.AddWithValue("@BitisTarihi ", stokFiyatDto.BitisTarihi);
-            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
-
-
-
-            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
-            return RedirectToAction("FiyatListesi", new { StokID = stokFiyatDto.StokID });
-        }
 
 
         public ActionResult FiyatSil(string id, string StokID)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/Stok/FiyatListesi", "Sil"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_StokFiyatSil";

@@ -66,7 +66,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/SatinalmaIrsaliyesi/Detay", "Duzenle"))
+            if (!YetkiKontrolu("/SatinalmaIrsaliyesi/Detay", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -207,7 +207,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/SatinalmaIrsaliyesi/Detay", "Gor"))
+            if (!YetkiKontrolu("/SatinalmaIrsaliyesi/Liste", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }

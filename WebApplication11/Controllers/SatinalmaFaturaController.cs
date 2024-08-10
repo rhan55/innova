@@ -43,7 +43,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatinalmaFatura/Liste", "Duzenle"))
+            if (!YetkiKontrolu("/SatinalmaFatura/Liste", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -210,7 +210,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/SatinalmaFatura/Detay", "Gor"))
+            if (!YetkiKontrolu("/SatinalmaFatura/Liste", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }

@@ -22,7 +22,7 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Giris");
 
 
-            if (!YetkiKontrolu("/Gorev/DosyaSil", "Sil"))
+            if (!YetkiKontrolu("/Gorev/GorevListe", "Sil"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -44,7 +44,7 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Giris");
 
 
-            if (!YetkiKontrolu("/Gorev/GorevTamamla", "Duzenle"))
+            if (!YetkiKontrolu("/Gorev/GorevListe", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -210,7 +210,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Gorev/GorevDuzenle", "Gor"))
+            if (!YetkiKontrolu("/Gorev/GorevListe", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -246,7 +246,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Gorev/GorevDuzenle", "Duzenle"))
+            if (!YetkiKontrolu("/Gorev/GorevListe", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -366,7 +366,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Gorev/GorevSil", "Sil"))
+            if (!YetkiKontrolu("/Gorev/GorevListe", "Sil"))
             {
                 return Redirect("~/YK/Anasayfa");
             }

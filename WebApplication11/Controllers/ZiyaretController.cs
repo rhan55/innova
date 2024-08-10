@@ -20,6 +20,11 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
+            if (!YetkiKontrolu("/Ziyaret/Liste", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_ZiyaretListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -72,6 +77,12 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/Ziyaret/Ekle", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
+
             return View();
         }
 
@@ -80,6 +91,11 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/Ziyaret/Ekle", "Duzenle"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
 
             SqlCommand cmd = new SqlCommand();
 
@@ -102,10 +118,17 @@ namespace YKPortal.Controllers
 
         }
 
+        [HttpGet]
         public ActionResult Duzenle(ZiyaretDto ziyaretDto, string id)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/Ziyaret/Liste", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
+
 
             var uyelikId = GetCookie("UyelikID");
             SqlCommand cmd = new SqlCommand();
@@ -131,6 +154,11 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/Ziyaret/Liste", "Duzenle"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
             var uyelikId = GetCookie("UyelikID");
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_ZiyaretKaydet";
@@ -154,6 +182,11 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/Ziyaret/Liste", "Sil"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_ZiyaretSil";
 
