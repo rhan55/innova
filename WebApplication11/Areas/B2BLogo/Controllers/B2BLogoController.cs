@@ -9,7 +9,6 @@ using System.Net.Mail;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using UnityObjects;
 using YKPortal.Areas.Satinalma.Controllers;
 using YKPortal.Models;
 using YKPortal.Models.YKClasses;
@@ -18,13 +17,27 @@ namespace YKPortal.Areas.B2BLogo.Controllers
 {
     public class B2BLogoController : Controller
     {
-
-
-
         public ActionResult AnaSayfa()
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            if (!GetCookie("KullaniciAdi").Contains("@"))
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandText = "p_Cari";
+                cmd.Parameters.AddWithValue("@ID", GetCookie("KullaniciAdi"));
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                DataTable dtKayitlar = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                if (dtKayitlar.Rows.Count > 0)
+                {
+                    Session["B2BLogo_CariID"] = GetCookie("KullaniciID");
+                    Session["B2BLogo_CariKodu"] = dtKayitlar.Rows[0]["Kod"];
+                    Session["B2BLogo_CariAdi"] = dtKayitlar.Rows[0]["Isim"];
+                }
+            }
+
 
             return View();
         }
@@ -206,6 +219,14 @@ namespace YKPortal.Areas.B2BLogo.Controllers
 
             try
             {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandText = "p_B2B_Sepettamamla";
+                cmd.Parameters.AddWithValue("@CariID", Session["B2BLogo_CariID"]);
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                DataTable dtKayitlar = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                sonuc = "Sipariş başarıyla kaydedilmiştir.";
+                /*
                 UnityApplication giris = new UnityApplication();
                 if (giris.Connect())
                 {
@@ -286,6 +307,7 @@ namespace YKPortal.Areas.B2BLogo.Controllers
                         }
                     }
                 }
+                */
             }
             catch (Exception err)
             {

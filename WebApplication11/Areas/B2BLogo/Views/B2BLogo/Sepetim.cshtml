@@ -12,7 +12,6 @@
     {
         <div style="text-align:center;font-size:20px;margin:5px;"><strong>Cari Kodu : <span>@Session["B2BLogo_CariKodu"]</span> - Cari Adı : <span>@Session["B2BLogo_CariAdi"]</span></strong></div>
     }
-    <h3>@ViewBag.Bilgi</h3>
     <a href="/B2BLogo/B2BLogo/AnaSayfa" class="btn btn-primary">Geri</a>
     <table class="table">
         <thead>
@@ -21,30 +20,30 @@
                 <th><strong>Stok Adı</strong></th>
                 <th style="text-align:right;padding-right:10px;"><strong>Miktar</strong></th>
                 <th><strong>Ölçü Birimi</strong></th>
-                <th style="text-align:right;padding-right:10px;"><strong>Fiyat</strong></th>
-                <th style="text-align:right;padding-right:10px;"><strong>Tutar</strong></th>
+                <th style="display:none;text-align:right;padding-right:10px;"><strong>Fiyat</strong></th>
+                <th style="display: none; text-align: right; padding-right: 10px;"><strong>Tutar</strong></th>
                 <th><strong>İşlem</strong></th>
             </tr>
         </thead>
         <tbody>
             @foreach (DataRow satir in Model.Rows)
             {
-                toplam += Convert.ToDecimal(satir["Tutar"]);
+                toplam += Convert.ToDecimal(satir["Miktar"]);
                 <tr>
                     <td>@satir["StokKodu"]</td>
                     <td>@satir["StokAdi"]</td>
                     <td style="text-align: right; padding-right: 10px;">@String.Format("{0:N2}", Convert.ToDecimal(satir["Miktar"]))</td>
                     <td>@satir["OlcuBirimi"]</td>
-                    <td style="text-align: right; padding-right: 10px;">@String.Format("{0:N2}", Convert.ToDecimal(satir["Fiyat"]))</td>
-                    <td style="text-align: right; padding-right: 10px;">@String.Format("{0:N2}", Convert.ToDecimal(satir["Tutar"]))</td>
+                    <td style="display: none; text-align: right; padding-right: 10px;">@String.Format("{0:N2}", Convert.ToDecimal(satir["Fiyat"]))</td>
+                    <td style="display: none; text-align: right; padding-right: 10px;">@String.Format("{0:N2}", Convert.ToDecimal(satir["Tutar"]))</td>
                     <td><a href="/B2BLogo/B2BLogo/SepetSil/?KayitID=@(satir["ID"])" onclick="return confirm('Silmek istediğinizden emin misiniz?')">Sil</a></td>
                 </tr>
             }
             <tr>
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td style="display: none; "></td>
+                <td style="display: none; "></td>
+                <td style="display: none; "></td>
                 <td style="text-align:right;"><strong>TOPLAM</strong></td>
                 <td style="text-align: right; padding-right: 10px;"><strong>@String.Format("{0:N2}", toplam)</strong></td>
                 <td></td>
@@ -53,6 +52,7 @@
     </table>
     <div style="text-align:right;">
         <a href="/B2BLogo/B2BLogo/SiparisOlustur" class="btn btn-primary">Sipariş Oluştur</a>
+        <h3>@ViewBag.Bilgi</h3>
     </div>
 </div>
 @section Styles {
