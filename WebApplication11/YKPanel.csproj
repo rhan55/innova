@@ -193,8 +193,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dto\Belge.cs" />
     <Compile Include="Models\Dto\BelgeDto.cs" />
     <Compile Include="Models\Dto\BelgeKalemDto.cs" />
+    <Compile Include="Models\Dto\BelgeListeViewModel.cs" />
     <Compile Include="Models\Dto\CariHareketDto.cs" />
     <Compile Include="Models\Dto\MailKalibiDto.cs" />
     <Compile Include="Models\Dto\UyelikPaketleriViewModel.cs" />

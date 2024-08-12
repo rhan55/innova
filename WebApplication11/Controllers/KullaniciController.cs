@@ -14,12 +14,14 @@ namespace YKPortal.Controllers
     {
 
         // GET: Kullanici
+
+        [HttpGet]
         public ActionResult Liste(string aranacakKelime = "")
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Kullanici/Yetkiler", "Gor"))
+            if (!YetkiKontrolu("/Kullanici/Liste", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -274,7 +276,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Kullanici/Yetkiler", "Gor"))
+            if (!YetkiKontrolu("/Kullanici/Liste", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -440,7 +442,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Kullanici/Yetkiler", "Gor"))
+            if (!YetkiKontrolu("/Kullanici/Liste", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -481,7 +483,7 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Giris");
 
 
-            if (!YetkiKontrolu("/Kullanici/Yetkiler", "Duzenle"))
+            if (!YetkiKontrolu("/Kullanici/Liste", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }

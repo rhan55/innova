@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using YKPortal.Models;
 using YKPortal.Models.Dto;
 
+
+
 namespace YKPortal.Controllers
 {
     public class SatisTalebiController : Controller
@@ -17,7 +19,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatisTalebi/Liste", "Sil"))
+            if (!YetkiKontrolu("/SatisTalebi/Liste/?Tip=STL", "Sil"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -35,7 +37,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@Tip", Tip);
             IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
-            return Redirect("~/SatisTeklifi/Liste/?Tip=" + Tip);
+            return Redirect("~/SatisTalebi/Liste/?Tip=" + Tip);
         }
 
         public ActionResult Liste(string Tip = "", string AranacakKelime = "")
@@ -43,12 +45,11 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatisTalebi/Liste", "Gor"))
+            if (!YetkiKontrolu("/SatisTalebi/Liste/?Tip=STL", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
-
-            if (Tip == "")
+            if (string.IsNullOrEmpty(Tip))
             {
                 return Redirect("~/");
             }
@@ -61,14 +62,43 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@Tip", Tip);
             cmd.Parameters.AddWithValue("@AranacakKelime", AranacakKelime);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-            return View(dt);
+
+            var model = new BelgeListeViewModel
+            {
+                Belgeler = dt,
+                Sil = YetkiKontrolu("/SatisTalebi/Liste/?Tip=STL", "Sil"),
+                Duzenle = YetkiKontrolu("/SatisTalebi/Liste/?Tip=STL", "Duzenle")
+
+            };
+
+            return View(model);
         }
+
+
+
         [HttpGet]
+        public ActionResult Detay()
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/SatisTalebi/Detay/?Tip=STL", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
+
+            ViewBag.Depolar = DepoListesiGetir();
+
+            return View();
+        }
+
+        [HttpPost]
         public ActionResult Detay(string Tip, string id = "")
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/SatisTalebi/Detay", "Gor"))
+
+            if (!YetkiKontrolu("/SatisTalebi/Detay/?Tip=STL", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -140,7 +170,7 @@ namespace YKPortal.Controllers
            string DepoCikisID = "", string DepoGirisID = "",
             string Aciklama = "", List<BelgeKalemDto> Kalemler = null)
         {
-           JsonResult result = new JsonResult();
+            JsonResult result = new JsonResult();
 
             #region Kayıt işlemi gerçekleştirilecek.
             string KullaniciID = GetCookie("KullaniciID");
@@ -180,28 +210,28 @@ namespace YKPortal.Controllers
                     silinenler += Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek)) + ",";
                 }
             }
-            
 
-           cmd.Parameters.Clear();
-           cmd.CommandType = System.Data.CommandType.StoredProcedure;
-           cmd.CommandText = "p_BelgeKalemSilinenKontrol";
-           cmd.Parameters.AddWithValue("@BelgeID", ID);
+
+            cmd.Parameters.Clear();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_BelgeKalemSilinenKontrol";
+            cmd.Parameters.AddWithValue("@BelgeID", ID);
             cmd.Parameters.AddWithValue("@ID", silinenler);
-           IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+            IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
 
 
-           cmd.Parameters.Clear();
-           cmd.CommandType = System.Data.CommandType.StoredProcedure;
-           cmd.CommandText = "p_BelgeTamamla";
-           cmd.Parameters.AddWithValue("@ID", ID);
-           cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
+            cmd.Parameters.Clear();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_BelgeTamamla";
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
             IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
             #endregion
 
             result.Data = ID;
-          
 
-           return Json(result, JsonRequestBehavior.AllowGet);
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -209,7 +239,8 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/SatisTalebi/Liste", "Gor"))
+
+            if (!YetkiKontrolu("/SatisTalebi/Liste/?Tip=STL", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -223,8 +254,8 @@ namespace YKPortal.Controllers
             BelgeDto entity = new BelgeDto();
             switch (Request.QueryString["Tip"])
             {
-                case "STL":  
-                    entity.BelgeTipi = BelgeTipi.SatisFaturasi;
+                case "STL":
+                    entity.BelgeTipi = BelgeTipi.SatisTalebi;
                     break;
                 default:
                     break;
@@ -280,7 +311,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-          
+
             return View();
         }
 
@@ -340,6 +371,19 @@ namespace YKPortal.Controllers
             #endregion
             result.Data = entities;
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        private DataTable DepoListesiGetir()
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_DepoListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@AranacakKelime", string.Empty);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return dt;
         }
 
 
