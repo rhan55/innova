@@ -33,12 +33,12 @@ namespace YKPortal.Models.Dto
     public enum BelgeTipi
     {
         Genel,
-        SatisSiparisi,
-        SatinalmaSiparisi,
+        SatisTalebi,
+        SatinalmaTalebi,
         AlisIrsaliyesi,
         SatisIrsaliyesi,
         SatisFaturasi,
-        SatinalmaFaturasi,
+        SatinalmaTeklifi,
         DepoTransferi
     }
 }

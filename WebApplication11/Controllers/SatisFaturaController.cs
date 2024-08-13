@@ -17,7 +17,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatisFatura/Liste", "Sil"))
+            if (!YetkiKontrolu("/SatisFatura/Liste/?Tip=SF", "Sil"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -43,14 +43,14 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatisFatura/Liste", "Gor"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
-
-            if (Tip == "")
+            if (string.IsNullOrEmpty(Tip))
             {
                 return Redirect("~/");
+            }
+
+            if (!YetkiKontrolu("/SatisFatura/Liste/?Tip=SF", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
             }
 
             SqlCommand cmd = new SqlCommand();
@@ -61,15 +61,43 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@Tip", Tip);
             cmd.Parameters.AddWithValue("@AranacakKelime", AranacakKelime);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-            return View(dt);
+
+            var model = new BelgeListeViewModel
+            {
+                Belgeler = dt,
+                Sil = YetkiKontrolu("/SatisFatura/Liste/?Tip=SF", "Sil"),
+                Duzenle = YetkiKontrolu("/SatisFatura/Liste/?Tip=SF", "Duzenle")
+
+            };
+
+            return View(model);
         }
+
+
+
         [HttpGet]
+        public ActionResult Detay()
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/SatisFatura/Detay/?Tip=SF", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
+
+            ViewBag.Depolar = DepoListesiGetir();
+
+            return View();
+        }
+
+        [HttpPost]
         public ActionResult Detay(string Tip, string id = "")
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatisFatura/Detay", "Gor"))
+            if (!YetkiKontrolu("/SatisFatura/Detay/?Tip=SF", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -210,7 +238,8 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/SatisFatura/Liste", "Gor"))
+         
+            if (!YetkiKontrolu("/SatisFatura/Liste/?Tip=SF", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -446,6 +475,19 @@ namespace YKPortal.Controllers
             {
                 return false;
             }
+        }
+
+        private DataTable DepoListesiGetir()
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_DepoListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@AranacakKelime", string.Empty);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return dt;
         }
     }
 }

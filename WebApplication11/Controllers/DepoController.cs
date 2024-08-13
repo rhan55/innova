@@ -13,7 +13,8 @@ namespace YKPortal.Controllers
     public class DepoController : Controller
     {
         // GET: Depo
-        public ActionResult Liste(string depo, string aranacakKelime = "")
+        [HttpGet]
+        public ActionResult Liste(string aranacakKelime = "")
         {
 
             if (!YetkiKontrolu("/Depo/Liste", "Gor"))

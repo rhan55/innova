@@ -187,7 +187,15 @@ namespace YKPortal.Controllers
             StokGrupKod1ListesiniOlustur();
             StokGrupKod2ListesiniOlustur();
 
-            return View(dt);
+            var model = new StokListeViewModel
+            {
+                Stoklar = dt,
+                Sil = YetkiKontrolu("/Stok/Liste", "Sil"),
+                Duzenle = YetkiKontrolu("/Stok/Liste", "Duzenle")
+
+            };
+
+            return View(model);
         }
 
         [HttpGet]

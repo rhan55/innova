@@ -14,11 +14,11 @@
                     <input type="hidden" name="ID" value="@ViewBag.Ziyaret.ID" />
                     <input type="hidden" name="CariID" value="@ViewBag.CariID" />
                     <!--begin::Row Input group-->
-                    <div class="row mb-7">
+                    <div class="row mb-4">
                         <!--begin::Input group-->
                         <div class="col-lg-6 mt-4">
                             <!--begin::Label-->
-                            <label for="CariIsim" class="fw-semibold fs-6 mb-2">Cari Ismi</label>
+                            <label for="CariIsim" class="fw-bold text-gray-700 fs-6 mb-2">Cari İsmi</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="text" name="CariIsim" class="form-control p-2 mb-3 mb-lg-0" autofocus value="@ViewBag.Ziyaret.CariIsim" readonly />
@@ -28,7 +28,7 @@
                         <!--begin::Input group-->
                         <div class="col-lg-6 mt-4">
                             <!--begin::Label-->
-                            <label for="Tarih" class="fw-semibold fs-6 mb-2">Tarih</label>
+                            <label for="Tarih" class="fw-bold text-gray-700 fs-6 mb-2">Tarih</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="text" readonly name="Tarih" class="form-control p-2 mb-3 mb-lg-0" value="@(ViewBag.Ziyaret.Tarih)" />
@@ -36,10 +36,12 @@
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
+                    </div>
+                    <div class="row mb-4">
                         <!--begin::Input group-->
                         <div class="col-lg-6 mt-4">
                             <!--begin::Label-->
-                            <label for="Aciklama" class="fw-semibold fs-6 mb-2">Aciklama</label>
+                            <label for="Aciklama" class="fw-bold text-gray-700 fs-6 mb-2">Açıklama</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="text" name="Aciklama" class="form-control p-2 mb-3 mb-lg-0" autofocus value="@ViewBag.Ziyaret.Aciklama" />
@@ -49,7 +51,7 @@
                         <!--begin::Input group-->
                         <div class="col-lg-6 mt-4">
                             <!--begin::Label-->
-                            <label for="ZiyaretTipi" class="fw-semibold fs-6 mb-2">Aktivite Tipi</label>
+                            <label for="ZiyaretTipi" class="fw-bold text-gray-700 fs-6 mb-2">Aktivite Tipi</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <select type="text" name="ZiyaretTipi" class="form-select p-2 mb-3 mb-lg-0" value="@ViewBag.Ziyaret.Tarih">
@@ -61,10 +63,12 @@
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
+                    </div>
+                    <div class="row">
                         <!--begin::Input group-->
                         <div class="col-lg-6 mt-4">
                             <!--begin::Label-->
-                            <label for="TamamlamaTarihi" class="fw-semibold fs-6 mb-2">Tamamlama Tarihi</label>
+                            <label for="TamamlamaTarihi" class="fw-bold text-gray-700 fs-6 mb-2">Tamamlama Tarihi</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="datetime-local" name="TamamlamaTarihi" class="form-control p-2 mb-3 mb-lg-0" autofocus value="@(@ViewBag.Ziyaret.TamamlamaTarihi)" />
@@ -75,7 +79,7 @@
                         <!--begin::Input group-->
                         <div class="col-lg-6 mt-4">
                             <!--begin::Label-->
-                            <label for="TamamlamaAciklamasi" class="fw-semibold fs-6 mb-2">Tamamlama Aciklamasi</label>
+                            <label for="TamamlamaAciklamasi" class="fw-bold text-gray-700 fs-6 mb-2">Tamamlama Aciklamasi</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="text" name="TamamlamaAciklamasi" class="form-control p-2 mb-3 mb-lg-0" autofocus value="@ViewBag.Ziyaret.TamamlamaAciklamasi" />
@@ -83,34 +87,23 @@
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="col-lg-6 mt-4">
-                            <!--begin::Label-->
-                            <label for="TamamlayanKullaniciID" class="fw-semibold fs-6 mb-2">Tamamlayan KullaniciID</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <input type="text" name="TamamlayanKullaniciID" class="form-control p-2 mb-3 mb-lg-0" autofocus value="@ViewBag.Ziyaret.TamamlayanKullaniciID" />
-
-                            <!--end::Input-->
-                        </div>
-                        <!--end::Input group-->
-                        <!--begin::Actions-->
-                        <div class="pt-10">
-                            <a onclick="history.back()" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
-                            <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="ZiyaretDuzenle">
-                                <span class="indicator-label">Kaydet</span>
-                                
-                            </button>
-                        </div>
-                        <!--end::Actions-->
                     </div>
-                    <!--end::Row Input group-->
+                    <!--begin::Actions-->
+                    <div class="pt-10">
+                        <a onclick="history.back()" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
+                        <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="ZiyaretDuzenle">
+                            <span class="indicator-label">Kaydet</span>
 
+                        </button>
+                    </div>
+                    <!--end::Actions-->
                 </div>
-
+                <!--end::Row Input group-->
             </form>
         </div>
     </div>
 </div>
+
+
 
 

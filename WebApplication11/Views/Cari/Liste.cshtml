@@ -1,5 +1,4 @@
-﻿@model System.Data.DataTable
-
+﻿@model YKPortal.Models.Dto.CariListeViewModel
 @{
     ViewBag.Title = "Cari Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -172,7 +171,7 @@
                             </div>
                             <style>
                                 .max-w-250 {
-                                    max-width: 250px!important;
+                                    max-width: 250px !important;
                                 }
 
                                 .max-w-360 {
@@ -181,13 +180,13 @@
                             </style>
                             <div class="my-4 scroll-x">
                                 <table class="table p-2 align-middle border rounded table-row-dashed fs-6 display nowrap w-100" id="Cari-datatable">
-                                    
+
                                     <thead>
 
                                         <!--begin::Table row-->
                                         <tr class="text-start" style="font-size:15px;">
                                             <th id="select" class="min-w-40px max-w-40 no-export"></th>
-                                            <th class="min-w-125px" ><strong>Cari Kodu</strong></th>
+                                            <th class="min-w-125px"><strong>Cari Kodu</strong></th>
                                             <th class="min-w-125px max-w-360"><strong>Cari İsmi</strong></th>
                                             <th class="min-w-125px max-w-360 no-export"><strong>Ünvan</strong></th>
                                             <th class="min-w-125px mt-8"><strong>Cep Telefonu</strong></th>
@@ -199,80 +198,91 @@
                                         <!--end::Table row-->
                                     </thead>
                                     <tbody class="text-gray-600 fw-semibold">
-                                        @for (var i = 0; i < Model.Rows.Count; i++)
+                                        @for (var i = 0; i < Model.Cari.Rows.Count; i++)
                                         {
-                                        <tr>
-                                            <td class="pt-4 pb-4">
-                                            </td>
+                                            <tr>
+                                                <td class="pt-4 pb-4">
+                                                </td>
 
-                                            <td class="pt-4 pb-4">
-                                                @(Convert.ToString(Model.Rows[i]["Kod"]))
-                                            </td>
-                                            <td class="pt-4 ">
-                                                <a href="/Cari/Duzenle/@(Convert.ToString(Model.Rows[i]["ID"]))">
-                                                    <strong class="text-wrap max-w-360 d-block"> @(Convert.ToString(Model.Rows[i]["Isim"])) </strong>
-                                                </a>
-                                            </td>
-                                            <td class="pt-4 pb-4">
-                                                <span class="text-wrap max-w-360 d-block">
-                                                    @(Convert.ToString(Model.Rows[i]["Unvan"]))
-                                                </span>
-                                             
-                                            </td>
-                                            <td class="pt-4 pb-4">
-                                                @(Convert.ToString(Model.Rows[i]["CepTelefonu"]))
-                                            </td>
-                                            <td class="pt-4 pb-4">
-                                                @(Convert.ToString(Model.Rows[i]["GrupKoduAdi1"]))
-                                            </td>
-                                            <td class="pt-4 pb-4">
-                                                @(Convert.ToString(Model.Rows[i]["GrupKoduAdi2"]))
-                                            </td>
-                                            <td class="text-end pt-4 pb-4">
-                                                <button class="dropdown btn btn-light btn-active-light-primary btn-flex btn-center btn-sm fw-bold" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                                    İşlemler
-                                                    <i class="ki-duotone ki-down fs-5 ms-1"></i>
-                                                </button>
-                                                <!--begin::Menu-->
-                                                <div class="menu menu-sub menu-sub-dropdown menu-column menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-0 px-0" data-kt-menu="true">
-                                                    <!--begin::Menu item-->
-                                                    <div class="menu-item p-0">
-                                                        <a href="/Cari/Duzenle/@(Convert.ToString(Model.Rows[i]["ID"]))" class="menu-link py-0  px-2">Düzenle</a>
-                                                    </div>
-                                                    <!--end::Menu item-->
-                                                    <!--begin::Menu item-->
-                                                    <div class="menu-item p-0">
-                                                        <button type="button" data-id="@(Convert.ToString(Model.Rows[i]["ID"]))" class="btn btn-sm rounded-0 w-100 menu-link py-0  px-2 btn-sil cari-silme" data-bs-toggle="modal" data-bs-target="#Cari-silme">
-                                                            Sil
-                                                        </button>
-                                                    </div>
-                                                    <!--end::Menu item-->
-                                                    <!--begin::Menu item-->
-                                                    <div class="menu-item p-0">
-                                                        <a href="/Cari/KisiListe?CariID=@(Convert.ToString(Model.Rows[i]["ID"]))" class="menu-link py-0  px-2">Kişiler</a>
-                                                    </div>
-                                                    <!--end::Menu item-->
-                                                    <!--begin::Menu item-->
-                                                    <div class="menu-item">
-                                                        <a href="/Cari/NotListe?CariID=@(Convert.ToString(Model.Rows[i]["ID"]))" class="menu-link py-0  px-2">Notlar</a>
-                                                    </div>
-                                                    <div class="menu-item p-0">
-                                                        <a href="/Dosya/Liste?Modul=Cari&KayitID=@(Convert.ToString(Model.Rows[i]["ID"]))" class="menu-link py-0  px-2">Dosyalar</a>
-                                                    </div>
-                                                    <div class="menu-item p-0">
-                                                        <a href="/Cari/ZiyaretListe?CariID=@(Convert.ToString(Model.Rows[i]["ID"]))" class="menu-link py-0  px-2">Aktiviteler</a>
-                                                    </div>
-                                                    <div class="menu-item p-0">
-                                                        <a href="/Cari/YeniCariHareketKaydi?CariID=@(Convert.ToString(Model.Rows[i]["ID"]))" class="menu-link py-0  px-2">Yeni Cari Hareket</a>
-                                                    </div>
+                                                <td class="pt-4 pb-4">
+                                                    @(Convert.ToString(Model.Cari.Rows[i]["Kod"]))
+                                                </td>
+                                                <td class="pt-4 ">
+                                                    <a href="/Cari/Duzenle/@(Convert.ToString(Model.Cari.Rows[i]["ID"]))">
+                                                        <strong class="text-wrap max-w-360 d-block"> @(Convert.ToString(Model.Cari.Rows[i]["Isim"])) </strong>
+                                                    </a>
+                                                </td>
+                                                <td class="pt-4 pb-4">
+                                                    <span class="text-wrap max-w-360 d-block">
+                                                        @(Convert.ToString(Model.Cari.Rows[i]["Unvan"]))
+                                                    </span>
 
-                                                    <!--end::Menu item-->
+                                                </td>
+                                                <td class="pt-4 pb-4">
+                                                    @(Convert.ToString(Model.Cari.Rows[i]["CepTelefonu"]))
+                                                </td>
+                                                <td class="pt-4 pb-4">
+                                                    @(Convert.ToString(Model.Cari.Rows[i]["GrupKoduAdi1"]))
+                                                </td>
+                                                <td class="pt-4 pb-4">
+                                                    @(Convert.ToString(Model.Cari.Rows[i]["GrupKoduAdi2"]))
+                                                </td>
+                                                <td class="text-end pt-4 pb-4">
+                                                    <button class="dropdown btn btn-light btn-active-light-primary btn-flex btn-center btn-sm fw-bold" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                                        İşlemler
+                                                        <i class="ki-duotone ki-down fs-5 ms-1"></i>
+                                                    </button>
+                                                    <!--begin::Menu-->
+                                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-0 px-0" data-kt-menu="true">
+                                                        <!--begin::Menu item-->
+                                                        @if (Model.Duzenle)
+                                                        {
+                                                            <div class="menu-item p-0">
+                                                                <a href="/Cari/Duzenle/@(Convert.ToString(Model.Cari.Rows[i]["ID"]))" class="menu-link py-0  px-2">Düzenle</a>
+                                                            </div>
+                                                        }
+                                                        <!--end::Menu item-->
+                                                        <!--begin::Menu item-->
 
-                                                </div>
-                                                <!--end::Menu-->
-                                            </td>
-                                            <td class="">@(Convert.ToString(Model.Rows[i]["ID"]))</td>
-                                        </tr>
+                                                        @if (Model.Sil)
+                                                        {
+                                                            <div class="menu-item p-0">
+                                                                <button type="button" data-id="@(Convert.ToString(Model.Cari.Rows[i]["ID"]))" class="btn btn-sm rounded-0 w-100 menu-link py-0  px-2 btn-sil cari-silme" data-bs-toggle="modal" data-bs-target="#Cari-silme">
+                                                                    Sil
+                                                                </button>
+                                                            </div>
+                                                        }
+                                                        
+                                                        <!--end::Menu item-->
+                                                        <!--begin::Menu item-->
+                                                        
+                                                        <!--end::Menu item-->
+                                                        <!--begin::Menu item-->
+                                                        <div class="menu-item p-0">
+                                                            <a href="/Cari/KisiListe?CariID=@(Convert.ToString(Model.Cari.Rows[i]["ID"]))" class="menu-link py-0  px-2">Kişiler</a>
+                                                        </div>
+                                                        <!--end::Menu item-->
+                                                        <!--begin::Menu item-->
+                                                        <div class="menu-item">
+                                                            <a href="/Cari/NotListe?CariID=@(Convert.ToString(Model.Cari.Rows[i]["ID"]))" class="menu-link py-0  px-2">Notlar</a>
+                                                        </div>
+                                                        <div class="menu-item p-0">
+                                                            <a href="/Dosya/Liste?Modul=Cari&KayitID=@(Convert.ToString(Model.Cari.Rows[i]["ID"]))" class="menu-link py-0  px-2">Dosyalar</a>
+                                                        </div>
+                                                        <div class="menu-item p-0">
+                                                            <a href="/Cari/ZiyaretListe?CariID=@(Convert.ToString(Model.Cari.Rows[i]["ID"]))" class="menu-link py-0  px-2">Aktiviteler</a>
+                                                        </div>
+                                                        <div class="menu-item p-0">
+                                                            <a href="/Cari/YeniCariHareketKaydi?CariID=@(Convert.ToString(Model.Cari.Rows[i]["ID"]))" class="menu-link py-0  px-2">Yeni Cari Hareket</a>
+                                                        </div>
+
+                                                        <!--end::Menu item-->
+
+                                                    </div>
+                                                    <!--end::Menu-->
+                                                </td>
+                                                <td class="">@(Convert.ToString(Model.Cari.Rows[i]["ID"]))</td>
+                                            </tr>
                                         }
                                     </tbody>
                                 </table>
@@ -341,7 +351,7 @@
 }
 @section Scripts {
     <script>
-        
+
         function setCookie(name, value, days) {
             let expires = "";
             if (days) {
@@ -480,7 +490,7 @@
                     columnDefs: [
                         {
                             targets: [8],// Sütunu seç
-                           
+
                             "visible": false, // Sütunu gizle
                             "searchable": false // Aranabilirlik özelliğini kapat (isteğe bağlı)
                         },
@@ -493,7 +503,7 @@
                             searchable: false,
                         },
                         {
-                            targets: [0,3,8],
+                            targets: [0, 3, 8],
                             className: 'noVis'
                         },
                     ],
