@@ -125,6 +125,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Crm2\Crm2AreaRegistration.cs" />
+    <Compile Include="Areas\Crm2\Controllers\Crm2Controller.cs" />
     <Compile Include="Areas\Depo\Controllers\DepoController.cs" />
     <Compile Include="Areas\Depo\DepoAreaRegistration.cs" />
     <Compile Include="Areas\D\DAreaRegistration.cs" />
@@ -346,6 +348,10 @@
     <Content Include="Areas\B2BLogo\Views\B2BLogo\CariEkstre.cshtml" />
     <Content Include="Areas\B2BLogo\Views\B2BLogo\YeniSiparis.cshtml" />
     <Content Include="Areas\B2BLogo\Views\B2BLogo\Sepetim.cshtml" />
+    <Content Include="Areas\Crm2\Views\Crm2\AnaSayfa.cshtml" />
+    <Content Include="Areas\Crm2\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Crm2\Views\Shared\Error.cshtml" />
+    <Content Include="Areas\Crm2\Views\web.config" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -2765,6 +2771,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\B2BLogo\Data\" />
+    <Folder Include="Areas\Crm2\Data\" />
     <Folder Include="Areas\Depo\Data\" />
     <Folder Include="Areas\D\Data\" />
     <Folder Include="Areas\Entegrasyon\Data\" />
