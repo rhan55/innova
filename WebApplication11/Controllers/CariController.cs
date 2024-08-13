@@ -322,14 +322,17 @@ namespace YKPortal.Controllers
             return RedirectToAction("Liste");
         }
 
+        [HttpGet]
         public ActionResult Liste(CariDto cariDto)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-
             if (!YetkiKontrolu("/Cari/Liste", "Gor"))
+            {
                 return Redirect("~/YK/Anasayfa");
-
+            }
+          
+            
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -346,7 +349,15 @@ namespace YKPortal.Controllers
             ViewBag.Isim = cariDto.Isim;
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            return View(dt);
+            var model = new CariListeViewModel
+            {
+                Cari = dt,
+                Sil = YetkiKontrolu("/Cari/Liste", "Sil"),
+                Duzenle = YetkiKontrolu("/Cari/Liste", "Duzenle")
+
+            };
+
+            return View(model);
         }
 
         [HttpGet]
@@ -401,7 +412,15 @@ namespace YKPortal.Controllers
             ViewBag.Ziyaretler = ziyaretler;
             ViewBag.CariID = CariID;
 
-            return View();
+            var model = new CariZiyaretListeViewModel
+            {
+                Ziyaretler = dt,
+                Sil = YetkiKontrolu("/Cari/Liste", "Sil"),
+                Duzenle = YetkiKontrolu("/Cari/Liste", "Duzenle")
+
+            };
+
+            return View(model);
         }
 
         [HttpGet]
@@ -515,7 +534,7 @@ namespace YKPortal.Controllers
 
         [HttpPost]
         public ActionResult ZiyaretDuzenle(ZiyaretDto ziyaretDto)
-        {
+         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
@@ -533,7 +552,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@ZiyaretTipi", ziyaretDto.ZiyaretTipi);
             cmd.Parameters.AddWithValue("@Aciklama", ziyaretDto.Aciklama);
             cmd.Parameters.AddWithValue("@TamamlamaAciklamasi", ziyaretDto.TamamlamaAciklamasi);
-            cmd.Parameters.AddWithValue("@TamamlamaTarihi", ziyaretDto.TamamlamaTarihi);
+            cmd.Parameters.AddWithValue("@TamamlamaTarihi", ziyaretDto.TamamlamaTarihi.Replace("T", " "));
             cmd.Parameters.AddWithValue("@TamamlayanKullaniciID", GetCookie("KullaniciID"));
 
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
@@ -865,7 +884,15 @@ namespace YKPortal.Controllers
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             ViewBag.CariID = cariKisiDto.CariID;
 
-            return View(dt);
+            var model = new CariKisiListeViewModel
+            {
+                Kisiler = dt,
+                Sil = YetkiKontrolu("/Cari/Liste", "Sil"),
+                Duzenle = YetkiKontrolu("/Cari/Liste", "Duzenle")
+
+            };
+
+            return View(model);
         }
 
         [HttpGet]
@@ -986,7 +1013,16 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@CariID", cariNotDto.CariID);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             ViewBag.CariID = cariNotDto.CariID;
-            return View(dt);
+
+            var model = new CariNotListeViewModel
+            {
+                Notlar = dt,
+                Sil = YetkiKontrolu("/Cari/NotListe?CariID", "Sil"),
+                Duzenle = YetkiKontrolu("/Cari/NotListe?CariID", "Duzenle")
+
+            };
+
+            return View(model);
         }
 
         [HttpGet]

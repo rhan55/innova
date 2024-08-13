@@ -1,4 +1,5 @@
 ﻿@using YKPortal.Models.Dto
+@model YKPortal.Models.Dto.CariNotListeViewModel
 @{
     ViewBag.Title = "Aktivite Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,14 +19,14 @@
                         <div class="timeline-item ">
                             <div class="timeline-line"></div>
                             <div class="timeline-icon">
-                               <span class="menu-icon">
-                                   <i class="ki-duotone ki-profile-user fs-3">
-                                       <span class="path1"></span>
-                                       <span class="path2"></span>
-                                       <span class="path3"></span>
-                                       <span class="path4"></span>
-                                   </i>
-                               </span>
+                                <span class="menu-icon">
+                                    <i class="ki-duotone ki-profile-user fs-3">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                        <span class="path3"></span>
+                                        <span class="path4"></span>
+                                    </i>
+                                </span>
                             </div>
                             <div class="timeline-content mt-6">
                                 <div class="card card-flush p-6">
@@ -61,7 +62,7 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-lg-12">
-                                                <div class="fs-5 fw-semibold">@ziyaret.ZiyaretTipi </div>
+
                                                 <div class="fs-5 d-flex">
                                                     <div><p class=" fw-semibold text-gray-700">Planlanan: </p></div>
                                                     <div class="fw-semibold text-gray-600">  @ziyaret.Aciklama</div>
@@ -74,7 +75,14 @@
                                                     </div>
                                                 }
                                                 <div class="d-flex align-items-start justify-content-between">
-                                                    <div class="text-muted">Tarih: @ziyaret.Tarih</div>
+                                                    <div>
+                                                        <div class="text-muted">Tarih: @ziyaret.Tarih</div>
+                                                        @if (ziyaret.TamamlamaTarihi.Length > 0)
+                                                        {
+                                                            <div class="text-muted">Tamamlanma Tarihi: @ziyaret.TamamlamaTarihi</div>
+                                                        }
+
+                                                    </div>
                                                     <div>
                                                         <div>
                                                             <span>Kaydı Açan Kullanıcı: </span> <span>@ziyaret.KaydiAcanIsim</span>

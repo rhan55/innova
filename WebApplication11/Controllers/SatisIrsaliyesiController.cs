@@ -80,7 +80,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatisIrsaliyesi/Detay?Tip=SI", "Gor"))
+            if (!YetkiKontrolu("/SatisIrsaliyesi/Detay/?Tip=SI", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -94,7 +94,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatisIrsaliyesi/Detay?Tip=SI", "Duzenle"))
+            if (!YetkiKontrolu("/SatisIrsaliyesi/Detay/?Tip=SI", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }

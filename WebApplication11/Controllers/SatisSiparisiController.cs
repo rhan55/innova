@@ -66,8 +66,8 @@ namespace YKPortal.Controllers
             var model = new BelgeListeViewModel
             {
                 Belgeler = dt,
-                Sil = YetkiKontrolu("/SatisSiparisi/Liste?Tip=SS", "Sil"),
-                Duzenle = YetkiKontrolu("/SatisSiparisi/Liste?Tip=SS", "Duzenle")
+                Sil = YetkiKontrolu("/SatisSiparisi/Liste/?Tip=SS", "Sil"),
+                Duzenle = YetkiKontrolu("/SatisSiparisi/Liste/?Tip=SS", "Duzenle")
 
             };
 
@@ -82,7 +82,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatisSiparisi/Detay?Tip=SS", "Gor"))
+            if (!YetkiKontrolu("/SatisSiparisi/Detay/?Tip=SS", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -96,7 +96,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatisSiparisi/Detay?Tip=SS", "Duzenle"))
+            if (!YetkiKontrolu("/SatisSiparisi/Detay/?Tip=SS", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -238,7 +238,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatisSiparisi/Liste?Tip=SS", "Gor"))
+            if (!YetkiKontrolu("/SatisSiparisi/Liste/?Tip=SS", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }

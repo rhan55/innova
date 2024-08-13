@@ -66,7 +66,7 @@ namespace YKPortal.Controllers
             var model = new BelgeListeViewModel
             {
                 Belgeler = dt,
-                Sil = YetkiKontrolu("/SatisSiparisi/Liste?Tip=SS", "Sil"),
+                Sil = YetkiKontrolu("/SatisSiparisi/Liste/?Tip=SS", "Sil"),
                 Duzenle = YetkiKontrolu("/SatisTeklifi/Liste/?Tip=ST", "Duzenle")
 
             };
@@ -82,7 +82,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatisTeklifi/Detay?Tip=ST", "Gor"))
+            if (!YetkiKontrolu("/SatisTeklifi/Detay/?Tip=ST", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -96,7 +96,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatisTeklifi/Detay?Tip=ST", "Duzenle"))
+            if (!YetkiKontrolu("/SatisTeklifi/Detay/?Tip=ST", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }

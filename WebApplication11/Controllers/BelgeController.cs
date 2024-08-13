@@ -18,7 +18,7 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Giris");
 
 
-            if (!YetkiKontrolu("/Belge/Liste", "Sil"))
+            if (!YetkiKontrolu("/Belge/Liste/?Tip=AI", "Sil"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -39,17 +39,16 @@ namespace YKPortal.Controllers
             return Redirect("~/Belge/Liste/?Tip="+Tip);
         }
 
-        public ActionResult Liste(string Tip="", string AranacakKelime="")
+        public ActionResult Liste(string Tip = "", string AranacakKelime = "")
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-
-            if (!YetkiKontrolu("/Belge/Liste", "Gor"))
+            if (!YetkiKontrolu("/Belge/Liste/?Tip=AI", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
 
-            if (Tip == "")
+            if (string.IsNullOrEmpty(Tip))
             {
                 return Redirect("~/");
             }
@@ -62,8 +61,18 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@Tip", Tip);
             cmd.Parameters.AddWithValue("@AranacakKelime", AranacakKelime);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-            return View(dt);
+
+            var model = new BelgeListeViewModel
+            {
+                Belgeler = dt,
+                Sil = YetkiKontrolu("/Belge/Liste?Tip=AI", "Sil"),
+                Duzenle = YetkiKontrolu("/Belge/Liste?Tip=AI", "Duzenle")
+
+            };
+
+            return View(model);
         }
+ 
 
         [HttpGet]
         public ActionResult Detay(string Tip , string id = "")
@@ -71,7 +80,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Belge/Detay", "Gor"))
+            if (!YetkiKontrolu("/Belge/Detay/?Tip=AI", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }

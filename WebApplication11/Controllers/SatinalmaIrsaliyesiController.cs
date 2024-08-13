@@ -17,7 +17,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatinalmaIrsaliyesi/Liste?Tip=AI", "Sil"))
+            if (!YetkiKontrolu("/SatinalmaIrsaliyesi/Liste/?Tip=AI", "Sil"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -81,7 +81,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatinalmaIrsaliyesi/Detay?Tip=AI", "Gor"))
+            if (!YetkiKontrolu("/SatinalmaIrsaliyesi/Detay/?Tip=AI", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -95,7 +95,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatinalmaIrsaliyesi/Detay?Tip=AI", "Duzenle"))
+            if (!YetkiKontrolu("/SatinalmaIrsaliyesi/Detay/?Tip=AI", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }

@@ -17,7 +17,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatinalmaTalebi/Liste?Tip=ATL", "Sil"))
+            if (!YetkiKontrolu("/SatinalmaTalebi/Liste/?Tip=ATL", "Sil"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -64,8 +64,8 @@ namespace YKPortal.Controllers
             var model = new BelgeListeViewModel
             {
                 Belgeler = dt,
-                Sil = YetkiKontrolu("/SatinalmaTalebi/Liste?Tip=ATL", "Sil"),
-                Duzenle = YetkiKontrolu("/SatinalmaTalebi/Liste?Tip=ATL", "Duzenle")
+                Sil = YetkiKontrolu("/SatinalmaTalebi/Liste/?Tip=ATL", "Sil"),
+                Duzenle = YetkiKontrolu("/SatinalmaTalebi/Liste/?Tip=ATL", "Duzenle")
 
             };
 
@@ -80,7 +80,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatinalmaTalebi/Detay?Tip=ATL", "Gor"))
+            if (!YetkiKontrolu("/SatinalmaTalebi/Detay/?Tip=ATL", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -94,7 +94,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatinalmaTalebi/Detay?Tip=ATL", "Duzenle"))
+            if (!YetkiKontrolu("/SatinalmaTalebi/Detay/?Tip=ATL", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -237,7 +237,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatinalmaTalebi/Liste?Tip=ATL", "Gor"))
+            if (!YetkiKontrolu("/SatinalmaTalebi/Liste/?Tip=ATL", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }

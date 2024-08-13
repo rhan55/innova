@@ -17,7 +17,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatinalmaFatura/Liste?Tip=AF", "Sil"))
+            if (!YetkiKontrolu("/SatinalmaFatura/Liste/?Tip=AF", "Sil"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -35,7 +35,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@Tip", Tip);
             IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
-            return Redirect("~/SatinalmaFatura/Liste?Tip=" + Tip);
+            return Redirect("~/SatinalmaFatura/Liste/?Tip=" + Tip);
         }
 
         public ActionResult Liste(string Tip = "", string AranacakKelime = "")
@@ -48,7 +48,7 @@ namespace YKPortal.Controllers
                 return Redirect("~/");
             }
 
-            if (!YetkiKontrolu("/SatinalmaFatura/Liste?Tip=AF", "Gor"))
+            if (!YetkiKontrolu("/SatinalmaFatura/Liste/?Tip=AF", "Gor"))
                 return Redirect("~/YK/Anasayfa");
 
             SqlCommand cmd = new SqlCommand();
@@ -63,8 +63,8 @@ namespace YKPortal.Controllers
             var model = new BelgeListeViewModel
             {
                 Belgeler = dt,
-                Sil = YetkiKontrolu("/SatinalmaFatura/Liste?Tip=AF", "Sil"),
-                Duzenle = YetkiKontrolu("/SatinalmaFatura/Liste?Tip=AF", "Duzenle")
+                Sil = YetkiKontrolu("/SatinalmaFatura/Liste/?Tip=AF", "Sil"),
+                Duzenle = YetkiKontrolu("/SatinalmaFatura/Liste/?Tip=AF", "Duzenle")
 
             };
 
@@ -79,7 +79,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatinalmaFatura/Detay?Tip=AF", "Gor"))
+            if (!YetkiKontrolu("/SatinalmaFatura/Detay/?Tip=AF", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -93,7 +93,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatinalmaFatura/Detay?Tip=AF", "Duzenle"))
+            if (!YetkiKontrolu("/SatinalmaFatura/Detay/?Tip=AF", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -236,7 +236,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-              if (!YetkiKontrolu("/SatinalmaFatura/Liste?Tip=AF", "Gor"))
+              if (!YetkiKontrolu("/SatinalmaFatura/Liste/?Tip=AF", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
