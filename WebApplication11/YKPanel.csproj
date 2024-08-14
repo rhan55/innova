@@ -2781,6 +2781,8 @@
     <Content Include="Views\SatinalmaTalebi\Detay.cshtml" />
     <Content Include="Views\SatinalmaTalebi\Duzenle.cshtml" />
     <Content Include="Views\Shared\_LayoutSade.cshtml" />
+    <Content Include="Views\MailKaliplari\Ekle.cshtml" />
+    <Content Include="Views\MailKaliplari\Liste.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

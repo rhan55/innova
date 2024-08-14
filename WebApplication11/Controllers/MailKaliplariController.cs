@@ -41,6 +41,7 @@ namespace YKPortal.Controllers
             return View(dt);
         }
 
+        [ValidateInput(false)]
         [HttpGet]
         public ActionResult Ekle()
         {
@@ -82,6 +83,52 @@ namespace YKPortal.Controllers
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
             return RedirectToAction("Liste");
+        }
+        [HttpGet]
+        public ActionResult   Duzenle(string id)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/MailKaliplari/Liste", "Gor"))
+                return Redirect("~/YK/Anasayfa");
+
+            var uyelikId = GetCookie("UyelikID");
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_MailKalibi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+           
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            return View(dt);
+
+        }
+     
+        [HttpPost]
+        public ActionResult Duzenle(MailKalibiDto mailKalibiDto)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/MailKaliplari/Liste", "Duzenle"))
+                return Redirect("~/YK/Anasayfa");
+
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_MailKalibiKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", mailKalibiDto.ID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@Kod", mailKalibiDto.Kod);
+            cmd.Parameters.AddWithValue("@Isim", mailKalibiDto.Isim);
+            cmd.Parameters.AddWithValue("@Icerik", HttpUtility.HtmlEncode(mailKalibiDto.Icerik));
+
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            return View(dt);
+
         }
 
         public ActionResult Sil(string id)

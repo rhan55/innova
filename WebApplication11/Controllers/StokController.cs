@@ -780,7 +780,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Stok/FiyatEkle", "Gor"))
+            if (!YetkiKontrolu("/Stok/Liste", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -821,7 +821,7 @@ namespace YKPortal.Controllers
             else
             {
                 entity.BaslangicTarihi = DateTime.Today;
-                entity.BitisTarihi = DateTime.Today.AddMonths(1);
+                entity.BitisTarihi = new DateTime(DateTime.Now.Year, 12, 31);
                 entity.Fiyat = 0;
 
             }

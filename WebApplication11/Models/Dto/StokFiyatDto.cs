@@ -15,7 +15,7 @@ namespace YKPortal.Models.Dto
         private string _KullaniciID;
         private string _CariID;
         private string _FiyatGrubu;
-        private string _Tip;       
+        private string _Tip;
         private decimal _Fiyat;
         private DateTime _BaslangicTarihi;
         private DateTime _BitisTarihi;
@@ -32,8 +32,11 @@ namespace YKPortal.Models.Dto
         public DateTime BitisTarihi { get { return _BitisTarihi == null ? DateTime.Today : _BitisTarihi; } set { _BitisTarihi = value; } }
 
     }
+
+  
 }
 
 
 
- 
+
+

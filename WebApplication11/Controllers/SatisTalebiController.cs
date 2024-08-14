@@ -89,7 +89,7 @@ namespace YKPortal.Controllers
 
             ViewBag.Depolar = DepoListesiGetir();
 
-            return View();
+               return View();
         }
 
         [HttpPost]
