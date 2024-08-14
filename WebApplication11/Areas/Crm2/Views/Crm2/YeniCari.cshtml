@@ -1,0 +1,160 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    Layout = "~/Views/Shared/_LayoutSade.cshtml";
+    string KullaniciAdi = HttpUtility.UrlDecode(Request.Cookies["KullaniciAdi"].Value);
+
+}
+
+<div style="width:100%;font-size:15px;">
+
+    <table style="width:100%;">
+        <tr>
+            <td><strong>Bayi Adı</strong></td>
+        </tr>
+        <tr>
+            <td><input type="text" name="name" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Tarih</td>
+        </tr>
+        <tr>
+            <td><input type="date" name="name" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Proje Tipi</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="name" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Blok Sayısı</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="name" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Miktar</td>
+        </tr>
+        <tr>
+            <td><input type="number" name="name" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Ünvan</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="name" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Adı</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="name" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Soyadı</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="name" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Telefonu 1</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="name" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Telefonu 2</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="name" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Görevi</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="name" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Ulaşma Şekli</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="name" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Projenin Adı</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="name" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>İl</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="name" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>İlçe</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="name" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Mahallesi</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="name" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Ada</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="name" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Parsel</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="name" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Portal Numarası</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="name" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Fotoğrag</td>
+        </tr>
+        <tr>
+            <td><input type="file" name="name" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Sonuç Tarihi</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="name" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="button" name="name" value="Geri" class="btn btn-danger" />
+                <input type="submit" name="name" value="Kaydet" class="btn btn-success" />
+            </td>
+        </tr>
+    </table>
+  
+</div>
+
+
+@section Styles {
+
+
+
+
+}
+@section scripts {
+
+
+
+}
+

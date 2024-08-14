@@ -360,6 +360,7 @@
     <Content Include="Areas\Crm2\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Crm2\Views\Shared\Error.cshtml" />
     <Content Include="Areas\Crm2\Views\web.config" />
+    <Content Include="Areas\Crm2\Views\Crm2\YeniCari.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -391,6 +392,10 @@
     <Content Include="Tema\favicons\mstile-310x150.png" />
     <Content Include="Tema\favicons\mstile-310x310.png" />
     <Content Include="Tema\favicons\mstile-70x70.png" />
+    <Content Include="Tema\media\flags\anasayfa.png" />
+    <Content Include="Tema\media\flags\ara.png" />
+    <Content Include="Tema\media\flags\iptal.png" />
+    <Content Include="Tema\media\flags\onay.png" />
     <Content Include="Tema\media\flags\Uretim_CheckList.png" />
     <Content Include="Tema\media\flags\Uretim_DevamEden.png" />
     <Content Include="Tema\media\flags\Uretim_Fireler.png" />
@@ -409,6 +414,7 @@
     <Content Include="Tema\media\flags\Uretim_Stok_Red.png" />
     <Content Include="Tema\media\flags\Uretim_Tamamlananlar.png" />
     <Content Include="Tema\media\flags\Uretim_Transfer_Onayi.png" />
+    <Content Include="Tema\media\flags\yeni.png" />
     <Content Include="Tema\media\Logolar\BeyazLogo.png" />
     <Content Include="Tema\media\logos\custom-1.png" />
     <Content Include="Tema\media\logos\custom-1.svg" />

@@ -47,8 +47,8 @@
 <head>
     <title>@ViewBag.Title - @System.Configuration.ConfigurationManager.AppSettings["FirmaAdi"]</title>
     <meta charset="utf-8" />
-    <meta name="description" content="YK YAZILIM ERP - Siz hayal edin biz yazalım." />
-    <meta name="keywords" content="yk yazılım, ykyazılım, muhasebe, erp, stok, cari, kasa, fatura, efatura, irsaliye, sipariş, teklif, crm, üretim, müşteri, yazılım" />
+    <meta name="description" content="@(System.Configuration.ConfigurationManager.AppSettings["SeoDescription"])" />
+    <meta name="keywords" content="@(System.Configuration.ConfigurationManager.AppSettings["SeoKeywords"])" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="article" />

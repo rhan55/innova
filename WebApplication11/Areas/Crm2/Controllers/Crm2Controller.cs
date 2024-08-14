@@ -26,6 +26,30 @@ namespace YKPortal.Areas.Crm2.Controllers
             return View();
         }
 
+        public ActionResult YeniCari()
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+            return View();
+        }
+        public ActionResult Cariler()
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+            return View();
+        }
+        public ActionResult Tanimlamalar()
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+            return View();
+        }
 
         #region Cookie İşlemleri
 

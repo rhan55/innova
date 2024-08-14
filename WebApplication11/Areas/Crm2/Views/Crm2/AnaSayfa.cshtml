@@ -1,37 +1,48 @@
 ﻿@using System.Data
 @model System.Data.DataTable
 @{
-    ViewBag.Title = "CRM";
     Layout = "~/Views/Shared/_LayoutSade.cshtml";
-
     string KullaniciAdi = HttpUtility.UrlDecode(Request.Cookies["KullaniciAdi"].Value);
 
 }
 
-<div style="margin-left:auto;margin-right:auto;">  
+<div style="margin-left:auto;margin-right:auto;text-align:center;">
 
-    <a href="/B2BLogo/B2BLogo/Siparislerim" style="color: white;">
+    <a href="/Crm2/Crm2/AnaSayfa" style="color: white;float:left;margin:0px;">
         <div class="tum-kenar-oval"
-             style="width:200px;height:50px;text-align:center;background-color:black;color:white;padding:0px;font-size:20px;padding-top:10px;">
+             style="width: 150px; height: 100px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px; ">
+            <img src="@Url.Content("~/Tema/media/flags/AnaSayfa.png")" style="height:50px;" />
+            <br />
+            Ana Sayfa
+        </div>
+    </a>
+    <a href="/Crm2/Crm2/YeniCari" style="color: white;float:left;margin:0px;">
+        <div class="tum-kenar-oval"
+             style="width: 150px; height: 100px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
+            <img src="@Url.Content("~/Tema/media/flags/Yeni.png")" style="height:50px;" />
+            <br />
             Yeni Kayıt
         </div>
     </a>
-    <a href="/B2BLogo/B2BLogo/CariEkstre" style="color: white;">
+    <a href="/Crm2/Crm2/Cariler" style="color: white; float: left; margin: 0px; ">
         <div class="tum-kenar-oval"
-             style="width:200px;height:50px;text-align:center;background-color:black;color:white;padding:0px;font-size:20px;padding-top:10px;">
-            Havuz
+             style="width: 150px; height: 100px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px; ">
+            <img src="@Url.Content("~/Tema/media/flags/Ara.png")" style="height:50px;" />
+            <br /> Havuz
         </div>
     </a>
-    <a href="/B2BLogo/B2BLogo/YeniSiparis" style="color: white;">
+    <a href="/Crm2/Crm2/Tanimlamalar" style="color: white; float: left; margin: 0px; ">
         <div class="tum-kenar-oval"
-             style="width:200px;height:50px;text-align:center;background-color:black;color:white;padding:0px;font-size:20px;padding-top:10px;">
-            Tanımlar
+             style="width: 150px; height: 100px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px; ">
+            <img src="@Url.Content("~/Tema/media/flags/Onay.png")" style="height:50px;" />
+            <br />Tanımlar
         </div>
     </a>
-    <a href="/YK/Cikis" style="color: white;">
+    <a href="/YK/Cikis" style="color:white;float:left;margin:0px;">
         <div class="tum-kenar-oval"
-             style="width:200px;height:50px;text-align:center;background-color:black;color:white;padding:0px;font-size:20px;padding-top:10px;">
-            Çıkış
+             style="width: 150px; height: 100px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
+            <img src="@Url.Content("~/Tema/media/flags/Iptal.png")" style="height:50px;" />
+            <br />Çıkış
         </div>
     </a>
 </div>
