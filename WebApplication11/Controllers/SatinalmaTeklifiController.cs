@@ -64,8 +64,8 @@ namespace YKPortal.Controllers
             var model = new BelgeListeViewModel
             {
                 Belgeler = dt,
-                Sil = YetkiKontrolu("/SatinalmaTeklifi/Liste?Tip=AT", "Sil"),
-                Duzenle = YetkiKontrolu("/SatinalmaTeklifi/Liste?Tip=AT", "Duzenle")
+                Sil = YetkiKontrolu("/SatinalmaTeklifi/Liste/?Tip=AT", "Sil"),
+                Duzenle = YetkiKontrolu("/SatinalmaTeklifi/Liste/?Tip=AT", "Duzenle")
 
             };
 
@@ -80,12 +80,14 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatinalmaTeklifi/Detay?Tip=AT", "Gor"))
+            if (!YetkiKontrolu("/SatinalmaTeklifi/Detay/?Tip=AT", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
 
-            return View();
+            ViewBag.Depolar = DepoListesiGetir();
+
+            return View(new BelgeDto());
         }
 
         [HttpPost]
@@ -94,7 +96,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatinalmaTeklifi/Detay?Tip=AT", "Duzenle"))
+            if (!YetkiKontrolu("/SatinalmaTeklifi/Detay/?Tip=AT", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -237,10 +239,6 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatinalmaTeklifi/Liste?Tip=AT", "Gor"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "p_Belge";
@@ -297,6 +295,8 @@ namespace YKPortal.Controllers
                 cmdDepolar.Parameters.AddWithValue("@AranacakKelime", "");
                 ViewBag.Depolar = (DataTable)IDVeritabani.Sorgula(cmdDepolar, SorgulaTuru.Tablo);
             }
+
+            ViewBag.Duzenle = YetkiKontrolu("/SatinalmaTeklifi/Liste?Tip=AT", "Duzenle");
 
             return View(entity);
         }
@@ -472,6 +472,19 @@ namespace YKPortal.Controllers
             {
                 return false;
             }
+        }
+
+        private DataTable DepoListesiGetir()
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_DepoListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@AranacakKelime", string.Empty);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return dt;
         }
     }
 }

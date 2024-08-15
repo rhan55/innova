@@ -89,7 +89,7 @@ namespace YKPortal.Controllers
 
             ViewBag.Depolar = DepoListesiGetir();
 
-               return View();
+            return View(new BelgeDto());
         }
 
         [HttpPost]
@@ -240,11 +240,6 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatisTalebi/Liste/?Tip=STL", "Gor"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
-
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "p_Belge";
@@ -301,6 +296,8 @@ namespace YKPortal.Controllers
                 cmdDepolar.Parameters.AddWithValue("@AranacakKelime", "");
                 ViewBag.Depolar = (DataTable)IDVeritabani.Sorgula(cmdDepolar, SorgulaTuru.Tablo);
             }
+
+            ViewBag.Duzenle = YetkiKontrolu("/SatisTalebi/Liste/?Tip=STL", "Duzenle");
 
             return View(entity);
         }

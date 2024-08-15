@@ -238,65 +238,65 @@
                                                     }
                                                     else
                                                     {
-                                            <tr class="border-bottom border-bottom-dashed" data-ID="@satir.ID" data-ID2="@ID">
-                                                <td class="pe-7">
-                                                    <select class="form-select form-select-solid p-2 rounded-1" name="StokID_@(ID)" id="StokID_@(ID)" style="min-width:150px;max-width:350px;"
-                                                            aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                        <option value="@satir.StokID" selected>@satir.StokAdi</option>
-                                                    </select>
+                                                        <tr class="border-bottom border-bottom-dashed" data-ID="@satir.ID" data-ID2="@ID">
+                                                            <td class="pe-7">
+                                                                <select class="form-select form-select-solid p-2 rounded-1" name="StokID_@(ID)" id="StokID_@(ID)" style="min-width:150px;max-width:350px;"
+                                                                        aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                                                    <option value="@satir.StokID" selected>@satir.StokAdi</option>
+                                                                </select>
 
-                                                </td>
-                                                <td class="ps-0">
-                                                    @if (Tip == "SI")
-                                                    {
-                                                        <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
-                                                    }
-                                                    else
-                                                    {
-                                                        <select class="form-select form-select-solid p-2 rounded-1" name="Seri_@(ID)" id="Seri_@(ID)"
-                                                                aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                            <option value="@satir.Seri" selected>@satir.Seri</option>
-                                                        </select>
-                                                    }
-                                                </td>
+                                                            </td>
+                                                            <td class="ps-0">
+                                                                @if (Tip == "SI")
+                                                                {
+                                                                    <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
+                                                                }
+                                                                else
+                                                                {
+                                                                    <select class="form-select form-select-solid p-2 rounded-1" name="Seri_@(ID)" id="Seri_@(ID)"
+                                                                            aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                                                        <option value="@satir.Seri" selected>@satir.Seri</option>
+                                                                    </select>
+                                                                }
+                                                            </td>
 
 
-                                                <td style="max-width:200px;">
-                                                    <input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control p-2" />
-                                                </td>
+                                                            <td style="max-width:200px;">
+                                                                <input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control p-2" />
+                                                            </td>
 
-                                                <td>
-                                                    <input type="text" data-kt-element="kdv-data" name="KdvOrani_@(ID)" id="KdvOrani_@(ID)" value="@(String.Format("{0:N2}",satir.KdvOrani))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                </td>
-                                                <td style="max-width:200px;">
-                                                    <input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                </td>
-                                                <td class="text-end" style="max-width:150px;">
-                                                    <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                </td>
-                                                <td>
-                                                    <input type="text" data-kt-element="iskonto-data" name="IskontoOrani1_@(ID)" id="IskontoOrani1_@(ID)" value="@(String.Format("{0:N2}",satir.IskontoOrani1))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                </td>
-                                                <td class="text-end" style="max-width:150px;">
-                                                    <input type="text" data-kt-element="tutar-data" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" readonly />
-                                                </td>
-                                                <td>
-                                                    <button type='button' class="deleteBtn pt-2" data-ID2="@(ID)">Sil</button>
-                                                </td>
+                                                            <td>
+                                                                <input type="text" data-kt-element="kdv-data" name="KdvOrani_@(ID)" id="KdvOrani_@(ID)" value="@(String.Format("{0:N2}",satir.KdvOrani))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                            </td>
+                                                            <td style="max-width:200px;">
+                                                                <input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                            </td>
+                                                            <td class="text-end" style="max-width:150px;">
+                                                                <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" data-kt-element="iskonto-data" name="IskontoOrani1_@(ID)" id="IskontoOrani1_@(ID)" value="@(String.Format("{0:N2}",satir.IskontoOrani1))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                            </td>
+                                                            <td class="text-end" style="max-width:150px;">
+                                                                <input type="text" data-kt-element="tutar-data" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" readonly />
+                                                            </td>
+                                                            <td>
+                                                                <button type='button' class="deleteBtn pt-2" data-ID2="@(ID)">Sil</button>
+                                                            </td>
 
-                                            </tr>
+                                                        </tr>
                                                     }
                                                 }
                                             </tbody>
                                             <tfoot>
                                                 <tr class="border-top border-top-dashed align-top fs-6 fw-bold text-gray-700 pt-10">
 
-                                                    <th colspan="1" class="py-2">
+                                                    <th colspan="7" class="py-2">
 
                                                     </th>
-                                                    <th colspan="3" class="fs-5 py-2 ps-0 text-end">Ara Toplam</th>
+                                                    <th colspan="1" class="fs-5 py-2 ps-0 text-start">Ara Toplam</th>
 
-                                                    <th colspan="3" class="text-end fs-5 text-nowrap py-2">
+                                                    <th colspan="1" class="text-end fs-5 text-nowrap py-2">
                                                         ₺<span data-kt-element="ara-toplam-tutari">
                                                             @if (Model.Kalemler != null)
                                                             {
@@ -311,12 +311,12 @@
                                                 </tr>
                                                 <tr class="border-top border-top-dashed align-top fs-6 fw-bold text-gray-700 pt-10">
 
-                                                    <th colspan="1" class="py-2">
+                                                    <th colspan="7" class="py-2">
 
                                                     </th>
-                                                    <th colspan="3" class="fs-5 py-2 ps-0 text-end">İskonto Tutarı</th>
+                                                    <th colspan="1" class="fs-5 py-2 ps-0 text-start">İskonto Tutarı</th>
 
-                                                    <th colspan="3" class="text-end fs-5 text-nowrap py-2">
+                                                    <th colspan="1" class="text-end fs-5 text-nowrap py-2">
                                                         - ₺<span data-kt-element="iskonto-tutari">
                                                             @if (Model.Kalemler != null)
                                                             {
@@ -331,12 +331,12 @@
                                                 </tr>
                                                 <tr class="border-top border-top-dashed align-top fs-6 fw-bold text-gray-700 pt-10">
 
-                                                    <th colspan="1" class="py-2">
+                                                    <th colspan="7" class="py-2">
 
                                                     </th>
-                                                    <th colspan="3" class="fs-5 py-2 ps-0 text-end">KDV Tutarı</th>
+                                                    <th colspan="1" class="fs-5 py-2 ps-0 text-start">KDV Tutarı</th>
 
-                                                    <th colspan="3" class="text-end fs-5 text-nowrap py-2">
+                                                    <th colspan="1" class="text-end fs-5 text-nowrap py-2">
                                                         ₺<span data-kt-element="kdv-tutari">
                                                             @if (Model.Kalemler != null)
                                                             {
@@ -351,14 +351,14 @@
                                                 </tr>
                                                 <tr class="border-top border-top-dashed align-top fs-6 fw-bold text-gray-700 pt-10">
 
-                                                    <th colspan="1" class="py-2">
+                                                    <th colspan="7" class="py-2">
                                                         <div class="pe-4">
                                                             <button type="button" name="btnYeniSatir" id="btnYeniSatir" onclick="YeniSatirAc();" class="btn btn-primary" style="width:150px;">+ Yeni Satır Aç</button>
                                                         </div>
                                                     </th>
-                                                    <th colspan="3" class="fs-5 py-2 ps-0 text-end">Genel Toplam</th>
+                                                    <th colspan="1" class="fs-5 py-2 ps-0 text-start">Genel Toplam</th>
 
-                                                    <th colspan="3" class="text-end fs-5 text-nowrap py-2">
+                                                    <th colspan="1" class="text-end fs-5 text-nowrap py-2">
                                                         ₺<span data-kt-element="toplam-tutar">
                                                             @if (Model.Kalemler != null)
                                                             {
@@ -538,7 +538,7 @@
                            deger += "             </tr>                                                                                                                                  ";
                            deger += "             <tr>                                                                                                                                   ";
 
-                deger += "                 <td><input type='text' name='OlcuBirimi_" + YeniID + "' id='OlcuBirimi_" + YeniID + "' value='Adet' class='form-control p-2 me-10' /></td>                   ";    
+                deger += "                 <td><input type='text' name='OlcuBirimi_" + YeniID + "' id='OlcuBirimi_" + YeniID + "' value='Adet' class='form-control p-2 me-10' /></td>                   ";
                 deger += "                 <td><input type='text' data-kt-element='kdv-data' name='KdvOrani_" + YeniID + "' id='KdvOrani_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control ' style='text-align:right;' /></td>              ";
                 deger += "                 <td><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control me-10' style='text-align:right;' /></td>              ";
                 deger += "                 <td><input type='text' name='Fiyat_" + YeniID + "' id='Fiyat_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");'  style='text-align:right;' /></td>                 ";
@@ -568,7 +568,7 @@
                 }
                 deger += "      </td>";
 
-                deger += "      <td style='max-width:100px;'><input type='text' name='OlcuBirimi_" + YeniID + "' id ='OlcuBirimi_" + YeniID + "' value='Adet' class='form-control p-2 me-10' /></td > ";            
+                deger += "      <td style='max-width:100px;'><input type='text' name='OlcuBirimi_" + YeniID + "' id ='OlcuBirimi_" + YeniID + "' value='Adet' class='form-control p-2 me-10' /></td > ";
                 deger += "      <td style='max-width:100px;'><input type='text' data-kt-element='kdv-data' name='KdvOrani_" + YeniID + "' id='KdvOrani_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' /></td>              ";
                 deger += "      <td style='max-width:100px;'><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' /></td>";
                 deger += "      <td style='max-width:150px;'><input type='text' name='Fiyat_" + YeniID + "' id = 'Fiyat_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style = 'text-align:right;' /></td > ";

@@ -9,14 +9,14 @@
         <input type="hidden" name="ID" class="form-control  mb-3 mb-lg-0" placeholder="Kod" value="@(Convert.ToString(Model.Rows[0]["ID"]))" required />
         <input type="hidden" name="UyelikID" class="form-control  mb-3 mb-lg-0" placeholder="UyelikID" value="@(Convert.ToString(Model.Rows[0]["UyelikID"]))" required />
         <!--begin::Row Input group-->
-        <div class="row mb-12">
+        <div class="row">
             <!--begin::Input group-->
             <div class="col-lg-1" style="display:none;">
                 <!--begin::Label-->
                 <label class="required fw-semibold fs-6 mb-2">Kod</label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <input type="text" name="Kod" class="form-control  mb-3 mb-lg-0" placeholder="Kod" value="@(Convert.ToString(Model.Rows[0]["Kod"]))" required />
+                <input type="text" name="Kod" class="form-control p-2 mb-3 mb-lg-0" placeholder="Kod" value="@(Convert.ToString(Model.Rows[0]["Kod"]))" required />
 
                 <!--end::Input-->
             </div>
@@ -27,7 +27,7 @@
                 <label class="required fw-semibold fs-6 mb-2">Değer</label>
                 <!--end::Label-->
                 <!--begin::Input-->
-                <input type="text" name="Deger" class="form-control  mb-3 mb-lg-0" placeholder="Değer" required value="@(Convert.ToString(Model.Rows[0]["Deger"]))" />
+                <input type="text" name="Deger" class="form-control p-2 mb-3 mb-lg-0" placeholder="Değer" required value="@(Convert.ToString(Model.Rows[0]["Deger"]))" />
                 <!--end::Input-->
             </div>
 

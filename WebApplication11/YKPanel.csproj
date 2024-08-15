@@ -168,8 +168,8 @@
     <Compile Include="Controllers\AktivasyonController.cs" />
     <Compile Include="Controllers\BelgeController.cs" />
     <Compile Include="Controllers\CariController.cs" />
-    <Compile Include="Controllers\DosyaController.cs" />
     <Compile Include="Controllers\DepoController.cs" />
+    <Compile Include="Controllers\DosyaController.cs" />
     <Compile Include="Controllers\MailKaliplariController.cs" />
     <Compile Include="Controllers\GorevController.cs" />
     <Compile Include="Controllers\KullaniciController.cs" />
@@ -200,6 +200,7 @@
     <Compile Include="Models\Dto\BelgeKalemDto.cs" />
     <Compile Include="Models\Dto\CariNotListeViewModel.cs" />
     <Compile Include="Models\Dto\CariKisiListeViewModel.cs" />
+    <Compile Include="Models\Dto\GrupkoduListeViewModel.cs" />
     <Compile Include="Models\Dto\StokListeViewModel.cs" />
     <Compile Include="Models\Dto\CariZiyaretListeViewModel.cs" />
     <Compile Include="Models\Dto\KullaniciListeViewModel.cs" />

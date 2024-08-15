@@ -412,15 +412,7 @@ namespace YKPortal.Controllers
             ViewBag.Ziyaretler = ziyaretler;
             ViewBag.CariID = CariID;
 
-            var model = new CariZiyaretListeViewModel
-            {
-                Ziyaretler = dt,
-                Sil = YetkiKontrolu("/Cari/Liste", "Sil"),
-                Duzenle = YetkiKontrolu("/Cari/Liste", "Duzenle")
-
-            };
-
-            return View(model);
+         return View(dt);
         }
 
         [HttpGet]

@@ -19,7 +19,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Tanimlamalar/GrupKodu", "Gor"))
+            if (!YetkiKontrolu($"/Tanimlamalar/GrupKodu?grupKodu={grupKodu}", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -36,7 +36,15 @@ namespace YKPortal.Controllers
             ViewBag.aranacakKelime = aranacakKelime;
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            return View(dt);
+            var model = new GrupkoduListeViewModel
+            {
+                GrupKodlari = dt,
+                Sil = YetkiKontrolu($"/Tanimlamalar/GrupKodu?grupKodu={grupKodu}", "Sil"),
+                Duzenle = YetkiKontrolu($"/Tanimlamalar/GrupKodu?grupKodu={grupKodu}", "Duzenle")
+
+            };
+
+            return View(model);
 
         }
         [HttpGet]
@@ -86,10 +94,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/Tanimlamalar/Liste", "Gor"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
+         
 
             var uyelikId = GetCookie("UyelikID");
             SqlCommand cmd = new SqlCommand();
@@ -108,10 +113,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Tanimlamalar/Liste", "Duzenle"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
+           
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_GrupKoduKaydet";
@@ -132,7 +134,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/Tanimlamalar/Liste", "Sil"))
+            if (!YetkiKontrolu($"/Tanimlamalar/GrupKodu?grupKodu={grupKodu}", "Sil"))
             {
                 return Redirect("~/YK/Anasayfa");
             }

@@ -85,7 +85,9 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Anasayfa");
             }
 
-            return View();
+            ViewBag.Depolar = DepoListesiGetir();
+
+            return View(new BelgeDto());
         }
 
         [HttpPost]
@@ -236,11 +238,6 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatisIrsaliyesi/Liste/?Tip=SI", "Gor"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
-
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "p_Belge";
@@ -297,6 +294,8 @@ namespace YKPortal.Controllers
                 cmdDepolar.Parameters.AddWithValue("@AranacakKelime", "");
                 ViewBag.Depolar = (DataTable)IDVeritabani.Sorgula(cmdDepolar, SorgulaTuru.Tablo);
             }
+
+            ViewBag.Duzenle = YetkiKontrolu("/SatisIrsaliyesi/Liste/?Tip=SI", "Duzenle");
 
             return View(entity);
         }
@@ -472,6 +471,19 @@ namespace YKPortal.Controllers
             {
                 return false;
             }
+        }
+
+        private DataTable DepoListesiGetir()
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_DepoListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@AranacakKelime", string.Empty);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return dt;
         }
     }
 }

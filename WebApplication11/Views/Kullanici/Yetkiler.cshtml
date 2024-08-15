@@ -42,7 +42,7 @@
                                     </div>
                                     <div class="col-lg-2 text-center border-start border-end">
                                         <label class="w-100 h-100 px-2 py-4" for="@(yetki.MenuID)-Duzenle">
-                                            <input type="checkbox" @(yetki.Duzenle ? "checked" : "") id="@(yetki.MenuID)-Duzenle" name="@(yetki.MenuID)-Duzenle" data-menuId="@yetki.MenuID" data-tip="Duzenle" data-grup="yetki" />
+                                            <input type="checkbox"  id="@(yetki.MenuID)-Duzenle" name="@(yetki.MenuID)-Duzenle" data-menuId="@yetki.MenuID" data-tip="Duzenle" data-grup="yetki" checked />
                                         </label>
                                     </div>
                                     <div class="col-lg-2 text-center border-end">
@@ -79,7 +79,7 @@
                                                     </div>
                                                     <div class="col-lg-2 text-center border-start border-end">
                                                         <label class="w-100 h-100 px-2 py-4" for="@(altYetki.MenuID)-Duzenle">
-                                                            <input type="checkbox" @(altYetki.Duzenle ? "checked" : "") id="@(altYetki.MenuID)-Duzenle" name="@(altYetki.MenuID)-Duzenle" data-menuId="@altYetki.MenuID" data-tip="Duzenle" data-grup="yetki" />
+                                                            <input type="checkbox" id="@(altYetki.MenuID)-Duzenle" name="@(altYetki.MenuID)-Duzenle" data-menuId="@altYetki.MenuID" data-tip="Duzenle" data-grup="yetki" checked />
                                                         </label>
                                                     </div>
                                                     <div class="col-lg-2 text-center border-end">
@@ -108,7 +108,7 @@
                                                                 </div>
                                                                 <div class="col-lg-2 text-center border-start border-end">
                                                                     <label class="w-100 h-100 px-2 py-4" for="@(enAltYetki.MenuID)-Duzenle">
-                                                                        <input type="checkbox" @(enAltYetki.Duzenle ? "checked" : "") id="@(enAltYetki.MenuID)-Duzenle" name="@(enAltYetki.MenuID)-Duzenle" data-menuId="@enAltYetki.MenuID" data-tip="Duzenle" data-grup="yetki" />
+                                                                        <input type="checkbox" @(enAltYetki.Duzenle ? "checked" : "checked") id="@(enAltYetki.MenuID)-Duzenle" name="@(enAltYetki.MenuID)-Duzenle" data-menuId="@enAltYetki.MenuID" data-tip="Duzenle" data-grup="yetki" checked />
                                                                     </label>
                                                                 </div>
                                                                 <div class="col-lg-2 text-center border-end">
@@ -129,8 +129,8 @@
 
                     </div>
                     <div class="d-flex align-items-center justify-content-end mt-6">
-                        <button id="TumunuSec" class="btn btn-secondary btn-sm fw-bold">Tümünü Seç</button>
-                        <button id="TumunuKaldir" class="btn btn-secondary btn-sm fw-bold">Tümünü Kaldır</button>
+                        <button id="TumunuSec" class="btn btn-secondary btn-sm fw-bold me-2">Tümünü Seç</button>
+                        <button id="TumunuKaldir" class="btn btn-secondary btn-sm fw-bold me-2">Tümünü Kaldır</button>
                         <button id="YetkiKaydet" class="btn btn-primary btn-sm fw-bold">Kaydet</button>
                     </div>
                 </div>
