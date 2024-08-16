@@ -79,6 +79,7 @@ namespace YKPortal.Controllers
 
         public ActionResult Ekle(KullaniciEkleDto kullaniciEkleDto, HttpPostedFileBase Resim)
         {
+            IlListesiniOlustur();
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
@@ -160,11 +161,6 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Kullanici/Liste", "Gor"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
-
             IlListesiniOlustur();
             var uyelikId = GetCookie("UyelikID");
             SqlCommand cmd = new SqlCommand();
@@ -184,10 +180,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Kullanici/Liste", "Duzenle"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
+         
 
             if (!ModelState.IsValid)
             {
@@ -429,7 +422,7 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Giris");
 
 
-            if (!YetkiKontrolu("/Kullanici/Yetkiler", "Sil"))
+            if (!YetkiKontrolu("/Kullanici/Liste", "Sil"))
             {
                 return Redirect("~/YK/Anasayfa");
             }

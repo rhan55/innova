@@ -200,6 +200,7 @@
     <Compile Include="Models\Dto\BelgeKalemDto.cs" />
     <Compile Include="Models\Dto\CariNotListeViewModel.cs" />
     <Compile Include="Models\Dto\CariKisiListeViewModel.cs" />
+    <Compile Include="Models\Dto\DovizBirimiDto.cs" />
     <Compile Include="Models\Dto\GrupkoduListeViewModel.cs" />
     <Compile Include="Models\Dto\StokListeViewModel.cs" />
     <Compile Include="Models\Dto\CariZiyaretListeViewModel.cs" />
@@ -2784,6 +2785,10 @@
     <Content Include="Views\Shared\_LayoutSade.cshtml" />
     <Content Include="Views\MailKaliplari\Ekle.cshtml" />
     <Content Include="Views\MailKaliplari\Liste.cshtml" />
+    <Content Include="Views\Tanimlamalar\DovizBirimiListe.cshtml" />
+    <Content Include="Views\Tanimlamalar\DovizBirimiEkle.cshtml" />
+    <Content Include="Views\Tanimlamalar\DovizBirimiDuzenle.cshtml" />
+    <Content Include="Tema\plugins\custom\datatables\languages\tr.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
