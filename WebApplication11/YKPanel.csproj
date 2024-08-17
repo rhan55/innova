@@ -175,6 +175,7 @@
     <Compile Include="Controllers\KullaniciController.cs" />
     <Compile Include="Controllers\OdemeController.cs" />
     <Compile Include="Controllers\ParametreController.cs" />
+    <Compile Include="Controllers\PersonelController.cs" />
     <Compile Include="Controllers\POSAPIController.cs" />
     <Compile Include="Controllers\SatinalmaSiparisiController.cs" />
     <Compile Include="Controllers\SatinalmaIrsaliyesiController.cs" />
@@ -202,6 +203,8 @@
     <Compile Include="Models\Dto\CariKisiListeViewModel.cs" />
     <Compile Include="Models\Dto\DovizBirimiDto.cs" />
     <Compile Include="Models\Dto\GrupkoduListeViewModel.cs" />
+    <Compile Include="Models\Dto\PersonelDto.cs" />
+    <Compile Include="Models\Dto\PersonelListeViewModel.cs" />
     <Compile Include="Models\Dto\StokListeViewModel.cs" />
     <Compile Include="Models\Dto\CariZiyaretListeViewModel.cs" />
     <Compile Include="Models\Dto\KullaniciListeViewModel.cs" />
@@ -2789,6 +2792,9 @@
     <Content Include="Views\Tanimlamalar\DovizBirimiEkle.cshtml" />
     <Content Include="Views\Tanimlamalar\DovizBirimiDuzenle.cshtml" />
     <Content Include="Tema\plugins\custom\datatables\languages\tr.json" />
+    <Content Include="Views\Personel\Liste.cshtml" />
+    <Content Include="Views\Personel\Ekle.cshtml" />
+    <Content Include="Views\Personel\Duzenle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
