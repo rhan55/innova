@@ -428,7 +428,6 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-
             if (!YetkiKontrolu("/Kullanici/Yetkiler", "Sil"))
             {
                 return Redirect("~/YK/Anasayfa");

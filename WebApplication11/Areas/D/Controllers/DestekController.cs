@@ -29,7 +29,7 @@ namespace YKPortal.Areas.D.Controllers
                 cmd.CommandText = "p_KullaniciListesi";
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-                cmd.Parameters.AddWithValue("@AranacakKelime", "");
+                cmd.Parameters.AddWithValue("@AranacakKelime", "DestekKullanicilari");
                 ViewBag.Kullanicilar = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             }
 
@@ -178,6 +178,30 @@ namespace YKPortal.Areas.D.Controllers
             return RedirectToAction("AnaSayfa");
         }
 
+        [HttpPost]
+        public ActionResult DestekTamamla(string GorevID, string Aciklama, string Durumu, DateTime TamamlamaTarihi)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_GorevTamamla";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@GorevID", GorevID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@Aciklama", Aciklama);
+            cmd.Parameters.AddWithValue("@Durumu", Durumu);
+            cmd.Parameters.AddWithValue("@TamamlamaTarihi", TamamlamaTarihi);
+            IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+            #region Mail Gönder
+
+
+            #endregion
+
+            return Redirect("~/D/Destek/DestekDetayi/?ID=" + GorevID);
+        }
 
         [HttpGet]
         public ActionResult AnaSayfa(GorevDto gorevDto, DateTime? Baslangic = null, DateTime? Bitis = null,

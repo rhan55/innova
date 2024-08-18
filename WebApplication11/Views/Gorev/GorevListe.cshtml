@@ -88,8 +88,8 @@
                                                                 <option value="@drKullanici["ID"]" @(Convert.ToString(drKullanici["ID"]) == Convert.ToString(ViewBag.KayitYapanKullanici) ? "selected" : "")>@drKullanici["Ad"] @drKullanici["Soyad"] - @drKullanici["Aciklama1"]</option>
                                                             }
                                                         </select>
-                                                        <label for="AtananKullanici" style="display:none;   ">Atanan</label>
-                                                        <select id="AtananKullanici" name="AtananKullanici" style="display:none;">
+                                                        <label for="AtananKullanici" >Atanan</label>
+                                                        <select id="AtananKullanici" name="AtananKullanici" >
                                                             <option value="">Lütfen Seçim Yapınız</option>
                                                             @foreach (DataRow drKullanici in dtKullanicilar.Rows)
                                                             {
@@ -166,7 +166,7 @@
                                         <!--begin::Table row-->
                                         <tr class="text-start" style="font-size:15px;">
                                             <th class="min-w-125px text-gray-700" colspan="2" style="text-align:center;"><strong>Kaydı Açan</strong></th>
-                                            <th class="min-w-125px text-gray-700"><strong>Periyot<br />BaslangicTarihi</strong></th>
+                                            <th class="min-w-125px text-gray-700"><strong>Periyot<br />Tamamlanma Tarihi</strong></th>
                                             <th class="min-w-125px text-gray-700"><strong>Açıklama</strong></th>
                                             <th class="text-end min-w-100px no-export text-gray-700"><strong>İşlemler</strong></th>
                                         </tr>

@@ -42,6 +42,11 @@
                         </td>
                     </tr>
                     <tr>
+                        <td style="vertical-align: top; width: 140px;">Durumu</td>
+                        <td style="vertical-align: top; padding-left: 5px; padding-right: 5px;">:</td>
+                        <td><strong>@Convert.ToString(Model.Tables[0].Rows[0]["Durumu"])</strong></td>
+                    </tr>
+                    <tr>
                         <td style="vertical-align: top; width: 140px;">Açıklama</td>
                         <td style="vertical-align: top; padding-left: 5px; padding-right: 5px;">:</td>
                         <td>@Convert.ToString(Model.Tables[0].Rows[0]["Aciklama"])</td>
@@ -80,15 +85,12 @@
             <div style="clear:both;"></div>
             @if(Model.Tables[2].Rows.Count > 0)
             {
-            <table class="form-control tab-content" style="background-color: #398439; color: white;">
+            <table class="form-control tab-content" style="background-color: #398439; color: white;width:100%;" border="1">
                 <thead>
                     <tr>
-                        <th style="padding: 5px;"><strong>GÖREVİ<br />SONUÇLANDIRAN</strong></th>
-                        <th style="padding: 5px;"><strong>SONUÇLANMA<br />TARİHİ</strong></th>
-                        <th style="padding: 5px;"><strong>SONUÇ<br />AÇIKLAMASI</strong></th>
-                    </tr>
-                    <tr>
-                        <th colspan="3"><hr /></th>
+                        <th style="padding: 5px;"><strong>SONUÇLANDIRAN</strong></th>
+                        <th style="padding: 5px;"><strong>TARİHİ</strong></th>
+                        <th style="padding: 5px;"><strong>AÇIKLAMASI</strong></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -99,17 +101,15 @@
                             <td style="padding: 5px; vertical-align: top;">@Convert.ToDateTime(sonuc["TamamlamaTarihi"]).ToString("dd-MM-yyyy HH:mm")</td>
                             <td style="padding: 5px;">
                                 @sonuc["Aciklama"]
-                                <hr />
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
             }
-            @if (Model.Tables[2].Select(" KullaniciID = '" + KullaniciID + "' ").Count() == 0 &&
-                 Model.Tables[1].Select(" KullaniciID = '" + KullaniciID + "' ").Count() > 0)
+            @if (Convert.ToString(Model.Tables[0].Rows[0]["Durumu"]) != "Tamamlandı")
             {
-                <form id="" class="" action="@Url.Action("GorevTamamla","Gorev",new { GorevID = Model.Tables[0].Rows[0]["ID"] })" method="post" enctype="multipart/form-data">
+                <form id="" class="" action="@Url.Action("DestekTamamla","Destek",new { Area  = "D", GorevID = Model.Tables[0].Rows[0]["ID"] })" method="post" enctype="multipart/form-data">
                     <!--begin::Scroll-->
 
                     <div class="d-flex flex-column scroll-y px-5 px-lg-10  mt-10">
@@ -127,8 +127,21 @@
                                 <!--end::Input-->
                             </div>
                         </div>
-                        <!--end::Input group-->
-                        <div class="row">
+
+                        <div class="row mb-12">
+                            <!--begin::Input group-->
+                            <div class="col-lg-3">
+                                <!--begin::Label-->
+                                <label for="Aciklama" class="fw-semibold fs-6 mb-2">Durumu</label>
+                                <!--end::Label-->
+                                <!--begin::texarea-->
+                                <select id="Durumu" name="Durumu" class="form-control">
+                                    <option value="Beklemede" @(Convert.ToString(Model.Tables[0].Rows[0]["ID"]) == "Beklemede" ? "selected" : "")>Beklemede</option>
+                                    <option value="Cevaplandı" @(Convert.ToString(Model.Tables[0].Rows[0]["ID"]) == "Cevaplandı" ? "selected" : "")>Cevaplandı</option>
+                                    <option value="Tamamlandı" @(Convert.ToString(Model.Tables[0].Rows[0]["ID"]) == "Tamamlandı" ? "selected" : "")>Tamamlandı</option>
+                                </select>
+                                <!--end::Input-->
+                            </div>
                             <!--begin::Input group-->
                             <div class="col-lg-3">
                                 <!--begin::Label-->
@@ -138,13 +151,13 @@
                                 <input type="datetime-local" name="TamamlamaTarihi" id="TamamlamaTarihi" value="@(DateTime.Now.ToString("yyyy-MM-dd HH:mm"))" class="form-control p-2 mb-3 mb-lg-0" value="" />
                                 <!--end::Input-->
                             </div>
-                        </div>
-                        <!--begin::Actions-->
-                        <div class="pt-10">
-                            <a onclick="history.back()"  class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
-                            <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Duzenle">
-                                <span class="indicator-label">Görevi Sonuçlandır</span>
-                            </button>
+                            <!--begin::Actions-->
+                            <div class="pt-6">
+                                <a onclick="history.back()" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
+                                <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Duzenle">
+                                    <span class="indicator-label">Kaydet</span>
+                                </button>
+                            </div>
                         </div>
 
                         <!--end::Actions-->

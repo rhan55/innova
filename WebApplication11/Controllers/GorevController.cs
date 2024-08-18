@@ -348,6 +348,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@Bitis", Bitis);
             cmd.Parameters.AddWithValue("@GorevTipiID", GorevTipiID);
             cmd.Parameters.AddWithValue("@KayitYapanKullanici", KayitYapanKullanici);
+            cmd.Parameters.AddWithValue("@AtananKullanici", AtananKullanici);
             cmd.Parameters.AddWithValue("@Durum", Durum);
             DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
 

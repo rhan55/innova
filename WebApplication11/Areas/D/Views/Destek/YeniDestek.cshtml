@@ -38,18 +38,18 @@
                                 <option value="">Lütfen Seçim Yapınız</option>
                                 @foreach (GrupKoduDto gorevTipi in ViewBag.GorevTipleri)
                                 {
-                                    <option value="@gorevTipi.ID">@gorevTipi.Deger</option>
+                                    <option value="@gorevTipi.ID" @(((List<GrupKoduDto>)ViewBag.GorevTipleri).Count <= 1 ? "selected" : "")>@gorevTipi.Deger</option>
                                 }
                             </select>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" style="@(dtKullanicilar.Rows[0]["KullaniciAdi"].ToString().EndsWith("ykyazilim.com.tr") ? "" : "display:none;") ">
                             <label for="Kullanicilar">Departman</label>
                             <select class="form-control p-2 rounded-1" data-control="select2" id="Kullanicilar" name="Kullanicilar"
                                     aria-label="Floating label select example" required>
                                 <option value="">Lütfen Seçim Yapınız</option>
                                 @foreach (DataRow drKullanici in dtKullanicilar.Rows)
                                 {
-                                    <option value="@drKullanici["ID"]">@drKullanici["Ad"] @drKullanici["Soyad"] - @drKullanici["Aciklama1"]</option>
+                                    <option value="@drKullanici["ID"]" @(dtKullanicilar.Rows.Count <= 1 ? "selected" : "")>@drKullanici["Ad"] @drKullanici["Soyad"] - @drKullanici["Aciklama1"]</option>
                                 }
                             </select>
                         </div>
