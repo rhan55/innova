@@ -1,0 +1,60 @@
+﻿@model System.Data.DataTable
+@{
+    ViewBag.Title = "Doviz Birimi Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <form id="kt_modal_add_user_form" class="form container" action="@Url.Action("DovizBirimiEkle","Tanimlamalar",null)" method="post">
+        <div class="d-flex flex-column mt-10">
+
+            <!--begin::Row Input group-->
+            <div class="row">
+                <!--begin::Input group-->
+                <div class="col-lg-6">
+                    <!--begin::Label-->
+                    <label class="fw-bold fs-6 mb-2">Kod</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input type="text" name="Kod" class="form-control  p-2 mb-3 mb-lg-0" placeholder="Kod" required />
+
+                    <!--end::Input-->
+                </div>
+                <!--end::Input group-->
+                <!--begin::Input group-->
+                <div class="col-lg-6">
+                    <!--begin::Label-->
+                    <label class="fw-bold fs-6 mb-2">İsim</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input type="text" name="Isim" class="form-control p-2 mb-3 mb-lg-0" autofocus required />
+                    <!--end::Input-->
+                </div>
+                <!--end::Input group-->
+            </div>
+            <!--end::Row Input group-->
+
+
+        </div>
+        <!--begin::Actions-->
+        <div class="pt-10">
+            <a onclick="history.back()" class="btn btn-light btn-sm fw-bold me-3" data-kt-users-modal-action="cancel">Geri</a>
+            <button type="submit" class="btn btn-primary btn-sm fw-bold" data-kt-users-modal-action="Kaydet">
+                <span class="indicator-label">Kaydet</span>
+                <span class="indicator-progress">
+                    Lütfen Bekleyin...
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+        </div>
+        <!--end::Actions-->
+    </form>
+
+
+</div>
+
+@section Scripts {
+
+    <script>
+    </script>
+}

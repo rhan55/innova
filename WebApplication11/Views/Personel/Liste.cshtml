@@ -1,9 +1,8 @@
-﻿@model YKPortal.Models.Dto.CariListeViewModel
+﻿@model YKPortal.Models.Dto.PersonelListeViewModel
 @{
-    ViewBag.Title = "Cari Listesi";
+    ViewBag.Title = "Personel Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 
 <div class="container-fluid p-0">
     <div class="row p-0 m-0">
@@ -78,97 +77,15 @@
                                     <!--begin::Hide default export buttons-->
                                     <div id="kt_datatable_example_buttons" class="d-none"></div>
                                     <!--end::Hide default export buttons-->
-                                    <a href="/Cari/Ekle" class="btn btn-primary btn-sm fw-bold me-4">
-                                        <i class="ki-duotone ki-plus fs-2"></i>Cari Ekle
+                                    <a href="/Personel/Ekle" class="btn btn-primary btn-sm fw-bold me-4">
+                                        <i class="ki-duotone ki-plus fs-2"></i>Personel Ekle
                                     </a>
                                 </div>
                             </div>
                         </div>
 
                         <div>
-                            <div class="container-fluid" id="DivFiltre" name="DivFiltre" style="display:none;">
-                                <div class="card border-0 shadow-none">
-                                    <div class="card-body">
-                                        <!--begin::Filtreleme alanı-->
-                                        <form method="POST" action="" class="content p-0" id="datatableFilters">
-                                            <div class="d-flex">
-                                                <h3 class="text-gray-600 fw-bold mb-4">Filtreler</h3>
-                                                <i class="ki-duotone ki-filter-search fs-2">
-                                                    <span class="path1"></span>
-                                                    <span class="path2"></span>
-                                                    <span class="path3"></span>
-                                                </i>
-                                            </div>
 
-                                            <div class="row">
-                                                <div class="col-lg-3">
-                                                    <!--begin::Label-->
-                                                    <label for="Kod" class="fw-bold fs-6 mb-2 text-gray-600">Kod</label>
-                                                    <!--end::Label-->
-                                                    <!--begin::Input-->
-                                                    <input type="text" name="Kod" id="Kod" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.Kod)" />
-                                                    <!--end::Input-->
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <!--begin::Label-->
-                                                    <label for="Isim" class="fw-bold fs-6 mb-2 text-gray-600">Kısa İsim</label>
-                                                    <!--end::Label-->
-                                                    <!--begin::Input-->
-                                                    <input type="text" name="Isim" id="Isim" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.Isim)" />
-                                                    <!--end::Input-->
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <!--begin::Label-->
-                                                    <label for="Unvan" class="fw-bold fs-6 mb-2 text-gray-600">Ünvan</label>
-                                                    <!--end::Label-->
-                                                    <!--begin::Input-->
-                                                    <input type="text" name="Unvan" id="Unvan" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.Unvan)" />
-                                                    <!--end::Input-->
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <!--begin::Label-->
-                                                    <label for="VergiNumarasi" class="fw-bold fs-6 mb-2 text-gray-600">VergiNumarasi</label>
-                                                    <!--end::Label-->
-                                                    <!--begin::Input-->
-                                                    <input type="text" name="VergiNumarasi" id="VergiNumarasi" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.VergiNumarasi)" />
-                                                    <!--end::Input-->
-                                                </div>
-
-                                            </div>
-                                            <div class="row mt-4">
-
-                                                <div class="col-lg-3">
-                                                    <!--begin::Label-->
-                                                    <label for="TCKimlikNo" class="fw-bold fs-6 mb-2 text-gray-600">TCKimlikNo</label>
-                                                    <!--end::Label-->
-                                                    <!--begin::Input-->
-                                                    <input type="text" name="TCKimlikNo" id="TCKimlikNo" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.TCKimlikNo)" />
-                                                    <!--end::Input-->
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <!--begin::Label-->
-                                                    <label for="GrupKodu2ID" class="fw-bold fs-6 mb-2 text-gray-600">Cep Telefonu</label>
-                                                    <!--end::Label-->
-                                                    <!--begin::Input-->
-                                                    <input type="text" name="CepTelefonu" id="CepTelefonu" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.CepTelefonu)" />
-                                                    <!--end::Input-->
-                                                </div>
-                                                <div class="col-lg-3 ">
-
-                                                </div>
-                                                <div class="col-lg-3 d-flex justify-content-end align-items-end">
-                                                    <button type="button" id="filtreleriTemizle" class="btn btn-light btn-sm fw-bold me-3" data-kt-users-modal-action="cancel">Temizle</button>
-                                                    <button type="submit" class="btn btn-primary btn-sm fw-bold" data-kt-users-modal-action="Ara">
-                                                        <span class="indicator-label">Filtrele</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                        </form>
-                                        <!--end::Filtreleme alanı-->
-                                    </div>
-                                </div>
-                            </div>
                             <style>
                                 .max-w-250 {
                                     max-width: 250px !important;
@@ -179,53 +96,41 @@
                                 }
                             </style>
                             <div class="my-4 scroll-x">
-                                <table class="table p-2 align-middle border rounded table-row-dashed fs-6 display nowrap w-100" id="Cari-datatable">
+                                <table class="table p-2 align-middle border rounded table-row-dashed fs-6 display nowrap w-100" id="Personel-datatable">
 
                                     <thead>
 
                                         <!--begin::Table row-->
                                         <tr class="text-start" style="font-size:15px;">
                                             <th id="select" class="min-w-40px max-w-40 no-export"></th>
-                                            <th class="min-w-125px"><strong>Cari Kodu</strong></th>
-                                            <th class="min-w-125px max-w-360"><strong>Cari İsmi</strong></th>
-                                            <th class="min-w-125px max-w-360 no-export"><strong>Ünvan</strong></th>
-                                            <th class="min-w-125px mt-8"><strong>Cep Telefonu</strong></th>
-                                            <th class="min-w-125px mt-8"><strong>GrupKodu1</strong></th>
-                                            <th class="min-w-125px"><strong>GrupKodu2</strong></th>
+                                            <th class="min-w-125px"><strong>Isim</strong></th>
+                                            <th class="min-w-125px max-w-360"><strong>Email</strong></th>
+                                            <th class="min-w-125px max-w-360"><strong>Telefon</strong></th>
                                             <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
                                             <th class="text-end min-w-100px  no-export"><strong>ID</strong></th>
                                         </tr>
                                         <!--end::Table row-->
                                     </thead>
                                     <tbody class="text-gray-600 fw-semibold">
-                                        @for (var i = 0; i < Model.Cari.Rows.Count; i++)
+                                        @foreach (var personel in Model.Personeller)
                                         {
                                             <tr>
                                                 <td class="pt-4 pb-4">
                                                 </td>
-
-                                                <td class="pt-4 pb-4">
-                                                    @(Convert.ToString(Model.Cari.Rows[i]["Kod"]))
-                                                </td>
                                                 <td class="pt-4 ">
-                                                    <a href="/Cari/Duzenle/@(Convert.ToString(Model.Cari.Rows[i]["ID"]))">
-                                                        <strong class="text-wrap max-w-360 d-block"> @(Convert.ToString(Model.Cari.Rows[i]["Isim"])) </strong>
+                                                    <a href="/Cari/Duzenle/@(personel.ID)">
+                                                        <strong class="text-wrap max-w-360 d-block"> @(personel.Isim)</strong>
                                                     </a>
                                                 </td>
                                                 <td class="pt-4 pb-4">
                                                     <span class="text-wrap max-w-360 d-block">
-                                                        @(Convert.ToString(Model.Cari.Rows[i]["Unvan"]))
+                                                        @(personel.Email)
                                                     </span>
-
                                                 </td>
                                                 <td class="pt-4 pb-4">
-                                                    @(Convert.ToString(Model.Cari.Rows[i]["CepTelefonu"]))
-                                                </td>
-                                                <td class="pt-4 pb-4">
-                                                    @(Convert.ToString(Model.Cari.Rows[i]["GrupKoduAdi1"]))
-                                                </td>
-                                                <td class="pt-4 pb-4">
-                                                    @(Convert.ToString(Model.Cari.Rows[i]["GrupKoduAdi2"]))
+                                                    <span class="text-wrap max-w-360 d-block">
+                                                        @(personel.Telefon)
+                                                    </span>
                                                 </td>
                                                 <td class="text-end pt-4 pb-4">
                                                     <button class="dropdown btn btn-light btn-active-light-primary btn-flex btn-center btn-sm fw-bold" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -238,7 +143,7 @@
                                                         @if (Model.Duzenle)
                                                         {
                                                             <div class="menu-item p-0">
-                                                                <a href="/Cari/Duzenle/@(Convert.ToString(Model.Cari.Rows[i]["ID"]))" class="menu-link py-0  px-2">Düzenle</a>
+                                                                <a href="/Personel/Duzenle?ID=@(personel.ID)" class="menu-link py-0  px-2">Düzenle</a>
                                                             </div>
                                                         }
                                                         <!--end::Menu item-->
@@ -247,43 +152,22 @@
                                                         @if (Model.Sil)
                                                         {
                                                             <div class="menu-item p-0">
-                                                                <button type="button" data-id="@(Convert.ToString(Model.Cari.Rows[i]["ID"]))" class="btn btn-sm rounded-0 w-100 menu-link py-0  px-2 btn-sil cari-silme" data-bs-toggle="modal" data-bs-target="#Cari-silme">
+                                                                <button type="button" data-id="@(personel.ID)" class="btn btn-sm rounded-0 w-100 menu-link py-0  px-2 btn-sil cari-silme" data-bs-toggle="modal" data-bs-target="#Cari-silme">
                                                                     Sil
                                                                 </button>
                                                             </div>
                                                         }
-                                                        
-                                                        <!--end::Menu item-->
-                                                        <!--begin::Menu item-->
-                                                        
-                                                        <!--end::Menu item-->
-                                                        <!--begin::Menu item-->
-                                                        <div class="menu-item p-0">
-                                                            <a href="/Cari/KisiListe?CariID=@(Convert.ToString(Model.Cari.Rows[i]["ID"]))" class="menu-link py-0  px-2">Kişiler</a>
-                                                        </div>
-                                                        <!--end::Menu item-->
-                                                        <!--begin::Menu item-->
-                                                        <div class="menu-item">
-                                                            <a href="/Cari/NotListe?CariID=@(Convert.ToString(Model.Cari.Rows[i]["ID"]))" class="menu-link py-0  px-2">Notlar</a>
-                                                        </div>
-                                                        <div class="menu-item p-0">
-                                                            <a href="/Dosya/Liste?Modul=Cari&KayitID=@(Convert.ToString(Model.Cari.Rows[i]["ID"]))" class="menu-link py-0  px-2">Dosyalar</a>
-                                                        </div>
-                                                        <div class="menu-item p-0">
-                                                            <a href="/Cari/ZiyaretListe?CariID=@(Convert.ToString(Model.Cari.Rows[i]["ID"]))" class="menu-link py-0  px-2">Aktiviteler</a>
-                                                        </div>
-                                                        <div class="menu-item p-0">
-                                                            <a href="/Cari/YeniCariHareketKaydi?CariID=@(Convert.ToString(Model.Cari.Rows[i]["ID"]))" class="menu-link py-0  px-2">Yeni Cari Hareket</a>
-                                                        </div>
 
                                                         <!--end::Menu item-->
 
                                                     </div>
                                                     <!--end::Menu-->
                                                 </td>
-                                                <td class="">@(Convert.ToString(Model.Cari.Rows[i]["ID"]))</td>
+                                                <td class="">@(personel.ID)</td>
                                             </tr>
+
                                         }
+
                                     </tbody>
                                 </table>
                             </div>
@@ -299,7 +183,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Cari Silme İşlemi</h3>
+                <h3 class="modal-title">Personel Silme İşlemi</h3>
 
                 <!--begin::Close-->
                 <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
@@ -309,12 +193,12 @@
             </div>
 
             <div class="modal-body">
-                <p>Cariyi silmek istediğinize emin misiniz?</p>
+                <p>Personeli silmek istediğinize emin misiniz?</p>
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-light btn-sm fw-bold" data-bs-dismiss="modal">Vazgeç</button>
-                <form method="post" id="silme-formu" action="@Url.Action("Sil","Cari",null)">
+                <form method="post" id="silme-formu" action="@Url.Action("Sil","Personel",null)">
                     <input type="hidden" name="id" value="" />
                     <button type="submit" class="btn btn-danger btn-sm fw-bold">Sil</button>
                 </form>
@@ -323,30 +207,6 @@
     </div>
 </div>
 
-<div class="modal fade" id="Cari-toplu-silme" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Cari Silme İşlemi</h3>
-
-                <!--begin::Close-->
-                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
-                </div>
-                <!--end::Close-->
-            </div>
-
-            <div class="modal-body">
-                <p>Seçtiğiniz carileri silmek istediğinize emin misiniz?</p>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Vazgeç</button>
-                <button type="button" id="topluSilOnay" class="btn btn-danger">Sil</button>
-            </div>
-        </div>
-    </div>
-</div>
 @section Styles {
 }
 @section Scripts {
@@ -403,33 +263,6 @@
                     })
                     document.querySelector("form#datatableFilters").submit();
                 });
-            }
-
-            $('#topluSilOnay').on('click', function () {
-                topluSil();
-            })
-
-            function topluSil() {
-                var idListesi = [];
-                $('#Cari-datatable tr.selected .btn-sil.cari-silme').each(function (event) {
-                    var id = $(this).attr('data-id');
-                    idListesi.push(id);
-
-                })
-                $.ajax({
-                    url: "/Cari/TopluSil",
-                    method: "POST",
-                    data: { idListesi: idListesi },
-                    success: function (response) {
-                        console.log("Success:", response);
-                        window.location.reload();
-                    },
-                    error: function (xhr, status, error) {
-
-                        console.log("Error:", xhr.responseText);
-                    }
-                })
-
             }
 
         });
@@ -489,7 +322,7 @@
 
                     columnDefs: [
                         {
-                            targets: [8],// Sütunu seç
+                            targets: [5],// Sütunu seç
 
                             "visible": false, // Sütunu gizle
                             "searchable": false // Aranabilirlik özelliğini kapat (isteğe bağlı)
@@ -503,7 +336,7 @@
                             searchable: false,
                         },
                         {
-                            targets: [0, 3, 8],
+                            targets: [0, 5],
                             className: 'noVis'
                         },
                     ],
@@ -540,7 +373,7 @@
 
             // Hook export buttons
             var exportButtons = () => {
-                const documentTitle = 'Cari-Listesi-' + moment(new Date()).format("DD-MM-YYYY");
+                const documentTitle = 'Personel-Listesi-' + moment(new Date()).format("DD-MM-YYYY");
                 var buttons = new $.fn.dataTable.Buttons(table, {
                     buttons: [
                         {
@@ -607,11 +440,11 @@
             // Kolonları aldıktan sonra Cari-datatable cookie'si içerisinde kaydedeceğiz.
             function saveDataTableSettingsToCookie(table) {
                 let settings = getDataTableColumnSettings(table);
-                setCookie('Cari-datatable', JSON.stringify(settings), 7);
+                setCookie('Personel-datatable', JSON.stringify(settings), 7);
             }
 
             function saveDataTableColumnSettingsToCookie(table, column, state) {
-                var settings = getCookie("Cari-datatable");
+                var settings = getCookie("Personel-datatable");
 
                 if (settings) {
                     settings = JSON.parse(settings);
@@ -625,12 +458,12 @@
 
                     //console.log(settings);
 
-                    setCookie('Cari-datatable', JSON.stringify(settings), 365);
+                    setCookie('Personel-datatable', JSON.stringify(settings), 365);
                 }
             }
 
             function loadDataTableSettingsFromCookie(table) {
-                let settings = getCookie('Cari-datatable');
+                let settings = getCookie('Personel-datatable');
                 //console.log(table);
                 if (settings) {
                     settings = JSON.parse(settings);
@@ -648,7 +481,7 @@
             // Public methods
             return {
                 init: function () {
-                    table = document.querySelector('#Cari-datatable');
+                    table = document.querySelector('#Personel-datatable');
 
                     if (!table) {
                         return;

@@ -150,6 +150,114 @@ namespace YKPortal.Controllers
             return RedirectToAction("GrupKodu", new { grupKodu = grupKodu });
         }
 
+        [HttpGet]
+        public ActionResult DovizBirimiEkle()
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+     
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult DovizBirimiEkle(DovizBirimiDto dovizBirimiDto)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_DovizKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@ID", "");
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@Kod", dovizBirimiDto.Kod);
+            cmd.Parameters.AddWithValue("@Isim", dovizBirimiDto.Isim);
+           
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            return RedirectToAction("DovizBirimiListe");
+        }
+        [HttpGet]
+        public ActionResult DovizBirimiListe(string aranacakKelime = "")
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_DovizListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@AranacakKelime", aranacakKelime);
+
+            ViewBag.AranacakKelime = aranacakKelime;
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return View(dt);
+        }
+
+        [HttpGet]
+        public ActionResult DovizBirimiDuzenle(string id)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+       
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_Doviz";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return View(dt);
+        }
+        [HttpPost]
+        public ActionResult DovizBirimiDuzenle(DovizBirimiDto dovizBirimiDto)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+         
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_DovizKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+
+            cmd.Parameters.AddWithValue("@ID", "");
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@Kod", dovizBirimiDto.Kod);
+            cmd.Parameters.AddWithValue("@Isim", dovizBirimiDto.Isim);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return RedirectToAction("DovizBirimiListe");
+        }
+        [HttpPost]
+        public ActionResult DovizBirimiSil(string id)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_DovizSil";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+           
+
+            return RedirectToAction("DovizBirimiListe");
+        }
+
+
         #region Cookie İşlemleri
         private string GetCookie(string name)
         {
