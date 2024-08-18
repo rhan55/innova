@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Web;
 
 namespace YKPortal.Models.YKClasses
@@ -45,6 +46,39 @@ namespace YKPortal.Models.YKClasses
             catch
             {
                 return "";
+            }
+        }
+
+        public static void MailGonder(string Baslik, string Icerik, string GonderilecekMailAdresleri,
+            string GonderenMailAdresi, string GonderenMailSifresi, string GonderenMailServer, int GonderenMailPort, 
+            bool GonderenMailSSL)
+        {
+
+            SmtpClient sc = new SmtpClient();
+            sc.Port = GonderenMailPort; // 587;
+            sc.Host = GonderenMailServer; // "mail.ykyazilim.com.tr";
+            sc.EnableSsl = GonderenMailSSL; // false;
+            sc.Credentials = new NetworkCredential(GonderenMailAdresi, GonderenMailSifresi);
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress(GonderenMailAdresi, ConfigurationManager.AppSettings["FirmaAdi"]);
+
+            foreach (string mailAdresi in GonderilecekMailAdresleri.Split(';'))
+            {
+                if(mailAdresi.Trim().Length > 0)
+                    mail.To.Add(mailAdresi);
+            }
+            
+
+            mail.Subject = Baslik;
+            mail.IsBodyHtml = true;
+            mail.Body =Icerik;
+            try
+            {
+                sc.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
 
