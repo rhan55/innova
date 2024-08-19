@@ -35,9 +35,16 @@
         <div class="card col-lg-8 p-20 mt-5">
             <div class="">
                 <h2 class="mb-10 fw-bold text-gray-700 text-center">Ödeme İşlemi</h2>
+                @if (ViewBag.Hata != null)
+                {
+                    <div class="bg-danger text-white">
+                        @ViewBag.Hata
+                    </div>
+                }
 
                 <!--begin::Form-->
                 <form id="paymentForm" method="POST" action="/processPayment" class="form fv-plugins-bootstrap5 fv-plugins-framework">
+                    <input type="hidden" name="UyelikPaketID" value="@ViewBag.PaketID" />
                     <!--begin::Input group-->
                     <div class="d-flex flex-column mb-7 fv-row fv-plugins-icon-container">
                         <!--begin::Label-->
@@ -184,22 +191,7 @@
 
 @section Scripts {
     <script>
-        document.getElementById('paymentForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            var formData = new FormData(this);
-            fetch('/processPayment', {
-                method: 'POST',
-                body: formData
-            }).then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Payment successful');
-                    } else {
-                        alert('Payment failed: ' + data.message);
-                    }
-                }).catch(error => console.error('Error:', error));
-        });
+       
     </script>
 
 }

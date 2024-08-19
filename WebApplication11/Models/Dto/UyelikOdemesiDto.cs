@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace YKPortal.Models.Dto
 {
-    public class POSAPIDto
+    public class UyelikOdemesiDto
     {
 
         private string _UyelikID;
@@ -26,7 +26,7 @@ namespace YKPortal.Models.Dto
         private string _KrediKartCVV;
         private string _SonucKodu;
         private string _SonucAciklama;
-        
+        private string _UyelikPaketID;
 
      
         public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; } }
@@ -42,7 +42,8 @@ namespace YKPortal.Models.Dto
         public string KrediKartCVV { get { return _KrediKartCVV ?? ""; } set { _KrediKartCVV = value; } }
         public string SonucKodu { get { return _SonucKodu ?? ""; } set { _SonucKodu = value; } }
         public string SonucAciklama { get { return _SonucAciklama ?? ""; } set { _SonucAciklama = value; } }
-      
+        public string UyelikPaketID { get { return _UyelikPaketID ?? ""; } set { _UyelikPaketID = value; } }
+
 
     }
 }

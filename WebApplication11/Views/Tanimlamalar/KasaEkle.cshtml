@@ -1,0 +1,164 @@
+﻿@using YKPortal.Models.Dto;
+@model YKPortal.Models.Dto.KasaTanimlamaDto
+@{
+    ViewBag.Title = "Kasa Ekle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="Container-fluid mt-10">
+    <form id="kt_modal_add_user_form" class="form container" action="@Url.Action("KasaEkle","Tanimlamalar",null)" method="post">
+        <div class="d-flex flex-column scroll-y px-5 px-lg-10">
+            <!--begin::Row Input group-->
+            <div class="row mb-7 mt-4">
+
+                <!--begin::Input group-->
+                <div class="col-lg-6">
+                    <!--begin::Label-->
+                    <label for="Kod" class="required fw-semibold fs-6 mb-2">Kod</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input type="text" name="Kod" id="Kod" class="form-control p-2 mb-3 mb-lg-0" value="" required />
+
+                    <!--end::Input-->
+                </div>
+                <!--end::Input group-->
+                <!--begin::Input group-->
+                <div class="col-lg-6">
+                    <!--begin::Label-->
+                    <label for="Isim" class=" fw-semibold fs-6 mb-2">isim</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input type="text" name="Isim" id="Isim" class="form-control p-2 mb-3 mb-lg-0" />
+                    <!--end::Input-->
+                </div>
+                <!--end::Input group-->
+            </div>
+            <div class="row">
+                <!--begin::Input group-->
+                <div class="col-lg-6">
+                    <!--begin::Label-->
+                    <label for="DovizID" class="required fw-semibold fs-6 mb-2">DovizID</label>
+                    <!--end::Label-->
+                    <select class="form-control p-2 rounded-1" data-control="select2" name="DovizID" id="DovizID"
+                            aria-label="Floating label select example">
+                        <option value="">Lütfen Seçim Yapınız</option>
+                        @foreach (DovizBirimiDto doviz in ViewBag.Dovizler)
+                        {
+                            <option value="@doviz.ID">@doviz.Isim</option>
+                        }
+                    </select>
+                </div>
+                <!--begin::Input group-->
+                <div class="col-lg-6">
+                    <!--begin::Label-->
+                    <label for="PersonelID" class="required fw-semibold fs-6 mb-2">PersonelID</label>
+                    <!--end::Label-->
+                    <select class="form-control p-2 rounded-1" data-control="select2" name="PersonelID" id="PersonelID"
+                            aria-label="Floating label select example">
+                        <option value="">Lütfen Seçim Yapınız</option>
+                        @foreach (PersonelDto personel in ViewBag.Personeller)
+                        {
+                            <option value="@personel.ID">@personel.Isim</option>
+                        }
+                    </select>
+                    <!--end::Input group-->
+                </div>
+            </div>
+            <!--begin::Actions-->
+            <div class="pt-10">
+                <a onclick="history.back()" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
+                <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet">
+                    <span class="indicator-label">Kaydet</span>
+                </button>
+            </div>
+        </div>
+        <!--end::Actions-->
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            const PersonelIDSelect = $('#PersonelID').select2({
+                ajax: {
+                    url: "/Tanimlamalar/PersonelGetir",
+                    data: function (params) {
+                        var query = {
+                            search: params.term,
+                        }
+
+                        // Query parameters will be ?search=[term]&type=public
+                        return query;
+                    },
+                    processResults: function (data) {
+                        var results = [];
+                        if (data && data.length > 0) {
+                            data.forEach(function (item) {
+                                results.push({ id: item.ID, text: item.Isim })
+                            });
+                        }
+
+                        return {
+                            results: results
+                        };
+                    },
+                },
+                delay: 250,
+                minimumInputLength: 3,
+                language: {
+                    placeholder: function () {
+                        return "Arama yapmak için en az 3 karakter girin";
+                    },
+                    inputTooShort: function () {
+                        return "En azLütfen en az 3 karakter girin";
+                    }
+                }
+            });
+
+            $(document).ready(function () {
+
+                const DovizIDSelect = $('#DovizID').select2({
+                    ajax: {
+                        url: "/Tanimlamalar/DovizGetir",
+                        data: function (params) {
+                            var query = {
+                                search: params.term,
+                            }
+
+                            // Query parameters will be ?search=[term]&type=public
+                            return query;
+                        },
+                        processResults: function (data) {
+                            var results = [];
+                            if (data && data.length > 0) {
+                                data.forEach(function (item) {
+                                    results.push({ id: item.ID, text: item.Isim })
+                                });
+                            }
+
+                            return {
+                                results: results
+                            };
+                        },
+                    },
+                    delay: 250,
+                    minimumInputLength: 3,
+                    language: {
+                        placeholder: function () {
+                            return "Arama yapmak için en az 3 karakter girin";
+                        },
+                        inputTooShort: function () {
+                            return "En azLütfen en az 3 karakter girin";
+                        }
+                    }
+                });
+
+        });
+
+    </script>
+}
+
+
