@@ -3,9 +3,7 @@
 @{
     ViewBag.Title = "Bayi Sipariş Sistemi";
     Layout = "~/Views/Shared/_LayoutSade.cshtml";
-
     string KullaniciAdi = HttpUtility.UrlDecode(Request.Cookies["KullaniciAdi"].Value);
-
 }
 
 <div style="margin-left:auto;margin-right:auto;">
@@ -16,9 +14,15 @@
 
     @if (KullaniciAdi.Contains("@"))
     {
+        <a href="/Ziyaret/Ziyaret/AnaSayfa" style="color: white;">
+            <div class="tum-kenar-oval"
+                 style="width: 150px; height: 50px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
+                Ziyaret
+            </div>
+        </a>
         <a href="/B2BLogo/B2BLogo/CariListesi" style="color: white;">
             <div class="tum-kenar-oval"
-                 style="width:200px;height:50px;text-align:center;background-color:black;color:white;padding:0px;font-size:20px;padding-top:10px;">
+                 style="width: 150px; height: 50px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
                 Cari Seçimi
             </div>
         </a>
@@ -26,31 +30,35 @@
 
     <a href="/B2BLogo/B2BLogo/Siparislerim" style="color: white;">
         <div class="tum-kenar-oval"
-             style="width:200px;height:50px;text-align:center;background-color:black;color:white;padding:0px;font-size:20px;padding-top:10px;">
+             style="width:150px;height:50px;text-align:center;background-color:black;color:white;padding:0px;font-size:20px;padding-top:10px;">
             Siparişlerim
         </div>
     </a>
-    <a href="/B2BLogo/B2BLogo/CariEkstre" style="color: white;">
-        <div class="tum-kenar-oval"
-             style="width:200px;height:50px;text-align:center;background-color:black;color:white;padding:0px;font-size:20px;padding-top:10px;">
-            Cari Ekstre
-        </div>
-    </a>
+
+    @if (KullaniciAdi.Contains("@"))
+    {
+        <a href="/B2BLogo/B2BLogo/CariEkstre" style="color: white;">
+            <div class="tum-kenar-oval"
+                 style="width: 150px; height: 50px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
+                Cari Ekstre
+            </div>
+        </a>
+    }
     <a href="/B2BLogo/B2BLogo/YeniSiparis" style="color: white;">
         <div class="tum-kenar-oval"
-             style="width:200px;height:50px;text-align:center;background-color:black;color:white;padding:0px;font-size:20px;padding-top:10px;">
+             style="width: 150px; height: 50px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
             Yeni Sipariş
         </div>
     </a>
     <a href="/B2BLogo/B2BLogo/Sepetim" style="color: white;">
         <div class="tum-kenar-oval"
-             style="width:200px;height:50px;text-align:center;background-color:black;color:white;padding:0px;font-size:20px;padding-top:10px;">
+             style="width: 150px; height: 50px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
             Sepetim
         </div>
     </a>
     <a href="/YK/Cikis" style="color: white;">
         <div class="tum-kenar-oval"
-             style="width:200px;height:50px;text-align:center;background-color:black;color:white;padding:0px;font-size:20px;padding-top:10px;">
+             style="width: 150px; height: 50px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
             Çıkış
         </div>
     </a>

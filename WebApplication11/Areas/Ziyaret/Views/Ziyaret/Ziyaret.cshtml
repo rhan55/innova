@@ -1,0 +1,295 @@
+﻿@model System.Data.DataSet
+@using System.Data;
+@{
+    ViewBag.Title = "Ziyaret";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    DataTable dt = Model.Tables[0];
+    DataTable dtZiyaret = Model.Tables[1];
+    DataTable dtDosyalar = Model.Tables[2];
+
+    int sira = 0;
+
+}
+<div class="row">
+    <div class="col-md-9 ">
+        <div class="card">
+            <div class="card-body">
+                <div class="media">
+                    <a class="mr-3" href="@Url.Action("Musteri","Home",new { id = dt.Rows[0]["id"] })">
+                        <img class="thumb media-object" src="@Url.Content("~/Content/img/email-img/image2.png")" alt="">
+                    </a>
+                    <div class="media-body">
+                        <h4>#@dt.Rows[0]["id"] |<span class="text-muted small"> - @dt.Rows[0]["Isim"]</span></h4>
+
+                        <address>
+                            <strong><abbr title="Adres">A:</abbr>@dt.Rows[0]["adres"]<br />@dt.Rows[0]["Il"] @dt.Rows[0]["Ilce"]</strong><br>
+                            <abbr title="E-Mail">M:</abbr>@dt.Rows[0]["mail"]<br>
+                            <abbr title="Web Site">W:</abbr>@dt.Rows[0]["website"]<br>
+                            <abbr title="Telefon">T:</abbr>@dt.Rows[0]["Telefon"]
+                        </address><p>
+    @if (Convert.ToString(dt.Rows[0]["Isim1"]).Trim().Length > 0)
+    {
+        <span>İletişim 1 : </span> @(dt.Rows[0]["Unvan1"] +" - "+ @dt.Rows[0]["Isim1"] + " - " + @dt.Rows[0]["Telefon1"] + " - " + @dt.Rows[0]["Mail1"])
+        <br />
+    }
+    /**/
+    @if (Convert.ToString(dt.Rows[0]["Isim2"]).Trim().Length > 0)
+    {
+        <span>İletişim 2 : </span> @(dt.Rows[0]["Unvan2"] + " - " + @dt.Rows[0]["Isim2"] + " - " + @dt.Rows[0]["Telefon2"] + " - " + @dt.Rows[0]["Mail2"])
+        <br />
+    }
+    /**/
+    @if (Convert.ToString(dt.Rows[0]["Isim3"]).Trim().Length > 0)
+    {
+        <span>İletişim 3 : </span> @(dt.Rows[0]["Unvan3"] + " - " + @dt.Rows[0]["Isim3"] + " - " + @dt.Rows[0]["Telefon3"] + " - " + @dt.Rows[0]["Mail3"])
+        <br />
+    }
+    /**/
+    @if (Convert.ToString(dt.Rows[0]["Isim4"]).Trim().Length > 0)
+    {
+        <span>İletişim 4 : </span> @(dt.Rows[0]["Unvan4"] + " - " + @dt.Rows[0]["Isim4"] + " - " + @dt.Rows[0]["Telefon4"] + " - " + @dt.Rows[0]["Mail4"])
+        <br />
+    }
+    /**/
+    /**/
+    @if (Convert.ToString(dt.Rows[0]["Isim5"]).Trim().Length > 0)
+    {
+        <span>İletişim 5 : </span> @(dt.Rows[0]["Unvan5"] + " - " + @dt.Rows[0]["Isim5"] + " - " + @dt.Rows[0]["Telefon5"] + " - " + @dt.Rows[0]["Mail5"])
+        <br />
+    }
+    /**/
+    /**/
+    /**/
+</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 ">
+        <div class="card">
+            <div class="card-body">
+
+                <a href="#myModal" data-toggle="modal" class="btn btn-sm btn-default" style="width:100%;">
+                    Yeni Ziyaret Oluştur
+                </a>
+                <br /><br />
+                <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Yeni Ziyaret Bilgisi</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form role="form" action="@Url.Action("ZiyaretKaydet", "Home", null)" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="musteriid" value="@dt.Rows[0]["id"]" />
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Tarih</label>
+                                        <input type="date" class="form-control" id="exampleInputEmail3" name="Tarih" placeholder="Tarih" value="@DateTime.Today.ToString("yyyy-MM-dd")">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputFile">Başlık</label>
+                                        <select class="form-control" name="Baslik">
+                                            @foreach (System.Data.DataRow item in ((System.Data.DataTable)ViewBag.ZiyaretTipi).Rows)
+                                            {
+                                                <option value="@item["Isim"]" @(Convert.ToString(item["Isim"]) == "Ziyaret Edilecek" ? "selected" : "")>@item["Isim"]</option>
+                                            }
+                                        </select>
+                                        <p class="help-block">Lütfen ziyaret tipi seçiniz.</p>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Açıklama</label>
+                                        <textarea rows="5" class="form-control" name="Aciklama"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputFile">Dosya</label>
+                                        <input type="file" id="exampleInputFile3" multiple name="Dosya">
+                                        <p class="help-block">birden fazla dosya seçebilirsiniz</p>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="TeklifVerildi"> Teklif Verildi
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputFile">Ürün</label>
+                                        <select class="form-control" name="Urun">
+                                            <option value=""></option>
+                                            @foreach (System.Data.DataRow item in ((System.Data.DataTable)ViewBag.Urunler).Rows)
+                                            {
+                                                <option value="@item["Isim"]">@item["Isim"]</option>
+                                            }
+                                        </select>
+                                        <p class="help-block">ürün teslim ettiyseniz işaretleyiniz</p>
+                                    </div>
+                                    <button type="submit" class="btn btn-default">Kaydet</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <!--timeline start-->
+        <section class="card">
+            <div class="card-body">
+                <div class="text-center mbot30">
+                    <h3 class="timeline-title">Zaman Tüneli</h3>
+                    <p class="t-info">en son ziyaret en üstte gelecek şekilde listelenmiştir</p>
+                </div>
+
+                <div class="timeline">
+
+                    @foreach (DataRow ziyaret in dtZiyaret.Rows)
+                    {
+                        sira++;
+                        <article class="timeline-item @(sira % 2 == 0 ? "alt" : "")">
+                            <div class="timeline-desk">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <span class="arrow"></span>
+                                        <span class="timeline-icon @(Convert.ToInt32(ziyaret["tamamlandi"]) == 1 ? "green" : "red")"></span>
+                                        <span class="timeline-date">
+                                            @Convert.ToDateTime(ziyaret["tarih"]).ToString("dd.MM.yyyy ") @Convert.ToDateTime(ziyaret["kayittarihi"]).ToString("HH:ss") #@ziyaret["id"]
+                                            <br /><span style="color:red;font-size:10px;"><strong>Kaydı Açan : </strong>@ziyaret["kayityapankullanici"]</span>
+                                            @(Convert.ToString(ziyaret["duzenlemeyapankullanici"]).Trim().Length > 0 ? Html.Raw("<br /><span style='color:green;font-size:10px;'><strong>Kaydı Kapatan : </strong>" + ziyaret["duzenlemeyapankullanici"] + "</span>") : Html.Raw(""))
+                                        </span>
+                                        <h1 class="yellow">@(Convert.ToString(ziyaret["Baslik"]).Trim().Length > 0 ? Html.Raw("<span><a href='#' style='color:orange;'>" + ziyaret["Baslik"] + "</a></span>") : Html.Raw(""))</h1>
+                                        <h1 class="red">@(Convert.ToString(ziyaret["Urun"]).Trim().Length > 0 ? Html.Raw("<span><a href='#' class='red'>" + ziyaret["Urun"] + "</a></span>") : Html.Raw(""))</h1>
+                                        <h1 class="red">@(Convert.ToInt32(ziyaret["teklifverildi"]) == 1 ? Html.Raw("<span><a href='#' class='blue'>Teklif Verildi</a></span>") : Html.Raw(""))</h1>
+
+                                        <p><strong>Planlanan : </strong>@ziyaret["Aciklama"]</p>
+                                        <p><strong>Gerçekleşen : </strong>@ziyaret["Aciklama2"]</p>
+
+                                        <div class="album">
+                                            @if (dtDosyalar.Select(" KayitID = " + ziyaret["id"] + " ").Count() > 0)
+                                            {
+                                                foreach (DataRow dosya in dtDosyalar.Select(" KayitID = " + ziyaret["id"] + " "))
+                                                {
+                                                    if (Convert.ToString(dosya["DosyaUzantisi"]).Contains(".jpeg") ||
+                                                        Convert.ToString(dosya["DosyaUzantisi"]).Contains(".jpg") ||
+                                                        Convert.ToString(dosya["DosyaUzantisi"]).Contains(".png") ||
+                                                        Convert.ToString(dosya["DosyaUzantisi"]).Contains(".gif"))
+                                                    {
+                                                        <a href="@Url.Content("~/Content/" + dosya["Dosya"])" target="_blank">
+                                                            <img alt="@dosya["Isim"]" src="@Url.Content("~/Content/" + dosya["Dosya"])" style="width:25px;">
+                                                        </a>
+                                                    }
+                                                    else if (Convert.ToString(dosya["DosyaUzantisi"]).Contains(".pdf"))
+                                                    {
+                                                        <a href="@Url.Content("~/Content/" + dosya["Dosya"])" target="_blank">
+                                                            <i class="fa fa-3x fa-file-text"></i>
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="@Url.Content("~/Content/" + dosya["Dosya"])" target="_blank">
+
+
+                                                            <i class="fa fa-3x fa-file"></i>
+                                                        </a>
+                                                    }
+                                                }
+                                            }
+                                        </div>
+
+                                        @if (Convert.ToString(ziyaret["tamamlandi"]) == "0")
+                                        {
+                                            <a href="#myModal_id_@ziyaret["id"]" data-toggle="modal" class="btn btn-default btn-sm" style="color:white;">
+                                                Ziyareti Kapat
+                                            </a>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal_id_@ziyaret["id"]" class="modal fade">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Ziyaret Tamamla</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form role="form" action="@Url.Action("ZiyaretKaydet", "Home", null)" method="post" enctype="multipart/form-data">
+                                                <input type="hidden" name="musteriid" value="@dt.Rows[0]["id"]" />
+                                                <input type="hidden" name="id" value="@(ziyaret["id"])" />
+                                                <div class="form-group">
+                                                    <label for="exampleInputPassword1">Açıklama</label>
+                                                    <textarea rows="5" class="form-control" name="Aciklama"></textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputFile">Dosya</label>
+                                                    <input type="file" id="exampleInputFile3" multiple name="Dosya">
+                                                    <p class="help-block">birden fazla dosya seçebilirsiniz</p>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox"  name="TeklifVerildi" @(Convert.ToString(ziyaret["TeklifVerildi"]) == "1" ? "checked" : "")> Teklif Verildi
+                                                    </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputFile">Ürün</label>
+                                                    <select class="form-control" name="Urun">
+                                                        <option value=""></option>
+                                                        @foreach (System.Data.DataRow item in ((System.Data.DataTable)ViewBag.Urunler).Rows)
+                                                        {
+                                                            <option value="@item["Isim"]"  @(Convert.ToString(item["Isim"]).Replace("İ","I") == Convert.ToString(ziyaret["urun"]) ? "selected" : "")>@item["Isim"]</option>
+                                                        }
+                                                    </select>
+                                                    <p class="help-block">ürün teslim ettiyseniz işaretleyiniz</p>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputFile">Yeni Ziyaret Tarihi</label>
+                                                    <input type="date" class="form-control" id="exampleInputEmail3" placeholder="Tarih" value="" name="YeniTarih">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputFile">Yeni Ziyaret Başlığı</label>
+                                                    <select class="form-control" name="YeniBaslik">
+                                                        @foreach (System.Data.DataRow item in ((System.Data.DataTable)ViewBag.ZiyaretTipi).Rows)
+                                                        {
+                                                            <option value="@item["Isim"]" @(Convert.ToString(item["Isim"]) == "Ziyaret Edilecek" ? "selected" : "")>@item["Isim"]</option>
+                                                        }
+                                                    </select>
+                                                    <p class="help-block">Lütfen ziyaret tipi seçiniz.</p>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputPassword1">Yeni Ziyaret Açıklaması</label>
+                                                    <textarea rows="5" class="form-control" name="YeniAciklama"></textarea>
+                                                </div>
+                                                <button type="submit" class="btn btn-default">Kaydet</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </article>
+                    }
+
+                </div>
+
+                <div class="clearfix">&nbsp;</div>
+            </div>
+        </section>
+        <!--timeline end-->
+    </div>
+
+</div>

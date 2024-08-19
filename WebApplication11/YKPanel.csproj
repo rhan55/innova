@@ -125,6 +125,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Ziyaret\ZiyaretAreaRegistration.cs" />
+    <Compile Include="Areas\Ziyaret\Controllers\ZiyaretController.cs" />
     <Compile Include="Areas\Crm2\Crm2AreaRegistration.cs" />
     <Compile Include="Areas\Crm2\Controllers\Crm2Controller.cs" />
     <Compile Include="Areas\Depo\Controllers\DepoController.cs" />
@@ -366,6 +368,15 @@
     <Content Include="Areas\Crm2\Views\Shared\Error.cshtml" />
     <Content Include="Areas\Crm2\Views\web.config" />
     <Content Include="Areas\Crm2\Views\Crm2\YeniCari.cshtml" />
+    <Content Include="Areas\Ziyaret\Views\Ziyaret\AnaSayfa.cshtml" />
+    <Content Include="Areas\Ziyaret\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Ziyaret\Views\Shared\Error.cshtml" />
+    <Content Include="Areas\Ziyaret\Views\web.config" />
+    <Content Include="Areas\Ziyaret\Views\Ziyaret\BekleyenZiyaretler.cshtml" />
+    <Content Include="Areas\Ziyaret\Views\Ziyaret\GunlukIslemler.cshtml" />
+    <Content Include="Areas\Ziyaret\Views\Ziyaret\TamamlananZiyaretler.cshtml" />
+    <Content Include="Areas\Ziyaret\Views\Ziyaret\TeklifVerilenler.cshtml" />
+    <Content Include="Areas\Ziyaret\Views\Ziyaret\Ziyaret.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -2806,6 +2817,7 @@
     <Folder Include="Areas\Entegrasyon\Views\Shared\" />
     <Folder Include="Areas\Satinalma\Data\" />
     <Folder Include="Areas\Satinalma\Views\Shared\" />
+    <Folder Include="Areas\Ziyaret\Data\" />
     <Folder Include="Pdf\" />
     <Folder Include="Temp\" />
     <Folder Include="Uploads\Dosyalar\" />
