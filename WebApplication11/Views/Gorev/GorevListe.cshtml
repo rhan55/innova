@@ -88,8 +88,8 @@
                                                                 <option value="@drKullanici["ID"]" @(Convert.ToString(drKullanici["ID"]) == Convert.ToString(ViewBag.KayitYapanKullanici) ? "selected" : "")>@drKullanici["Ad"] @drKullanici["Soyad"] - @drKullanici["Aciklama1"]</option>
                                                             }
                                                         </select>
-                                                        <label for="AtananKullanici" >Atanan</label>
-                                                        <select id="AtananKullanici" name="AtananKullanici" >
+                                                        <label for="AtananKullanici">Atanan</label>
+                                                        <select id="AtananKullanici" name="AtananKullanici">
                                                             <option value="">Lütfen Seçim Yapınız</option>
                                                             @foreach (DataRow drKullanici in dtKullanicilar.Rows)
                                                             {
@@ -165,8 +165,8 @@
                                     <thead>
                                         <!--begin::Table row-->
                                         <tr class="text-start" style="font-size:15px;">
-                                            <th class="min-w-125px text-gray-700" colspan="2" style="text-align:center;"><strong>Kaydı Açan</strong></th>
-                                            <th class="min-w-125px text-gray-700"><strong>Periyot<br />Tamamlanma Tarihi</strong></th>
+                                            <th class="min-w-125px text-gray-700" style="text-align:center;"></th>
+                                            <th class="min-w-125px text-gray-700" style="text-align:center;"></th>
                                             <th class="min-w-125px text-gray-700"><strong>Açıklama</strong></th>
                                             <th class="text-end min-w-100px no-export text-gray-700"><strong>İşlemler</strong></th>
                                         </tr>
@@ -185,18 +185,48 @@
                                                 renk = "color:black;";
                                             }
                                             <tr style="@(renk)">
-                                                <td style="padding-left:3px;width:50px;vertical-align:top;">
-                                                    <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                                        <div class="symbol-label">
-                                                            <img src="@(Convert.ToString(Model.Tables[0].Rows[i]["Resim"]))" alt="@(Convert.ToString(Model.Tables[0].Rows[i]["KaydiAcan"]))" class="w-100 h-100 object-fit-cover" />
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td style="vertical-align: top;width:150px;">
-                                                    @(Convert.ToString(Model.Tables[0].Rows[i]["KaydiAcan"]))
-                                                    <span style="color:green;">@Convert.ToString(Model.Tables[0].Rows[i]["Durum"])</span>
-                                                    <span>@(Convert.ToString(Model.Tables[0].Rows[i]["GorevAtamaSayisi"]))/@(Convert.ToString(Model.Tables[0].Rows[i]["GorevHareketSayisi"]))</span>
+                                                <td style="padding-left:3px;width:150px;vertical-align:top;text-align:center;">
+                                                    <table>
+                                                        <tr>
+                                                            <td style="text-align:center;">
+                                                                <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+                                                                    <div class="symbol-label">
+                                                                        <img src="@(Convert.ToString(Model.Tables[0].Rows[i]["Resim"]))" alt="@(Convert.ToString(Model.Tables[0].Rows[i]["KaydiAcan"]))" class="w-100 h-100 object-fit-cover" />
+                                                                    </div>
+                                                                </div>
+                                                                <br />
+                                                                @(Convert.ToString(Model.Tables[0].Rows[i]["KaydiAcan"]))
 
+                                                            </td>
+                                                            <td>
+                                                              
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2">
+
+                                                                <span>
+                                                                    @{
+                                                                        foreach (string item in Convert.ToString(Model.Tables[0].Rows[i]["AtananKullanicilar"]).Split('|'))
+                                                                        {
+                                                                            if (item.Trim().Length > 0)
+                                                                            {
+                                                                                <div style="float:left;text-align:center;margin-right:3px;">
+                                                                                    <div class="symbol symbol-circle symbol-20px overflow-hidden me-3">
+                                                                                        <div class="symbol-label">
+                                                                                            <img src="@(item.Split('~')[1])" alt="@(item.Split('~')[0])" class="w-100 h-100 object-fit-cover" />
+                                                                                        </div>
+                                                                                    </div><br />
+                                                                                    <span style="font-size:8px;margin:0px;padding:0px;">@(item.Split('~')[0])</span>
+                                                                                </div>
+                                                                            }
+                                                                        }
+
+                                                                    }
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
                                                 </td>
                                                 <td style="vertical-align: top; width: 150px; ">
                                                     <strong>@(Convert.ToDateTime(Model.Tables[0].Rows[i]["BaslangicTarihi"]).ToString("dd-MM-yyyy HH:mm"))</strong>
@@ -221,6 +251,9 @@
                                                     {
                                                         <span>Bilinmeyen</span>
                                                     }
+                                                    <span style="color:green;">@Convert.ToString(Model.Tables[0].Rows[i]["Durum"])</span>
+                                                    <span>@(Convert.ToString(Model.Tables[0].Rows[i]["GorevAtamaSayisi"]))/@(Convert.ToString(Model.Tables[0].Rows[i]["GorevHareketSayisi"]))</span>
+
                                                 </td>
                                                 <td style="vertical-align: top;">
                                                     <span style="color:orange;">@(Convert.ToString(Model.Tables[0].Rows[i]["Gorev"]))</span>
