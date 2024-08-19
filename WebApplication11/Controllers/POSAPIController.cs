@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using System.Reflection;
+using System.Web.Http.Results;
 
 namespace YKPortal.Controllers
 {
@@ -27,7 +29,7 @@ namespace YKPortal.Controllers
             _httpClient = new HttpClient();
         }
 
-        public async Task<string> SendPaymentRequest(POSAPIDto request)
+        public async Task<string> SendPaymentRequest(UyelikOdemesiDto request)
         {
             var values = new Dictionary<string, string>
         {
@@ -71,14 +73,75 @@ namespace YKPortal.Controllers
         }
 
         [HttpGet]
-        public ActionResult UyelikOdemesi()
+        public ActionResult UyelikOdemesi(string paketID)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
+            ViewBag.PaketID = paketID;
 
             return View();
         }
+
+        [HttpPost]
+        public ActionResult UyelikOdemesi(UyelikOdemesiDto uyelikOdemesi)
+        {
+            var uyelikPaketi = UyelikPaketiGetir(uyelikOdemesi.UyelikPaketID);
+            if (uyelikPaketi == null)
+            {
+                ViewBag.Hata = "İstenilen paket değerleri bulunamadı";
+                return View();
+            }
+            var orderId = Guid.NewGuid().ToString();
+            SqlCommand cmd = new SqlCommand();
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@Uygulama", "PARAMPOS");
+            cmd.Parameters.AddWithValue("@Tutar", uyelikPaketi.Tutar); // Paket tutarını al
+            cmd.Parameters.AddWithValue("@UzatilacakAy", uyelikPaketi.Ay); // Paket süresini al
+            cmd.Parameters.AddWithValue("@OrderID", orderId);
+            cmd.Parameters.AddWithValue("@KrediKartIsim", uyelikOdemesi.KrediKartIsim);
+            cmd.Parameters.AddWithValue("@KrediKartNo", uyelikOdemesi.KrediKartNo);
+            cmd.Parameters.AddWithValue("@KrediKartSonKullanim", uyelikOdemesi.KrediKartSonKullanim);
+            cmd.Parameters.AddWithValue("@KrediKartCVV", uyelikOdemesi.KrediKartCVV);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+
+            return View();
+
+        }
+
+        private UyelikPaketDto UyelikPaketiGetir(string uyelikPaketID)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_UyelikPaketleri";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var entities = new List<UyelikPaketDto>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                UyelikPaketDto entity = new UyelikPaketDto();
+                entity.ID = Convert.ToString(dt.Rows[i]["ID"]);
+                entity.Isim = Convert.ToString(dt.Rows[i]["Isim"]);
+                entity.Ay = Convert.ToString(dt.Rows[i]["Ay"]);
+                entity.Tutar = Convert.ToString(dt.Rows[i]["Tutar"]);
+                entity.ResimUrl = Convert.ToString(dt.Rows[i]["ResimUrl"]);
+                entity.Aciklama = Convert.ToString(dt.Rows[i]["Aciklama"]);
+                entities.Add(entity);
+            }
+
+            try
+            {
+               var entity = entities.FirstOrDefault(m => m.ID == uyelikPaketID);
+                return entity;
+            } catch (ArgumentNullException exception)
+            {
+                return null;
+            } 
+        }
+
 
         #region Cookie İşlemleri
 

@@ -204,7 +204,9 @@
     <Compile Include="Models\Dto\CariNotListeViewModel.cs" />
     <Compile Include="Models\Dto\CariKisiListeViewModel.cs" />
     <Compile Include="Models\Dto\DovizBirimiDto.cs" />
+    <Compile Include="Models\Dto\DovizBirimiListeViewModel.cs" />
     <Compile Include="Models\Dto\GrupkoduListeViewModel.cs" />
+    <Compile Include="Models\Dto\KasaTanimlamaDto.cs" />
     <Compile Include="Models\Dto\PersonelDto.cs" />
     <Compile Include="Models\Dto\PersonelListeViewModel.cs" />
     <Compile Include="Models\Dto\StokListeViewModel.cs" />
@@ -214,11 +216,13 @@
     <Compile Include="Models\Dto\BelgeListeViewModel.cs" />
     <Compile Include="Models\Dto\CariHareketDto.cs" />
     <Compile Include="Models\Dto\MailKalibiDto.cs" />
+    <Compile Include="Models\Dto\KasaTanimlamalarıListeViewModel.cs" />
+    <Compile Include="Models\Dto\UyelikPaketDto.cs" />
     <Compile Include="Models\Dto\UyelikPaketleriViewModel.cs" />
     <Compile Include="Models\Dto\GorevDto.cs" />
     <Compile Include="Models\Dto\MailAyarlariDto.cs" />
     <Compile Include="Models\Dto\ParametreDto.cs" />
-    <Compile Include="Models\Dto\POSAPIDto.cs" />
+    <Compile Include="Models\Dto\UyelikOdemesiDto.cs" />
     <Compile Include="Models\Dto\StokDto.cs" />
     <Compile Include="Models\Dto\StokFiyatDto.cs" />
     <Compile Include="Models\Dto\StokHareketDto.cs" />
@@ -2806,6 +2810,9 @@
     <Content Include="Views\Personel\Liste.cshtml" />
     <Content Include="Views\Personel\Ekle.cshtml" />
     <Content Include="Views\Personel\Duzenle.cshtml" />
+    <Content Include="Views\Tanimlamalar\KasaEkle.cshtml" />
+    <Content Include="Views\Tanimlamalar\KasaListe.cshtml" />
+    <Content Include="Views\Tanimlamalar\KasaDuzenle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

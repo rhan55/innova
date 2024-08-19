@@ -257,6 +257,194 @@ namespace YKPortal.Controllers
             return RedirectToAction("DovizBirimiListe");
         }
 
+        [HttpGet]
+        public ActionResult KasaEkle()
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            ViewBag.Personeller = PersonelGetir();
+            ViewBag.Dovizler = DovizGetir();
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult KasaEkle(KasaTanimlamaDto kasaTanimlamaDto)
+         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_KasaKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@ID", "");
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@Kod", kasaTanimlamaDto.Kod);
+            cmd.Parameters.AddWithValue("@Isim", kasaTanimlamaDto.Isim);
+            cmd.Parameters.AddWithValue("@PersonelID", kasaTanimlamaDto.PersonelID);
+            cmd.Parameters.AddWithValue("@DovizID", kasaTanimlamaDto.DovizID);
+
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            return RedirectToAction("KasaListe");
+        
+        }
+        [HttpGet]
+        public ActionResult KasaListe(string aranacakKelime = "")
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_KasaListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@AranacakKelime", aranacakKelime);
+
+            ViewBag.AranacakKelime = aranacakKelime;
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            List<KasaTanimlamaDto> entities = new List<KasaTanimlamaDto>();
+
+            var personeller = PersonelGetir();
+            var dovizler = DovizGetir();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                KasaTanimlamaDto entity = new KasaTanimlamaDto();
+                entity.ID = Convert.ToString(dt.Rows[i]["ID"]);
+                entity.Isim = Convert.ToString(dt.Rows[i]["Isim"]);
+                entity.Kod = Convert.ToString(dt.Rows[i]["Kod"]);
+                entity.PersonelID = Convert.ToString(dt.Rows[i]["PersonelID"]);
+                entity.DovizID = Convert.ToString(dt.Rows[i]["DovizID"]);
+                entity.Personel = personeller.FirstOrDefault(m =>  m.ID == entity.PersonelID)?.Isim ?? "Personel Bulunamadı";
+                entity.Doviz = dovizler.FirstOrDefault(m => m.ID == entity.DovizID)?.Isim ?? "Döviz Bulunamadı";
+                entities.Add(entity);
+            }
+
+            var model = new KasaTanimlamalarıListeViewModel
+            {
+                Kasalar = entities,
+                Duzenle = true,
+                Sil = true
+            };
+
+         
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult KasaDuzenle(string id)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            ViewBag.Duzenle = true;
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_Kasa";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return View(dt);
+        }
+        [HttpPost]
+        public ActionResult KasaDuzenle(KasaTanimlamaDto kasaTanimlamaDto)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_KasaKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+
+            cmd.Parameters.AddWithValue("@ID", "");
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@Kod", kasaTanimlamaDto.Kod);
+            cmd.Parameters.AddWithValue("@Isim", kasaTanimlamaDto.Isim);
+            cmd.Parameters.AddWithValue("@PersonelID", kasaTanimlamaDto.PersonelID);
+            cmd.Parameters.AddWithValue("@DovizID", kasaTanimlamaDto.DovizID);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            ViewBag.Duzenle = YetkiKontrolu("/Tanimlamalar/KasaListe", "Duzenle");
+            return RedirectToAction("KasaListe");
+        }
+        [HttpPost]
+        public ActionResult KasaSil(string id)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_KasaSil";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+
+            return RedirectToAction("KasaListe");
+        }
+
+        public List<PersonelDto> PersonelGetir()
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_PersonellerListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@AranacakKelime ", string.Empty);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var entities = new List<PersonelDto>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                PersonelDto entity = new PersonelDto();
+                entity.ID = Convert.ToString(dt.Rows[i]["ID"]);
+                entity.Isim = Convert.ToString(dt.Rows[i]["Isim"]);
+                entity.Email = Convert.ToString(dt.Rows[i]["Email"]);
+                entity.Telefon = Convert.ToString(dt.Rows[i]["Telefon"]);
+
+                entities.Add(entity);
+            }
+            return entities;
+        }
+        public List<DovizBirimiDto> DovizGetir()
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_DovizListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@AranacakKelime ", string.Empty);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var entities = new List<DovizBirimiDto>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DovizBirimiDto entity = new DovizBirimiDto();
+                entity.ID = Convert.ToString(dt.Rows[i]["ID"]);
+                entity.Isim = Convert.ToString(dt.Rows[i]["Isim"]);
+
+                entities.Add(entity);
+            }
+            return entities;
+        }
 
         #region Cookie İşlemleri
         private string GetCookie(string name)

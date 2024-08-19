@@ -1,0 +1,72 @@
+﻿@model System.Data.DataTable
+@{
+    ViewBag.Title = "KasaDuzenle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="Container-fluid mt-10">
+    <form id="kt_modal_add_user_form" class="form container" action="@Url.Action("KasaDuzenle","Tanimlamalar",null)" method="post">
+        <div class="d-flex flex-column scroll-y px-5 px-lg-10">
+            <input type="hidden" name="ID" value="@(Convert.ToString(Model.Rows[0]["ID"]))" />
+            <!--begin::Row Input group-->
+            <div class="row mb-7 mt-4">
+
+                <!--begin::Input group-->
+                <div class="col-lg-6">
+                    <!--begin::Label-->
+                    <label for="Kod" class="required fw-semibold fs-6 mb-2">Kod</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input type="text" name="Kod" id="Kod" class="form-control p-2 mb-3 mb-lg-0" required value="@(Convert.ToString(Model.Rows[0]["Kod"]))" />
+
+                    <!--end::Input-->
+                </div>
+                <!--end::Input group-->
+                <!--begin::Input group-->
+                <div class="col-lg-6">
+                    <!--begin::Label-->
+                    <label for="Isim" class=" fw-semibold fs-6 mb-2">isim</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input type="text" name="Isim" id="Isim" class="form-control p-2 mb-3 mb-lg-0" value="@(Convert.ToString(Model.Rows[0]["Isim"]))" />
+                    <!--end::Input-->
+                </div>
+                <!--end::Input group-->
+            </div>
+            <div class="row">
+                <!--begin::Input group-->
+                <div class="col-lg-6">
+                    <!--begin::Label-->
+                    <label for="DovizID" class="required fw-semibold fs-6 mb-2">DovizID</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input type="text" name="DovizID" id="DovizID" class="form-control p-2 mb-3 mb-lg-0" value="@(Convert.ToString(Model.Rows[0]["DovizID"]))" />
+
+                    <!--end::Input-->
+                </div>
+                <!--begin::Input group-->
+                <div class="col-lg-6">
+                    <!--begin::Label-->
+                    <label for="PersonelID" class="required fw-semibold fs-6 mb-2">PersonelID</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input type="text" name="PersonelID" id="PersonelID" class="form-control p-2 mb-3 mb-lg-0" value="@(Convert.ToString(Model.Rows[0]["PersonelID"]))" />
+
+                    <!--end::Input-->
+                    <!--end::Input group-->
+                </div>
+            </div>
+            <!--begin::Actions-->
+            <div class="pt-10">
+                <a onclick="history.back()" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
+                @if (ViewBag.Duzenle)
+                {
+
+                    <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet">
+                        <span class="indicator-label">Kaydet</span>
+                    </button>
+                }
+            </div>
+        </div>
+        <!--end::Actions-->
+    </form>
+</div>
