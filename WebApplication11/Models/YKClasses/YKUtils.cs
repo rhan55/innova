@@ -76,9 +76,18 @@ namespace YKPortal.Models.YKClasses
             {
                 sc.Send(mail);
             }
-            catch (Exception ex)
+            catch (Exception err)
             {
-                Console.WriteLine(ex.Message);
+                SqlCommand cmd = new SqlCommand();
+                cmd.Parameters.Clear();
+                cmd.CommandText = "p_HataKaydet";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", "");
+                cmd.Parameters.AddWithValue("@Kullanici", "Ortak Metod");
+                cmd.Parameters.AddWithValue("@Modul", "YKUtils");
+                cmd.Parameters.AddWithValue("@Aciklama1", "~/YKUtils/Mailgonder");
+                cmd.Parameters.AddWithValue("@Aciklama2", err.Message);
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
             }
         }
 

@@ -135,6 +135,11 @@
                         <td><strong>@Convert.ToString(Model.Tables[0].Rows[0]["GorevtipiAdi"])</strong></td>
                     </tr>
                     <tr>
+                        <td style="vertical-align: top; width: 140px;">Durumu</td>
+                        <td style="vertical-align: top; padding-left: 5px; padding-right: 5px;">:</td>
+                        <td><strong>@Convert.ToString(Model.Tables[0].Rows[0]["Durumu"])</strong></td>
+                    </tr>
+                    <tr>
                         <td style="vertical-align: top; width: 140px;">Atanan Kullanıcılar</td>
                         <td style="vertical-align: top; padding-left: 5px; padding-right: 5px;">:</td>
                         <td>
@@ -224,7 +229,7 @@
                             <!--begin::Input group-->
                             <div class="col-lg-12">
                                 <!--begin::Label-->
-                                <label for="Aciklama" class="fw-semibold fs-6 mb-2">Sonuç Açıklaması</label>
+                                <label for="Aciklama" class="fw-semibold fs-6 mb-2">Açıklama</label>
                                 <!--end::Label-->
                                 <!--begin::texarea-->
                                 <textarea type="text" id="Aciklama" name="Aciklama" class="form-control p-2 mb-3 mb-lg-0"></textarea>
@@ -233,10 +238,23 @@
                         </div>
                         <!--end::Input group-->
                         <div class="row">
+
+                            <div class="col-lg-3">
+                                <!--begin::Label-->
+                                <label for="Aciklama" class="fw-semibold fs-6 mb-2">Durumu</label>
+                                <!--end::Label-->
+                                <!--begin::texarea-->
+                                <select id="Durumu" name="Durumu" class="form-control">
+                                    <option value="Beklemede" @(Convert.ToString(Model.Tables[0].Rows[0]["ID"]) == "Beklemede" ? "selected" : "")>Beklemede</option>
+                                    <option value="Cevaplandı" @(Convert.ToString(Model.Tables[0].Rows[0]["ID"]) == "Cevaplandı" ? "selected" : "")>Cevaplandı</option>
+                                    <option value="Tamamlandı" @(Convert.ToString(Model.Tables[0].Rows[0]["ID"]) == "Tamamlandı" ? "selected" : "")>Tamamlandı</option>
+                                </select>
+                                <!--end::Input-->
+                            </div>
                             <!--begin::Input group-->
                             <div class="col-lg-3">
                                 <!--begin::Label-->
-                                <label for="BaslangicTarihi" class=" fw-semibold fs-6 mb-2">Görev Sonuçlandırma Tarihi</label>
+                                <label for="BaslangicTarihi" class=" fw-semibold fs-6 mb-2">Tarih</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
                                 <input type="datetime-local" name="TamamlamaTarihi" id="TamamlamaTarihi" value="@(DateTime.Now.ToString("yyyy-MM-dd HH:mm"))" class="form-control p-2 mb-3 mb-lg-0" value="" />
