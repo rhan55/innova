@@ -32,7 +32,7 @@
                                     <div class="mb-7 text-center">
                                         <input type="hidden" name="ID" value="@row["ID"].ToString()" />
                                         <h1 name="Isim" class="text-gray-900 mb-5 fw-bolder">@row["Isim"].ToString()</h1>
-                                        <div name="Aciklama" class="text-gray-600 fw-semibold mb-5">@row["Aciklama"].ToString()</div>
+                                        <div name="Aciklama" class="text-gray-600 fw-semibold mb-5">@Html.Raw(row["Aciklama"])</div>
                                         <div name="ResimUrl">@row["ResimUrl"].ToString()</div>
                                         <div class="text-center">
                                             <span class="mb-2 text-primary fw-bold fs-3">₺</span>

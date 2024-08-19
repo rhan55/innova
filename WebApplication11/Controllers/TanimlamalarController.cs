@@ -227,7 +227,7 @@ namespace YKPortal.Controllers
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
 
-            cmd.Parameters.AddWithValue("@ID", "");
+            cmd.Parameters.AddWithValue("@ID", dovizBirimiDto.ID);
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@Kod", dovizBirimiDto.Kod);
