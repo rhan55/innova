@@ -25,7 +25,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="BelgeNo" class="fw-semibold fs-6 mb-2">Belge No</label>
                                 <input type="text" name="BelgeNo" id="BelgeNo" value="@Model.BelgeNo" class="form-control p-2 mb-3 mb-lg-0" required" />
@@ -47,7 +47,7 @@
                                 <input type="date" value="@(Model.VadeTarihi == null ? DateTime.Now.ToString("yyyy-MM-dd") : Model.VadeTarihi.ToString("yyyy-MM-dd") )" name="VadeTarihi" id="VadeTarihi" class="form-control p-2 mb-3 mb-lg-0" required" />
                             </div>
                         </div>
-                        <div class="col-lg-2">
+                        <div class="col-lg-3">
 
                             <div class="form-group">
                                 <label for="HareketTipi" class="fw-semibold fs-6 mb-2">Hareket Tipi/Türü</label>
@@ -74,7 +74,7 @@
                             </div>
 
                         </div>
-                        <div class="col-lg-2">
+                        <div class="col-lg-3">
                             <div class="form-group">
                                 <label for="Miktar" style="text-align:right;" class="fw-semibold fs-6 mb-2">Miktar</label>
                                 <input type="text" name="Miktar" id="Miktar" value="@Model.Miktar" class="form-control p-2 mb-3 mb-lg-0 text-end" required" />

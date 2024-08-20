@@ -198,6 +198,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dto\BankaTanimlamalariDto.cs" />
+    <Compile Include="Models\Dto\BankaTanimlamalariListeViewModel.cs" />
     <Compile Include="Models\Dto\Belge.cs" />
     <Compile Include="Models\Dto\BelgeDto.cs" />
     <Compile Include="Models\Dto\BelgeKalemDto.cs" />
@@ -2813,6 +2815,9 @@
     <Content Include="Views\Tanimlamalar\KasaEkle.cshtml" />
     <Content Include="Views\Tanimlamalar\KasaListe.cshtml" />
     <Content Include="Views\Tanimlamalar\KasaDuzenle.cshtml" />
+    <Content Include="Views\Tanimlamalar\BankaHesabiListe.cshtml" />
+    <Content Include="Views\Tanimlamalar\BankaHesabiEkle.cshtml" />
+    <Content Include="Views\POSAPI\OdemeEkrani.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -27,6 +27,8 @@ namespace YKPortal.Models.Dto
         private string _SonucKodu;
         private string _SonucAciklama;
         private string _UyelikPaketID;
+        private string _KrediKartiSonKullanimAy;
+        private string _KrediKartiSonKullanimYil;
 
      
         public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; } }
@@ -43,6 +45,8 @@ namespace YKPortal.Models.Dto
         public string SonucKodu { get { return _SonucKodu ?? ""; } set { _SonucKodu = value; } }
         public string SonucAciklama { get { return _SonucAciklama ?? ""; } set { _SonucAciklama = value; } }
         public string UyelikPaketID { get { return _UyelikPaketID ?? ""; } set { _UyelikPaketID = value; } }
+        public string KrediKartiSonKullanimAy { get { return _KrediKartiSonKullanimAy ?? ""; } set { _KrediKartiSonKullanimAy = value; } }
+        public string KrediKartiSonKullanimYil { get { return _KrediKartiSonKullanimYil ?? ""; } set { _KrediKartiSonKullanimYil = value; } }
 
 
     }

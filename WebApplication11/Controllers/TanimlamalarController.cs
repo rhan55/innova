@@ -325,7 +325,7 @@ namespace YKPortal.Controllers
                 entities.Add(entity);
             }
 
-            var model = new KasaTanimlamalarıListeViewModel
+            var model = new BankaTanimlamalariDtoListeViewModel
             {
                 Kasalar = entities,
                 Duzenle = true,
@@ -399,6 +399,131 @@ namespace YKPortal.Controllers
             return RedirectToAction("KasaListe");
         }
 
+        [HttpGet]
+        public ActionResult BankaHesabiEkle()
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            ViewBag.Bankalar = BankaGetir();
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult BankaHesabiEkle(BankaTanimlamalariDto bankaTanimlamalariDto)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_BankaHesaplariKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@ID", "");
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@BankaID", bankaTanimlamalariDto.BankaID);
+            cmd.Parameters.AddWithValue("@Kod", bankaTanimlamalariDto.Kod);
+            cmd.Parameters.AddWithValue("@Isim", bankaTanimlamalariDto.Isim);
+            cmd.Parameters.AddWithValue("@HesapNo", bankaTanimlamalariDto.HesapNo);
+            cmd.Parameters.AddWithValue("@Iban", bankaTanimlamalariDto.Iban);
+  
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            return RedirectToAction("BankaHesabiListe");
+
+        }
+        [HttpGet]
+        public ActionResult BankaHesabiListe(string aranacakKelime = "")
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_BankaHesaplariListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@AranacakKelime", aranacakKelime);
+
+            ViewBag.AranacakKelime = aranacakKelime;
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+           
+           
+            var model = new BankaTanimlamalariListeViewModel
+            {
+                Bankalar = dt,
+                Duzenle = true,
+                Sil = true
+            };
+            return View(model);
+            
+        }
+
+        [HttpGet]
+        public ActionResult BankaHesabiDuzenle(string id)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            ViewBag.Duzenle = true;
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_BankaHesaplari";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return View(dt);
+        }
+        [HttpPost]
+        public ActionResult BankaHesabiDuzenle(BankaTanimlamalariDto bankaTanimlamalariDto)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_BankaHesaplariKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@ID", "");
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@BankaID", bankaTanimlamalariDto.BankaID);
+            cmd.Parameters.AddWithValue("@Kod", bankaTanimlamalariDto.Kod);
+            cmd.Parameters.AddWithValue("@Isim", bankaTanimlamalariDto.Isim);
+            cmd.Parameters.AddWithValue("@HesapNo", bankaTanimlamalariDto.HesapNo);
+            cmd.Parameters.AddWithValue("@Iban", bankaTanimlamalariDto.Iban);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            ViewBag.Duzenle = YetkiKontrolu("/Tanimlamalar/KasaListe", "Duzenle");
+            return RedirectToAction("KasaListe");
+        }
+        [HttpPost]
+        public ActionResult BankaHesabiSil(string id)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_BankaHesaplariSil";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+
+            return RedirectToAction("KasaListe");
+        }
+
+
         public List<PersonelDto> PersonelGetir()
         {
             SqlCommand cmd = new SqlCommand();
@@ -427,6 +552,29 @@ namespace YKPortal.Controllers
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_DovizListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@AranacakKelime ", string.Empty);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var entities = new List<DovizBirimiDto>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DovizBirimiDto entity = new DovizBirimiDto();
+                entity.ID = Convert.ToString(dt.Rows[i]["ID"]);
+                entity.Isim = Convert.ToString(dt.Rows[i]["Isim"]);
+
+                entities.Add(entity);
+            }
+            return entities;
+        }
+
+        public List<DovizBirimiDto> BankaGetir()
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_BankaListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@AranacakKelime ", string.Empty);

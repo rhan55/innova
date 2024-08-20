@@ -6,9 +6,9 @@ using System.Web;
 
 namespace YKPortal.Models.Dto
 {
-    public class BankaTanimlamalariDtoListeViewModel
+    public class BankaTanimlamalariListeViewModel
     {
-        public List<KasaTanimlamaDto> Kasalar { get; set; }
+        public DataTable Bankalar { get; set; }
         public bool Duzenle { get; set; }
         public bool Sil { get; set; }
     }

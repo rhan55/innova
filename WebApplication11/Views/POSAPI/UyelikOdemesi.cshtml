@@ -14,13 +14,13 @@
                 <div class="w-100 d-flex flex-column flex-center rounded-3 bg-light bg-opacity-75 py-10 px-10">
                     <div class="mb-7 text-center">
                         <input type="hidden" name="ID" />
-                        <h1 name="Isim" class="text-gray-900 mb-5 fw-bolder">Lorem İpsum</h1>
+                        <h1 name="Isim" class="text-gray-900 mb-5 fw-bolder">@ViewBag.Paket.Isim</h1>
                         <div name="Uygulama" class="text-gray-600 fw-semibold mb-5"></div>
                         <div name="Durum"></div>
                         <div class="text-center">
                             <span class="mb-2 text-primary fw-bold fs-3">₺</span>
-                            <span id="tTutar" name="Tutar" class="fs-3x fw-bold text-primary">100</span>
-                            <span class="fs-4 fw-semibold opacity-50">/<span name="UzatilacakAy">1</span></span>
+                            <span id="tTutar" name="Tutar" class="fs-3x fw-bold text-primary">@ViewBag.Paket.Tutar</span>
+                            <span class="fs-4 fw-semibold opacity-50">/<span >@ViewBag.Paket.Ay</span></span>
                             <span class="fs-4 fw-semibold opacity-50">Ay</span>
                         </div>
                     </div>
@@ -43,15 +43,15 @@
                 }
 
                 <!--begin::Form-->
-                <form id="paymentForm" method="POST" action="/processPayment" class="form fv-plugins-bootstrap5 fv-plugins-framework">
-                    <input type="hidden" name="UyelikPaketID" value="@ViewBag.PaketID" />
+                <form id="paymentForm" method="POST" action="/POSAPI/UyelikOdemesi" class="form fv-plugins-bootstrap5 fv-plugins-framework">
+                    <input type="hidden" name="UyelikPaketID" value="@ViewBag.Paket.ID" />
                     <!--begin::Input group-->
                     <div class="d-flex flex-column mb-7 fv-row fv-plugins-icon-container">
                         <!--begin::Label-->
-                        <label for="KrediKartİsim" class="d-flex align-items-center fs-6 fw-bold text-gray-700 form-label mb-2">Kart İsmi</label>
+                        <label for="KrediKartIsim" class="d-flex align-items-center fs-6 fw-bold text-gray-700 form-label mb-2">Kart İsmi</label>
                         <!--end::Label-->
 
-                        <input type="text" id="KrediKartİsim" class="form-control form-control-solid" placeholder="" name="KrediKartİsim" value="Max Doe">
+                        <input type="text" id="KrediKartIsim" class="form-control " placeholder="Kart İsmi" name="KrediKartIsim">
                         <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
                     </div>
                     <!--end::Input group-->
@@ -63,7 +63,7 @@
                         <!--begin::Input wrapper-->
                         <div class="position-relative">
                             <!--begin::Input-->
-                            <input id="KrediKartNo" type="text" class="form-control form-control-solid" placeholder="Enter card number" name="KrediKartNo" value="4111 1111 1111 1111">
+                            <input id="KrediKartNo" type="text" class="form-control " placeholder="Kart Numarası" name="KrediKartNo" value="4111 1111 1111 1111">
                             <!--end::Input-->
                             <!--begin::Card logos-->
                             <div class="position-absolute translate-middle-y top-50 end-0 me-5">
@@ -82,14 +82,15 @@
                         <!--begin::Col-->
                         <div class="col-md-8 fv-row">
                             <!--begin::Label-->
-                            <label for="KrediKartSonKullanim" class="required fs-6 fw-bold text-gray-700 form-label mb-2">KrediKartSonKullanim</label>
+                            <label for="KrediKartiSonKullanimAy" class="required fs-6 fw-bold text-gray-700 form-label mb-2">KrediKartSonKullanim</label>
                             <!--end::Label-->
                             <!--begin::Row-->
-                            <div id="KrediKartSonKullanim" name="KrediKartSonKullanim" class="row fv-row fv-plugins-icon-container">
+                            <div class="row fv-row fv-plugins-icon-container">
                                 <!--begin::Col-->
                                 <div class="col-6">
-                                    <select name="card_expiry_month" class="form-select form-select-solid select2-hidden-accessible" data-control="select2" data-hide-search="true" data-placeholder="Ay" data-select2-id="select2-data-9-tj70" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                                        <option data-select2-id="select2-data-11-aye9"></option>
+                                    <select class="form-select form-select-solid p-2 rounded-1" data-control="select2" name="KrediKartiSonKullanimAy" id="KrediKartiSonKullanimAy" placeholder="Ay"
+                                            aria-label="Floating label select example">
+                                        <option value="">Lütfen Seçim Yapınız</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
@@ -102,14 +103,15 @@
                                         <option value="10">10</option>
                                         <option value="11">11</option>
                                         <option value="12">12</option>
-                                    </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-10-cjka" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-solid" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-card_expiry_month-ic-container" aria-controls="select2-card_expiry_month-ic-container"><span class="select2-selection__rendered" id="select2-card_expiry_month-ic-container" role="textbox" aria-readonly="true" title="Month"><span class="select2-selection__placeholder">Month</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+
+                                    </select>
+                                  
                                 </div>
                                 <!--end::Col-->
                                 <!--begin::Col-->
                                 <div class="col-6">
-                                    <select name="card_expiry_year" class="form-select form-select-solid select2-hidden-accessible" data-control="select2" data-hide-search="true" data-placeholder="Yıl" data-select2-id="select2-data-12-pw5d" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                                        <option data-select2-id="select2-data-14-6nnl"></option>
+                                    <select class="form-select form-select-solid p-2 rounded-1" data-control="select2" name="KrediKartiSonKullanimYil" id="KrediKartiSonKullanimYil" placeholder="Yıl" aria-label="Floating label select example">
+                                        <option value="">Lütfen Seçim Yapınız</option>
                                         <option value="2024">2024</option>
                                         <option value="2025">2025</option>
                                         <option value="2026">2026</option>
@@ -121,8 +123,7 @@
                                         <option value="2032">2032</option>
                                         <option value="2033">2033</option>
                                         <option value="2034">2034</option>
-                                    </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-13-xji4" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-solid" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-card_expiry_year-50-container" aria-controls="select2-card_expiry_year-50-container"><span class="select2-selection__rendered" id="select2-card_expiry_year-50-container" role="textbox" aria-readonly="true" title="Year"><span class="select2-selection__placeholder">Year</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+                                    </select>
                                 </div>
                                 <!--end::Col-->
                             </div>
@@ -142,7 +143,7 @@
                             <!--begin::Input wrapper-->
                             <div class="position-relative">
                                 <!--begin::Input-->
-                                <input id="KrediKartCVV" type="text" class="form-control p-2 form-control-solid" minlength="3" maxlength="4" placeholder="CVV" name="KrediKartCVV">
+                                <input id="KrediKartCVV" type="text" class="form-control p-2 " minlength="3" maxlength="4" placeholder="CVV" name="KrediKartCVV">
                                 <!--end::Input-->
                                 <!--begin::CVV icon-->
                                 <div class="position-absolute translate-middle-y top-50 end-0 me-3">
@@ -190,8 +191,8 @@
 </div>
 
 @section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-       
-    </script>
 
+    </script>
 }

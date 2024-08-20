@@ -78,7 +78,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            ViewBag.PaketID = paketID;
+            ViewBag.Paket = UyelikPaketiGetir(paketID);
 
             return View();
         }
@@ -94,20 +94,24 @@ namespace YKPortal.Controllers
             }
             var orderId = Guid.NewGuid().ToString();
             SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_UyelikOdemesiOlustur";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@Uygulama", "PARAMPOS");
-            cmd.Parameters.AddWithValue("@Tutar", uyelikPaketi.Tutar); // Paket tutarını al
+            cmd.Parameters.AddWithValue("@Tutar", Convert.ToDecimal(uyelikPaketi.Tutar)); // Paket tutarını al
             cmd.Parameters.AddWithValue("@UzatilacakAy", uyelikPaketi.Ay); // Paket süresini al
             cmd.Parameters.AddWithValue("@OrderID", orderId);
+            cmd.Parameters.AddWithValue("@Durum", string.Empty);
             cmd.Parameters.AddWithValue("@KrediKartIsim", uyelikOdemesi.KrediKartIsim);
             cmd.Parameters.AddWithValue("@KrediKartNo", uyelikOdemesi.KrediKartNo);
-            cmd.Parameters.AddWithValue("@KrediKartSonKullanim", uyelikOdemesi.KrediKartSonKullanim);
+            cmd.Parameters.AddWithValue("@KrediKartSonKullanim", $"{uyelikOdemesi.KrediKartiSonKullanimAy}/{uyelikOdemesi.KrediKartiSonKullanimYil}");
             cmd.Parameters.AddWithValue("@KrediKartCVV", uyelikOdemesi.KrediKartCVV);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
-
-            return View();
+            // parampos odeme gerceklesicek
+            var parampos = new ParamPosService();
+            var result = parampos.SendPaymentRequest(uyelikOdemesi).Result;
+            return View("~/Views/POSAPI/OdemeEkrani", result);
 
         }
 

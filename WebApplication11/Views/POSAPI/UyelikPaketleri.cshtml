@@ -6,6 +6,9 @@
 
 <div class="container">
     <div class="card-body p-lg-17">
+        <div class="">
+
+        </div>
         <!--begin::Plans-->
         <div class="d-flex flex-column">
             <!--begin::Heading-->
@@ -30,49 +33,20 @@
                             <div class="d-flex h-100 align-items-center">
                                 <div class="w-100 d-flex flex-column flex-center rounded-3 bg-light bg-opacity-75 py-15 px-10">
                                     <div class="mb-7 text-center">
-                                        <input type="hidden" name="ID" value="@row["ID"].ToString()" />
-                                        <h1 name="Isim" class="text-gray-900 mb-5 fw-bolder">@row["Isim"].ToString()</h1>
-                                        <div name="Aciklama" class="text-gray-600 fw-semibold mb-5">@Html.Raw(row["Aciklama"])</div>
-                                        <div name="ResimUrl">@row["ResimUrl"].ToString()</div>
+                                        <input type="hidden" name="ID" value="@Convert.ToString(row["ID"])" />
+                                        <h1 name="Isim" class="text-gray-900 mb-5 fw-bolder">@Convert.ToString(row["Isim"])</h1>
+                                        <div name="Aciklama" class="text-gray-600 fw-semibold mb-5">@Convert.ToString(row["Aciklama"])</div>
+                                        <div name="ResimUrl">@Convert.ToString(row["ResimUrl"])</div>
                                         <div class="text-center">
                                             <span class="mb-2 text-primary fw-bold fs-3">₺</span>
-                                            <span name="Tutar" class="fs-3x fw-bold text-primary">@row["Tutar"].ToString()</span>
-                                            <span class="fs-4 fw-semibold opacity-50">/<span name="Ay">@row["Ay"].ToString()</span></span>
+                                            <span name="Tutar" class="fs-3x fw-bold text-primary">@Convert.ToString(row["Tutar"])</span>
+                                            <span class="fs-4 fw-semibold opacity-50">/<span name="Ay">@Convert.ToString(row["Ay"])</span></span>
                                             <span class="fs-4 fw-semibold opacity-50">Ay</span>
                                         </div>
                                     </div>
-                                    <div class="w-100 mb-10">
-                                        <div class="d-flex align-items-center mb-5">
-                                            <span class="fw-semibold fs-6 text-gray-800 flex-grow-1 pe-3">Up to 10 Active Users</span>
-                                            <i class="ki-duotone ki-check-circle fs-1 text-success"><span class="path1"></span><span class="path2"></span></i>
-                                        </div>
-                                        <div class="d-flex align-items-center mb-5">
-                                            <span class="fw-semibold fs-6 text-gray-800 flex-grow-1 pe-3">Up to 30 Project Integrations</span>
-                                            <i class="ki-duotone ki-check-circle fs-1 text-success"><span class="path1"></span><span class="path2"></span></i>
-                                        </div>
-                                        <div class="d-flex align-items-center mb-5">
-                                            <span class="fw-semibold fs-6 text-gray-800 flex-grow-1 pe-3">Analytics Module</span>
-                                            <i class="ki-duotone ki-check-circle fs-1 text-success"><span class="path1"></span><span class="path2"></span></i>
-                                        </div>
-                                        <div class="d-flex align-items-center mb-5">
-                                            <span class="fw-semibold fs-6 text-gray-600 flex-grow-1">Finance Module</span>
-                                            <i class="ki-duotone ki-cross-circle fs-1"><span class="path1"></span><span class="path2"></span></i>
-                                        </div>
-                                        <div class="d-flex align-items-center mb-5">
-                                            <span class="fw-semibold fs-6 text-gray-600 flex-grow-1">Accounting Module</span>
-                                            <i class="ki-duotone ki-cross-circle fs-1"><span class="path1"></span><span class="path2"></span></i>
-                                        </div>
-                                        <div class="d-flex align-items-center mb-5">
-                                            <span class="fw-semibold fs-6 text-gray-600 flex-grow-1">Network Platform</span>
-                                            <i class="ki-duotone ki-cross-circle fs-1"><span class="path1"></span><span class="path2"></span></i>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <span class="fw-semibold fs-6 text-gray-600 flex-grow-1">Unlimited Cloud Space</span>
-                                            <i class="ki-duotone ki-cross-circle fs-1"><span class="path1"></span><span class="path2"></span></i>
-                                        </div>
-                                    </div>
+                                  
                                     <div>
-                                        <a href="/POSAPI/UyelikOdemesi?paketID=@row["ID"].ToString()" class="btn btn-primary">Seç</a>
+                                        <a href="/POSAPI/UyelikOdemesi?paketID=@Convert.ToString(row["ID"])" class="btn btn-primary">Seç</a>
                                     </div>
 
                                 </div>
