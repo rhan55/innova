@@ -43,7 +43,8 @@ namespace YKPortal.Controllers
 
             var content = new FormUrlEncodedContent(values);
             var response = await _httpClient.PostAsync("https://api.parampos.com.tr/odeme", content);
-
+            var paramposOdeme = new ParamPos.ST_TP_Islem_Odeme();
+            
             return await response.Content.ReadAsStringAsync();
         }
     }

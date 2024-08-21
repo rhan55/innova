@@ -128,6 +128,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@Ad", kullaniciEkleDto.Ad);
             cmd.Parameters.AddWithValue("@Soyad", kullaniciEkleDto.Soyad);
             cmd.Parameters.AddWithValue("@Aktif", kullaniciEkleDto.Aktif);
+            cmd.Parameters.AddWithValue("@Onay", kullaniciEkleDto.Onay);
             cmd.Parameters.AddWithValue("@Telefon", kullaniciEkleDto.Telefon);
             cmd.Parameters.AddWithValue("@Adres", kullaniciEkleDto.Adres);
             cmd.Parameters.AddWithValue("@Il", kullaniciEkleDto.Il);

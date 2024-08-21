@@ -14,15 +14,17 @@ namespace YKPortal.Controllers
     public class DosyaController : Controller
     {
 
-        public ActionResult Liste(DosyaDto cariDosyaDto)
+        public ActionResult Liste(DosyaDto cariDosyaDto )
         {
             if (!AutoGirisKontrol())
 
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/Dosya/Liste", "Gor"))
+
+            if (!YetkiKontrolu(cariDosyaDto.Modul, "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
+         
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_DosyaListesi";
@@ -227,7 +229,7 @@ namespace YKPortal.Controllers
 
 
         #endregion
-        private bool YetkiKontrolu(string YetkiUrl, string Tip = "Gor")
+        private bool YetkiKontrolu(string Modul, string Tip = "Gor")
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_KullaniciYetkileri";
@@ -235,6 +237,17 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            string YetkiUrl = "";
+            switch(Modul)
+            {
+                case "Cari":
+                    YetkiUrl = "/Cari/Liste";
+                    break;
+
+                case "Stok":
+                    YetkiUrl = "/Stok/Liste";
+                    break;
+            }
 
             List<YetkilerDto> yetkiler = new List<YetkilerDto>();
 

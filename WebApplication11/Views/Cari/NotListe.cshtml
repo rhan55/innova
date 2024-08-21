@@ -92,7 +92,7 @@
 
                                             <!--end::Avatar-->
                                             <!--begin::User details-->
-                                            <div href="" class="text-gray-800 text-hover-primary mb-1">@(Convert.ToString(Model.Notlar.Rows[i]["Aciklama"]))</div>
+                                            <div href="" class="text-gray-800 text-hover-primary mb-1">@(Html.Raw(HttpUtility.HtmlDecode(Convert.ToString(Model.Notlar.Rows[i]["Aciklama"]))))</div>
 
                                             <!--begin::User details-->
                                         </td>

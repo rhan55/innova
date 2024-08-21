@@ -322,7 +322,7 @@ namespace YKPortal.Controllers
             return RedirectToAction("Liste");
         }
 
-        [HttpGet]
+    
         public ActionResult Liste(CariDto cariDto)
         {
             if (!AutoGirisKontrol())
@@ -600,64 +600,7 @@ namespace YKPortal.Controllers
         }
 
 
-        [HttpGet]
-        public JsonResult SelectListe(string search)
-        {
-            if (!YetkiKontrolu("/Cari/Ekle", "Gor"))
-                return Json(new { Message = "Yetki Yok" }, JsonRequestBehavior.AllowGet);
-
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "p_CariListesi";
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-            cmd.Parameters.AddWithValue("@Kod", "");
-            cmd.Parameters.AddWithValue("@Isim", search);
-            cmd.Parameters.AddWithValue("@Unvan", "");
-            cmd.Parameters.AddWithValue("@TCKimlikNo", "");
-            cmd.Parameters.AddWithValue("@VergiNumarasi", "");
-            cmd.Parameters.AddWithValue("@CepTelefonu", "");
-
-            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-            var liste = new List<CariDto>();
-
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                liste.Add(new CariDto
-                {
-                    ID = Convert.ToString(dt.Rows[i]["ID"]),
-                    Isim = Convert.ToString(dt.Rows[i]["Isim"]),
-                    Kod = Convert.ToString(dt.Rows[i]["Kod"]),
-                });
-            }
-
-            return Json(liste, JsonRequestBehavior.AllowGet);
-
-        }
-
-        // Bir tane cari getirmek icin kullandigimiz metod, bu metod sayesinde id uzerinden bir carinin Isim ve ID'sini getirebiliyoruz. Select2 icin kullaniyoruz.
-        private CariDto Getir(string id)
-        {
-            if (id != null && id.Length > 0)
-
-            {
-                var uyelikId = GetCookie("UyelikID");
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "p_Cari";
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ID", id);
-                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-
-                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
-
-                return new CariDto
-                {
-                    ID = Convert.ToString(dt.Rows[0]["ID"]),
-                    Isim = Convert.ToString(dt.Rows[0]["Isim"])
-                };
-            }
-            return new CariDto { };
-        }
+      
 
         [HttpGet]
         public ActionResult Duzenle(string id)
@@ -971,6 +914,8 @@ namespace YKPortal.Controllers
             return View();
         }
 
+ 
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult NotEkle(CariNotDto cariNotDto)
         {
@@ -988,7 +933,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@CariID", cariNotDto.CariID);
-            cmd.Parameters.AddWithValue("@Aciklama", cariNotDto.Aciklama);
+            cmd.Parameters.AddWithValue("@Aciklama", HttpUtility.HtmlEncode(cariNotDto.Aciklama));
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             return RedirectToAction("NotListe", new { CariID = cariNotDto.CariID });
         }
@@ -1009,8 +954,8 @@ namespace YKPortal.Controllers
             var model = new CariNotListeViewModel
             {
                 Notlar = dt,
-                Sil = YetkiKontrolu("/Cari/NotListe?CariID", "Sil"),
-                Duzenle = YetkiKontrolu("/Cari/NotListe?CariID", "Duzenle")
+                Sil = YetkiKontrolu("/Cari/Liste", "Sil"),
+                Duzenle = YetkiKontrolu("/Cari/Liste", "Duzenle")
 
             };
 
@@ -1039,6 +984,7 @@ namespace YKPortal.Controllers
 
             return View(dt);
         }
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult NotDuzenle(CariNotDto cariNotDto)
         {
@@ -1056,7 +1002,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@CariID", cariNotDto.CariID);
-            cmd.Parameters.AddWithValue("@Aciklama", cariNotDto.Aciklama);
+            cmd.Parameters.AddWithValue("@Aciklama", HttpUtility.HtmlEncode(cariNotDto.Aciklama));
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
             return RedirectToAction("NotListe", new { CariID = cariNotDto.CariID });
@@ -1086,7 +1032,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Cari/Liste", "Gor"))
+            if (!YetkiKontrolu("/Cari/YeniCariHareketKaydi", "Gor"))
                 return Redirect("~/YK/Anasayfa");
 
             var cari = Getir(CariID);
@@ -1137,7 +1083,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Cari/Liste", "Duzenle"))
+            if (!YetkiKontrolu("/Cari/YeniCariHareketKaydi", "Duzenle"))
                 return Redirect("~/YK/Anasayfa");
 
             SqlCommand cmd = new SqlCommand();
@@ -1176,7 +1122,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Cari/Liste", "Gor"))
+            if (!YetkiKontrolu("/Cari/HareketListesi", "Gor"))
                 return Redirect("~/YK/Anasayfa");
 
             DataTable dt = new DataTable();
@@ -1212,7 +1158,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Cari/Liste", "Sil"))
+            if (!YetkiKontrolu("/Cari/HareketListesi", "Sil"))
                 return Redirect("~/YK/Anasayfa");
 
             SqlCommand cmd = new SqlCommand();
@@ -1229,7 +1175,64 @@ namespace YKPortal.Controllers
         }
 
 
+        [HttpGet]
+        public JsonResult SelectListe(string search)
+        {
+            if (!YetkiKontrolu("/Cari/Ekle", "Gor"))
+                return Json(new { Message = "Yetki Yok" }, JsonRequestBehavior.AllowGet);
 
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_CariListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Kod", "");
+            cmd.Parameters.AddWithValue("@Isim", search);
+            cmd.Parameters.AddWithValue("@Unvan", "");
+            cmd.Parameters.AddWithValue("@TCKimlikNo", "");
+            cmd.Parameters.AddWithValue("@VergiNumarasi", "");
+            cmd.Parameters.AddWithValue("@CepTelefonu", "");
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            var liste = new List<CariDto>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                liste.Add(new CariDto
+                {
+                    ID = Convert.ToString(dt.Rows[i]["ID"]),
+                    Isim = Convert.ToString(dt.Rows[i]["Isim"]),
+                    Kod = Convert.ToString(dt.Rows[i]["Kod"]),
+                });
+            }
+
+            return Json(liste, JsonRequestBehavior.AllowGet);
+
+        }
+
+        // Bir tane cari getirmek icin kullandigimiz metod, bu metod sayesinde id uzerinden bir carinin Isim ve ID'sini getirebiliyoruz. Select2 icin kullaniyoruz.
+        private CariDto Getir(string id)
+        {
+            if (id != null && id.Length > 0)
+
+            {
+                var uyelikId = GetCookie("UyelikID");
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_Cari";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ID", id);
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+
+                return new CariDto
+                {
+                    ID = Convert.ToString(dt.Rows[0]["ID"]),
+                    Isim = Convert.ToString(dt.Rows[0]["Isim"])
+                };
+            }
+            return new CariDto { };
+        }
         public KullaniciEkleDto KullaniciGetir(string ID)
         {
             SqlCommand cmd = new SqlCommand();

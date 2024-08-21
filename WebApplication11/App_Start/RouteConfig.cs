@@ -19,6 +19,7 @@ namespace YKPortal
                 defaults: new { controller = "YK", action = "AnaSayfa", id = UrlParameter.Optional }
             );
 
+            routes.MapMvcAttributeRoutes();
         }
     }
 }

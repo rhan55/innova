@@ -41,7 +41,7 @@ namespace YKPortal.Controllers
             return View(dt);
         }
 
-        [ValidateInput(false)]
+  
         [HttpGet]
         public ActionResult Ekle()
         {
@@ -57,6 +57,7 @@ namespace YKPortal.Controllers
             return View();
         }
 
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult Ekle(MailKalibiDto emailTemplateDto)
         {

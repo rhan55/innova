@@ -30,7 +30,7 @@
                                 <label for="Aciklama" class="fw-semibold fs-6 mb-2">Açıklama</label>
                                 <!--end::Label-->
                                 <!--begin::texarea-->
-                                <textarea type="text" id="Aciklama" name="Aciklama" class="form-control p-2 mb-3 mb-lg-0">@(Convert.ToString(Model.Tables[0].Rows[0]["Aciklama"]))</textarea>
+                                <textarea type="text" id="Aciklama" name="Aciklama" class="form-control p-2 mb-3 mb-lg-0">@(HttpUtility.HtmlDecode(Convert.ToString(Model.Tables[0].Rows[0]["Aciklama"])))</textarea>
                                 <!--end::Input-->
                             </div>
                             <div class="col-lg-4">
@@ -187,33 +187,33 @@
             </div>
 
             <div style="clear:both;"></div>
-            @if(Model.Tables[2].Rows.Count > 0)
+            @if (Model.Tables[2].Rows.Count > 0)
             {
-            <table class="form-control tab-content" style="background-color: #398439; color: white;">
-                <thead>
-                    <tr>
-                        <th style="padding: 5px;"><strong>GÖREVİ<br />SONUÇLANDIRAN</strong></th>
-                        <th style="padding: 5px;"><strong>SONUÇLANMA<br />TARİHİ</strong></th>
-                        <th style="padding: 5px;"><strong>SONUÇ<br />AÇIKLAMASI</strong></th>
-                    </tr>
-                    <tr>
-                        <th colspan="3"><hr /></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (DataRow sonuc in Model.Tables[2].Rows)
-                    {
+                <table class="form-control tab-content" style="background-color: #398439; color: white;">
+                    <thead>
                         <tr>
-                            <td style="padding: 5px; vertical-align:top;">@sonuc["KaydiKapatan"]</td>
-                            <td style="padding: 5px; vertical-align: top;">@Convert.ToDateTime(sonuc["TamamlamaTarihi"]).ToString("dd-MM-yyyy HH:mm")</td>
-                            <td style="padding: 5px;">
-                                @sonuc["Aciklama"]
-                                <hr />
-                            </td>
+                            <th style="padding: 5px;"><strong>GÖREVİ<br />SONUÇLANDIRAN</strong></th>
+                            <th style="padding: 5px;"><strong>SONUÇLANMA<br />TARİHİ</strong></th>
+                            <th style="padding: 5px;"><strong>SONUÇ<br />AÇIKLAMASI</strong></th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                        <tr>
+                            <th colspan="3"><hr /></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DataRow sonuc in Model.Tables[2].Rows)
+                        {
+                            <tr>
+                                <td style="padding: 5px; vertical-align:top;">@sonuc["KaydiKapatan"]</td>
+                                <td style="padding: 5px; vertical-align: top;">@Convert.ToDateTime(sonuc["TamamlamaTarihi"]).ToString("dd-MM-yyyy HH:mm")</td>
+                                <td style="padding: 5px;">
+                                    @sonuc["Aciklama"]
+                                    <hr />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             }
             @if (Model.Tables[2].Select(" KullaniciID = '" + KullaniciID + "' ").Count() == 0 &&
                  Model.Tables[1].Select(" KullaniciID = '" + KullaniciID + "' ").Count() > 0)
@@ -293,57 +293,66 @@
 
 
 @section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="~/Tema/plugins/custom/tinymce/tinymce.bundle.js"></script>
 
+    <script>
 
-}
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script>
+        $(document).ready(function () {
 
-    $(document).ready(function () {
+            var AciklamaEditorOptions = { selector: "#Aciklama", height: 200 };
 
-
-
-
-        const gorevTipidSelect = $('#GorevTipiID').select2({
-            ajax: {
-                url: "/Gorev/GorevTipiListesiniOlustur",
-                data: function (params) {
-                    var query = {
-                        search: params.term,
-                    }
-
-                    // Query parameters will be ?search=[term]&type=public
-                    return query;
-                },
-                processResults: function (data) {
-                    var results = [];
-                    if (data && data.length > 0) {
-                        data.forEach(function (item) {
-                            results.push({ id: item.ID, text: item.Isim })
-                        });
-                    }
-
-                    return {
-                        results: results
-                    };
-                },
-            },
-            delay: 250,
-            minimumInputLength: 3,
-            language: {
-                placeholder: function () {
-                    return "Arama yapmak için en az 3 karakter girin";
-                },
-                inputTooShort: function () {
-                    return "Lütfen en az 3 karakter girin";
-                }
+            if (KTThemeMode.getMode() === "dark") {
+                AciklamaEditorOptions["skin"] = "oxide-dark";
+                AciklamaEditorOptions["content_css"] = "dark";
             }
+
+            tinymce.init(AciklamaEditorOptions);
+
+
+
+            const gorevTipidSelect = $('#GorevTipiID').select2({
+                ajax: {
+                    url: "/Gorev/GorevTipiListesiniOlustur",
+                    data: function (params) {
+                        var query = {
+                            search: params.term,
+                        }
+
+                        // Query parameters will be ?search=[term]&type=public
+                        return query;
+                    },
+                    processResults: function (data) {
+                        var results = [];
+                        if (data && data.length > 0) {
+                            data.forEach(function (item) {
+                                results.push({ id: item.ID, text: item.Isim })
+                            });
+                        }
+
+                        return {
+                            results: results
+                        };
+                    },
+                },
+                delay: 250,
+                minimumInputLength: 3,
+                language: {
+                    placeholder: function () {
+                        return "Arama yapmak için en az 3 karakter girin";
+                    },
+                    inputTooShort: function () {
+                        return "Lütfen en az 3 karakter girin";
+                    }
+                }
+            });
+
+
+
+
+
         });
 
+    </script>
 
-
-
-
-    });
-
-</script>
+}

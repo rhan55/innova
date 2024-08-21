@@ -10,10 +10,10 @@ using YKPortal.Models;
 
 namespace YKPortal.Controllers
 {
+    
     public class DepoController : Controller
     {
         // GET: Depo
-        [HttpGet]
         public ActionResult Liste(string aranacakKelime = "")
         {
 
@@ -36,6 +36,7 @@ namespace YKPortal.Controllers
 
             return View(dt);
         }
+
         [HttpGet]
         public ActionResult Ekle()
         {
@@ -50,7 +51,6 @@ namespace YKPortal.Controllers
         }
 
         [HttpPost]
-
         public ActionResult Ekle(DepoDto depoDto)
         {
             if (!AutoGirisKontrol())

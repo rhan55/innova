@@ -258,7 +258,7 @@
                                                 <td style="vertical-align: top;">
                                                     <span style="color:orange;">@(Convert.ToString(Model.Tables[0].Rows[i]["Gorev"]))</span>
                                                     <br />
-                                                    @(Convert.ToString(Model.Tables[0].Rows[i]["Aciklama"]))
+                                                    @(Html.Raw(HttpUtility.HtmlDecode(Convert.ToString(Model.Tables[0].Rows[i]["Aciklama"]))))
                                                 </td>
 
                                                 <td class="text-end" style="padding-right: 3px; vertical-align: top;width:150px;">

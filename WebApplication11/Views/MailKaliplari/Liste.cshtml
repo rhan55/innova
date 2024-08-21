@@ -90,7 +90,7 @@
                             <div href="" class="text-gray-600 text-hover-primary ">@(Convert.ToString(Model.Rows[i]["Isim"]))</div>
                         </td>
                         <td class=" align-items-center p-0">
-                            <div href="" class="text-gray-600 text-hover-primary ">@(Convert.ToString(Model.Rows[i]["Icerik"]))</div>
+                            <div href="" class="text-gray-600 text-hover-primary ">@(HttpUtility.HtmlDecode(Convert.ToString(Model.Rows[i]["Icerik"])))</div>
                         </td>
                      
                         <td class="text-end py-1">

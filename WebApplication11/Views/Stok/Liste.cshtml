@@ -231,6 +231,14 @@
                                             <div class="menu-item p-0">
                                                 <a href="/Stok/YeniStokHareketKaydi?StokID=@(Convert.ToString(Model.Stoklar.Rows[i]["ID"]))&Isim=@ViewBag.Isim" class="menu-link py-0  px-2">Yeni Stok Hareket</a>
                                             </div>
+                                            <div class="menu-item p-0">
+                                                <a href="/Dosya/Liste?Modul=Stok&KayitID=@ViewData["StokID"]" class="menu-link py-0  px-2">
+                                                    <span class="menu-title">Dosyalar</span>
+                                                </a>
+                                            </div>
+                                            <div class="menu-item p-0">
+                                                <a href="/Stok/FiyatEkle?StokID=@ViewData["StokID"]" class="menu-link rounded-0 p-0">Fiyat Ekle</a>
+                                            </div>
                                             @if (Model.Sil)
                                             {
                                                 <!--begin::Menu item-->
@@ -241,6 +249,7 @@
                                                 </div>
                                                 <!--end::Menu item-->
                                             }
+
                                         </div>
                                         <!--end::Menu-->
                                     </td>

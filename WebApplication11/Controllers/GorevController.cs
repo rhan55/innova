@@ -121,13 +121,14 @@ namespace YKPortal.Controllers
             return View();
         }
 
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult GorevEkle(GorevDto gorevDto)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Gorev/GorevEkle", "Duzenle"))
+            if (!YetkiKontrolu("/Gorev/GorevL's", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -140,7 +141,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@GorevTipiID", gorevDto.GorevTipiID);
-            cmd.Parameters.AddWithValue("@Aciklama", gorevDto.Aciklama);
+            cmd.Parameters.AddWithValue("@Aciklama", HttpUtility.HtmlEncode(gorevDto.Aciklama));
             cmd.Parameters.AddWithValue("@BaslangicTarihi", gorevDto.BaslangicTarihi);
             cmd.Parameters.AddWithValue("@Periyot", gorevDto.Periyot);
             string SonID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
@@ -310,6 +311,7 @@ namespace YKPortal.Controllers
 
         }
 
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult GorevDuzenle(GorevDto gorevDto)
         {
@@ -328,7 +330,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@GorevTipiID", gorevDto.GorevTipiID);
-            cmd.Parameters.AddWithValue("@Aciklama", gorevDto.Aciklama);
+            cmd.Parameters.AddWithValue("@Aciklama", HttpUtility.HtmlEncode(gorevDto.Aciklama));
             cmd.Parameters.AddWithValue("@BaslangicTarihi", gorevDto.BaslangicTarihi);
             cmd.Parameters.AddWithValue("@Periyot", gorevDto.Periyot);
             string SonID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));

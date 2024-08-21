@@ -81,33 +81,34 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4"><br /><br />
+                        <div class="col-lg-4">
+                            <br /><br />
                             <input type="file" name="file Gorev" id="file" value="" multiple />
                         </div>
-                            <div class="col-lg-12">
-                                <label for="Kullanicilar">Görev atanacak kullanıcılar</label>
-                                <select id="Kullanicilar" name="Kullanicilar" class="form-control" style="height:200px;" multiple>
-                                    @foreach (DataRow drKullanici in dtKullanicilar.Rows)
-                                    {
-                                        <option value="@drKullanici["ID"]">@drKullanici["Ad"] @drKullanici["Soyad"] - @drKullanici["Aciklama1"]</option>
-                                    }
-                                </select>
-                            </div>
+                        <div class="col-lg-12">
+                            <label for="Kullanicilar">Görev atanacak kullanıcılar</label>
+                            <select id="Kullanicilar" name="Kullanicilar" class="form-control" style="height:200px;" multiple>
+                                @foreach (DataRow drKullanici in dtKullanicilar.Rows)
+                                {
+                                    <option value="@drKullanici["ID"]">@drKullanici["Ad"] @drKullanici["Soyad"] - @drKullanici["Aciklama1"]</option>
+                                }
+                            </select>
                         </div>
-                        <!--begin::Actions-->
-                        <div class="pt-10">
-                            <a onclick="history.back()" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
-                            <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Kaydet">
-                                <span class="indicator-label">Kaydet</span>
-                                <span class="indicator-progress">
-                                    Lütfen Bekleyin...
-                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                                </span>
-                            </button>
-                        </div>
-
-                        <!--end::Actions-->
                     </div>
+                    <!--begin::Actions-->
+                    <div class="pt-10">
+                        <a onclick="history.back()" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
+                        <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Kaydet">
+                            <span class="indicator-label">Kaydet</span>
+                            <span class="indicator-progress">
+                                Lütfen Bekleyin...
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </button>
+                    </div>
+
+                    <!--end::Actions-->
+                </div>
                 <!--begin::Row Input group-->
             </form>
             <!--end::Form-->
@@ -121,57 +122,66 @@
 
 
 @section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="~/Tema/plugins/custom/tinymce/tinymce.bundle.js"></script>
 
+    <script>
 
-}
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script>
+        $(document).ready(function () {
 
-    $(document).ready(function () {
+            var AciklamaEditorOptions = { selector: "#Aciklama", height: 200 };
 
-
-
-
-        const gorevTipidSelect = $('#GorevTipiID').select2({
-            ajax: {
-                url: "/Gorev/GorevTipiListesiniOlustur",
-                data: function (params) {
-                    var query = {
-                        search: params.term,
-                    }
-
-                    // Query parameters will be ?search=[term]&type=public
-                    return query;
-                },
-                processResults: function (data) {
-                    var results = [];
-                    if (data && data.length > 0) {
-                        data.forEach(function (item) {
-                            results.push({ id: item.ID, text: item.Isim })
-                        });
-                    }
-
-                    return {
-                        results: results
-                    };
-                },
-            },
-            delay: 250,
-            minimumInputLength: 3,
-            language: {
-                placeholder: function () {
-                    return "Arama yapmak için en az 3 karakter girin";
-                },
-                inputTooShort: function () {
-                    return "Lütfen en az 3 karakter girin";
-                }
+            if (KTThemeMode.getMode() === "dark") {
+                AciklamaEditorOptions["skin"] = "oxide-dark";
+                AciklamaEditorOptions["content_css"] = "dark";
             }
+
+            tinymce.init(AciklamaEditorOptions);
+
+
+
+            const gorevTipidSelect = $('#GorevTipiID').select2({
+                ajax: {
+                    url: "/Gorev/GorevTipiListesiniOlustur",
+                    data: function (params) {
+                        var query = {
+                            search: params.term,
+                        }
+
+                        // Query parameters will be ?search=[term]&type=public
+                        return query;
+                    },
+                    processResults: function (data) {
+                        var results = [];
+                        if (data && data.length > 0) {
+                            data.forEach(function (item) {
+                                results.push({ id: item.ID, text: item.Isim })
+                            });
+                        }
+
+                        return {
+                            results: results
+                        };
+                    },
+                },
+                delay: 250,
+                minimumInputLength: 3,
+                language: {
+                    placeholder: function () {
+                        return "Arama yapmak için en az 3 karakter girin";
+                    },
+                    inputTooShort: function () {
+                        return "Lütfen en az 3 karakter girin";
+                    }
+                }
+            });
+
+
+
+
+
         });
 
+    </script>
 
-
-
-
-    });
-
-</script>
+}
