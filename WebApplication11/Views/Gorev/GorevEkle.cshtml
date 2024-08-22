@@ -30,8 +30,7 @@
                         </div>
                         <div class="col-lg-4">
                             <label for="GorevTipiID" class="form-label">Görev Tipi</label>
-                            <select class="form-control p-2 rounded-1" data-control="select2" name="GorevTipiID" id="GorevTipiID"
-                                    aria-label="Floating label select example" required>
+                            <select class="form-control" name="GorevTipiID" id="GorevTipiID" aria-label="Floating label select example" required>
                                 <option value="">Lütfen Seçim Yapınız</option>
                                 @foreach (GrupKoduDto gorevTipi in ViewBag.GorevTipleri)
                                 {
@@ -129,52 +128,9 @@
 
         $(document).ready(function () {
 
-            var AciklamaEditorOptions = { selector: "#Aciklama", height: 200 };
-
-            if (KTThemeMode.getMode() === "dark") {
-                AciklamaEditorOptions["skin"] = "oxide-dark";
-                AciklamaEditorOptions["content_css"] = "dark";
-            }
-
-            tinymce.init(AciklamaEditorOptions);
+            
 
 
-
-            const gorevTipidSelect = $('#GorevTipiID').select2({
-                ajax: {
-                    url: "/Gorev/GorevTipiListesiniOlustur",
-                    data: function (params) {
-                        var query = {
-                            search: params.term,
-                        }
-
-                        // Query parameters will be ?search=[term]&type=public
-                        return query;
-                    },
-                    processResults: function (data) {
-                        var results = [];
-                        if (data && data.length > 0) {
-                            data.forEach(function (item) {
-                                results.push({ id: item.ID, text: item.Isim })
-                            });
-                        }
-
-                        return {
-                            results: results
-                        };
-                    },
-                },
-                delay: 250,
-                minimumInputLength: 3,
-                language: {
-                    placeholder: function () {
-                        return "Arama yapmak için en az 3 karakter girin";
-                    },
-                    inputTooShort: function () {
-                        return "Lütfen en az 3 karakter girin";
-                    }
-                }
-            });
 
 
 

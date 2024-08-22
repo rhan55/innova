@@ -128,7 +128,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Gorev/GorevL's", "Duzenle"))
+            if (!YetkiKontrolu("/Gorev/GorevEkle", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
