@@ -110,7 +110,31 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KrediKartCVV", uyelikOdemesi.KrediKartCVV);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             // parampos odeme gerceklesicek
+            var paramposPosOdeme = new ParamPos.TurkPosWSTESTSoapClient();
+          
+            var CLIENT_CODE = "88503";
+            var CLIENT_USERNAME = "TP10113004";
+            var CLIENT_PASSWORD = "B539B78228C91FD9";
+            var GUID = "8C885165-F05D-47C1-BF40-A116EF6A7FA2";
+            var hataUrl = "https://localhost:44338/POSAPI/BasarisizOdeme";
+            var basariliUrl = "https://localhost:44338/POSAPI/BasariliOdeme";
+            var refUrl = "https://localhost:44338/POSAPI/UyelikOdemesi";
+            var guvenlikNesnesi = new ParamPos.ST_WS_Guvenlik
+            {
+                CLIENT_CODE = CLIENT_CODE,
+                CLIENT_USERNAME = CLIENT_USERNAME,
+                CLIENT_PASSWORD = CLIENT_PASSWORD
+            };
+            var kullaniciIpAdresi = GetIPAddress();
+
+
+            var islemGuvenlikHash = paramposPosOdeme.SHA2B64($"{CLIENT_CODE}&{GUID}&{1}&{uyelikOdemesi.Tutar}&{uyelikOdemesi.Tutar}&{uyelikOdemesi.OrderID}&{""}&{hataUrl}&{basariliUrl}");
+            var sonuc = paramposPosOdeme.Pos_Odeme(G: guvenlikNesnesi, GUID: GUID, KK_Sahibi: uyelikOdemesi.KrediKartIsim, KK_No: uyelikOdemesi.KrediKartNo, uyelikOdemesi.KrediKartiSonKullanimAy, uyelikOdemesi.KrediKartiSonKullanimYil, uyelikOdemesi.KrediKartCVV, "telefon", hataUrl, basariliUrl, uyelikOdemesi.OrderID, uyelikOdemesi.Uygulama, 1, uyelikOdemesi.Tutar, uyelikOdemesi.Tutar, islemGuvenlikHash, "3D", "", kullaniciIpAdresi, refUrl, "", "", "", "", "", "", "", "", "", "");
+
+         
+
             var parampos = new ParamPosService();
+
             var result = parampos.SendPaymentRequest(uyelikOdemesi).Result;
             return View("~/Views/POSAPI/OdemeEkrani", result);
 
@@ -258,6 +282,23 @@ namespace YKPortal.Controllers
             {
                 return false;
             }
+        }
+
+        private string GetIPAddress()
+        {
+            System.Web.HttpContext context = System.Web.HttpContext.Current;
+            string ipAddress = context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+            if (!string.IsNullOrEmpty(ipAddress))
+            {
+                string[] addresses = ipAddress.Split(',');
+                if (addresses.Length != 0)
+                {
+                    return addresses[0];
+                }
+            }
+
+            return context.Request.ServerVariables["REMOTE_ADDR"];
         }
     }
 

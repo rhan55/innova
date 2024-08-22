@@ -57,7 +57,27 @@ namespace YKPortal.Controllers
                 }
             }
             SonAktiviteler();
+            AnaSayfaBilgileri();
             return View();
+        }
+
+        private void AnaSayfaBilgileri()
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_AnaSayfa";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var ansayfaBilgileri = new AnaSayfaDto { 
+                Cari = Convert.ToInt32(dt.Rows[0]["Cari"]),
+                Stok = Convert.ToInt32(dt.Rows[0]["Stok"]),
+                Belge = Convert.ToInt32(dt.Rows[0]["Belge"]),
+                Gorev = Convert.ToInt32(dt.Rows[0]["Gorev"]),
+            };
+
+            ViewBag.Bilgiler = ansayfaBilgileri;
         }
         private void SonAktiviteler()
         {
@@ -78,7 +98,7 @@ namespace YKPortal.Controllers
                     Aciklama1 = Convert.ToString(dt.Rows[i]["Aciklama1"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["Aciklama1"]),
                     Aciklama2 = Convert.ToString(dt.Rows[i]["Aciklama2"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["Aciklama2"]),
                     Kullanici = Convert.ToString(dt.Rows[i]["Kullanici"]) == null ? "Kullanıcı Bulunamadı" : Convert.ToString(dt.Rows[i]["Kullanici"]),
-                });
+                }); 
             }
 
             ViewBag.SonAktiviteler = sonAktiviteler;
