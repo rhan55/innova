@@ -436,11 +436,11 @@ namespace YKPortal.Controllers
 
                 cmd.Parameters.AddWithValue("@ID", "");
                 cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
-                cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
                 cmd.Parameters.AddWithValue("@GorevTipiID", GorevTipiID);
                 cmd.Parameters.AddWithValue("@Aciklama", Aciklama);
                 cmd.Parameters.AddWithValue("@BaslangicTarihi", DateTime.Now);
                 cmd.Parameters.AddWithValue("@Periyot", "T");
+                cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
                 string SonID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
 
 
