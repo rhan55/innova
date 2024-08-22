@@ -53,7 +53,7 @@
                                 <label for="BaslangicTarihi" class=" fw-semibold fs-6 mb-2">Başlangıç Tarihi</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="datetime-local" name="BaslangicTarihi" id="BaslangicTarihi" value="@(DateTime.Parse(Convert.ToString(Model.Tables[0].Rows[0]["BaslangicTarihi"])).ToString("yyyy-MM-dd HH:mm"))" class="form-control p-2 mb-3 mb-lg-0" value="" />
+                                <input type="datetime-local" name="BaslangicTarihi" id="BaslangicTarihi" value="@(DateTime.Parse(Convert.ToString(Model.Tables[0].Rows[0]["BaslangicTarihi"])).ToString("yyyy-MM-dd HH:mm"))" class="form-control p-2 mb-3 mb-lg-0"/>
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -257,7 +257,7 @@
                                 <label for="BaslangicTarihi" class=" fw-semibold fs-6 mb-2">Tarih</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="datetime-local" name="TamamlamaTarihi" id="TamamlamaTarihi" value="@(DateTime.Now.ToString("yyyy-MM-dd HH:mm"))" class="form-control p-2 mb-3 mb-lg-0" value="" />
+                                <input type="datetime-local" name="TamamlamaTarihi" id="TamamlamaTarihi" value="@(DateTime.Now.ToString("yyyy-MM-dd HH:mm"))" class="form-control p-2 mb-3 mb-lg-0"/>
                                 <!--end::Input-->
                             </div>
                         </div>
@@ -301,7 +301,14 @@
         $(document).ready(function () {
 
 
+            var AciklamaEditorOptions = { selector: "#Aciklama", height: 200 };
 
+            if (KTThemeMode.getMode() === "dark") {
+                AciklamaEditorOptions["skin"] = "oxide-dark";
+                AciklamaEditorOptions["content_css"] = "dark";
+            }
+
+            tinymce.init(AciklamaEditorOptions);
 
 
 

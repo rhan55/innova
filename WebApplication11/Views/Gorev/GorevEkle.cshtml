@@ -130,7 +130,14 @@
 
             
 
+            var AciklamaEditorOptions = { selector: "#Aciklama", height: 200 };
 
+            if (KTThemeMode.getMode() === "dark") {
+                AciklamaEditorOptions["skin"] = "oxide-dark";
+                AciklamaEditorOptions["content_css"] = "dark";
+            }
+
+            tinymce.init(AciklamaEditorOptions);
 
 
 

@@ -274,7 +274,7 @@ namespace YKPortal.Controllers
 
             return RedirectToAction("GorevListe");
         }
-
+       
         [HttpGet]
         public ActionResult GorevDuzenle(string ID)
         {

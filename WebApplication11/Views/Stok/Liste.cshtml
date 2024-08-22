@@ -231,14 +231,7 @@
                                             <div class="menu-item p-0">
                                                 <a href="/Stok/YeniStokHareketKaydi?StokID=@(Convert.ToString(Model.Stoklar.Rows[i]["ID"]))&Isim=@ViewBag.Isim" class="menu-link py-0  px-2">Yeni Stok Hareket</a>
                                             </div>
-                                            <div class="menu-item p-0">
-                                                <a href="/Dosya/Liste?Modul=Stok&KayitID=@ViewData["StokID"]" class="menu-link py-0  px-2">
-                                                    <span class="menu-title">Dosyalar</span>
-                                                </a>
-                                            </div>
-                                            <div class="menu-item p-0">
-                                                <a href="/Stok/FiyatEkle?StokID=@ViewData["StokID"]" class="menu-link rounded-0 p-0">Fiyat Ekle</a>
-                                            </div>
+                                          
                                             @if (Model.Sil)
                                             {
                                                 <!--begin::Menu item-->
@@ -311,7 +304,7 @@
                 <p>Seçtiğiniz stok bilgilerini silmek istediğinize emin misiniz?</p>
             </div>
 
-        
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Vazgeç</button>
                 <button type="button" id="topluSilOnay" class="btn btn-danger btn-sm">Sil</button>
@@ -324,7 +317,7 @@
 @section Scripts {
     <script>
 
-      
+
         function setCookie(name, value, days) {
             let expires = "";
             if (days) {

@@ -6,27 +6,28 @@
 <div class="container-fluid p-4">
     <div class="row">
         <div class="col-sm-8">
-            <div class="d-flex">
-                <div class="card card-flush p-6">
+            <div class="d-flex ">
+                <div class="card card-flush p-6 w-100">
                     <h3 class="text-primary">Aktif Cari</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p>@ViewBag.Bilgiler.Cari</p>
                 </div>
-                <div class="card card-flush p-6 ms-4">
+                <div class="card card-flush p-6 w-100 ms-4">
                     <h3 class="text-primary">Aktif Stok</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p>@ViewBag.Bilgiler.Stok</p>
                 </div>
-                <div class="card card-flush p-6 ms-4">
+                <div class="card card-flush p-6 w-100 ms-4">
                     <h3 class="text-primary">Aktif Sipariş</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p>@ViewBag.Bilgiler.Belge</p>
                 </div>
+            
             </div>
             
 
         </div>
         <div class="col-sm-4">
             <div class="card card-flush p-4 mb-2">
-                <h6 class="text-primary" >Bekleyen Görev Sayısı</h6>
-               
+                <h6 class="text-primary">Bekleyen Görev Sayısı</h6>
+                <p>@ViewBag.Bilgiler.Gorev</p>
             </div>
             <!--begin::Col-->
             <div class="">
