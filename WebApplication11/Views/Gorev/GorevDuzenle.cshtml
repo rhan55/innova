@@ -53,7 +53,7 @@
                                 <label for="BaslangicTarihi" class=" fw-semibold fs-6 mb-2">Başlangıç Tarihi</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="datetime-local" name="BaslangicTarihi" id="BaslangicTarihi" value="@(DateTime.Parse(Convert.ToString(Model.Tables[0].Rows[0]["BaslangicTarihi"])).ToString("yyyy-MM-dd HH:mm"))" class="form-control p-2 mb-3 mb-lg-0"/>
+                                <input type="datetime-local" name="BaslangicTarihi" id="BaslangicTarihi" value="@(DateTime.Parse(Convert.ToString(Model.Tables[0].Rows[0]["BaslangicTarihi"])).ToString("yyyy-MM-dd HH:mm"))" class="form-control p-2 mb-3 mb-lg-0" />
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -232,7 +232,7 @@
                                 <label for="Aciklama" class="fw-semibold fs-6 mb-2">Açıklama</label>
                                 <!--end::Label-->
                                 <!--begin::texarea-->
-                                <textarea type="text" id="Aciklama" name="Aciklama" class="form-control p-2 mb-3 mb-lg-0"></textarea>
+                                <textarea type="text" id="Aciklama" name="Aciklama" class="form-control" placeholder=""></textarea>
                                 <!--end::Input-->
                             </div>
                         </div>
@@ -257,7 +257,7 @@
                                 <label for="BaslangicTarihi" class=" fw-semibold fs-6 mb-2">Tarih</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="datetime-local" name="TamamlamaTarihi" id="TamamlamaTarihi" value="@(DateTime.Now.ToString("yyyy-MM-dd HH:mm"))" class="form-control p-2 mb-3 mb-lg-0"/>
+                                <input type="datetime-local" name="TamamlamaTarihi" id="TamamlamaTarihi" value="@(DateTime.Now.ToString("yyyy-MM-dd HH:mm"))" class="form-control p-2 mb-3 mb-lg-0" />
                                 <!--end::Input-->
                             </div>
                         </div>
@@ -295,11 +295,8 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="~/Tema/plugins/custom/tinymce/tinymce.bundle.js"></script>
-
     <script>
-
         $(document).ready(function () {
-
 
             var AciklamaEditorOptions = { selector: "#Aciklama", height: 200 };
 
@@ -309,11 +306,7 @@
             }
 
             tinymce.init(AciklamaEditorOptions);
-
-
-
         });
-
     </script>
 
 }
