@@ -87,6 +87,7 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Anasayfa");
             }
 
+            ViewBag.Personeller = PersonelGetir();
             ViewBag.Depolar = DepoListesiGetir();
 
             return View(new BelgeDto());
@@ -297,6 +298,7 @@ namespace YKPortal.Controllers
                 ViewBag.Depolar = (DataTable)IDVeritabani.Sorgula(cmdDepolar, SorgulaTuru.Tablo);
             }
 
+            ViewBag.Personeller = PersonelGetir();
             ViewBag.Duzenle = YetkiKontrolu("/SatisTalebi/Liste/?Tip=STL", "Duzenle");
 
             return View(entity);
@@ -486,6 +488,31 @@ namespace YKPortal.Controllers
             {
                 return false;
             }
+        }
+
+        private List<PersonelDto> PersonelGetir()
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_PersonellerListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@AranacakKelime ", string.Empty);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var entities = new List<PersonelDto>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                PersonelDto entity = new PersonelDto();
+                entity.ID = Convert.ToString(dt.Rows[i]["ID"]);
+                entity.Isim = Convert.ToString(dt.Rows[i]["Isim"]);
+                entity.Email = Convert.ToString(dt.Rows[i]["Email"]);
+                entity.Telefon = Convert.ToString(dt.Rows[i]["Telefon"]);
+
+                entities.Add(entity);
+            }
+            return entities;
         }
     }
 }

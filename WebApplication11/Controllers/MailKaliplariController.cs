@@ -85,8 +85,9 @@ namespace YKPortal.Controllers
 
             return RedirectToAction("Liste");
         }
+
         [HttpGet]
-        public ActionResult   Duzenle(string id)
+        public ActionResult Duzenle(string id)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
@@ -106,6 +107,7 @@ namespace YKPortal.Controllers
 
         }
      
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult Duzenle(MailKalibiDto mailKalibiDto)
         {
@@ -128,7 +130,7 @@ namespace YKPortal.Controllers
 
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-            return View(dt);
+            return RedirectToAction("Liste");
 
         }
 

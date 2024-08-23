@@ -34,8 +34,8 @@
 
                                     <!--begin::Input group-->
                                     <div class="d-flex flex-equal fw-row text-nowrap order-1 order-xxl-2 me-4" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-original-title="Enter invoice number" data-kt-initialized="1">
-                                        <span class="fs-2x fw-bold text-gray-700">Fatura #</span>
-                                        <input type="text" class="form-control form-control-flush fw-bold text-muted fs-3 w-125px" value="2021001" placehoder="...">
+                                        <span class="fs-2x fw-bold text-gray-700">Satış Fatura#</span>
+                                     
                                     </div>
                                     <!--end::Input group-->
                                     <!--begin::Input group-->
@@ -119,6 +119,22 @@
                                                         <!-- @drDepo["ID"] -->
                                                     }
                                                 </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <!--begin::Label-->
+                                                <label for="PersonelID" class="required fw-semibold fs-6 mb-2">PersonelID</label>
+                                                <!--end::Label-->
+                                                <select class="form-control p-2 rounded-1" data-control="select2" name="PersonelID" id="PersonelID"
+                                                        aria-label="Floating label select example">
+                                                    <option value="">Lütfen Seçim Yapınız</option>
+                                                    @foreach (PersonelDto personel in ViewBag.Personeller)
+                                                    {
+                                                        <option value="@personel.ID">@personel.Isim</option>
+                                                    }
+                                                </select>
+                                                <!--end::Input group-->
                                             </div>
                                         </div>
                                     </div>

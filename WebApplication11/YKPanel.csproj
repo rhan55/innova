@@ -2940,6 +2940,7 @@
     <Content Include="Views\Tanimlamalar\BankaHesabiListe.cshtml" />
     <Content Include="Views\Tanimlamalar\BankaHesabiEkle.cshtml" />
     <Content Include="Views\POSAPI\OdemeEkrani.cshtml" />
+    <Content Include="Views\MailKaliplari\Duzenle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

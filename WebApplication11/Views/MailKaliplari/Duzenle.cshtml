@@ -1,14 +1,14 @@
-﻿
-@using YKPortal.Models.Dto
+﻿@model System.Data.DataTable
 @{
-    ViewBag.Title = "Mail Kalıbı Ekle";
+    ViewBag.Title = "Duzenle";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container">
-    <form id="kt_modal_add_user_form" class="form container" action="@Url.Action("Ekle","MailKaliplari",null)" method="post">
-        <div class="d-flex flex-column mt-10">
 
+<div class="container">
+    <form id="kt_modal_add_user_form" class="form container" action="@Url.Action("Duzenle","MailKaliplari",null)" method="post">
+        <div class="d-flex flex-column mt-10">
+            <input type="hidden" name="ID" value="@(Convert.ToString(Model.Rows[0]["ID"]))" />
             <!--begin::Row Input group-->
             <div class="row mb-7">
                 <!--begin::Input group-->
@@ -17,7 +17,7 @@
                     <label class="fw-bold fs-6 mb-2">Kod</label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <input type="text" name="Kod" class="form-control  p-2 mb-3 mb-lg-0" placeholder="Kod" required />
+                    <input type="text" name="Kod" class="form-control  p-2 mb-3 mb-lg-0" placeholder="Kod" required value="@(Convert.ToString(Model.Rows[0]["Kod"]))" />
 
                     <!--end::Input-->
                 </div>
@@ -28,7 +28,7 @@
                     <label class="fw-bold fs-6 mb-2">İsim</label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <input type="text" name="Isim" class="form-control p-2 mb-3 mb-lg-0" autofocus required />
+                    <input type="text" name="Isim" class="form-control p-2 mb-3 mb-lg-0" autofocus required value="@(Convert.ToString(Model.Rows[0]["Isim"]))" />
                     <!--end::Input-->
                 </div>
                 <!--end::Input group-->
@@ -42,7 +42,7 @@
                     <label class="fw-bold fs-6 mb-2">Icerik</label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <textarea name="Icerik" id="Icerik" class="form-control  p-2 mb-3 mb-lg-0"></textarea>
+                    <textarea name="Icerik" id="Icerik" class="form-control  p-2 mb-3 mb-lg-0">@(HttpUtility.HtmlDecode(Convert.ToString(Model.Rows[0]["Icerik"])))</textarea>
 
                     <!--end::Input-->
                 </div>
