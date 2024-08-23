@@ -159,7 +159,18 @@ namespace YKPortal.Areas.D.Controllers
                             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
                             DataTable dtMailBilgileri = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-                            YKUtils.MailGonder(Baslik, Icerik, GetCookie("KullaniciAdi"),
+                            cmd.Parameters.Clear();
+                            cmd.CommandText = @"Select Kullanicilar.KullaniciAdi from GorevKullanicilari WITH(NOLOCK) 
+left outer join Kullanicilar WITH(NOLOCK) ON Kullanicilar.ID = GorevKullanicilari.KullaniciID
+Where GorevKullanicilari.GorevID = @ID";
+                            cmd.CommandType = System.Data.CommandType.Text;
+                            cmd.Parameters.AddWithValue("@ID", SonID);
+                            DataTable dtMailAdresi = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                            string mailAdresi = "";
+                            if (dtMailAdresi.Rows.Count > 0)
+                                mailAdresi = Convert.ToString(dtMailAdresi.Rows[0]["KullaniciAdi"]);
+
+                            YKUtils.MailGonder(Baslik, Icerik, GetCookie("KullaniciAdi")+";"+ mailAdresi,
                                     Convert.ToString(dtMailBilgileri.Select(" Isim = 'KullaniciAdi' ")[0]["Deger"]),
                                     Convert.ToString(dtMailBilgileri.Select(" Isim = 'Parola' ")[0]["Deger"]),
                                     Convert.ToString(dtMailBilgileri.Select(" Isim = 'Host' ")[0]["Deger"]),
@@ -253,7 +264,19 @@ namespace YKPortal.Areas.D.Controllers
                 cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
                 DataTable dtMailBilgileri = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-                YKUtils.MailGonder(Baslik, Icerik, GetCookie("KullaniciAdi"),
+                cmd.Parameters.Clear();
+                cmd.CommandText = @"Select Kullanicilar.KullaniciAdi from Gorevler WITH(NOLOCK)
+left outer join Kullanicilar WITH(NOLOCK) ON Kullanicilar.ID = Gorevler.KayitYapanKullanici
+Where Gorevler.ID = @ID";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@ID", GorevID);
+                DataTable dtMailAdresi = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                string mailAdresi = "";
+                if (dtMailAdresi.Rows.Count > 0)
+                    mailAdresi = Convert.ToString(dtMailAdresi.Rows[0]["KullaniciAdi"]);
+
+
+                YKUtils.MailGonder(Baslik, Icerik, GetCookie("KullaniciAdi")+";"+mailAdresi,
                         Convert.ToString(dtMailBilgileri.Select(" Isim = 'KullaniciAdi' ")[0]["Deger"]),
                         Convert.ToString(dtMailBilgileri.Select(" Isim = 'Parola' ")[0]["Deger"]),
                         Convert.ToString(dtMailBilgileri.Select(" Isim = 'Host' ")[0]["Deger"]),

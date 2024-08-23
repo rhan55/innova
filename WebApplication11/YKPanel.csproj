@@ -259,6 +259,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Areas\Crm2\Views\Crm2\AnaSayfa2.cshtml" />
+    <Content Include="Areas\Crm2\Views\Crm2\GrupKoduDuzenle.cshtml" />
+    <Content Include="Areas\Crm2\Views\Crm2\GrupKoduEkle.cshtml" />
+    <Content Include="Areas\Crm2\Views\Crm2\GrupKodu.cshtml" />
     <None Include="Connected Services\ParamPos\configuration91.svcinfo" />
     <None Include="Connected Services\ParamPos\configuration.svcinfo" />
     <None Include="Connected Services\ParamPos\Reference.svcmap">

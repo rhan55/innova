@@ -385,7 +385,7 @@ namespace YKPortal.Controllers
         }
         [HttpGet]
         public ActionResult GorevListe(GorevDto gorevDto, DateTime? Baslangic = null, DateTime? Bitis = null,
-            string Durum="", string GorevTipiID = "", string KayitYapanKullanici = "", string AtananKullanici = "")
+            string Durum="Beklemede", string GorevTipiID = "", string KayitYapanKullanici = "", string AtananKullanici = "")
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");

@@ -1,0 +1,62 @@
+﻿@model System.Data.DataTable
+@{
+    ViewBag.Title = "Tanımlama Ekle";
+    Layout = "~/Views/Shared/_LayoutSade.cshtml";
+}
+
+<div class="container">
+    <form id="kt_modal_add_user_form" class="form pt-10" action="@Url.Action("GrupKoduEkle","Crm2",new { Area = "Crm2" })" method="post">
+        <div class="d-flex flex-column scroll-y px-5 px-lg-10">
+
+            <!--begin::Row Input group-->
+            <div class="row mb-7">
+                <!--begin::Input group-->
+                <div class="col-lg-6" style="display:none;">
+                    <!--begin::Label-->
+                    <label for="Kod" class="required fw-semibold fs-6 mb-2">Kod</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input type="text" id="Kod" name="Kod" class="form-control p-2 mb-3 mb-lg-0" placeholder="Kod" value="@ViewBag.GrupKodu" required />
+
+                    <!--end::Input-->
+                </div>
+                <!--end::Input group-->
+                <!--begin::Input group-->
+                <div class="col-lg-6">
+                    <!--begin::Label-->
+                    <label class="required fw-semibold fs-6 mb-2">Değer</label>
+                    <!--end::Label-->
+                    <!--begin::Input-->
+                    <input type="text" id="Deger" name="Deger" class="form-control mb-3 p-2 mb-lg-0 btn-sm fw-bold" autofocus placeholder="Değer" required />
+                    <!--end::Input-->
+                </div>
+
+                <!--end::Input group-->
+                <div class="row mt-4">
+                    <div class="col-lg-2 d-flex align-items-center ">
+                        <div class="form-check">
+                            <input class="form-check-input" name="Aktif" type="checkbox" value="true" id="Aktif" />
+                            <label class="form-check-label user-select-none cursor-pointer" for="Aktif">
+                                Aktif
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--end::Row Input group-->
+            <!--begin::Actions-->
+            <div class="pt-4">
+                <a onclick="history.back()" class="btn btn-light me-3 btn-sm fw-bold" data-kt-users-modal-action="cancel">Geri</a>
+                <button type="submit" class="btn btn-primary btn-sm fw-bold" data-kt-users-modal-action="Kaydet">
+                    <span class="indicator-label">Kaydet</span>
+
+                </button>
+            </div>
+            <!--end::Actions-->
+        </div>
+
+    </form>
+
+</div>
