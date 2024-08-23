@@ -54,11 +54,6 @@ namespace YKPortal.Models.YKClasses
             bool GonderenMailSSL)
         {
 
-            SmtpClient sc = new SmtpClient();
-            sc.Port = GonderenMailPort; // 587;
-            sc.Host = GonderenMailServer; // "mail.ykyazilim.com.tr";
-            sc.EnableSsl = GonderenMailSSL; // false;
-            sc.Credentials = new NetworkCredential(GonderenMailAdresi, GonderenMailSifresi);
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress(GonderenMailAdresi, ConfigurationManager.AppSettings["FirmaAdi"]);
 
@@ -70,10 +65,15 @@ namespace YKPortal.Models.YKClasses
             
 
             mail.Subject = Baslik;
-            mail.IsBodyHtml = true;
             mail.Body =Icerik;
+            mail.IsBodyHtml = true;
             try
             {
+                SmtpClient sc = new SmtpClient();
+                sc.Port = GonderenMailPort; // 587;
+                sc.Host = GonderenMailServer; // "mail.ykyazilim.com.tr";
+                sc.EnableSsl = GonderenMailSSL; // false;
+                sc.Credentials = new NetworkCredential(GonderenMailAdresi, GonderenMailSifresi);
                 sc.Send(mail);
             }
             catch (Exception err)

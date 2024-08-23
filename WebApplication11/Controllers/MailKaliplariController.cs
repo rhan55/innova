@@ -126,7 +126,8 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@Kod", mailKalibiDto.Kod);
             cmd.Parameters.AddWithValue("@Isim", mailKalibiDto.Isim);
-            cmd.Parameters.AddWithValue("@Icerik", HttpUtility.HtmlEncode(mailKalibiDto.Icerik));
+            //cmd.Parameters.AddWithValue("@Icerik", HttpUtility.HtmlEncode(mailKalibiDto.Icerik));
+            cmd.Parameters.AddWithValue("@Icerik", (mailKalibiDto.Icerik));
 
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);

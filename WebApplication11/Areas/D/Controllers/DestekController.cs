@@ -151,6 +151,8 @@ namespace YKPortal.Areas.D.Controllers
                             string Baslik = Convert.ToString(dtMail.Rows[0]["Isim"]);
                             string Icerik = Convert.ToString(dtMail.Rows[0]["Icerik"]);
                             Icerik = Icerik.Replace("{Isim}", GetCookie("Isim"));
+                            Icerik = Icerik.Replace("{Tarih}", gorevDto.BaslangicTarihi.ToString("dd-MM-yyyy HH:mm"));
+                            Icerik = Icerik.Replace("{Aciklama}", gorevDto.Aciklama);
                             Icerik = Icerik.Replace("{KayitNo}", SonID);
 
                             cmd.Parameters.Clear();
@@ -292,7 +294,7 @@ Where Gorevler.ID = @ID";
 
         [HttpGet]
         public ActionResult AnaSayfa(GorevDto gorevDto, DateTime? Baslangic = null, DateTime? Bitis = null,
-            string Durum = "", string GorevTipiID = "", string KayitYapanKullanici = "", string AtananKullanici = "")
+            string Durum = "Beklemede", string GorevTipiID = "", string KayitYapanKullanici = "", string AtananKullanici = "")
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
