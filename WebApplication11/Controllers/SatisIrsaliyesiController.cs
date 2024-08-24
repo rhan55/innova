@@ -124,6 +124,7 @@ namespace YKPortal.Controllers
                 entity.BelgeNo = Convert.ToString(ds.Tables[0].Rows[0]["BelgeNo"]);
                 entity.CariID = Convert.ToString(ds.Tables[0].Rows[0]["CariID"]);
                 entity.CariAdi = Convert.ToString(ds.Tables[0].Rows[0]["CariAdi"]);
+                entity.SatisPersonelID = Convert.ToString(ds.Tables[0].Rows[0]["SatisPersonelID"]);
                 entity.Aciklama = Convert.ToString(ds.Tables[0].Rows[0]["Aciklama1"]);
                 entity.DepoCikisID = Convert.ToString(ds.Tables[0].Rows[0]["DepoCikisID"]);
                 entity.DepoGirisID = Convert.ToString(ds.Tables[0].Rows[0]["DepoGirisID"]);
@@ -165,7 +166,7 @@ namespace YKPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult Kaydet(string Tip = "", string ID = "", string BelgeNo = "", string Tarih = "", string CariID = "",
+        public ActionResult Kaydet(string Tip = "", string ID = "", string BelgeNo = "", string Tarih = "", string CariID = "", string personelID = "",
            string DepoCikisID = "", string DepoGirisID = "",
             string Aciklama = "", List<BelgeKalemDto> Kalemler = null)
         {
@@ -183,6 +184,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@BelgeNo", BelgeNo);
             cmd.Parameters.AddWithValue("@Tarih", Tarih);
             cmd.Parameters.AddWithValue("@CariID", CariID);
+            cmd.Parameters.AddWithValue("@SatisPersonelID", personelID);
             cmd.Parameters.AddWithValue("@DepoCikisID", DepoCikisID);
             cmd.Parameters.AddWithValue("@DepoGirisID", DepoGirisID);
             cmd.Parameters.AddWithValue("@Aciklama1", Aciklama);
@@ -260,6 +262,7 @@ namespace YKPortal.Controllers
                 entity.Tarih = Convert.ToDateTime(ds.Tables[0].Rows[0]["Tarih"]);
                 entity.BelgeNo = Convert.ToString(ds.Tables[0].Rows[0]["BelgeNo"]);
                 entity.CariID = Convert.ToString(ds.Tables[0].Rows[0]["CariID"]);
+                entity.SatisPersonelID = Convert.ToString(ds.Tables[0].Rows[0]["SatisPersonelID"]);
                 entity.CariAdi = Convert.ToString(ds.Tables[0].Rows[0]["CariAdi"]);
                 entity.Aciklama = Convert.ToString(ds.Tables[0].Rows[0]["Aciklama1"]);
                 entity.Kalemler = new List<BelgeKalemDto>();

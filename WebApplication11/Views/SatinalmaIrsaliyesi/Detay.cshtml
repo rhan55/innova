@@ -1,6 +1,7 @@
-﻿@using YKPortal.Models.Dto
+﻿
+@using YKPortal.Models.Dto
 @using System.Data
-@model BelgeDto
+@model YKPortal.Models.Dto.BelgeDto
 @{
 
     ViewBag.Title = "Satınalma İrsaliyesi Detayı";
@@ -46,7 +47,7 @@
                                         <div class="position-relative d-flex align-items-center w-150px">
                                             <label for="Tarih" class="form-label fs-6 fw-bold text-gray-600 mb-3 pt-2 pe-2">Tarih</label>
                                             <!--begin::Datepicker-->
-                                            <input type="date" name="Tarih" id="Tarih" value="@(Convert.ToDateTime(Model.Tarih).ToString("yyyy-MM-dd"))" class="form-control form-control-solid p-2 rounded-1" placeholder="" />
+                                            <input type="date" name="Tarih" id="Tarih" value="@(DateTime.Now.ToString("yyyy-MM-dd"))" class="form-control form-control-solid p-2 rounded-1" placeholder="" />
                                             <!--end::Datepicker-->
 
                                         </div>
@@ -100,6 +101,24 @@
                                                 </div>
                                             </div>
 
+                                        </div>
+                                        <div class="row mb-4">
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <!--begin::Label-->
+                                                    <label for="SatisPersonelID" class="form-label fs-6 fw-bold text-gray-600 mb-3">SatisPersonelID</label>
+                                                    <!--end::Label-->
+                                                    <select class="form-control p-2 rounded-1" data-control="select2" name="SatisPersonelID" id="SatisPersonelID"
+                                                            aria-label="Floating label select example">
+                                                        <option value="">Lütfen Seçim Yapınız</option>
+                                                        @foreach (PersonelDto personel in ViewBag.Personeller)
+                                                        {
+                                                            <option value="@personel.ID">@personel.Isim</option>
+                                                        }
+                                                    </select>
+                                                    <!--end::Input group-->
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
@@ -644,6 +663,7 @@
                 DepoCikisID: $("#DepoCikisID").val(),
                 DepoGirisID: $("#DepoGirisID").val(),
                 Aciklama: $("#Aciklama").val(),
+                SatisPersonelID: $("#SatisPersonelID").val(),
                 Kalemler: kalemler // Kalemler dizisi burada atanmıştır
             };
 
@@ -659,7 +679,7 @@
                 success: function (data) {
                     alert("Belge Kaydedildi!");
                     // Detay sayfasını aç
-                    window.open("/SatinalmaIrsaliyesi/Detay/" + data.Data + "?Tip=@(Request.QueryString["Tip"])","_parent");
+                    window.open("/SatinalmaIrsaliyesi/Duzenle?id=" + data.Data + "&Tip=@(Request.QueryString["Tip"])","_parent");
                 },
                 error: function (msg) {
                     console.log(msg);

@@ -3,7 +3,7 @@
 
 @model BelgeDto
 @{
-    
+
     ViewBag.Title = "Satinalma Fatura Detayı";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string Tip = Request.QueryString["Tip"];
@@ -36,7 +36,7 @@
                                     <!--begin::Input group-->
                                     <div class="d-flex flex-equal fw-row text-nowrap order-1 order-xxl-2 me-4" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-original-title="Enter invoice number" data-kt-initialized="1">
                                         <span class="fs-2x fw-bold text-gray-700">Satınalma Fatura #</span>
-                                 
+
                                     </div>
                                     <!--end::Input group-->
                                     <!--begin::Input group-->
@@ -46,7 +46,7 @@
                                         <div class="position-relative d-flex align-items-center w-150px">
                                             <label for="Tarih" class="form-label fs-6 fw-bold text-gray-600 mb-3 pt-2 pe-2">Tarih</label>
                                             <!--begin::Datepicker-->
-                                            <input type="date" name="Tarih" id="Tarih" value="@(Convert.ToDateTime(Model.Tarih).ToString("yyyy-MM-dd"))" class="form-control form-control-solid p-2 rounded-1" placeholder="" />
+                                            <input type="date" name="Tarih" id="Tarih" value="@(DateTime.Now.ToString("yyyy-MM-dd"))" class="form-control form-control-solid p-2 rounded-1" placeholder="" />
                                             <!--end::Datepicker-->
 
                                         </div>
@@ -93,7 +93,7 @@
 
                                                             @if (Model.CariID != "")
                                                             {
-                                                                <option value="@Model.CariID" selected>@Model.CariAdi</option>
+                                                            <option value="@Model.CariID" selected>@Model.CariAdi</option>
                                                             }
                                                         </select>
                                                     </div>
@@ -110,20 +110,37 @@
                                                     {
                                                         if (Model.DepoCikisID == drDepo["ID"].ToString())
                                                         {
-                                                            <option value="@drDepo["ID"]" selected>@drDepo["Isim"]</option>
+                                                    <option value="@drDepo["ID"]" selected>@drDepo["Isim"]</option>
                                                         }
                                                         else
                                                         {
-                                                            <option value="@drDepo["ID"]">@drDepo["Isim"]</option>
+                                                    <option value="@drDepo["ID"]">@drDepo["Isim"]</option>
                                                         }
 
-                                                        <!-- @drDepo["ID"] -->
+                                                      <!-- @drDepo["ID"] -->
                                                     }
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
-
+                                    <div class="row mb-4">
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <!--begin::Label-->
+                                                <label for="SatisPersonelID" class="form-label fs-6 fw-bold text-gray-600 mb-3">SatisPersonelID</label>
+                                                <!--end::Label-->
+                                                <select class="form-control p-2 rounded-1" data-control="select2" name="SatisPersonelID" id="SatisPersonelID"
+                                                        aria-label="Floating label select example">
+                                                    <option value="">Lütfen Seçim Yapınız</option>
+                                                    @foreach (PersonelDto personel in ViewBag.Personeller)
+                                                    {
+                                                    <option value="@personel.ID">@personel.Isim</option>
+                                                    }
+                                                </select>
+                                                <!--end::Input group-->
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="row mb-4">
                                         <div class="col-@(Tip == "DT" ? "12" : "12")">
                                             <label for="Aciklama" class="form-label fs-6 fw-bold text-gray-600 mb-3">Açıklama</label>
@@ -145,20 +162,20 @@
                                                 <tr style="padding:5px;">
                                                     @if (Request.Browser.IsMobileDevice)
                                                     {
-                                                        <td colspan="3" style="text-align:center;"><strong>ÜRÜN</strong></td>
-                                                        <td colspan="2" style="text-align:center;"><strong>SERİ</strong></td>
+                                                    <td colspan="3" style="text-align:center;"><strong>ÜRÜN</strong></td>
+                                                    <td colspan="2" style="text-align:center;"><strong>SERİ</strong></td>
                                                     }
                                                     else
                                                     {
-                                                        <td class="me-4 text-gray-600"><strong>ÜRÜN</strong></td>
-                                                        <td class="me-4 text-gray-600"><strong>SERİ</strong></td>
-                                                        <td class="me-4 text-gray-600"><strong>BİRİM</strong></td>
-                                                        <td class="me-4 text-gray-600"><strong>KDV ORANI</strong></td>
-                                                        <td class="me-4 text-gray-600"><strong>MİKTAR</strong></td>
-                                                        <td class="me-4 text-gray-600"><strong>FİYAT</strong></td>
-                                                        <td class="me-4 text-gray-600"><strong>İSKONTO ORANI</strong></td>
-                                                        <td class="me-4 text-gray-600"><strong>TUTAR</strong></td>
-                                                        <td><strong></strong></td>
+                                                    <td class="me-4 text-gray-600"><strong>ÜRÜN</strong></td>
+                                                    <td class="me-4 text-gray-600"><strong>SERİ</strong></td>
+                                                    <td class="me-4 text-gray-600"><strong>BİRİM</strong></td>
+                                                    <td class="me-4 text-gray-600"><strong>KDV ORANI</strong></td>
+                                                    <td class="me-4 text-gray-600"><strong>MİKTAR</strong></td>
+                                                    <td class="me-4 text-gray-600"><strong>FİYAT</strong></td>
+                                                    <td class="me-4 text-gray-600"><strong>İSKONTO ORANI</strong></td>
+                                                    <td class="me-4 text-gray-600"><strong>TUTAR</strong></td>
+                                                    <td><strong></strong></td>
                                                     }
                                                 </tr>
                                             </thead>
@@ -169,87 +186,87 @@
                                                     if (Request.Browser.IsMobileDevice)
                                                     {
 
-                                                        <tr data-ID="@satir.ID" data-ID2="@ID">
-                                                            <td colspan="4">
-                                                                <table style="width:100%;margin-bottom:15px;">
-                                                                    <tr>
-                                                                        <td class="min-w-300px w-475px" colspan="3">
-                                                                            <select class="form-select Depo-cikis form-select-solid p-2 rounded-1" name="StokID_@(ID)" id="StokID_@(ID)" style="width:100%;"
-                                                                                    aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                                                <option value="@satir.StokID" selected>@satir.StokAdi</option>
-                                                                            </select>
+                                                <tr data-ID="@satir.ID" data-ID2="@ID">
+                                                    <td colspan="4">
+                                                        <table style="width:100%;margin-bottom:15px;">
+                                                            <tr>
+                                                                <td class="min-w-300px w-475px" colspan="3">
+                                                                    <select class="form-select Depo-cikis form-select-solid p-2 rounded-1" name="StokID_@(ID)" id="StokID_@(ID)" style="width:100%;"
+                                                                            aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                                                        <option value="@satir.StokID" selected>@satir.StokAdi</option>
+                                                                    </select>
 
-                                                                        </td>
+                                                                </td>
 
-                                                                        <td>
-                                                                            @if (Tip == "AF")
+                                                                <td>
+                                                                    @if (Tip == "AF")
                                                                             {
-                                                                                <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
+                                                                    <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
                                                                             }
                                                                             else if (Tip == " DT")
                                                                             {
 
-                                                                                <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
+                                                                    <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
                                                                             }
                                                                             else
                                                                             {
-                                                                                <select class="form-select form-select-solid p-2 rounded-1" name="Seri_@(ID)" id="Seri_@(ID)"
-                                                                                        aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                                                    <option value="@satir.Seri" selected>@satir.Seri</option>
-                                                                                </select>
+                                                                    <select class="form-select form-select-solid p-2 rounded-1" name="Seri_@(ID)" id="Seri_@(ID)"
+                                                                            aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                                                        <option value="@satir.Seri" selected>@satir.Seri</option>
+                                                                    </select>
                                                                             }
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
 
-                                                                        <td><strong>Birim</strong></td>
-                                                                        <td style="text-align: right;"><strong>Kdv Oranı</strong></td>
-                                                                        <td style="text-align: right;"><strong>Miktar</strong></td>
-                                                                        <td style="text-align: right;"><strong>Fiyat</strong></td>
-                                                                        <td style="text-align: right;"><strong>İskonto Oranı</strong></td>
-                                                                        <td style="text-align: right;"><strong>Tutar</strong></td>
-                                                                    </tr>
-                                                                    <tr>
+                                                                <td><strong>Birim</strong></td>
+                                                                <td style="text-align: right;"><strong>Kdv Oranı</strong></td>
+                                                                <td style="text-align: right;"><strong>Miktar</strong></td>
+                                                                <td style="text-align: right;"><strong>Fiyat</strong></td>
+                                                                <td style="text-align: right;"><strong>İskonto Oranı</strong></td>
+                                                                <td style="text-align: right;"><strong>Tutar</strong></td>
+                                                            </tr>
+                                                            <tr>
 
-                                                                        <td>
-                                                                            <input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control p-2 me-10" />
-                                                                        </td>
+                                                                <td>
+                                                                    <input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control p-2 me-10" />
+                                                                </td>
 
-                                                                        <td>
-                                                                            <input type="text" data-kt-element="kdv-data" name="KdvOrani_@(ID)" id="KdvOrani_@(ID)" value="@(String.Format("{0:N2}",satir.KdvOrani))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <input type="text" data-kt-element="iskonto-data" name="IskontoOrani1_@(ID)" id="IskontoOrani1_@(ID)" value="@(String.Format("{0:N2}",satir.IskontoOrani1))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" readonly />
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                            <td>
-                                                                <button type='button' class="deleteBtn pt-2" data-ID2="@(ID)">Sil</button>
-                                                            </td>
-                                                        </tr>
+                                                                <td>
+                                                                    <input type="text" data-kt-element="kdv-data" name="KdvOrani_@(ID)" id="KdvOrani_@(ID)" value="@(String.Format("{0:N2}",satir.KdvOrani))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" data-kt-element="iskonto-data" name="IskontoOrani1_@(ID)" id="IskontoOrani1_@(ID)" value="@(String.Format("{0:N2}",satir.IskontoOrani1))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" readonly />
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                    <td>
+                                                        <button type='button' class="deleteBtn pt-2" data-ID2="@(ID)">Sil</button>
+                                                    </td>
+                                                </tr>
                                                     }
                                                     else
                                                     {
-                                            <tr class="border-bottom border-bottom-dashed" data-ID="@satir.ID" data-ID2="@ID">
-                                                <td class="pe-7">
-                                                    <select class="form-select form-select-solid p-2 rounded-1" name="StokID_@(ID)" id="StokID_@(ID)" style="min-width:150px;max-width:350px;"
-                                                            aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                        <option value="@satir.StokID" selected>@satir.StokAdi</option>
-                                                    </select>
+                                                <tr class="border-bottom border-bottom-dashed" data-ID="@satir.ID" data-ID2="@ID">
+                                                    <td class="pe-7">
+                                                        <select class="form-select form-select-solid p-2 rounded-1" name="StokID_@(ID)" id="StokID_@(ID)" style="min-width:150px;max-width:350px;"
+                                                                aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                                            <option value="@satir.StokID" selected>@satir.StokAdi</option>
+                                                        </select>
 
-                                                </td>
-                                                <td class="ps-0">
-                                                    @if (Tip == "AF")
+                                                    </td>
+                                                    <td class="ps-0">
+                                                        @if (Tip == "AF")
                                                     {
                                                         <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
                                                     }
@@ -260,33 +277,33 @@
                                                             <option value="@satir.Seri" selected>@satir.Seri</option>
                                                         </select>
                                                     }
-                                                </td>
+                                                    </td>
 
 
-                                                <td style="max-width:200px;">
-                                                    <input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control p-2" />
-                                                </td>
+                                                    <td style="max-width:200px;">
+                                                        <input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control p-2" />
+                                                    </td>
 
-                                                <td>
-                                                    <input type="text" data-kt-element="kdv-data" name="KdvOrani_@(ID)" id="KdvOrani_@(ID)" value="@(String.Format("{0:N2}",satir.KdvOrani))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                </td>
-                                                <td style="max-width:200px;">
-                                                    <input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                </td>
-                                                <td class="text-end" style="max-width:150px;">
-                                                    <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                </td>
-                                                <td class="text-end" style="max-width:150px;">
-                                                    <input type="text" data-kt-element="tutar-data" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" readonly />
-                                                </td>
-                                                <td>
-                                                    <input type="text" data-kt-element="iskonto-data" name="IskontoOrani1_@(ID)" id="IskontoOrani1_@(ID)" value="@(String.Format("{0:N2}",satir.IskontoOrani1))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                </td>
-                                                <td>
-                                                    <button type='button' class="deleteBtn pt-2" data-ID2="@(ID)">Sil</button>
-                                                </td>
+                                                    <td>
+                                                        <input type="text" data-kt-element="kdv-data" name="KdvOrani_@(ID)" id="KdvOrani_@(ID)" value="@(String.Format("{0:N2}",satir.KdvOrani))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                    </td>
+                                                    <td style="max-width:200px;">
+                                                        <input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                    </td>
+                                                    <td class="text-end" style="max-width:150px;">
+                                                        <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                    </td>
+                                                    <td class="text-end" style="max-width:150px;">
+                                                        <input type="text" data-kt-element="tutar-data" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" readonly />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" data-kt-element="iskonto-data" name="IskontoOrani1_@(ID)" id="IskontoOrani1_@(ID)" value="@(String.Format("{0:N2}",satir.IskontoOrani1))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                    </td>
+                                                    <td>
+                                                        <button type='button' class="deleteBtn pt-2" data-ID2="@(ID)">Sil</button>
+                                                    </td>
 
-                                            </tr>
+                                                </tr>
                                                     }
                                                 }
                                             </tbody>
@@ -302,11 +319,11 @@
                                                         ₺<span data-kt-element="ara-toplam-tutari">
                                                             @if (Model.Kalemler != null)
                                                             {
-                                                                <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar).Sum()))</span>
+                                                            <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar).Sum()))</span>
                                                             }
                                                             else
                                                             {
-                                                                <span>0,00</span>
+                                                            <span>0,00</span>
                                                             }
                                                         </span>
                                                     </th>
@@ -322,11 +339,11 @@
                                                         - ₺<span data-kt-element="iskonto-tutari">
                                                             @if (Model.Kalemler != null)
                                                             {
-                                                                <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar * m.IskontoOrani1 / 100).Sum()))</span>
+                                                            <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar * m.IskontoOrani1 / 100).Sum()))</span>
                                                             }
                                                             else
                                                             {
-                                                                <span>0,00</span>
+                                                            <span>0,00</span>
                                                             }
                                                         </span>
                                                     </th>
@@ -342,11 +359,11 @@
                                                         ₺<span data-kt-element="kdv-tutari">
                                                             @if (Model.Kalemler != null)
                                                             {
-                                                                <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar * m.KdvOrani / 100).Sum()))</span>
+                                                            <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar * m.KdvOrani / 100).Sum()))</span>
                                                             }
                                                             else
                                                             {
-                                                                <span>0,00</span>
+                                                            <span>0,00</span>
                                                             }
                                                         </span>
                                                     </th>
@@ -364,11 +381,11 @@
                                                         ₺<span data-kt-element="toplam-tutar">
                                                             @if (Model.Kalemler != null)
                                                             {
-                                                                <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar + (m.Fiyat * m.Miktar * m.KdvOrani / 100) - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100)).Sum()))</span>
+                                                            <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar + (m.Fiyat * m.Miktar * m.KdvOrani / 100) - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100)).Sum()))</span>
                                                             }
                                                             else
                                                             {
-                                                                <span>0,00</span>
+                                                            <span>0,00</span>
                                                             }
                                                         </span>
                                                     </th>
@@ -498,7 +515,7 @@
 
             $('[data-kt-element="ara-toplam-tutari"]').text(araToplam);
         }
-      
+
         function YeniSatirAc() {
             var IsMobile = "@(Request.Browser.IsMobileDevice == true ? "1" : "0")";
             var YeniID = IDGuidOlustur().replace(/-/g, "");
@@ -531,7 +548,7 @@
                            deger += "                 </td>                                                                                                                              ";
                            deger += "             </tr>                                                                                                                                  ";
                            deger += "             <tr>        ";
- 
+
                            deger += "                 <td><strong>Birim</strong></td>                                                                                                    ";
                            deger += "                 <td><strong>KDV Oranı</strong></td>                                                                                                    ";
                            deger += "                 <td style='text-align: right;'><strong>Miktar</strong></td>                                                                        ";
@@ -646,6 +663,7 @@
                 DepoCikisID: $("#DepoCikisID").val(),
                 DepoGirisID: $("#DepoGirisID").val(),
                 Aciklama: $("#Aciklama").val(),
+                SatisPersonelID: $("#SatisPersonelID").val(),
                 Kalemler: kalemler // Kalemler dizisi burada atanmıştır
             };
 
@@ -661,7 +679,7 @@
                 success: function (data) {
                     alert("Belge Kaydedildi!");
                     // Detay sayfasını aç
-                    window.open("/SatinalmaFatura/Detay/" + data.Data + "?Tip=@(Request.QueryString["Tip"])","_parent");
+                    window.open("/SatinalmaFatura/Duzenle?id=" + data.Data + "&Tip=@(Request.QueryString["Tip"])","_parent");
                 },
                 error: function (msg) {
                     console.log(msg);
@@ -759,7 +777,7 @@
 
     @foreach (BelgeKalemDto satir in Model.Kalemler)
     {
-        <script>
+    <script>
 
 
             $(function () {
@@ -832,7 +850,7 @@
                 });
             });
 
-        </script>
+    </script>
     }
 }
 

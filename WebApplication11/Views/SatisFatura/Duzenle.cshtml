@@ -123,14 +123,14 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <!--begin::Label-->
-                                                <label for="PersonelID" class="required fw-semibold fs-6 mb-2">PersonelID</label>
+                                                <label for="SatisPersonelID" class="required fw-semibold fs-6 mb-2">SatisPersonelID</label>
                                                 <!--end::Label-->
-                                                <select class="form-control p-2 rounded-1" data-control="select2" name="PersonelID" id="PersonelID"
+                                                <select class="form-control p-2 rounded-1" data-control="select2" name="SatisPersonelID" id="SatisPersonelID"
                                                         aria-label="Floating label select example">
                                                     <option value="">Lütfen Seçim Yapınız</option>
                                                     @foreach (PersonelDto personel in ViewBag.Personeller)
                                                     {
-                                                        <option value="@personel.ID">@personel.Isim</option>
+                                                        <option value="@personel.ID" @(Model.SatisPersonelID == personel.ID ? "selected" : "")>@personel.Isim</option>
                                                     }
                                                 </select>
                                                 <!--end::Input group-->
@@ -661,6 +661,7 @@
                 DepoCikisID: $("#DepoCikisID").val(),
                 DepoGirisID: $("#DepoGirisID").val(),
                 Aciklama: $("#Aciklama").val(),
+                SatisPersonelID: $("#SatisPersonelID").val(),
                 Kalemler: kalemler // Kalemler dizisi burada atanmıştır
             };
 
@@ -676,7 +677,7 @@
                 success: function (data) {
                     alert("Belge Kaydedildi!");
                     // Detay sayfasını aç
-                    window.open("/SatisFatura/Detay/" + data.Data + "?Tip=@(Request.QueryString["Tip"])","_parent");
+                    window.open("/SatisFatura/Liste?Tip=@(Request.QueryString["Tip"])","_parent");
                 },
                 error: function (msg) {
                     console.log(msg);

@@ -45,7 +45,8 @@
                                         <div class="position-relative d-flex align-items-center w-150px">
                                             <label for="Tarih" class="form-label fs-6 fw-bold text-gray-600 mb-3 pt-2 pe-2">Tarih</label>
                                             <!--begin::Datepicker-->
-                                            <input type="date" name="Tarih" id="Tarih" value="@(Convert.ToDateTime(Model.Tarih).ToString("yyyy-MM-dd"))" class="form-control form-control-solid p-2 rounded-1" placeholder="" />
+                                           
+                                            <input type="date" name="Tarih" id="Tarih" value=" @DateTime.Now.ToString("yyyy-MM-dd")" class="form-control form-control-solid p-2 rounded-1" placeholder="" />
                                             <!--end::Datepicker-->
 
                                         </div>
@@ -83,8 +84,8 @@
                                         <div class="col-lg-4">
 
                                             <!--begin::Input group-->
-                                            <div class="mb-4">
-                                                <div class="" style="@(Tip == "DT" ? "display:none;" : "")">
+                                            <div>
+                                                <div class="" style="@(Tip == "DT")">
                                                     <div class="form-group ">
                                                         <label for="CariID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Cari</label>
                                                         <select class="form-select form-select-solid p-2 rounded-1" name="CariID" id="CariID"
@@ -121,12 +122,15 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        
+                                    </div>
+                                    <div class="row mb-4">
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <!--begin::Label-->
-                                                <label for="PersonelID" class="required fw-semibold fs-6 mb-2">PersonelID</label>
+                                                <label for="SatisPersonelID" class="required fw-semibold fs-6 mb-2">SatisPersonelID</label>
                                                 <!--end::Label-->
-                                                <select class="form-control p-2 rounded-1" data-control="select2" name="PersonelID" id="PersonelID"
+                                                <select class="form-control p-2 rounded-1" data-control="select2" name="SatisPersonelID" id="SatisPersonelID"
                                                         aria-label="Floating label select example">
                                                     <option value="">Lütfen Seçim Yapınız</option>
                                                     @foreach (PersonelDto personel in ViewBag.Personeller)
@@ -138,9 +142,8 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="row mb-4">
-                                        <div class="col-@(Tip == "DT" ? "12" : "12")">
+                                        <div class="col-@(Tip == "DT")">
                                             <label for="Aciklama" class="form-label fs-6 fw-bold text-gray-600 mb-3">Açıklama</label>
                                             <textarea type="text" name="Aciklama" id="Aciklama" class="form-control p-2 rounded-1"> @(Convert.ToString(Model.Aciklama)) </textarea>
                                         </div>
@@ -154,7 +157,7 @@
 
                                     <!--end::Row-->
                                     <!--begin::Table wrapper-->
-                                    <div class="row p-3">
+                                    <div class="row p-3 scroll-x">
                                         <table class="table" id="TabloKalemler" name="TabloKalemler">
                                             <thead>
                                                 <tr style="padding:5px;">
@@ -660,6 +663,7 @@
                 DepoCikisID: $("#DepoCikisID").val(),
                 DepoGirisID: $("#DepoGirisID").val(),
                 Aciklama: $("#Aciklama").val(),
+                SatisPersonelID: $("#SatisPersonelID").val(),
                 Kalemler: kalemler // Kalemler dizisi burada atanmıştır
             };
 
@@ -675,7 +679,7 @@
                 success: function (data) {
                     alert("Belge Kaydedildi!");
                     // Detay sayfasını aç
-                    window.open("/SatisFatura/Detay/" + data.Data + "?Tip=@(Request.QueryString["Tip"])","_parent");
+                    window.open("/SatisFatura/Duzenle?id=" + data.Data + "&Tip=@(Request.QueryString["Tip"])","_parent");
                 },
                 error: function (msg) {
                     console.log(msg);

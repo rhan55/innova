@@ -101,6 +101,24 @@
                                             </div>
 
                                         </div>
+                                        <div class="row mb-4">
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <!--begin::Label-->
+                                                    <label for="SatisPersonelID" class="form-label fs-6 fw-bold text-gray-600 mb-3">SatisPersonelID</label>
+                                                    <!--end::Label-->
+                                                    <select class="form-control p-2 rounded-1" data-control="select2" name="SatisPersonelID" id="SatisPersonelID"
+                                                            aria-label="Floating label select example">
+                                                        <option value="">Lütfen Seçim Yapınız</option>
+                                                        @foreach (PersonelDto personel in ViewBag.Personeller)
+                                                        {
+                                                            <option value="@personel.ID" @(Model.SatisPersonelID == personel.ID ? "selected" : "")>@personel.Isim</option>
+                                                        }
+                                                    </select>
+                                                    <!--end::Input group-->
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="DepoCikisID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Çıkış Depo</label>
@@ -647,6 +665,7 @@
                 DepoCikisID: $("#DepoCikisID").val(),
                 DepoGirisID: $("#DepoGirisID").val(),
                 Aciklama: $("#Aciklama").val(),
+                SatisPersonelID: $("#SatisPersonelID").val(),
                 Kalemler: kalemler // Kalemler dizisi burada atanmıştır
             };
 
@@ -661,8 +680,9 @@
                 type: "POST",
                 success: function (data) {
                     alert("Belge Kaydedildi!");
+                    console.log(_data);
                     // Detay sayfasını aç
-                    window.open("/SatinalmaIrsaliyesi/Detay/" + data.Data + "?Tip=@(Request.QueryString["Tip"])","_parent");
+                    window.open("/SatinalmaIrsaliyesi/Duzenle?id=" + data.Data + "&Tip=@(Request.QueryString["Tip"])","_parent");
                 },
                 error: function (msg) {
                     console.log(msg);

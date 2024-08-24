@@ -86,6 +86,9 @@ namespace YKPortal.Controllers
 
             ViewBag.Depolar = DepoListesiGetir();
 
+            ViewBag.Personeller = PersonelGetir();
+            ViewBag.Depolar = DepoListesiGetir();
+
             return View(new BelgeDto());
         }
 
@@ -121,6 +124,7 @@ namespace YKPortal.Controllers
                 entity.Tarih = Convert.ToDateTime(ds.Tables[0].Rows[0]["Tarih"]);
                 entity.BelgeNo = Convert.ToString(ds.Tables[0].Rows[0]["BelgeNo"]);
                 entity.CariID = Convert.ToString(ds.Tables[0].Rows[0]["CariID"]);
+                entity.SatisPersonelID = Convert.ToString(ds.Tables[0].Rows[0]["SatisPersonelID"]);
                 entity.CariAdi = Convert.ToString(ds.Tables[0].Rows[0]["CariAdi"]);
                 entity.Aciklama = Convert.ToString(ds.Tables[0].Rows[0]["Aciklama1"]);
                 entity.DepoCikisID = Convert.ToString(ds.Tables[0].Rows[0]["DepoCikisID"]);
@@ -163,8 +167,8 @@ namespace YKPortal.Controllers
             return View(entity);
         }
 
-        [HttpPost]
-        public ActionResult Kaydet(string Tip = "", string ID = "", string BelgeNo = "", string Tarih = "", string CariID = "",
+        [HttpPost] 
+        public ActionResult Kaydet(string Tip = "", string ID = "", string BelgeNo = "", string Tarih = "", string CariID = "", string SatisPersonelID = "",
            string DepoCikisID = "", string DepoGirisID = "",
             string Aciklama = "", List<BelgeKalemDto> Kalemler = null)
         {
@@ -182,6 +186,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@BelgeNo", BelgeNo);
             cmd.Parameters.AddWithValue("@Tarih", Tarih);
             cmd.Parameters.AddWithValue("@CariID", CariID);
+            cmd.Parameters.AddWithValue("@SatisPersonelID", SatisPersonelID);
             cmd.Parameters.AddWithValue("@DepoCikisID", DepoCikisID);
             cmd.Parameters.AddWithValue("@DepoGirisID", DepoGirisID);
             cmd.Parameters.AddWithValue("@Aciklama1", Aciklama);
@@ -260,6 +265,7 @@ namespace YKPortal.Controllers
                 entity.Tarih = Convert.ToDateTime(ds.Tables[0].Rows[0]["Tarih"]);
                 entity.BelgeNo = Convert.ToString(ds.Tables[0].Rows[0]["BelgeNo"]);
                 entity.CariID = Convert.ToString(ds.Tables[0].Rows[0]["CariID"]);
+                entity.SatisPersonelID = Convert.ToString(ds.Tables[0].Rows[0]["SatisPersonelID"]);
                 entity.CariAdi = Convert.ToString(ds.Tables[0].Rows[0]["CariAdi"]);
                 entity.Aciklama = Convert.ToString(ds.Tables[0].Rows[0]["Aciklama1"]);
                 entity.Kalemler = new List<BelgeKalemDto>();
@@ -296,6 +302,8 @@ namespace YKPortal.Controllers
                 ViewBag.Depolar = (DataTable)IDVeritabani.Sorgula(cmdDepolar, SorgulaTuru.Tablo);
                 ViewBag.Duzenle = YetkiKontrolu("/SatinalmaFatura/Liste/?Tip=AF", "Duzenle");
             }
+
+            ViewBag.Personeller = PersonelGetir();
 
             return View(entity);
         }
@@ -424,6 +432,31 @@ namespace YKPortal.Controllers
         }
 
         #endregion
+
+        private List<PersonelDto> PersonelGetir()
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_PersonellerListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@AranacakKelime ", string.Empty);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var entities = new List<PersonelDto>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                PersonelDto entity = new PersonelDto();
+                entity.ID = Convert.ToString(dt.Rows[i]["ID"]);
+                entity.Isim = Convert.ToString(dt.Rows[i]["Isim"]);
+                entity.Email = Convert.ToString(dt.Rows[i]["Email"]);
+                entity.Telefon = Convert.ToString(dt.Rows[i]["Telefon"]);
+
+                entities.Add(entity);
+            }
+            return entities;
+        }
         private bool YetkiKontrolu(string YetkiUrl, string Tip = "Gor")
         {
             SqlCommand cmd = new SqlCommand();
