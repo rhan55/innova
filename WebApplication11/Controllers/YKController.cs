@@ -529,16 +529,6 @@ namespace YKPortal.Controllers
             // cookieVisitor.Expires = DateTime.Now.AddDays(2);
             Response.Cookies.Add(cookieVisitor);
         }
-        private string GetCookie(string name)
-        {
-            //Böyle bir cookie mevcut mu kontrol ediyoruz
-            if (Request.Cookies.AllKeys.Contains(name))
-            {
-                //böyle bir cookie varsa bize geri değeri döndürsün
-                return Server.UrlDecode(Request.Cookies[name].Value);
-            }
-            return null;
-        }
         private void DeleteCookie(string name)
         {
             //Böyle bir cookie var mı kontrol ediyoruz
@@ -549,6 +539,16 @@ namespace YKPortal.Controllers
                 //ya da 
                 Response.Cookies[name].Expires = DateTime.Now.AddDays(-1);
             }
+        }
+        private string GetCookie(string name)
+        {
+            //Böyle bir cookie mevcut mu kontrol ediyoruz
+            if (Request.Cookies.AllKeys.Contains(name))
+            {
+                //böyle bir cookie varsa bize geri değeri döndürsün
+                return Server.UrlDecode(Request.Cookies[name].Value);
+            }
+            return null;
         }
 
         #endregion

@@ -385,6 +385,7 @@ namespace YKPortal.Controllers
         }
         [HttpGet]
         public ActionResult GorevListe(GorevDto gorevDto, DateTime? Baslangic = null, DateTime? Bitis = null,
+            DateTime? Baslangic2 = null, DateTime? Bitis2 = null,
             string Durum="Beklemede", string GorevTipiID = "", string KayitYapanKullanici = "", string AtananKullanici = "")
         {
             if (!AutoGirisKontrol())
@@ -396,12 +397,18 @@ namespace YKPortal.Controllers
             }
             if (Baslangic == null)
             {
-                Baslangic = DateTime.Today.AddMonths(-3);
-                Bitis = DateTime.Today.AddMonths(3);
+                Baslangic = DateTime.Today.AddMonths(-1);
+                Bitis = DateTime.Today.AddMonths(1);
+            }
+            if (Baslangic2 == null)
+            {
+                Baslangic2 = DateTime.Today.AddDays(-7);
+                Bitis2 = DateTime.Today.AddDays(1);
             }
 
 
             GorevTipiListesiniOlustur();
+
             {
                 SqlCommand cmdKullanici = new SqlCommand();
                 cmdKullanici.CommandText = "p_KullaniciListesi";
@@ -418,6 +425,8 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@Baslangic", Baslangic);
             cmd.Parameters.AddWithValue("@Bitis", Bitis);
+            cmd.Parameters.AddWithValue("@Baslangic2", Baslangic2);
+            cmd.Parameters.AddWithValue("@Bitis2", Bitis2);
             cmd.Parameters.AddWithValue("@GorevTipiID", GorevTipiID);
             cmd.Parameters.AddWithValue("@KayitYapanKullanici", KayitYapanKullanici);
             cmd.Parameters.AddWithValue("@AtananKullanici", AtananKullanici);
@@ -426,6 +435,8 @@ namespace YKPortal.Controllers
 
             ViewBag.Baslangic = Baslangic;
             ViewBag.Bitis = Bitis;
+            ViewBag.Baslangic2 = Baslangic2;
+            ViewBag.Bitis2 = Bitis2;
             ViewBag.GorevTipiID = GorevTipiID;
             ViewBag.KayitYapanKullanici = KayitYapanKullanici;
             ViewBag.AtananKullanici = AtananKullanici;
@@ -483,6 +494,8 @@ namespace YKPortal.Controllers
                     if (!Bilgi.StartsWith("UYARI!"))
                     {
 
+                        DeleteCookie("UyelikBitisTarihi");
+                        CreateCookie("UyelikBitisTarihi", Convert.ToString(dt.Rows[0]["UyelikBitisTarihi"]));
                         GirisKontrol = true;
                     }
                     else
@@ -500,6 +513,23 @@ namespace YKPortal.Controllers
         }
 
 
+        private void CreateCookie(string name, string value)
+        {
+            HttpCookie cookieVisitor = new HttpCookie(name, Server.UrlEncode(value));
+            // cookieVisitor.Expires = DateTime.Now.AddDays(2);
+            Response.Cookies.Add(cookieVisitor);
+        }
+        private void DeleteCookie(string name)
+        {
+            //Böyle bir cookie var mı kontrol ediyoruz
+            if (GetCookie(name) != null)
+            {
+                //Varsa cookiemizi temizliyoruz
+                Response.Cookies.Remove(name);
+                //ya da 
+                Response.Cookies[name].Expires = DateTime.Now.AddDays(-1);
+            }
+        }
 
 
         public void GorevTipiListesiniOlustur()

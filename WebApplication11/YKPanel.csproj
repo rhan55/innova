@@ -168,11 +168,6 @@
     <Compile Include="Areas\Entegrasyon\EntegrasyonAreaRegistration.cs" />
     <Compile Include="Areas\Satinalma\Controllers\YKSatinalmaController.cs" />
     <Compile Include="Areas\Satinalma\SatinalmaAreaRegistration.cs" />
-    <Compile Include="Connected Services\ParamPos\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\AktivasyonController.cs" />
     <Compile Include="Controllers\BelgeController.cs" />
     <Compile Include="Controllers\CariController.cs" />
@@ -256,6 +251,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\YKWebApiController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\YKPARAMPOS\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -263,12 +268,6 @@
     <Content Include="Areas\Crm2\Views\Crm2\GrupKoduDuzenle.cshtml" />
     <Content Include="Areas\Crm2\Views\Crm2\GrupKoduEkle.cshtml" />
     <Content Include="Areas\Crm2\Views\Crm2\GrupKodu.cshtml" />
-    <None Include="Connected Services\ParamPos\configuration91.svcinfo" />
-    <None Include="Connected Services\ParamPos\configuration.svcinfo" />
-    <None Include="Connected Services\ParamPos\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
     <Content Include="Content\aciklama.png" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -400,115 +399,10 @@
     <Content Include="Areas\Ziyaret\Views\Ziyaret\TamamlananZiyaretler.cshtml" />
     <Content Include="Areas\Ziyaret\Views\Ziyaret\TeklifVerilenler.cshtml" />
     <Content Include="Areas\Ziyaret\Views\Ziyaret\Ziyaret.cshtml" />
-    <None Include="Connected Services\ParamPos\service_turkpos_test.wsdl" />
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.CL_Multiple_Payment.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.CL_Multiple_Payment_Status.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.CL_Res_MP_OCR.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.CL_Res_MP_ODA.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.CL_Res_MP_ODL.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.CL_Res_MP_ODQ.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.CL_Res_MP_ODS.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.CL_Res_MP_ODU.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.CL_Res_Odeme.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.CL_Res_Payment_Hopi.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.IslemIzlemeRes.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.SE_Sonuc.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.Sonuc_Limit2.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.Sonuc_Uyelik.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.Sonuc_Uyelik_Liste.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.STC_Sonuc.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.STC_SonucII.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.ST_CheckOut_Sonuc.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.ST_Genel_Sonuc.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.ST_Genel_Sonuc2.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.ST_Genel_Sonuc3.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.ST_Islem_Sorgulama_WP.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.ST_KK_Saklama.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.ST_Sonuc.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.ST_Sonuc4.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.ST_Sonuc_DT.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.ST_Sonuc_II.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.ST_Sonuc_WP.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.ST_TP_Islem_Odeme.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.ST_TP_Islem_Odeme_BKM.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.ST_TP_Islem_Odeme_OnProv.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.ST_TP_Islem_Odeme_OnProvKapa.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.ST_Vadeli_Islem_Izleme_Sonuc.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.ST_WMD_Pay.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.ST_WMD_UCD.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Connected Services\ParamPos\YKPortal.ParamPos.ST_WMD_UCD_v2.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -2945,6 +2839,120 @@
     <Content Include="Views\Tanimlamalar\BankaHesabiEkle.cshtml" />
     <Content Include="Views\POSAPI\OdemeEkrani.cshtml" />
     <Content Include="Views\MailKaliplari\Duzenle.cshtml" />
+    <Content Include="Web References\YKPARAMPOS\CL_Multiple_Payment.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\CL_Multiple_Payment_Status.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\CL_Res_MP_OCR.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\CL_Res_MP_ODA.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\CL_Res_MP_ODL.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\CL_Res_MP_ODQ.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\CL_Res_MP_ODS.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\CL_Res_MP_ODU.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\CL_Res_Odeme.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\CL_Res_Payment_Hopi.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\IslemIzlemeRes.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\POSAPI\Bilgilendirme.cshtml" />
+    <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
+    <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\Sonuc_Limit2.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\Sonuc_Uyelik.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\Sonuc_Uyelik_Liste.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\STC_Sonuc.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\STC_SonucII.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\ST_CheckOut_Sonuc.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\ST_Genel_Sonuc.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\ST_Genel_Sonuc2.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\ST_Genel_Sonuc3.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\ST_Islem_Sorgulama_WP.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\ST_KK_Saklama.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\ST_Sonuc.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\ST_Sonuc4.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\ST_Sonuc_DT.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\ST_Sonuc_II.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\ST_Sonuc_WP.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\ST_TP_Islem_Odeme.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\ST_TP_Islem_Odeme_BKM.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\ST_TP_Islem_Odeme_OnProv.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\ST_TP_Islem_Odeme_OnProvKapa.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\ST_Vadeli_Islem_Izleme_Sonuc.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\ST_WMD_Pay.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\ST_WMD_UCD.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\YKPARAMPOS\ST_WMD_UCD_v2.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2979,7 +2987,20 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\ParamPos\" />
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="https://test-dmz.param.com.tr/turkpos.ws/service_turkpos_test.asmx%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\YKPARAMPOS\</RelPath>
+      <UpdateFromURL>https://test-dmz.param.com.tr/turkpos.ws/service_turkpos_test.asmx%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>YKPortal_YKPARAMPOS_TurkPos_x0020_WS_x0020_TEST</CachedSettingsPropName>
+    </WebReferenceUrl>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

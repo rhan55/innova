@@ -16,8 +16,8 @@
                 <h1 class="fs-2hx fw-bold mb-5">Ödeme Planınızı Seçin</h1>
 
                 <div class="text-gray-600 fw-semibold fs-5">
-                    Fiyatlandırmamız hakkında daha fazla bilgiye ihtiyacınız varsa, lütfen kontrol edin
-                    <a href="#" class="link-primary fw-bold">Fiyatlandırma Yönergeleri</a>.
+                    Fiyatlandırmamız hakkında daha fazla bilgiye ihtiyacınız varsa, lütfen iletişime geçin
+                    <a href="tel:8503099378" class="link-primary fw-bold">0 850 309 93 78</a>.
                 </div>
             </div>
             <!--end::Heading-->
@@ -35,7 +35,7 @@
                                     <div class="mb-7 text-center">
                                         <input type="hidden" name="ID" value="@Convert.ToString(row["ID"])" />
                                         <h1 name="Isim" class="text-gray-900 mb-5 fw-bolder">@Convert.ToString(row["Isim"])</h1>
-                                        <div name="Aciklama" class="text-gray-600 fw-semibold mb-5">@Convert.ToString(row["Aciklama"])</div>
+                                        <div name="Aciklama" class="text-gray-600 fw-semibold mb-5">@Html.Raw(Convert.ToString(row["Aciklama"]))</div>
                                         <div name="ResimUrl">@Convert.ToString(row["ResimUrl"])</div>
                                         <div class="text-center">
                                             <span class="mb-2 text-primary fw-bold fs-3">₺</span>
