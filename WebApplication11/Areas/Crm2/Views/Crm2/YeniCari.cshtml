@@ -4,6 +4,12 @@
     Layout = "~/Views/Shared/_LayoutSade.cshtml";
     string KullaniciAdi = HttpUtility.UrlDecode(Request.Cookies["KullaniciAdi"].Value);
 
+    DataTable dtProjeTipi = ViewBag.dtProjeTipi as DataTable;
+    DataTable dtGorevler = ViewBag.dtGorevler as DataTable;
+    DataTable dtUlasimSekli = ViewBag.dtUlasimSekli as DataTable;
+    DataTable dtIl = ViewBag.dtIl as DataTable;
+
+
 }
 
 <div style="width:100%;font-size:15px;">
@@ -13,132 +19,163 @@
             <td><strong>Bayi Adı</strong></td>
         </tr>
         <tr>
-            <td><input type="text" name="name" value="" class="form-control" /></td>
+            <td><input type="text" name="Bayi" id="Bayi" value="" class="form-control" required/></td>
         </tr>
         <tr>
             <td>Tarih</td>
         </tr>
         <tr>
-            <td><input type="date" name="name" value="" class="form-control" /></td>
+            <td><input type="date" name="Tarih" id="Tarih" value="@DateTime.Today.ToString("yyyy-MM-dd")" required class="form-control" /></td>
         </tr>
         <tr>
             <td>Proje Tipi</td>
         </tr>
         <tr>
-            <td><input type="text" name="name" value="" class="form-control" /></td>
+            <td>
+                <select class="form-control" name="ProjeTipi" id="ProjeTipi" required>
+                    <option value="">Seçim yapınız...</option>
+                    @foreach (DataRow satir in dtProjeTipi.Rows)
+                    {
+                        <option value="@satir["ID"]" >@satir["Deger"]</option>
+                    }
+                </select>
+            </td>
         </tr>
         <tr>
             <td>Blok Sayısı</td>
         </tr>
         <tr>
-            <td><input type="text" name="name" value="" class="form-control" /></td>
+            <td><input type="text" name="BlokSayisi" id="BlokSayisi" value="" class="form-control" /></td>
         </tr>
         <tr>
             <td>Miktar</td>
         </tr>
         <tr>
-            <td><input type="number" name="name" value="" class="form-control" /></td>
+            <td><input type="number" name="Miktar" id="Miktar" value="" class="form-control" /></td>
         </tr>
         <tr>
             <td>Ünvan</td>
         </tr>
         <tr>
-            <td><input type="text" name="name" value="" class="form-control" /></td>
+            <td><input type="text" name="Unvan" id="Unvan" value="" class="form-control" /></td>
         </tr>
         <tr>
             <td>Adı</td>
         </tr>
         <tr>
-            <td><input type="text" name="name" value="" class="form-control" /></td>
+            <td><input type="text" name="Ad" id="Ad" value="" class="form-control" required/></td>
         </tr>
         <tr>
             <td>Soyadı</td>
         </tr>
         <tr>
-            <td><input type="text" name="name" value="" class="form-control" /></td>
+            <td><input type="text" name="Soyad" id="Soyad" value="" class="form-control" required/></td>
         </tr>
         <tr>
             <td>Telefonu 1</td>
         </tr>
         <tr>
-            <td><input type="text" name="name" value="" class="form-control" /></td>
+            <td><input type="text" name="Telefon1" id="Telefon1" value="" class="form-control" required/></td>
         </tr>
         <tr>
             <td>Telefonu 2</td>
         </tr>
         <tr>
-            <td><input type="text" name="name" value="" class="form-control" /></td>
+            <td><input type="text" name="Telefon2" id="Telefon2" value="" class="form-control" /></td>
         </tr>
         <tr>
             <td>Görevi</td>
         </tr>
         <tr>
-            <td><input type="text" name="name" value="" class="form-control" /></td>
+            <td>
+                <select class="form-control" name="Gorev" id="Gorev" required>
+                    <option value="">Seçim yapınız...</option>
+                    @foreach (DataRow satir in dtGorevler.Rows)
+                    {
+                        <option value="@satir["ID"]">@satir["Deger"]</option>
+                    }
+                </select>
+            </td>
         </tr>
         <tr>
             <td>Ulaşma Şekli</td>
         </tr>
         <tr>
-            <td><input type="text" name="name" value="" class="form-control" /></td>
+            <td>
+                <select class="form-control" name="UlasimSekli" id="UlasimSekli" required>
+                    <option value="">Seçim yapınız...</option>
+                    @foreach (DataRow satir in dtUlasimSekli.Rows)
+                    {
+                        <option value="@satir["ID"]">@satir["Deger"]</option>
+                    }
+                </select>
+            </td>
         </tr>
         <tr>
             <td>Projenin Adı</td>
         </tr>
         <tr>
-            <td><input type="text" name="name" value="" class="form-control" /></td>
+            <td><input type="text" name="ProjeAdi" id="ProjeAdi" value="" class="form-control" required/></td>
         </tr>
         <tr>
             <td>İl</td>
         </tr>
         <tr>
-            <td><input type="text" name="name" value="" class="form-control" /></td>
+            <td>
+                <select class="form-control" name="Il" id="Il" required>
+                    @foreach (DataRow satir in dtIl.Rows)
+                    {
+                        <option value="@satir["ID"]" @(Convert.ToString(satir["Deger"]) == "Antalya" ? "selected" : "")>@satir["Deger"]</option>
+                    }
+                </select>
+            </td>
         </tr>
         <tr>
             <td>İlçe</td>
         </tr>
         <tr>
-            <td><input type="text" name="name" value="" class="form-control" /></td>
+            <td><input type="text" name="Ilce" id="Ilce" value="" class="form-control" required /></td>
         </tr>
         <tr>
             <td>Mahallesi</td>
         </tr>
         <tr>
-            <td><input type="text" name="name" value="" class="form-control" /></td>
+            <td><input type="text" name="Muhalle" id="Mahalle" value="" class="form-control" /></td>
         </tr>
         <tr>
             <td>Ada</td>
         </tr>
         <tr>
-            <td><input type="text" name="name" value="" class="form-control" /></td>
+            <td><input type="text" name="Ada" id="Ada" value="" class="form-control" required/></td>
         </tr>
         <tr>
             <td>Parsel</td>
         </tr>
         <tr>
-            <td><input type="text" name="name" value="" class="form-control" /></td>
+            <td><input type="text" name="Parsel" id="Parsel" value="" class="form-control" required/></td>
         </tr>
         <tr>
             <td>Portal Numarası</td>
         </tr>
         <tr>
-            <td><input type="text" name="name" value="" class="form-control" /></td>
+            <td><input type="text" name="PortalNumarasi" id="PortalNumarasi" value="" class="form-control" /></td>
         </tr>
         <tr>
-            <td>Fotoğrag</td>
+            <td>Fotoğraf</td>
         </tr>
         <tr>
-            <td><input type="file" name="name" value="" class="form-control" /></td>
+            <td><input type="file" name="Resim" id="Resim" value="" class="form-control" /></td>
         </tr>
         <tr>
             <td>Sonuç Tarihi</td>
         </tr>
         <tr>
-            <td><input type="text" name="name" value="" class="form-control" /></td>
+            <td><input type="date" name="SonucTarihi" id="SonucTarihi" value="" class="form-control" /></td>
         </tr>
         <tr>
             <td>
-                <input type="button" name="name" value="Geri" class="btn btn-danger" />
-                <input type="submit" name="name" value="Kaydet" class="btn btn-success" />
+                <a href="@Url.Action("AnaSayfa","Crm2", new { Area = "Crm2" })" class="btn btn-danger">Geri</a>
+                <input type="button" name="name" value="Kaydet" class="btn btn-success" onclick="Kaydet();" />
             </td>
         </tr>
     </table>
@@ -154,7 +191,184 @@
 }
 @section scripts {
 
+    <script>
+        function Kaydet() {
 
+            if ($("#ProjeTipi").val() == "") {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Proje tipi seçilmelidir.",
+                    showConfirmButton: true,
+                    //timer: 3000
+                });
+                return;
+            }
+            if ($("#Gorev").val() == "") {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Görev seçilmelidir.",
+                    showConfirmButton: true,
+                    //timer: 3000
+                });
+                return;
+            }
+            if ($("#UlasimSekli").val() == "") {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Ulaşım şekli seçilmelidir.",
+                    showConfirmButton: true,
+                    //timer: 3000
+                });
+                return;
+            }
+            if ($("#Il").val() == "") {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "İl seçilmelidir.",
+                    showConfirmButton: true,
+                    //timer: 3000
+                });
+                return;
+            }
+
+            if ($("#Ada").val() == "") {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Ada bilgisi girilmelidir.",
+                    showConfirmButton: true,
+                    //timer: 3000
+                });
+                return;
+            }
+            if ($("#Parsel").val() == "") {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Parsel bilgisi seçilmelidir.",
+                    showConfirmButton: true,
+                    //timer: 3000
+                });
+                return;
+            }
+
+            if ($("#Bayi").val() == "") {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Bayi bilgisi seçilmelidir.",
+                    showConfirmButton: true,
+                    //timer: 3000
+                });
+                return;
+            }
+
+            if ($("#Ad").val() == "") {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Ad bilgisi seçilmelidir.",
+                    showConfirmButton: true,
+                    //timer: 3000
+                });
+                return;
+            }
+            if ($("#Soyad").val() == "") {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Soyad bilgisi seçilmelidir.",
+                    showConfirmButton: true,
+                    //timer: 3000
+                });
+                return;
+            }
+            if ($("#Telefon1").val() == "") {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Telefon1 bilgisi seçilmelidir.",
+                    showConfirmButton: true,
+                    //timer: 3000
+                });
+                return;
+            }
+            var formData = new FormData();
+            formData.append('Bayi', $("#Bayi").val());
+            formData.append('Tarih', $("#Tarih").val());
+            formData.append('ProjeTipi', $("#ProjeTipi").val());
+            formData.append('BlokSayisi', $("#BlokSayisi").val());
+            formData.append('Miktar', $("#Miktar").val());
+            formData.append('Unvan', $("#Unvan").val());
+            formData.append('Ad', $("#Ad").val());
+            formData.append('Soyad', $("#Soyad").val());
+            formData.append('Telefon1', $("#Telefon1").val());
+            formData.append('Telefon2', $("#Telefon2").val());
+            formData.append('Gorev', $("#Gorev").val());
+            formData.append('UlasimSekli', $("#UlasimSekli").val());
+            formData.append('ProjeAdi', $("#ProjeAdi").val());
+            formData.append('Il', $("#Il").val());
+            formData.append('Ilce', $("#Ilce").val());
+            formData.append('Mahalle', $("#Mahalle").val());
+            formData.append('Ada', $("#Ada").val());
+            formData.append('Parsel', $("#Parsel").val());
+            formData.append('PortalNumarasi', $("#PortalNumarasi").val());
+            formData.append('Resim', $('#Resim')[0].files[0]);
+            formData.append('SonucTarihi', $("#SonucTarihi").val());
+
+            $.ajax({
+                type: "POST",
+                url: '/Crm2/Crm2/YeniCari',
+                data: formData,
+                dataType: "json",
+                enctype: 'multipart/form-data',
+                async: false,
+                contentType: false,
+                processData: false,
+                //contentType: "application/json; charset=utf-8",
+                //dataFilter: function (data) { return data; },
+                success: function (data) {
+                    if (data.SonucKodu == "1") {
+
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: data.Aciklama,
+                            showConfirmButton: true,
+                            //timer: 3000
+                        });
+                        setTimeout(() => window.location.href = '@Url.Action("Cariler", "Crm2", new { Area = "Crm2", Tur = "Havuzum" })', 2000);
+
+
+                    } else {
+                        Swal.fire({
+                            position: "center",
+                            icon: "error",
+                            title: data.Aciklama,
+                            showConfirmButton: true,
+                            //timer: 3000
+                        });
+                        return;
+                    }
+                },
+                error: function (msg) {
+
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: msg,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    return;
+                }
+            });
+        }
+    </script>
 
 }
 

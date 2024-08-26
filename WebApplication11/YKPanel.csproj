@@ -399,6 +399,7 @@
     <Content Include="Areas\Ziyaret\Views\Ziyaret\TamamlananZiyaretler.cshtml" />
     <Content Include="Areas\Ziyaret\Views\Ziyaret\TeklifVerilenler.cshtml" />
     <Content Include="Areas\Ziyaret\Views\Ziyaret\Ziyaret.cshtml" />
+    <Content Include="Areas\Crm2\Views\Crm2\Cariler.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
