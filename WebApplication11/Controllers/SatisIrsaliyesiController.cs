@@ -84,7 +84,6 @@ namespace YKPortal.Controllers
             {
                 return Redirect("~/YK/Anasayfa");
             }
-
             ViewBag.Personeller = PersonelGetir();
             ViewBag.Depolar = DepoListesiGetir();
 
@@ -166,7 +165,7 @@ namespace YKPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult Kaydet(string Tip = "", string ID = "", string BelgeNo = "", string Tarih = "", string CariID = "", string personelID = "",
+        public ActionResult Kaydet(string Tip = "", string ID = "", string BelgeNo = "", string Tarih = "", string CariID = "", string SatisPersonelID = "",
            string DepoCikisID = "", string DepoGirisID = "",
             string Aciklama = "", List<BelgeKalemDto> Kalemler = null)
         {
@@ -184,7 +183,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@BelgeNo", BelgeNo);
             cmd.Parameters.AddWithValue("@Tarih", Tarih);
             cmd.Parameters.AddWithValue("@CariID", CariID);
-            cmd.Parameters.AddWithValue("@SatisPersonelID", personelID);
+            cmd.Parameters.AddWithValue("@SatisPersonelID", SatisPersonelID);
             cmd.Parameters.AddWithValue("@DepoCikisID", DepoCikisID);
             cmd.Parameters.AddWithValue("@DepoGirisID", DepoGirisID);
             cmd.Parameters.AddWithValue("@Aciklama1", Aciklama);

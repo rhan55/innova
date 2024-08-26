@@ -452,6 +452,7 @@ namespace YKPortal.Controllers
 
         #endregion
 
+
         private List<PersonelDto> PersonelGetir()
         {
             SqlCommand cmd = new SqlCommand();
@@ -476,6 +477,7 @@ namespace YKPortal.Controllers
             }
             return entities;
         }
+
         private bool YetkiKontrolu(string YetkiUrl, string Tip = "Gor")
         {
             SqlCommand cmd = new SqlCommand();

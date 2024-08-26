@@ -81,7 +81,7 @@
                                         </div>
                                         <!--end::Col-->
                                         <!--begin::Col-->
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-4 col-12">
 
                                             <!--begin::Input group-->
                                             <div class="mb-4">
@@ -101,7 +101,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-4 col-12">
                                             <div class="form-group">
                                                 <label for="DepoCikisID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Çıkış Depo</label>
                                                 <select class="form-select form-select-solid p-2 rounded-1" name="DepoCikisID" id="DepoCikisID"
@@ -124,14 +124,14 @@
                                         </div>
                                     </div>
                                     <div class="row mb-4">
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-4 col-12">
                                             <div class="form-group">
                                                 <!--begin::Label-->
-                                                <label for="SatisPersonelID" class="form-label fs-6 fw-bold text-gray-600 mb-3">SatisPersonelID</label>
+                                                <label for="SatisPersonelID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Satış Personeli</label>
                                                 <!--end::Label-->
-                                                <select class="form-control p-2 rounded-1" data-control="select2" name="SatisPersonelID" id="SatisPersonelID"
+                                                <select class="form-control p-2 rounded-1" data-control="select2" name="SatisPersonelID" id="SatisPersonelID" data-placeholder="Lütfen Seçim Yapınız"
                                                         aria-label="Floating label select example">
-                                                    <option value="">Lütfen Seçim Yapınız</option>
+                                                    <option value=""></option>
                                                     @foreach (PersonelDto personel in ViewBag.Personeller)
                                                     {
                                                     <option value="@personel.ID">@personel.Isim</option>
@@ -156,7 +156,7 @@
 
                                     <!--end::Row-->
                                     <!--begin::Table wrapper-->
-                                    <div class="row p-3">
+                                    <div class="row p-3 scroll-x">
                                         <table class="table" id="TabloKalemler" name="TabloKalemler">
                                             <thead>
                                                 <tr style="padding:5px;">
@@ -662,6 +662,7 @@
                 CariID: $("#CariID").val(),
                 DepoCikisID: $("#DepoCikisID").val(),
                 DepoGirisID: $("#DepoGirisID").val(),
+                SatisPersonelID: $("#SatisPersonelID").val(),
                 Aciklama: $("#Aciklama").val(),
                 SatisPersonelID: $("#SatisPersonelID").val(),
                 Kalemler: kalemler // Kalemler dizisi burada atanmıştır

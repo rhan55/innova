@@ -34,7 +34,7 @@
                                     <!--begin::Input group-->
                                     <div class="d-flex flex-equal fw-row text-nowrap order-1 order-xxl-2 me-4" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-original-title="Enter invoice number" data-kt-initialized="1">
                                         <span class="fs-2x fw-bold text-gray-700">Satış Talebi#</span>
-                                     
+
                                     </div>
                                     <!--end::Input group-->
                                     <!--begin::Input group-->
@@ -44,7 +44,7 @@
                                         <div class="position-relative d-flex align-items-center w-150px">
                                             <label for="Tarih" class="form-label fs-6 fw-bold text-gray-600 mb-3 pt-2 pe-2">Tarih</label>
                                             <!--begin::Datepicker-->
-                                            <input type="date" name="Tarih" id="Tarih" value="@(Convert.ToDateTime(Model.Tarih).ToString("yyyy-MM-dd"))" class="form-control form-control-solid p-2 rounded-1" placeholder="" />
+                                            <input type="date" name="Tarih" id="Tarih" value="@(DateTime.Now.ToString("yyyy-MM-dd"))" class="form-control form-control-solid p-2 rounded-1" placeholder="" />
                                             <!--end::Datepicker-->
 
                                         </div>
@@ -79,7 +79,7 @@
                                         </div>
                                         <!--end::Col-->
                                         <!--begin::Col-->
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-4 col-12">
 
                                             <!--begin::Input group-->
                                             <div class="mb-4">
@@ -99,35 +99,15 @@
                                             </div>
 
                                         </div>
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="DepoCikisID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Çıkış Depo</label>
-                                                <select class="form-select form-select-solid p-2 rounded-1" name="DepoCikisID" id="DepoCikisID"
-                                                        aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                    @foreach (DataRow drDepo in dtDepolar.Rows)
-                                                    {
-                                                        if (Model.DepoCikisID == drDepo["ID"].ToString())
-                                                        {
-                                                            <option value="@drDepo["ID"]" selected>@drDepo["Isim"]</option>
-                                                        }
-                                                        else
-                                                        {
-                                                            <option value="@drDepo["ID"]">@drDepo["Isim"]</option>
-                                                        }
 
-                                                        <!-- @drDepo["ID"] -->
-                                                    }
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-4 col-12">
                                             <div class="form-group">
                                                 <!--begin::Label-->
-                                                <label for="PersonelID" class="required fw-semibold fs-6 mb-2">PersonelID</label>
+                                                <label for="SatisPersonelID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Satış Personeli</label>
                                                 <!--end::Label-->
-                                                <select class="form-control p-2 rounded-1" data-control="select2" name="PersonelID" id="PersonelID"
+                                                <select class="form-control p-2 rounded-1" data-control="select2" name="SatisPersonelID" id="SatisPersonelID" data-placeholder="Lütfen Seçim Yapınız"
                                                         aria-label="Floating label select example">
-                                                    <option value="">Lütfen Seçim Yapınız</option>
+                                                    <option value=""></option>
                                                     @foreach (PersonelDto personel in ViewBag.Personeller)
                                                     {
                                                         <option value="@personel.ID">@personel.Isim</option>
@@ -137,7 +117,9 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    
+                                       
+                                  
                                     <div class="row mb-4">
                                         <div class="col-@(Tip == "DT" ? "12" : "12")">
                                             <label for="Aciklama" class="form-label fs-6 fw-bold text-gray-600 mb-3">Açıklama</label>
@@ -153,7 +135,7 @@
 
                                     <!--end::Row-->
                                     <!--begin::Table wrapper-->
-                                    <div class="row p-3">
+                                    <div class="row p-3 scroll-x">
                                         <table class="table" id="TabloKalemler" name="TabloKalemler">
                                             <thead>
                                                 <tr style="padding:5px;">
@@ -655,6 +637,7 @@
                 BelgeNo: $("#BelgeNo").val(),
                 Tarih: $("#Tarih").val(),
                 CariID: $("#CariID").val(),
+                SatisPersonelID: $("#SatisPersonelID").val(),
                 DepoCikisID: $("#DepoCikisID").val(),
                 DepoGirisID: $("#DepoGirisID").val(),
                 Aciklama: $("#Aciklama").val(),
@@ -673,7 +656,8 @@
                 success: function (data) {
                     alert("Belge Kaydedildi!");
                     // Detay sayfasını aç
-                    window.open("/SatisTalebi/Detay/" + data.Data + "?Tip=@(Request.QueryString["Tip"])","_parent");
+                  
+                    window.open("/SatisTalebi/Duzenle?id=" + data.Data + "&Tip=@(Request.QueryString["Tip"])","_parent");
                 },
                 error: function (msg) {
                     console.log(msg);
