@@ -176,7 +176,6 @@
     <Compile Include="Controllers\MailKaliplariController.cs" />
     <Compile Include="Controllers\GorevController.cs" />
     <Compile Include="Controllers\KullaniciController.cs" />
-    <Compile Include="Controllers\OdemeController.cs" />
     <Compile Include="Controllers\ParametreController.cs" />
     <Compile Include="Controllers\PersonelController.cs" />
     <Compile Include="Controllers\POSAPIController.cs" />
@@ -475,6 +474,7 @@
     <Content Include="Tema\media\logos\landing.svg" />
     <Content Include="Tema\media\logos\mail.svg" />
     <Content Include="Tema\media\Photo\800x800.png" />
+    <Content Include="Tema\media\Photo\arkaplan texture.png" />
     <Content Include="Tema\media\Photo\Web sitesi_03.jpg" />
     <Content Include="Tema\media\slayts\1.png" />
     <Content Include="Tema\plugins\custom\datatables\datatables.css" />

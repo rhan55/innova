@@ -384,7 +384,7 @@
 
             cariDatatable.datatable.on('column-visibility.dt', function (e, settings, column, state) {
                 cariDatatable.saveDataTableColumnSettingsToCookie(cariDatatable.datatable, column, state)
-            });
+            }); 
 
             document.querySelectorAll('.btn-sil').forEach(silButonu => {
                 silButonu.addEventListener('click', function () {

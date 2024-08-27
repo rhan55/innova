@@ -1,16 +1,15 @@
-﻿
-@using YKPortal.Models.Dto
+﻿@using YKPortal.Models.Dto
 @using System.Data
-@model YKPortal.Models.Dto.BelgeDto
+
+@model BelgeDto
 @{
 
-    ViewBag.Title = "Satınalma İrsaliyesi Detayı";
+    ViewBag.Title = "Satinalma İrsaliyesi Detayı";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string Tip = Request.QueryString["Tip"];
 
     DataTable dtDepolar = ViewBag.Depolar as DataTable;
 }
-
 
 <div class="d-flex flex-column flex-column-fluid">
 
@@ -36,8 +35,8 @@
 
                                     <!--begin::Input group-->
                                     <div class="d-flex flex-equal fw-row text-nowrap order-1 order-xxl-2 me-4" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-original-title="Enter invoice number" data-kt-initialized="1">
-                                        <span class="fs-2x fw-bold text-gray-700">Satınalma İrsaliyesi#</span>
-                                  
+                                        <span class="fs-2x fw-bold text-gray-700">Satınalma İrsaliyesi #</span>
+
                                     </div>
                                     <!--end::Input group-->
                                     <!--begin::Input group-->
@@ -71,14 +70,7 @@
                                         </div>
                                         <div class="col-lg-4">
                                             <label for="BelgeNo" class="form-label fs-6 fw-bold text-gray-600 mb-3">Belge No</label>
-
-                                            <!--begin::Input group-->
-                                            <div class="mb-4">
-                                                <input type="text" name="BelgeNo" id="BelgeNo" value="@(Convert.ToString(Model.BelgeNo))" class="form-control p-2 rounded-1" placeholder="" />
-                                            </div>
-                                            <!--end::Input group-->
-                                            <!--begin::Input group-->
-
+                                            <input type="text" name="BelgeNo" id="BelgeNo" value="@(Convert.ToString(Model.BelgeNo))" class="form-control p-2 rounded-1" placeholder="" />
                                         </div>
                                         <!--end::Col-->
                                         <!--begin::Col-->
@@ -102,24 +94,6 @@
                                             </div>
 
                                         </div>
-                                        <div class="row mb-4">
-                                            <div class="col-lg-4 col-12">
-                                                <div class="form-group">
-                                                    <!--begin::Label-->
-                                                    <label for="SatisPersonelID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Satış Personeli</label>
-                                                    <!--end::Label-->
-                                                    <select class="form-control p-2 rounded-1" data-control="select2" name="SatisPersonelID" id="SatisPersonelID" data-placeholder="Lütfen Seçim Yapınız"
-                                                            aria-label="Floating label select example">
-                                                        <option value=""></option>
-                                                        @foreach (PersonelDto personel in ViewBag.Personeller)
-                                                        {
-                                                            <option value="@personel.ID">@personel.Isim</option>
-                                                        }
-                                                    </select>
-                                                    <!--end::Input group-->
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="col-lg-4 col-12">
                                             <div class="form-group">
                                                 <label for="DepoCikisID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Çıkış Depo</label>
@@ -142,7 +116,38 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    <div class="row mb-4">
+                                        <div class="col-lg-4 col-12">
+                                            <div class="form-group">
+                                                <!--begin::Label-->
+                                                <label for="SatisPersonelID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Satış Personeli</label>
+                                                <!--end::Label-->
+                                                <select class="form-control p-2 rounded-1" data-control="select2" name="SatisPersonelID" id="SatisPersonelID" data-placeholder="Lütfen Seçim Yapınız"
+                                                        aria-label="Floating label select example">
+                                                    <option value=""></option>
+                                                    @foreach (PersonelDto personel in ViewBag.Personeller)
+                                                    {
+                                                        <option value="@personel.ID">@personel.Isim</option>
+                                                    }
+                                                </select>
+                                                <!--end::Input group-->
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <!--begin::Label-->
+                                            <label for="Durumu" class="form-label fs-6 fw-bold text-gray-600 mb-3">Durumu</label>
+                                            <!--begin::Input-->
+                                            <div class="form-group">
+                                                <select class="px-2 py-1 rounded-1 form-control form-control-solid" data-control="select2" name="Durumu" id="Durumu"
+                                                        aria-label="Floating label select example">
+                                                    <option value="">Lütfen Seçim Yapınız</option>
+                                                    <option value="Öneri" @(Model.Durumu == "Öneri" ? "selected" : "")>Öneri</option>
+                                                    <option value="Onaylandı" @(Model.Durumu == "Onaylandı" ? "selected" : "")>Onaylandı</option>
+                                                    <option value="Reddedildi" @(Model.Durumu == "Reddedildi" ? "selected" : "")>Reddedildi</option>
+                                                </select>
+                                            </div>                            <!--end::Input-->
+                                        </div>
+                                    </div>
                                     <div class="row mb-4">
                                         <div class="col-@(Tip == "DT" ? "12" : "12")">
                                             <label for="Aciklama" class="form-label fs-6 fw-bold text-gray-600 mb-3">Açıklama</label>
@@ -295,11 +300,11 @@
                                                             <td class="text-end" style="max-width:150px;">
                                                                 <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
                                                             </td>
-                                                            <td>
-                                                                <input type="text" data-kt-element="iskonto-data" name="IskontoOrani1_@(ID)" id="IskontoOrani1_@(ID)" value="@(String.Format("{0:N2}",satir.IskontoOrani1))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                            </td>
                                                             <td class="text-end" style="max-width:150px;">
                                                                 <input type="text" data-kt-element="tutar-data" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" readonly />
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" data-kt-element="iskonto-data" name="IskontoOrani1_@(ID)" id="IskontoOrani1_@(ID)" value="@(String.Format("{0:N2}",satir.IskontoOrani1))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
                                                             </td>
                                                             <td>
                                                                 <button type='button' class="deleteBtn pt-2" data-ID2="@(ID)">Sil</button>
@@ -521,7 +526,7 @@
         function YeniSatirAc() {
             var IsMobile = "@(Request.Browser.IsMobileDevice == true ? "1" : "0")";
             var YeniID = IDGuidOlustur().replace(/-/g, "");
- 
+
             var deger = "";
             if (IsMobile == "1") {
 
@@ -550,8 +555,9 @@
                            deger += "                 </td>                                                                                                                              ";
                            deger += "             </tr>                                                                                                                                  ";
                            deger += "             <tr>        ";
+
                            deger += "                 <td><strong>Birim</strong></td>                                                                                                    ";
-                           deger += "                 <td style='text-align: right;'><strong>KDV Oranı</strong></td>                                                                        ";
+                           deger += "                 <td><strong>KDV Oranı</strong></td>                                                                                                    ";
                            deger += "                 <td style='text-align: right;'><strong>Miktar</strong></td>                                                                        ";
                            deger += "                 <td style='text-align: right;'><strong>Fiyat</strong></td>                                                                         ";
                            deger += "                 <td style='text-align: right;'><strong>İskonto Oranı</strong></td>                                                                         ";
@@ -560,6 +566,7 @@
                            deger += "             <tr>                                                                                                                                   ";
 
                 deger += "                 <td><input type='text' name='OlcuBirimi_" + YeniID + "' id='OlcuBirimi_" + YeniID + "' value='Adet' class='form-control p-2 me-10' /></td>                   ";
+                deger += "                 <td><input type='text' data-kt-element='iskonto-data' name='IskontoOrani1_" + YeniID + "' id='IskontoOrani1_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control ' style='text-align:right;' /></td>              ";
                 deger += "                 <td><input type='text' data-kt-element='kdv-data' name='KdvOrani_" + YeniID + "' id='KdvOrani_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control ' style='text-align:right;' /></td>              ";
                 deger += "                 <td><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control me-10' style='text-align:right;' /></td>              ";
                 deger += "                 <td><input type='text' name='Fiyat_" + YeniID + "' id='Fiyat_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");'  style='text-align:right;' /></td>                 ";
@@ -660,8 +667,10 @@
                 BelgeNo: $("#BelgeNo").val(),
                 Tarih: $("#Tarih").val(),
                 CariID: $("#CariID").val(),
+                Durumu: $("#Durumu").val(),
                 DepoCikisID: $("#DepoCikisID").val(),
                 DepoGirisID: $("#DepoGirisID").val(),
+                SatisPersonelID: $("#SatisPersonelID").val(),
                 Aciklama: $("#Aciklama").val(),
                 SatisPersonelID: $("#SatisPersonelID").val(),
                 Kalemler: kalemler // Kalemler dizisi burada atanmıştır
@@ -853,6 +862,8 @@
         </script>
     }
 }
+
+
 
 
 
