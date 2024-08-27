@@ -10,22 +10,23 @@
     DataTable dtIl = ViewBag.dtIl as DataTable;
 
 
+
 }
 
 <div style="width:100%;font-size:15px;">
-
+    <input type="hidden" name="ID" id="ID" value="@Model.Rows[0]["ID"]" class="form-control" required />
     <table style="width:100%;">
         <tr>
             <td><strong>Bayi Adı</strong></td>
         </tr>
         <tr>
-            <td><input type="text" name="Bayi" id="Bayi" value="" class="form-control" required/></td>
+            <td><input type="text" name="Bayi" id="Bayi" value="@Model.Rows[0]["Bayi"]" class="form-control" required /></td>
         </tr>
         <tr>
             <td>Tarih</td>
         </tr>
         <tr>
-            <td><input type="date" name="Tarih" id="Tarih" value="@DateTime.Today.ToString("yyyy-MM-dd")" required class="form-control" /></td>
+            <td><input type="date" name="Tarih" id="Tarih" value="@Convert.ToDateTime(Model.Rows[0]["Tarih"]).ToString("yyyy-MM-dd")" required class="form-control" /></td>
         </tr>
         <tr>
             <td>Proje Tipi</td>
@@ -36,7 +37,7 @@
                     <option value="">Seçim yapınız...</option>
                     @foreach (DataRow satir in dtProjeTipi.Rows)
                     {
-                        <option value="@satir["ID"]" >@satir["Deger"]</option>
+                        <option value="@satir["ID"]" @(Convert.ToString(Model.Rows[0]["ProjeTipi"]) == Convert.ToString(satir["ID"]) ? "selected" : "")>@satir["Deger"]</option>
                     }
                 </select>
             </td>
@@ -45,43 +46,43 @@
             <td>Blok Sayısı</td>
         </tr>
         <tr>
-            <td><input type="text" name="BlokSayisi" id="BlokSayisi" value="" class="form-control" /></td>
+            <td><input type="text" name="BlokSayisi" id="BlokSayisi" value="@Model.Rows[0]["BlokSayisi"]" class="form-control" /></td>
         </tr>
         <tr>
             <td>Miktar</td>
         </tr>
         <tr>
-            <td><input type="number" name="Miktar" id="Miktar" value="" class="form-control" /></td>
+            <td><input type="number" name="Miktar" id="Miktar" value="@Model.Rows[0]["Miktar"]" class="form-control" /></td>
         </tr>
         <tr>
             <td>Ünvan</td>
         </tr>
         <tr>
-            <td><input type="text" name="Unvan" id="Unvan" value="" class="form-control" /></td>
+            <td><input type="text" name="Unvan" id="Unvan" value="@Model.Rows[0]["Unvan"]" class="form-control" /></td>
         </tr>
         <tr>
             <td>Adı</td>
         </tr>
         <tr>
-            <td><input type="text" name="Ad" id="Ad" value="" class="form-control" required/></td>
+            <td><input type="text" name="Ad" id="Ad" value="@Model.Rows[0]["Ad"]" class="form-control" required /></td>
         </tr>
         <tr>
             <td>Soyadı</td>
         </tr>
         <tr>
-            <td><input type="text" name="Soyad" id="Soyad" value="" class="form-control" required/></td>
+            <td><input type="text" name="Soyad" id="Soyad" value="@Model.Rows[0]["Soyad"]" class="form-control" required /></td>
         </tr>
         <tr>
             <td>Telefonu 1</td>
         </tr>
         <tr>
-            <td><input type="text" name="Telefon1" id="Telefon1" value="" class="form-control" required/></td>
+            <td><input type="text" name="Telefon1" id="Telefon1" value="@Model.Rows[0]["Telefon1"]" class="form-control" required /></td>
         </tr>
         <tr>
             <td>Telefonu 2</td>
         </tr>
         <tr>
-            <td><input type="text" name="Telefon2" id="Telefon2" value="" class="form-control" /></td>
+            <td><input type="text" name="Telefon2" id="Telefon2" value="@Model.Rows[0]["Telefon2"]" class="form-control" /></td>
         </tr>
         <tr>
             <td>Görevi</td>
@@ -92,7 +93,7 @@
                     <option value="">Seçim yapınız...</option>
                     @foreach (DataRow satir in dtGorevler.Rows)
                     {
-                        <option value="@satir["ID"]">@satir["Deger"]</option>
+                        <option value="@satir["ID"]" @(Convert.ToString(Model.Rows[0]["Gorev"]) == Convert.ToString(satir["ID"]) ? "selected" : "")>@satir["Deger"]</option>
                     }
                 </select>
             </td>
@@ -106,7 +107,7 @@
                     <option value="">Seçim yapınız...</option>
                     @foreach (DataRow satir in dtUlasimSekli.Rows)
                     {
-                        <option value="@satir["ID"]">@satir["Deger"]</option>
+                        <option value="@satir["ID"]" @(Convert.ToString(Model.Rows[0]["UlasimSekli"]) == Convert.ToString(satir["ID"]) ? "selected" : "")>@satir["Deger"]</option>
                     }
                 </select>
             </td>
@@ -115,7 +116,7 @@
             <td>Projenin Adı</td>
         </tr>
         <tr>
-            <td><input type="text" name="ProjeAdi" id="ProjeAdi" value="" class="form-control" required/></td>
+            <td><input type="text" name="ProjeAdi" id="ProjeAdi" value="@Model.Rows[0]["ProjeAdi"]" class="form-control" required /></td>
         </tr>
         <tr>
             <td>İl</td>
@@ -125,7 +126,7 @@
                 <select class="form-control" name="Il" id="Il" required>
                     @foreach (DataRow satir in dtIl.Rows)
                     {
-                        <option value="@satir["ID"]" @(Convert.ToString(satir["Deger"]) == "Antalya" ? "selected" : "")>@satir["Deger"]</option>
+                        <option value="@satir["ID"]" @( (Convert.ToString(Model.Rows[0]["Il"]) == Convert.ToString(satir["ID"])) ? "selected" : "")>@satir["Deger"]</option>
                     }
                 </select>
             </td>
@@ -134,31 +135,31 @@
             <td>İlçe</td>
         </tr>
         <tr>
-            <td><input type="text" name="Ilce" id="Ilce" value="" class="form-control" required /></td>
+            <td><input type="text" name="Ilce" id="Ilce" value="@Model.Rows[0]["Ilce"]" class="form-control" required /></td>
         </tr>
         <tr>
             <td>Mahallesi</td>
         </tr>
         <tr>
-            <td><input type="text" name="Muhalle" id="Mahalle" value="" class="form-control" /></td>
+            <td><input type="text" name="Muhalle" id="Mahalle" value="@Model.Rows[0]["Mahalle"]" class="form-control" /></td>
         </tr>
         <tr>
             <td>Ada</td>
         </tr>
         <tr>
-            <td><input type="text" name="Ada" id="Ada" value="" class="form-control" required/></td>
+            <td><input type="text" name="Ada" id="Ada" value="@Model.Rows[0]["Ada"]" class="form-control" required /></td>
         </tr>
         <tr>
             <td>Parsel</td>
         </tr>
         <tr>
-            <td><input type="text" name="Parsel" id="Parsel" value="" class="form-control" required/></td>
+            <td><input type="text" name="Parsel" id="Parsel" value="@Model.Rows[0]["Parsel"]" class="form-control" required /></td>
         </tr>
         <tr>
             <td>Portal Numarası</td>
         </tr>
         <tr>
-            <td><input type="text" name="PortalNumarasi" id="PortalNumarasi" value="" class="form-control" /></td>
+            <td><input type="text" name="PortalNumarasi" id="PortalNumarasi" value="@Model.Rows[0]["PortalNumarasi"]" class="form-control" /></td>
         </tr>
         <tr>
             <td>Fotoğraf</td>
@@ -170,16 +171,26 @@
             <td>Sonuç Tarihi</td>
         </tr>
         <tr>
-            <td><input type="date" name="SonucTarihi" id="SonucTarihi" value="" class="form-control" /></td>
+            <td>
+                @if (Model.Rows[0]["SonucTarihi"] == DBNull.Value)
+                {
+                    <input type="date" name="SonucTarihi" id="SonucTarihi" value="" class="form-control" />
+                }
+                else
+                {
+                    <input type="date" name="SonucTarihi" id="SonucTarihi" value="@Convert.ToDateTime(Model.Rows[0]["SonucTarihi"]).ToString("yyyy-MM-dd")" class="form-control" />
+                }
+
+            </td>
         </tr>
         <tr>
             <td>
                 <a href="@Url.Action("AnaSayfa","Crm2", new { Area = "Crm2" })" class="btn btn-danger">Ana Sayfa</a>
-                <input type="button" name="name" value="Kaydet" class="btn btn-success" onclick="Kaydet();" />
+                <input type="button" name="name" value="Güncelle" class="btn btn-success" onclick="Kaydet();" />
             </td>
         </tr>
     </table>
-  
+
 </div>
 
 
@@ -298,6 +309,7 @@
                 return;
             }
             var formData = new FormData();
+            formData.append('ID', $("#ID").val());
             formData.append('Bayi', $("#Bayi").val());
             formData.append('Tarih', $("#Tarih").val());
             formData.append('ProjeTipi', $("#ProjeTipi").val());
@@ -322,7 +334,7 @@
 
             $.ajax({
                 type: "POST",
-                url: '/Crm2/Crm2/YeniCari',
+                url: '/Crm2/Crm2/CariDuzenle',
                 data: formData,
                 dataType: "json",
                 enctype: 'multipart/form-data',

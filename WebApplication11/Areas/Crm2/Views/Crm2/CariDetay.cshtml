@@ -1,0 +1,216 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    Layout = "~/Views/Shared/_LayoutSade.cshtml";
+    string KullaniciAdi = HttpUtility.UrlDecode(Request.Cookies["KullaniciAdi"].Value);
+
+    DataTable dtProjeTipi = ViewBag.dtProjeTipi as DataTable;
+    DataTable dtGorevler = ViewBag.dtGorevler as DataTable;
+    DataTable dtUlasimSekli = ViewBag.dtUlasimSekli as DataTable;
+    DataTable dtIl = ViewBag.dtIl as DataTable;
+
+
+
+}
+
+<div style="width:100%;font-size:15px;">
+    <a href="@Url.Action("AnaSayfa","Crm2", new { Area = "Crm2" })" class="btn btn-primary">Ana Sayfa</a>
+    @if (Convert.ToString(Model.Rows[0]["AlanKullanici"]).Trim().Length > 0)
+    {
+        <a href="@Url.Action("Reddet","Crm2", new { Area = "Crm2", KayitID = Model.Rows[0]["ID"] })" class="btn btn-danger" onclick="return confirm('Kaydı boş havuzuna göndermek istediğinizden emin misiniz?')">Boşa Çıkart</a>
+    }
+    @if (Convert.ToString(Model.Rows[0]["AlanKullanici"]).Trim().Length == 0)
+    {
+        <a href="@Url.Action("KabulEt","Crm2", new { Area = "Crm2", KayitID = Model.Rows[0]["ID"] })" class="btn btn-success" onclick="return confirm('Kaydı kabul etmek istediğinizden emin misiniz?')">Kabul Et</a>
+    }
+    
+    <input type="hidden" name="ID" id="ID" value="@Model.Rows[0]["ID"]" class="form-control" required />
+    <table style="width:100%;">
+        <tr>
+            <td><strong>Bayi Adı</strong></td>
+        </tr>
+        <tr>
+            <td><input type="text" name="Bayi" id="Bayi" value="@Model.Rows[0]["Bayi"]" class="form-control" readonly /></td>
+        </tr>
+        <tr>
+            <td>Tarih</td>
+        </tr>
+        <tr>
+            <td><input type="date" name="Tarih" id="Tarih" value="@Convert.ToDateTime(Model.Rows[0]["Tarih"]).ToString("yyyy-MM-dd")" readonly class="form-control" /></td>
+        </tr>
+        <tr>
+            <td>Proje Tipi</td>
+        </tr>
+        <tr>
+            <td>
+                <select class="form-control" name="ProjeTipi" id="ProjeTipi" readonly>
+                    <option value="">Seçim yapınız...</option>
+                    @foreach (DataRow satir in dtProjeTipi.Rows)
+                    {
+                        <option value="@satir["ID"]" @(Convert.ToString(Model.Rows[0]["ProjeTipi"]) == Convert.ToString(satir["ID"]) ? "selected" : "")>@satir["Deger"]</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Blok Sayısı</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="BlokSayisi" id="BlokSayisi" value="@Model.Rows[0]["BlokSayisi"]" class="form-control" readonly /></td>
+        </tr>
+        <tr>
+            <td>Miktar</td>
+        </tr>
+        <tr>
+            <td><input type="number" name="Miktar" id="Miktar" value="@Model.Rows[0]["Miktar"]" class="form-control" readonly /></td>
+        </tr>
+        <tr>
+            <td>Ünvan</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="Unvan" id="Unvan" value="@Model.Rows[0]["Unvan"]" class="form-control" readonly /></td>
+        </tr>
+        <tr>
+            <td>Adı</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="Ad" id="Ad" value="@Model.Rows[0]["Ad"]" class="form-control" readonly /></td>
+        </tr>
+        <tr>
+            <td>Soyadı</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="Soyad" id="Soyad" value="@Model.Rows[0]["Soyad"]" class="form-control" readonly /></td>
+        </tr>
+        <tr>
+            <td>Telefonu 1</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="Telefon1" id="Telefon1" value="@Model.Rows[0]["Telefon1"]" class="form-control" readonly /></td>
+        </tr>
+        <tr>
+            <td>Telefonu 2</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="Telefon2" id="Telefon2" value="@Model.Rows[0]["Telefon2"]" class="form-control" readonly /></td>
+        </tr>
+        <tr>
+            <td>Görevi</td>
+        </tr>
+        <tr>
+            <td>
+                <select class="form-control" name="Gorev" id="Gorev" readonly>
+                    <option value="">Seçim yapınız...</option>
+                    @foreach (DataRow satir in dtGorevler.Rows)
+                    {
+                        <option value="@satir["ID"]" @(Convert.ToString(Model.Rows[0]["Gorev"]) == Convert.ToString(satir["ID"]) ? "selected" : "")>@satir["Deger"]</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Ulaşma Şekli</td>
+        </tr>
+        <tr>
+            <td>
+                <select class="form-control" name="UlasimSekli" id="UlasimSekli" readonly>
+                    <option value="">Seçim yapınız...</option>
+                    @foreach (DataRow satir in dtUlasimSekli.Rows)
+                    {
+                        <option value="@satir["ID"]" @(Convert.ToString(Model.Rows[0]["UlasimSekli"]) == Convert.ToString(satir["ID"]) ? "selected" : "")>@satir["Deger"]</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Projenin Adı</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="ProjeAdi" id="ProjeAdi" value="@Model.Rows[0]["ProjeAdi"]" class="form-control" readonly /></td>
+        </tr>
+        <tr>
+            <td>İl</td>
+        </tr>
+        <tr>
+            <td>
+                <select class="form-control" name="Il" id="Il" readonly>
+                    @foreach (DataRow satir in dtIl.Rows)
+                    {
+                        <option value="@satir["ID"]" @( (Convert.ToString(Model.Rows[0]["Il"]) == Convert.ToString(satir["ID"])) ? "selected" : "")>@satir["Deger"]</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>İlçe</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="Ilce" id="Ilce" value="@Model.Rows[0]["Ilce"]" class="form-control" readonly /></td>
+        </tr>
+        <tr>
+            <td>Mahallesi</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="Muhalle" id="Mahalle" value="@Model.Rows[0]["Mahalle"]" class="form-control" readonly /></td>
+        </tr>
+        <tr>
+            <td>Ada</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="Ada" id="Ada" value="@Model.Rows[0]["Ada"]" class="form-control" readonly /></td>
+        </tr>
+        <tr>
+            <td>Parsel</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="Parsel" id="Parsel" value="@Model.Rows[0]["Parsel"]" class="form-control" readonly /></td>
+        </tr>
+        <tr>
+            <td>Portal Numarası</td>
+        </tr>
+        <tr>
+            <td><input type="text" name="PortalNumarasi" id="PortalNumarasi" value="@Model.Rows[0]["PortalNumarasi"]" class="form-control" readonly /></td>
+        </tr>
+        <tr>
+            <td>Fotoğraf</td>
+        </tr>
+        <tr>
+            <td>
+            </td>
+        </tr>
+        <tr>
+            <td>Sonuç Tarihi</td>
+        </tr>
+        <tr>
+            <td>
+                @if (Model.Rows[0]["SonucTarihi"] == DBNull.Value)
+                {
+                    <input type="date" name="SonucTarihi" id="SonucTarihi" value="" class="form-control" readonly />
+                }
+                else
+                {
+                    <input type="date" name="SonucTarihi" id="SonucTarihi" value="@Convert.ToDateTime(Model.Rows[0]["SonucTarihi"]).ToString("yyyy-MM-dd")" class="form-control" readonly />
+                }
+
+            </td>
+        </tr>
+
+    </table>
+
+</div>
+
+
+@section Styles {
+
+
+
+
+}
+@section scripts {
+
+    <script>
+    
+    </script>
+
+}
+

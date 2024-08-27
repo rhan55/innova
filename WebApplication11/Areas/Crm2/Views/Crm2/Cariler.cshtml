@@ -1,7 +1,14 @@
 ﻿@using System.Data
 @model DataTable
 @{
-    ViewBag.Title = "Havuz";
+    if (Request.QueryString["Tur"] == "Havuzum")
+    {
+        ViewBag.Title = "Havuzum";
+    }
+    else if (Request.QueryString["Tur"] == "BosHavuz")
+    {
+        ViewBag.Title = "Boş Havuz";
+    }
     Layout = "~/Views/Shared/_LayoutSade.cshtml";
 }
 
@@ -106,7 +113,10 @@
                                             <!--begin::Menu item-->
 
                                             <div class="menu-item p-0">
-                                                <a href="/Crm2/Crm2/Cariler/?id=@(Convert.ToString(Model.Rows[i]["ID"]))" class="menu-link rounded-0 py-0 px-2">Düzenle</a>
+                                                <a href="/Crm2/Crm2/CariDetay/?id=@(Convert.ToString(Model.Rows[i]["ID"]))" class="menu-link rounded-0 py-0 px-2">Detay</a>
+                                            </div>
+                                            <div class="menu-item p-0">
+                                                <a href="/Crm2/Crm2/CariDuzenle/?id=@(Convert.ToString(Model.Rows[i]["ID"]))" class="menu-link rounded-0 py-0 px-2">Düzenle</a>
                                             </div>
                                             <!--end::Menu item-->
                                             <!--begin::Menu item-->

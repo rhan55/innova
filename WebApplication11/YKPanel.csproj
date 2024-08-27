@@ -399,6 +399,12 @@
     <Content Include="Areas\Ziyaret\Views\Ziyaret\TeklifVerilenler.cshtml" />
     <Content Include="Areas\Ziyaret\Views\Ziyaret\Ziyaret.cshtml" />
     <Content Include="Areas\Crm2\Views\Crm2\Cariler.cshtml" />
+    <Content Include="Areas\Crm2\Views\Crm2\CariDuzenle.cshtml" />
+    <Content Include="Areas\Crm2\Views\Crm2\CariDetay.cshtml" />
+    <Content Include="Areas\Crm2\Views\Crm2\KullaniciDuzenle.cshtml" />
+    <Content Include="Areas\Crm2\Views\Crm2\YeniKullanici.cshtml" />
+    <Content Include="Areas\Crm2\Views\Crm2\Kullanicilar.cshtml" />
+    <Content Include="Areas\Crm2\Views\Crm2\Bilgilendirme.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
