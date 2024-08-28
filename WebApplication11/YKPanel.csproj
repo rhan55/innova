@@ -480,7 +480,11 @@
     <Content Include="Tema\media\logos\landing.svg" />
     <Content Include="Tema\media\logos\mail.svg" />
     <Content Include="Tema\media\Photo\800x800.png" />
+    <Content Include="Tema\media\Photo\aktif_cari.jpg" />
+    <Content Include="Tema\media\Photo\aktif_sipariş.jpg" />
+    <Content Include="Tema\media\Photo\aktif_stok.jpg" />
     <Content Include="Tema\media\Photo\arkaplan texture.png" />
+    <Content Include="Tema\media\Photo\bekleyen görev sayısı.jpg" />
     <Content Include="Tema\media\Photo\Web sitesi_03.jpg" />
     <Content Include="Tema\media\slayts\1.png" />
     <Content Include="Tema\plugins\custom\datatables\datatables.css" />
@@ -2884,6 +2888,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </Content>
     <Content Include="Views\POSAPI\Bilgilendirme.cshtml" />
+    <Content Include="Tema\excel\ornek-cari-listesi.xls" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>

@@ -7,38 +7,59 @@
     <div class="row">
         <div class="col-sm-8">
             <div class="d-flex ">
-                <div class="card card-flush Cari-Bilgisi p-1 w-100 object-fit-cover" style="text-align: center; background-image: url('../../Tema/media/Photo/arkaplan texture.png'); background-size: 350px 90px;">
+                <div class="card card-flush p-1 w-100 ms-4" style="text-align: center; background-image: url('/Tema/media/Photo/aktif_cari.jpg');">
                     <a href="@Url.Action("Liste","Cari",new { Area = "" })">
                         <p class="fs-1 fw-bold text-gray-700">@String.Format("{0:N0}", ViewBag.Bilgiler.Cari)</p>
                         <h3 class="text-primary">Aktif Cari</h3>
-                        </a>
+                    </a>
                 </div>
-                <div class="card card-flush p-1 w-100 ms-4" style="text-align:center;">
+                <div class="card card-flush p-1 w-100 ms-4" style="text-align: center; background-image: url('/Tema/media/Photo/aktif_stok.jpg');">
                     <a href="@Url.Action("Liste","Stok",new { Area = "" })">
                         <p class="fs-1 fw-bold text-gray-700">@String.Format("{0:N0}", ViewBag.Bilgiler.Stok)</p>
                         <h3 class="text-primary">Aktif Stok</h3>
                     </a>
                 </div>
-                <div class="card card-flush p-1 w-100 ms-4" style="text-align:center;">
+                <div class="card card-flush p-1 w-100 ms-4" style="text-align: center; background-image: url('/Tema/media/Photo/aktif_sipariş.jpg');">
                     <a href="@Url.Action("Liste","SatisSiparisi",new { Area = "", Tip = "SS" })">
                         <p class="fs-1 fw-bold text-gray-700">@String.Format("{0:N0}", ViewBag.Bilgiler.Belge)</p>
                         <h3 class="text-primary">Aktif Sipariş</h3>
                     </a>
                 </div>
-            
-            </div>
-            
 
+            </div>
+            <div class="card border-0">
+                <div class="card-custom">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h3 class="card-label">Takvim</h3>
+                        </div>
+                        <form id="Not-Ekle">
+                            <div class="card-toolbar">
+                                <button type="button" class="btn btn-flex btn-primary" data-kt-calendar="add" data-bs-toggle="modal" data-bs-target="#TakvimEtkinlikModal">
+                                    <i class="ki-duotone ki-plus fs-2"></i>
+                                    Add Event
+                                </button>
+                            </div>
+                        </form>
+                        
+                    </div>
+                    <div class="card-body">
+                        <div id="Takvim"></div>
+                    </div>
+                </div>
+  
+            </div>
+          
         </div>
         <div class="col-sm-4">
-            <div class="card card-flush px-4 pt-2 pb-0 mb-2" style="text-align:center;">
+            <div class="card card-flush px-4 pt-2 pb-0 mb-2 object-fit-contain" style="text-align: center; object-fit:contain; background-image: url('../../Tema/media/Photo/bekleyen görev sayısı.jpg'); background-size: 542px;">
                 <a href="@Url.Action("GorevListe","Gorev",new { Area = "" })">
                     <p class="fs-1 fw-bold text-gray-700 p-0">@String.Format("{0:N0}", ViewBag.Bilgiler.Gorev)</p>
                     <h3 class="text-primary">Bekleyen Görev Sayısı</h3>
                 </a>
             </div>
             <!--begin::Col-->
-            <div class="">
+            <div class="mt-4">
                 <div>
 
                     <!--begin::Timeline widget 3-->
@@ -151,3 +172,318 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="TakvimEtkinlikModal" tabindex-="1" aria-hidden="true" data-bs-focus="false">
+    <!--begin::Modal dialog-->
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+        <!--begin::Modal content-->
+        <div class="modal-content">
+            <!--begin::Form-->
+            <form class="form" action="#" id="kt_modal_add_event_form">
+                <!--begin::Modal header-->
+                <div class="modal-header">
+                    <!--begin::Modal title-->
+                    <h2 class="fw-bold" data-kt-calendar="title">Etkinlik Ekle</h2>
+                    <!--end::Modal title-->
+                    <!--begin::Close-->
+                    <button type="button" class="btn btn-icon btn-sm btn-active-icon-primary" id="kt_modal_add_event_close" data-bs-dismiss="modal">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </button>
+                    <!--end::Close-->
+                </div>
+                <!--end::Modal header-->
+                <!--begin::Modal body-->
+                <div class="modal-body py-10 px-lg-17">
+                    <!--begin::Input group-->
+                    <div class="fv-row mb-9">
+                        <!--begin::Label-->
+                        <label class="fs-6 fw-semibold required mb-2">Etkinlik Adı</label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input type="text" class="form-control form-control-solid" placeholder="" name="calendar_event_name" />
+                        <!--end::Input-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="fv-row mb-9">
+                        <!--begin::Label-->
+                        <label class="fs-6 fw-semibold mb-2">Açıklama</label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input type="text" class="form-control form-control-solid" placeholder="" name="calendar_event_description" />
+                        <!--end::Input-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="fv-row mb-9">
+                        <!--begin::Label-->
+                        <label class="fs-6 fw-semibold mb-2">Adres</label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input type="text" class="form-control form-control-solid" placeholder="" name="calendar_event_location" />
+                        <!--end::Input-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="fv-row mb-9">
+                        <!--begin::Checkbox-->
+                        <label class="form-check form-check-custom form-check-solid">
+                            <input class="form-check-input" type="checkbox" value="" id="kt_calendar_datepicker_allday" />
+                            <span class="form-check-label fw-semibold" for="kt_calendar_datepicker_allday">
+                                Tüm Gün
+                            </span>
+                        </label>
+                        <!--end::Checkbox-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row row-cols-lg-2 g-10">
+                        <div class="col">
+                            <div class="fv-row mb-9">
+                                <!--begin::Label-->
+                                <label class="fs-6 fw-semibold mb-2 required">Etkinlik Başlangıç Tarihi</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <input class="form-control form-control-solid" name="calendar_event_start_date" placeholder="Pick a start date" id="kt_calendar_datepicker_start_date" />
+                                <!--end::Input-->
+                            </div>
+                        </div>
+                        <div class="col" data-kt-calendar="datepicker">
+                            <div class="fv-row mb-9">
+                                <!--begin::Label-->
+                                <label class="fs-6 fw-semibold mb-2">Etkinlik Başlangıç Saati</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <input class="form-control form-control-solid" name="calendar_event_start_time" placeholder="Pick a start time" id="kt_calendar_datepicker_start_time" />
+                                <!--end::Input-->
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row row-cols-lg-2 g-10">
+                        <div class="col">
+                            <div class="fv-row mb-9">
+                                <!--begin::Label-->
+                                <label class="fs-6 fw-semibold mb-2 required">Etkinlik Bitiş Tarihi</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <input class="form-control form-control-solid" name="calendar_event_end_date" placeholder="Pick a end date" id="kt_calendar_datepicker_end_date" />
+                                <!--end::Input-->
+                            </div>
+                        </div>
+                        <div class="col" data-kt-calendar="datepicker">
+                            <div class="fv-row mb-9">
+                                <!--begin::Label-->
+                                <label class="fs-6 fw-semibold mb-2">Etkinlik Bitiş Saati</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <input class="form-control form-control-solid" name="calendar_event_end_time" placeholder="Pick a end time" id="kt_calendar_datepicker_end_time" />
+                                <!--end::Input-->
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--end::Input group-->
+                </div>
+                <!--end::Modal body-->
+                <!--begin::Modal footer-->
+                <div class="modal-footer flex-center">
+                    <!--begin::Button-->
+                    <button type="reset" id="kt_modal_add_event_cancel" class="btn btn-light me-3">
+                        Cancel
+                    </button>
+                    <!--end::Button-->
+                    <!--begin::Button-->
+                    <button type="button" id="kt_modal_add_event_submit" class="btn btn-primary">
+                        <span class="indicator-label">
+                            Submit
+                        </span>
+                        <span class="indicator-progress">
+                            Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                        </span>
+                    </button>
+                    <!--end::Button-->
+                </div>
+                <!--end::Modal footer-->
+            </form>
+            <!--end::Form-->
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        "use strict";
+
+        // Class definition
+        var TakvimModulu = function () {
+            // Private functions
+
+            var exampleBasic = function () {
+                var todayDate = moment().startOf('day');
+                var YM = todayDate.format('YYYY-MM');
+                var YESTERDAY = todayDate.clone().subtract(1, 'day').format('YYYY-MM-DD');
+                var TODAY = todayDate.format('YYYY-MM-DD');
+                var TOMORROW = todayDate.clone().add(1, 'day').format('YYYY-MM-DD');
+
+                var calendarEl = document.getElementById('Takvim');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    headerToolbar: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+                    },
+
+                    height: 800,
+                    contentHeight: 780,
+                    aspectRatio: 3,  // see: https://fullcalendar.io/docs/aspectRatio
+
+                    nowIndicator: true,
+                    now: TODAY + 'T09:25:00', // just for demo
+
+                    views: {
+                        dayGridMonth: { buttonText: 'month' },
+                        timeGridWeek: { buttonText: 'week' },
+                        timeGridDay: { buttonText: 'day' }
+                    },
+
+                    initialView: 'dayGridMonth',
+                    initialDate: TODAY,
+
+                    editable: true,
+                    dayMaxEvents: true, // allow "more" link when too many events
+                    navLinks: true,
+                    events: [
+                        {
+                            title: 'All Day Event',
+                            start: YM + '-01',
+                            description: 'Toto lorem ipsum dolor sit incid idunt ut',
+                            className: "fc-event-danger fc-event-solid-warning"
+                        },
+                        {
+                            title: 'Reporting',
+                            start: YM + '-14T13:30:00',
+                            description: 'Lorem ipsum dolor incid idunt ut labore',
+                            end: YM + '-14',
+                            className: "fc-event-success"
+                        },
+                        {
+                            title: 'Company Trip',
+                            start: YM + '-02',
+                            description: 'Lorem ipsum dolor sit tempor incid',
+                            end: YM + '-03',
+                            className: "fc-event-primary"
+                        },
+                        {
+                            title: 'ICT Expo 2017 - Product Release',
+                            start: YM + '-03',
+                            description: 'Lorem ipsum dolor sit tempor inci',
+                            end: YM + '-05',
+                            className: "fc-event-light fc-event-solid-primary"
+                        },
+                        {
+                            title: 'Dinner',
+                            start: YM + '-12',
+                            description: 'Lorem ipsum dolor sit amet, conse ctetur',
+                            end: YM + '-10'
+                        },
+                        {
+                            id: 999,
+                            title: 'Repeating Event',
+                            start: YM + '-09T16:00:00',
+                            description: 'Lorem ipsum dolor sit ncididunt ut labore',
+                            className: "fc-event-danger"
+                        },
+                        {
+                            id: 1000,
+                            title: 'Repeating Event',
+                            description: 'Lorem ipsum dolor sit amet, labore',
+                            start: YM + '-16T16:00:00'
+                        },
+                        {
+                            title: 'Conference',
+                            start: YESTERDAY,
+                            end: TOMORROW,
+                            description: 'Lorem ipsum dolor eius mod tempor labore',
+                            className: "fc-event-primary"
+                        },
+                        {
+                            title: 'Meeting',
+                            start: TODAY + 'T10:30:00',
+                            end: TODAY + 'T12:30:00',
+                            description: 'Lorem ipsum dolor eiu idunt ut labore'
+                        },
+                        {
+                            title: 'Lunch',
+                            start: TODAY + 'T12:00:00',
+                            className: "fc-event-info",
+                            description: 'Lorem ipsum dolor sit amet, ut labore'
+                        },
+                        {
+                            title: 'Meeting',
+                            start: TODAY + 'T14:30:00',
+                            className: "fc-event-warning",
+                            description: 'Lorem ipsum conse ctetur adipi scing'
+                        },
+                        {
+                            title: 'Happy Hour',
+                            start: TODAY + 'T17:30:00',
+                            className: "fc-event-info",
+                            description: 'Lorem ipsum dolor sit amet, conse ctetur'
+                        },
+                        {
+                            title: 'Dinner',
+                            start: TOMORROW + 'T05:00:00',
+                            className: "fc-event-solid-danger fc-event-light",
+                            description: 'Lorem ipsum dolor sit ctetur adipi scing'
+                        },
+                        {
+                            title: 'Birthday Party',
+                            start: TOMORROW + 'T07:00:00',
+                            className: "fc-event-primary",
+                            description: 'Lorem ipsum dolor sit amet, scing'
+                        },
+                        {
+                            title: 'Click for Google',
+                            url: 'http://google.com/',
+                            start: YM + '-28',
+                            className: "fc-event-solid-info fc-event-light",
+                            description: 'Lorem ipsum dolor sit amet, labore'
+                        }
+                    ],
+
+                    eventContent: function (info) {
+                        var element = $(info.el);
+
+                        if (info.event.extendedProps && info.event.extendedProps.description) {
+                            if (element.hasClass('fc-day-grid-event')) {
+                                element.data('content', info.event.extendedProps.description);
+                                element.data('placement', 'top');
+                                KTApp.initPopover(element);
+                            } else if (element.hasClass('fc-time-grid-event')) {
+                                element.find('.fc-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
+                            } else if (element.find('.fc-list-item-title').lenght !== 0) {
+                                element.find('.fc-list-item-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
+                            }
+                        }
+                    }
+                });
+
+                calendar.render();
+            }
+
+            return {
+                // Public Functions
+                init: function () {
+                    exampleBasic();
+                }
+            };
+        }();
+
+        // On document ready
+        KTUtil.onDOMContentLoaded(function () {
+            TakvimModulu.init();
+        });
+    </script>
+}

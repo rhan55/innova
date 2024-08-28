@@ -20,7 +20,7 @@
 
 
             <div class="card-toolbar flex-row-fluid justify-content-end gap-3">
-                <button type="button" id="topluSilButon" class="btn btn-light-primary btn-sm fw-bold" onclick="$('#DivFiltre').toggle();">
+                <button type="button" id="topluSilButon" class="btn btn-light-primary btn-sm fw-bold" onclick="$('#DivFiltre').toggle();"  >
                     <span class="indicator-label fw-bold">Filtre</span>
                     <i class="ki-duotone ki-filter">
                         <span class="path1"></span>
@@ -40,7 +40,9 @@
 
 </div>
 
-<div class="container-fluid" id="DivFiltre" name="DivFiltre">
+
+
+<div class="container-fluid" id="DivFiltre" name="DivFiltre" style="display:none;">
     <div class="card border-0 shadow-none">
         <div class="card-body">
 
@@ -48,13 +50,13 @@
             <form method="POST" action="/SatinalmaFatura/Liste" class="content p-0" id="datatableFilters">
                 <div class="d-flex">
                     <h3 class="text-primary fw-bold mb-4">Filtreler</h3>
-                    <i class="ki-duotone text-primary ki-filter-search fs-2">
+                    <i class="ki-duotone text-primary ki-filt er-search fs-2">
                         <span class="path1"></span>
                         <span class="path2"></span>
                         <span class="path3"></span>
                     </i>
                 </div>
-           
+
                 <div class="row">
                     <div class="col-lg-3">
                         <!--begin::Label-->
@@ -115,8 +117,8 @@
                         </button>
                     </div>
                 </div>
-                 
-</form>
+
+            </form>
         </div>
     </div>
 </div>
@@ -131,7 +133,7 @@
         max-width: 360px !important;
     }
 </style>
-<div  class="container-fluid p-0 m-0 mt-8 scroll-x">
+<div class="container-fluid p-0 m-0 mt-8 scroll-x">
 
     <table class="table align-middle border rounded-1 table-row-dashed fs-6 g-5">
         <thead>

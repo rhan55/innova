@@ -87,15 +87,17 @@
                             <tbody class="text-gray-600 fw-semibold">
                                 @for (var i = 0; i < Model.Rows.Count; i++)
                                 {
-                                    <tr>
+                                    <tr class="w-100" style="border-bottom: 1px solid #e4e4e4" ;>
 
                                         <td class="d-flex align-items-center">
 
-                                            <!--end::Avatar-->
-                                            <!--begin::User details-->
-                                            <div href="" class="text-gray-800 text-hover-primary mb-1">@(Convert.ToString(Model.Rows[i]["Aciklama"]))</div>
+                                            <div href="">
+                                                <p class="text-gray-800 text-hover-primary py-1">
+                                                    @(Html.Raw(HttpUtility.HtmlDecode(Convert.ToString(Model.Rows[i]["Aciklama"]))))
+                                                </p>
 
-                                            <!--begin::User details-->
+                                            </div>
+
                                         </td>
                                         <td class="text-end">
                                             <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -189,7 +191,7 @@
 
                 // Init datatable --- more info on datatables: https://datatables.net/manual/
                 datatable = $(table).DataTable({
-                    scrollX:true,
+                    scrollX: true,
                     "info": false,
                     'order': [],
                     paging: false,
