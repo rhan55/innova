@@ -19,7 +19,7 @@
                         <h3 class="text-primary">Aktif Stok</h3>
                     </a>
                 </div>
-                <div class="card card-flush p-1 w-100 ms-4" style="text-align: center; background-image: url('/Tema/media/Photo/aktif_sipariş.jpg');">
+                <div class="card card-flush p-1 w-100 ms-4" style="text-align: center; background-image: url('/Tema/media/Photo/aktif_siparis.jpg');">
                     <a href="@Url.Action("Liste","SatisSiparisi",new { Area = "", Tip = "SS" })">
                         <p class="fs-1 fw-bold text-gray-700">@String.Format("{0:N0}", ViewBag.Bilgiler.Belge)</p>
                         <h3 class="text-primary">Aktif Sipariş</h3>
@@ -52,7 +52,7 @@
           
         </div>
         <div class="col-sm-4">
-            <div class="card card-flush px-4 pt-2 pb-0 mb-2 object-fit-contain" style="text-align: center; object-fit:contain; background-image: url('../../Tema/media/Photo/bekleyen görev sayısı.jpg'); background-size: 542px;">
+            <div class="card card-flush px-4 pt-2 pb-0 mb-2 object-fit-contain" style="text-align: center; object-fit: contain; background-image: url('/Tema/media/Photo/bekleyen_gorev_sayisi.jpg'); background-size: 542px;">
                 <a href="@Url.Action("GorevListe","Gorev",new { Area = "" })">
                     <p class="fs-1 fw-bold text-gray-700 p-0">@String.Format("{0:N0}", ViewBag.Bilgiler.Gorev)</p>
                     <h3 class="text-primary">Bekleyen Görev Sayısı</h3>

@@ -481,10 +481,9 @@
     <Content Include="Tema\media\logos\mail.svg" />
     <Content Include="Tema\media\Photo\800x800.png" />
     <Content Include="Tema\media\Photo\aktif_cari.jpg" />
-    <Content Include="Tema\media\Photo\aktif_sipariş.jpg" />
+    <Content Include="Tema\media\Photo\aktif_siparis.jpg" />
     <Content Include="Tema\media\Photo\aktif_stok.jpg" />
-    <Content Include="Tema\media\Photo\arkaplan texture.png" />
-    <Content Include="Tema\media\Photo\bekleyen görev sayısı.jpg" />
+    <Content Include="Tema\media\Photo\bekleyen_gorev_sayisi.jpg" />
     <Content Include="Tema\media\Photo\Web sitesi_03.jpg" />
     <Content Include="Tema\media\slayts\1.png" />
     <Content Include="Tema\plugins\custom\datatables\datatables.css" />
@@ -2760,7 +2759,6 @@
     <Content Include="Views\Cari\NotListe.cshtml" />
     <Content Include="Views\Cari\NotDuzenle.cshtml" />
     <Content Include="Views\Cari\ExcelIceAktar.cshtml" />
-    <Content Include="Tema\excel\ornek-cari-listesi.xlsx" />
     <Content Include="Views\Depo\Ekle.cshtml" />
     <Content Include="Views\Depo\Liste.cshtml" />
     <Content Include="Views\Depo\Duzenle.cshtml" />
@@ -2889,6 +2887,7 @@
     </Content>
     <Content Include="Views\POSAPI\Bilgilendirme.cshtml" />
     <Content Include="Tema\excel\ornek-cari-listesi.xls" />
+    <Content Include="Tema\excel\ornek-stok-listesi.xlsx" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>
