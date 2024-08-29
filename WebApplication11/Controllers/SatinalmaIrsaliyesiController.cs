@@ -69,7 +69,7 @@ namespace YKPortal.Controllers
                 Duzenle = YetkiKontrolu("/SatinalmaIrsaliyesi/Liste/?Tip=AI", "Duzenle")
 
             };
-
+            ViewBag.Filters = belgeDto;
             return View(model);
         }
 

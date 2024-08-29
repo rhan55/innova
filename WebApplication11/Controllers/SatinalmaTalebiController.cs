@@ -38,7 +38,7 @@ namespace YKPortal.Controllers
             return Redirect("~/SatinalmaTalebi/Liste/?Tip=" + Tip);
         }
 
-        public ActionResult Liste(string Tip = "", string AranacakKelime = "")
+        public ActionResult Liste(BelgeDto belgeDto, string Tip = "", string AranacakKelime = "")
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
@@ -68,7 +68,7 @@ namespace YKPortal.Controllers
                 Duzenle = YetkiKontrolu("/SatinalmaTalebi/Liste/?Tip=ATL", "Duzenle")
 
             };
-
+            ViewBag.Filters = belgeDto;
             return View(model);
         }
 
@@ -142,6 +142,7 @@ namespace YKPortal.Controllers
                     s.Seri = Convert.ToString(satir["Seri"]);
                     s.Miktar = Convert.ToDecimal(satir["Miktar"]);
                     s.Fiyat = Convert.ToDecimal(satir["Fiyat"]);
+                    s.Durumu = Convert.ToBoolean(satir["Durumu"]);
                     s.IskontoOrani1 = Convert.ToDecimal(satir["IskontoOrani1"]);
                     s.KdvOrani = Convert.ToDecimal(satir["KdvOrani"]);
                     s.Tutar = Convert.ToDecimal(satir["Tutar"]);
@@ -208,6 +209,7 @@ namespace YKPortal.Controllers
                     cmd.Parameters.AddWithValue("@Seri", item.Seri);
                     cmd.Parameters.AddWithValue("@Miktar", Convert.ToDecimal(item.Miktar));
                     cmd.Parameters.AddWithValue("@Fiyat", Convert.ToDecimal(item.Fiyat));
+                    cmd.Parameters.AddWithValue("@Durumu", Convert.ToBoolean(item.Durumu));
                     cmd.Parameters.AddWithValue("@IskontoOrani1", Convert.ToDecimal(item.IskontoOrani1));
                     cmd.Parameters.AddWithValue("@KdvOrani", Convert.ToDecimal(item.KdvOrani));
                     cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
@@ -281,6 +283,7 @@ namespace YKPortal.Controllers
                     s.OlcuBirimi = Convert.ToString(satir["OlcuBirimi"]);
                     s.Seri = Convert.ToString(satir["Seri"]);
                     s.Miktar = Convert.ToDecimal(satir["Miktar"]);
+                    s.Durumu = Convert.ToBoolean(satir["Durumu"]);
                     s.Fiyat = Convert.ToDecimal(satir["Fiyat"]);
                     s.IskontoOrani1 = Convert.ToDecimal(satir["IskontoOrani1"]);
                     s.KdvOrani = Convert.ToDecimal(satir["KdvOrani"]);

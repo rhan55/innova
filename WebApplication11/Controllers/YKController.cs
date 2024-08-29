@@ -58,8 +58,53 @@ namespace YKPortal.Controllers
             }
             SonAktiviteler();
             AnaSayfaBilgileri();
+            AnaSayfaTakvimDurumlariListesiGetir();
             return View();
         }
+
+
+        [HttpPost]
+        public ActionResult TakvimKaydet(AnasayfaTakvimKaydetDto anasayfaTakvimKaydetDto)
+        {
+            JsonResult result = new JsonResult();
+
+            #region Kayıt işlemi gerçekleştirilecek.
+            string KullaniciID = GetCookie("KullaniciID");
+
+            if (anasayfaTakvimKaydetDto == null)
+            {
+                result.Data = new { Success = false, Message = "Invalid input data." };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_AnaSayfaTakvimKaydet";
+
+            // Parametreleri ekle
+            cmd.Parameters.AddWithValue("@ID", anasayfaTakvimKaydetDto.ID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Tarih", anasayfaTakvimKaydetDto.Tarih);
+            cmd.Parameters.AddWithValue("@Durumu", anasayfaTakvimKaydetDto.Durumu);
+            cmd.Parameters.AddWithValue("@Baslik", anasayfaTakvimKaydetDto.Baslik);
+            cmd.Parameters.AddWithValue("@Aciklama", anasayfaTakvimKaydetDto.Aciklama);
+            cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
+
+            try
+            {
+                string ID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+                result.Data = new { Success = true, Message = "Record saved successfully.", ID = ID };
+            }
+            catch (Exception ex)
+            {
+                result.Data = new { Success = false, Message = ex.Message };
+            }
+
+            #endregion
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
 
         private void AnaSayfaBilgileri()
         {
@@ -577,6 +622,33 @@ namespace YKPortal.Controllers
                 entities.Add(entity);
             }
             ViewBag.Iller = entities;
+        }
+
+        private void AnaSayfaTakvimDurumlariListesiGetir()
+        {
+            // GrupKodu1 Listesi oluşturma 
+            SqlCommand cariGrupKod1Command = new SqlCommand();
+            cariGrupKod1Command.CommandText = "p_GrupKoduListesi";
+            cariGrupKod1Command.CommandType = System.Data.CommandType.StoredProcedure;
+            cariGrupKod1Command.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+            cariGrupKod1Command.Parameters.AddWithValue("@Kod", "AnaSayfaTakvimDurumlari");
+            cariGrupKod1Command.Parameters.AddWithValue("@AranacakKelime", "");
+
+
+            DataTable cariGrupKod1DataTable = (DataTable)IDVeritabani.Sorgula(cariGrupKod1Command, SorgulaTuru.Tablo);
+
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
+
+            for (int i = 0; i < cariGrupKod1DataTable.Rows.Count; i++)
+            {
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(cariGrupKod1DataTable.Rows[i]["ID"]);
+                entity.Deger = Convert.ToString(cariGrupKod1DataTable.Rows[i]["Deger"]);
+                entities.Add(entity);
+            }
+
+            ViewBag.TakvimDurumlari = entities;
         }
 
         private bool YetkiKontrolu(string YetkiUrl, string Tip = "Gor")

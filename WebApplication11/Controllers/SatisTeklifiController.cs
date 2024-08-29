@@ -40,7 +40,7 @@ namespace YKPortal.Controllers
             return Redirect("~/SatisTeklifi/Liste/?Tip=" + Tip);
         }
 
-        public ActionResult Liste(string Tip = "", string AranacakKelime = "")
+        public ActionResult Liste(BelgeDto belgeDto, string Tip = "", string AranacakKelime = "")
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
@@ -70,8 +70,9 @@ namespace YKPortal.Controllers
                 Duzenle = YetkiKontrolu("/SatisTeklifi/Liste/?Tip=ST", "Duzenle")
 
             };
-
+            ViewBag.Filters = belgeDto;
             return View(model);
+           
         }
 
 
@@ -142,6 +143,7 @@ namespace YKPortal.Controllers
                     s.StokAdi = Convert.ToString(satir["StokAdi"]);
                     s.OlcuBirimi = Convert.ToString(satir["OlcuBirimi"]);
                     s.Seri = Convert.ToString(satir["Seri"]);
+                    s.Durumu = Convert.ToBoolean(satir["Durumu"]);
                     s.Miktar = Convert.ToDecimal(satir["Miktar"]);
                     s.Fiyat = Convert.ToDecimal(satir["Fiyat"]);
                     s.IskontoOrani1 = Convert.ToDecimal(satir["IskontoOrani1"]);
@@ -283,6 +285,7 @@ namespace YKPortal.Controllers
                     s.OlcuBirimi = Convert.ToString(satir["OlcuBirimi"]);
                     s.Seri = Convert.ToString(satir["Seri"]);
                     s.Miktar = Convert.ToDecimal(satir["Miktar"]);
+                    s.Durumu = Convert.ToBoolean(satir["Durumu"]);
                     s.Fiyat = Convert.ToDecimal(satir["Fiyat"]);
                     s.IskontoOrani1 = Convert.ToDecimal(satir["IskontoOrani1"]);
                     s.KdvOrani = Convert.ToDecimal(satir["KdvOrani"]);

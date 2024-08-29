@@ -13,12 +13,120 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div id="kt_content_container" class="container-fluid p-0 m-0">
+    <div class="card card-flush border-0 shadow-none m-0 p-0">
+        <div class="card-header align-items-center border-0 shadow-0 gap-2 gap-md-5 p-0 m-0">
+
+
+            <div class="card-toolbar flex-row-fluid justify-content-end gap-3">
+                <button type="button" id="topluSilButon" class="btn btn-light-primary btn-sm fw-bold" onclick="$('#DivFiltre').toggle();">
+                    <span class="indicator-label fw-bold">Filtre</span>
+                    <i class="ki-duotone ki-filter">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </i>
+                </button>
+
+                <!--end::Menu-->
+                <!--end::Export dropdown-->
+                <!--begin::Hide default export buttons-->
+                <div id="kt_datatable_example_buttons" class="d-none"></div>
+                <!--end::Hide default export buttons-->
+                <a href="@Url.Action("Detay","SatinalmaSiparisi",new { Tip = Request.QueryString["Tip"], KayitID = "" })" class="btn btn-sm btn-primary me-4" style="width:100px;">Yeni Sipariş</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="container-fluid" id="DivFiltre" name="DivFiltre" style="display:none;">
+    <div class="card border-0 shadow-none">
+        <div class="card-body">
+
+            <!--begin::Filtreleme alanı-->
+            <form method="POST" action="/SatinalmaSiparisi/Liste" class="content p-0" id="datatableFilters">
+                <div class="d-flex">
+                    <h3 class="text-primary fw-bold mb-4">Filtreler</h3>
+                    <i class="ki-duotone text-primary ki-filt er-search fs-2">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                        <span class="path3"></span>
+                    </i>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-3">
+                        <!--begin::Label-->
+                        <label for="Kod" class="fw-bold fs-6 mb-1 text-gray-600">Cari</label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input type="text" name="Kod" id="Kod" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.CariAdi)" />
+                        <!--end::Input-->
+                    </div>
+                    <div class="col-lg-3">
+                        <!--begin::Label-->
+                        <label for="VergiNumarasi" class="fw-bold fs-6 mb-1 text-gray-600">Belge Numarası</label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input type="text" name="VergiNumarasi" id="VergiNumarasi" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.BelgeNo)" />
+                        <!--end::Input-->
+                    </div>
+                    <div class="col-lg-3">
+                        <!--begin::Label-->
+                        <label for="Baslangic" class="fw-bold fs-6 mb-1 text-gray-600">Başlangıç Tarihi</label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input type="datetime-local" name="Baslangic" id="Baslangic" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))" />
+                        <!--end::Input-->
+                    </div>
+
+                    <div class="col-lg-3">
+                        <!--begin::Label-->
+                        <label for="Bitis" class="fw-bold fs-6 mb-1 text-gray-600">Bitiş Tarihi</label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <input type="datetime-local" name="Bitis" id="Bitis" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))" />
+                        <!--end::Input-->
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-lg-3">
+                        <!--begin::Label-->
+                        <label for="Durum" class="fw-bold fs-6 mb-1 text-gray-600">Durum</label>
+                        <!--begin::Input-->
+                        <div class="form-group">
+                            <select class="px-2 py-1 rounded-1 form-control form-control-solid" data-control="select2" name="Durum" id="Durum"
+                                    aria-label="Floating label select example">
+                                <option value="">Lütfen Seçim Yapınız</option>
+                                <option value="Öneri">Öneri</option>
+                                <option value="Onaylandı">Onaylandı</option>
+                                <option value="Reddedildi">Reddedildi</option>
+                            </select>
+                        </div>                            <!--end::Input-->
+                    </div>
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-3 mt-4 d-flex justify-content-end align-items-end">
+                        <button type="button" id="filtreleriTemizle" class="btn btn-light btn-sm fw-bold me-3" data-kt-users-modal-action="cancel">Temizle</button>
+                        <button type="submit" class="btn btn-primary btn-sm fw-bold" data-kt-users-modal-action="Ara">
+                            <span class="indicator-label">Filtrele</span>
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <div class="container-fluid">
     <div class="row mt-4">
         <div style="margin:3px;" class="scroll-x">
-            <div class="text-end">
-                <a href="@Url.Action("Detay","SatinalmaSiparisi",new { Tip = Request.QueryString["Tip"], KayitID = "" })" class="btn btn-sm btn-primary " style="width:100px;">Yeni Sipariş</a>
-            </div>
+
 
             <style>
                 .max-w-500 {
@@ -114,10 +222,23 @@
     </div>
 </div>
 
+
 @section Scripts {
+
     <script>
 
+        const filtreleriTemizle = document.querySelector("#filtreleriTemizle");
 
+        if (filtreleriTemizle) {
+
+            filtreleriTemizle.addEventListener("click", function (e) {
+                e.preventDefault();
+                document.querySelector("form#datatableFilters").querySelectorAll("input").forEach(input => {
+                    input.value = ""
+                })
+                document.querySelector("form#datatableFilters").submit();
+            });
+        }
 
     </script>
 }
