@@ -28,14 +28,14 @@
                         <!--begin::Card body-->
                         <div class="card-body p-12">
                             <!--begin::Form-->
-                            <form method="post" action="@Url.Action("Detay","SatinalmaTeklifi",new { Tip = Request.QueryString["Tip"] })">
+                            <form method="post" action="@Url.Action("Duzenle","SatinalmaTeklifi",new { Tip = Request.QueryString["Tip"] })">
                                 <!--begin::Wrapper-->
                                 <div class="d-flex flex-column align-items-start flex-xxl-row">
 
                                     <!--begin::Input group-->
                                     <div class="d-flex flex-equal fw-row text-nowrap order-1 order-xxl-2 me-4" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-original-title="Enter invoice number" data-kt-initialized="1">
                                         <span class="fs-2x fw-bold text-gray-700">Satınalma Teklifi#</span>
-                                      
+
                                     </div>
                                     <!--end::Input group-->
                                     <!--begin::Input group-->
@@ -81,7 +81,6 @@
                                         <!--end::Col-->
                                         <!--begin::Col-->
                                         <div class="col-lg-4 col-12">
-
                                             <!--begin::Input group-->
                                             <div class="mb-4">
                                                 <div class="" style="@(Tip == "DT" ? "display:none;" : "")">
@@ -98,7 +97,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </div>
                                         <div class="col-lg-4 col-12">
                                             <div class="form-group">
@@ -110,7 +108,7 @@
                                                     <option value=""></option>
                                                     @foreach (PersonelDto personel in ViewBag.Personeller)
                                                     {
-                                                        <option value="@personel.ID" @(Model.SatisPersonelID == personel.ID ? "selected" : "")>@personel.Isim</option>
+                                                        <option value="@personel.ID">@personel.Isim</option>
                                                     }
                                                 </select>
                                                 <!--end::Input group-->
@@ -169,6 +167,7 @@
                                                         <td class="me-4 text-gray-600"><strong>FİYAT</strong></td>
                                                         <td class="me-4 text-gray-600"><strong>İSKONTO ORANI</strong></td>
                                                         <td class="me-4 text-gray-600"><strong>TUTAR</strong></td>
+                                                        <td class="me-4 text-gray-600"><strong>DURUMU</strong></td>
                                                         <td><strong></strong></td>
                                                     }
                                                 </tr>
@@ -219,6 +218,7 @@
                                                                         <td style="text-align: right;"><strong>Fiyat</strong></td>
                                                                         <td style="text-align: right;"><strong>İskonto Oranı</strong></td>
                                                                         <td style="text-align: right;"><strong>Tutar</strong></td>
+                                                                        <td style="text-align: right;"><strong>Durumu</strong></td>
                                                                     </tr>
                                                                     <tr>
 
@@ -240,6 +240,14 @@
                                                                         </td>
                                                                         <td>
                                                                             <input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" readonly />
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-check">
+                                                                                <input class="form-check-input" name="Durumu" type="checkbox" value="true" id="Durumu" checked />
+                                                                                <label class="form-check-label user-select-none cursor-pointer" for="Durumu">
+                                                                                    Durumu
+                                                                                </label>
+                                                                            </div>
                                                                         </td>
                                                                     </tr>
                                                                 </table>
@@ -294,6 +302,14 @@
                                                                 <input type="text" data-kt-element="tutar-data" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" readonly />
                                                             </td>
                                                             <td>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" name="Durumu" type="checkbox" value="true" id="Durumu" checked />
+                                                                    <label class="form-check-label user-select-none cursor-pointer" for="Durumu">
+                                                                        Durumu
+                                                                    </label>
+                                                                </div>
+                                                            </td>
+                                                            <td>
                                                                 <button type='button' class="deleteBtn pt-2" data-ID2="@(ID)">Sil</button>
                                                             </td>
 
@@ -304,12 +320,12 @@
                                             <tfoot>
                                                 <tr class="border-top border-top-dashed align-top fs-6 fw-bold text-gray-700 pt-10">
 
-                                                    <th colspan="1" class="py-2">
+                                                    <th colspan="7" class="py-2">
 
                                                     </th>
-                                                    <th colspan="3" class="fs-5 py-2 ps-0 text-end">Ara Toplam</th>
+                                                    <th colspan="1" class="fs-5 py-2 ps-0 text-start">Ara Toplam</th>
 
-                                                    <th colspan="3" class="text-end fs-5 text-nowrap py-2">
+                                                    <th colspan="1" class="text-end fs-5 text-nowrap py-2">
                                                         ₺<span data-kt-element="ara-toplam-tutari">
                                                             @if (Model.Kalemler != null)
                                                             {
@@ -324,12 +340,12 @@
                                                 </tr>
                                                 <tr class="border-top border-top-dashed align-top fs-6 fw-bold text-gray-700 pt-10">
 
-                                                    <th colspan="1" class="py-2">
+                                                    <th colspan="7" class="py-2">
 
                                                     </th>
-                                                    <th colspan="3" class="fs-5 py-2 ps-0 text-end">İskonto Tutarı</th>
+                                                    <th colspan="1" class="fs-5 py-2 ps-0 text-start">İskonto Tutarı</th>
 
-                                                    <th colspan="3" class="text-end fs-5 text-nowrap py-2">
+                                                    <th colspan="1" class="text-end fs-5 text-nowrap py-2">
                                                         - ₺<span data-kt-element="iskonto-tutari">
                                                             @if (Model.Kalemler != null)
                                                             {
@@ -344,12 +360,12 @@
                                                 </tr>
                                                 <tr class="border-top border-top-dashed align-top fs-6 fw-bold text-gray-700 pt-10">
 
-                                                    <th colspan="1" class="py-2">
+                                                    <th colspan="7" class="py-2">
 
                                                     </th>
-                                                    <th colspan="3" class="fs-5 py-2 ps-0 text-end">KDV Tutarı</th>
+                                                    <th colspan="1" class="fs-5 py-2 ps-0 text-start">KDV Tutarı</th>
 
-                                                    <th colspan="3" class="text-end fs-5 text-nowrap py-2">
+                                                    <th colspan="1" class="text-end fs-5 text-nowrap py-2">
                                                         ₺<span data-kt-element="kdv-tutari">
                                                             @if (Model.Kalemler != null)
                                                             {
@@ -364,14 +380,14 @@
                                                 </tr>
                                                 <tr class="border-top border-top-dashed align-top fs-6 fw-bold text-gray-700 pt-10">
 
-                                                    <th colspan="1" class="py-2">
+                                                    <th colspan="7" class="py-2">
                                                         <div class="pe-4">
                                                             <button type="button" name="btnYeniSatir" id="btnYeniSatir" onclick="YeniSatirAc();" class="btn btn-primary" style="width:150px;">+ Yeni Satır Aç</button>
                                                         </div>
                                                     </th>
-                                                    <th colspan="3" class="fs-5 py-2 ps-0 text-end">Genel Toplam</th>
+                                                    <th colspan="1" class="fs-5 py-2 ps-0 text-start">Genel Toplam</th>
 
-                                                    <th colspan="3" class="text-end fs-5 text-nowrap py-2">
+                                                    <th colspan="1" class="text-end fs-5 text-nowrap py-2">
                                                         ₺<span data-kt-element="toplam-tutar">
                                                             @if (Model.Kalemler != null)
                                                             {
@@ -398,13 +414,10 @@
                             <div class="col-lg-12">
                                 <div class="">
                                     <a href="@Url.Content("~/SatinalmaTeklifi/Liste/?Tip="+Request.QueryString["Tip"])" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
-                                    @if (ViewBag.Duzenle)
-                                    {
-                                        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet" onclick="Kaydet();">
-                                            <span class="indicator-label">Kaydet</span>
+                                    <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet" onclick="Kaydet();">
+                                        <span class="indicator-label">Kaydet</span>
 
-                                        </button>
-                                    }
+                                    </button>
                                 </div>
                             </div>
                             <!--end::Actions-->
@@ -551,6 +564,8 @@
                            deger += "                 <td style='text-align: right;'><strong>Fiyat</strong></td>                                                                         ";
                            deger += "                 <td style='text-align: right;'><strong>İskonto Oranı</strong></td>                                                                 ";
                            deger += "                 <td style='text-align: right;'><strong>Tutar</strong></td>                                                                         ";
+                           deger += "                 <td style='text-align: right;'><strong>Durumu</strong></td>                                                                         ";
+
                            deger += "             </tr>                                                                                                                                  ";
                            deger += "             <tr>                                                                                                                                   ";
 
@@ -559,7 +574,8 @@
                 deger += "                 <td><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control me-10' style='text-align:right;' /></td>              ";
                 deger += "                 <td><input type='text' name='Fiyat_" + YeniID + "' id='Fiyat_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");'  style='text-align:right;' /></td>                 ";
                 deger += "                 <td><input type='text' data-kt-element='iskonto-data' name='IskontoOrani1_" + YeniID + "' id='IskontoOrani1_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control ' style='text-align:right;' /></td>              ";
-                deger += "                 <td><input type='text' data-kt-element='tutar-data' name='Tutar_" + YeniID + "' id='Tutar_" + YeniID + "' value='0'  onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");'  class='form-control me-10' style='text-align:right;' readonly /></td>        ";
+                deger += "                 <td><input type='text' data-kt-element='tutar-data' name='Tutar_" + YeniID + "' id='Tutar_" + YeniID + "' value='0'  onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");'  class='form-control me-10' style='text-align:right;' readonly /></td>        ";
+                deger += "                 <td><div class='form-check d-flex align-items-center justify-content-center pt-2'><input type='checkbox' data-kt-element='tutar-data' name='Durumu_" + YeniID + "' id='Durumu_" + YeniID + "' value='0'   class='form-check-input me-10' style='text-align:right;' checked readonly/></div></td>        ";
                            deger += "             </tr>";
                            deger += "         </table>";
                 deger += "     </td><td><button type='button' class='deleteBtn pt-2' onclick='SatirSil(\"" + YeniID +"\")' data-ID2='"+YeniID+"'>Sil</button></td>";
@@ -590,7 +606,8 @@
                 deger += "      <td style='max-width:100px;'><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' /></td>";
                 deger += "      <td style='max-width:150px;'><input type='text' name='Fiyat_" + YeniID + "' id = 'Fiyat_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style = 'text-align:right;' /></td > ";
                 deger += "      <td><input type='text' data-kt-element='iskonto-data' name='IskontoOrani1_" + YeniID + "' id='IskontoOrani1_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' /></td>              ";
-                deger += "      <td style='max-width:150px;'><input type='text' data-kt-element='tutar-data' name='Tutar_" + YeniID + "' id = 'Tutar_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");' class='form-control p-2 me-10' style = 'text-align:right;' readonly /></td > ";
+                deger += "      <td style='max-width:150px;'><input type='text' data-kt-element='tutar-data' name='Tutar_" + YeniID + "' id = 'Tutar_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style = 'text-align:right;' readonly /></td > ";
+                deger += "      <td><div class='form-check d-flex align-items-center justify-content-center pt-2'><input type='checkbox' data-kt-element='tutar-data' name='Durumu_" + YeniID + "' id='Durumu_" + YeniID + "' value='0'   class='form-check-input me-10' style='text-align:right;' checked readonly/></div></td>        ";
                 deger += "      <td><button type='button' class='deleteBtn pt-2' onclick='SatirSil(\""+YeniID+"\")' data-ID2='"+YeniID+"'>Sil</button></td></tr>";
             }
             var newSelect = $("<select class='form-select form-select-solid p-2 rounded-1 ' name='StokID_" + YeniID + "' id='StokID_" + YeniID + "' style='min-width:150px;max-width:350px;' aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız' ></select>");
@@ -627,6 +644,7 @@
                     var Miktar = $("#Miktar_" + $data).val();
                     var Fiyat = $("#Fiyat_" + $data).val();
                     var KdvOrani = $('#KdvOrani_' + $data).val();
+                    var Durumu = $('#Durumu_' + $data).val();
                     var IskontoOrani1 = $('#IskontoOrani1_' + $data).val();
 
                     // Kalem objesini oluştur ve kalemler dizisine ekle
@@ -683,7 +701,6 @@
                 }
             });
         }
-
 
 
 
@@ -850,5 +867,4 @@
         </script>
     }
 }
-
 

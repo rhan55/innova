@@ -15,6 +15,7 @@ namespace YKPortal.Models.Dto
         private string _StokAdi;
         private string _OlcuBirimi;
         private string _Seri;
+        private bool _Durumu;
         private decimal _Miktar;
         private decimal _Fiyat;
         private decimal _Iskonto;
@@ -27,7 +28,8 @@ namespace YKPortal.Models.Dto
         public string StokKodu { get { return _StokKodu ?? ""; } set { _StokKodu = value; } }
         public string StokAdi { get { return _StokAdi ?? ""; } set { _StokAdi = value; } }
         public string OlcuBirimi { get { return _OlcuBirimi ?? ""; } set { _OlcuBirimi = value; } }
-        public string Seri { get { return _Seri ?? ""; } set { _Seri = value; } }
+        public string Seri { get { return _Seri ?? ""; } set { _Seri = value; } } 
+        public bool Durumu { get { return _Durumu == null ? false : _Durumu; } set { _Durumu = value; } }
         public decimal Miktar { get { return _Miktar == null ? 0 : _Miktar; } set { _Miktar = value; } }
         public decimal Fiyat { get { return _Fiyat == null ? 0 : _Fiyat; } set { _Fiyat = value; } }
         public decimal Iskonto { get { return _Iskonto == null ? 0 : _Iskonto; } set { _Iskonto = value; } }

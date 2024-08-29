@@ -38,7 +38,7 @@ namespace YKPortal.Controllers
             return Redirect("~/SatinalmaSiparisi/Liste/?Tip=" + Tip);
         }
 
-        public ActionResult Liste(string Tip = "", string AranacakKelime = "")
+        public ActionResult Liste(BelgeDto belgeDto,string Tip = "", string AranacakKelime = "")
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
@@ -68,7 +68,7 @@ namespace YKPortal.Controllers
                 Duzenle = YetkiKontrolu("/SatinalmaSiparisi/Liste/?Tip=AS", "Duzenle")
 
             };
-
+            ViewBag.Filters = belgeDto;
             return View(model);
         }
 
