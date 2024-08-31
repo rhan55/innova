@@ -121,7 +121,7 @@
                             <!--begin::Label-->
                             <label class="required fw-semibold fs-6 mb-2">Ad</label>
                             <!--end::Label-->
-                            <!--begin::Input-->A
+                            <!--begin::Input-->
                             <input type="text" name="Ad" id="Ad" class="form-control p-2 mb-3 mb-lg-0" placeholder="Ad" value="@(Convert.ToString(Model.Rows[0]["Ad"]))" />
                             <!--end::Input-->
                         </div>
@@ -142,16 +142,6 @@
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="text" name="Telefon" class="form-control p-2 mb-3 mb-lg-0" value="@(Convert.ToString(Model.Rows[0]["Telefon"]))" />
-                            <!--end::Input-->
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div>
-                            <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mt-10">Onay</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <input type="checkbox" name="Onay" class="checked "  value="1" @(Convert.ToBoolean(Model.Rows[0]["Onay"]) == true ? "checked" : "") />
                             <!--end::Input-->
                         </div>
                     </div>
@@ -197,11 +187,11 @@
                 <!--end::Row Input group-->
                 <div class="row mb-7">
                     <div class="col-lg-6">
-                        <label class="required fw-semibold fs-6 mb-2">Açıklama 1</label>
+                        <label class="required fw-semibold fs-6 mb-2">Firma</label>
                         <textarea name="Aciklama1" class="form-control " value="">@(Convert.ToString(Model.Rows[0]["Aciklama1"]))</textarea>
                     </div>
                     <div class="col-lg-6">
-                        <label class="required fw-semibold fs-6 mb-2">Açıklama 2</label>
+                        <label class="required fw-semibold fs-6 mb-2">Yetkili</label>
                         <textarea name="Aciklama2" class="form-control " value="">@(Convert.ToString(Model.Rows[0]["Aciklama2"]))</textarea>
                     </div>
                     <div class="col-lg-12 mt-7">
@@ -211,7 +201,7 @@
                 </div>
                 <!--begin::Row Input group-->
                 <div class="row mb-5">
-                    <div class="col-lg-6">
+                    <div class="col-lg-1">
                         <div class="form-check form-check-custom form-check-solid ">
                             <input @(Convert.ToBoolean(Model.Rows[0]["Aktif"]) ? "checked" : "") name="Aktif" class="form-check-input" type="checkbox" value="true" id="form_checkbox" />
                             <label class="form-check-label" for="form_checkbox" style="cursor: pointer;">
@@ -219,7 +209,16 @@
                             </label>
                         </div>
                     </div>
+                    <div class="col-lg-1">
+                        <div class="form-check form-check-custom form-check-solid ">
+                            <input name="Onay" class="form-check-input" type="checkbox" value="true" id="form_checkbox2" @(Convert.ToBoolean(Model.Rows[0]["Onay"]) == true ? "checked" : "") />
+                            <label class="form-check-label" for="form_checkbox2" style="cursor: pointer;">
+                                Onay
+                            </label>
+                        </div>
+                    </div>
                 </div>
+
                
                 <!--end::Row Input group-->
                 <div class="pt-4">

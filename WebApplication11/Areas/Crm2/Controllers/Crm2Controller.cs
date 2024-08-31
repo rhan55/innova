@@ -41,7 +41,7 @@ namespace YKPortal.Areas.Crm2.Controllers
                 return Redirect("~/YK/Giris");
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "select count(*) as Sayi1 from Crm2Kayitlar WITH(NOLOCK) Where Silindi = 0 and UyelikID = @UyelikID and AlanKullanici = @KullaniciID";
+                cmd.CommandText = "select count(*) as Sayi1 from Crm2Kayitlar WITH(NOLOCK) Where Silindi = 0 and UyelikID = @UyelikID and AlanKullanici = @KullaniciID and Sozlesme = 0";
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
                 cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
@@ -49,10 +49,18 @@ namespace YKPortal.Areas.Crm2.Controllers
             }
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "select count(*) as Sayi1 from Crm2Kayitlar WITH(NOLOCK) Where Silindi = 0 and UyelikID = @UyelikID and AlanKullanici IS NULL";
+                cmd.CommandText = "select count(*) as Sayi1 from Crm2Kayitlar WITH(NOLOCK) Where Silindi = 0 and UyelikID = @UyelikID and AlanKullanici IS NULL and Sozlesme = 0";
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
                 ViewBag.BosHavuz = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+            }
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "select count(*) as Sayi1 from Crm2Kayitlar WITH(NOLOCK) Where Silindi = 0 and UyelikID = @UyelikID and AlanKullanici = @KullaniciID and Sozlesme = 1";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                ViewBag.Sozlesme = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
             }
             ViewBag.Menu = Menu;
             return View();
@@ -78,7 +86,7 @@ namespace YKPortal.Areas.Crm2.Controllers
                 if (kontrol >= 100)
                 {
                     string mesaj = "Havuzunuz 100 adet, daha fazla kayıt kabul edemezsiniz.";
-                    return Redirect("~/Crm2/Crm2/Bilgilendirme/?Mesaj="+mesaj);
+                    return Redirect("~/Crm2/Crm2/Bilgilendirme/?Mesaj=" + mesaj);
                 }
             }
 
@@ -112,6 +120,45 @@ namespace YKPortal.Areas.Crm2.Controllers
             return Redirect("~/Crm2/Crm2/CariDetay/?id=" + KayitID);
         }
         [HttpGet]
+        public ActionResult Sozlesme(string KayitID)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+            GenelBilgilerGetir();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "Update Crm2Kayitlar Set Sozlesme=1 Where Silindi = 0 and UyelikID = @UyelikID and ID = @ID";
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@ID", KayitID);
+            IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return Redirect("~/Crm2/Crm2/CariDetay/?id=" + KayitID);
+        }
+
+        [HttpPost]
+        public ActionResult NotEkle(string KayitID, string Aciklama)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+            GenelBilgilerGetir();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = @"Insert Into Crm2Notlar (UyelikID,KullaniciID,KayitID,Aciklama,KayitTarihi) 
+values 
+(@UyelikID,@KullaniciID,@KayitID,@Aciklama,GETDATE())";
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@KayitID", KayitID);
+            cmd.Parameters.AddWithValue("@Aciklama", Aciklama);
+            IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return Redirect("~/Crm2/Crm2/CariDetay/?id=" + KayitID);
+        }
+
+
+        [HttpGet]
         public ActionResult CariDetay(string id)
         {
             if (!AutoGirisKontrol())
@@ -124,7 +171,30 @@ namespace YKPortal.Areas.Crm2.Controllers
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@ID", id);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
+            {
+                SqlCommand cmd2 = new SqlCommand();
+                cmd2.CommandText = "p_DosyaListesi";
+                cmd2.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd2.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd2.Parameters.AddWithValue("@KayitID", id);
+                cmd2.Parameters.AddWithValue("@Modul", "Crm2");
+                DataTable dtDosyalar = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
+                ViewBag.dtDosyalar = dtDosyalar;
+            }
+            {
+                SqlCommand cmd2 = new SqlCommand();
+                cmd2.CommandText = @"Select 
+Crm2Notlar.*,
+Kullanicilar.Ad+' '+Kullanicilar.Soyad as Kullanici
+from Crm2Notlar WITH(NOLOCK) 
+LEFT OUTER JOIN Kullanicilar WITH(NOLOCK) ON Kullanicilar.ID = Crm2Notlar.KullaniciID
+Where Crm2Notlar.UyelikID = @UyelikID and Crm2Notlar.KayitID = @KayitID Order by Crm2Notlar.KayitTarihi desc";
+                cmd2.CommandType = System.Data.CommandType.Text;
+                cmd2.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd2.Parameters.AddWithValue("@KayitID", id);
+                DataTable dtNotlar = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
+                ViewBag.dtNotlar = dtNotlar;
+            }
             return View(dt);
         }
         [HttpGet]
@@ -226,7 +296,8 @@ namespace YKPortal.Areas.Crm2.Controllers
         public JsonResult YeniCari(string Bayi, DateTime Tarih, string ProjeTipi, string BlokSayisi,
             string Miktar, string Unvan, string Ad, string Soyad, string Telefon1, string Telefon2,
             string Gorev, string UlasimSekli, string Projeadi, string Il, string Ilce, string Mahalle,
-            string Ada, string Parsel, string PortalNumarasi, string Resim, DateTime? SonucTarihi)
+            string Ada, string Parsel, string PortalNumarasi,
+            HttpPostedFileBase Resim, HttpPostedFileBase Resim2, HttpPostedFileBase Resim3, HttpPostedFileBase Resim4, HttpPostedFileBase Resim5, DateTime? SonucTarihi)
         {
             YKJsonResult result = new YKJsonResult();
             try
@@ -280,14 +351,96 @@ namespace YKPortal.Areas.Crm2.Controllers
                     cmd.Parameters.AddWithValue("@Ada", Ada);
                     cmd.Parameters.AddWithValue("@Parsel", Parsel);
                     cmd.Parameters.AddWithValue("@PortalNumarasi", PortalNumarasi);
-                    cmd.Parameters.AddWithValue("@Resim", Resim);
+                    cmd.Parameters.AddWithValue("@Resim", "");
                     if (SonucTarihi == null)
                         cmd.Parameters.AddWithValue("@SonucTarihi", DBNull.Value);
                     else
                         cmd.Parameters.AddWithValue("@SonucTarihi", SonucTarihi);
                     cmd.Parameters.AddWithValue("@KayitYapankullanici", GetCookie("KullaniciID"));
-
                     IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                    if (Resim != null && Resim.ContentLength > 0)
+                    {
+                        Resim.SaveAs(Server.MapPath("~/Uploads/Dosyalar/" + SonID + "_" + Resim.FileName));
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "p_DosyaKaydet";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ID", "");
+                        cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                        cmd.Parameters.AddWithValue("@Modul", "Crm2");
+                        cmd.Parameters.AddWithValue("@KayitID", SonID);
+                        cmd.Parameters.AddWithValue("@Dosya", SonID + "_" + Resim.FileName);
+                        cmd.Parameters.AddWithValue("@Isim", Resim.FileName);
+                        cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    }
+                    if (Resim2 != null && Resim2.ContentLength > 0)
+                    {
+                        Resim2.SaveAs(Server.MapPath("~/Uploads/Dosyalar/" + SonID + "_" + Resim2.FileName));
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "p_DosyaKaydet";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ID", "");
+                        cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                        cmd.Parameters.AddWithValue("@Modul", "Crm2");
+                        cmd.Parameters.AddWithValue("@KayitID", SonID);
+                        cmd.Parameters.AddWithValue("@Dosya", SonID + "_" + Resim2.FileName);
+                        cmd.Parameters.AddWithValue("@Isim", Resim2.FileName);
+                        cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    }
+                    if (Resim3 != null && Resim3.ContentLength > 0)
+                    {
+                        Resim3.SaveAs(Server.MapPath("~/Uploads/Dosyalar/" + SonID + "_" + Resim3.FileName));
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "p_DosyaKaydet";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ID", "");
+                        cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                        cmd.Parameters.AddWithValue("@Modul", "Crm2");
+                        cmd.Parameters.AddWithValue("@KayitID", SonID);
+                        cmd.Parameters.AddWithValue("@Dosya", SonID + "_" + Resim3.FileName);
+                        cmd.Parameters.AddWithValue("@Isim", Resim3.FileName);
+                        cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    }
+                    if (Resim4 != null && Resim4.ContentLength > 0)
+                    {
+                        Resim4.SaveAs(Server.MapPath("~/Uploads/Dosyalar/" + SonID + "_" + Resim4.FileName));
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "p_DosyaKaydet";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ID", "");
+                        cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                        cmd.Parameters.AddWithValue("@Modul", "Crm2");
+                        cmd.Parameters.AddWithValue("@KayitID", SonID);
+                        cmd.Parameters.AddWithValue("@Dosya", SonID + "_" + Resim4.FileName);
+                        cmd.Parameters.AddWithValue("@Isim", Resim4.FileName);
+                        cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    }
+                    if (Resim5 != null && Resim5.ContentLength > 0)
+                    {
+                        Resim5.SaveAs(Server.MapPath("~/Uploads/Dosyalar/" + SonID + "_" + Resim5.FileName));
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "p_DosyaKaydet";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ID", "");
+                        cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                        cmd.Parameters.AddWithValue("@Modul", "Crm2");
+                        cmd.Parameters.AddWithValue("@KayitID", SonID);
+                        cmd.Parameters.AddWithValue("@Dosya", SonID + "_" + Resim5.FileName);
+                        cmd.Parameters.AddWithValue("@Isim", Resim5.FileName);
+                        cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    }
+
+
+
+
+
+
+
                     result.SonucKodu = "1";
                     result.Aciklama = "Kayıt başarıyla kaydedildi.<br>Yönlendiriliyorsunuz...";
                 }
@@ -342,6 +495,14 @@ namespace YKPortal.Areas.Crm2.Controllers
                 cmd.Parameters.AddWithValue("@AranacakKelime", "");
                 ViewBag.dtIl = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             }
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_Kullanici";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@ID", GetCookie("KullaniciID"));
+                ViewBag.dtKullanici = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            }
         }
 
         [HttpGet]
@@ -360,8 +521,19 @@ namespace YKPortal.Areas.Crm2.Controllers
             ViewBag.aranacakKelime = aranacakKelime;
             ViewBag.Tur = Tur;
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-            return View(dt);
 
+
+            {
+                SqlCommand cmd2 = new SqlCommand();
+                cmd2.CommandText = "p_Kullanici";
+                cmd2.CommandType = CommandType.StoredProcedure;
+                cmd2.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd2.Parameters.AddWithValue("@ID", GetCookie("KullaniciID"));
+                ViewBag.dtKullanici = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
+            }
+
+
+            return View(dt);
         }
         public ActionResult Tanimlamalar()
         {
@@ -724,7 +896,7 @@ namespace YKPortal.Areas.Crm2.Controllers
                     string Bilgi = Convert.ToString(dt.Rows[0]["Bilgi"]);
                     if (Bilgi == "Kullanıcı başarıyla oluşturuldu.")
                     {
-                        return Redirect("~/Kullanici/Liste");
+                        return Redirect("~/Crm2/Crm2/Kullanicilar");
                     }
                     else
                     {
@@ -732,7 +904,7 @@ namespace YKPortal.Areas.Crm2.Controllers
 
                         var kullanici = KullaniciDuzenle(Convert.ToString(dt.Rows[0]["ID"]));
 
-                        return Redirect("~/Kullanici/Liste");
+                        return Redirect("~/Crm2/Crm2/Kullanicilar");
                         //return View(kullanici);
                     }
                 }

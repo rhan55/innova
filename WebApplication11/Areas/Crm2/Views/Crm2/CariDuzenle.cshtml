@@ -1,6 +1,7 @@
 ﻿@using System.Data
 @model System.Data.DataTable
 @{
+    ViewBag.Title = "Kayıt Düzenle";
     Layout = "~/Views/Shared/_LayoutSade.cshtml";
     string KullaniciAdi = HttpUtility.UrlDecode(Request.Cookies["KullaniciAdi"].Value);
 
@@ -15,7 +16,7 @@
 
 <div style="width:100%;font-size:15px;">
     <input type="hidden" name="ID" id="ID" value="@Model.Rows[0]["ID"]" class="form-control" required />
-    <table style="width:100%;">
+    <table style="width:80%;margin-left:auto;margin-right:auto;">
         <tr>
             <td><strong>Bayi Adı</strong></td>
         </tr>

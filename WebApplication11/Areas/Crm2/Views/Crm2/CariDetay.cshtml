@@ -1,31 +1,64 @@
 ﻿@using System.Data
 @model System.Data.DataTable
 @{
+    ViewBag.Title = "Kayıt detayı";
     Layout = "~/Views/Shared/_LayoutSade.cshtml";
     string KullaniciAdi = HttpUtility.UrlDecode(Request.Cookies["KullaniciAdi"].Value);
+    string KullaniciID = HttpUtility.UrlDecode(Request.Cookies["KullaniciID"].Value);
 
     DataTable dtProjeTipi = ViewBag.dtProjeTipi as DataTable;
     DataTable dtGorevler = ViewBag.dtGorevler as DataTable;
     DataTable dtUlasimSekli = ViewBag.dtUlasimSekli as DataTable;
     DataTable dtIl = ViewBag.dtIl as DataTable;
+    DataTable dtDosyalar = ViewBag.dtDosyalar as DataTable;
+    DataTable dtNotlar = ViewBag.dtNotlar as DataTable;
 
-
-
+    DateTime KabulTarihi = Convert.ToDateTime(Convert.ToDateTime(Model.Rows[0]["KabulTarihi"]).ToString("yyyy-MM-dd"));
+    DateTime Tarih = DateTime.Today;
+    double gunFarki = Tarih.Subtract(KabulTarihi).TotalDays;
 }
 
 <div style="width:100%;font-size:15px;">
-    <a href="@Url.Action("AnaSayfa","Crm2", new { Area = "Crm2" })" class="btn btn-primary">Ana Sayfa</a>
-    @if (Convert.ToString(Model.Rows[0]["AlanKullanici"]).Trim().Length > 0)
-    {
-        <a href="@Url.Action("Reddet","Crm2", new { Area = "Crm2", KayitID = Model.Rows[0]["ID"] })" class="btn btn-danger" onclick="return confirm('Kaydı boş havuzuna göndermek istediğinizden emin misiniz?')">Boşa Çıkart</a>
-    }
-    @if (Convert.ToString(Model.Rows[0]["AlanKullanici"]).Trim().Length == 0)
-    {
-        <a href="@Url.Action("KabulEt","Crm2", new { Area = "Crm2", KayitID = Model.Rows[0]["ID"] })" class="btn btn-success" onclick="return confirm('Kaydı kabul etmek istediğinizden emin misiniz?')">Kabul Et</a>
-    }
-    
+
+
     <input type="hidden" name="ID" id="ID" value="@Model.Rows[0]["ID"]" class="form-control" required />
-    <table style="width:100%;">
+    <table style="width:80%;margin-left:auto;margin-right:auto;">
+        <tr>
+            <td>
+                <a href="@Url.Action("AnaSayfa","Crm2", new { Area = "Crm2" })" class="btn btn-primary" style="font-size:20px;">Ana Sayfa</a>
+                @if (Convert.ToBoolean(Model.Rows[0]["Sozlesme"]) == false)
+                {
+                    if (Convert.ToString(Model.Rows[0]["AlanKullanici"]).Trim().Length > 0)
+                    {
+
+                        <a href="@Url.Action("Sozlesme", "Crm2", new { Area = "Crm2", KayitID = Model.Rows[0]["ID"] })" class="btn btn-success" style="font-size:20px;" onclick="return confirm('Kaydı sözleşmeye göndermek istediğinizden emin misiniz?')">Sözleşmeye Gönder</a>
+                        if (gunFarki > 90)
+                        {
+                            <a href="@Url.Action("Reddet", "Crm2", new { Area = "Crm2", KayitID = Model.Rows[0]["ID"] })" class="btn btn-danger" style="font-size:20px;" onclick="return confirm('Kaydı boş havuzuna göndermek istediğinizden emin misiniz?')">Boşa Çıkart</a>
+                        }
+                        else
+                        {
+                            <br />
+                            <span style="color:red;"><strong>90 gün geçmeden boş havuza gönderemezsiniz! (@(gunFarki) gündür sizde)</strong></span>
+                        }
+                    }
+                    if (Convert.ToString(Model.Rows[0]["AlanKullanici"]).Trim().Length == 0)
+                    {
+                        if (Convert.ToString(Model.Rows[0]["VerenKullanici"]) == KullaniciID && gunFarki <= 90)
+                        {
+                            <br />
+                            <span style="color:red;"><strong>90 gün geçmeden kabul edemezsiniz! (@(gunFarki) gündür boşta)</strong></span>
+
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("KabulEt", "Crm2", new { Area = "Crm2", KayitID = Model.Rows[0]["ID"] })" class="btn btn-success" style="font-size:20px;" onclick="return confirm('Kaydı kabul etmek istediğinizden emin misiniz?')">Kabul Et</a>
+
+                        }
+                    }
+                }
+            </td>
+        </tr>
         <tr>
             <td><strong>Bayi Adı</strong></td>
         </tr>
@@ -176,6 +209,17 @@
         </tr>
         <tr>
             <td>
+                @if (dtDosyalar != null)
+                {
+                    foreach (DataRow item in dtDosyalar.Rows)
+                    {
+                        <div>
+                            <a href="@Url.Content("~/Uploads/Dosyalar/" + item["Dosya"])" target="_blank">
+                                <img src="@Url.Content("~/Uploads/Dosyalar/" + item["Dosya"])" alt="" style="height:100px;float:left;margin-right:5px;" />
+                            </a>
+                        </div>
+                    }
+                }
             </td>
         </tr>
         <tr>
@@ -194,7 +238,40 @@
 
             </td>
         </tr>
-
+        <tr>
+            <td>
+            <hr />
+            <h2>NOTLAR</h2></td>
+        </tr>
+        <tr>
+            <td>
+                @if (Convert.ToString(Model.Rows[0]["AlanKullanici"]) == KullaniciID)
+                {
+                    <form action="@Url.Action("NotEkle", "Crm2", new { Area = "Crm2", KayitID = Model.Rows[0]["ID"] })" method="post">
+                        <label for="Aciklama">Not</label>
+                        <input type="text" name="Aciklama" id="Aciklama" value="" />
+                        <input type="submit" name="name" value="Kaydet" />
+                    </form>
+                }
+                else
+                {
+                    <span>Yeni not eklemek için kayıt sizin üzerinizde olması gerekiyor!</span>
+                }
+                <hr />
+            </td>
+        </tr>
+        @foreach (DataRow item in dtNotlar.Rows)
+        {
+            <tr>
+                <td>
+                    <p><strong>@item["Aciklama"]</strong></p>
+                    <p>
+                        @item["Kullanici"] / @Convert.ToDateTime(item["KayitTarihi"]).ToString("dd-MM-yyyy HH:mm")
+                    </p>
+                    <hr />
+                </td>
+            </tr>
+        }
     </table>
 
 </div>
@@ -209,7 +286,7 @@
 @section scripts {
 
     <script>
-    
+
     </script>
 
 }

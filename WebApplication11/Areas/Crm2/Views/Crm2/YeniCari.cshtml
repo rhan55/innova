@@ -1,6 +1,7 @@
 ﻿@using System.Data
 @model System.Data.DataTable
 @{
+    ViewBag.Title = "Yeni Kayıt";
     Layout = "~/Views/Shared/_LayoutSade.cshtml";
     string KullaniciAdi = HttpUtility.UrlDecode(Request.Cookies["KullaniciAdi"].Value);
 
@@ -8,24 +9,24 @@
     DataTable dtGorevler = ViewBag.dtGorevler as DataTable;
     DataTable dtUlasimSekli = ViewBag.dtUlasimSekli as DataTable;
     DataTable dtIl = ViewBag.dtIl as DataTable;
-
+    DataTable dtKullanici = ViewBag.dtKullanici as DataTable;
 
 }
 
 <div style="width:100%;font-size:15px;">
 
-    <table style="width:100%;">
+    <table style="width:80%;margin-left:auto;margin-right:auto;">
         <tr>
             <td><strong>Bayi Adı</strong></td>
         </tr>
         <tr>
-            <td><input type="text" name="Bayi" id="Bayi" value="" class="form-control" required/></td>
+            <td><input type="text" name="Bayi" id="Bayi" value="@(dtKullanici.Rows[0]["Aciklama1"])" class="form-control" readonly /></td>
         </tr>
         <tr>
             <td>Tarih</td>
         </tr>
         <tr>
-            <td><input type="date" name="Tarih" id="Tarih" value="@DateTime.Today.ToString("yyyy-MM-dd")" required class="form-control" /></td>
+            <td><input type="date" name="Tarih" id="Tarih" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control" readonly /></td>
         </tr>
         <tr>
             <td>Proje Tipi</td>
@@ -36,7 +37,7 @@
                     <option value="">Seçim yapınız...</option>
                     @foreach (DataRow satir in dtProjeTipi.Rows)
                     {
-                        <option value="@satir["ID"]" >@satir["Deger"]</option>
+                        <option value="@satir["ID"]">@satir["Deger"]</option>
                     }
                 </select>
             </td>
@@ -45,13 +46,13 @@
             <td>Blok Sayısı</td>
         </tr>
         <tr>
-            <td><input type="text" name="BlokSayisi" id="BlokSayisi" value="" class="form-control" /></td>
+            <td><input type="number" name="BlokSayisi" id="BlokSayisi" value="0" class="form-control" /></td>
         </tr>
         <tr>
             <td>Miktar</td>
         </tr>
         <tr>
-            <td><input type="number" name="Miktar" id="Miktar" value="" class="form-control" /></td>
+            <td><input type="number" name="Miktar" id="Miktar" value="0" class="form-control" /></td>
         </tr>
         <tr>
             <td>Ünvan</td>
@@ -63,19 +64,19 @@
             <td>Adı</td>
         </tr>
         <tr>
-            <td><input type="text" name="Ad" id="Ad" value="" class="form-control" required/></td>
+            <td><input type="text" name="Ad" id="Ad" value="" class="form-control" required /></td>
         </tr>
         <tr>
             <td>Soyadı</td>
         </tr>
         <tr>
-            <td><input type="text" name="Soyad" id="Soyad" value="" class="form-control" required/></td>
+            <td><input type="text" name="Soyad" id="Soyad" value="" class="form-control" required /></td>
         </tr>
         <tr>
             <td>Telefonu 1</td>
         </tr>
         <tr>
-            <td><input type="text" name="Telefon1" id="Telefon1" value="" class="form-control" required/></td>
+            <td><input type="text" name="Telefon1" id="Telefon1" value="" class="form-control" required /></td>
         </tr>
         <tr>
             <td>Telefonu 2</td>
@@ -115,7 +116,7 @@
             <td>Projenin Adı</td>
         </tr>
         <tr>
-            <td><input type="text" name="ProjeAdi" id="ProjeAdi" value="" class="form-control" required/></td>
+            <td><input type="text" name="ProjeAdi" id="ProjeAdi" value="" class="form-control" required /></td>
         </tr>
         <tr>
             <td>İl</td>
@@ -146,13 +147,13 @@
             <td>Ada</td>
         </tr>
         <tr>
-            <td><input type="text" name="Ada" id="Ada" value="" class="form-control" required/></td>
+            <td><input type="text" name="Ada" id="Ada" value="" class="form-control" required /></td>
         </tr>
         <tr>
             <td>Parsel</td>
         </tr>
         <tr>
-            <td><input type="text" name="Parsel" id="Parsel" value="" class="form-control" required/></td>
+            <td><input type="text" name="Parsel" id="Parsel" value="" class="form-control" required /></td>
         </tr>
         <tr>
             <td>Portal Numarası</td>
@@ -167,6 +168,18 @@
             <td><input type="file" name="Resim" id="Resim" value="" class="form-control" /></td>
         </tr>
         <tr>
+            <td><input type="file" name="Resim2" id="Resim2" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td><input type="file" name="Resim3" id="Resim3" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td><input type="file" name="Resim4" id="Resim4" value="" class="form-control" /></td>
+        </tr>
+        <tr>
+            <td><input type="file" name="Resim5" id="Resim5" value="" class="form-control" /></td>
+        </tr>
+        <tr>
             <td>Sonuç Tarihi</td>
         </tr>
         <tr>
@@ -174,8 +187,8 @@
         </tr>
         <tr>
             <td>
-                <a href="@Url.Action("AnaSayfa","Crm2", new { Area = "Crm2" })" class="btn btn-danger">Ana Sayfa</a>
-                <input type="button" name="name" value="Kaydet" class="btn btn-success" onclick="Kaydet();" />
+                <a href="@Url.Action("AnaSayfa","Crm2", new { Area = "Crm2" })" class="btn btn-danger" style="font-size: 25px;">Ana Sayfa</a>
+                <input type="button" name="name" value="Kaydet" class="btn btn-success" onclick="Kaydet();" style="font-size:25px;" />
             </td>
         </tr>
     </table>
@@ -318,6 +331,10 @@
             formData.append('Parsel', $("#Parsel").val());
             formData.append('PortalNumarasi', $("#PortalNumarasi").val());
             formData.append('Resim', $('#Resim')[0].files[0]);
+            formData.append('Resim2', $('#Resim2')[0].files[0]);
+            formData.append('Resim3', $('#Resim3')[0].files[0]);
+            formData.append('Resim4', $('#Resim4')[0].files[0]);
+            formData.append('Resim5', $('#Resim5')[0].files[0]);
             formData.append('SonucTarihi', $("#SonucTarihi").val());
 
             $.ajax({
