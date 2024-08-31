@@ -94,7 +94,7 @@
                     <input type="hidden" name="ID" value="@(Convert.ToString(Model.Rows[0]["ID"]))" />
                     <div class="col-lg-6">
                         <!--begin::Label-->
-                        <label class="required fw-semibold fs-6 mb-2">Kullanıcı Adı</label>
+                        <label for="KullaniciAdi" class="required fw-semibold fs-6 mb-2">Kullanıcı Adı</label>
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input type="text" name="KullaniciAdi" id="KullaniciAdi" class="form-control p-2 mb-3 mb-lg-0" placeholder="Kullanıcı Adı" value="@(Convert.ToString(Model.Rows[0]["KullaniciAdi"]))" />
@@ -104,7 +104,7 @@
                     <!--begin::Input group-->
                     <div class="col-lg-6">
                         <!--begin::Label-->
-                        <label class="required fw-semibold fs-6 mb-2">Parola</label>
+                        <label for="Parola" class="required fw-semibold fs-6 mb-2">Parola</label>
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input type="password" name="Parola" id="Parola" class="form-control p-2 mb-3 mb-lg-0" placeholder="Parola" value="@(Convert.ToString(Model.Rows[0]["Parola"]))" />
@@ -119,15 +119,15 @@
                     <div class="col-lg-6 d-flex justify-content-start align-items-center ">
                         <div class="col-lg-6 pe-3">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Ad</label>
+                            <label for="Ad" class="required fw-semibold fs-6 mb-2">Ad</label>
                             <!--end::Label-->
-                            <!--begin::Input-->A
+                            <!--begin::Input-->
                             <input type="text" name="Ad" id="Ad" class="form-control p-2 mb-3 mb-lg-0" placeholder="Ad" value="@(Convert.ToString(Model.Rows[0]["Ad"]))" />
                             <!--end::Input-->
                         </div>
                         <div class="col-lg-6 ps-3">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Soyad</label>
+                            <label for="Soyad" class="required fw-semibold fs-6 mb-2">Soyad</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="text" name="Soyad" class="form-control p-2 mb-3 mb-lg-0" placeholder="Soyad" value="@(Convert.ToString(Model.Rows[0]["Soyad"]))" />
@@ -138,21 +138,19 @@
                     <div class="col-lg-3">
                         <div>
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Telefon</label>
+                            <label for="Telefon" class="required fw-semibold fs-6 mb-2">Telefon</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="text" name="Telefon" class="form-control p-2 mb-3 mb-lg-0" value="@(Convert.ToString(Model.Rows[0]["Telefon"]))" />
                             <!--end::Input-->
                         </div>
                     </div>
-                    <div class="col-lg-3">
-                        <div>
-                            <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mt-10">Onay</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <input type="checkbox" name="Onay" class="checked "  value="1" @(Convert.ToBoolean(Model.Rows[0]["Onay"]) == true ? "checked" : "") />
-                            <!--end::Input-->
+                    <div class="col-lg-3 pt-10">
+                        <div class="form-check form-check-custom form-check-solid ">
+                            <input @(Convert.ToBoolean(Model.Rows[0]["Onay"]) ? "checked" : "") name="Onay" class="form-check-input" type="checkbox" value="true" id="Onay" />
+                            <label class="form-check-label" for="Onay" style="cursor: pointer;">
+                                Onay
+                            </label>
                         </div>
                     </div>
 
@@ -163,7 +161,7 @@
                     <!--begin::Input group-->
                     <div class="col-lg-6">
                         <!--begin::Label-->
-                        <label class="required fw-semibold fs-6 mb-2">Adres</label>
+                        <label for="Adres" class="required fw-semibold fs-6 mb-2">Adres</label>
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input class="form-control p-2" name="Adres" value="@(Convert.ToString(Model.Rows[0]["Adres"]))" />
@@ -174,7 +172,7 @@
                     <div class="col-lg-6">
                         <div class="d-flex  ">
                             <div class="d-flex flex-column col-lg-6 pe-3">
-                                <label class="required fw-semibold fs-6 mb-2">İl</label>
+                                <label for="Il" class="required fw-semibold fs-6 mb-2">İl</label>
                                 <select class="form-select form-select-solid p-2 rounded-1" name="Il" id="Il" data-control="select2"
                                         aria-label="Floating label select example">
                                     <option value="">Lütfen Seçim Yapınız</option>
@@ -187,7 +185,7 @@
                             </div>
 
                             <div class="d-flex flex-column col-lg-6 ps-3">
-                                <label class="required fw-semibold fs-6 mb-2">İlçe</label>
+                                <label for="Ilce" class="required fw-semibold fs-6 mb-2">İlçe</label>
                                 <input type="text" name="Ilce" id="Ilce" value="@(Convert.ToString(Model.Rows[0]["Ilce"]))" class="form-control p-2" placeholder="" />
                             </div>
                         </div>
@@ -197,15 +195,15 @@
                 <!--end::Row Input group-->
                 <div class="row mb-7">
                     <div class="col-lg-6">
-                        <label class="required fw-semibold fs-6 mb-2">Açıklama 1</label>
+                        <label for="Aciklama1" class="required fw-semibold fs-6 mb-2">Açıklama 1</label>
                         <textarea name="Aciklama1" class="form-control " value="">@(Convert.ToString(Model.Rows[0]["Aciklama1"]))</textarea>
                     </div>
                     <div class="col-lg-6">
-                        <label class="required fw-semibold fs-6 mb-2">Açıklama 2</label>
+                        <label for="Aciklama2" class="required fw-semibold fs-6 mb-2">Açıklama 2</label>
                         <textarea name="Aciklama2" class="form-control " value="">@(Convert.ToString(Model.Rows[0]["Aciklama2"]))</textarea>
                     </div>
                     <div class="col-lg-12 mt-7">
-                        <label class="required fw-semibold fs-6 mb-2 ">Açıklama 3</label>
+                        <label for="Aciklama3" class="required fw-semibold fs-6 mb-2 ">Açıklama 3</label>
                         <textarea name="Aciklama3" class="form-control " value="">@(Convert.ToString(Model.Rows[0]["Aciklama3"]))</textarea>
                     </div>
                 </div>
@@ -213,8 +211,8 @@
                 <div class="row mb-5">
                     <div class="col-lg-6">
                         <div class="form-check form-check-custom form-check-solid ">
-                            <input @(Convert.ToBoolean(Model.Rows[0]["Aktif"]) ? "checked" : "") name="Aktif" class="form-check-input" type="checkbox" value="true" id="form_checkbox" />
-                            <label class="form-check-label" for="form_checkbox" style="cursor: pointer;">
+                            <input @(Convert.ToBoolean(Model.Rows[0]["Aktif"]) ? "checked" : "") name="Aktif" class="form-check-input" type="checkbox" value="true" id="Aktif" />
+                            <label class="form-check-label" for="Aktif" style="cursor: pointer;">
                                 Aktif
                             </label>
                         </div>

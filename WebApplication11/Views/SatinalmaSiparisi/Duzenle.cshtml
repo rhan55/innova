@@ -100,7 +100,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-4 col-12">
                                             <!--begin::Label-->
                                             <label for="Durumu" class="form-label fs-6 fw-bold text-gray-600 mb-3">Durumu</label>
                                             <!--begin::Input-->
@@ -123,7 +123,7 @@
                                                     <select class="form-control p-2 rounded-1" data-control="select2" name="SatisPersonelID" id="SatisPersonelID" data-placeholder="Lütfen Seçim Yapınız"
                                                             aria-label="Floating label select example">
                                                         <option value=""></option>
-                                                        @foreach (PersonelDto personel in ViewBag.Personeller)
+                                                        @foreach (SatisPersonelleriDto personel in ViewBag.Personeller)
                                                         {
                                                             <option value="@personel.ID" @(Model.SatisPersonelID == personel.ID ? "selected" : "")>@personel.Isim</option>
                                                         }

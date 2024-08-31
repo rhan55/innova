@@ -172,6 +172,8 @@ namespace YKPortal.Controllers
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
+            IlListesiniOlustur();
+
             return View(dt);
         }
 

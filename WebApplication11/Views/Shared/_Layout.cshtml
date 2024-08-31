@@ -108,7 +108,7 @@
 <!--begin::Body-->
 <body id="kt_body" class="aside-enabled">
     <!--begin::Page loading(append to body)-->
-    <div class="page-loader flex-column">
+    <div class="custom-page-loader">
         <span class="spinner-border text-primary" role="status"></span>
         <span class="text-muted fs-6 fw-semibold mt-5">Sayfa Yükleniyor...</span>
     </div>
@@ -446,8 +446,28 @@
     <!--end::Global Javascript Bundle-->
     <script>
 
+        function loader() {
+            var toggle = () => {
+                document.querySelector('.custom-page-loader').classList.toggle('hidden');
+            }
+
+            var hide = () => {
+                document.querySelector('.custom-page-loader').classList.add('hidden');
+            }
+
+            var show = () => {
+                document.querySelector('.custom-page-loader').classList.remove('hidden');
+            }
+
+            return {
+                toggle, hide, show
+            }
+        }
 
         $(document).ready(function () {
+
+
+            loader().hide();
 
             let menuIdListesi = [];
 

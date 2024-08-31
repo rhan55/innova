@@ -238,7 +238,7 @@
     <Compile Include="Models\Dto\CariDto.cs" />
     <Compile Include="Models\Dto\CariKisiDto.cs" />
     <Compile Include="Models\Dto\CariNotDto.cs" />
-    <Compile Include="Models\Dto\SatisPersonelleri.cs" />
+    <Compile Include="Models\Dto\SatisPersonelleriDto.cs" />
     <Compile Include="Models\Dto\SonAktivitelerDto.cs" />
     <Compile Include="Models\Dto\SubeDto.cs" />
     <Compile Include="Models\Dto\UyelikDto.cs" />

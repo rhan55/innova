@@ -106,7 +106,7 @@
                         <!--begin::Input group-->
                         <div class="col-lg-6">
                             <!--begin::Label-->
-                            <label class="fw-semibold fs-6 mb-2">Kullanıcı Adı</label>
+                            <label for="KullaniciAdi" class="fw-semibold fs-6 mb-2">Kullanıcı Adı</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="text" name="KullaniciAdi" class="form-control p-2 mb-3 mb-lg-0" placeholder="Kullanıcı Adı" value="@kullaniciEkleDto.KullaniciAdi" required />
@@ -117,7 +117,7 @@
                         <!--begin::Input group-->
                         <div class="col-lg-6">
                             <!--begin::Label-->
-                            <label class="fw-semibold fs-6 mb-2">Parola</label>
+                            <label for="Parola" class="fw-semibold fs-6 mb-2">Parola</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input type="password" name="Parola" class="form-control p-2 mb-3 mb-lg-0" placeholder="Parola" value="@kullaniciEkleDto.Parola" required />
@@ -132,7 +132,7 @@
                         <div class="col-lg-6 d-flex justify-content-start align-items-center ">
                             <div class="col-lg-6 pe-3">
                                 <!--begin::Label-->
-                                <label class="fw-semibold fs-6 mb-2">Ad</label>
+                                <label for="Ad" class="fw-semibold fs-6 mb-2">Ad</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
                                 <input type="text" name="Ad" class="form-control p-2 mb-3 mb-lg-0" placeholder="Ad" value="@kullaniciEkleDto.Ad" required />
@@ -140,7 +140,7 @@
                             </div>
                             <div class="col-lg-6 ps-3">
                                 <!--begin::Label-->
-                                <label class="fw-semibold fs-6 mb-2">Soyad</label>
+                                <label for="Soyad" class="fw-semibold fs-6 mb-2">Soyad</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
                                 <input type="text" name="Soyad" class="form-control p-2 mb-3 mb-lg-0" placeholder="Soyad" value="@kullaniciEkleDto.Soyad" required />
@@ -151,7 +151,7 @@
                         <div class="col-lg-6">
                             <div>
                                 <!--begin::Label-->
-                                <label for="Telefon" class="fw-semibold fs-6 mb-2">Telefon</label>
+                                <label form="Telefon" for="Telefon" class="fw-semibold fs-6 mb-2">Telefon</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
                                 <input type="text" name="Telefon" id="Telefon" class="form-control p-2 mb-3 mb-lg-0" value="@kullaniciEkleDto.Telefon" />
@@ -166,7 +166,7 @@
                         <!--begin::Input group-->
                         <div class="col-lg-6">
                             <!--begin::Label-->
-                            <label class="fw-semibold fs-6 mb-2">Adres</label>
+                            <label for="Adres" class="fw-semibold fs-6 mb-2">Adres</label>
                             <!--end::Label-->
                             <!--begin::Input-->
                             <input class="form-control p-2" name="Adres" id="exampleFormControlTextarea1" />
@@ -177,7 +177,7 @@
                         <div class="col-lg-6">
                             <div class="d-flex">
                                 <div class="d-flex flex-column col-lg-6">
-                                    <label class="fw-semibold fs-6 mb-2">İl</label>
+                                    <label for="Il" class="fw-semibold fs-6 mb-2">İl</label>
                                     <select class="form-control p-2" name="Il" data-control="select2" id="Il"
                                             aria-label="Floating label select example">
                                         <option value="">Lütfen Seçim Yapınız</option>
@@ -199,15 +199,15 @@
                     <!--end::Row Input group-->
                     <div class="row mb-7">
                         <div class="col-lg-6">
-                            <label class="fw-semibold fs-6 mb-2">Açıklama 1</label>
+                            <label for="Aciklama1" class="fw-semibold fs-6 mb-2">Açıklama 1</label>
                             <textarea name="Aciklama1" class="form-control ">@kullaniciEkleDto.Aciklama1</textarea>
                         </div>
                         <div class="col-lg-6">
-                            <label class="fw-semibold fs-6 mb-2">Açıklama 2</label>
+                            <label for="Aciklama2" class="fw-semibold fs-6 mb-2">Açıklama 2</label>
                             <textarea name="Aciklama2" class="form-control ">@kullaniciEkleDto.Aciklama2</textarea>
                         </div>
                         <div class="col-lg-12 mt-7">
-                            <label class="required fw-semibold fs-6 mb-2 ">Açıklama 3</label>
+                            <label for="Aciklama3" class="required fw-semibold fs-6 mb-2 ">Açıklama 3</label>
                             <textarea name="Aciklama3" class="form-control ">@kullaniciEkleDto.Aciklama3</textarea>
                         </div>
                     </div>
@@ -215,16 +215,16 @@
                     <div class="row">
                         <div class="col-lg-1">
                             <div class="form-check form-check-custom form-check-solid ">
-                                <input name="Aktif" class="form-check-input" type="checkbox" value="true" id="form_checkbox" @(kullaniciEkleDto.Aktif ? "checked" : "") />
-                                <label class="form-check-label" for="form_checkbox" style="cursor: pointer;">
+                                <input name="Aktif" class="form-check-input" type="checkbox" value="true" id="Aktif" @(kullaniciEkleDto.Aktif ? "checked" : "") />
+                                <label class="form-check-label" for="Aktif" style="cursor: pointer;">
                                     Aktif
                                 </label>
                             </div>
                         </div>
                         <div class="col-lg-1">
                              <div class="form-check form-check-custom form-check-solid ">
-                                <input name="Onay" class="form-check-input" type="checkbox" value="true" id="form_checkbox" @(kullaniciEkleDto.Onay ? "checked" : "") />
-                                <label class="form-check-label" for="form_checkbox" style="cursor: pointer;">
+                                <input name="Onay" class="form-check-input" type="checkbox" value="true" id="Onay" @(kullaniciEkleDto.Onay ? "checked" : "") />
+                                <label class="form-check-label" for="Onay" style="cursor: pointer;">
                                     Onay
                                 </label>
                             </div>

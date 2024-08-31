@@ -123,7 +123,7 @@
                                                     <select class="form-control p-2 rounded-1" data-control="select2" name="SatisPersonelID" id="SatisPersonelID" data-placeholder="Lütfen Seçim Yapınız"
                                                             aria-label="Floating label select example">
                                                         <option value=""></option>
-                                                        @foreach (PersonelDto personel in ViewBag.Personeller)
+                                                        @foreach (SatisPersonelleriDto personel in ViewBag.Personeller)
                                                         {
                                                             <option value="@personel.ID">@personel.Isim</option>
                                                         }

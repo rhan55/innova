@@ -1386,11 +1386,11 @@ namespace YKPortal.Controllers
 
             DataTable PlasiyerIDDataTable = (DataTable)IDVeritabani.Sorgula(plasiyerCommand, SorgulaTuru.Tablo);
 
-            List<SatisPersoneliDto> entities = new List<SatisPersoneliDto>();
+            List<SatisPersonelleriDto> entities = new List<SatisPersonelleriDto>();
 
             for (int i = 0; i < PlasiyerIDDataTable.Rows.Count; i++)
             {
-                SatisPersoneliDto entity = new SatisPersoneliDto();
+                SatisPersonelleriDto entity = new SatisPersonelleriDto();
                 entity.ID = Convert.ToString(PlasiyerIDDataTable.Rows[i]["ID"]);
                 entity.Isim = Convert.ToString(PlasiyerIDDataTable.Rows[i]["Isim"]);
                 entities.Add(entity);

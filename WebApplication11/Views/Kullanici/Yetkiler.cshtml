@@ -213,7 +213,7 @@
             });
 
             $('button#YetkiKaydet').on("click", function () {
-                KTApp.showPageLoading();
+                loader().show();
                 $.ajax({
                     url: "/Kullanici/YetkiKaydet",
                     method: "POST",
@@ -221,11 +221,11 @@
                     success: function (response) {
 
                         console.log("Success:", response);
-                        KTApp.hidePageLoading();
+                        loader().hide();
                         window.location.reload();
                     },
                     error: function (xhr, status, error) {
-                        KTApp.hidePageLoading();
+                        loader().hide();
                         console.log("Error:", xhr.responseText);
                     }
                 })

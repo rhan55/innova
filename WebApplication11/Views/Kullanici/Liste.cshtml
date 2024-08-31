@@ -137,7 +137,7 @@
                                             @if (Model.Duzenle)
                                             {
                                                 <div class="menu-item p-0">
-                                                    <a href="/Kullanici/Duzenle/@(Convert.ToString(Model.Kullanicilar.Rows[i]["ID"]))" class="menu-link px-2 py-0">Düzenle</a>
+                                                    <a href="/Kullanici/Duzenle?ID=@(Convert.ToString(Model.Kullanicilar.Rows[i]["ID"]))" class="menu-link px-2 py-0">Düzenle</a>
                                                 </div>
                                             }
                                             <!--end::Menu item-->

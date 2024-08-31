@@ -125,28 +125,14 @@
                                                 <select class="form-control p-2 rounded-1" data-control="select2" name="SatisPersonelID" id="SatisPersonelID" data-placeholder="Lütfen Seçim Yapınız"
                                                         aria-label="Floating label select example">
                                                     <option value=""></option>
-                                                    @foreach (PersonelDto personel in ViewBag.Personeller)
+                                                    @foreach (SatisPersonelleriDto personel in ViewBag.Personeller)
                                                     {
                                                         <option value="@personel.ID">@personel.Isim</option>
                                                     }
                                                 </select>
                                                 <!--end::Input group-->
                                             </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <!--begin::Label-->
-                                            <label for="Durumu" class="form-label fs-6 fw-bold text-gray-600 mb-3">Durumu</label>
-                                            <!--begin::Input-->
-                                            <div class="form-group">
-                                                <select class="px-2 py-1 rounded-1 form-control form-control-solid" data-control="select2" name="Durumu" id="Durumu" 
-                                                        aria-label="Floating label select example">
-                                                    <option value="">Lütfen Seçim Yapınız</option>
-                                                    <option value="Öneri" @(Model.Durumu == "Öneri" ? "selected" : "")>Öneri</option>
-                                                    <option value="Onaylandı" @(Model.Durumu == "Onaylandı" ? "selected" : "")>Onaylandı</option>
-                                                    <option value="Reddedildi"@(Model.Durumu == "Reddedildi" ? "selected" : "")>Reddedildi</option>
-                                                </select>
-                                            </div>                            <!--end::Input-->
-                                        </div>
+                                        </div>                    
                                     </div>
                                     <div class="row mb-4">
                                         <div class="col-@(Tip == "DT" ? "12" : "12")">

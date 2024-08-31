@@ -28,7 +28,7 @@ namespace YKPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult Ekle(SatisPersoneliDto satisPersoneliDto)
+        public ActionResult Ekle(SatisPersonelleriDto satisPersonelleriDto)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
@@ -43,9 +43,9 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@ID", "");
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
-            cmd.Parameters.AddWithValue("@Isim", satisPersoneliDto.Isim);
-            cmd.Parameters.AddWithValue("@Aciklama1", satisPersoneliDto.Aciklama1);
-            cmd.Parameters.AddWithValue("@Aciklama2", satisPersoneliDto.Aciklama2);
+            cmd.Parameters.AddWithValue("@Isim", satisPersonelleriDto.Isim);
+            cmd.Parameters.AddWithValue("@Aciklama1", satisPersonelleriDto.Aciklama1);
+            cmd.Parameters.AddWithValue("@Aciklama2", satisPersonelleriDto.Aciklama2);
             
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo); 
@@ -53,7 +53,7 @@ namespace YKPortal.Controllers
         }
 
         [HttpGet]
-        public ActionResult Liste(SatisPersoneliDto satisPersoneliDto)
+        public ActionResult Liste(SatisPersonelleriDto satisPersoneliDto)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
@@ -90,7 +90,7 @@ namespace YKPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult Duzenle(SatisPersoneliDto satisPersoneliDto)
+        public ActionResult Duzenle(SatisPersonelleriDto satisPersonelleriDto)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
@@ -103,12 +103,12 @@ namespace YKPortal.Controllers
             cmd.CommandText = "p_PlasiyerKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             var uyelikId = GetCookie("UyelikID");
-            cmd.Parameters.AddWithValue("@ID" ,satisPersoneliDto.ID);
+            cmd.Parameters.AddWithValue("@ID" , satisPersonelleriDto.ID);
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
-            cmd.Parameters.AddWithValue("@Isim", satisPersoneliDto.Isim);
-            cmd.Parameters.AddWithValue("@Aciklama1", satisPersoneliDto.Aciklama1);
-            cmd.Parameters.AddWithValue("@Aciklama2", satisPersoneliDto.Aciklama2);
+            cmd.Parameters.AddWithValue("@Isim", satisPersonelleriDto.Isim);
+            cmd.Parameters.AddWithValue("@Aciklama1", satisPersonelleriDto.Aciklama1);
+            cmd.Parameters.AddWithValue("@Aciklama2", satisPersonelleriDto.Aciklama2);
 
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);      
