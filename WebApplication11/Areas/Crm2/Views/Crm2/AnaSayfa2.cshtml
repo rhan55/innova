@@ -1,6 +1,7 @@
 ﻿@using System.Data
 @model System.Data.DataTable
 @{
+    ViewBag.Title = "Alt Menü";
     Layout = "~/Views/Shared/_LayoutSade.cshtml";
     string KullaniciAdi = HttpUtility.UrlDecode(Request.Cookies["KullaniciAdi"].Value);
 
@@ -9,7 +10,7 @@
 <div style="margin-left:auto;margin-right:auto;text-align:center;">
     <a href="/Crm2/Crm2/AnaSayfa" style="color: white;float:left;margin:0px;">
         <div class="tum-kenar-oval"
-             style="width: 150px; height: 100px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px; ">
+             style="width: 150px; height: 100px; text-align: center; background-color: #9F1D20; color: white; padding: 0px; font-size: 20px; padding-top: 10px; ">
             <img src="@Url.Content("~/Tema/media/flags/AnaSayfa.png")" style="height:50px;" />
             <br />
             Geri
@@ -20,7 +21,7 @@
 
         <a href="/Crm2/Crm2/GrupKodu?grupKodu=Crm2_ProjeTipi" style="color: white;float:left;margin:0px;">
             <div class="tum-kenar-oval"
-                 style="width: 150px; height: 100px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
+                 style="width: 150px; height: 100px; text-align: center; background-color: #9F1D20; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
                 <img src="@Url.Content("~/Tema/media/flags/Yeni.png")" style="height:50px;" />
                 <br />
                 Proje Tipleri
@@ -28,7 +29,7 @@
         </a>
         <a href="/Crm2/Crm2/GrupKodu?grupKodu=Crm2_Gorevler" style="color: white;float:left;margin:0px;">
             <div class="tum-kenar-oval"
-                 style="width: 150px; height: 100px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
+                 style="width: 150px; height: 100px; text-align: center; background-color: #9F1D20; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
                 <img src="@Url.Content("~/Tema/media/flags/Yeni.png")" style="height:50px;" />
                 <br />
                 Görevler
@@ -36,7 +37,7 @@
         </a>
         <a href="/Crm2/Crm2/GrupKodu?grupKodu=Crm2_UlasmaSekli" style="color: white;float:left;margin:0px;">
             <div class="tum-kenar-oval"
-                 style="width: 150px; height: 100px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
+                 style="width: 150px; height: 100px; text-align: center; background-color: #9F1D20; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
                 <img src="@Url.Content("~/Tema/media/flags/Yeni.png")" style="height:50px;" />
                 <br />
                 Ulaşma Şek.
@@ -44,7 +45,7 @@
         </a>
         <a href="/Crm2/Crm2/GrupKodu?grupKodu=Il" style="color: white;float:left;margin:0px;">
             <div class="tum-kenar-oval"
-                 style="width: 150px; height: 100px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
+                 style="width: 150px; height: 100px; text-align: center; background-color: #9F1D20; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
                 <img src="@Url.Content("~/Tema/media/flags/Yeni.png")" style="height:50px;" />
                 <br />
                 İller
@@ -52,7 +53,7 @@
         </a>
         <a href="/Crm2/Crm2/Kullanicilar?grupKodu=Il" style="color: white;float:left;margin:0px;">
             <div class="tum-kenar-oval"
-                 style="width: 150px; height: 100px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
+                 style="width: 150px; height: 100px; text-align: center; background-color: #9F1D20; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
                 <img src="@Url.Content("~/Tema/media/flags/Yeni.png")" style="height:50px;" />
                 <br />
                 Kullanicilar
@@ -63,7 +64,7 @@
     {
         <a href="/Crm2/Crm2/Cariler/?Tur=Havuzum" style="color: white;float:left;margin:0px;">
             <div class="tum-kenar-oval"
-                 style="width: 150px; height: 100px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
+                 style="width: 150px; height: 100px; text-align: center; background-color: #9F1D20; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
                 <img src="@Url.Content("~/Tema/media/flags/Uretim_Is_Emirleri.png")" style="height:50px;" />
                 <br />
                 Havuzum (@ViewBag.Havuzum)
@@ -71,7 +72,7 @@
         </a>
         <a href="/Crm2/Crm2/Cariler/?Tur=BosHavuz" style="color: white;float:left;margin:0px;">
             <div class="tum-kenar-oval"
-                 style="width: 150px; height: 100px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
+                 style="width: 150px; height: 100px; text-align: center; background-color: #9F1D20; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
                 <img src="@Url.Content("~/Tema/media/flags/Uretim_Recete.png")" style="height:50px;" />
                 <br />
                 Boş Havuz (@ViewBag.BosHavuz)
@@ -79,18 +80,10 @@
         </a>
         <a href="/Crm2/Crm2/Cariler/?Tur=SozlesmeHavuz" style="color: white;float:left;margin:0px;">
             <div class="tum-kenar-oval"
-                 style="width: 150px; height: 100px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
+                 style="width: 150px; height: 100px; text-align: center; background-color: #9F1D20; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
                 <img src="@Url.Content("~/Tema/media/flags/Uretim_Stok_Kontrol_Onayi.png")" style="height:50px;" />
                 <br />
-                Söz. Havuz
-            </div>
-        </a>
-        <a href="/Crm2/Crm2/Cariler/?Tur=SozlesmeYukle" style="color: white;float:left;margin:0px;">
-            <div class="tum-kenar-oval"
-                 style="width: 150px; height: 100px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
-                <img src="@Url.Content("~/Tema/media/flags/Uretim_Tamamlananlar.png")" style="height:50px;" />
-                <br />
-                Söz. Yükle
+                Söz. Havuz (@ViewBag.Sozlesme)
             </div>
         </a>
 

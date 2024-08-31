@@ -1,6 +1,7 @@
 ﻿@using System.Data
 @model System.Data.DataTable
 @{
+    ViewBag.Title = ViewBag.Mesaj;
     Layout = "~/Views/Shared/_LayoutSade.cshtml";
     string KullaniciAdi = HttpUtility.UrlDecode(Request.Cookies["KullaniciAdi"].Value);
 

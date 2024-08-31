@@ -1,6 +1,7 @@
 ﻿@using System.Data
 @model System.Data.DataTable
 @{
+    ViewBag.Title = "Ana Sayfa";
     Layout = "~/Views/Shared/_LayoutSade.cshtml";
     string KullaniciAdi = HttpUtility.UrlDecode(Request.Cookies["KullaniciAdi"].Value);
 
@@ -10,7 +11,7 @@
 
     <a href="/Crm2/Crm2/AnaSayfa" style="color: white;float:left;margin:0px;">
         <div class="tum-kenar-oval"
-             style="width: 150px; height: 100px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px; ">
+             style="width: 150px; height: 100px; text-align: center; background-color: #9F1D20; color: white; padding: 0px; font-size: 20px; padding-top: 10px; ">
             <img src="@Url.Content("~/Tema/media/flags/AnaSayfa.png")" style="height:50px;" />
             <br />
             Ana Sayfa
@@ -18,7 +19,7 @@
     </a>
     <a href="/Crm2/Crm2/YeniCari" style="color: white;float:left;margin:0px;">
         <div class="tum-kenar-oval"
-             style="width: 150px; height: 100px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
+             style="width: 150px; height: 100px; text-align: center; background-color: #9F1D20; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
             <img src="@Url.Content("~/Tema/media/flags/Yeni.png")" style="height:50px;" />
             <br />
             Yeni Kayıt
@@ -26,21 +27,21 @@
     </a>
     <a href="/Crm2/Crm2/AnaSayfa2/?Menu=Havuz" style="color: white; float: left; margin: 0px; ">
         <div class="tum-kenar-oval"
-             style="width: 150px; height: 100px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px; ">
+             style="width: 150px; height: 100px; text-align: center; background-color: #9F1D20; color: white; padding: 0px; font-size: 20px; padding-top: 10px; ">
             <img src="@Url.Content("~/Tema/media/flags/Ara.png")" style="height:50px;" />
             <br /> Havuz (@(ViewBag.Havuzum))
         </div>
     </a>
     <a href="/Crm2/Crm2/AnaSayfa2/?Menu=Tanimlar" style="color: white; float: left; margin: 0px; ">
         <div class="tum-kenar-oval"
-             style="width: 150px; height: 100px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px; ">
+             style="width: 150px; height: 100px; text-align: center; background-color: #9F1D20; color: white; padding: 0px; font-size: 20px; padding-top: 10px; ">
             <img src="@Url.Content("~/Tema/media/flags/Onay.png")" style="height:50px;" />
             <br />Tanımlar
         </div>
     </a>
     <a href="/YK/Cikis" style="color:white;float:left;margin:0px;">
         <div class="tum-kenar-oval"
-             style="width: 150px; height: 100px; text-align: center; background-color: black; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
+             style="width: 150px; height: 100px; text-align: center; background-color: #9F1D20; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
             <img src="@Url.Content("~/Tema/media/flags/Iptal.png")" style="height:50px;" />
             <br />Çıkış
         </div>

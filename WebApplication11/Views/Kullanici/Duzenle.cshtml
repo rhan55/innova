@@ -145,16 +145,6 @@
                             <!--end::Input-->
                         </div>
                     </div>
-                    <div class="col-lg-3">
-                        <div>
-                            <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mt-10">Onay</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <input type="checkbox" name="Onay" class="checked "  value="1" @(Convert.ToBoolean(Model.Rows[0]["Onay"]) == true ? "checked" : "") />
-                            <!--end::Input-->
-                        </div>
-                    </div>
 
                 </div>
                 <!--begin::Row Input group-->
@@ -216,6 +206,17 @@
                             <input @(Convert.ToBoolean(Model.Rows[0]["Aktif"]) ? "checked" : "") name="Aktif" class="form-check-input" type="checkbox" value="true" id="form_checkbox" />
                             <label class="form-check-label" for="form_checkbox" style="cursor: pointer;">
                                 Aktif
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div>
+                            <!--begin::Input-->
+                            <input @(Convert.ToBoolean(Model.Rows[0]["Onay"]) == true ? "checked" : "") name="Onay"  class="form-check-input" type="checkbox"  value="true" />
+                            <!--end::Input-->
+                            <label class="form-check-label" for="form_checkbox" style="cursor: pointer;">
+                                Onay
                             </label>
                         </div>
                     </div>
