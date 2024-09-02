@@ -207,7 +207,7 @@
                                 <input type="text" id="searchInNavigation" class="form-control px-2 shadow-none border-0 py-0 w-230px rounded-xs" placeholder="Ara" />
                             </div>
                             <div id="navigation">
-                                
+
 
 
                             </div>
@@ -290,7 +290,7 @@
                                 </ul>
                                 <!--end::Breadcrumb-->
                             </div>
-                           
+
                             <!--end::Page title-->
                             <!--begin::Theme mode-->
                             <div class="d-flex align-items-center p-0">
@@ -306,12 +306,16 @@
                                             </div>
 
                                         }
+                                        else if (ts.Days >= 90)
+                                        {
+
+                                        }
                                         else
                                         {
-                                <div>
-                                    <p class="text-active-dark fw-semibold m-0"><span>Üyelik Biriş Tarihi : @(Convert.ToDateTime(UyelikBitisTarihi).ToString("dd-MM-yyyy")) </span></p>
-                                    <a href="/POSAPI/UyelikPaketleri">Üyeliğinizi Uzatmak için ödeme planlarına göz atın.</a>
-                                </div>
+                                            <div>
+                                                <p class="text-active-dark fw-semibold m-0"><span>Üyelik Biriş Tarihi : @(Convert.ToDateTime(UyelikBitisTarihi).ToString("dd-MM-yyyy")) </span></p>
+                                                <a href="/POSAPI/UyelikPaketleri">Üyeliğinizi Uzatmak için ödeme planlarına göz atın.</a>
+                                            </div>
                                         }
 
                                     }

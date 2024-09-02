@@ -280,10 +280,6 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Kullanici/Liste", "Duzenle"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
             IlListesiniOlustur();
             var uyelikId = GetCookie("UyelikID");
             var kullaniciID = GetCookie("KullaniciID");
@@ -305,10 +301,6 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Kullanici/Yetkiler", "Duzenle"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
             IlListesiniOlustur();
             if (!ModelState.IsValid)
             {

@@ -82,7 +82,7 @@
                                 <th class="min-w-125px"><strong>Ad Soyad</strong></th>
                                 <th class="min-w-125px"><strong>Kullanıcı Adı</strong></th>
                                 <th class="min-w-125px"><strong>Telefon</strong></th>
-                                <th class="min-w-125px"><strong>İl/İlçe</strong></th>
+                                <th class="min-w-125px"><strong>Firma</strong></th>
                                 <th class="min-w-125px"><strong>Durum</strong></th>
                                 <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
 
@@ -122,8 +122,7 @@
                                         @(Convert.ToString(Model.Kullanicilar.Rows[i]["Telefon"]))
                                     </td>
                                     <td>
-                                        <span>@(Convert.ToString(Model.Kullanicilar.Rows[i]["Il"]))</span>/
-                                        <span>@(Convert.ToString(Model.Kullanicilar.Rows[i]["Ilce"]))</span>
+                                        @(Convert.ToString(Model.Kullanicilar.Rows[i]["Aciklama1"]))
                                     </td>
                                     <td>@(Convert.ToBoolean(Model.Kullanicilar.Rows[i]["Aktif"]) ? "Aktif" : "Pasif") </td>
                                     <td class="text-end">
