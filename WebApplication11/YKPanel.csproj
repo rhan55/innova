@@ -308,6 +308,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Rotativa\help-wkhtmltoimage.txt" />
+    <Content Include="Rotativa\help-wkhtmltopdf.txt" />
+    <Content Include="Rotativa\wkhtmltoimage.exe" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\bootstrap-grid.css.map" />
@@ -406,6 +410,7 @@
     <Content Include="Areas\Crm2\Views\Crm2\YeniKullanici.cshtml" />
     <Content Include="Areas\Crm2\Views\Crm2\Kullanicilar.cshtml" />
     <Content Include="Areas\Crm2\Views\Crm2\Bilgilendirme.cshtml" />
+    <Content Include="App_Browsers\qt.browser" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -2887,8 +2892,9 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </Content>
     <Content Include="Views\POSAPI\Bilgilendirme.cshtml" />
-    <Content Include="Tema\excel\ornek-cari-listesi.xls" />
     <Content Include="Tema\excel\ornek-stok-listesi.xlsx" />
+    <Content Include="Views\SatisTeklifi\TeklifPDF.cshtml" />
+    <Content Include="Tema\excel\ornek-cari-liste.xls" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>

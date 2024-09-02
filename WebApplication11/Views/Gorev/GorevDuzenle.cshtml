@@ -152,7 +152,7 @@
                     <tr>
                         <td style="vertical-align: top; width: 140px;">Açıklama</td>
                         <td style="vertical-align: top; padding-left: 5px; padding-right: 5px;">:</td>
-                        <td>@Convert.ToString(Model.Tables[0].Rows[0]["Aciklama"])</td>
+                        <td>@(HttpUtility.HtmlDecode(Convert.ToString(Model.Tables[0].Rows[0]["Aciklama"])))</td>
                     </tr>
                 </table>
 

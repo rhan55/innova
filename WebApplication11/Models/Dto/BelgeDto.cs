@@ -16,6 +16,7 @@ namespace YKPortal.Models.Dto
         private DateTime _Bitis;
         private string _CariID;
         private string _CariAdi;
+        private string _CariAdres;
         private string _Durumu;
         private string _Aciklama;
         private string _SatisPersonelID;
@@ -30,6 +31,7 @@ namespace YKPortal.Models.Dto
         public DateTime Bitis { get { return _Bitis == null ? DateTime.Now : _Bitis; } set { _Bitis = value; } }
         public string CariID { get { return _CariID ?? ""; } set { _CariID = value; } }
         public string CariAdi { get { return _CariAdi ?? ""; } set { _CariAdi = value; } }
+        public string CariAdres { get { return _CariAdres ?? ""; } set { _CariAdres = value; } }
         public string Durumu { get { return _Durumu ?? ""; } set { _Durumu = value; } }
         public string Aciklama { get { return _Aciklama ?? ""; } set { _Aciklama = value; } }
         public string SatisPersonelID { get { return _SatisPersonelID ?? ""; } set { _SatisPersonelID = value; } }

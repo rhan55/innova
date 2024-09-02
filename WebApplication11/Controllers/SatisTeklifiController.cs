@@ -263,6 +263,7 @@ namespace YKPortal.Controllers
                 default:
                     break;
             }
+
             if (ds.Tables[0].Rows.Count > 0)
             {
                 entity.ID = Convert.ToString(ds.Tables[0].Rows[0]["ID"]);
@@ -316,7 +317,7 @@ namespace YKPortal.Controllers
 
 
         [HttpGet]
-        public ActionResult FaturaListesi()
+        public ActionResult TeklifPDF()
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");

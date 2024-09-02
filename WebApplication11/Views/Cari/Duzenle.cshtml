@@ -315,7 +315,8 @@
                                                 <select class="form-select form-select-solid p-2 rounded-1" data-control="select2" name="PlasiyerID" id="PlasiyerID"
                                                         aria-label="Floating label select example">
                                                     <option value="">Lütfen Seçim Yapınız</option>
-                                                    @foreach (SatisPersoneliDto plasiyer in ViewBag.PlasiyerID)
+
+                                                    @foreach (SatisPersonelleriDto plasiyer in ViewBag.PlasiyerID)
                                                     {
                                                         <option @(Convert.ToString(Model.Rows[0]["PlasiyerID"]) == plasiyer.ID ? "selected" : "") value="@plasiyer.ID">@plasiyer.Isim</option>
                                                     }

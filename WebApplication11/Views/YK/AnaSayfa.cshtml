@@ -308,21 +308,36 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
 
-        //$.ajax({
-        //    url: '/YK/TakvimKaydet',
-        //    data: JSON.stringify(_data), // Veriyi JSON formatına dönüştür
-        //    contentType: "application/json",
-        //    dataType: "json",
-        //    type: "POST",
-        //    success: function (data) {
-        //        alert("Belge Kaydedildi!");
-        //        // Detay sayfasını aç
-        //        window.open("/YK/Anasayfa");
-        //    },
-        //    error: function (msg) {
-        //        console.log(msg);
-        //    }
-        //});
+        // AJAX isteği için veri hazırlığı
+        var _data = {
+            Tip: Tip,
+            ID: $("#ID").val(),
+            BelgeNo: $("#BelgeNo").val(),
+            Tarih: $("#Tarih").val(),
+            CariID: $("#CariID").val(),
+            Durumu: $("#Durumu").val(),
+            DepoCikisID: $("#DepoCikisID").val(),
+            DepoGirisID: $("#DepoGirisID").val(),
+            SatisPersonelID: $("#SatisPersonelID").val(),
+            Aciklama: $("#Aciklama").val(),
+            Kalemler: kalemler // Kalemler dizisi burada atanmıştır
+        };
+
+       $.ajax({
+            url: '/YK/TakvimKaydet',
+            data: JSON.stringify(_data), // Veriyi JSON formatına dönüştür
+            contentType: "application/json",
+           dataType: "json",
+           type: "POST",
+           success: function (data) {
+                alert("Belge Kaydedildi!");
+           // Detay sayfasını aç
+                window.open("/YK/Anasayfa");
+           },
+            error: function (msg) {
+               console.log(msg);
+           }
+        });
 
         "use strict";
 
