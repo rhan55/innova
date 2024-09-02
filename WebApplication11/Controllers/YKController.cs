@@ -153,6 +153,14 @@ namespace YKPortal.Controllers
         [HttpGet]
         public ActionResult Giris()
         {
+
+            string redirectUrl = Request.Url.ToString().Replace("http:", "https:");
+            if (!Request.IsLocal && !Request.IsSecureConnection && ConfigurationManager.AppSettings["SSLYonlendir"] == "1")
+            {
+                Response.Redirect(redirectUrl, false);
+                HttpContext.ApplicationInstance.CompleteRequest();
+            }
+
             return View();
         }
 
