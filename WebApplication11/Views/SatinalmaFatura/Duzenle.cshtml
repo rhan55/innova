@@ -4,7 +4,7 @@
 @model BelgeDto
 @{
 
-    ViewBag.Title = "Satinalma Fatura Detayı";
+    ViewBag.Title = "Satinalma Fatura Düzenle";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string Tip = Request.QueryString["Tip"];
 
@@ -29,7 +29,7 @@
                         <!--begin::Card body-->
                         <div class="card-body p-12">
                             <!--begin::Form-->
-                            <form method="post" action="@Url.Action("Detay","SatinalmaFatura",new { Tip = Request.QueryString["Tip"] })">
+                            <form method="post" action="@Url.Action("Duzenle","SatinalmaFatura",new { Tip = Request.QueryString["Tip"] })">
                                 <!--begin::Wrapper-->
                                 <div class="d-flex flex-column align-items-start flex-xxl-row">
 
@@ -78,7 +78,7 @@
 
                                             <!--begin::Input group-->
                                             <div class="mb-4">
-                                                <div class="" style="@(Tip == "DT" ? "display:none;" : "")">
+                                                <div class="col-12" style="@(Tip == "DT" ? "display:none;" : "")">
                                                     <div class="form-group ">
                                                         <label for="CariID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Cari</label>
                                                         <select class="form-select form-select-solid p-2 rounded-1" name="CariID" id="CariID"
@@ -132,7 +132,7 @@
                                                 </select>
                                                 <!--end::Input group-->
                                             </div>
-                                        </div>                    
+                                        </div>
                                     </div>
                                     <div class="row mb-4">
                                         <div class="col-@(Tip == "DT" ? "12" : "12")">
@@ -229,16 +229,16 @@
                                                                             <input type="text" data-kt-element="kdv-data" name="KdvOrani_@(ID)" id="KdvOrani_@(ID)" value="@(String.Format("{0:N2}",satir.KdvOrani))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
                                                                         </td>
                                                                         <td>
-                                                                            <input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                                            <input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)'); formatNumberWithSeparator('Miktar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
                                                                         </td>
                                                                         <td>
-                                                                            <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                                            <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');formatNumberWithSeparator('Fiyat_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
                                                                         </td>
                                                                         <td>
                                                                             <input type="text" data-kt-element="iskonto-data" name="IskontoOrani1_@(ID)" id="IskontoOrani1_@(ID)" value="@(String.Format("{0:N2}",satir.IskontoOrani1))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
                                                                         </td>
                                                                         <td>
-                                                                            <input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" readonly />
+                                                                            <input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)', 'Fiyat_@(ID)', 'Tutar_@(ID)'); formatNumberWithSeparator('Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" readonly />
                                                                         </td>
                                                                     </tr>
                                                                 </table>
@@ -281,13 +281,13 @@
                                                                 <input type="text" data-kt-element="kdv-data" name="KdvOrani_@(ID)" id="KdvOrani_@(ID)" value="@(String.Format("{0:N2}",satir.KdvOrani))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
                                                             </td>
                                                             <td style="max-width:200px;">
-                                                                <input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                                <input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)'); formatNumberWithSeparator('Miktar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
                                                             </td>
                                                             <td class="text-end" style="max-width:150px;">
-                                                                <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                                <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)'); formatNumberWithSeparator('Fiyat_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
                                                             </td>
                                                             <td class="text-end" style="max-width:150px;">
-                                                                <input type="text" data-kt-element="tutar-data" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" readonly />
+                                                                <input type="text" data-kt-element="tutar-data" name="Tutar_@(ID)" id="Tutar_@(ID)" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)'); formatNumberWithSeparator('Tutar_@(ID)');" value="@(String.Format("{0:N2}",satir.Tutar))" class="form-control p-2 me-10" style="text-align:right;" readonly />
                                                             </td>
                                                             <td>
                                                                 <input type="text" data-kt-element="iskonto-data" name="IskontoOrani1_@(ID)" id="IskontoOrani1_@(ID)" value="@(String.Format("{0:N2}",satir.IskontoOrani1))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
@@ -300,98 +300,78 @@
                                                     }
                                                 }
                                             </tbody>
-                                            <tfoot>
-                                                <tr class="border-top border-top-dashed align-top fs-6 fw-bold text-gray-700 pt-10">
-
-                                                    <th colspan="7" class="py-2">
-
-                                                    </th>
-                                                    <th colspan="1" class="fs-5 py-2 ps-0 text-start">Ara Toplam</th>
-
-                                                    <th colspan="1" class="text-end fs-5 text-nowrap py-2">
-                                                        ₺<span data-kt-element="ara-toplam-tutari">
-                                                            @if (Model.Kalemler != null)
-                                                            {
-                                                                <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar).Sum()))</span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span>0,00</span>
-                                                            }
-                                                        </span>
-                                                    </th>
-                                                </tr>
-                                                <tr class="border-top border-top-dashed align-top fs-6 fw-bold text-gray-700 pt-10">
-
-                                                    <th colspan="7" class="py-2">
-
-                                                    </th>
-                                                    <th colspan="1" class="fs-5 py-2 ps-0 text-start">İskonto Tutarı</th>
-
-                                                    <th colspan="1" class="text-end fs-5 text-nowrap py-2">
-                                                        - ₺<span data-kt-element="iskonto-tutari">
-                                                            @if (Model.Kalemler != null)
-                                                            {
-                                                                <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar * m.IskontoOrani1 / 100).Sum()))</span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span>0,00</span>
-                                                            }
-                                                        </span>
-                                                    </th>
-                                                </tr>
-                                                <tr class="border-top border-top-dashed align-top fs-6 fw-bold text-gray-700 pt-10">
-
-                                                    <th colspan="7" class="py-2">
-
-                                                    </th>
-                                                    <th colspan="1" class="fs-5 py-2 ps-0 text-start">KDV Tutarı</th>
-
-                                                    <th colspan="1" class="text-end fs-5 text-nowrap py-2">
-                                                        ₺<span data-kt-element="kdv-tutari">
-                                                            @if (Model.Kalemler != null)
-                                                            {
-                                                                <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar * m.KdvOrani / 100).Sum()))</span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span>0,00</span>
-                                                            }
-                                                        </span>
-                                                    </th>
-                                                </tr>
-                                                <tr class="border-top border-top-dashed align-top fs-6 fw-bold text-gray-700 pt-10">
-
-                                                    <th colspan="7" class="py-2">
-                                                        <div class="pe-4">
-                                                            <button type="button" name="btnYeniSatir" id="btnYeniSatir" onclick="YeniSatirAc();" class="btn btn-primary" style="width:150px;">+ Yeni Satır Aç</button>
-                                                        </div>
-                                                    </th>
-                                                    <th colspan="1" class="fs-5 py-2 ps-0 text-start">Genel Toplam</th>
-
-                                                    <th colspan="1" class="text-end fs-5 text-nowrap py-2">
-                                                        ₺<span data-kt-element="toplam-tutar">
-                                                            @if (Model.Kalemler != null)
-                                                            {
-                                                                <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar + (m.Fiyat * m.Miktar * m.KdvOrani / 100) - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100)).Sum()))</span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span>0,00</span>
-                                                            }
-                                                        </span>
-                                                    </th>
-                                                </tr>
-                                            </tfoot>
                                         </table>
 
 
                                     </div>
                                 </div>
                             </form>
+                            <div class="col-lg-4">
+                                <button type="button" name="btnYeniSatir" id="btnYeniSatir" onclick="YeniSatirAc();" class="btn btn-primary" style="width:150px;">+ Yeni Satır Aç</button>
+                            </div>
+                            <div class="offset-lg-10 col-lg-2 fw-bold text-gray-600 fs-5">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>Ara Toplam</div>
+                                    <div>
+                                        ₺<span data-kt-element="ara-toplam-tutari">
+                                            @if (Model.Kalemler != null)
+                                            {
+                                                <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar).Sum()))</span>
+                                            }
+                                            else
+                                            {
+                                                <span>0,00</span>
+                                            }
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>İskonto Tutarı</div>
+                                    <div>
+                                        - ₺<span data-kt-element="iskonto-tutari">
+                                            @if (Model.Kalemler != null)
+                                            {
+                                                <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar * m.IskontoOrani1 / 100).Sum()))</span>
+                                            }
+                                            else
+                                            {
+                                                <span>0,00</span>
+                                            }
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>KDV Tutarı</div>
+                                    <div>
+                                        ₺<span data-kt-element="kdv-tutari">
+                                            @if (Model.Kalemler != null)
+                                            {
+                                                <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar * m.KdvOrani / 100).Sum()))</span>
+                                            }
+                                            else
+                                            {
+                                                <span>0,00</span>
+                                            }
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>Genel Toplam</div>
+                                    <div>
+                                        ₺<span data-kt-element="toplam-tutar">
+                                            @if (Model.Kalemler != null)
+                                            {
+                                                <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar + (m.Fiyat * m.Miktar * m.KdvOrani / 100) - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100)).Sum()))</span>
+                                            }
+                                            else
+                                            {
+                                                <span>0,00</span>
+                                            }
+                                        </span>
+                                    </div>
+                                </div>
 
-
+                            </div>
 
                             <!--begin::Actions-->
                             <div class="col-lg-12">
@@ -442,20 +422,43 @@
         function SatirSil(SatirID) {
             $("#TR_" + SatirID).remove();
         }
-
+        //Binlik ayıracı eklemek için---------
         function TutarHesapla(miktarid, fiyatid, tutarid) {
-            var kdvInput = $('#KdvOrani_' + miktarid.split('_')[1])
+            var kdvInput = $('#KdvOrani_' + miktarid.split('_')[1]);
             var iskontoInput = $('#IskontoOrani1_' + miktarid.split('_')[1]);
 
-            var tutar = parseFloat($("#" + miktarid).val().replace(",", ".")) * parseFloat($("#" + fiyatid).val().replace(",", ".")).toFixed(2);
-            $("#" + tutarid).val(tutar + tutar * parseFloat($(kdvInput).val()) / 100 - tutar * parseFloat(iskontoInput.val()) / 100);
+            var miktar = parseFloat($("#" + miktarid).val().replace(/\./g, '').replace(',', '.')); // Tüm noktaları kaldır, ilk virgülü noktaya çevir
+            var fiyat = parseFloat($("#" + fiyatid).val().replace(/\./g, '').replace(',', '.'));   // Tüm noktaları kaldır, ilk virgülü noktaya çevir
 
+            if (isNaN(miktar)) miktar = 0;  // Eğer miktar bir sayı değilse, 0 yap
+            if (isNaN(fiyat)) fiyat = 0;    // Eğer fiyat bir sayı değilse, 0 yap
+
+            var tutar = miktar * fiyat;  // Tutarı hesapla
+
+            var kdv = parseFloat($(kdvInput).val());
+            var iskonto = parseFloat($(iskontoInput).val());
+
+            if (isNaN(kdv)) kdv = 0;       // Eğer KDV bir sayı değilse, 0 yap
+            if (isNaN(iskonto)) iskonto = 0; // Eğer iskonto bir sayı değilse, 0 yap
+
+            // Tutar hesaplaması KDV ve İskonto uygulanarak
+            var finalTutar = tutar + (tutar * kdv / 100) - (tutar * iskonto / 100);
+
+            // Formatla ve inputa yaz
+            $("#" + tutarid).val(formatNumberWithSeparator(finalTutar));
+
+            // Diğer hesaplamaları yap
             ToplamTutarHesapla();
             KdvTutarHesapla();
             IskontoTutarHesapla();
             AraToplamHesapla();
         }
 
+        function formatNumberWithSeparator(number) {
+            // Sayıyı sabit ondalık ve binlik ayracı ekleyerek formatla
+            return number.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+        //---------Binlik ayıracı eklemek için
         function ToplamTutarHesapla() {
             var toplamTutar = 0;
             $('[data-kt-element="tutar-data"]').each(function (index, input) {
@@ -466,7 +469,7 @@
                 }
             });
 
-            $('[data-kt-element="toplam-tutar"]').text(toplamTutar);
+            $('[data-kt-element="toplam-tutar"]').text(formatNumberWithSeparator(toplamTutar));
         }
 
         function KdvTutarHesapla() {
@@ -480,7 +483,7 @@
                 kdvTutari = kdvTutari + kdv * miktar * fiyat / 100;
             });
 
-            $('[data-kt-element="kdv-tutari"]').text(kdvTutari);
+            $('[data-kt-element="kdv-tutari"]').text(formatNumberWithSeparator(kdvTutari));
         }
 
         function IskontoTutarHesapla() {
@@ -494,7 +497,7 @@
                 iskontoTutari = iskontoTutari + iskonto * miktar * fiyat / 100;
             });
 
-            $('[data-kt-element="iskonto-tutari"]').text(iskontoTutari);
+            $('[data-kt-element="iskonto-tutari"]').text(formatNumberWithSeparator(iskontoTutari));
         }
 
         function AraToplamHesapla() {
@@ -506,7 +509,7 @@
                 araToplam = araToplam +  miktar * fiyat;
             });
 
-            $('[data-kt-element="ara-toplam-tutari"]').text(araToplam);
+            $('[data-kt-element="ara-toplam-tutari"]').text(formatNumberWithSeparator(araToplam));
         }
 
         function YeniSatirAc() {
@@ -554,10 +557,10 @@
                 deger += "                 <td><input type='text' name='OlcuBirimi_" + YeniID + "' id='OlcuBirimi_" + YeniID + "' value='Adet' class='form-control p-2 me-10' /></td>                   ";
                 deger += "                 <td><input type='text' data-kt-element='iskonto-data' name='IskontoOrani1_" + YeniID + "' id='IskontoOrani1_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control ' style='text-align:right;' /></td>              ";
                 deger += "                 <td><input type='text' data-kt-element='kdv-data' name='KdvOrani_" + YeniID + "' id='KdvOrani_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control ' style='text-align:right;' /></td>              ";
-                deger += "                 <td><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control me-10' style='text-align:right;' /></td>              ";
-                deger += "                 <td><input type='text' name='Fiyat_" + YeniID + "' id='Fiyat_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");'  style='text-align:right;' /></td>                 ";
+                deger += "                 <td><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\"); formatNumberWithSeparator(\"Miktar_" + YeniID + "\");' class='form-control me-10' style='text-align:right;' /></td>              ";
+                deger += "                 <td><input type='text' name='Fiyat_" + YeniID + "' id='Fiyat_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\"); formatNumberWithSeparator(\"Miktar_" + YeniID + "\");'  style='text-align:right;' /></td>                 ";
                 deger += "                 <td><input type='text' data-kt-element='iskonto-data' name='IskontoOrani1_" + YeniID + "' id='IskontoOrani1_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control ' style='text-align:right;' /></td>              ";
-                deger += "                 <td><input type='text' data-kt-element='tutar-data' name='Tutar_" + YeniID + "' id='Tutar_" + YeniID + "' value='0'  onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");'  class='form-control me-10' style='text-align:right;' readonly /></td>        ";
+                deger += "<td style='max-width:150px;'><input type='text' data-kt-element='tutar-data' name='Tutar_" + YeniID + "' id='Tutar_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\", \"Fiyat_" + YeniID + "\", \"Tutar_" + YeniID + "\"); formatNumberWithSeparator(\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' readonly /></td>";
                            deger += "             </tr>";
                            deger += "         </table>";
                 deger += "     </td><td><button type='button' class='deleteBtn pt-2' onclick='SatirSil(\"" + YeniID +"\")' data-ID2='"+YeniID+"'>Sil</button></td>";
@@ -584,11 +587,12 @@
 
                 deger += "      <td style='max-width:100px;'><input type='text' name='OlcuBirimi_" + YeniID + "' id ='OlcuBirimi_" + YeniID + "' value='Adet' class='form-control p-2 me-10' /></td > ";
                 deger += "      <td style='max-width:100px;'><input type='text' data-kt-element='kdv-data' name='KdvOrani_" + YeniID + "' id='KdvOrani_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' /></td>              ";
-                deger += "      <td style='max-width:100px;'><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' /></td>";
-                deger += "      <td style='max-width:150px;'><input type='text' name='Fiyat_" + YeniID + "' id = 'Fiyat_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style = 'text-align:right;' /></td > ";
+                deger += "      <td style='max-width:100px;'><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\"); formatNumberWithSeparator(\"Miktar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' /></td>";
+                deger += "      <td style='max-width:150px;'><input type='text' name='Fiyat_" + YeniID + "' id = 'Fiyat_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");  formatNumberWithSeparator(\"Fiyat_" + YeniID + "\");' class='form-control p-2 me-10' style = 'text-align:right;' /></td > ";
                 deger += "      <td><input type='text' data-kt-element='iskonto-data' name='IskontoOrani1_" + YeniID + "' id='IskontoOrani1_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' /></td>              ";
-                deger += "      <td style='max-width:150px;'><input type='text' data-kt-element='tutar-data' name='Tutar_" + YeniID + "' id = 'Tutar_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");' class='form-control p-2 me-10' style = 'text-align:right;' readonly /></td > ";
-                deger += "      <td><button type='button' class='deleteBtn pt-2' onclick='SatirSil(\""+YeniID+"\")' data-ID2='"+YeniID+"'>Sil</button></td></tr>";
+                deger += "<td style='max-width:150px;'><input type='text' data-kt-element='tutar-data' name='Tutar_" + YeniID + "' id='Tutar_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\", \"Fiyat_" + YeniID + "\", \"Tutar_" + YeniID + "\"); formatNumberWithSeparator(\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' readonly /></td>";
+deger += "<td><button type='button' class='deleteBtn pt-2' onclick='SatirSil(\"" + YeniID + "\")' data-ID2='" + YeniID + "'>Sil</button></td></tr>";
+
             }
             var newSelect = $("<select class='form-select form-select-solid p-2 rounded-1 ' name='StokID_" + YeniID + "' id='StokID_" + YeniID + "' style='min-width:150px;max-width:350px;' aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız' ></select>");
 
@@ -658,7 +662,6 @@
                 DepoGirisID: $("#DepoGirisID").val(),
                 SatisPersonelID: $("#SatisPersonelID").val(),
                 Aciklama: $("#Aciklama").val(),
-                SatisPersonelID: $("#SatisPersonelID").val(),
                 Kalemler: kalemler // Kalemler dizisi burada atanmıştır
             };
 
@@ -848,6 +851,7 @@
         </script>
     }
 }
+
 
 
 

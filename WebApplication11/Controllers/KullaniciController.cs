@@ -162,6 +162,11 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
+            if (!YetkiKontrolu("/Kullanici/Liste", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
+
             IlListesiniOlustur();
             var uyelikId = GetCookie("UyelikID");
             SqlCommand cmd = new SqlCommand();
@@ -183,7 +188,10 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-         
+            if (!YetkiKontrolu("/Kullanici/Liste", "Duzenle"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
 
             if (!ModelState.IsValid)
             {
@@ -280,6 +288,11 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
+            if (!YetkiKontrolu("/Kullanici/Profil", "Gor"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
+
             IlListesiniOlustur();
             var uyelikId = GetCookie("UyelikID");
             var kullaniciID = GetCookie("KullaniciID");
@@ -300,6 +313,11 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            if (!YetkiKontrolu("/Kullanici/Profil", "Duzenle"))
+            {
+                return Redirect("~/YK/Anasayfa");
+            }
 
             IlListesiniOlustur();
             if (!ModelState.IsValid)
@@ -438,7 +456,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Kullanici/Liste", "Gor"))
+            if (!YetkiKontrolu("/Kullanici/Yetkiler", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -479,7 +497,7 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Giris");
 
 
-            if (!YetkiKontrolu("/Kullanici/Liste", "Duzenle"))
+            if (!YetkiKontrolu("/Kullanici/Yetkiler", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
