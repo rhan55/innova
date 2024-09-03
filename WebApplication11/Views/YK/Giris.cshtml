@@ -151,9 +151,12 @@
                             <!--begin::Wrapper-->
                             <div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
                                 <div></div>
-                                <!--begin::Link-->
-                                <a href="/YK/SifremiUnuttum" class="link-primary">Şifremi Unuttum</a>
-                                <!--end::Link-->
+                                @if (System.Configuration.ConfigurationManager.AppSettings["SifremiUnuttum"] == "1")
+                                {
+                                    <!--begin::Link-->
+                                    <a href="/YK/SifremiUnuttum" class="link-primary">Şifremi Unuttum</a>
+                                    <!--end::Link-->
+                                }
                             </div>
                             <!--end::Wrapper-->
                             <!--begin::Submit button-->

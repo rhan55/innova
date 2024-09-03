@@ -14,6 +14,7 @@ namespace YKPortal.Models.Dto
         private DateTime _Tarih;
         private DateTime _Baslangic;
         private DateTime _Bitis;
+        private string _ProjeID;
         private string _CariID;
         private string _CariAdi;
         private string _CariAdres;
@@ -29,6 +30,7 @@ namespace YKPortal.Models.Dto
         public DateTime Tarih { get { return _Tarih == null ? DateTime.Now : _Tarih; } set { _Tarih = value; } }
         public DateTime Baslangic { get { return _Baslangic == null ? DateTime.Now : _Baslangic; } set { _Baslangic = value; } }
         public DateTime Bitis { get { return _Bitis == null ? DateTime.Now : _Bitis; } set { _Bitis = value; } }
+        public string ProjeID { get { return _ProjeID ?? ""; } set { _ProjeID = value; } }
         public string CariID { get { return _CariID ?? ""; } set { _CariID = value; } }
         public string CariAdi { get { return _CariAdi ?? ""; } set { _CariAdi = value; } }
         public string CariAdres { get { return _CariAdres ?? ""; } set { _CariAdres = value; } }

@@ -203,7 +203,6 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@ID", silinenler);
             IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
 
-
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "p_BelgeTamamla";

@@ -124,7 +124,7 @@ namespace YKPortal.Areas.D.Controllers
                             {
                                 aciklama = aciklama.Substring(0, 90) + "...";
                             }
-                            aciklama += " app.ykyazilim.com.tr";
+                            //aciklama += " app.ykyazilim.com.tr";
                             string url = @"http://idyazilim.com/Site/SmsGonder/?telefon=" + telefon + "&" +
                                 "KullaniciAdi=" + YKUtils.SmsKullaniciAdi + "&" +
                                 "Parola=" + YKUtils.SmsParola + "&" +

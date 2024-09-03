@@ -1,0 +1,99 @@
+﻿@model YKPortal.Models.Dto.BelgeListeViewModel
+@{
+    string Modul = "";
+    
+    ViewBag.Title = "Talep Listesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container-fluid">
+    <div class="row mt-4">
+        <div style="margin:3px;" class="scroll-x">
+            <div class="text-end">
+                <a href="@Url.Action("YeniTalepBelgeli","YKSatinalma",new { Area = "Satinalma", Tip = Request.QueryString["Tip"], KayitID = "" })" class="btn btn-sm btn-primary" style="width:100px;">Yeni Talep</a>
+            </div>
+            <style>
+                .max-w-500 {
+                    max-width: 250px !important;
+                }
+
+                .max-w-500 {
+                    max-width: 360px !important;
+                }
+            </style>
+            <table class="table p-4 align-middle border rounded table-row-dashed fs-6 g-5 mt-4">
+                <thead>
+
+                    <!--begin::Table row-->
+                    <tr>
+                        <th><strong>Tarih</strong></th>
+                        <th><strong>Proje</strong></th>
+                        <th><strong>Belge No</strong></th>
+                        @if (Request.QueryString["Tip"] == "AI")
+                        {
+                            <th><strong>Cari</strong></th>
+                        }
+                        else if (Request.QueryString["Tip"] == "DT")
+                        {
+                            <th><strong>Çıkış Depo</strong></th>
+                            <th><strong>Giriş Depo</strong></th>
+                        }
+                        <th style="text-align:right;"><strong>Açıklama</strong></th>
+                        <th class="text-end"><strong>İşlemler</strong></th>
+                    </tr>
+                    <!--end::Table row-->
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        for (var i = 0; i < Model.Belgeler.Rows.Count; i++)
+                        {
+                    <tr>
+                        <td class="text-gray-600 fw-semibold" style="vertical-align: middle;">
+                            @(Convert.ToDateTime(Model.Belgeler.Rows[i]["Tarih"]).ToString("dd-MM-yyyy"))
+                        </td>
+                        <td style="vertical-align: middle;">
+                            <span style="color:blue;">@(Convert.ToString(Model.Belgeler.Rows[i]["Proje"]))</span>
+                        </td>
+                        <td style="vertical-align: middle;">
+                            <span style="color:blue;">@(Convert.ToString(Model.Belgeler.Rows[i]["BelgeNo"]))</span>
+                        </td>
+                        @if (Request.QueryString["Tip"] == "AI")
+                        {
+                            <td class="text-wrap max-w-500 d-block text-gray-600 fw-semibold" style="vertical-align: middle;">
+                                @(Convert.ToString(Model.Belgeler.Rows[i]["CariIsim"]))
+                            </td>
+                        }
+                        else if (Request.QueryString["Tip"] == "DT")
+                        {
+                            <td class="text-gray-600 fw-semibold" style="vertical-align: middle;">
+                                @(Convert.ToString(Model.Belgeler.Rows[i]["DepoCikis"]))
+                            </td>
+                            <td class="text-gray-600 fw-semibold" style="vertical-align: middle;">
+                                @(Convert.ToString(Model.Belgeler.Rows[i]["DepoGiris"]))
+                            </td>
+                        }
+                        <td class="text-gray-600 fw-semibold" style="text-align:right;vertical-align:middle;">
+                            @(Convert.ToString(Model.Belgeler.Rows[i]["Aciklama1"]))
+                        </td>
+                        <td class="text-end" style="vertical-align: middle;text-align:right;">
+
+                            <a href="/Satinalma/YKSatinalma/YeniTalepBelgeli?id=@(Convert.ToString(Model.Belgeler.Rows[i]["ID"]))&Tip=@(Request.QueryString["Tip"])" class="menu-link rounded-0 py-0  px-2">Detay</a>
+
+                            <a href="/Satinalma/YKSatinalma/Sil?id=@(Convert.ToString(Model.Belgeler.Rows[i]["ID"]))&Tip=@(Request.QueryString["Tip"])" class="menu-link rounded-0 py-0  px-2" onclick="return confirm('Silmek istediğinizden emin misiniz?')">Sil</a>
+
+                        </td>
+                    </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+    </script>
+}

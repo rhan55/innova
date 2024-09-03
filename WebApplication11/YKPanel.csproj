@@ -411,6 +411,8 @@
     <Content Include="Areas\Crm2\Views\Crm2\Kullanicilar.cshtml" />
     <Content Include="Areas\Crm2\Views\Crm2\Bilgilendirme.cshtml" />
     <Content Include="App_Browsers\qt.browser" />
+    <Content Include="Areas\Satinalma\Views\YKSatinalma\YeniTalepBelgeli.cshtml" />
+    <Content Include="Areas\Satinalma\Views\YKSatinalma\YeniTalepBelgeliListe.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

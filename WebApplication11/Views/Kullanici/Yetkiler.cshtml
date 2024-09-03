@@ -144,8 +144,6 @@
     <script>
         $(document).ready(function () {
 
-            let menuIdListesi = [];
-
             $('input[type="checkbox"]').on('click', function () {
                 var input = $(this);
 
@@ -153,8 +151,8 @@
                     $(element).prop('checked', input.is(":checked"));
                     $(element).trigger("change");
                 })
-                
-            })    
+
+            })
 
             $("#TumunuSec").on('click', function () {
                 $('input[data-grup="yetki"]').each(function (index, input) {
@@ -180,6 +178,10 @@
                 $(this).find('.ki-down').toggleClass("hidden");
                 $(this).find('.ki-up').toggleClass("hidden");
             });
+
+
+            let menuIdListesi = [];
+
 
             $(".yetki-satiri[data-menuId]").each(function (index, element) {
                 menuIdListesi.push({
@@ -212,7 +214,10 @@
                 });
             });
 
+
             $('button#YetkiKaydet').on("click", function () {
+
+
                 loader().show();
                 $.ajax({
                     url: "/Kullanici/YetkiKaydet",

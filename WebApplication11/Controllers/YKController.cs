@@ -25,7 +25,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-        
+
 
             string redirectUrl = Request.Url.ToString().Replace("http:", "https:");
             if (!Request.IsLocal && !Request.IsSecureConnection && ConfigurationManager.AppSettings["SSLYonlendir"] == "1")
@@ -115,7 +115,8 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            var ansayfaBilgileri = new AnaSayfaDto { 
+            var ansayfaBilgileri = new AnaSayfaDto
+            {
                 Cari = Convert.ToInt32(dt.Rows[0]["Cari"]),
                 Stok = Convert.ToInt32(dt.Rows[0]["Stok"]),
                 Belge = Convert.ToInt32(dt.Rows[0]["Belge"]),
@@ -143,7 +144,7 @@ namespace YKPortal.Controllers
                     Aciklama1 = Convert.ToString(dt.Rows[i]["Aciklama1"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["Aciklama1"]),
                     Aciklama2 = Convert.ToString(dt.Rows[i]["Aciklama2"]) == null ? string.Empty : Convert.ToString(dt.Rows[i]["Aciklama2"]),
                     Kullanici = Convert.ToString(dt.Rows[i]["Kullanici"]) == null ? "Kullanıcı Bulunamadı" : Convert.ToString(dt.Rows[i]["Kullanici"]),
-                }); 
+                });
             }
 
             ViewBag.SonAktiviteler = sonAktiviteler;
@@ -230,21 +231,22 @@ namespace YKPortal.Controllers
 
                 return View();
             }
+            if (ConfigurationManager.AppSettings["SifremiUnuttum"] == "1")
+            {
+                SmtpClient sc = new SmtpClient();
+                sc.Port = 587;
+                sc.Host = "mail.ykyazilim.com.tr";
+                sc.EnableSsl = false;
+                sc.Credentials = new NetworkCredential("ilayda@ykyazilim.com.tr", "Ilayda12#");
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress("ilayda@ykyazilim.com.tr", ConfigurationManager.AppSettings["FirmaAdi"]);
 
-            SmtpClient sc = new SmtpClient();
-            sc.Port = 587;
-            sc.Host = "mail.ykyazilim.com.tr";
-            sc.EnableSsl = false;
-            sc.Credentials = new NetworkCredential("ilayda@ykyazilim.com.tr", "Ilayda12#");
-            MailMessage mail = new MailMessage();
-            mail.From = new MailAddress("ilayda@ykyazilim.com.tr", ConfigurationManager.AppSettings["FirmaAdi"]);
+                mail.To.Add(email);
 
-            mail.To.Add(email);
-
-            mail.Subject = ConfigurationManager.AppSettings["FirmaAdi"] + " - Parola Sıfırlama";
-            mail.IsBodyHtml = true;
-            mail.Body =
-                $@"
+                mail.Subject = ConfigurationManager.AppSettings["FirmaAdi"] + " - Parola Sıfırlama";
+                mail.IsBodyHtml = true;
+                mail.Body =
+                    $@"
                      <table style=""width: 100%;text-align: center;font-family: sans-serif;"">
                         <tr>
                             <td>
@@ -270,13 +272,16 @@ namespace YKPortal.Controllers
                         </tr>
                     </table>
                 ";
-            try
-            {
-                sc.Send(mail);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
+                try
+                {
+                    sc.Send(mail);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
+
             }
 
             ViewBag.Bilgi = "Şifre bilgileriniz mail adresinize gönderildi.";

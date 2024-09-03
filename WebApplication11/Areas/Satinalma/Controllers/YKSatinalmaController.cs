@@ -10,6 +10,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using YKPortal.Models;
+using YKPortal.Models.Dto;
 using YKPortal.Models.YKClasses;
 
 namespace YKPortal.Areas.Satinalma.Controllers
@@ -2404,6 +2405,294 @@ and (w_SatinalmaStoklar.StokAdi like '%" + AranacakKelime + "%') ";
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         #endregion
+
+        #region Yeni Talep Belgeli
+
+
+        public ActionResult Sil(string Tip = "", string ID = "")
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+            if (Tip == "")
+            {
+                return Redirect("~/");
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_BelgeSil";
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@Tip", Tip);
+            IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+            return Redirect("~/Satinalma/YKSatinalma/YeniTalepBelgeliListe/?Tip=" + Tip);
+        }
+
+        public ActionResult YeniTalepBelgeliListe(string Tip = "", string AranacakKelime = "")
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            if (string.IsNullOrEmpty(Tip))
+            {
+                return Redirect("~/");
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_BelgeListesi";
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@Tip", Tip);
+            cmd.Parameters.AddWithValue("@AranacakKelime", AranacakKelime);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var model = new BelgeListeViewModel
+            {
+                Belgeler = dt,
+
+            };
+
+            return View(model);
+        }
+
+
+        [HttpGet]
+        public ActionResult YeniTalepBelgeli(string Tip, string id = "")
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_Belge";
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@ID", id);
+            DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
+            BelgeDto entity = new BelgeDto();
+            switch (Request.QueryString["Tip"])
+            {
+                case "AI":
+                    entity.BelgeTipi = BelgeTipi.AlisIrsaliyesi;
+                    break;
+                default:
+                    break;
+            }
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                entity.ID = Convert.ToString(ds.Tables[0].Rows[0]["ID"]);
+                entity.Tarih = Convert.ToDateTime(ds.Tables[0].Rows[0]["Tarih"]);
+                entity.BelgeNo = Convert.ToString(ds.Tables[0].Rows[0]["BelgeNo"]);
+                entity.CariID = Convert.ToString(ds.Tables[0].Rows[0]["CariID"]);
+                entity.ProjeID = Convert.ToString(ds.Tables[0].Rows[0]["ProjeID"]);
+                entity.CariAdi = Convert.ToString(ds.Tables[0].Rows[0]["CariAdi"]);
+                entity.Aciklama = Convert.ToString(ds.Tables[0].Rows[0]["Aciklama1"]);
+                entity.DepoCikisID = Convert.ToString(ds.Tables[0].Rows[0]["DepoCikisID"]);
+                entity.DepoGirisID = Convert.ToString(ds.Tables[0].Rows[0]["DepoGirisID"]);
+                entity.Kalemler = new List<BelgeKalemDto>();
+                foreach (DataRow satir in ds.Tables[1].Rows)
+                {
+                    BelgeKalemDto s = new BelgeKalemDto();
+                    s.ID = Convert.ToString(satir["ID"]);
+                    s.BelgeID = entity.ID;
+                    s.StokID = Convert.ToString(satir["StokID"]);
+                    s.StokKodu = Convert.ToString(satir["StokKodu"]);
+                    s.StokAdi = Convert.ToString(satir["StokAdi"]);
+                    s.OlcuBirimi = Convert.ToString(satir["OlcuBirimi"]);
+                    s.Seri = Convert.ToString(satir["Seri"]);
+                    s.Miktar = Convert.ToDecimal(satir["Miktar"]);
+                    s.Fiyat = Convert.ToDecimal(satir["Fiyat"]);
+                    s.Iskonto = Convert.ToDecimal(satir["IskontoOrani1"]);
+                    s.Tutar = Convert.ToDecimal(satir["Tutar"]);
+
+                    entity.Kalemler.Add(s);
+                }
+            }
+            else
+            {
+                entity.Tarih = DateTime.Today;
+            }
+
+            {
+                SqlCommand cmdDepolar = new SqlCommand();
+                cmdDepolar.CommandType = System.Data.CommandType.StoredProcedure;
+                cmdDepolar.CommandText = "p_DepoListesi";
+                cmdDepolar.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmdDepolar.Parameters.AddWithValue("@AranacakKelime", "");
+                ViewBag.Depolar = (DataTable)IDVeritabani.Sorgula(cmdDepolar, SorgulaTuru.Tablo);
+            }
+            {
+                SqlCommand cmdProjeler = new SqlCommand();
+                cmdProjeler.CommandType = System.Data.CommandType.StoredProcedure;
+                cmdProjeler.CommandText = "p_GrupKoduListesi";
+                cmdProjeler.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmdProjeler.Parameters.AddWithValue("@Kod", "Projeler");
+                cmdProjeler.Parameters.AddWithValue("@AranacakKelime", "");
+                ViewBag.Projeler = (DataTable)IDVeritabani.Sorgula(cmdProjeler, SorgulaTuru.Tablo);
+            }
+
+            return View(entity);
+        }
+
+        [HttpPost]
+        public ActionResult Kaydet(string Tip = "", string ID = "", string BelgeNo = "", string Tarih = "", string ProjeID = "", string CariID = "",
+            string DepoCikisID = "", string DepoGirisID = "",
+            string Aciklama = "", List<BelgeKalemDto> Kalemler = null)
+        {
+            JsonResult result = new JsonResult();
+
+            #region Kayıt işlemi gerçekleştirilecek.
+            string KullaniciID = GetCookie("KullaniciID");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_BelgeKaydet";
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Tip", Tip);
+            cmd.Parameters.AddWithValue("@BelgeNo", BelgeNo);
+            cmd.Parameters.AddWithValue("@Tarih", Tarih);
+            cmd.Parameters.AddWithValue("@ProjeID", ProjeID);
+            cmd.Parameters.AddWithValue("@CariID", CariID);
+            cmd.Parameters.AddWithValue("@DepoCikisID", DepoCikisID);
+            cmd.Parameters.AddWithValue("@DepoGirisID", DepoGirisID);
+            cmd.Parameters.AddWithValue("@Aciklama1", Aciklama);
+            cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
+            ID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+
+            string silinenler = "";
+            if (Kalemler != null)
+            {
+                foreach (BelgeKalemDto item in Kalemler)
+                {
+                    cmd.Parameters.Clear();
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "p_BelgeKalemKaydet";
+                    cmd.Parameters.AddWithValue("@ID", item.ID);
+                    cmd.Parameters.AddWithValue("@BelgeID", ID);
+                    cmd.Parameters.AddWithValue("@StokID", item.StokID);
+                    cmd.Parameters.AddWithValue("@Seri", item.Seri);
+                    cmd.Parameters.AddWithValue("@Miktar", Convert.ToDecimal(item.Miktar));
+                    cmd.Parameters.AddWithValue("@Fiyat", Convert.ToDecimal(item.Fiyat));
+                    cmd.Parameters.AddWithValue("@IskontoOrani1", 0);
+                    cmd.Parameters.AddWithValue("@KdvOrani", 0);
+                    cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
+                    silinenler += Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek)) + ",";
+                }
+            }
+
+            cmd.Parameters.Clear();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_BelgeKalemSilinenKontrol";
+            cmd.Parameters.AddWithValue("@BelgeID", ID);
+            cmd.Parameters.AddWithValue("@ID", silinenler);
+            IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+            cmd.Parameters.Clear();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_BelgeTamamla";
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
+            IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+            #endregion
+
+            result.Data = ID;
+            //return Redirect(Request.Url.Authority+"/Belge/Detay/"+ID+"&Tip="+Tip);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult CariAra(string aranacakKelime)
+        {
+            JsonResult result = new JsonResult();
+            List<CariDto> entities = new List<CariDto>();
+            #region İşlemler
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_CariListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Kod", aranacakKelime);
+            cmd.Parameters.AddWithValue("@Isim", aranacakKelime);
+            cmd.Parameters.AddWithValue("@Unvan", aranacakKelime);
+            cmd.Parameters.AddWithValue("@TCKimlikNo", aranacakKelime);
+            cmd.Parameters.AddWithValue("@VergiNumarasi", "");
+            cmd.Parameters.AddWithValue("@CepTelefonu", "");
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            foreach (DataRow satir in dt.Rows)
+            {
+                CariDto entity = new CariDto();
+                entity.ID = Convert.ToString(satir["ID"]);
+                entity.Kod = Convert.ToString(satir["Kod"]);
+                entity.Isim = Convert.ToString(satir["Isim"]);
+                entities.Add(entity);
+            }
+            #endregion
+            result.Data = entities;
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult SelectStokSeriListe(string StokID, string DepoID)
+        {
+            JsonResult result = new JsonResult();
+            List<StokDto> entities = new List<StokDto>();
+            #region İşlemler
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_StokSerileri";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@StokID", StokID);
+            cmd.Parameters.AddWithValue("@DepoID", DepoID);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            foreach (DataRow satir in dt.Rows)
+            {
+                StokDto entity = new StokDto();
+                entity.ID = Convert.ToString(satir["ID"]);
+                entity.SeriNo = Convert.ToString(satir["SeriNo"]);
+                entity.Bakiye = Convert.ToDecimal(satir["Bakiye"]);
+                entities.Add(entity);
+            }
+            #endregion
+            result.Data = entities;
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult StokAra(string aranacakKelime)
+        {
+            JsonResult result = new JsonResult();
+            List<StokDto> entities = new List<StokDto>();
+            #region İşlemler
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_StokListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Kod", aranacakKelime);
+            cmd.Parameters.AddWithValue("@Isim", aranacakKelime);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            foreach (DataRow satir in dt.Rows)
+            {
+                StokDto entity = new StokDto();
+                entity.ID = Convert.ToString(satir["ID"]);
+                entity.Kod = Convert.ToString(satir["Kod"]);
+                entity.Isim = Convert.ToString(satir["Isim"]);
+                entities.Add(entity);
+            }
+            #endregion
+            result.Data = entities;
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+
 
         #region Genel Json İşlemleri
 

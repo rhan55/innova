@@ -456,10 +456,6 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Kullanici/Yetkiler", "Gor"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_KullaniciYetkileri";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
