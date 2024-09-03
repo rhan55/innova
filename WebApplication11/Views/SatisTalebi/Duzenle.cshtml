@@ -301,99 +301,78 @@
                                                     }
                                                 }
                                             </tbody>
-                                            <tfoot>
-                                                <tr class="border-top border-top-dashed align-top fs-6 fw-bold text-gray-700 pt-12">
-
-                                                    <th colspan="7" class="py-2">
-
-                                                    </th>
-                                                    <th colspan="1" class="fs-5 py-2 ps-0 text-start">Ara Toplam</th>
-
-                                                    <th colspan="1" class="text-end fs-5 text-nowrap py-2">
-                                                        ₺<span data-kt-element="ara-toplam-tutari">
-                                                            @if (Model.Kalemler != null)
-                                                            {
-                                                                <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar).Sum()))</span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span>0,00</span>
-                                                            }
-                                                        </span>
-                                                    </th>
-                                                </tr>
-                                                <tr class="border-top border-top-dashed align-top fs-6 fw-bold text-gray-700 pt-10">
-
-                                                    <th colspan="7" class="py-2">
-
-                                                    </th>
-                                                    <th colspan="1" class="fs-5 py-2 ps-0 text-start">İskonto Tutarı</th>
-
-                                                    <th colspan="1" class="text-end fs-5 text-nowrap py-2">
-                                                        - ₺<span data-kt-element="iskonto-tutari">
-                                                            @if (Model.Kalemler != null)
-                                                            {
-                                                                <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar * m.IskontoOrani1 / 100).Sum()))</span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span>0,00</span>
-                                                            }
-                                                        </span>
-                                                    </th>
-                                                </tr>
-                                                <tr class="border-top border-top-dashed align-top fs-6 fw-bold text-gray-700 pt-10">
-
-                                                    <th colspan="7" class="py-2">
-
-                                                    </th>
-                                                    <th colspan="1" class="fs-5 py-2 text-start">KDV Tutarı</th>
-
-                                                    <th colspan="1" class="text-end fs-5 text-nowrap py-2">
-                                                        ₺<span data-kt-element="kdv-tutari">
-                                                            @if (Model.Kalemler != null)
-                                                            {
-                                                                <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar * m.KdvOrani / 100).Sum()))</span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span>0,00</span>
-                                                            }
-                                                        </span>
-                                                    </th>
-                                                </tr>
-                                                <tr class="border-top border-top-dashed align-top fs-6 fw-bold text-gray-700 pt-10">
-
-                                                    <th colspan="7" class="py-2">
-                                                        <div class="pe-4">
-                                                            <button type="button" name="btnYeniSatir" id="btnYeniSatir" onclick="YeniSatirAc();" class="btn btn-primary" style="width:150px;">+ Yeni Satır Aç</button>
-                                                        </div>
-                                                    </th>
-                                                    <th colspan="1" class="fs-5 py-2 ps-0 text-start">Genel Toplam</th>
-
-                                                    <th colspan="1" class="text-end fs-5 text-nowrap py-2">
-                                                        ₺<span data-kt-element="toplam-tutar">
-                                                            @if (Model.Kalemler != null)
-                                                            {
-                                                                <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar + (m.Fiyat * m.Miktar * m.KdvOrani / 100) - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100)).Sum()))</span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span>0,00</span>
-                                                            }
-                                                        </span>
-                                                    </th>
-                                                </tr>
-                                            </tfoot>
                                         </table>
-
-
                                     </div>
                                 </div>
                             </form>
 
 
+                            <div class="col-lg-4">
+                                <button type="button" name="btnYeniSatir" id="btnYeniSatir" onclick="YeniSatirAc();" class="btn btn-primary" style="width:150px;">+ Yeni Satır Aç</button>
+                            </div>
+                            <div class="offset-lg-10 col-lg-2 fw-bold text-gray-600 fs-5">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>Ara Toplam</div>
+                                    <div>
+                                        ₺<span data-kt-element="ara-toplam-tutari">
+                                            @if (Model.Kalemler != null)
+                                            {
+                                                <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar).Sum()))</span>
+                                            }
+                                            else
+                                            {
+                                                <span>0,00</span>
+                                            }
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>İskonto Tutarı</div>
+                                    <div>
+                                        - ₺<span data-kt-element="iskonto-tutari">
+                                            @if (Model.Kalemler != null)
+                                            {
+                                                <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar * m.IskontoOrani1 / 100).Sum()))</span>
+                                            }
+                                            else
+                                            {
+                                                <span>0,00</span>
+                                            }
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>KDV Tutarı</div>
+                                    <div>
+                                        ₺<span data-kt-element="kdv-tutari">
+                                            @if (Model.Kalemler != null)
+                                            {
+                                                <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar * m.KdvOrani / 100).Sum()))</span>
+                                            }
+                                            else
+                                            {
+                                                <span>0,00</span>
+                                            }
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>Genel Toplam</div>
+                                    <div>
+                                        ₺<span data-kt-element="toplam-tutar">
+                                            @if (Model.Kalemler != null)
+                                            {
+                                                <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar + (m.Fiyat * m.Miktar * m.KdvOrani / 100) - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100)).Sum()))</span>
+                                            }
+                                            else
+                                            {
+                                                <span>0,00</span>
+                                            }
+                                        </span>
+                                    </div>
+                                </div>
 
+                            </div>
                             <!--begin::Actions-->
                             <div class="col-lg-12">
                                 <div class="">

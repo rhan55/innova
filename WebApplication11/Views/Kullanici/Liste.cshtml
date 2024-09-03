@@ -191,13 +191,18 @@
                 <p>Kullanıcıyı silmek istediğinize emin misiniz?</p>
             </div>
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Vazgeç</button>
-                <form method="post" id="silme-formu" action="@Url.Action("Sil","Kullanici",null)">
-                    <input type="hidden" name="id" value="" />
-                    <button type="submit" class="btn btn-danger">Sil</button>
-                </form>
-            </div>
+
+            @if (Model.Sil)
+            {
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Vazgeç</button>
+                    <form method="post" id="silme-formu" action="@Url.Action("Sil","Kullanici",null)">
+                        <input type="hidden" name="id" value="" />
+                        <button type="submit" class="btn btn-danger">Sil</button>
+                    </form>
+                </div>
+            }
+
         </div>
     </div>
 </div>

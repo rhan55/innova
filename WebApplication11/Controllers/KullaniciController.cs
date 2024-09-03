@@ -417,7 +417,7 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Giris");
 
 
-            if (!YetkiKontrolu("/Kullanici/Yetkiler", "Sil"))
+            if (!YetkiKontrolu("/Kullanici/Liste", "Sil"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
