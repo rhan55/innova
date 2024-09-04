@@ -245,6 +245,8 @@
     <Compile Include="Models\Dto\GrupKoduDto.cs" />
     <Compile Include="Models\Dto\KullaniciEkleDto.cs" />
     <Compile Include="Models\IDVeritabani.cs" />
+    <Compile Include="Models\WebApiModels\FinekraCari.cs" />
+    <Compile Include="Models\WebApiModels\FinekraCariHareket.cs" />
     <Compile Include="Models\YKClasses\YKModelKullanici.cs" />
     <Compile Include="Models\YKClasses\YKModelSatinalma.cs" />
     <Compile Include="Models\YKClasses\YKUtils.cs" />
@@ -2985,6 +2987,7 @@
     <Folder Include="Areas\Satinalma\Data\" />
     <Folder Include="Areas\Satinalma\Views\Shared\" />
     <Folder Include="Areas\Ziyaret\Data\" />
+    <Folder Include="Loglar\" />
     <Folder Include="Pdf\" />
     <Folder Include="Temp\" />
     <Folder Include="Uploads\Dosyalar\" />

@@ -43,6 +43,7 @@ namespace YKPortal.Areas.Depo.Controllers
 
             return View();
         }
+
         #region Cookie İşlemleri
 
 
