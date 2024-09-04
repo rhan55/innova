@@ -1,15 +1,19 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using YKPortal.Models;
 using YKPortal.Models.Dto;
+using YKPortal.Models.WebApiModels;
 using YKPortal.Models.YKClasses;
 
 namespace YKPortal.Controllers
@@ -645,7 +649,545 @@ namespace YKPortal.Controllers
             return result;
         }
 
+        #region Finekra Api
 
+        [HttpPost]
+        public HttpResponseMessage Cariler(string KullaniciAdi = "", string Parola = "")
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+
+            try
+            {
+                //Log Kaydı
+            }
+            catch (Exception err)
+            {
+                ;
+            }
+            try
+            {
+                if (KullaniciAdi == ConfigurationManager.AppSettings["WebApiKullaniciAdi"] && Parola == ConfigurationManager.AppSettings["WebApiParola"])
+                {
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandText = "Select * From w_Finekra_CariListesi";
+                    cmd.CommandTimeout = 0;
+
+                    DataTable dtCariler = new DataTable();
+                    dtCariler = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                    List<FinekraCari> cariler = new List<FinekraCari>();
+                    foreach (DataRow item in dtCariler.Rows)
+                    {
+                        cariler.Add(new FinekraCari()
+                        {
+                            ERPKodu = Convert.ToString(item["CARI_KOD"]),
+                            CariKodu = Convert.ToString(item["CARI_KOD"]),
+                            CariAdi = Convert.ToString(item["CARI_ISIM"]),
+                            CariAdi2 = Convert.ToString(item["CARI_ISIM"]),
+                            VergiDairesi = Convert.ToString(item["VERGI_DAIRESI"]),
+                            VergiNumarasi = Convert.ToString(item["VERGI_NUMARASI"]),
+                            TCKimlikNo = Convert.ToString(item["TCKIMLIKNO"]),
+                            Telefon = Convert.ToString(item["CARI_TEL"]),
+                            CepTelefonu = Convert.ToString(item["CARI_TEL"]),
+                            FaxNumarasi = Convert.ToString(item["FAX"]),
+                            Adres = Convert.ToString(item["CARI_ADRES"]),
+                            CariTipi = Convert.ToString(item["CARI_TIP"]),
+                            SaticiKodu = Convert.ToString(item["SATICI_KODU"]),
+                            CariSinifi = Convert.ToString(item["CARI_SINIFI"]),
+                            GrupKodu = Convert.ToString(item["GRUP_KODU"]),
+                            IsletmeKodu = Convert.ToString(item["ISLETME_KODU"]),
+                            SubeKodu = Convert.ToString(item["SUBE_KODU"]),
+                            PlasiyerKodu = Convert.ToString(item["PLASIYER_KODU"]),
+                            AnaCariKodu = Convert.ToString(item["BAGLI_CARI"]),
+                            VeritabaniAdi = Convert.ToString(item["SIRKET_ADI"]),
+                            Borc = Convert.ToDecimal(item["BORC"]),
+                            Alacak = Convert.ToDecimal(item["ALACAK"]),
+                            Bakiye = Convert.ToDecimal(item["BAKIYE"]),
+                            MuhasebeKodu = Convert.ToString(item["MuhKod"]),
+                            ReferansKodu = Convert.ToString(item["REFERANS_KODU"]),
+                            ProjeKodu = Convert.ToString(item["PROJE_KODU"])
+                        });
+                    }
+                    if (!object.Equals(cariler, null))
+                    {
+                        response = Request.CreateResponse<List<FinekraCari>>(HttpStatusCode.OK, cariler);
+                    }
+                }
+                else
+                {
+                    response = Request.CreateResponse<string>(HttpStatusCode.OK, "Kullanıcı adı veya parola yanlış");
+                }
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+        // GET: CariHareket
+        [System.Web.Http.HttpPost]
+        public HttpResponseMessage FinekraCariHareketIsle(string KullaniciAdi = "", string Parola = "")
+        {
+            string islem = "";
+            HttpResponseMessage response = new HttpResponseMessage();
+            List<IslemBilgisi> result = new List<IslemBilgisi>();
+            SqlConnection conn = new SqlConnection(ConfigurationManager.AppSettings["Baglanti"]);
+            try
+            {
+                //
+
+            }
+            catch (Exception err)
+            {
+                ;
+            }
+
+            string resultDekontNo = "";
+            string resultInckeyNo = "";
+
+            FinekraCariHareket hareket = new FinekraCariHareket();
+
+            try
+            {
+                islem = "1";
+                if (KullaniciAdi == ConfigurationManager.AppSettings["WebApiKullaniciAdi"] && Parola == ConfigurationManager.AppSettings["WebApiParola"])
+                {
+                    islem = "2";
+                    var content = System.Text.Encoding.UTF8.GetString(Request.Content.ReadAsByteArrayAsync().Result);
+
+
+                    DataSet ds = (DataSet)JsonConvert.DeserializeObject("{ \"Item\": [" + content + "]}", (typeof(DataSet)));
+                    DataTable dt = ds.Tables[0];
+                    hareket.Banka = Convert.ToString(dt.Rows[0]["Banka"]);
+                    hareket.DekontSeriNo = Convert.ToString(dt.Rows[0]["DekontSeriNo"]);
+                    hareket.Tutar = Convert.ToDecimal(dt.Rows[0]["Tutar"].ToString().Replace(ConfigurationManager.AppSettings["Ondalik_Deger1"], ConfigurationManager.AppSettings["Ondalik_Deger2"]));
+                    //hareket.Tutar = Convert.ToDecimal(dt.Rows[0]["Tutar"]);
+                    hareket.Tarih = Convert.ToDateTime(dt.Rows[0]["Tarih"]);
+                    try
+                    {
+                        hareket.ValorTarihi = Convert.ToDateTime(dt.Rows[0]["ValorTarihi"]);
+                    }
+                    catch
+                    {
+                        hareket.ValorTarihi = Convert.ToDateTime(dt.Rows[0]["Tarih"]);
+                    }
+                    hareket.CariKodu = Convert.ToString(dt.Rows[0]["CariKodu"]);
+                    hareket.IslemTipi = Convert.ToString(dt.Rows[0]["IslemTipi"]);
+                    hareket.sorumlulukMerkezi = Convert.ToString(dt.Rows[0]["sorumlulukMerkezi"]);
+                    hareket.Aciklama = Convert.ToString(dt.Rows[0]["Aciklama"]);
+                    hareket.EvrakNo = Convert.ToString(dt.Rows[0]["EvrakNo"]);
+                    hareket.Durum = Convert.ToString(dt.Rows[0]["Durum"]);
+                    hareket.SirketKodu = Convert.ToString(dt.Rows[0]["SirketKodu"]);
+                    hareket.SubeKodu = Convert.ToString(dt.Rows[0]["SubeKodu"]);
+                    hareket.ProjeKodu = Convert.ToString(dt.Rows[0]["ProjeKodu"]);
+                    hareket.ReferansKodu = Convert.ToString(dt.Rows[0]["ReferansKodu"]);
+                    hareket.BorcAlacak = Convert.ToString(dt.Rows[0]["BorcAlacak"]);
+                    hareket.DovizTipi = Convert.ToString(dt.Rows[0]["DovizTipi"]);
+                    hareket.DovizKuru = Convert.ToDecimal(dt.Rows[0]["DovizKuru"]);
+                    hareket.DovizTutari = Convert.ToDecimal(dt.Rows[0]["DovizTutari"].ToString().Replace(ConfigurationManager.AppSettings["Ondalik_Deger1"], ConfigurationManager.AppSettings["Ondalik_Deger2"]));
+                    //hareket.DovizTutari = Convert.ToDecimal(dt.Rows[0]["DovizTutari"]);
+                    hareket.PlasiyerKodu = Convert.ToString(dt.Rows[0]["PlasiyerKodu"]);
+                    if (ConfigurationManager.AppSettings["ProjeKodu"] != "")
+                    {
+                        hareket.ProjeKodu = ConfigurationManager.AppSettings["ProjeKodu"];
+                    }
+                    if (ConfigurationManager.AppSettings["ReferansKodu"] != "")
+                    {
+                        hareket.ReferansKodu = ConfigurationManager.AppSettings["ReferansKodu"];
+                    }
+
+                    try
+                    {
+                        File.WriteAllText(HttpContext.Current.Server.MapPath("~/Loglar/" + DateTime.Now.ToString("yyyyMMddHHmmss - ") + hareket.EvrakNo + ".txt"),
+
+                                "Banka:" + hareket.Banka + System.Environment.NewLine +
+                                "DekontSeriNo:" + hareket.DekontSeriNo + System.Environment.NewLine +
+                                "Tutar:" + hareket.Tutar + System.Environment.NewLine +
+                                "Tarih:" + hareket.Tarih + System.Environment.NewLine +
+                                "ValorTarihi:" + hareket.ValorTarihi + System.Environment.NewLine +
+                                "CariKodu:" + hareket.CariKodu + System.Environment.NewLine +
+                                "IslemTipi:" + hareket.IslemTipi + System.Environment.NewLine +
+                                "SorumlulukMerkezi:" + hareket.sorumlulukMerkezi + System.Environment.NewLine +
+                                "Aciklama:" + hareket.Aciklama + System.Environment.NewLine +
+                                "EvrakNo:" + hareket.EvrakNo + System.Environment.NewLine +
+                                "Durum:" + hareket.Durum + System.Environment.NewLine +
+                                "SirketKodu:" + hareket.SirketKodu + System.Environment.NewLine +
+                                "SubeKodu:" + hareket.SubeKodu + System.Environment.NewLine +
+                                "ReferansKodu:" + hareket.ReferansKodu + System.Environment.NewLine +
+                                "BorcAlacak:" + hareket.BorcAlacak + System.Environment.NewLine +
+                                "DovizTipi:" + hareket.DovizTipi + System.Environment.NewLine +
+                                "DovizKuru:" + hareket.DovizKuru + System.Environment.NewLine +
+                                "DovizTutari:" + hareket.DovizTutari + System.Environment.NewLine +
+                                "ProjeKodu:" + hareket.ProjeKodu + System.Environment.NewLine +
+                                "PlasiyerKodu:" + hareket.PlasiyerKodu + System.Environment.NewLine 
+                            );
+                    }
+                    catch (Exception hata1)
+                    {
+                        ;
+                    }
+                    if (ConfigurationManager.AppSettings["WebApiAyniBelgeNoIleHareketKontrolu"] == "E") //Kontrol 1
+                    {
+                        SqlCommand cmd = new SqlCommand();
+                        cmd.CommandText = @" 
+select 
+* 
+from TBLDEKOTRA WITH(NOLOCK) 
+Where SERI_NO = '" + ConfigurationManager.AppSettings["DekontSeriNo"] + @"' and TARIH = @Tarih and KOD = @CariKodu 
+and ACIKLAMA1 LIKE '%" + hareket.EvrakNo + "%' and TUTAR = @Tutar";
+                        cmd.Parameters.AddWithValue("@Tarih", hareket.Tarih.ToString("yyyyMMdd"));
+                        cmd.Parameters.AddWithValue("@CariKodu", hareket.CariKodu);
+                        cmd.Parameters.AddWithValue("@Tutar", hareket.Tutar);
+                        cmd.Connection = conn;
+                        cmd.CommandTimeout = 0;
+                        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                        DataTable dtKontrol = new DataTable();
+                        adapter.Fill(dtKontrol);
+
+                        if (dtKontrol.Rows.Count > 0)
+                        {
+                            result.Add(new IslemBilgisi() { SonDurumu = 7, EkBilgi1 = "Aynı belge numarası ile kayıt mevcut!" });
+                            response = Request.CreateResponse(HttpStatusCode.OK, result);
+                            return response;
+                        }
+                    }
+
+                    if (true)
+                    {
+                        /*
+                        islem = "3";
+                        string RestApiKullanUrl = ConfigurationManager.AppSettings["RestApiKullanUrl"];
+
+                        islem = "4 - " + RestApiKullanUrl;
+                        oAuth2 _oAuth2;
+                        _oAuth2 = new oAuth2(RestApiKullanUrl);
+                        _oAuth2.Login(new JLogin()
+                        {
+                            BranchCode = Convert.ToInt32(hareket.SubeKodu),
+                            NetsisUser = ConfigurationManager.AppSettings["NetOpenXKullaniciAdi"],
+                            NetsisPassword = ConfigurationManager.AppSettings["NetOpenXParola"],
+                            DbType = JNVTTipi.vtMSSQL,
+                            DbName = ConfigurationManager.AppSettings["SirketKodu"] == "" ? hareket.SirketKodu : ConfigurationManager.AppSettings["SirketKodu"],
+                            DbPassword = "",
+                            DbUser = "TEMELSET"
+                        });
+
+                        islem = "5";
+                        StatementsHeaderManager _manager = new StatementsHeaderManager(_oAuth2);
+                        StatementsHeaderParam TmpstatementsHeader = new StatementsHeaderParam();
+                        TmpstatementsHeader.Seri_No = ConfigurationManager.AppSettings["DekontSeriNo"];
+
+                        var tmpResult = _manager.NewNumber(TmpstatementsHeader);
+
+                        islem = "6";
+                        if (tmpResult.IsSuccessful == true)
+                        {
+                            resultDekontNo = tmpResult.Data;
+                        }
+                        else
+                        {
+                            result.Add(new IslemBilgisi() { Durum = 1, Aciklama = tmpResult.ErrorDesc });
+                            response = Request.CreateResponse<List<IslemBilgisi>>(HttpStatusCode.OK, result);
+                            return response;
+                        }
+
+
+                        islem = "7";
+                        StatementsHeader Dekontbas = new StatementsHeader();
+                        Dekontbas.Seri_No = ConfigurationManager.AppSettings["DekontSeriNo"];
+                        Dekontbas.Dekont_No = Convert.ToInt32(tmpResult.Data);
+                        //kasa.KdvKalems = new List<JKasaKdv>();
+                        Dekontbas.Kalemler = new List<Statements>();
+                        islem = "8";
+
+
+                        int dovizTipi = 0;
+                        if (hareket.DovizTipi == "TL" || hareket.DovizTipi == "T")
+                            dovizTipi = 0;
+                        else if (hareket.DovizTipi == "USD")
+                            dovizTipi = 1;
+                        else if (hareket.DovizTipi == "EUR")
+                            dovizTipi = 2;
+                        else if (hareket.DovizTipi == "GBP")
+                            dovizTipi = 3;
+
+                        if (hareket.IslemTipi == "C")
+                        {
+                            #region Cari Kısmı
+
+                            islem = "4.Yeni Dekont ";
+
+                            Dekontbas.OtoVadeGunu = false;
+                            Dekontbas.Kalemler.Add(new Statements
+                            {
+                                OtoVadeGunuGetir = false,
+                                Seri_No = ConfigurationManager.AppSettings["DekontSeriNo"],
+                                Dekont_No = Convert.ToInt32(resultDekontNo),
+                                C_M = hareket.IslemTipi,
+                                Kod = hareket.CariKodu,
+                                Aciklama1 = hareket.Aciklama,
+                                Fisno = ConfigurationManager.AppSettings["FisNoGonder"] == "E" ? hareket.EvrakNo : null,
+                                Belge_Tipi = ConfigurationManager.AppSettings["BelgeTipiGonder"] == "E" ? ConfigurationManager.AppSettings["BelgeTipi"] : null,
+                                Plasiyer = hareket.PlasiyerKodu != "" ? hareket.PlasiyerKodu : null,
+                                B_A = hareket.BorcAlacak,
+                                ValorGun = 0,
+                                ValorTrh = hareket.ValorTarihi,
+                                Referans = hareket.ReferansKodu.Trim().Length > 0 ? hareket.ReferansKodu : null,
+                                DOVTIP = dovizTipi,
+                                DOVTUT = hareket.DovizTipi == "TL" || hareket.DovizTipi == "T" ? 0 : Convert.ToDouble(hareket.DovizTutari),
+                                ACIKLAMA3 = hareket.DovizTipi == "TL" || hareket.DovizTipi == "T" ? "" : hareket.DovizKuru.ToString(),
+                                Aciklama4 = ConfigurationManager.AppSettings["Aciklama4EvrakNoAta"] == "1" ? hareket.EvrakNo : "",
+                                DovTL = hareket.DovizTipi == "TL" || hareket.DovizTipi == "T" ? "T" : "D",
+                                Tarih = hareket.Tarih,
+                                Tutar = Convert.ToDouble(hareket.Tutar),
+                                Proje_Kodu = hareket.ProjeKodu == "" ? null : hareket.ProjeKodu,
+                                Odeme_Turu = ConfigurationManager.AppSettings["OdemeTuru"] != "" ? ConfigurationManager.AppSettings["OdemeTuru"] : null,
+                                DekontTip = JTDekontTip.dekCari
+                            });
+
+
+                            islem = "4.Yeni Dekont Kaydı C  ";
+
+
+                            #endregion
+
+                            #region Banka Kısmı
+
+                            Dekontbas.Kalemler.Add(new Statements
+                            {
+                                OtoVadeGunuGetir = false,
+                                Seri_No = ConfigurationManager.AppSettings["DekontSeriNo"],
+                                Dekont_No = Convert.ToInt32(resultDekontNo),
+                                C_M = "B",
+
+                                Kod = hareket.Banka,
+                                Aciklama1 = hareket.Aciklama,
+                                Fisno = ConfigurationManager.AppSettings["FisNoGonder"] == "E" ? hareket.EvrakNo : null,
+                                Belge_Tipi = ConfigurationManager.AppSettings["BelgeTipiGonder"] == "E" ? ConfigurationManager.AppSettings["BelgeTipi"] : null,
+                                Plasiyer = hareket.PlasiyerKodu != "" ? hareket.PlasiyerKodu : null,
+                                B_A = hareket.BorcAlacak == "B" ? "A" : "B",
+                                ValorGun = 0,
+                                ValorTrh = hareket.ValorTarihi,
+                                Referans = hareket.ReferansKodu.Trim().Length > 0 ? hareket.ReferansKodu : null,
+                                DOVTIP = dovizTipi,
+                                DOVTUT = hareket.DovizTipi == "TL" || hareket.DovizTipi == "T" ? 0 : Convert.ToDouble(hareket.DovizTutari),
+                                ACIKLAMA3 = hareket.DovizTipi == "TL" || hareket.DovizTipi == "T" ? "" : hareket.DovizKuru.ToString(),
+                                Aciklama4 = ConfigurationManager.AppSettings["Aciklama4EvrakNoAta"] == "1" ? hareket.EvrakNo : "",
+                                DovTL = hareket.DovizTipi == "TL" || hareket.DovizTipi == "T" ? "T" : "D",
+                                Tarih = hareket.Tarih,
+                                Tutar = Convert.ToDouble(hareket.Tutar),
+                                Proje_Kodu = hareket.ProjeKodu == "" ? null : hareket.ProjeKodu,
+                                Odeme_Turu = ConfigurationManager.AppSettings["OdemeTuru"] != "" ? ConfigurationManager.AppSettings["OdemeTuru"] : null,
+                                DekontTip = JTDekontTip.dekCari
+                            });
+
+                            islem = "4.Yeni Dekont Kaydı Banka ";
+
+
+                            #endregion
+                        }
+                        else if (hareket.IslemTipi == "B")
+                        {
+                            #region Cari Kısmı
+
+                            islem = "4.Yeni Dekont ";
+
+                            Dekontbas.OtoVadeGunu = false;
+                            Dekontbas.Kalemler.Add(new Statements
+                            {
+                                OtoVadeGunuGetir = false,
+                                Seri_No = ConfigurationManager.AppSettings["DekontSeriNo"],
+                                Dekont_No = Convert.ToInt32(resultDekontNo),
+                                C_M = hareket.IslemTipi,
+                                Kod = hareket.CariKodu,
+                                Aciklama1 = hareket.Aciklama,
+                                Fisno = ConfigurationManager.AppSettings["FisNoGonder"] == "E" ? hareket.EvrakNo : null,
+                                Belge_Tipi = ConfigurationManager.AppSettings["BelgeTipiGonder"] == "E" ? ConfigurationManager.AppSettings["BelgeTipi"] : null,
+                                Plasiyer = hareket.PlasiyerKodu != "" ? hareket.PlasiyerKodu : null,
+                                B_A = hareket.BorcAlacak,
+                                ValorGun = 0,
+                                ValorTrh = hareket.ValorTarihi,
+                                Referans = hareket.ReferansKodu.Trim().Length > 0 ? hareket.ReferansKodu : null,
+                                DOVTIP = dovizTipi,
+                                DOVTUT = hareket.DovizTipi == "TL" || hareket.DovizTipi == "T" ? 0 : Convert.ToDouble(hareket.DovizTutari),
+                                ACIKLAMA3 = hareket.DovizTipi == "TL" || hareket.DovizTipi == "T" ? "" : hareket.DovizKuru.ToString(),
+                                Aciklama4 = ConfigurationManager.AppSettings["Aciklama4EvrakNoAta"] == "1" ? hareket.EvrakNo : "",
+                                DovTL = hareket.DovizTipi == "TL" || hareket.DovizTipi == "T" ? "T" : "D",
+                                Tarih = hareket.Tarih,
+                                Tutar = Convert.ToDouble(hareket.Tutar),
+                                Proje_Kodu = hareket.ProjeKodu == "" ? null : hareket.ProjeKodu,
+                                Odeme_Turu = ConfigurationManager.AppSettings["OdemeTuru"] != "" ? ConfigurationManager.AppSettings["OdemeTuru"] : null,
+                                DekontTip = JTDekontTip.dekCari
+                            });
+
+
+
+
+                            islem = "4.Yeni Dekont Kaydı C  ";
+
+
+                            #endregion
+
+                            #region Banka Kısmı
+
+                            Dekontbas.Kalemler.Add(new Statements
+                            {
+                                OtoVadeGunuGetir = false,
+                                Seri_No = ConfigurationManager.AppSettings["DekontSeriNo"],
+                                Dekont_No = Convert.ToInt32(resultDekontNo),
+                                C_M = hareket.IslemTipi,
+
+                                Kod = hareket.Banka,
+                                Aciklama1 = hareket.Aciklama,
+                                Fisno = ConfigurationManager.AppSettings["FisNoGonder"] == "E" ? hareket.EvrakNo : null,
+                                Belge_Tipi = ConfigurationManager.AppSettings["BelgeTipiGonder"] == "E" ? ConfigurationManager.AppSettings["BelgeTipi"] : null,
+                                Plasiyer = hareket.PlasiyerKodu != "" ? hareket.PlasiyerKodu : null,
+                                B_A = hareket.BorcAlacak == "B" ? "A" : "B",
+                                ValorGun = 0,
+                                ValorTrh = hareket.ValorTarihi,
+                                Referans = hareket.ReferansKodu.Trim().Length > 0 ? hareket.ReferansKodu : null,
+                                DOVTIP = dovizTipi,
+                                DOVTUT = hareket.DovizTipi == "TL" || hareket.DovizTipi == "T" ? 0 : Convert.ToDouble(hareket.DovizTutari),
+                                ACIKLAMA3 = hareket.DovizTipi == "TL" || hareket.DovizTipi == "T" ? "" : hareket.DovizKuru.ToString(),
+                                Aciklama4 = ConfigurationManager.AppSettings["Aciklama4EvrakNoAta"] == "1" ? hareket.EvrakNo : "",
+                                DovTL = hareket.DovizTipi == "TL" || hareket.DovizTipi == "T" ? "T" : "D",
+                                Tarih = hareket.Tarih,
+                                Tutar = Convert.ToDouble(hareket.Tutar),
+                                Proje_Kodu = hareket.ProjeKodu == "" ? null : hareket.ProjeKodu,
+                                Odeme_Turu = ConfigurationManager.AppSettings["OdemeTuru"] != "" ? ConfigurationManager.AppSettings["OdemeTuru"] : null,
+                                DekontTip = JTDekontTip.dekCari
+                            });
+
+                            islem = "4.Yeni Dekont Kaydı Banka ";
+
+
+                            #endregion
+                        }
+                        else if (hareket.IslemTipi == "M")
+                        {
+                            #region Cari Kısmı
+
+                            islem = "4.Yeni Dekont ";
+
+                            Dekontbas.OtoVadeGunu = false;
+                            Dekontbas.Kalemler.Add(new Statements
+                            {
+                                OtoVadeGunuGetir = false,
+                                Seri_No = ConfigurationManager.AppSettings["DekontSeriNo"],
+                                Dekont_No = Convert.ToInt32(resultDekontNo),
+                                C_M = hareket.IslemTipi,
+                                Kod = hareket.CariKodu,
+                                Aciklama1 = hareket.Aciklama,
+                                Fisno = ConfigurationManager.AppSettings["FisNoGonder"] == "E" ? hareket.EvrakNo : null,
+                                Belge_Tipi = ConfigurationManager.AppSettings["BelgeTipiGonder"] == "E" ? ConfigurationManager.AppSettings["BelgeTipi"] : null,
+                                Plasiyer = hareket.PlasiyerKodu != "" ? hareket.PlasiyerKodu : null,
+                                B_A = hareket.BorcAlacak,
+                                ValorGun = 0,
+                                ValorTrh = hareket.ValorTarihi,
+                                Referans = hareket.ReferansKodu.Trim().Length > 0 ? hareket.ReferansKodu : null,
+                                DOVTIP = dovizTipi,
+                                DOVTUT = hareket.DovizTipi == "TL" || hareket.DovizTipi == "T" ? 0 : Convert.ToDouble(hareket.DovizTutari),
+                                ACIKLAMA3 = hareket.DovizTipi == "TL" || hareket.DovizTipi == "T" ? "" : hareket.DovizKuru.ToString(),
+                                Aciklama4 = ConfigurationManager.AppSettings["Aciklama4EvrakNoAta"] == "1" ? hareket.EvrakNo : "",
+                                DovTL = hareket.DovizTipi == "TL" || hareket.DovizTipi == "T" ? "T" : "D",
+                                Tarih = hareket.Tarih,
+                                Tutar = Convert.ToDouble(hareket.Tutar),
+                                Proje_Kodu = hareket.ProjeKodu == "" ? null : hareket.ProjeKodu,
+                                Odeme_Turu = ConfigurationManager.AppSettings["OdemeTuru"] != "" ? ConfigurationManager.AppSettings["OdemeTuru"] : null,
+                                DekontTip = JTDekontTip.dekCari
+                            });
+                            islem = "4.Yeni Dekont Kaydı C  ";
+                            #endregion
+                            #region Banka Kısmı
+
+                            Dekontbas.Kalemler.Add(new Statements
+                            {
+                                OtoVadeGunuGetir = false,
+                                Seri_No = ConfigurationManager.AppSettings["DekontSeriNo"],
+                                Dekont_No = Convert.ToInt32(resultDekontNo),
+                                C_M = "B",
+                                Kod = hareket.Banka,
+                                Aciklama1 = hareket.Aciklama,
+                                Fisno = ConfigurationManager.AppSettings["FisNoGonder"] == "E" ? hareket.EvrakNo : null,
+                                Belge_Tipi = ConfigurationManager.AppSettings["BelgeTipiGonder"] == "E" ? ConfigurationManager.AppSettings["BelgeTipi"] : null,
+                                Plasiyer = hareket.PlasiyerKodu != "" ? hareket.PlasiyerKodu : null,
+                                B_A = hareket.BorcAlacak == "B" ? "A" : "B",
+                                ValorGun = 0,
+                                ValorTrh = hareket.ValorTarihi,
+                                Referans = hareket.ReferansKodu.Trim().Length > 0 ? hareket.ReferansKodu : null,
+                                DOVTIP = dovizTipi,
+                                DOVTUT = hareket.DovizTipi == "TL" || hareket.DovizTipi == "T" ? 0 : Convert.ToDouble(hareket.DovizTutari),
+                                ACIKLAMA3 = hareket.DovizTipi == "TL" || hareket.DovizTipi == "T" ? "" : hareket.DovizKuru.ToString(),
+                                Aciklama4 = ConfigurationManager.AppSettings["Aciklama4EvrakNoAta"] == "1" ? hareket.EvrakNo : "",
+                                DovTL = hareket.DovizTipi == "TL" || hareket.DovizTipi == "T" ? "T" : "D",
+                                Tarih = hareket.Tarih,
+                                Tutar = Convert.ToDouble(hareket.Tutar),
+                                Proje_Kodu = hareket.ProjeKodu == "" ? null : hareket.ProjeKodu,
+                                Odeme_Turu = ConfigurationManager.AppSettings["OdemeTuru"] != "" ? ConfigurationManager.AppSettings["OdemeTuru"] : null,
+                                DekontTip = JTDekontTip.dekCari
+                            });
+                            islem = "4.Yeni Dekont Kaydı Banka ";
+                            #endregion
+                        }
+
+
+                        var resultDekontSonucu = _manager.PostInternal(Dekontbas);
+                        if (resultDekontSonucu.IsSuccessful == true)
+                        {
+                            result.Add(new IslemBilgisi() { Durum = 0, BelgeNo = ConfigurationManager.AppSettings["DekontSeriNo"] + "-" + resultDekontNo, Aciklama = "Hareket kaydı tamamlanmıştır." });
+                        }
+                        else
+                        {
+                            result.Add(new IslemBilgisi() { Durum = 1, Aciklama = resultDekontSonucu.ErrorDesc });
+                            response = Request.CreateResponse<List<IslemBilgisi>>(HttpStatusCode.OK, result);
+                            return response;
+                        }
+
+                        */
+
+                    }
+
+
+                    if (!object.Equals(hareket, null))
+                    {
+                        result.Add(new IslemBilgisi() { SonDurumu = 2, EkBilgi1 = islem });
+                        response = Request.CreateResponse<List<IslemBilgisi>>(HttpStatusCode.OK, result);
+                    }
+                }
+                else
+                {
+                    result.Add(new IslemBilgisi() { SonDurumu = 1, EkBilgi1 = "Kullanıcı adı veya parola yanlış!" });
+                    response = Request.CreateResponse<List<IslemBilgisi>>(HttpStatusCode.OK, result);
+                }
+            }
+            catch (Exception ex)
+            {
+                try
+                {
+                    if (ex.Message == "COM object that has been separated from its underlying RCW cannot be used.")
+                    {
+                        //+ "-" + resultInckeyNo
+                        result.Add(new IslemBilgisi() { SonDurumu = 0, EvrakNumarasi = resultDekontNo, EkBilgi1 = "Hareket kaydı tamamlanmıştır." });
+                        response = Request.CreateResponse(HttpStatusCode.OK, result);
+                    }
+                    else
+                    {
+                        result.Add(new IslemBilgisi() { SonDurumu = 2, EkBilgi1 = islem + " - " + ex.Message });
+                        response = Request.CreateResponse(HttpStatusCode.OK, result);
+                    }
+                }
+                catch (Exception err2)
+                {
+                    result.Add(new IslemBilgisi() { SonDurumu = 2, EkBilgi1 = islem + " - " + err2.Message });
+                    response = Request.CreateResponse(HttpStatusCode.OK, result);
+                }
+            }
+
+
+            return response;
+        }
+
+        #endregion
 
     }
     public class IDJsonResult
@@ -656,4 +1198,12 @@ namespace YKPortal.Controllers
         public string Hata { get; set; }
     }
 
+    public class IslemBilgisi
+    {
+        public int SonDurumu { get; set; }
+        public string EkBilgi1 { get; set; }
+        public string EkBilgi2 { get; set; }
+        public string EkBilgi3 { get; set; }
+        public string EvrakNumarasi { get; set; }
+    }
 }

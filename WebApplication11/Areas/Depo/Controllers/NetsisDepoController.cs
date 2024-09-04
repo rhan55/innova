@@ -16,33 +16,67 @@ using YKPortal.Models.YKClasses;
 
 namespace YKPortal.Areas.Depo.Controllers
 {
-    public class DepoController : Controller
+    public class NetsisDepoController : Controller
     {
-        public ActionResult AnaSayfa()
+
+
+        [HttpGet]
+        public ActionResult NetsisStokEkbilgiDuzenle(string Belge_Barkod = "")
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "select * from MenulerUretim WITH(NOLOCK) Where Aktif = 1 and UstID IS NULL Order by Sira";
-            cmd.CommandType = System.Data.CommandType.Text;
-            ViewBag.dtMenuler = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            cmd.CommandText = "p_Parametre";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Kod", GetCookie("NetsisDatabase"));
+            DataTable dtNetsisDatatable = (DataTable)(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo));
+            string NetsisDatatable = "";
+            if (dtNetsisDatatable.Rows.Count > 0)
+            {
+                NetsisDatatable = Convert.ToString(dtNetsisDatatable.Rows[0]["Deger"]);
+            }
+
+            if (Belge_Barkod == "")
+            {
+
+                cmd.Parameters.Clear();
+                string _srg = " SELECT STOK_KODU, STOK_ADI FROM "+ NetsisDatatable + "..TBLSTSABIT WITH (NOLOCK) WHERE STOK_KODU = '"+ Belge_Barkod + "' ";
+                cmd.CommandText = _srg;
+                cmd.CommandType = CommandType.Text;
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                if (dt.Rows.Count > 0)
+                {
+                    ViewBag.dtDetay = dt;
+                }
+
+            }
 
             return View();
         }
-        public ActionResult Menuler(string id)
+        [HttpPost]
+        public ActionResult NetsisStokEkBilgi_Guncelle(string Stok_Kodu, string EkBilgi_1, string EkBilgi_2, string EkBilgi_3)
         {
-            if (!AutoGirisKontrol())
-                return Redirect("~/YK/Giris");
+            
+            string _srg = " UPDATE TBLSTSABITEK ";
+            _srg += " \r\n SET KULL1S = '"+ EkBilgi_1  + "' ";
+            _srg += " \r\n ,   KULL2S = '" + EkBilgi_2 + "' ";
+            _srg += " \r\n ,   KULL3S = '" + EkBilgi_3 + "' ";
+            _srg += " \r\n ,   KULL3S = '" + EkBilgi_3 + "' ";
+            _srg += " \r\n WHERE STOK_KODU = '" + Stok_Kodu + "' ";
 
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "select * from MenulerUretim WITH(NOLOCK) Where Aktif = 1 and UstID = @UstID Order by Sira";
-            cmd.CommandType = System.Data.CommandType.Text;
-            cmd.Parameters.AddWithValue("@UstID",id);
-            ViewBag.dtMenuler = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            cmd.CommandText = _srg;
+            cmd.CommandType = CommandType.Text;
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            ViewBag.dtDetay = dt;
 
-            return View();
+            return Redirect("~/Depo/NetsisDepo/NetsisStokEkbilgiDuzenle/?Belge_Lokasyon_Barkod=" + "");
+
+
         }
+
 
         #region Cookie İşlemleri
 
