@@ -493,11 +493,6 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Giris");
 
 
-            if (!YetkiKontrolu("/Kullanici/Yetkiler", "Duzenle"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
-
             if (yetkiler.Count == 0)
             {
                 RedirectToAction("Liste");
