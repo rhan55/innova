@@ -28,7 +28,7 @@
                         <!--begin::Card body-->
                         <div class="card-body p-12">
                             <!--begin::Form-->
-                            <form method="post" action="@Url.Action("Detay","SatinalmaSiparisi",new { Tip = Request.QueryString["Tip"] })">
+                            <form method="post" action="@Url.Action("Duzenle","SatinalmaSiparisi",new { Tip = Request.QueryString["Tip"] })">
                                 <!--begin::Wrapper-->
                                 <div class="d-flex flex-column align-items-start flex-xxl-row">
 
@@ -125,7 +125,7 @@
                                                         <option value=""></option>
                                                         @foreach (SatisPersonelleriDto personel in ViewBag.Personeller)
                                                         {
-                                                            <option value="@personel.ID">@personel.Isim</option>
+                                                            <option value="@personel.ID" @(Model.SatisPersonelID == personel.ID ? "selected" : "")>@personel.Isim</option>
                                                         }
                                                     </select>
                                                     <!--end::Input group-->

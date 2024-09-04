@@ -680,7 +680,7 @@
                 success: function (data) {
                     alert("Belge Kaydedildi!");
                     // Detay sayfasını aç
-                    window.open("/SatinalmaSiparisi/Duzenle?id" + data.Data + "&Tip=@(Request.QueryString["Tip"])","_parent");
+                    window.open("/SatinalmaSiparisi/Duzenle?id=" + data.Data + "&Tip=@(Request.QueryString["Tip"])","_parent");
                 },
                 error: function (msg) {
                     console.log(msg);

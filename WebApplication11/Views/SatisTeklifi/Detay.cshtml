@@ -443,19 +443,43 @@
             $("#TR_" + SatirID).remove();
         }
 
+
         function TutarHesapla(miktarid, fiyatid, tutarid) {
-            var kdvInput = $('#KdvOrani_' + miktarid.split('_')[1])
+            var kdvInput = $('#KdvOrani_' + miktarid.split('_')[1]);
             var iskontoInput = $('#IskontoOrani1_' + miktarid.split('_')[1]);
 
-            var tutar = parseFloat($("#" + miktarid).val().replace(",", ".")) * parseFloat($("#" + fiyatid).val().replace(",", ".")).toFixed(2);
-            $("#" + tutarid).val(tutar + tutar * parseFloat($(kdvInput).val()) / 100 - tutar * parseFloat(iskontoInput.val()) / 100);
+            var miktar = parseFloat($("#" + miktarid).val().replace(/\./g, '').replace(',', '.')); // Tüm noktaları kaldır, ilk virgülü noktaya çevir
+            var fiyat = parseFloat($("#" + fiyatid).val().replace(/\./g, '').replace(',', '.'));   // Tüm noktaları kaldır, ilk virgülü noktaya çevir
 
+            if (isNaN(miktar)) miktar = 0;  // Eğer miktar bir sayı değilse, 0 yap
+            if (isNaN(fiyat)) fiyat = 0;    // Eğer fiyat bir sayı değilse, 0 yap
+
+            var tutar = miktar * fiyat;  // Tutarı hesapla
+
+            var kdv = parseFloat($(kdvInput).val());
+            var iskonto = parseFloat($(iskontoInput).val());
+
+            if (isNaN(kdv)) kdv = 0;       // Eğer KDV bir sayı değilse, 0 yap
+            if (isNaN(iskonto)) iskonto = 0; // Eğer iskonto bir sayı değilse, 0 yap
+
+            // Tutar hesaplaması KDV ve İskonto uygulanarak
+            var finalTutar = tutar + (tutar * kdv / 100) - (tutar * iskonto / 100);
+
+            // Formatla ve inputa yaz
+            $("#" + tutarid).val(formatNumberWithSeparator(finalTutar));
+
+            // Diğer hesaplamaları yap
             ToplamTutarHesapla();
             KdvTutarHesapla();
             IskontoTutarHesapla();
             AraToplamHesapla();
         }
 
+        function formatNumberWithSeparator(number) {
+            // Sayıyı sabit ondalık ve binlik ayracı ekleyerek formatla
+            return number.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+        //---------Binlik ayıracı eklemek için
         function ToplamTutarHesapla() {
             var toplamTutar = 0;
             $('[data-kt-element="tutar-data"]').each(function (index, input) {
@@ -466,7 +490,7 @@
                 }
             });
 
-            $('[data-kt-element="toplam-tutar"]').text(toplamTutar);
+            $('[data-kt-element="toplam-tutar"]').text(formatNumberWithSeparator(toplamTutar));
         }
 
         function KdvTutarHesapla() {
@@ -480,7 +504,7 @@
                 kdvTutari = kdvTutari + kdv * miktar * fiyat / 100;
             });
 
-            $('[data-kt-element="kdv-tutari"]').text(kdvTutari);
+            $('[data-kt-element="kdv-tutari"]').text(formatNumberWithSeparator(kdvTutari));
         }
 
         function IskontoTutarHesapla() {
@@ -494,7 +518,7 @@
                 iskontoTutari = iskontoTutari + iskonto * miktar * fiyat / 100;
             });
 
-            $('[data-kt-element="iskonto-tutari"]').text(iskontoTutari);
+            $('[data-kt-element="iskonto-tutari"]').text(formatNumberWithSeparator(iskontoTutari));
         }
 
         function AraToplamHesapla() {
@@ -503,12 +527,11 @@
                 var iskontoId = $(input).attr('id');
                 var miktar = parseFloat($("#Miktar_" + iskontoId.split("_")[1]).val());
                 var fiyat = parseFloat($("#Fiyat_" + iskontoId.split("_")[1]).val());
-                araToplam = araToplam +  miktar * fiyat;
+                araToplam = araToplam + miktar * fiyat;
             });
 
-            $('[data-kt-element="ara-toplam-tutari"]').text(araToplam);
+            $('[data-kt-element="ara-toplam-tutari"]').text(formatNumberWithSeparator(araToplam));
         }
-
 
         function YeniSatirAc() {
             var IsMobile = "@(Request.Browser.IsMobileDevice == true ? "1" : "0")";

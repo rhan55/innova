@@ -127,7 +127,7 @@
                                                     <option value=""></option>
                                                     @foreach (SatisPersonelleriDto personel in ViewBag.Personeller)
                                                     {
-                                                        <option value="@personel.ID">@personel.Isim</option>
+                                                        <option value="@personel.ID" @(Model.SatisPersonelID == personel.ID ? "selected" : "")>@personel.Isim</option>
                                                     }
                                                 </select>
                                                 <!--end::Input group-->
@@ -287,10 +287,10 @@
                                                                 <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)'); formatNumberWithSeparator('Fiyat_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
                                                             </td>
                                                             <td class="text-end" style="max-width:150px;">
-                                                                <input type="text" data-kt-element="tutar-data" name="Tutar_@(ID)" id="Tutar_@(ID)" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)'); formatNumberWithSeparator('Tutar_@(ID)');" value="@(String.Format("{0:N2}",satir.Tutar))" class="form-control p-2 me-10" style="text-align:right;" readonly />
+                                                                <input type="text" data-kt-element="iskonto-data" name="IskontoOrani1_@(ID)" id="IskontoOrani1_@(ID)" value="@(String.Format("{0:N2}",satir.IskontoOrani1))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
                                                             </td>
                                                             <td>
-                                                                <input type="text" data-kt-element="iskonto-data" name="IskontoOrani1_@(ID)" id="IskontoOrani1_@(ID)" value="@(String.Format("{0:N2}",satir.IskontoOrani1))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                                <input type="text" data-kt-element="tutar-data" name="Tutar_@(ID)" id="Tutar_@(ID)" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)'); formatNumberWithSeparator('Tutar_@(ID)');" value="@(String.Format("{0:N2}",satir.Tutar))" class="form-control p-2 me-10" style="text-align:right;" readonly />
                                                             </td>
                                                             <td>
                                                                 <button type='button' class="deleteBtn pt-2" data-ID2="@(ID)">Sil</button>

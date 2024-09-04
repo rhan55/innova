@@ -127,7 +127,7 @@
                                                     <option value=""></option>
                                                     @foreach (SatisPersonelleriDto personel in ViewBag.Personeller)
                                                     {
-                                                        <option value="@personel.ID">@personel.Isim</option>
+                                                        <option value="@personel.ID" @(Model.SatisPersonelID == personel.ID ? "selected" : "")>@personel.Isim</option>
                                                     }
                                                 </select>
                                                 <!--end::Input group-->

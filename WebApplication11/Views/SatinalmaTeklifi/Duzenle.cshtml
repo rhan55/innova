@@ -108,7 +108,7 @@
                                                     <option value=""></option>
                                                     @foreach (SatisPersonelleriDto personel in ViewBag.Personeller)
                                                     {
-                                                        <option value="@personel.ID">@personel.Isim</option>
+                                                        <option value="@personel.ID" @(Model.SatisPersonelID == personel.ID ? "selected" : "")>@personel.Isim</option>
                                                     }
                                                 </select>
                                                 <!--end::Input group-->
@@ -218,7 +218,7 @@
                                                                         <td style="text-align: right;"><strong>Fiyat</strong></td>
                                                                         <td style="text-align: right;"><strong>İskonto Oranı</strong></td>
                                                                         <td style="text-align: right;"><strong>Tutar</strong></td>
-                                                                        <td style="text-align: right;"><strong>Durumu</strong></td>
+                                                                   
                                                                     </tr>
                                                                     <tr>
 
@@ -241,12 +241,10 @@
                                                                         <td>
                                                                             <input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)', 'Fiyat_@(ID)', 'Tutar_@(ID)'); formatNumberWithSeparator('Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" readonly />
                                                                         </td>
-                                                                        <td>
+                                                                        <td class="ps-4">
                                                                             <div class="form-check">
                                                                                 <input class="form-check-input" name="Durumu" type="checkbox" value="true" id="Durumu" checked />
-                                                                                <label class="form-check-label user-select-none cursor-pointer" for="Durumu">
-                                                                                    Durumu
-                                                                                </label>
+                                                                               
                                                                             </div>
                                                                         </td>
                                                                     </tr>
@@ -301,12 +299,10 @@
                                                             <td>
                                                                 <input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)', 'Fiyat_@(ID)', 'Tutar_@(ID)'); formatNumberWithSeparator('Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" readonly />
                                                             </td>
-                                                            <td>
+                                                            <td class="ps-4">
                                                                 <div class="form-check">
                                                                     <input class="form-check-input" name="Durumu" type="checkbox" value="true" id="Durumu" checked />
-                                                                    <label class="form-check-label user-select-none cursor-pointer" for="Durumu">
-                                                                        Durumu
-                                                                    </label>
+                                                                   
                                                                 </div>
                                                             </td>
                                                             <td>
@@ -566,7 +562,7 @@
                            deger += "                 <td style='text-align: right;'><strong>Fiyat</strong></td>                                                                         ";
                            deger += "                 <td style='text-align: right;'><strong>İskonto Oranı</strong></td>                                                                 ";
                            deger += "                 <td style='text-align: right;'><strong>Tutar</strong></td>                                                                         ";
-                           deger += "                 <td style='text-align: right;'><strong>Durumu</strong></td>                                                                         ";
+                        
 
                            deger += "             </tr>                                                                                                                                  ";
                            deger += "             <tr>                                                                                                                                   ";
@@ -577,7 +573,7 @@
                 deger += "                 <td><input type='text' name='Fiyat_" + YeniID + "' id='Fiyat_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\"); formatNumberWithSeparator(\"Miktar_" + YeniID + "\");'  style='text-align:right;' /></td>                 ";
                 deger += "                 <td><input type='text' data-kt-element='iskonto-data' name='IskontoOrani1_" + YeniID + "' id='IskontoOrani1_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control ' style='text-align:right;' /></td>              ";
                 deger += "                 <td style='max-width:150px;'><input type='text' data-kt-element='tutar-data' name='Tutar_" + YeniID + "' id='Tutar_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\", \"Fiyat_" + YeniID + "\", \"Tutar_" + YeniID + "\"); formatNumberWithSeparator(\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' readonly /></td>";
-                deger += "                 <td><div class='form-check d-flex align-items-center justify-content-center pt-2'><input type='checkbox' data-kt-element='tutar-data' name='Durumu_" + YeniID + "' id='Durumu_" + YeniID + "' value='0'   class='form-check-input me-10' style='text-align:right;' checked readonly/></div></td>        ";
+                deger += "                 <td><div class='form-check d-flex align-items-center justify-content-center pt-2'><input type='checkbox' data-kt-element='tutar-data' name='Durumu_" + YeniID + "' id='Durumu_" + YeniID + "' value='0'   class='form-check-input ps-4' style='text-align:right;' checked readonly/></div></td>        ";
                            deger += "             </tr>";
                            deger += "         </table>";
                 deger += "     </td><td><button type='button' class='deleteBtn pt-2' onclick='SatirSil(\"" + YeniID +"\")' data-ID2='"+YeniID+"'>Sil</button></td>";
@@ -609,7 +605,7 @@
                 deger += "      <td style='max-width:150px;'><input type='text' name='Fiyat_" + YeniID + "' id = 'Fiyat_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");  formatNumberWithSeparator(\"Fiyat_" + YeniID + "\");' class='form-control p-2 me-10' style = 'text-align:right;' /></td > ";
                 deger += "      <td><input type='text' data-kt-element='iskonto-data' name='IskontoOrani1_" + YeniID + "' id='IskontoOrani1_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' /></td>              ";
                 deger += "      <td style='max-width:150px;'><input type='text' data-kt-element='tutar-data' name='Tutar_" + YeniID + "' id='Tutar_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\", \"Fiyat_" + YeniID + "\", \"Tutar_" + YeniID + "\"); formatNumberWithSeparator(\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' readonly /></td>";
-                deger += "      <td><div class='form-check d-flex align-items-center justify-content-center pt-2'><input type='checkbox' data-kt-element='tutar-data' name='Durumu_" + YeniID + "' id='Durumu_" + YeniID + "' value='0'   class='form-check-input me-10' style='text-align:right;' checked readonly/></div></td>        ";
+                deger += "      <td><div class='form-check d-flex align-items-center justify-content-center pt-2'><input type='checkbox' data-kt-element='tutar-data' name='Durumu_" + YeniID + "' id='Durumu_" + YeniID + "' value='0'   class='form-check-input ps-4' style='text-align:right;' checked readonly/></div></td>        ";
                 deger += "      <td><button type='button' class='deleteBtn pt-2' onclick='SatirSil(\""+YeniID+"\")' data-ID2='"+YeniID+"'>Sil</button></td></tr>";
             }
             var newSelect = $("<select class='form-select form-select-solid p-2 rounded-1 ' name='StokID_" + YeniID + "' id='StokID_" + YeniID + "' style='min-width:150px;max-width:350px;' aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız' ></select>");
