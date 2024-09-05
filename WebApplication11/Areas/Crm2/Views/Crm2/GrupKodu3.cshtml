@@ -1,6 +1,7 @@
 ﻿@model YKPortal.Models.Dto.GrupkoduListeViewModel
 @{
-    ViewBag.Title = Request.QueryString["grupKodu"];
+    string Ilce = "Mahalle";
+    ViewBag.Title = Ilce;
     Layout = "~/Views/Shared/_LayoutSade.cshtml";
 }
 
@@ -29,7 +30,7 @@
                     <!--begin::Hide default export buttons-->
                     <div id="kt_datatable_example_buttons" class="d-none"></div>
                     <!--end::Hide default export buttons-->
-                    <a href="/Crm2/Crm2/GrupKoduEkle?grupKodu=@Request.QueryString["grupKodu"]" class="btn btn-primary btn-sm fw-bold">
+                    <a href="/Crm2/Crm2/GrupKoduEkle3?grupKodu=@(Ilce)&UstID=@(Request.QueryString["UstID"])" class="btn btn-primary btn-sm fw-bold">
                         <i class="ki-duotone ki-plus fs-2"></i>Yeni
                     </a>
                 </div>
@@ -72,11 +73,9 @@
                                         @if (Model.Duzenle)
                                         {
                                             <div class="menu-item p-0">
-                                                <a href="/Crm2/Crm2/GrupKoduDuzenle/?grupKodu=@Request.QueryString["grupKodu"]&id=@(Convert.ToString(Model.GrupKodlari.Rows[i]["ID"]))" class="menu-link rounded-0 py-0 px-2">Düzenle</a>
+                                                <a href="/Crm2/Crm2/GrupKoduDuzenle3/?grupKodu=@Ilce&id=@(Convert.ToString(Model.GrupKodlari.Rows[i]["ID"]))&UstID=@(Request.QueryString["UstID"])" class="menu-link rounded-0 py-0 px-2">Düzenle</a>
                                             </div>
-                                            <div class="menu-item p-0">
-                                                <a href="/Crm2/Crm2/GrupKodu2/?grupKodu=Ilce&UstID=@(Convert.ToString(Model.GrupKodlari.Rows[i]["ID"]))" class="menu-link rounded-0 py-0 px-2">Alt Kayitlar</a>
-                                            </div>
+
                                         }
                                         <!--end::Menu item-->
                                         <!--begin::Menu item-->
@@ -125,7 +124,8 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Vazgeç</button>
-                <form method="post" id="silme-formu" action="@Url.Action("GrupKoduSil","Crm2",new { Area = "Crm2" })">
+                <form method="post" id="silme-formu" action="@Url.Action("GrupKoduSil3","Crm2",new { Area = "Crm2" })">
+                    <input type="hidden" name="UstID" value="@Request.QueryString["UstID"]" />
                     <input type="hidden" name="id" value="" />
                     <input type="hidden" name="grupKodu" value="" />
                     <button type="submit" class="btn btn-danger btn-sm">Sil</button>

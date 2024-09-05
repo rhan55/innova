@@ -22,15 +22,22 @@ namespace YKPortal.Areas.Crm2.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-
-
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "select count(*) as Sayi1 from Crm2Kayitlar WITH(NOLOCK) Where Silindi = 0 and UyelikID = @UyelikID and AlanKullanici = @KullaniciID";
-            cmd.CommandType = System.Data.CommandType.Text;
-            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
-            ViewBag.Havuzum = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
-
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "select Aciklama2 from Kullanicilar WITH(NOLOCK) Where Silindi = 0 and UyelikID = @UyelikID and ID = @KullaniciID";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                ViewBag.KullaniciAciklama2 = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+            }
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "select count(*) as Sayi1 from Crm2Kayitlar WITH(NOLOCK) Where Silindi = 0 and UyelikID = @UyelikID and AlanKullanici = @KullaniciID and Sozlesme = 0";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                ViewBag.Havuzum = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+            }
 
             return View();
         }
@@ -39,6 +46,16 @@ namespace YKPortal.Areas.Crm2.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "select Aciklama2 from Kullanicilar WITH(NOLOCK) Where Silindi = 0 and UyelikID = @UyelikID and ID = @KullaniciID";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                ViewBag.KullaniciAciklama2 = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+            }
+
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "select count(*) as Sayi1 from Crm2Kayitlar WITH(NOLOCK) Where Silindi = 0 and UyelikID = @UyelikID and AlanKullanici = @KullaniciID and Sozlesme = 0";
@@ -62,6 +79,23 @@ namespace YKPortal.Areas.Crm2.Controllers
                 cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
                 ViewBag.Sozlesme = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
             }
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "select count(*) as Sayi1 from Crm2Kayitlar WITH(NOLOCK) Where Silindi = 0 and UyelikID = @UyelikID ";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                ViewBag.Tumu = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+            }
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "select count(*) as Sayi1 from Crm2Kayitlar WITH(NOLOCK) Where Silindi = 0 and UyelikID = @UyelikID ";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                ViewBag.Gun90 = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+            }
+
             ViewBag.Menu = Menu;
             return View();
         }
@@ -71,6 +105,62 @@ namespace YKPortal.Areas.Crm2.Controllers
             ViewBag.Mesaj = Mesaj;
             return View();
         }
+
+
+        [HttpPost]
+        public JsonResult IlceleriGetir(string UStID)
+        {
+            string KullaniciAdi = GetCookie("KullaniciAdi");
+            string KullaniciID = GetCookie("KullaniciID");
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_GrupKoduListesi";
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@UstID", UStID);
+            cmd.Parameters.AddWithValue("@Kod", "Ilce");
+            cmd.Parameters.AddWithValue("@AranacakKelime", "");
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            foreach (DataRow item in dt.Rows)
+            {
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(item["ID"]);
+                entity.Deger = Convert.ToString(item["Deger"]);
+                entities.Add(entity);
+            }
+
+            return Json(entities, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult MahalleleriGetir(string UStID)
+        {
+            string KullaniciAdi = GetCookie("KullaniciAdi");
+            string KullaniciID = GetCookie("KullaniciID");
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_GrupKoduListesi";
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@UstID", UStID);
+            cmd.Parameters.AddWithValue("@Kod", "Mahalle");
+            cmd.Parameters.AddWithValue("@AranacakKelime", "");
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            foreach (DataRow item in dt.Rows)
+            {
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(item["ID"]);
+                entity.Deger = Convert.ToString(item["Deger"]);
+                entities.Add(entity);
+            }
+
+            return Json(entities, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
         [HttpGet]
         public ActionResult KabulEt(string KayitID)
         {
@@ -180,6 +270,16 @@ values
                 cmd2.Parameters.AddWithValue("@Modul", "Crm2");
                 DataTable dtDosyalar = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
                 ViewBag.dtDosyalar = dtDosyalar;
+            }
+            {
+                SqlCommand cmd2 = new SqlCommand();
+                cmd2.CommandText = "p_DosyaListesi";
+                cmd2.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd2.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd2.Parameters.AddWithValue("@KayitID", id);
+                cmd2.Parameters.AddWithValue("@Modul", "Crm2Sozlesme");
+                DataTable dtDosyalar = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
+                ViewBag.dtDosyalarSozlesme = dtDosyalar;
             }
             {
                 SqlCommand cmd2 = new SqlCommand();
@@ -457,6 +557,107 @@ Where Crm2Notlar.UyelikID = @UyelikID and Crm2Notlar.KayitID = @KayitID Order by
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public JsonResult SozlesmeYukle(string ID,
+          HttpPostedFileBase Resim, HttpPostedFileBase Resim2, HttpPostedFileBase Resim3, HttpPostedFileBase Resim4, HttpPostedFileBase Resim5)
+        {
+            YKJsonResult result = new YKJsonResult();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                {
+                    if (Resim != null && Resim.ContentLength > 0)
+                    {
+                        Resim.SaveAs(Server.MapPath("~/Uploads/Dosyalar/" + ID + "_" + Resim.FileName));
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "p_DosyaKaydet";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ID", "");
+                        cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                        cmd.Parameters.AddWithValue("@Modul", "Crm2Sozlesme");
+                        cmd.Parameters.AddWithValue("@KayitID", ID);
+                        cmd.Parameters.AddWithValue("@Dosya", ID + "_" + Resim.FileName);
+                        cmd.Parameters.AddWithValue("@Isim", Resim.FileName);
+                        cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    }
+                    if (Resim2 != null && Resim2.ContentLength > 0)
+                    {
+                        Resim2.SaveAs(Server.MapPath("~/Uploads/Dosyalar/" + ID + "_" + Resim2.FileName));
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "p_DosyaKaydet";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ID", "");
+                        cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                        cmd.Parameters.AddWithValue("@Modul", "Crm2Sozlesme");
+                        cmd.Parameters.AddWithValue("@KayitID", ID);
+                        cmd.Parameters.AddWithValue("@Dosya", ID + "_" + Resim2.FileName);
+                        cmd.Parameters.AddWithValue("@Isim", Resim2.FileName);
+                        cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    }
+                    if (Resim3 != null && Resim3.ContentLength > 0)
+                    {
+                        Resim3.SaveAs(Server.MapPath("~/Uploads/Dosyalar/" + ID + "_" + Resim3.FileName));
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "p_DosyaKaydet";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ID", "");
+                        cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                        cmd.Parameters.AddWithValue("@Modul", "Crm2Sozlesme");
+                        cmd.Parameters.AddWithValue("@KayitID", ID);
+                        cmd.Parameters.AddWithValue("@Dosya", ID + "_" + Resim3.FileName);
+                        cmd.Parameters.AddWithValue("@Isim", Resim3.FileName);
+                        cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    }
+                    if (Resim4 != null && Resim4.ContentLength > 0)
+                    {
+                        Resim4.SaveAs(Server.MapPath("~/Uploads/Dosyalar/" + ID + "_" + Resim4.FileName));
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "p_DosyaKaydet";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ID", "");
+                        cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                        cmd.Parameters.AddWithValue("@Modul", "Crm2Sozlesme");
+                        cmd.Parameters.AddWithValue("@KayitID", ID);
+                        cmd.Parameters.AddWithValue("@Dosya", ID + "_" + Resim4.FileName);
+                        cmd.Parameters.AddWithValue("@Isim", Resim4.FileName);
+                        cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    }
+                    if (Resim5 != null && Resim5.ContentLength > 0)
+                    {
+                        Resim5.SaveAs(Server.MapPath("~/Uploads/Dosyalar/" + ID + "_" + Resim5.FileName));
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "p_DosyaKaydet";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ID", "");
+                        cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                        cmd.Parameters.AddWithValue("@Modul", "Crm2Sozlesme");
+                        cmd.Parameters.AddWithValue("@KayitID", ID);
+                        cmd.Parameters.AddWithValue("@Dosya", ID + "_" + Resim5.FileName);
+                        cmd.Parameters.AddWithValue("@Isim", Resim5.FileName);
+                        cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    }
+
+
+                    result.SonucKodu = "1";
+                    result.Aciklama = "Sözleşme belgeleri başarıyla kaydedildi.<br>Yönlendiriliyorsunuz...";
+                }
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = "0";
+                result.Aciklama = "HATA! " + err.Message;
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+
         private void GenelBilgilerGetir()
         {
             {
@@ -544,6 +745,8 @@ Where Crm2Notlar.UyelikID = @UyelikID and Crm2Notlar.KayitID = @KayitID Order by
             return View();
         }
 
+        #region Grupkodları
+
 
 
         [HttpGet]
@@ -556,7 +759,6 @@ Where Crm2Notlar.UyelikID = @UyelikID and Crm2Notlar.KayitID = @KayitID Order by
             cmd.CommandText = "p_GrupKoduListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-
             cmd.Parameters.AddWithValue("@Kod", grupKodu);
             cmd.Parameters.AddWithValue("@AranacakKelime", aranacakKelime);
 
@@ -668,7 +870,267 @@ Where Crm2Notlar.UyelikID = @UyelikID and Crm2Notlar.KayitID = @KayitID Order by
 
             return RedirectToAction("GrupKodu", new { Area = "Crm2", grupKodu = grupKodu });
         }
+        #endregion
 
+
+        #region Grupkodları 2
+
+        [HttpGet]
+        public ActionResult GrupKodu2(string grupKodu, string UstID = "", string aranacakKelime = "")
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_GrupKoduListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@UstID", UstID);
+            cmd.Parameters.AddWithValue("@Kod", grupKodu);
+            cmd.Parameters.AddWithValue("@AranacakKelime", aranacakKelime);
+
+            ViewBag.GrupKodu = grupKodu;
+            ViewBag.aranacakKelime = aranacakKelime;
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var model = new GrupkoduListeViewModel
+            {
+                GrupKodlari = dt,
+                Sil = true,
+                Duzenle = true
+
+            };
+
+            return View(model);
+
+        }
+        [HttpGet]
+        public ActionResult GrupKoduEkle2(string grupKodu, string UstID)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+
+            ViewBag.GrupKodu = grupKodu;
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult GrupKoduEkle2(GrupKoduDto grupKoduDto, string UstID)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_GrupKoduKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@ID", "");
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@UstID", UstID);
+            cmd.Parameters.AddWithValue("@Kod", grupKoduDto.Kod);
+            cmd.Parameters.AddWithValue("@Aktif", grupKoduDto.Aktif);
+            cmd.Parameters.AddWithValue("@Deger", grupKoduDto.Deger);
+
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return RedirectToAction("GrupKodu2", new { Area = "Crm2", grupKodu = grupKoduDto.Kod, UstID = UstID });
+        }
+        [HttpGet]
+        public ActionResult GrupKoduDuzenle2(string grupKodu, string id, string UstID)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+            var uyelikId = GetCookie("UyelikID");
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_GrupKodu";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            ViewBag.GrupKodu = grupKodu;
+            ViewBag.UstID = UstID;
+            return View(dt);
+        }
+
+        [HttpPost]
+        public ActionResult GrupKoduDuzenle2(GrupKoduDto grupKoduDto, string UstID)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_GrupKoduKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@ID", grupKoduDto.ID);
+            cmd.Parameters.AddWithValue("@UyelikID", grupKoduDto.UyelikID);
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@UstID", UstID);
+            cmd.Parameters.AddWithValue("@Kod", grupKoduDto.Kod);
+            cmd.Parameters.AddWithValue("@Aktif", grupKoduDto.Aktif);
+            cmd.Parameters.AddWithValue("@Deger", grupKoduDto.Deger);
+            IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+            return RedirectToAction("GrupKodu2", new { Area = "Crm2", grupKodu = grupKoduDto.Kod, UstID = UstID });
+        }
+
+        [HttpPost]
+        public ActionResult GrupKoduSil2(string id, string grupKodu, string UstID)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_GrupKoduSil";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return RedirectToAction("GrupKodu2", new { Area = "Crm2", grupKodu = grupKodu, UstID = UstID });
+        }
+        #endregion
+
+
+        #region Grupkodları 3
+
+        [HttpGet]
+        public ActionResult GrupKodu3(string grupKodu, string UstID = "", string aranacakKelime = "")
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_GrupKoduListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@UstID", UstID);
+            cmd.Parameters.AddWithValue("@Kod", grupKodu);
+            cmd.Parameters.AddWithValue("@AranacakKelime", aranacakKelime);
+
+            ViewBag.GrupKodu = grupKodu;
+            ViewBag.aranacakKelime = aranacakKelime;
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var model = new GrupkoduListeViewModel
+            {
+                GrupKodlari = dt,
+                Sil = true,
+                Duzenle = true
+
+            };
+
+            return View(model);
+
+        }
+        [HttpGet]
+        public ActionResult GrupKoduEkle3(string grupKodu, string UstID)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+
+            ViewBag.GrupKodu = grupKodu;
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult GrupKoduEkle3(GrupKoduDto grupKoduDto, string UstID)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_GrupKoduKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@ID", "");
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@UstID", UstID);
+            cmd.Parameters.AddWithValue("@Kod", grupKoduDto.Kod);
+            cmd.Parameters.AddWithValue("@Aktif", grupKoduDto.Aktif);
+            cmd.Parameters.AddWithValue("@Deger", grupKoduDto.Deger);
+
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return RedirectToAction("GrupKodu3", new { Area = "Crm2", grupKodu = grupKoduDto.Kod, UstID = UstID });
+        }
+        [HttpGet]
+        public ActionResult GrupKoduDuzenle3(string grupKodu, string id, string UstID)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+            var uyelikId = GetCookie("UyelikID");
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_GrupKodu";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            ViewBag.GrupKodu = grupKodu;
+            ViewBag.UstID = UstID;
+            return View(dt);
+        }
+
+        [HttpPost]
+        public ActionResult GrupKoduDuzenle3(GrupKoduDto grupKoduDto, string UstID)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_GrupKoduKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@ID", grupKoduDto.ID);
+            cmd.Parameters.AddWithValue("@UyelikID", grupKoduDto.UyelikID);
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@UstID", UstID);
+            cmd.Parameters.AddWithValue("@Kod", grupKoduDto.Kod);
+            cmd.Parameters.AddWithValue("@Aktif", grupKoduDto.Aktif);
+            cmd.Parameters.AddWithValue("@Deger", grupKoduDto.Deger);
+            IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+            return RedirectToAction("GrupKodu3", new { Area = "Crm2", grupKodu = grupKoduDto.Kod, UstID = UstID });
+        }
+
+        [HttpPost]
+        public ActionResult GrupKoduSil3(string id, string grupKodu, string UstID)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_GrupKoduSil";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return RedirectToAction("GrupKodu3", new { Area = "Crm2", grupKodu = grupKodu, UstID = UstID });
+        }
+        #endregion 
 
 
         [HttpGet]

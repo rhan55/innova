@@ -87,6 +87,25 @@
             </div>
         </a>
 
+        <a href="/Crm2/Crm2/Cariler/?Tur=Tumu" style="color: white;float:left;margin:0px;">
+            <div class="tum-kenar-oval"
+                 style="width: 150px; height: 100px; text-align: center; background-color: #9F1D20; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
+                <img src="@Url.Content("~/Tema/media/flags/Uretim_Stok_Kontrol_Onayi.png")" style="height:50px;" />
+                <br />
+                Tüm Havuz (@ViewBag.Tumu)
+            </div>
+        </a>
+        if (ViewBag.KullaniciAciklama2 == "admin")
+        {
+            <a href="/Crm2/Crm2/Cariler/?Tur=Gun90" style="color: white;float:left;margin:0px;">
+                <div class="tum-kenar-oval"
+                     style="width: 150px; height: 100px; text-align: center; background-color: #9F1D20; color: white; padding: 0px; font-size: 20px; padding-top: 10px;">
+                    <img src="@Url.Content("~/Tema/media/flags/Uretim_Stok_Kontrol_Onayi.png")" style="height:50px;" />
+                    <br />
+                    +90 Gün (@ViewBag.Gun90)
+                </div>
+            </a>
+        }
     }
 </div>
 

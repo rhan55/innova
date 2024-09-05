@@ -11,6 +11,7 @@
     DataTable dtUlasimSekli = ViewBag.dtUlasimSekli as DataTable;
     DataTable dtIl = ViewBag.dtIl as DataTable;
     DataTable dtDosyalar = ViewBag.dtDosyalar as DataTable;
+    DataTable dtDosyalarSozlesme = ViewBag.dtDosyalarSozlesme as DataTable;
     DataTable dtNotlar = ViewBag.dtNotlar as DataTable;
 
     DateTime KabulTarihi = Convert.ToDateTime(Convert.ToDateTime(Model.Rows[0]["KabulTarihi"]).ToString("yyyy-MM-dd"));
@@ -34,12 +35,12 @@
                         <a href="@Url.Action("Sozlesme", "Crm2", new { Area = "Crm2", KayitID = Model.Rows[0]["ID"] })" class="btn btn-success" style="font-size:20px;" onclick="return confirm('Kaydı sözleşmeye göndermek istediğinizden emin misiniz?')">Sözleşmeye Gönder</a>
                         if (gunFarki > 90)
                         {
-                            <a href="@Url.Action("Reddet", "Crm2", new { Area = "Crm2", KayitID = Model.Rows[0]["ID"] })" class="btn btn-danger" style="font-size:20px;" onclick="return confirm('Kaydı boş havuzuna göndermek istediğinizden emin misiniz?')">Boşa Çıkart</a>
+                            <a href="@Url.Action("Reddet", "Crm2", new { Area = "Crm2", KayitID = Model.Rows[0]["ID"] })" class="btn btn-danger" style="font-size:20px;" onclick="return confirm('Kaydı boş havuzuna göndermek istediğinizden emin misiniz?')">Boş Havuzuna Gönder</a>
                         }
                         else
                         {
                             <br />
-                            <span style="color:red;"><strong>90 gün geçmeden boş havuza gönderemezsiniz! (@(gunFarki) gündür sizde)</strong></span>
+                            <span style="color:red;"><strong>90 gün geçmeden boş havuzunaa gönderemezsiniz! (@(gunFarki) gündür sizde)</strong></span>
                         }
                     }
                     if (Convert.ToString(Model.Rows[0]["AlanKullanici"]).Trim().Length == 0)
@@ -47,12 +48,12 @@
                         if (Convert.ToString(Model.Rows[0]["VerenKullanici"]) == KullaniciID && gunFarki <= 90)
                         {
                             <br />
-                            <span style="color:red;"><strong>90 gün geçmeden kabul edemezsiniz! (@(gunFarki) gündür boşta)</strong></span>
+                            <span style="color:red;"><strong>90 gün geçmeden havuzunuza alamazsınız! (@(gunFarki) gündür boşta)</strong></span>
 
                         }
                         else
                         {
-                            <a href="@Url.Action("KabulEt", "Crm2", new { Area = "Crm2", KayitID = Model.Rows[0]["ID"] })" class="btn btn-success" style="font-size:20px;" onclick="return confirm('Kaydı kabul etmek istediğinizden emin misiniz?')">Kabul Et</a>
+                            <a href="@Url.Action("KabulEt", "Crm2", new { Area = "Crm2", KayitID = Model.Rows[0]["ID"] })" class="btn btn-success" style="font-size:20px;" onclick="return confirm('Kaydı kabul etmek istediğinizden emin misiniz?')">Havuzuma Al</a>
 
                         }
                     }
@@ -238,10 +239,55 @@
 
             </td>
         </tr>
+        @if (Convert.ToBoolean(Model.Rows[0]["Sozlesme"]) == true)
+        {
+            <tr>
+                <td>
+                    <h2>Sözleşme Belgeleri Kaydı</h2>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @if (dtDosyalarSozlesme != null)
+                    {
+                        foreach (DataRow item in dtDosyalarSozlesme.Rows)
+                        {
+                            <div>
+                                <a href="@Url.Content("~/Uploads/Dosyalar/" + item["Dosya"])" target="_blank">
+                                    <img src="@Url.Content("~/Uploads/Dosyalar/" + item["Dosya"])" alt="" style="height:100px;float:left;margin-right:5px;" />
+                                </a>
+                            </div>
+                        }
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td><input type="file" name="Resim" id="Resim" value="" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td><input type="file" name="Resim2" id="Resim2" value="" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td><input type="file" name="Resim3" id="Resim3" value="" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td><input type="file" name="Resim4" id="Resim4" value="" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td><input type="file" name="Resim5" id="Resim5" value="" class="form-control" /></td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="button" name="name" value="Sözleşme Belgelerini Kaydet" class="btn btn-success" onclick="Kaydet();" style="font-size:25px;" />
+                </td>
+            </tr>
+
+        }
         <tr>
             <td>
-            <hr />
-            <h2>NOTLAR</h2></td>
+                <hr />
+                <h2>NOTLAR</h2>
+            </td>
         </tr>
         <tr>
             <td>
@@ -287,6 +333,65 @@
 
     <script>
 
+        function Kaydet() {
+
+            var formData = new FormData();
+            formData.append('ID', $("#ID").val());
+            formData.append('Resim', $('#Resim')[0].files[0]);
+            formData.append('Resim2', $('#Resim2')[0].files[0]);
+            formData.append('Resim3', $('#Resim3')[0].files[0]);
+            formData.append('Resim4', $('#Resim4')[0].files[0]);
+            formData.append('Resim5', $('#Resim5')[0].files[0]);
+
+            $.ajax({
+                type: "POST",
+                url: '/Crm2/Crm2/SozlesmeYukle',
+                data: formData,
+                dataType: "json",
+                enctype: 'multipart/form-data',
+                async: false,
+                contentType: false,
+                processData: false,
+                //contentType: "application/json; charset=utf-8",
+                //dataFilter: function (data) { return data; },
+                success: function (data) {
+                    if (data.SonucKodu == "1") {
+
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: data.Aciklama,
+                            showConfirmButton: true,
+                            //timer: 3000
+                        });
+                        setTimeout(() => window.location.href = '@Url.Action("AnaSayfa2", "Crm2", new { Area = "Crm2", Menu = "Havuz" })', 2000);
+
+
+                    } else {
+                        Swal.fire({
+                            position: "center",
+                            icon: "error",
+                            title: data.Aciklama,
+                            showConfirmButton: true,
+                            //timer: 3000
+                        });
+                        return;
+                    }
+                },
+                error: function (msg) {
+
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: msg,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    return;
+                }
+            });
+
+        }
     </script>
 
 }

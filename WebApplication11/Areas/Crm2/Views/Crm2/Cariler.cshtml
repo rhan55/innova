@@ -36,42 +36,7 @@
                     <!--end::Search-->
                 </div>
                 <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
-                    <!--begin::Export dropdown-->
-                    <button type="button" class="btn btn-light-primary btn-sm fw-bold" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                        <i class="ki-duotone ki-exit-down fs-2"><span class="path1"></span><span class="path2"></span></i>
-                        Dışarı aktar
-                    </button>
-                    <!--begin::Menu-->
-                    <div id="kt_datatable_example_export_menu" class="menu menu-sub menu-sub-dropdown menu-column menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-200px p-0" data-kt-menu="true">
-                        <!--begin::Menu item-->
-                        <div class="menu-item p-0">
-                            <a href="#" class="menu-link py-0 px-2" data-kt-export="copy">
-                                Panoya Kopyala
-                            </a>
-                        </div>
-                        <!--end::Menu item-->
-                        <!--begin::Menu item-->
-                        <div class="menu-item p-0">
-                            <a href="#" class="menu-link py-0 px-2" data-kt-export="excel">
-                                Excel olarak dışarı aktar
-                            </a>
-                        </div>
-                        <!--end::Menu item-->
-                        <!--begin::Menu item-->
-                        <div class="menu-item p-0">
-                            <a href="#" class="menu-link py-0 px-2" data-kt-export="csv">
-                                CSV olarak dışarı aktar
-                            </a>
-                        </div>
-                        <!--end::Menu item-->
-                        <!--begin::Menu item-->
-                        <div class="menu-item p-0">
-                            <a href="#" class="menu-link py-0 px-2" data-kt-export="pdf">
-                                PDF olarak dışarı aktar
-                            </a>
-                        </div>
-                        <!--end::Menu item-->
-                    </div>
+
                     <!--end::Menu-->
                     <!--end::Export dropdown-->
                     <!--begin::Hide default export buttons-->
@@ -84,77 +49,90 @@
             <div class="card-body">
                 <!--begin::Table-->
                 <table class="table align-middle table-row-dashed fs-6" id="grup-kodu-datatable">
-             
+
                     <tbody class="text-gray-600 fw-semibold">
                         @for (var i = 0; i < Model.Rows.Count; i++)
+                        {
+                            string renk = "";
+                            if (Convert.ToBoolean(Model.Rows[i]["Sozlesme"]) == true)
                             {
-                                <tr>
-                                    <td class="" style="text-align:center;">
-                                        <div href="" class="text-gray-800 text-hover-primary" style="font-size:20px;">@(Convert.ToString(Model.Rows[i]["Unvan"]))</div>
-                                        <div href="" class="text-gray-800 text-hover-primary" style="font-size:15px;">@(Convert.ToString(Model.Rows[i]["ProjeAdi"]))</div>
+                                renk = "background-color:#00CCCC;";
+                            }
+                            else if (Convert.ToString(Model.Rows[i]["AlanKullanici"]) == "")
+                            {
+                                renk = "background-color:lightgray;";
+                            }
+                            else if (Convert.ToString(Model.Rows[i]["AlanKullanici"]) == "")
+                            {
+                                renk = "background-color:white;";
+                            }
+                            <tr style="@(renk)">
+                                <td class="" style="text-align:center;">
+                                    <div href="" class="text-gray-800 text-hover-primary" style="font-size:20px;">@(Convert.ToString(Model.Rows[i]["Unvan"]))</div>
+                                    <div href="" class="text-gray-800 text-hover-primary" style="font-size:15px;">@(Convert.ToString(Model.Rows[i]["ProjeAdi"]))</div>
 
-                                        @(Convert.ToString(Model.Rows[i]["Ilce"])) / @(Convert.ToString(Model.Rows[i]["Mahalle"])) / @(Convert.ToString(Model.Rows[i]["Ada"])) / @(Convert.ToString(Model.Rows[i]["Parsel"]))
-                                        <br />
+                                    @(Convert.ToString(Model.Rows[i]["Ilce"])) / @(Convert.ToString(Model.Rows[i]["Mahalle"])) / @(Convert.ToString(Model.Rows[i]["Ada"])) / @(Convert.ToString(Model.Rows[i]["Parsel"]))
+                                    <br />
 
-                                        <div style="margin-left:auto;margin-right:auto;width:300px;">
-                                            <a href="/Crm2/Crm2/CariDetay/?id=@(Convert.ToString(Model.Rows[i]["ID"]))" class="btn btn-primary" style="float:left;margin-left:5px;">Detay</a>
-                                            @if (Convert.ToString(dtKullanici.Rows[0]["Aciklama2"]) == "admin")
-                                            {
-                                                <a href="/Crm2/Crm2/CariDuzenle/?id=@(Convert.ToString(Model.Rows[i]["ID"]))" class="btn btn-primary" style="float: left; margin-left: 5px;">Düzenle</a>
+                                    <div style="margin-left:auto;margin-right:auto;width:300px;">
+                                        <a href="/Crm2/Crm2/CariDetay/?id=@(Convert.ToString(Model.Rows[i]["ID"]))" class="btn btn-primary" style="float:left;margin-left:5px;">Detay</a>
+                                        @if (Convert.ToString(dtKullanici.Rows[0]["Aciklama2"]) == "admin")
+                                        {
+                                            <a href="/Crm2/Crm2/CariDuzenle/?id=@(Convert.ToString(Model.Rows[i]["ID"]))" class="btn btn-primary" style="float: left; margin-left: 5px;">Düzenle</a>
 
-                                                <button type="button" data-id="@(Convert.ToString(Model.Rows[i]["ID"]))" class="btn-sil btn btn-primary" style="float: left; margin-left: 5px;" data-bs-toggle="modal" data-bs-target="#grup-kodu-silme">
-                                                    Sil
-                                                </button>
-                                            }
-                                        </div>
-                                        <br />
-                                        <hr />
-                                    </td>
-                                </tr>
-                                }
-                         
-                            </tbody>
-                        </table>
-                        <!--end::Table-->
-                    </div>
-                    <!--end::Card body-->
-                </div>
+                                            <button type="button" data-id="@(Convert.ToString(Model.Rows[i]["ID"]))" class="btn-sil btn btn-primary" style="float: left; margin-left: 5px;" data-bs-toggle="modal" data-bs-target="#grup-kodu-silme">
+                                                Sil
+                                            </button>
+                                        }
+                                    </div>
+                                    <br />
+                                    <hr />
+                                </td>
+                            </tr>
+                        }
 
+                    </tbody>
+                </table>
+                <!--end::Table-->
             </div>
-        </div>
-        <!--end::Container-->
-
-        <div class="modal fade" id="grup-kodu-silme" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title">Grup Kod Silme İşlemi</h3>
-
-                        <!--begin::Close-->
-                        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-                            <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
-                        </div>
-                        <!--end::Close-->
-                    </div>
-
-                    <div class="modal-body">
-                        <p>Kaydı silmek istediğinize emin misiniz</p>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Vazgeç</button>
-                        <form method="post" id="silme-formu" action="@Url.Action("GrupKoduSil","Crm2",new { Area = "Crm2" })">
-                            <input type="hidden" name="id" value="" />
-                            <input type="hidden" name="grupKodu" value="" />
-                            <button type="submit" class="btn btn-danger btn-sm">Sil</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            <!--end::Card body-->
         </div>
 
-        @section Scripts {
-            <script>
+    </div>
+</div>
+<!--end::Container-->
 
-            </script>
-        }
+<div class="modal fade" id="grup-kodu-silme" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Grup Kod Silme İşlemi</h3>
+
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body">
+                <p>Kaydı silmek istediğinize emin misiniz</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Vazgeç</button>
+                <form method="post" id="silme-formu" action="@Url.Action("GrupKoduSil","Crm2",new { Area = "Crm2" })">
+                    <input type="hidden" name="id" value="" />
+                    <input type="hidden" name="grupKodu" value="" />
+                    <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+    </script>
+}

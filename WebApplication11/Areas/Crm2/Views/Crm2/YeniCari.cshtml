@@ -123,7 +123,7 @@
         </tr>
         <tr>
             <td>
-                <select class="form-control" name="Il" id="Il" required>
+                <select class="form-control" name="Il" id="Il" required onchange="IlceleriGetir();">
                     @foreach (DataRow satir in dtIl.Rows)
                     {
                         <option value="@satir["ID"]" @(Convert.ToString(satir["Deger"]) == "Antalya" ? "selected" : "")>@satir["Deger"]</option>
@@ -135,13 +135,19 @@
             <td>İlçe</td>
         </tr>
         <tr>
-            <td><input type="text" name="Ilce" id="Ilce" value="" class="form-control" required /></td>
+            <td>
+                <select class="form-control" name="Ilce" id="Ilce" required onchange="MahalleleriGetir();">
+                </select>
+            </td>
         </tr>
         <tr>
             <td>Mahallesi</td>
         </tr>
         <tr>
-            <td><input type="text" name="Muhalle" id="Mahalle" value="" class="form-control" /></td>
+            <td>
+                <select class="form-control" name="Mahalle" id="Mahalle" required>
+                </select>
+            </td>
         </tr>
         <tr>
             <td>Ada</td>
@@ -192,7 +198,7 @@
             </td>
         </tr>
     </table>
-  
+
 </div>
 
 
@@ -205,6 +211,70 @@
 @section scripts {
 
     <script>
+
+        function IlceleriGetir() {
+
+            var formData = new FormData();
+            formData.append('UStID', $("#Il").val());
+            $.ajax({
+                type: "POST",
+                url: '/Crm2/Crm2/IlceleriGetir',
+                data: formData,
+                dataType: "json",
+                enctype: 'multipart/form-data',
+                async: false,
+                contentType: false,
+                processData: false,
+                //contentType: "application/json; charset=utf-8",
+                //dataFilter: function (data) { return data; },
+                success: function (data) {
+
+                    $('#Ilce').find('option').remove();
+                    var deger = "";
+                    for (var i = 0; i < data.length; i++) {
+                        deger += "<option value='" + data[i].ID + "'>" + data[i].Deger + "</option>";
+                    }
+                    $('#Ilce').append(deger);
+                    MahalleleriGetir();
+
+                },
+                error: function (msg) {
+                    console.log(msg.statusText);
+                }
+            });
+        }
+        function MahalleleriGetir() {
+            var formData = new FormData();
+            formData.append('UstID', $("#Ilce").val());
+            $.ajax({
+                type: "POST",
+                url: '/Crm2/Crm2/MahalleleriGetir',
+                data: formData,
+                dataType: "json",
+                enctype: 'multipart/form-data',
+                async: false,
+                contentType: false,
+                processData: false,
+                //contentType: "application/json; charset=utf-8",
+                //dataFilter: function (data) { return data; },
+                success: function (data) {
+
+                    $('#Mahalle').find('option').remove();
+                    var deger = "";
+                    for (var i = 0; i < data.length; i++) {
+                        deger += "<option value='" + data[i].ID + "'>" + data[i].Deger + "</option>";
+                    }
+                    $('#Mahalle').append(deger);
+
+
+                },
+                error: function (msg) {
+                    console.log(msg.statusText);
+                }
+            });
+        }
+        IlceleriGetir();
+
         function Kaydet() {
 
             if ($("#ProjeTipi").val() == "") {

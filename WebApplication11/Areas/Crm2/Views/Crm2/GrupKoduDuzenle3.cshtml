@@ -1,0 +1,60 @@
+﻿@model System.Data.DataTable
+@{
+    ViewBag.Title = "Düzenle";
+    Layout = "~/Views/Shared/_LayoutSade.cshtml";
+}
+<form id="kt_modal_add_user_form" class="form container" action="@Url.Action("GrupKoduDuzenle3","Crm2",new { Area = "Crm2" })" method="post">
+    <div class="d-flex flex-column scroll-y px-5 px-lg-10 py-10">
+        <input type="hidden" name="UstID" value="@Request.QueryString["UstID"]" />
+        <input type="hidden" name="ID" class="form-control  mb-3 mb-lg-0" placeholder="Kod" value="@(Convert.ToString(Model.Rows[0]["ID"]))" required />
+        <input type="hidden" name="UyelikID" class="form-control  mb-3 mb-lg-0" placeholder="UyelikID" value="@(Convert.ToString(Model.Rows[0]["UyelikID"]))" required />
+        <!--begin::Row Input group-->
+        <div class="row">
+            <!--begin::Input group-->
+            <div class="col-lg-1" style="display:none;">
+                <!--begin::Label-->
+                <label class="required fw-semibold fs-6 mb-2">Kod</label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input type="text" name="Kod" class="form-control p-2 mb-3 mb-lg-0" placeholder="Kod" value="@(Convert.ToString(Model.Rows[0]["Kod"]))" required />
+
+                <!--end::Input-->
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="col-lg-6">
+                <!--begin::Label-->
+                <label class="required fw-semibold fs-6 mb-2">Değer</label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input type="text" name="Deger" class="form-control p-2 mb-3 mb-lg-0" placeholder="Değer" required value="@(Convert.ToString(Model.Rows[0]["Deger"]))" />
+                <!--end::Input-->
+            </div>
+
+            <!--end::Input group-->
+            <!--end::Row Input group-->
+
+        </div>
+        <div class="row mt-4">
+            <div class="col-lg-2 d-flex align-items-center ">
+                <div class="form-check">
+                    <input class="form-check-input" name="Aktif" type="checkbox" value="true" id="Aktif" @(Convert.ToBoolean(Model.Rows[0]["Aktif"]) ? "checked" : "") />
+                    <label class="form-check-label user-select-none cursor-pointer" for="Aktif">
+                        Aktif
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="pt-10">
+            <a onclick="history.back()" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
+            <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet">
+                <span class="indicator-label">Kaydet</span>
+            </button>
+        </div>
+    </div>
+    <!--end::Actions-->
+</form>
+
+
+
+
