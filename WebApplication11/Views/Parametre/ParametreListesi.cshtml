@@ -82,7 +82,7 @@
                                 else if (item.Tip == "textarea")
                                 {
                                     <label for="@item.ID.Replace("-","")">@item.Isim</label><br />
-                                    <textarea style="width:100%;" rows="5" name="@item.StandartID.Replace("-","")" id="@item.StandartID.Replace("-","")">@Html.Raw(item.Deger)</textarea><br />
+                                    <textarea style="width:100%;" rows="5" name="@item.StandartID.Replace("-","")" id="@item.StandartID.Replace("-","")">@Html.Raw(HttpUtility.HtmlDecode(item.Deger))</textarea><br />
 
                                     <input type="button" name="name" value="Kaydet" onclick="Kaydet('@item.ID', '@item.StandartID.Replace("-","")', '@item.UyelikID', '@item.Modul', '@item.Isim', '@item.Tip')" />
                                 }
@@ -92,7 +92,7 @@
                         }
 
                     </div>
-                    <!--end::Tap pane-->
+                    <!--end::T  p pane-->
                 }
 
             </div>
@@ -110,8 +110,21 @@
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="~/Tema/plugins/custom/tinymce/tinymce.bundle.js"></script>
 
     <script type="text/javascript">
+
+                $(document).ready(function () {
+
+                var AciklamaEditorOptions = { selector: "#a12cfac51f054a65921615bd316a4dc5", height: 200 };
+
+                if (KTThemeMode.getMode() === "dark") {
+                    AciklamaEditorOptions["skin"] = "oxide-dark";
+                    AciklamaEditorOptions["content_css"] = "dark";
+                }
+
+            tinymce.init(AciklamaEditorOptions);
+        });
 
         function Kaydet(id, id2, uyelikid, modul, isim, tip) {
             var deger = "";
@@ -122,7 +135,7 @@
             } else if (tip == "checkbox") {
                 deger = $("#" + id2).is(":checked") == false ? 0 : 1;
             }
-
+            console.log(deger);
             var _data = { "Modul": modul, "Isim": isim, "Deger": deger };
             console.log(_data);
             var formData = new FormData();
@@ -146,6 +159,10 @@
                 }
             });
         }
+
+    </script>
+
+    <script>
 
     </script>
 }

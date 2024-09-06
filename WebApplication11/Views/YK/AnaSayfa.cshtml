@@ -180,7 +180,7 @@
         <!--begin::Modal content-->
         <div class="modal-content">
             <!--begin::Form-->
-            <form class="form" action="#" id="kt_modal_add_event_form">
+            <form class="form" action="/YK/TakvimKaydet" method="post" id="takvimKaydetForm">
                 <!--begin::Modal header-->
                 <div class="modal-header">
                     <!--begin::Modal title-->
@@ -201,7 +201,7 @@
                         <label class="fs-6 fw-semibold required mb-2">Etkinlik Adı</label>
                         <!--end::Label-->
                         <!--begin::Input-->
-                        <input type="text" class="form-control form-control-solid" placeholder="" name="Baslik" />
+                        <input type="text" id="Baslik" class="form-control form-control-solid" placeholder="" name="Baslik" />
                         <!--end::Input-->
                     </div>
                     <!--end::Input group-->
@@ -210,96 +210,95 @@
                         <!--begin::Label-->
                         <label class="fs-6 fw-semibold mb-2">Açıklama</label>
                         <!--end::Label-->
-                        <!--begin::Input-->
-                        <input type="text" class="form-control form-control-solid" placeholder="" name="Aciklama" />
+                        <textarea name="Aciklama" id="Aciklama" class="form-control form-control form-control-solid" data-kt-autosize="true"></textarea>
                         <!--end::Input-->
                     </div>
                     <!--end::Input group-->
                     <!--begin::Input group-->
-                    <div class="fv-row mb-9">
-                        <div class="col-lg-4 col-12">
-                            <!--begin::Label-->
-                            <label for="Durumu" class="form-label fs-6 fw-bold text-gray-600 mb-3">Durumu</label>
-                            <!--begin::Input-->
+
+
+                    <div class="row mt-4">
+                        <div class="col-lg-4 ">
                             <div class="form-group">
-                                <select class="px-2 py-1 rounded-1 form-control form-control-solid" data-control="select2" name="Durumu" id="Durumu"
+                                <label for="Durumu" class=" form-label">Durumu</label>
+                                <select class="form-control p-2 rounded-1" name="Durumu" id="Durumu"
                                         aria-label="Floating label select example">
                                     <option value="">Lütfen Seçim Yapınız</option>
-                                    @if (ViewBag.TakvimDurumlari != null)
+                                    @foreach (GrupKoduDto takvimDurumu in ViewBag.TakvimDurumlari)
                                     {
-                                        foreach (GrupKoduDto takvimDurumu in ViewBag.TakvimDurumlari)
-                                        {
-                                            <option value="@(takvimDurumu.Deger)">@(takvimDurumu.Deger)</option>
-                                        }
+                                        <option value="@(takvimDurumu.Deger)">@(takvimDurumu.Deger)</option>
                                     }
                                 </select>
-                            </div>                            <!--end::Input-->
-                        </div>
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="row row-cols-lg-2 g-10">
-                        <div class="col">
-                            <div class="fv-row mb-9">
-                                <!--begin::Label-->
-                                <label class="fs-6 fw-semibold mb-2 required">Tarihi</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <input class="form-control form-control-solid" name="Tarih" placeholder="Pick a start date" id="kt_calendar_datepicker_start_date" />
-                                <!--end::Input-->
                             </div>
                         </div>
 
 
-                    </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
-                    <div class="row row-cols-lg-2 g-10">
-                        <div class="col">
-                            <div class="fv-row mb-9">
-                                <!--begin::Label-->
-                                <label class="fs-6 fw-semibold mb-2 required">Etkinlik Bitiş Tarihi</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <input class="form-control form-control-solid" name="calendar_event_end_date" placeholder="Pick a end date" id="kt_calendar_datepicker_end_date" />
-                                <!--end::Input-->
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <div class="row row-cols-lg-2 g-10">
+                            <div class="col">
+                                <div class="fv-row mb-9">
+                                    <!--begin::Label-->
+                                    <label class="fs-6 fw-semibold mb-2 required">Tarihi</label>
+                                    <!--end::Label-->
+                                    <!--begin::Input-->
+                                    <input type="datetime-local" class="form-control form-control-solid" name="Tarih" id="Tarih" />
+                                    <!--end::Input-->
+                                </div>
                             </div>
-                        </div>
-                        <div class="col" data-kt-calendar="datepicker">
-                            <div class="fv-row mb-9">
-                                <!--begin::Label-->
-                                <label class="fs-6 fw-semibold mb-2">Etkinlik Bitiş Saati</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <input class="form-control form-control-solid" name="calendar_event_end_time" placeholder="Pick a end time" id="kt_calendar_datepicker_end_time" />
-                                <!--end::Input-->
-                            </div>
-                        </div>
 
+
+                        </div>
+                        <!--end::Input group-->
+                        <!--begin::Input group-->
+                        <!--<div class="row row-cols-lg-2 g-10">
+        <div class="col">
+            <div class="fv-row mb-9">-->
+                        <!--begin::Label-->
+                        <!--<label class="fs-6 fw-semibold mb-2 required">Etkinlik Bitiş Tarihi</label>-->
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <!--<input class="form-control form-control-solid" name="calendar_event_end_date" placeholder="Pick a end date" id="kt_calendar_datepicker_end_date" />-->
+                        <!--end::Input-->
+                        <!--</div>
+        </div>
+        <div class="col" data-kt-calendar="datepicker">
+            <div class="fv-row mb-9">-->
+                        <!--begin::Label-->
+                        <!--<label class="fs-6 fw-semibold mb-2">Etkinlik Bitiş Saati</label>-->
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <!--<input class="form-control form-control-solid" name="calendar_event_end_time" placeholder="Pick a end time" id="kt_calendar_datepicker_end_time" />-->
+                        <!--end::Input-->
+                        <!--</div>
+            </div>
+
+        </div>-->
+                        <!--end::Input group-->
                     </div>
-                    <!--end::Input group-->
+
                 </div>
-                <!--end::Modal body-->
-                <!--begin::Modal footer-->
-                <div class="modal-footer flex-center">
-                    <!--begin::Button-->
-                    <button type="reset" id="kt_modal_add_event_cancel" class="btn btn-light me-3" data-bs-dismiss="modal">
-                        Cancel
-                    </button>
-                    <!--end::Button-->
-                    <!--begin::Button-->
-                    <button type="button" id="kt_modal_add_event_submit" class="btn btn-primary">
-                        <span class="indicator-label">
-                            Submit
-                        </span>
-                        <span class="indicator-progress">
-                            Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                        </span>
-                    </button>
-                    <!--end::Button-->
-                </div>
-                <!--end::Modal footer-->
-            </form>
+                    <!--end::Modal body-->
+                    <!--begin::Modal footer-->
+                    <div class="modal-footer flex-center">
+                        <!--begin::Button-->
+                        <button type="reset" id="kt_modal_add_event_cancel" class="btn btn-light me-3" data-bs-dismiss="modal">
+                            Vazgeç
+                        </button>
+                        <!--end::Button-->
+                        <!--begin::Button-->
+                        <button type="submit" id="takvimKaydetButonu" class="btn btn-primary">
+                            <span class="indicator-label">
+                                Kaydet
+                            </span>
+                            <span class="indicator-progress">
+                                Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </button>
+                        <!--end::Button-->
+                    </div>
+                    <!--end::Modal footer-->
+</form>
             <!--end::Form-->
         </div>
     </div>
@@ -308,207 +307,132 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
 
-        // AJAX isteği için veri hazırlığı
-        var _data = {
-            Tip: Tip,
-            ID: $("#ID").val(),
-            BelgeNo: $("#BelgeNo").val(),
-            Tarih: $("#Tarih").val(),
-            CariID: $("#CariID").val(),
-            Durumu: $("#Durumu").val(),
-            DepoCikisID: $("#DepoCikisID").val(),
-            DepoGirisID: $("#DepoGirisID").val(),
-            SatisPersonelID: $("#SatisPersonelID").val(),
-            Aciklama: $("#Aciklama").val(),
-            Kalemler: kalemler // Kalemler dizisi burada atanmıştır
-        };
+        $(document).ready(function () {
+            const todayDate = moment().startOf('day');
+            function updateCalendarEvents() {
+                $.ajax({
+                    url: '/YK/Takvim',
+                    type: 'POST',
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify({
+                        BaslangicTarihi: todayDate.clone().subtract(1, 'year'),
+                        BitisTarihi: todayDate.clone().add(1, 'year')
+                    }),
+                    success: function (response) {
+                        if (response.Data.Success) {
+                            $('#Takvim').fullCalendar('removeEvents');
+                            $('#Takvim').fullCalendar('addEventSource', response.Data.Data);
 
-       $.ajax({
-            url: '/YK/TakvimKaydet',
-            data: JSON.stringify(_data), // Veriyi JSON formatına dönüştür
-            contentType: "application/json",
-           dataType: "json",
-           type: "POST",
-           success: function (data) {
-                alert("Belge Kaydedildi!");
-           // Detay sayfasını aç
-                window.open("/YK/Anasayfa");
-           },
-            error: function (msg) {
-               console.log(msg);
-           }
-        });
-
-        "use strict";
-
-        // Class definition
-        var TakvimModulu = function () {
-            // Private functions
-
-            var exampleBasic = function () {
-                var todayDate = moment().startOf('day');
-                var YM = todayDate.format('YYYY-MM');
-                var YESTERDAY = todayDate.clone().subtract(1, 'day').format('YYYY-MM-DD');
-                var TODAY = todayDate.format('YYYY-MM-DD');
-                var TOMORROW = todayDate.clone().add(1, 'day').format('YYYY-MM-DD');
-
-                var calendarEl = document.getElementById('Takvim');
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    headerToolbar: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-                    },
-
-                    height: 800,
-                    contentHeight: 780,
-                    aspectRatio: 3,  // see: https://fullcalendar.io/docs/aspectRatio
-
-                    nowIndicator: true,
-                    now: TODAY + 'T09:25:00', // just for demo
-
-                    views: {
-                        dayGridMonth: { buttonText: 'month' },
-                        timeGridWeek: { buttonText: 'week' },
-                        timeGridDay: { buttonText: 'day' }
-                    },
-
-                    initialView: 'dayGridMonth',
-                    initialDate: TODAY,
-
-                    editable: true,
-                    dayMaxEvents: true, // allow "more" link when too many events
-                    navLinks: true,
-                    events: [
-                        {
-                            title: 'All Day Event',
-                            start: YM + '-01',
-                            description: 'Toto lorem ipsum dolor sit incid idunt ut',
-                            className: "fc-event-danger fc-event-solid-warning"
-                        },
-                        {
-                            title: 'Reporting',
-                            start: YM + '-14T13:30:00',
-                            description: 'Lorem ipsum dolor incid idunt ut labore',
-                            end: YM + '-14',
-                            className: "fc-event-success"
-                        },
-                        {
-                            title: 'Company Trip',
-                            start: YM + '-02',
-                            description: 'Lorem ipsum dolor sit tempor incid',
-                            end: YM + '-03',
-                            className: "fc-event-primary"
-                        },
-                        {
-                            title: 'ICT Expo 2017 - Product Release',
-                            start: YM + '-03',
-                            description: 'Lorem ipsum dolor sit tempor inci',
-                            end: YM + '-05',
-                            className: "fc-event-light fc-event-solid-primary"
-                        },
-                        {
-                            title: 'Dinner',
-                            start: YM + '-12',
-                            description: 'Lorem ipsum dolor sit amet, conse ctetur',
-                            end: YM + '-10'
-                        },
-                        {
-                            id: 999,
-                            title: 'Repeating Event',
-                            start: YM + '-09T16:00:00',
-                            description: 'Lorem ipsum dolor sit ncididunt ut labore',
-                            className: "fc-event-danger"
-                        },
-                        {
-                            id: 1000,
-                            title: 'Repeating Event',
-                            description: 'Lorem ipsum dolor sit amet, labore',
-                            start: YM + '-16T16:00:00'
-                        },
-                        {
-                            title: 'Conference',
-                            start: YESTERDAY,
-                            end: TOMORROW,
-                            description: 'Lorem ipsum dolor eius mod tempor labore',
-                            className: "fc-event-primary"
-                        },
-                        {
-                            title: 'Meeting',
-                            start: TODAY + 'T10:30:00',
-                            end: TODAY + 'T12:30:00',
-                            description: 'Lorem ipsum dolor eiu idunt ut labore'
-                        },
-                        {
-                            title: 'Lunch',
-                            start: TODAY + 'T12:00:00',
-                            className: "fc-event-info",
-                            description: 'Lorem ipsum dolor sit amet, ut labore'
-                        },
-                        {
-                            title: 'Meeting',
-                            start: TODAY + 'T14:30:00',
-                            className: "fc-event-warning",
-                            description: 'Lorem ipsum conse ctetur adipi scing'
-                        },
-                        {
-                            title: 'Happy Hour',
-                            start: TODAY + 'T17:30:00',
-                            className: "fc-event-info",
-                            description: 'Lorem ipsum dolor sit amet, conse ctetur'
-                        },
-                        {
-                            title: 'Dinner',
-                            start: TOMORROW + 'T05:00:00',
-                            className: "fc-event-solid-danger fc-event-light",
-                            description: 'Lorem ipsum dolor sit ctetur adipi scing'
-                        },
-                        {
-                            title: 'Birthday Party',
-                            start: TOMORROW + 'T07:00:00',
-                            className: "fc-event-primary",
-                            description: 'Lorem ipsum dolor sit amet, scing'
-                        },
-                        {
-                            title: 'Click for Google',
-                            url: 'http://google.com/',
-                            start: YM + '-28',
-                            className: "fc-event-solid-info fc-event-light",
-                            description: 'Lorem ipsum dolor sit amet, labore'
                         }
-                    ],
-
-                    eventContent: function (info) {
-                        var element = $(info.el);
-
-                        if (info.event.extendedProps && info.event.extendedProps.description) {
-                            if (element.hasClass('fc-day-grid-event')) {
-                                element.data('content', info.event.extendedProps.description);
-                                element.data('placement', 'top');
-                                KTApp.initPopover(element);
-                            } else if (element.hasClass('fc-time-grid-event')) {
-                                element.find('.fc-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
-                            } else if (element.find('.fc-list-item-title').lenght !== 0) {
-                                element.find('.fc-list-item-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
-                            }
-                        }
+                    },
+                    error: function () {
+                    //    alert('there was an error while fetching events!');
                     }
-                });
-
-                calendar.render();
+                })
             }
 
-            return {
-                // Public Functions
-                init: function () {
-                    exampleBasic();
-                }
-            };
-        }();
+            $("#takvimKaydetForm").on('submit', function (event) {
+                event.preventDefault();
 
-        // On document ready
-        KTUtil.onDOMContentLoaded(function () {
-            TakvimModulu.init();
-        });
+                var _data = {};
+
+                _data.Baslik = $('#takvimKaydetForm input#Baslik').val();
+                _data.Aciklama = $('#takvimKaydetForm textarea#Aciklama').val();
+                _data.Durumu = $('#takvimKaydetForm select#Durumu option:selected').val();
+                _data.Tarih = $('#takvimKaydetForm input#Tarih').val();
+
+                console.log(_data);
+                $.ajax({
+                    url: '/YK/TakvimKaydet',
+                    data: JSON.stringify(_data), // Veriyi JSON formatına dönüştür
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST",
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (msg) {
+                        console.log(msg);
+                    }
+                });
+            })
+
+            var TakvimModulu = function () {
+                // Private functions
+
+                var exampleBasic = function () {
+                    var todayDate = moment().startOf('day');
+                    var YM = todayDate.format('YYYY-MM');
+                    var YESTERDAY = todayDate.clone().subtract(1, 'day').format('YYYY-MM-DD');
+                    var TODAY = todayDate.format('YYYY-MM-DD');
+                    var TOMORROW = todayDate.clone().add(1, 'day').format('YYYY-MM-DD');
+
+                    var calendarEl = document.getElementById('Takvim');
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        headerToolbar: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+                        },
+
+                        height: 800,
+                        contentHeight: 780,
+                        aspectRatio: 3,  // see: https://fullcalendar.io/docs/aspectRatio
+
+                        nowIndicator: true,
+                        now: TODAY + 'T09:25:00', // just for demo
+
+                        views: {
+                            dayGridMonth: { buttonText: 'month' },
+                            timeGridWeek: { buttonText: 'week' },
+                            timeGridDay: { buttonText: 'day' }
+                        },
+
+                        initialView: 'dayGridMonth',
+                        initialDate: TODAY,
+
+                        editable: true,
+                        dayMaxEvents: true, // allow "more" link when too many events
+                        navLinks: true,
+     
+
+                        eventContent: function (info) {
+                            var element = $(info.el);
+
+                            if (info.event.extendedProps && info.event.extendedProps.description) {
+                                if (element.hasClass('fc-day-grid-event')) {
+                                    element.data('content', info.event.extendedProps.description);
+                                    element.data('placement', 'top');
+                                    KTApp.initPopover(element);
+                                } else if (element.hasClass('fc-time-grid-event')) {
+                                    element.find('.fc-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
+                                } else if (element.find('.fc-list-item-title').lenght !== 0) {
+                                    element.find('.fc-list-item-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
+                                }
+                            }
+                        }
+                    });
+
+                    calendar.render();
+                    updateCalendarEvents();
+                }
+
+                return {
+                    // Public Functions
+                    init: function () {
+                        exampleBasic();
+                    }
+                };
+            }();
+
+            // On document ready
+            KTUtil.onDOMContentLoaded(function () {
+                TakvimModulu.init();
+            });
+
+        })
+
+      
     </script>
 }

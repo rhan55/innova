@@ -69,7 +69,6 @@ namespace YKPortal.Controllers
             JsonResult result = new JsonResult();
 
             #region Kayıt işlemi gerçekleştirilecek.
-            string KullaniciID = GetCookie("KullaniciID");
 
             if (anasayfaTakvimKaydetDto == null)
             {
@@ -88,7 +87,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@Durumu", anasayfaTakvimKaydetDto.Durumu);
             cmd.Parameters.AddWithValue("@Baslik", anasayfaTakvimKaydetDto.Baslik);
             cmd.Parameters.AddWithValue("@Aciklama", anasayfaTakvimKaydetDto.Aciklama);
-            cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
 
             try
             {
@@ -105,6 +104,50 @@ namespace YKPortal.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public JsonResult Takvim(AnasayfaTakvimKaydetDto anasayfaTakvimKaydetDto)
+        {
+            JsonResult result = new JsonResult();
+
+
+            if (anasayfaTakvimKaydetDto == null)
+            {
+                result.Data = new { Success = false, Message = "Invalid input data." };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_AnaSayfaTakvimListesi";
+
+            // Parametreleri ekle
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@BaslangicTarihi", anasayfaTakvimKaydetDto.BaslangicTarihi);
+            cmd.Parameters.AddWithValue("@BitisTarihi", anasayfaTakvimKaydetDto.BitisTarihi);
+
+
+            try {
+                DataTable takvimListesi = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                List<FullcalendarDto> entities = new List<FullcalendarDto>();
+
+                for (int i = 0; i < takvimListesi.Rows.Count; i++)
+                {
+                    var entity = new FullcalendarDto();
+                    entity.id = Convert.ToString(takvimListesi.Rows[i]["ID"]);
+                    entity.title = Convert.ToString(takvimListesi.Rows[i]["Baslik"]);
+                    entity.start = Convert.ToString(takvimListesi.Rows[i]["Tarih"]);
+                    entities.Add(entity);
+                }
+                result.Data = new { Success = true, Message = "Başarılı", Data = entities };
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            } catch(Exception exception)
+            {
+                result.Data = new { Success = false, Message = exception.Message };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+        }
 
         private void AnaSayfaBilgileri()
         {

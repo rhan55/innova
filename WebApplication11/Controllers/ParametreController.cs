@@ -135,6 +135,7 @@ namespace YKPortal.Controllers
             return View(entities);
         }
 
+        [ValidateInput(false)]
         [HttpPost]
         public JsonResult ParametreyiKaydet(string Modul, string Isim, string Deger)
         {
@@ -143,7 +144,7 @@ namespace YKPortal.Controllers
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@Modul", Modul);
-            cmd.Parameters.AddWithValue("@Deger", Deger);
+            cmd.Parameters.AddWithValue("@Deger", HttpUtility.HtmlEncode(Deger));
             cmd.Parameters.AddWithValue("@Isim", Isim);
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);

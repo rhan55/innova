@@ -231,6 +231,7 @@
     <Compile Include="Models\Dto\CariKisiListeViewModel.cs" />
     <Compile Include="Models\Dto\DovizBirimiDto.cs" />
     <Compile Include="Models\Dto\DovizBirimiListeViewModel.cs" />
+    <Compile Include="Models\Dto\FullcalendarDto.cs" />
     <Compile Include="Models\Dto\GrupkoduListeViewModel.cs" />
     <Compile Include="Models\Dto\KasaTanimlamaDto.cs" />
     <Compile Include="Models\Dto\PersonelDto.cs" />
