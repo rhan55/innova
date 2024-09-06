@@ -1,9 +1,17 @@
 ﻿
+@using System.Data
 @{
     ViewBag.Title = "Depo Otomasyonu";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     string KullaniciID = Request.Cookies["KullaniciID"].Value;
+
+    DataTable dt = new DataTable();
+    if (ViewBag.dtDetay != null)
+    {
+       dt= ViewBag.dtDetay as DataTable;
+    }
+
 
 }
 
@@ -13,92 +21,75 @@
 
 <div style="padding:20px;text-align:center;">
 
-    <form action="@Url.Content("~/Depo/NetsisDepo/")" method="post">
+    <form action="@Url.Content("~/Depo/NetsisDepo/NetsisStokEkbilgiDuzenle")" method="get">
 
         <table border="0" style="width:100%;">
-      
+
             <tr>
-                <td width="50%">
+                <td>
                     <label>Stok Kodu</label>
                 </td>
+                <td colspan="2">
+                    <input type="text" name="Belge_Barkod" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["STOK_KODU"]) : "")" class="form-control" style="font-size:50px;width:100%;height:50px;" />
+                </td>
+            </tr>
+        
+        </table>
+        <hr />
+    </form>
+    <form action="@Url.Content("~/Depo/NetsisDepo/NetsisStokEkBilgi_Guncelle")" method="post">
+
+        <input type="hidden" name="Stok_Kodu" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["STOK_KODU"]) : "")" class="form-control" style="font-size:50px;width:100%;height:50px;" />
+        <table border="0" style="width:100%;">
+            <tr>
                 <td>
-                    <input type="text" name="Okutma_Barkod" value="" class="form-control" style="font-size:50px;width:100%;height:50px;" />
+                    <label> Stok Adı</label>
+                </td>
+                <td colspan="2">
+                    <input type="text" disabled name="Stok_Adi" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["STOK_ADI"]) : "")" class="form-control" style="font-size:50px;width:100%;height:50px;" />
                 </td>
             </tr>
             <tr>
                 <td>
-                    
+                    <label> Kull 1 </label>
                 </td>
+                <td colspan="2">
+                    <input type="text" name="Okutma_Kull1" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["KULL1S"]) : "")" class="form-control" style="font-size:50px;width:100%;height:50px;" />
+                </td>
+            </tr>
+            <tr>
                 <td>
+                    <label> Kull 2 </label>
+                </td>
+                <td colspan="2">
+                    <input type="text" name="Okutma_Kull2" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["KULL2S"]) : "")" class="form-control" style="font-size:50px;width:100%;height:50px;" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label> Kull 3 </label>
+                </td>
+                <td colspan="2">
+                    <input type="text" name="Okutma_Kull3" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["KULL3S"]) : "")" class="form-control" style="font-size:50px;width:100%;height:50px;" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <hr />
+                <td>
+            </tr>
+            
+            <tr>
+                <td colspan="2">
+                </td>
+                <td >
                     <input type="submit" name="name" value="Kaydet" class="btn btn-block btn-default" />
                 </td>
             </tr>
-
         </table>
-
-
-        <br /><br />
-        <table border="0" style="width:100%;">
-            <tr>
-                <td>
-                    BARKOD
-                </td>
-                <td>
-                    ADET
-                </td>
-                <td>
-                    KG
-                </td>
-            </tr>
-    
-        </table>
-
 
     </form>
-    <div style="clear:both;"></div>
-    @if (((System.Data.DataTable)ViewBag.Detay) != null)
-    {
-        if (ViewBag.Baslangic == null)
-        {
-            <form action="@Url.Content("~/UretimMobile/IstasyonAsama")" method="post" style="width:100%;height:100px;text-align:center;">
-                <input type="hidden" name="IslemTipi" id="IslemTipi" value="104" />
-                <input type="hidden" name="Barkod" id="Barkod" value="@ViewBag.Barkod" />
-                <input type="submit" name="name" value="Başlat" class="btn btn-block btn-success" style="height:100px;font-size:40px;" />
-            </form>
-        }
-        else
-        {
-            <form action="@Url.Content("~/UretimMobile/IstasyonAsama")" method="post" style="width: 100%; height: 100px;text-align: center; ">
-                <input type="hidden" name="IslemTipi" id="IslemTipi" value="106" />
-                <input type="hidden" name="Barkod" id="Barkod" value="@ViewBag.Barkod" />
-                <input type="submit" name="name" value="Bitiş" class="btn btn-block btn-danger" style="height: 100px; font-size: 40px;" />
-
-            </form>
-        }
-    }
 
 
-    <div style="clear:both;"></div>
-    <hr />
 
-    @if (ViewBag.Detay != null)
-    {
-        <table class="table" border="1">
-            <tr>
-                <th><strong>Makine ID</strong></th>
-                <th><strong>Makine Adı</strong></th>
-                <th><strong>Başlangış</strong></th>
-                <th><strong>Bitiş</strong></th>
-            </tr>
-            @foreach (System.Data.DataRow item in ((System.Data.DataTable)ViewBag.Detay).Rows)
-            {
-                <tr>
-                    <th>@item["MAKINE_ID"]</th>
-                    <th>@item["MAKINE_ADI"]</th>
-                    <th>@item["FIS_BASLANGIC"]</th>
-                    <th>@item["FIS_BITIS"]</th>
-                </tr>
-            }
-        </table>
-    }
 </div>

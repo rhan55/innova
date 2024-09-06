@@ -1,0 +1,267 @@
+﻿@using System.Data
+
+@{
+    ViewBag.Title = "Uretim_Takimlastirma";
+    Layout = null;
+    System.Data.DataTable dt = ViewBag.dtDetay as System.Data.DataTable;
+}
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <!-- Apple devices fullscreen -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- Apple devices fullscreen -->
+    <meta names="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <title>@ViewBag.Title</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/bootstrap.css")">
+    <!-- Bootstrap responsive -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/bootstrap-responsive.min.css")">
+    <!-- jQuery UI -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/plugins/jquery-ui/smoothness/jquery-ui.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/plugins/jquery-ui/smoothness/jquery.ui.theme.css")">
+    <!-- Notify -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/plugins/gritter/jquery.gritter.css")">
+    <!-- Tagsinput -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/plugins/tagsinput/jquery.tagsinput.css")">
+    <!-- PageGuide -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/plugins/pageguide/pageguide.css")">
+    <!-- Fullcalendar -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/plugins/fullcalendar/fullcalendar.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/plugins/fullcalendar/fullcalendar.print.css")" media="print">
+    <!-- chosen -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/plugins/chosen/chosen.css")">
+    <!-- select2 -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/plugins/select2/select2.css")">
+    <!-- icheck -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/plugins/icheck/all.css")">
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/style.css")">
+    <!-- Color CSS -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/themes.css")">
+    <!-- Plupload
+        <link rel="stylesheet" href="Url.Content("~/Content/css/plugins/plupload/jquery.plupload.queue.css")">
+    -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/plugins/datepicker/datepicker.css")">
+
+    <!-- AutoComplete -->
+    <link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/blitzer/jquery-ui.css" rel="Stylesheet" type="text/css" />
+
+    <!-- jQuery -->
+    <script src="@Url.Content("~/Content/js/jquery.min.js")"></script>
+
+    <!-- Nice Scroll -->
+    <script src="@Url.Content("~/Content/js/plugins/nicescroll/jquery.nicescroll.min.js")"></script>
+    <!-- jQuery UI -->
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/js/plugins/jquery-ui/jquery.ui.core.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/jquery-ui/jquery.ui.widget.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/jquery-ui/jquery.ui.mouse.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/jquery-ui/jquery.ui.draggable.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/jquery-ui/jquery.ui.resizable.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/jquery-ui/jquery.ui.sortable.min.js")"></script>
+    <!-- imagesLoaded -->
+    <script src="@Url.Content("~/Content/js/plugins/imagesLoaded/jquery.imagesloaded.min.js")"></script>
+    <!-- Touch enable for jquery UI -->
+    <script src="@Url.Content("~/Content/js/plugins/touch-punch/jquery.touch-punch.min.js")"></script>
+    <!-- slimScroll -->
+    <script src="@Url.Content("~/Content/js/plugins/slimscroll/jquery.slimscroll.min.js")"></script>
+    <!-- Bootstrap -->
+    <script src="@Url.Content("~/Content/js/bootstrap.min.js")"></script>
+    <!-- Bootbox -->
+    <script src="@Url.Content("~/Content/js/plugins/form/jquery.form.min.js")"></script>
+    <!-- vmap -->
+    <script src="@Url.Content("~/Content/js/plugins/vmap/jquery.vmap.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/vmap/jquery.vmap.world.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/vmap/jquery.vmap.sampledata.js")"></script>
+    <!-- Bootbox -->
+    <script src="@Url.Content("~/Content/js/plugins/bootbox/jquery.bootbox.js")"></script>
+    <!-- Notify -->
+    <script src="@Url.Content("~/Content/js/plugins/gritter/jquery.gritter.min.js")"></script>
+    <!-- Flot -->
+    <script src="@Url.Content("~/Content/js/plugins/flot/jquery.flot.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/flot/jquery.flot.bar.order.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/flot/jquery.flot.pie.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/flot/jquery.flot.resize.min.js")"></script>
+    <!-- imagesLoaded -->
+    <script src="@Url.Content("~/Content/js/plugins/imagesLoaded/jquery.imagesloaded.min.js")"></script>
+    <!-- PageGuide -->
+    <script src="@Url.Content("~/Content/js/plugins/pageguide/jquery.pageguide.js")"></script>
+    <!-- FullCalendar -->
+    <script src="@Url.Content("~/Content/js/plugins/fullcalendar/fullcalendar.min.js")"></script>
+    <!-- Chosen -->
+    <script src="@Url.Content("~/Content/js/plugins/chosen/chosen.jquery.min.js")"></script>
+    <!-- select2 -->
+    <script src="@Url.Content("~/Content/js/plugins/select2/select2.min.js")"></script>
+    <!-- icheck -->
+    <script src="@Url.Content("~/Content/js/plugins/icheck/jquery.icheck.min.js")"></script>
+
+    <!-- Validation -->
+    <script src="@Url.Content("~/Content/js/plugins/validation/jquery.validate.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/validation/additional-methods.min.js")"></script>
+    <!-- TagsInput -->
+    <script src="@Url.Content("~/Content/js/plugins/tagsinput/jquery.tagsinput.min.js")"></script>
+    <!-- Custom file upload
+    <script src="Url.Content("~/Content/js/plugins/fileupload/bootstrap-fileupload.min.js")"></script>-->
+    <!-- PLUpload
+        <script src="Url.Content("~/Content/js/plugins/plupload/plupload.full.js")"></script>
+        <script src="Url.Content("~/Content/js/plugins/plupload/jquery.plupload.queue.js")"></script>
+    -->
+    <!-- Theme framework -->
+    <script src="@Url.Content("~/Content/js/eakroko.js")"></script>
+    <!-- Theme scripts -->
+    <script src="@Url.Content("~/Content/js/application.js")"></script>
+    <!-- Just for demonstration
+        <script src="Url.Content("~/Content/js/demonstration.min.js")"></script>
+    -->
+    <script src="@Url.Content("~/Content/js/plugins/datepicker/bootstrap-datepicker.js")"></script>
+
+    <script src="@Url.Content("~/Content/js/plugins/maskedinput/jquery.maskedinput.min.js")"></script>
+
+    <!-- Sayısal Numerik -->
+    <script src="@Url.Content("~/Content/js/autoNumeric-1.8.0-sample.js")"></script>
+    <script src="@Url.Content("~/Content/js/autoNumeric-1.9.41.js")"></script>
+
+    <script src="@Url.Content("~/Content/js/ID.js")"></script>
+
+    <!-- PLUpload -->
+    <script src="@Url.Content("~/Content/js/plugins/plupload/plupload.full.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/plupload/jquery.plupload.queue.js")"></script>
+    <!-- Custom file upload -->
+    <script src="@Url.Content("~/Content/js/plugins/fileupload/bootstrap-fileupload.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/plugins/mockjax/jquery.mockjax.js")"></script>
+    <!--Mesaj-->
+    <link href="@Url.Content("~/Content/Mesaj/sweetalert.css")" rel="stylesheet" />
+    </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!-- <script src="https://code.angularjs.org/snapshot/angular.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript">
+        $('select').selectpicker();
+    </script>
+    <!--[if lte IE 9]>
+        <script src="js/plugins/placeholder/jquery.placeholder.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('input, textarea').placeholder();
+            });
+        </script>
+    <![endif]-->
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="@Url.Content("~/Content/img/favicon1.ico")" />
+    <!-- Apple devices Homescreen icon -->
+    <link rel="apple-touch-icon-precomposed" href="@Url.Content("~/Content/img/apple-touch-icon-precomposed.png")" />
+
+</head>
+<body>
+    <div style="padding:20px;text-align:center;">
+
+        <form action="@Url.Content("~/UretimMobile/Uretim_Takimlastirma_Atama")" method="post" id="Form1" name="Form1" >
+
+            <table border="0" style="width:100%;">
+                <tr>
+                    <td width="15%"> 
+                        <label>Barkod</label>
+                    </td>
+                        <td width="85%"> 
+                            <input type="text" name="Lokasyon_Barkod" id="Lokasyon_Barkod" value="@ViewBag.Belge_Fis_Numarasi" class="form-control" style="font-size:50px;width:100%;height:50px;"  onkeydown="EnjeksiyonKullaniciBarkodOkut()" />
+                        </td>
+                  
+                </tr>
+                <tr>
+                    <td width="15%">
+                        <label>Lokasyon</label>
+                    </td>
+                    <td>
+                        <input type="text" name="Lokasyon_Adresi" id="Lokasyon_Adresi" value="" class="form-control" style="font-size:50px;width:100%;height:50px;" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="@Url.Content("~/UretimMobile/Uretim_Takimlastirma/?Belge_Fis_Numarasi=")">
+                            Yeni Okutma
+                        </a>
+                    </td>
+                    <td>
+                        <input type="button" name="btnKaydet" id="btnKaydet" value="Takımlaştırma Kaydet" onclick="FormuGonder();" class="btn btn-block btn-default" />
+                    </td>
+                </tr>
+                
+            </table>
+            
+            
+            <br /><br />
+                  <table border="0" style="width:100%;">
+                      <tr>
+                          <td>Stok Adi</td>
+                          <td>Miktar</td>
+                      </tr>
+                      @if (dt != null)
+                      {
+
+                          foreach (DataRow dr in dt.Rows)
+                          {
+                          <tr>
+                              <td>
+                                  @dr["STOK_ADI"]
+                              </td>
+                              <td>
+                                  @dr["MIK"]
+                              </td>
+                          </tr>
+                          }
+                      }
+                      </table>
+
+
+        </form>
+        <div style="clear:both;"></div>
+        @if (((System.Data.DataTable)ViewBag.Detay) != null)
+        {
+            if (ViewBag.Baslangic == null)
+            {
+            <form action="@Url.Content("~/UretimMobile/Uretim_Takimlastirma")" method="post" style="width:100%;height:100px;text-align:center;">
+                <input type="hidden" name="IslemTipi" id="IslemTipi" value="104" />
+                <input type="hidden" name="Barkod" id="Barkod" value="@ViewBag.Barkod" />
+                <input type="submit" name="name" value="Başlat" class="btn btn-block btn-success" style="height:100px;font-size:40px;" />
+            </form>
+            }
+            else
+            {
+            <form action="@Url.Content("~/UretimMobile/Uretim_Takimlastirma")" method="post" style="width: 100%; height: 100px;text-align: center; ">
+                <input type="hidden" name="IslemTipi" id="IslemTipi" value="106" />
+                <input type="hidden" name="Barkod" id="Barkod" value="@ViewBag.Barkod" />
+                <input type="submit" name="name" value="Bitiş" class="btn btn-block btn-danger"  style="height: 100px; font-size: 40px;"/>
+
+            </form>
+            }
+        }
+
+
+        <div style="clear:both;"></div>
+        <hr />
+    </div>
+    <script type="text/javascript">
+        function FormuGonder() {
+            document.getElementById("Form1").submit(); 
+        }
+        function EnjeksiyonKullaniciBarkodOkut() {
+            if (event.keyCode == 13 || event.keyCode == 9 ) {
+                window.location.href = "/UretimMobile/Uretim_Takimlastirma/?Belge_Lokasyon_Barkod=" + $("#Lokasyon_Barkod").val(); 
+
+
+            }
+        }
+    </script>
+</body>
+</html>
