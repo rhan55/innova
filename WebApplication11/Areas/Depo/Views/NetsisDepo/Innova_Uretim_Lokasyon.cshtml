@@ -1,0 +1,149 @@
+﻿@using System.Data
+
+@{
+    ViewBag.Title = "Innova_Uretim_Lokasyon";
+    Layout = null;
+    System.Data.DataTable dt = ViewBag.dtDetay as System.Data.DataTable;
+}
+<html>
+<head>
+
+   
+</head>
+<body>
+    <div style="padding:20px;text-align:center;">
+
+        <form action="@Url.Content("~/Depo/NetsisDepo/Innova_Uretim_Lokasyon_Atama")" method="post" id="FormLokasyon" name="FormLokasyon">
+
+            <table border="0" style="width:100%;">
+                <tr>
+                    <td width="15%">
+                        <label>Barkod</label>
+                    </td>
+                    <td width="85%">
+                        <input type="text" name="Lokasyon_Barkod" id="Lokasyon_Barkod" value="@ViewBag.Belge_Fis_Numarasi" class="form-control" style="font-size:50px;width:100%;height:50px;" onkeydown="LokasyonaGit();" />
+                    </td>
+
+                </tr>
+                <tr>
+                    <td width="15%">
+                        <label>Lokasyon</label>
+                    </td>
+                    <td>
+                        <input type="text" name="Lokasyon_Adresi" id="Lokasyon_Adresi" value="" class="form-control" style="font-size:50px;width:100%;height:50px;" onkeydown="Calistir();" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="@Url.Content("~/Depo/NetsisDepo/Innova_Uretim_Lokasyon/?Belge_Fis_Numarasi=")">
+                            Yeni Okutma
+                        </a>
+                    </td>
+                    <td>
+                        <input type="button" name="name" value="Lokasyon Kaydet" class="btn btn-block btn-default" onclick="FormuGonder();" />
+                    </td>
+
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        Okutulan Barkodlar için Lokasyon Tanımlanır. Takım üretim kaydı yapılır.
+
+                    </td>
+
+                </tr>
+
+            </table>
+
+
+            <br /><br />
+            <table border="0" style="width:100%;">
+                <tr>
+                    <td>BARKOD</td>
+                    <td>Lokasyon</td>
+                    <td>Tarih</td>
+                </tr>
+                @if (dt != null)
+                {
+
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        <tr>
+                            <td>
+                                @dr["FISNO"]
+                            </td>
+                            <td>
+                                @dr["BARKOD"]
+                            </td>
+                            <td>
+                                @dr["KAYIT_TARIHI"]
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+            <table>
+                <tr>
+                    <td colspan="2">
+
+                        İnnova - 240703-1600
+
+                    </td>
+
+                </tr>
+            </table>
+
+        </form>
+        <div style="clear:both;"></div>
+        @if (((System.Data.DataTable)ViewBag.Detay) != null)
+        {
+            if (ViewBag.Baslangic == null)
+            {
+            <form action="@Url.Content("~/Depo/NetsisDepo/Innova_Uretim_Lokasyon")" method="post" style="width:100%;height:100px;text-align:center;">
+                <input type="hidden" name="IslemTipi" id="IslemTipi" value="104" />
+                <input type="hidden" name="Barkod" id="Barkod" value="@ViewBag.Barkod" />
+                <input type="submit" name="name" value="Başlat" class="btn btn-block btn-success" style="height:100px;font-size:40px;" />
+            </form>
+            }
+            else
+            {
+            <form action="@Url.Content("~/Depo/NetsisDepo/Innova_Uretim_Lokasyon")" method="post" style="width: 100%; height: 100px;text-align: center; ">
+                <input type="hidden" name="IslemTipi" id="IslemTipi" value="106" />
+                <input type="hidden" name="Barkod" id="Barkod" value="@ViewBag.Barkod" />
+                <input type="submit" name="name" value="Bitiş" class="btn btn-block btn-danger"  style="height: 100px; font-size: 40px;"/>
+
+            </form>
+            }
+        }
+
+
+        <div style="clear:both;"></div>
+        <hr />
+    </div>
+
+    <script>
+        function FormuGonder() {
+            document.getElementById("FormLokasyon").submit(); 
+
+            Lokasyon_Barkod_AlaninaGit();
+        }
+        function Lokasyon_Barkod_AlaninaGit() {
+            {
+                $("#Lokasyon_Barkod").focus();
+            }
+        }
+        function LokasyonaGit() {
+            if (event.keyCode == 13) {
+                $("#Lokasyon_Adresi").focus();
+            }
+        }
+        function Calistir() {
+            if (event.keyCode == 13) {
+                FormuGonder();
+            }
+        }
+
+        $("#Lokasyon_Barkod").focus();
+    </script>
+
+</body>
+</html>

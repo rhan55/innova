@@ -440,12 +440,9 @@
     <Content Include="Areas\Satinalma\Views\YKSatinalma\YeniTalepBelgeli.cshtml" />
     <Content Include="Areas\Satinalma\Views\YKSatinalma\YeniTalepBelgeliListe.cshtml" />
     <Content Include="Areas\Depo\Views\NetsisDepo\NetsisStokEkbilgiDuzenle.cshtml" />
-    <Content Include="Areas\Crm2\Views\Crm2\GrupKodu2.cshtml" />
-    <Content Include="Areas\Crm2\Views\Crm2\GrupKoduDuzenle2.cshtml" />
-    <Content Include="Areas\Crm2\Views\Crm2\GrupKoduEkle2.cshtml" />
-    <Content Include="Areas\Crm2\Views\Crm2\GrupKodu3.cshtml" />
-    <Content Include="Areas\Crm2\Views\Crm2\GrupKoduDuzenle3.cshtml" />
-    <Content Include="Areas\Crm2\Views\Crm2\GrupKoduEkle3.cshtml" />
+    <Content Include="Areas\Depo\Views\NetsisDepo\Innova_Uretim_Lokasyon.cshtml" />
+    <Content Include="Areas\Depo\Views\NetsisDepo\Innova_Uretim_Okutma.cshtml" />
+    <Content Include="Areas\Depo\Views\NetsisDepo\Innova_Uretim_Takimlastirma.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
