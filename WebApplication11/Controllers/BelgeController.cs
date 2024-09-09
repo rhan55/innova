@@ -43,10 +43,10 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/Belge/Liste/?Tip=AI", "Gor"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
+            //if (!YetkiKontrolu("/Belge/Liste/?Tip=AI", "Gor"))
+            //{
+            //    return Redirect("~/YK/Anasayfa");
+            //}
 
             if (string.IsNullOrEmpty(Tip))
             {
@@ -80,10 +80,10 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Belge/Detay/?Tip=AI", "Gor"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
+            //if (!YetkiKontrolu("/Belge/Detay/?Tip=AI", "Gor"))
+            //{
+            //    return Redirect("~/YK/Anasayfa");
+            //}
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;

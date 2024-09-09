@@ -7,7 +7,7 @@
     string Tip = Request.QueryString["Tip"];
 
     DataTable dtDepolar = ViewBag.Depolar as DataTable;
-
+    bool YKIsMobileDevice = Request.Browser.IsMobileDevice;
 }
 <div class="d-flex flex-column flex-column-fluid">
 
@@ -37,7 +37,7 @@
                                             <td>Belge No</td>
                                             <td>:</td>
                                             <td>
-                                                <input type="text" name="BelgeNo" id="BelgeNo" value="@(Convert.ToString(Model.BelgeNo))" class="form-control p-2 rounded-1" placeholder="" />
+                                                <input type="text" name="BelgeNo" maxlength="16" id="BelgeNo" value="@(Convert.ToString(Model.BelgeNo))" class="form-control p-2 rounded-1" placeholder="" />
                                             </td>
                                             <td style="width:5px;"></td>
                                             <td>Cari</td>
@@ -65,7 +65,7 @@
                                                         aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
                                                     @foreach (DataRow drDepo in dtDepolar.Rows)
                                                     {
-                                                        <option value="@drDepo["ID"]" @(Model.DepoCikisID == drDepo["ID"].ToString() ? "selected" : "")>@drDepo["Isim"]</option>
+                                                        <option value="@drDepo["ID"]" @(Model.DepoCikisID == drDepo["ID"].ToString() || Request.QueryString["CikisDepo"] == drDepo["ID"].ToString() ? "selected" : "")>@drDepo["Isim"]</option>
                                                     }
                                                 </select>
                                             </td>
@@ -84,7 +84,7 @@
                                                         aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
                                                     @foreach (DataRow drDepo in dtDepolar.Rows)
                                                     {
-                                                        <option value="@drDepo["ID"]" @(Model.DepoGirisID == drDepo["ID"].ToString() ? "selected" : "")>@drDepo["Isim"]</option>
+                                                        <option value="@drDepo["ID"]" @(Model.DepoGirisID == drDepo["ID"].ToString()  || Request.QueryString["GirisDepo"] == drDepo["ID"].ToString() ? "selected" : "")>@drDepo["Isim"]</option>
                                                     }
                                                 </select>
                                             </td>
@@ -104,7 +104,7 @@
                                             <table class="table" id="TabloKalemler" name="TabloKalemler" border="1">
                                                 <thead>
                                                     <tr style="padding:5px;">
-                                                        @if (Request.Browser.IsMobileDevice)
+                                                        @if (YKIsMobileDevice)
                                                         {
                                                             <td colspan="3" style="text-align:center;"><strong>ÜRÜN</strong></td>
                                                             <td colspan="2" style="text-align:center;"><strong>SERİ</strong></td>
@@ -126,7 +126,7 @@
                                                     @foreach (BelgeKalemDto satir in Model.Kalemler)
                                                     {
                                                         string ID = satir.ID.Replace("-", "");
-                                                        if (Request.Browser.IsMobileDevice)
+                                                        if (YKIsMobileDevice)
                                                         {
 
                                                             <tr data-ID="@satir.ID" data-ID2="@ID">
@@ -212,7 +212,6 @@
                                                                         </select>
                                                                     }
                                                                 </td>
-
 
                                                                 <td style="max-width:200px;">
                                                                     <input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control p-2" />
@@ -310,7 +309,7 @@
         }
 
         function YeniSatirAc() {
-            var IsMobile = "@(Request.Browser.IsMobileDevice == true ? "1" : "0")";
+            var IsMobile = "@(YKIsMobileDevice == true ? "1" : "0")";
             var YeniID = IDGuidOlustur().replace(/-/g, "");
 
             var deger = "";
@@ -331,7 +330,7 @@
                             if (Tip == 'AI') {
                                 deger += "                         <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2' />                         ";
                             } else {
-                                deger += "                         <select name='Seri_" + YeniID + "' id='Seri_" + YeniID + ")' class='form-control p-2' >         ";
+                                deger += "                         <select name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' class='form-control p-2' >         ";
                                 deger += "                         </select>                                                                                                                  ";
                             }
                            deger += "                 </td>                                                                                                                              ";
@@ -560,19 +559,16 @@
                     dataFilter: function (data) { return data; },
                     success: function (data) {
                         // waitingDialog.hide();
-
                         $('#Seri_' + stokid.replace("StokID_", "")).find('option').remove();
                             var deger = "";
                         for (var i = 0; i < data.Data.length; i++) {
                             deger += "<option value='" + data.Data[i].SeriNo + "'>" + data.Data[i].SeriNo + ' - Bakiye : ' + data.Data[i].Bakiye.toFixed(0) + "</option>";
                         }
-                        console.log(stokid.replace("StokID_", ""));
-                        console.log(deger);
                         $('#Seri_' + stokid.replace("StokID_", "")).append(deger);
 
                     },
                         error: function (msg) {
-                            console.log(msg);
+                            console.log("HATA!"+msg);
                     }
                 });
 

@@ -19,6 +19,159 @@ namespace YKPortal.Controllers
 {
     public class StokController : Controller
     {
+        #region Sayım İşlemleri
+
+        public ActionResult Sayim()
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            var cmd = new SqlCommand();
+            cmd.CommandText = "p_FirmaListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@AranacakKelime", "");
+            ViewBag.dtFirmalar = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return View();
+        }
+
+        public JsonResult DepolariGetir(string Sube)
+        {
+            var cmd = new SqlCommand();
+            cmd.CommandText = "p_DepoListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@AranacakKelime", Sube);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            List<DepoDto> entities = new List<DepoDto>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                entities.Add(new DepoDto
+                {
+                    ID = Convert.ToString(dr["ID"]),
+                    UyelikID = Convert.ToString(dr["UyelikID"]),
+                    Kod = Convert.ToString(dr["Kod"]),
+                    Isim = Convert.ToString(dr["Isim"])
+                });
+            }
+
+            return Json(entities, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult SubeleriGetir(string Firma)
+        {
+            var cmd = new SqlCommand();
+            cmd.CommandText = "p_SubeListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@AranacakKelime", Firma);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            List<SubeDto> entities = new List<SubeDto>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                entities.Add(new SubeDto
+                {
+                    ID = Convert.ToString(dr["ID"]),
+                    UyelikID = Convert.ToString(dr["UyelikID"]),
+                    Kod = Convert.ToString(dr["Kod"]),
+                    Isim = Convert.ToString(dr["Isim"])
+                });
+            }
+
+            return Json(entities, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SayimSil(string id)
+        {
+
+            var cmd = new SqlCommand();
+            cmd.CommandText = "p_StokSayimSil";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@Kullanici", GetCookie("KullaniciID"));
+            DataTable dtKayitlar = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            string bilgi = "ok";
+            if (dtKayitlar.Rows.Count > 0)
+            {
+                if (Convert.ToString(dtKayitlar.Rows[0]["Bilgi"]).StartsWith("UYARI!"))
+                {
+                    bilgi = Convert.ToString(dtKayitlar.Rows[0]["Bilgi"]);
+                }
+            }
+            return Json(bilgi, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SayimKaydet(DateTime Tarih, string Firma, string Sube, string Depo, string Barkod, string Stok, int Miktar)
+        {
+            if (Barkod.Contains("*"))
+            {
+                Miktar = Convert.ToInt32(Barkod.Split('*')[0]);
+                Barkod = Convert.ToString(Barkod.Split('*')[1]);
+            }
+
+            var cmd = new SqlCommand();
+            cmd.CommandText = "p_StokSayimKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", "");
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Tarih", Tarih);
+            cmd.Parameters.AddWithValue("@Firma", Firma);
+            cmd.Parameters.AddWithValue("@Sube", Sube);
+            cmd.Parameters.AddWithValue("@Depo", Depo);
+            cmd.Parameters.AddWithValue("@Barkod", Barkod);
+            cmd.Parameters.AddWithValue("@Stok", Stok);
+            cmd.Parameters.AddWithValue("@Miktar", Miktar);
+            cmd.Parameters.AddWithValue("@Kullanici", GetCookie("KullaniciID"));
+            DataTable dtKayitlar = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            string bilgi = "ok";
+            if (dtKayitlar.Rows.Count > 0)
+            {
+                if (Convert.ToString(dtKayitlar.Rows[0]["Bilgi"]).StartsWith("UYARI!"))
+                {
+                    bilgi = Convert.ToString(dtKayitlar.Rows[0]["Bilgi"]);
+                }
+            }
+            return Json(bilgi, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SayimListesi(string Tarih, string Firma, string Sube, string Depo)
+        { 
+            var cmd = new SqlCommand();
+            cmd.CommandText = "p_StokSayimListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Tarih", Convert.ToDateTime(Tarih));
+            cmd.Parameters.AddWithValue("@Firma", Firma);
+            cmd.Parameters.AddWithValue("@Sube", Sube);
+            cmd.Parameters.AddWithValue("@Depo", Depo);
+            cmd.Parameters.AddWithValue("@Kullanici", GetCookie("KullaniciID"));
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            List<StokSayim> entities = new List<StokSayim>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                entities.Add(new StokSayim
+                {
+                    ID = Convert.ToString(dr["ID"]),
+                    UyelikID = Convert.ToString(dr["UyelikID"]),
+                    Tarih = Convert.ToDateTime(dr["Tarih"]),
+                    Firma = Convert.ToString(dr["Firma"]),
+                    Sube = Convert.ToString(dr["Sube"]),
+                    Depo = Convert.ToString(dr["Depo"]),
+                    Barkod = Convert.ToString(dr["Barkod"]),
+                    StokID = Convert.ToString(dr["StokID"]),
+                    StokKodu = Convert.ToString(dr["StokKodu"]),
+                    StokAdi = Convert.ToString(dr["StokAdi"]).Replace("\n\r",""),
+                    Miktar = Convert.ToDecimal(dr["Miktar"])
+                });
+            }
+
+            return Json(entities, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
         // GET: Stok
         [HttpGet]
         public ActionResult Ekle()
