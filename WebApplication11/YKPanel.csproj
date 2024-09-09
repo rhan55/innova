@@ -3017,6 +3017,7 @@
     <Content Include="Views\SatisTeklifi\TeklifPDF.cshtml" />
     <Content Include="Tema\excel\ornek-cari-liste.xls" />
     <Content Include="Views\Mesajlasma\Chat.cshtml" />
+    <Content Include="Views\Stok\Sayim.cshtml" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>

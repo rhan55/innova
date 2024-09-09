@@ -1,0 +1,384 @@
+﻿
+@using YKPortal.Models.Dto
+@using System.Data
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Stok Sayımı";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    DataTable dtFirmalar = ViewBag.dtFirmalar as DataTable;
+}
+<div class="container-fluid d-flex" id="kt_content">
+    <div class="row">
+        <table>
+            <tr>
+                <td>
+                    <label for="Tarih">Tarih</label>
+                    <input type="date" name="Tarih" id="Tarih" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control" />
+
+                </td>
+                <td>
+
+                    <label for="Firma">Firma</label>
+                    <select name="Firma" id="Firma" class="form-control" onchange="SubeleriGetir();">
+                        @foreach (DataRow item in dtFirmalar.Rows)
+                        {
+                            <option value="@item["Firma"]">@item["Firma"]</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="Sube">Sube</label>
+                    <select name="Sube" id="Sube" class="form-control" onchange="DepolariGetir();">
+                    </select>
+                </td>
+                <td>
+                    <label for="Depo">Depo</label>
+                    <select name="Depo" id="Depo" class="form-control" onchange="Listele();">
+                    </select>
+                </td>
+
+            </tr>
+            <tr>
+
+                <td colspan="2">
+                    <label for="Barkod">Barkod</label>
+                    <input type="text" name="Barkod" id="Barkod" value="" class="form-control" onkeydown="KaydetBarkod();" />
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="Stok">Stok</label><br />
+                    <select name="Stok" id="Stok" class="form-control">
+                    </select>
+
+                
+
+                </td>
+                <td>
+                    <label for="Miktar">Miktar</label><br />
+                    <input type="number" name="Miktar" id="Miktar" value="1" class="form-control" style="text-align: center; width: 100px;" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="button" name="Kaydet" id="Kaydet" value="Kaydet" class="btn btn-primary" onclick="Kaydet();" style="width:75px;" />
+                </td>
+            </tr>
+        </table>
+
+        <table id="TabloDetay" name="TabloDetay">
+            <thead>
+                <tr>
+                    <th>Stok Kodu</th>
+                    <th>Stok Adı</th>
+                    <th style="text-align: right;padding:1px;">Miktar</th>
+                    <th style="text-align:center;">İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@section Styles {
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $(function () {
+
+
+
+                const StokIDSelect = $('#Stok').select2({
+                    ajax: {
+                        url: "/Stok/SelectListe",
+                        data: function (params) {
+                            var query = {
+                                search: params.term,
+                            }
+
+                            // Query parameters will be ?search=[term]&type=public
+                            return query;
+                        },
+                        processResults: function (data) {
+                            var results = [];
+                            if (data && data.length > 0) {
+                                data.forEach(function (item) {
+                                    results.push({ id: item.ID, text: item.Isim })
+                                });
+                            }
+
+                            return {
+                                results: results
+                            };
+                        }
+                    },
+                    delay: 250,
+                    minimumInputLength: 1,
+                    language: {
+                        placeholder: function () {
+                            return "Arama yapmak için en az 1 karakter girin";
+                        },
+                        inputTooShort: function () {
+                            return "En az lütfen en az 1 karakter girin";
+                        }
+                    }
+                });
+
+
+        });
+
+        function DepolariGetir() {
+            $.ajax({
+                async: false,
+                cache: false,
+                type: "GET",
+                url: "/Stok/DepolariGetir",
+                data: { "Firma": $("#Firma").val() },
+                success: function (data2) {
+                    $('#Depo').empty();
+                   //$('#Depo')
+                   //    .append($("<option></option>")
+                   //        .attr("value", "")
+                   //        .text("Depo Seçimi"));
+                    $.each(data2, function (data3, key, value) {
+                        $('#Depo')
+                            .append($("<option></option>")
+                                .attr("value", key.ID)
+                                .text(key.Isim));
+                    }); Listele();
+                },
+                error: function (data) {
+                }
+            });
+        }
+        function SubeleriGetir() {
+            $.ajax({
+                async: false,
+                cache: false,
+                type: "GET",
+                url: "/Stok/SubeleriGetir",
+                data: { "Firma": $("#Firma").val() },
+                success: function (data2) {
+
+                    $('#Sube').empty();
+                    //$('#Sube')
+                    //    .append($("<option></option>")
+                    //        .attr("value", "")
+                    //        .text("Şube Seçimi"));
+                    $.each(data2, function (data3, key, value) {
+                        $('#Sube')
+                            .append($("<option></option>")
+                                .attr("value", key.ID)
+                                .text(key.Isim));
+                    });
+                    DepolariGetir();
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+        SubeleriGetir();
+
+        function KaydetBarkod() {
+            if (event.keyCode == 13) {
+                Kaydet();
+            }
+        }
+
+        function Kaydet() {
+            if ($("#Tarih").val() == "") {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Tarih seçilmelidir.",
+                    showConfirmButton: true,
+                    //timer: 3000
+                });
+                return;
+            }
+            if ($("#Firma").val() == "") {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Firma seçilmelidir.",
+                    showConfirmButton: true,
+                    //timer: 3000
+                });
+                return;
+            }
+            if ($("#Sube").val() == "") {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Sube seçilmelidir.",
+                    showConfirmButton: true,
+                    //timer: 3000
+                });
+                return;
+            }
+            if ($("#Depo").val() == "") {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Depo seçilmelidir.",
+                    showConfirmButton: true,
+                    //timer: 3000
+                });
+                return;
+            }
+            if ($("#Barkod").val() == "" && ($("#Stok").val() == "" || $("#Stok").val() == null)) {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Barkod veya ürün seçilmelidir.",
+                    showConfirmButton: true,
+                    //timer: 3000
+                });
+                return;
+            }
+
+            var data_ = {
+                "Tarih": $("#Tarih").val(),
+                "Firma": $("#Firma").val(),
+                "Sube": $("#Sube").val(),
+                "Depo": $("#Depo").val(),
+                "Barkod": $("#Barkod").val(),
+                "Stok": $("#Stok").val(),
+                "Miktar": $("#Miktar").val()
+            };
+
+            $.ajax({
+                async: false,
+                cache: false,
+                type: "GET",
+                url: "/Stok/SayimKaydet",
+                data: data_,
+                success: function (data) {
+                    $("#Barkod").val("");
+                    $("#Stok").val("");
+                    $("#Miktar").val("1");
+                    if (data == "ok") {
+                        Listele();
+                    } else {
+                        alert(data);
+                        Swal.fire({
+                            title: "HATA!",
+                            text: data,
+                            icon: "error"
+                        });
+                    }
+                    $("#Barkod").focus();
+                },
+                error: function (data) {
+
+                    $("#EnjeksiyonKullaniciBarkoduOkut").val("");
+                }
+            });
+
+        }
+
+        function Listele() {
+
+            var data_ = {
+                "Tarih": $("#Tarih").val(),
+                "Firma": $("#Firma").val(),
+                "Sube": $("#Sube").val(),
+                "Depo": $("#Depo").val()
+            };
+
+
+            $.ajax({
+                async: false,
+                cache: false,
+                type: "GET",
+                url: '/Stok/SayimListesi',
+                data: data_,
+                success: function (data) {
+                    // waitingDialog.hide();
+                    $('#TabloDetay tbody tr').remove();
+                    var deger = "";
+                    for (var i = 0; i < data.length; i++) {
+                        deger += "<tr>";
+                        deger += "<td style='padding:1px;'>" + data[i].StokKodu + "</td>";
+                        deger += "<td style='padding:1px;'>" + data[i].StokAdi + "</td>";
+                        deger += "<td style='text-align:right;padding:1px;'>" + data[i].Miktar + "</td>";
+                        deger += "<td style='text-align:center;padding:1px;'><input type='button' value='Sil' class='btn btn-primary' onclick='Sil(\"" + data[i].ID + "\",\"" + data[i].StokAdi+"\");' /></td>";
+                        deger += "</tr>";
+                    }
+                    $('#TabloDetay tbody').append(deger);
+                },
+                error: function (msg) {
+
+                    Swal.fire({
+                        title: "HATA!",
+                        text: msg,
+                        icon: "error"
+                    });
+                }
+            });
+        }
+
+        function Sil(id,stokadi) {
+
+            Swal.fire({
+                title: stokadi+" adlı ürünün sayımını silmek istediğinizden emin misiniz?",
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: "Sil",
+                denyButtonText: `Vazgeç`
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+
+
+                    var data_ = {
+                        "id": id
+                    };
+
+                    $.ajax({
+                        async: false,
+                        cache: false,
+                        type: "GET",
+                        url: "/Stok/SayimSil",
+                        data: data_,
+                        success: function (data) {
+                            $("#Barkod").val("");
+                            $("#Stok").val("");
+                            $("#Miktar").val("1");
+                            if (data == "ok") {
+                                Listele();
+                            } else {
+                                alert(data);
+                                Swal.fire({
+                                    title: "HATA!",
+                                    text: data,
+                                    icon: "error"
+                                });
+                            }
+                            $("#Barkod").focus();
+                        },
+                        error: function (data) {
+
+                            $("#EnjeksiyonKullaniciBarkoduOkut").val("");
+                        }
+                    });
+                } else if (result.isDenied) {
+
+                }
+            });
+
+        }
+
+    </script>
+}
