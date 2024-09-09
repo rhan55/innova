@@ -18,7 +18,7 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Giris");
 
 
-            if (!YetkiKontrolu("/Belge/Liste/?Tip=AI", "Sil"))
+            if (!YetkiKontrolu("/Belge/Liste/?Tip="+Tip, "Sil"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -43,7 +43,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/Belge/Liste/?Tip=AI", "Gor"))
+            if (!YetkiKontrolu("/Belge/Liste/?Tip="+Tip, "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -65,8 +65,8 @@ namespace YKPortal.Controllers
             var model = new BelgeListeViewModel
             {
                 Belgeler = dt,
-                Sil = YetkiKontrolu("/Belge/Liste?Tip=AI", "Sil"),
-                Duzenle = YetkiKontrolu("/Belge/Liste?Tip=AI", "Duzenle")
+                Sil = YetkiKontrolu("/Belge/Liste?Tip=" + Tip, "Sil"),
+                Duzenle = YetkiKontrolu("/Belge/Liste?Tip=" + Tip, "Duzenle")
 
             };
 
@@ -80,7 +80,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Belge/Detay/?Tip=AI", "Gor"))
+            if (!YetkiKontrolu("/Belge/Liste/?Tip="+Tip, "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }

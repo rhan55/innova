@@ -60,7 +60,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@Tip", Tip);
-            cmd.Parameters.AddWithValue("@AranacakKelime", AranacakKelime);
+            cmd.Parameters.AddWithValue("@AranacakKelime", belgeDto.BelgeNo);
             cmd.Parameters.AddWithValue("@Durumu", belgeDto.Durumu);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
