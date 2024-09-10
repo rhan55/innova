@@ -57,8 +57,30 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@Aciklama", Aciklama);
             cmd.Parameters.AddWithValue("@Durumu", Durumu);
             cmd.Parameters.AddWithValue("@TamamlamaTarihi", TamamlamaTarihi);
-            IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+            string SonID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
 
+            if (Request.Files.Count > 0)
+            {
+                for (int i = 0; i < Request.Files.Keys.Count; i++)
+                {
+                    var file = Request.Files[i];
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        file.SaveAs(Server.MapPath("~/Uploads/Dosyalar/" + SonID + "_" + file.FileName));
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "p_DosyaKaydet";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ID", "");
+                        cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                        cmd.Parameters.AddWithValue("@Modul", "Gorev");
+                        cmd.Parameters.AddWithValue("@KayitID", SonID);
+                        cmd.Parameters.AddWithValue("@Dosya", SonID + "_" + file.FileName);
+                        cmd.Parameters.AddWithValue("@Isim", file.FileName);
+                        cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    }
+                }
+            }
 
             #region Mail Gönder
 

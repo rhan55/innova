@@ -43,6 +43,8 @@
                                         <option @(Convert.ToString(Model.Tables[0].Rows[0]["GorevTipiID"]) == gorevTipi.ID ? "selected" : "") value="@gorevTipi.ID">@gorevTipi.Deger</option>
                                     }
                                 </select>
+                                <br /><br /><br />
+                                Durumu : @Convert.ToString(Model.Tables[0].Rows[0]["Durumu"])
                             </div>
                         </div>
                         <!--end::Input group-->
@@ -50,7 +52,7 @@
                             <!--begin::Input group-->
                             <div class="col-lg-2">
                                 <!--begin::Label-->
-                                <label for="BaslangicTarihi" class=" fw-semibold fs-6 mb-2">Başlangıç Tarihi</label>
+                                <label for="BaslangicTarihi" class=" fw-semibold fs-6 mb-2">Görev Tarihi</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
                                 <input type="datetime-local" name="BaslangicTarihi" id="BaslangicTarihi" value="@(DateTime.Parse(Convert.ToString(Model.Tables[0].Rows[0]["BaslangicTarihi"])).ToString("yyyy-MM-dd HH:mm"))" class="form-control p-2 mb-3 mb-lg-0" />
@@ -68,21 +70,21 @@
                                     </div>
                                     <div class="form-check  ms-16">
                                         <input class="form-check-input" type="radio" name="periyot" id="periyotGunluk" value="G"
-                                               @(Convert.ToString(Model.Tables[0].Rows[0]["Periyot"]) == "G" ? "checked" : "") disabled>
+                                               @(Convert.ToString(Model.Tables[0].Rows[0]["Periyot"]) == "G" ? "checked" : "") >
                                         <label class="form-check-label" for="periyotGunluk">
                                             Günlük
                                         </label>
                                     </div>
                                     <div class="form-check ms-16">
                                         <input class="form-check-input" type="radio" name="periyot" id="periyotHaftalik" value="H"
-                                               @(Convert.ToString(Model.Tables[0].Rows[0]["Periyot"]) == "H" ? "checked" : "") disabled>
+                                               @(Convert.ToString(Model.Tables[0].Rows[0]["Periyot"]) == "H" ? "checked" : "") >
                                         <label class="form-check-label" for="periyotHaftalik">
                                             Haftalık
                                         </label>
                                     </div>
                                     <div class="form-check ms-16">
                                         <input class="form-check-input" type="radio" name="periyot" id="periyotYillik" value="Y"
-                                               @(Convert.ToString(Model.Tables[0].Rows[0]["Periyot"]) == "Y" ? "checked" : "") disabled>
+                                               @(Convert.ToString(Model.Tables[0].Rows[0]["Periyot"]) == "Y" ? "checked" : "") >
 
                                         <label class="form-check-label" for="periyotYillik">
                                             Yıllık
@@ -192,9 +194,10 @@
                 <table class="form-control tab-content" style="background-color: #398439; color: white;">
                     <thead>
                         <tr>
-                            <th style="padding: 5px;"><strong>GÖREVİ<br />SONUÇLANDIRAN</strong></th>
-                            <th style="padding: 5px;"><strong>SONUÇLANMA<br />TARİHİ</strong></th>
-                            <th style="padding: 5px;"><strong>SONUÇ<br />AÇIKLAMASI</strong></th>
+                            <th style="padding: 5px;"><strong>KULLANICI</strong></th>
+                            <th style="padding: 5px;"><strong>TARİH</strong></th>
+                            <th style="padding: 5px;"><strong>AÇIKLAMA</strong></th>
+                            <th style="padding: 5px;"><strong>Dosya</strong></th>
                         </tr>
                         <tr>
                             <th colspan="3"><hr /></th>
@@ -203,20 +206,34 @@
                     <tbody>
                         @foreach (DataRow sonuc in Model.Tables[2].Rows)
                         {
-                            <tr>
-                                <td style="padding: 5px; vertical-align:top;">@sonuc["KaydiKapatan"]</td>
-                                <td style="padding: 5px; vertical-align: top;">@Convert.ToDateTime(sonuc["TamamlamaTarihi"]).ToString("dd-MM-yyyy HH:mm")</td>
-                                <td style="padding: 5px;">
-                                    @sonuc["Aciklama"]
-                                    <hr />
-                                </td>
-                            </tr>
+                        <tr>
+                            <td style="padding: 5px; vertical-align:top;">@sonuc["KaydiKapatan"]</td>
+                            <td style="padding: 5px; vertical-align: top;">@Convert.ToDateTime(sonuc["TamamlamaTarihi"]).ToString("dd-MM-yyyy HH:mm")</td>
+
+                            <td style="padding: 5px; vertical-align: top;">
+                                @sonuc["Aciklama"]
+                                <hr />
+                            </td>
+                            <td style="padding:5px;vertical-align:top;">
+                                @if (Convert.ToString(sonuc["Dosya"]).EndsWith(".jpg") ||
+                             Convert.ToString(sonuc["Dosya"]).EndsWith(".jpeg") ||
+                             Convert.ToString(sonuc["Dosya"]).EndsWith(".png") ||
+                             Convert.ToString(sonuc["Dosya"]).EndsWith(".gif")
+                            )
+                                {
+                                    <img src="@Url.Content("~/Uploads/Dosyalar/"+sonuc["Dosya"])" style="height:150px;margin:3px;" alt="@(sonuc["Dosya"])" />
+
+                                    <br />
+                                    <a href="@Url.Content("~/Uploads/Dosyalar/"+sonuc["Dosya"])" target="_blank">İndir</a>
+                                }
+
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>
             }
-            @if (Model.Tables[2].Select(" KullaniciID = '" + KullaniciID + "' ").Count() == 0 &&
-                 Model.Tables[1].Select(" KullaniciID = '" + KullaniciID + "' ").Count() > 0)
+            @if (Convert.ToString(Model.Tables[0].Rows[0]["Durumu"]) != "Onaylandı")
             {
                 <form id="" class="" action="@Url.Action("GorevTamamla","Gorev",new { GorevID = Model.Tables[0].Rows[0]["ID"] })" method="post" enctype="multipart/form-data">
                     <!--begin::Scroll-->
@@ -245,9 +262,13 @@
                                 <!--end::Label-->
                                 <!--begin::texarea-->
                                 <select id="Durumu" name="Durumu" class="form-control">
-                                    <option value="Beklemede" @(Convert.ToString(Model.Tables[0].Rows[0]["ID"]) == "Beklemede" ? "selected" : "")>Beklemede</option>
-                                    <option value="Cevaplandı" @(Convert.ToString(Model.Tables[0].Rows[0]["ID"]) == "Cevaplandı" ? "selected" : "")>Cevaplandı</option>
-                                    <option value="Tamamlandı" @(Convert.ToString(Model.Tables[0].Rows[0]["ID"]) == "Tamamlandı" ? "selected" : "")>Tamamlandı</option>
+
+                                    <option value="Cevaplandı" selected>Cevaplandı</option>
+                                    <option value="Tamamlandı">Tamamlandı</option>
+                                    @if (Convert.ToString(Model.Tables[0].Rows[0]["KayitYapanKullanici"]) == KullaniciID)
+                                    {
+                                            <option value="Onaylandı">Onaylandı</option>
+                                    }
                                 </select>
                                 <!--end::Input-->
                             </div>
@@ -257,8 +278,13 @@
                                 <label for="BaslangicTarihi" class=" fw-semibold fs-6 mb-2">Tarih</label>
                                 <!--end::Label-->
                                 <!--begin::Input-->
-                                <input type="datetime-local" name="TamamlamaTarihi" id="TamamlamaTarihi" value="@(DateTime.Now.ToString("yyyy-MM-dd HH:mm"))" class="form-control p-2 mb-3 mb-lg-0" />
+                                <input type="datetime-local" name="TamamlamaTarihi" id="TamamlamaTarihi" value="@(DateTime.Now.ToString("yyyy-MM-dd HH:mm"))"  class="form-control p-2 mb-3 mb-lg-0" />
                                 <!--end::Input-->
+                            </div>
+
+                            <div class="col-lg-3">
+                                <br /><br />
+                                <input type="file" name="file" id="file" value="" multiple />
                             </div>
                         </div>
                         <!--begin::Actions-->

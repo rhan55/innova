@@ -53,9 +53,9 @@
                                                     <td>
                                                         <select id="Durum" name="Durum">
                                                             <option value="">Lütfen Seçim Yapınız</option>
-                                                            <option value="Beklemede" @(ViewBag.Durum == "Beklemede" ? "selected" : "")>Beklemede</option>
-                                                            <option value="Cevaplandı" @(ViewBag.Durum == "Cevaplandı" ? "selected" : "")>Cevaplandı</option>
-                                                            <option value="Tamamlandı" @(ViewBag.Durum == "Kapatıldı" ? "selected" : "")>Tamamlandı</option>
+                                                            <option value="Beklemede" @(ViewBag.Durum == "Beklemede" ? "selected" : "")>Beklemede ve Cevaplananlar</option>
+                                                            <option value="Tamamlandı" @(ViewBag.Durum == "Tamamlandı" ? "selected" : "")>Tamamlandı</option>
+                                                            <option value="Onaylandı" @(ViewBag.Durum == "Onaylandı" ? "selected" : "")>Onaylandı</option>
                                                         </select>
                                                     </td>
                                                 </tr>
@@ -123,42 +123,6 @@
                                     <!--begin::Export dropdown-->
                                     <input type="button" name="name" value="Filtre" onclick="$('#FormListe').toggle();" class="btn btn-bg-primary" style="color:white;" />
 
-                                    <button type="button" class="btn btn-light-primary btn-sm fw-bold" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                        <i class="ki-duotone ki-exit-down fs-2"><span class="path1"></span><span class="path2"></span></i>
-                                        Dışarı aktar
-                                    </button>
-                                    <!--begin::Menu-->
-                                    <div id="kt_datatable_example_export_menu" class="menu menu-sub menu-sub-dropdown menu-column menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-200px p-0" data-kt-menu="true">
-                                        <!--begin::Menu item-->
-                                        <div class="menu-item p-0">
-                                            <a href="#" class="menu-link px-2 py-0" data-kt-export="copy">
-                                                Panoya Kopyala
-                                            </a>
-                                        </div>
-                                        <!--end::Menu item-->
-                                        <!--begin::Menu item-->
-                                        <div class="menu-item p-0">
-                                            <a href="#" class="menu-link px-2 py-0" data-kt-export="excel">
-                                                Excel olarak dışarı aktar
-                                            </a>
-                                        </div>
-                                        <!--end::Menu item-->
-                                        <!--begin::Menu item-->
-                                        <div class="menu-item p-0">
-                                            <a href="#" class="menu-link px-2 py-0" data-kt-export="csv">
-                                                CSV olarak dışarı aktar
-                                            </a>
-                                        </div>
-                                        <!--end::Menu item-->
-                                        <!--begin::Menu item-->
-                                        <div class="menu-item p-0">
-                                            <a href="#" class="menu-link px-2 py-0" data-kt-export="pdf">
-                                                PDF olarak dışarı aktar
-                                            </a>
-                                        </div>
-                                        <!--end::Menu item-->
-                                    </div>
-                                    <!--end::Menu-->
                                     <!--end::Export dropdown-->
                                     <!--begin::Hide default export buttons-->
                                     <div id="kt_datatable_example_buttons" class="d-none"></div>
@@ -246,7 +210,8 @@
                                                 {
                                                     <span>Bilinmeyen</span>
                                                 }
-                                                <span style="color:green;">@Convert.ToString(Model.Tables[0].Rows[i]["Durum"])</span>
+                                                <br>
+                                                <span style="color:green;">@Convert.ToString(Model.Tables[0].Rows[i]["Durumu"])</span>
                                                 <span>@(Convert.ToString(Model.Tables[0].Rows[i]["GorevAtamaSayisi"]))/@(Convert.ToString(Model.Tables[0].Rows[i]["GorevHareketSayisi"]))</span>
 
                                             </td>

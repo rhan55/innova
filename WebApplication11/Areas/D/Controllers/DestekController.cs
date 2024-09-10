@@ -278,7 +278,7 @@ Where Gorevler.ID = @ID";
                     mailAdresi = Convert.ToString(dtMailAdresi.Rows[0]["KullaniciAdi"]);
 
 
-                YKUtils.MailGonder(Baslik, Icerik, GetCookie("KullaniciAdi")+";"+mailAdresi,
+                YKUtils.MailGonder(Baslik, Icerik, mailAdresi,
                         Convert.ToString(dtMailBilgileri.Select(" Isim = 'KullaniciAdi' ")[0]["Deger"]),
                         Convert.ToString(dtMailBilgileri.Select(" Isim = 'Parola' ")[0]["Deger"]),
                         Convert.ToString(dtMailBilgileri.Select(" Isim = 'Host' ")[0]["Deger"]),

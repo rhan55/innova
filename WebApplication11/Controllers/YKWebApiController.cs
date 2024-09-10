@@ -628,6 +628,7 @@ namespace YKPortal.Controllers
                     entity.KullaniciID = Convert.ToString(item["KayitYapanKullanici"]);
                     entity.BaslangicTarihi = Convert.ToDateTime(item["BaslangicTarihi"]);
                     entity.Aciklama = Convert.ToString(item["Aciklama"]);
+                    entity.Durumu = Convert.ToString(item["Durumu"]);
                     entities.Add(entity);
                 }
 
