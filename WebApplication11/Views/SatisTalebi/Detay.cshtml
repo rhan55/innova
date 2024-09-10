@@ -693,7 +693,7 @@
 
             // AJAX isteği gönderimi
             $.ajax({
-                url: '/SatisTeklifi/Kaydet',
+                url: '/SatisTalebi/Kaydet',
                 data: JSON.stringify(_data), // Veriyi JSON formatına dönüştür
                 contentType: "application/json",
                 dataType: "json",
@@ -701,7 +701,7 @@
                 success: function (data) {
                     alert("Belge Kaydedildi!");
                     // Detay sayfasını aç
-                    window.open("/SatisTeklifi/Duzenle?id=" + data.Data + "&Tip=@(Request.QueryString["Tip"])","_parent");
+                    window.open("/SatisTalebi/Duzenle?id=" + data.Data + "&Tip=@(Request.QueryString["Tip"])","_parent");
                 },
                 error: function (msg) {
                     console.log(msg);

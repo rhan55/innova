@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "t";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <div>
+        <label for="txtUserName">Kullanıcı: </label> @Html.TextBox("txtUsername")
+        <br />
+        <label for="txtMessage">Mesaj: </label> @Html.TextBox("txtMessage") <button id="btnSendMessage">Mesaj Yolla</button>
+    </div>
+    <div id="messages"></div>
+</div>
+
+@section Scripts {
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="~/SignalR/Hubs"></script>
+    <script>
+        $(function () {
+            var chat = $.connection.mesajHub;
+            var $username = $('#txtUsername');
+            var $message = $('#txtMessage');
+            var $messages = $('#messages');
+            $message.focus();
+            chat.client.sendMessage = function (name, message) {
+                $messages.append('<li><strong>' + name + '</strong>: ' + message + '</li>');
+            };
+            $.connection.hub.start().done(function () {
+                $('#btnSendMessage').click(function () {
+
+                    var data = {
+                        kullaniciId: '',
+                        karsiKullaniciId: '',
+                        mesaj: ''
+
+                    }
+                    chat.server.send($username.val(), $message.val());
+
+                    $message.val('').focus();
+                });
+            });
+        });
+    </script>
+}

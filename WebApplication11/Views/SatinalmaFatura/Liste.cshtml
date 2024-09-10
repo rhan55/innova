@@ -47,7 +47,7 @@
         <div class="card-body">
 
             <!--begin::Filtreleme alanı-->
-            <form method="POST" action="/SatinalmaFatura/Liste" class="content p-0" id="datatableFilters">
+            <form method="POST" action="/SatinalmaFatura/Liste/?Tip=AF" class="content p-0" id="datatableFilters">
                 <div class="d-flex">
                     <h3 class="text-primary fw-bold mb-4">Filtreler</h3>
                     <i class="ki-duotone text-primary ki-filt er-search fs-2">
@@ -60,35 +60,37 @@
                 <div class="row">
                     <div class="col-lg-3">
                         <!--begin::Label-->
-                        <label for="Kod" class="fw-bold fs-6 mb-1 text-gray-600">Cari</label>
+                        <label for="CariAdi" class="fw-bold fs-6 mb-1 text-gray-600">Cari</label>
                         <!--end::Label-->
                         <!--begin::Input-->
-                        <input type="text" name="Kod" id="Kod" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.CariAdi)" />
+                        <input type="text" name="CariAdi" id="CariAdi" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.CariAdi)" />
                         <!--end::Input-->
                     </div>
                     <div class="col-lg-3">
                         <!--begin::Label-->
-                        <label for="VergiNumarasi" class="fw-bold fs-6 mb-1 text-gray-600">Belge Numarası</label>
+                        <label for="BelgeNo" class="fw-bold fs-6 mb-1 text-gray-600">Belge Numarası</label>
                         <!--end::Label-->
                         <!--begin::Input-->
-                        <input type="text" name="VergiNumarasi" id="VergiNumarasi" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.BelgeNo)" />
-                        <!--end::Input-->
-                    </div>
-                    <div class="col-lg-3">
-                        <!--begin::Label-->
-                        <label for="Baslangic" class="fw-bold fs-6 mb-1 text-gray-600">Başlangıç Tarihi</label>
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <input type="datetime-local" name="Baslangic" id="Baslangic" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))" />
+                        <input type="text" name="BelgeNo" id="BelgeNo" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.BelgeNo)" />
                         <!--end::Input-->
                     </div>
 
                     <div class="col-lg-3">
                         <!--begin::Label-->
-                        <label for="Bitis" class="fw-bold fs-6 mb-1 text-gray-600">Bitiş Tarihi</label>
+                        <label for="BaslangicTarihi" class="fw-bold fs-6 mb-1 text-gray-600">Başlangıç Tarihi</label>
                         <!--end::Label-->
                         <!--begin::Input-->
-                        <input type="datetime-local" name="Bitis" id="Bitis" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))" />
+                        <input type="datetime-local" name="BaslangicTarihi" id="BaslangicTarihi" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0"
+                               value="@(ViewBag.Filters.BaslangicTarihi.ToString("yyyy-MM-ddTHH:mm"))" />
+                        <!--end::Input-->
+                    </div>
+
+                    <div class="col-lg-3">
+                        <!--begin::Label-->
+                        <label for="BitisTarihi" class="fw-bold fs-6 mb-1 text-gray-600">Bitiş Tarihi</label>
+                        <!--end::Label-->
+                        <input type="datetime-local" name="BitisTarihi" id="BitisTarihi" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0"
+                               value="@(ViewBag.Filters.BitisTarihi.ToString("yyyy-MM-ddTHH:mm"))" />
                         <!--end::Input-->
                     </div>
                 </div>
