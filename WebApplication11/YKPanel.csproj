@@ -3014,7 +3014,6 @@
     </Content>
     <Content Include="Views\POSAPI\Bilgilendirme.cshtml" />
     <Content Include="Tema\excel\ornek-stok-listesi.xlsx" />
-    <Content Include="Views\SatisTeklifi\TeklifPDF.cshtml" />
     <Content Include="Tema\excel\ornek-cari-liste.xls" />
     <Content Include="Views\Stok\Sayim.cshtml" />
     <Content Include="Views\Mesaj\Chat.cshtml" />

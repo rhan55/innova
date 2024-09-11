@@ -53,6 +53,19 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Anasayfa");
             }
 
+
+            var now = DateTime.Now;
+
+            if (belgeDto.BaslangicTarihi <= DateTime.MinValue || belgeDto.BaslangicTarihi >= DateTime.MaxValue)
+            {
+                belgeDto.BaslangicTarihi = now.AddMonths(-1);
+            }
+
+            if (belgeDto.BitisTarihi <= DateTime.MinValue || belgeDto.BitisTarihi >= DateTime.MaxValue)
+            {
+                belgeDto.BitisTarihi = now.AddDays(1);
+            }
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "p_BelgeListesi";
@@ -60,8 +73,14 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@Tip", Tip);
             cmd.Parameters.AddWithValue("@AranacakKelime", AranacakKelime);
-            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            cmd.Parameters.AddWithValue("@BelgeNo", belgeDto.BelgeNo);
+            cmd.Parameters.AddWithValue("@CariAdi", belgeDto.CariAdi);
+            cmd.Parameters.AddWithValue("@Durumu", belgeDto.Durumu);
+            cmd.Parameters.AddWithValue("@BaslangicTarihi", belgeDto.BaslangicTarihi.ToString("yyyy-MM-dd HH:mm"));
+            cmd.Parameters.AddWithValue("@BitisTarihi", belgeDto.BitisTarihi.ToString("yyyy-MM-dd HH:mm"));
 
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             var model = new BelgeListeViewModel
             {
                 Belgeler = dt,
@@ -70,6 +89,7 @@ namespace YKPortal.Controllers
 
             };
             ViewBag.Filters = belgeDto;
+            ViewBag.Durumu = belgeDto.Durumu;
             return View(model);
         }
 

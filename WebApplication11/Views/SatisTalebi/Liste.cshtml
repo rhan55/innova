@@ -46,7 +46,7 @@
         <div class="card-body">
 
             <!--begin::Filtreleme alanı-->
-            <form method="POST" action="/SatisTalebi/Liste?Tip=STL" class="content p-0" id="datatableFilters">
+            <form method="POST" action="/SatisTalebi/Liste/?Tip=STL" class="content p-0" id="datatableFilters">
                 <div class="d-flex">
                     <h3 class="text-primary fw-bold mb-4">Filtreler</h3>
                     <i class="ki-duotone text-primary ki-filt er-search fs-2">
@@ -59,35 +59,37 @@
                 <div class="row">
                     <div class="col-lg-3">
                         <!--begin::Label-->
-                        <label for="Kod" class="fw-bold fs-6 mb-1 text-gray-600">Cari</label>
+                        <label for="CariAdi" class="fw-bold fs-6 mb-1 text-gray-600">Cari</label>
                         <!--end::Label-->
                         <!--begin::Input-->
-                        <input type="text" name="Kod" id="Kod" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.CariAdi)" />
+                        <input type="text" name="CariAdi" id="CariAdi" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.CariAdi)" />
                         <!--end::Input-->
                     </div>
                     <div class="col-lg-3">
                         <!--begin::Label-->
-                        <label for="VergiNumarasi" class="fw-bold fs-6 mb-1 text-gray-600">Belge Numarası</label>
+                        <label for="BelgeNo" class="fw-bold fs-6 mb-1 text-gray-600">Belge Numarası</label>
                         <!--end::Label-->
                         <!--begin::Input-->
                         <input type="text" name="BelgeNo" id="BelgeNo" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.BelgeNo)" />
                         <!--end::Input-->
                     </div>
+
                     <div class="col-lg-3">
                         <!--begin::Label-->
-                        <label for="Baslangic" class="fw-bold fs-6 mb-1 text-gray-600">Başlangıç Tarihi</label>
+                        <label for="BaslangicTarihi" class="fw-bold fs-6 mb-1 text-gray-600">Başlangıç Tarihi</label>
                         <!--end::Label-->
                         <!--begin::Input-->
-                        <input type="datetime-local" name="Baslangic" id="Baslangic" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))" />
+                        <input type="datetime-local" name="BaslangicTarihi" id="BaslangicTarihi" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" required
+                               value="@(ViewBag.Filters.BaslangicTarihi.ToString("yyyy-MM-ddTHH:mm"))" />
                         <!--end::Input-->
                     </div>
 
                     <div class="col-lg-3">
                         <!--begin::Label-->
-                        <label for="Bitis" class="fw-bold fs-6 mb-1 text-gray-600">Bitiş Tarihi</label>
+                        <label for="BitisTarihi" class="fw-bold fs-6 mb-1 text-gray-600">Bitiş Tarihi</label>
                         <!--end::Label-->
-                        <!--begin::Input-->
-                        <input type="datetime-local" name="Bitis" id="Bitis" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"))" />
+                        <input type="datetime-local" name="BitisTarihi" id="BitisTarihi" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" required
+                               value="@(ViewBag.Filters.BitisTarihi.ToString("yyyy-MM-ddTHH:mm"))" />
                         <!--end::Input-->
                     </div>
                 </div>
@@ -95,17 +97,17 @@
 
                     <div class="col-lg-3">
                         <!--begin::Label-->
-                        <label for="Durum" class="fw-bold fs-6 mb-1 text-gray-600">Durum</label>
+                        <label for="Durumu" class="fw-bold fs-6 mb-1 text-gray-600">Durumu</label>
                         <!--begin::Input-->
                         <div class="form-group">
                             <select class="px-2 py-1 rounded-1 form-control form-control-solid" data-control="select2" name="Durumu" id="Durumu"
                                     aria-label="Floating label select example">
                                 <option value="">Lütfen Seçim Yapınız</option>
-                                <option value="Öneri" @(ViewBag.Filters.Durumu == "Öneri" ? "selected" : "")>Öneri</option>
-                                <option value="Onaylandı" @(ViewBag.Filters.Durumu == "Onaylandı" ? "selected" : "")>Onaylandı</option>
-                                <option value="Reddedildi" @(ViewBag.Filters.Durumu == "Reddedildi" ? "selected" : "")>Reddedildi</option>
+                                <option value="Öneri" @(ViewBag.Durumu == "Öneri" ? "selected" : "")>Öneri</option>
+                                <option value="Onaylandı" @(ViewBag.Durumu == "Onaylandı" ? "selected" : "")>Onaylandı</option>
+                                <option value="Reddedildi" @(ViewBag.Durumu == "Reddedildi" ? "selected" : "")>Reddedildi</option>
                             </select>
-                        </div>                            <!--end::Input-->
+                        </div>
                     </div>
                     <div class="col-lg-3"></div>
                     <div class="col-lg-3"></div>
@@ -121,6 +123,7 @@
         </div>
     </div>
 </div>
+
 
 <div class="container-fluid">
     <div class="row mt-4">
@@ -223,8 +226,26 @@
 
 @section Scripts {
     <script>
+        const filtreleriTemizle = document.querySelector("#filtreleriTemizle");
 
+        if (filtreleriTemizle) {
+            filtreleriTemizle.addEventListener("click", function (e) {
+                e.preventDefault();
 
+                // Tüm inputları temizleyin
+                document.querySelector("form#datatableFilters").querySelectorAll("input").forEach(input => {
+                    input.value = "";
+                });
 
+                // Durumu selectbox'ını sıfırlayın
+                const durumuSelect = document.querySelector("#Durumu");
+                if (durumuSelect) {
+                    durumuSelect.selectedIndex = 0;
+                }
+
+                // Formu gönderin
+                document.querySelector("form#datatableFilters").submit();
+            });
+        }
     </script>
 }

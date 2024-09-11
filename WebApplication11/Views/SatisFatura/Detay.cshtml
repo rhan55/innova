@@ -141,6 +141,20 @@
                                                 <!--end::Input group-->
                                             </div>
                                         </div>
+                                        <div class="col-lg-4 col-12">
+                                            <!--begin::Label-->
+                                            <label for="Durumu" class="form-label fs-6 fw-bold text-gray-600 mb-3">Durumu</label>
+                                            <!--begin::Input-->
+                                            <div class="form-group">
+                                                <select class="px-2 py-1 rounded-1 form-control form-control-solid" data-control="select2" name="Durumu" id="Durumu"
+                                                        aria-label="Floating label select example">
+                                                    <option value="">Lütfen Seçim Yapınız</option>
+                                                    <option value="Öneri" @(Model.Durumu == "Öneri" ? "selected" : "")>Öneri</option>
+                                                    <option value="Onaylandı" @(Model.Durumu == "Onaylandı" ? "selected" : "")>Onaylandı</option>
+                                                    <option value="Reddedildi" @(Model.Durumu == "Reddedildi" ? "selected" : "")>Reddedildi</option>
+                                                </select>
+                                            </div>                            <!--end::Input-->
+                                        </div>
                                     </div>
 
                                     <div class="row mb-4">

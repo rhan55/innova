@@ -72,6 +72,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@AranacakKelime", AranacakKelime);
             cmd.Parameters.AddWithValue("@BelgeNo",belgeDto.BelgeNo);     
             cmd.Parameters.AddWithValue("@CariAdi", belgeDto.CariAdi);
+            cmd.Parameters.AddWithValue("@Durumu", belgeDto.Durumu);
             cmd.Parameters.AddWithValue("@BaslangicTarihi", belgeDto.BaslangicTarihi.ToString("yyyy-MM-dd HH:mm"));
             cmd.Parameters.AddWithValue("@BitisTarihi", belgeDto.BitisTarihi.ToString("yyyy-MM-dd HH:mm"));
 
@@ -86,13 +87,14 @@ namespace YKPortal.Controllers
 
             };
             ViewBag.Filters = belgeDto;
+            ViewBag.Durumu = belgeDto.Durumu;
             return View(model);
         }
 
 
 
         [HttpGet]
-        public ActionResult Detay()
+        public ActionResult Detay(BelgeDto belgeDto)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
@@ -106,12 +108,12 @@ namespace YKPortal.Controllers
 
             ViewBag.Personeller = SatisPersoneliGetir();
             ViewBag.Depolar = DepoListesiGetir();
-
+            ViewBag.Durumu = belgeDto.Durumu;
             return View(new BelgeDto());
         }
 
         [HttpPost]
-        public ActionResult Detay(string Tip, string id = "")
+        public ActionResult Detay(BelgeDto belgeDto, string Tip, string id = "")
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
@@ -182,7 +184,7 @@ namespace YKPortal.Controllers
                 ViewBag.Depolar = (DataTable)IDVeritabani.Sorgula(cmdDepolar, SorgulaTuru.Tablo);
             }
 
-            
+            ViewBag.Durumu = belgeDto.Durumu;
             return View(entity);
         }
 
@@ -258,7 +260,7 @@ namespace YKPortal.Controllers
         }
 
         [HttpGet]
-        public ActionResult Duzenle(string Tip, string id = "")
+        public ActionResult Duzenle(BelgeDto belgeDto, string Tip, string id = "")
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
@@ -325,7 +327,7 @@ namespace YKPortal.Controllers
             }
 
             ViewBag.Personeller = SatisPersoneliGetir();
-
+            ViewBag.Durumu = belgeDto.Durumu;
             return View(entity);
         }
 
