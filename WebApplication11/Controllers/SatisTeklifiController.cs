@@ -10,6 +10,7 @@ using YKPortal.Models.Dto;
 using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 using System.IO;
 using iText.Html2pdf;
+using iText.Html2pdf.Resolver.Font;
 
 
 
@@ -340,14 +341,6 @@ namespace YKPortal.Controllers
         }
 
 
-        [HttpGet]
-        public ActionResult TeklifPDF()
-        {
-            if (!AutoGirisKontrol())
-                return Redirect("~/YK/Giris");
-
-            return View();
-        }
 
 
         [HttpPost]
@@ -454,6 +447,8 @@ namespace YKPortal.Controllers
 
             using(var stream = new FileStream(kaydedilecekYer, FileMode.Create))
             {
+                ConverterProperties properties = new ConverterProperties();
+                properties.SetFontProvider(new DefaultFontProvider(true, true, true));
                 HtmlConverter.ConvertToPdf(htmlSource, stream);
             }
 

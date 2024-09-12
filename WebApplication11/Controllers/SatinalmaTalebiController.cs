@@ -7,6 +7,9 @@ using System.Web;
 using System.Web.Mvc;
 using YKPortal.Models;
 using YKPortal.Models.Dto;
+using iText.Html2pdf.Resolver.Font;
+using iText.Html2pdf;
+using System.IO;
 
 namespace YKPortal.Controllers
 {
@@ -334,13 +337,117 @@ namespace YKPortal.Controllers
         }
 
 
-        [HttpGet]
-        public ActionResult FaturaListesi()
+        [HttpPost]
+        public ActionResult PdfOlustur(string Tip, string id = "")
         {
-            if (!AutoGirisKontrol())
-                return Redirect("~/YK/Giris");
 
-            return View();
+            var belge = BelgeGetir(Tip, id);
+            var personel = SatisPersoneliGetir().Where(m => m.ID == belge.SatisPersonelID).FirstOrDefault();
+
+            string htmlSource = System.IO.File.ReadAllText(Server.MapPath("~/PdfKaliplari/satinalma-Talebi.html"));
+            string kalemler = string.Empty;
+
+            for (var i = 0; i < belge.Kalemler.Count(); i++)
+            {
+                string kalemSource = System.IO.File.ReadAllText(Server.MapPath("~/PdfKaliplari/kalemler.html"))
+                    .Replace("[NO]", (i + 1).ToString())
+                    .Replace("[KALEM_ADI]", belge.Kalemler[i].StokAdi)
+                    .Replace("[KALEM_BIRIM]", belge.Kalemler[i].OlcuBirimi)
+                    .Replace("[KALEM_MIKTAR]", String.Format("{0:N2}", belge.Kalemler[i].Miktar))
+                    .Replace("[KALEM_FIYAT]", String.Format("{0:N2}", belge.Kalemler[i].Fiyat))
+                    .Replace("[KALEM_TUTAR]", String.Format("{0:N2}", belge.Kalemler[i].Tutar));
+
+                kalemler = kalemler + kalemSource;
+            }
+
+
+            htmlSource = htmlSource.Replace("[CARI_ADI]", belge.CariAdi)
+                                .Replace("[PERSONEL_ISIM]", personel?.Isim ?? string.Empty)
+                                .Replace("[TITLE]", "Satınalma Talebi")
+                                .Replace("[BELGE_NO]", belge.BelgeNo)
+                                .Replace("[TARIH]", belge.Tarih.ToString("dd/MM/yyyy HH:mm:ss"))
+                                .Replace("[ACIKLAMA]", belge.Aciklama)
+                                .Replace("[ARA_TOPLAM]", String.Format("{0:N2}", belge.Kalemler.Select(m => m.Fiyat * m.Miktar).Sum()))
+                                .Replace("[ISKONTO_TUTAR]", String.Format("{0:N2}", belge.Kalemler.Select(m => m.Fiyat * m.Miktar * m.IskontoOrani1 / 100).Sum()))
+                                .Replace("[KDV_TUTAR]", String.Format("{0:N2}", belge.Kalemler.Select(m => m.Fiyat * m.Miktar * m.KdvOrani / 100).Sum()))
+                                .Replace("[TOPLAM_TUTAR]", String.Format("{0:N2}", belge.Kalemler.Select(m => m.Fiyat * m.Miktar + (m.Fiyat * m.Miktar * m.KdvOrani / 100) - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100)).Sum()))
+                                .Replace("[KALEMLER]", kalemler);
+
+            var path = Server.MapPath("~/Uploads/Dosyalar/Teklifler");
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+
+            var kaydedilecekYer = Server.MapPath("~/Uploads/Dosyalar/Teklifler/Satis-Teklifi.pdf");
+
+            using (var stream = new FileStream(kaydedilecekYer, FileMode.Create))
+            {
+                ConverterProperties properties = new ConverterProperties();
+                properties.SetFontProvider(new DefaultFontProvider(true, true, true));
+                HtmlConverter.ConvertToPdf(htmlSource, stream);
+            }
+
+            return File(kaydedilecekYer, "application/pdf", "Satis-Teklifi.pdf");
+        }
+
+
+        private BelgeDto BelgeGetir(string Tip, string id)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_Belge";
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@ID", id);
+            DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
+            BelgeDto entity = new BelgeDto();
+            switch (Tip)
+            {
+                case "ST":
+                    entity.BelgeTipi = BelgeTipi.SatisTalebi;
+                    break;
+                default:
+                    break;
+            }
+
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                entity.ID = Convert.ToString(ds.Tables[0].Rows[0]["ID"]);
+                entity.Tarih = Convert.ToDateTime(ds.Tables[0].Rows[0]["Tarih"]);
+                entity.BelgeNo = Convert.ToString(ds.Tables[0].Rows[0]["BelgeNo"]);
+                entity.CariID = Convert.ToString(ds.Tables[0].Rows[0]["CariID"]);
+                entity.Durumu = Convert.ToString(ds.Tables[0].Rows[0]["Durumu"]);
+                entity.SatisPersonelID = Convert.ToString(ds.Tables[0].Rows[0]["SatisPersonelID"]);
+                entity.CariAdi = Convert.ToString(ds.Tables[0].Rows[0]["CariAdi"]);
+                entity.Aciklama = Convert.ToString(ds.Tables[0].Rows[0]["Aciklama1"]);
+                entity.Kalemler = new List<BelgeKalemDto>();
+                foreach (DataRow satir in ds.Tables[1].Rows)
+                {
+                    BelgeKalemDto s = new BelgeKalemDto();
+                    s.ID = Convert.ToString(satir["ID"]);
+                    s.BelgeID = entity.ID;
+                    s.StokID = Convert.ToString(satir["StokID"]);
+                    s.StokKodu = Convert.ToString(satir["StokKodu"]);
+                    s.StokAdi = Convert.ToString(satir["StokAdi"]);
+                    s.OlcuBirimi = Convert.ToString(satir["OlcuBirimi"]);
+                    s.Seri = Convert.ToString(satir["Seri"]);
+                    s.Miktar = Convert.ToDecimal(satir["Miktar"]);
+                    s.Durumu = Convert.ToBoolean(satir["Durumu"]);
+                    s.Fiyat = Convert.ToDecimal(satir["Fiyat"]);
+                    s.IskontoOrani1 = Convert.ToDecimal(satir["IskontoOrani1"]);
+                    s.KdvOrani = Convert.ToDecimal(satir["KdvOrani"]);
+                    s.Tutar = Convert.ToDecimal(satir["Tutar"]);
+
+                    entity.Kalemler.Add(s);
+                }
+            }
+            else
+            {
+                entity.Tarih = DateTime.Today;
+            }
+
+            return entity;
         }
 
 

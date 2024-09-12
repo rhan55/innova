@@ -389,9 +389,13 @@
                             <div class="col-lg-12">
                                 <div class="">
                                     <a href="@Url.Content("~/SatinalmaTeklifi/Liste/?Tip="+Request.QueryString["Tip"])" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
-                                    <button type="button" class="btn btn-primary yazdir">
-                                        <span class="indicator-label">Yazdır</span>
-                                    </button>
+                                    <form action="/SatinalmaTeklifi/PdfOlustur" method="post">
+                                        <input type="hidden" name="Tip" value="@Request.QueryString["Tip"]" />
+                                        <input type="hidden" name="id" value="@Model.ID" />
+                                        <button type="submit" class="btn btn-primary yazdir">
+                                            <span class="indicator-label">Yazdır</span>
+                                        </button>
+                                    </form>
                                     <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet" onclick="Kaydet();">
                                         <span class="indicator-label">Kaydet</span>
 
@@ -418,166 +422,7 @@
     <!--end::Content-->
 </div>
 
-<div class="main-pdf d-none">
-    <style>
-        * {
-            padding: 0;
-            margin: 0;
-            font-family: sans-serif;
-        }
-    </style>
-    <div class="yk-logo">
-        <img style="width: 200px;" src="~/Tema/media/Logolar/orijinal.png" />
 
-    </div>
-    <div style="padding-top: 24px;padding-bottom: 24px;display: flex; justify-content: space-between;align-items: start;" class="section-1">
-        <div class="" style="max-width: 50%;">
-            <h1 class="text-gray-700 fw-bold" style="font-size: 14px; line-height: 18px;">
-                YK YAZILIM PROJE VE DANIŞMANLIK HİZMETLERİ TİCARET VE SANAYİ LİMİTED ŞİRKETİ
-            </h1>
-        </div>
-        <div style="text-align: right;max-width: 50%;">
-
-            <h2 class="fw-bold text-gray-700" style="font-size: 14px;line-height: 20px;">Kime</h2>
-            <p class="fw-bold text-gray-700" style="font-size: 14px; line-height: 18px; font-weight: 100;">@(Convert.ToString(Model.CariAdi))</p>
-
-            @foreach (SatisPersonelleriDto personel in ViewBag.Personeller)
-            {
-                if (personel.ID == Model.SatisPersonelID)
-                {
-                    <p class="fw-bold" name="SatisPersonelID" style="font-size: 14px;line-height: 18px;">@(personel.Isim)</p>
-
-                }
-            }
-        </div>
-
-    </div>
-    <div class="section-2">
-        <h3 class="text-gray-700" style="font-size: 20px; line-height: 18px; font-weight:100;"># @Model.BelgeNo</h3>
-        <p class="text-gray-700" style="font-size: 14px; width: 400px; line-height: 18px; font-weight: 400; margin-top:20px;">@Model.CariAdi</p>
-        <p class="text-gray-700" style="font-size: 14px; line-height: 18px; font-weight: 400;">Tarih: @(DateTime.Now.ToString("yyyy-MM-dd"))</p>
-
-        <div>
-            <p class="text-gray-700" style="font-size: 14px; line-height: 18px; font-weight: 400;">Açıklama: @Model.Aciklama</p>
-        </div>
-    </div>
-    <div class="mt-20">
-        <table style="width: 100%; border: 0px solid #323a45; border-collapse: collapse; margin-top:50px;">
-            <thead style="background-color: #323a45;color: white; padding-top:40px;">
-                <tr>
-                    <th colspan="1"
-                        style="border: 1px solid #323a45;border-collapse: collapse;font-weight: 400;padding: 8px;text-align: left; font-weight:bold;">
-                        #
-                    </th>
-                    <th colspan="3"
-                        style="border: 1px solid #323a45; border-collapse: collapse; font-weight: bold; padding: 8px; text-align: left; font-weight: bold;">
-                        ÜRÜN/HİZMET
-                    </th>
-                    <th colspan="1"
-                        style="border: 1px solid #323a45; border-collapse: collapse; font-weight: 400; padding: 8px; text-align: left; font-weight: bold;">
-                        BİRİM
-                    </th>
-                    <th colspan="1"
-                        style="border: 1px solid #323a45; border-collapse: collapse; font-weight: 400; padding: 8px; text-align: left; font-weight: bold;">
-                        MİKTAR
-                    </th>
-                    <th colspan="1"
-                        style="border: 1px solid #323a45; border-collapse: collapse; font-weight: 400; padding: 8px; text-align: left; font-weight: bold;">
-                        FİYAT
-                    </th>
-                    <th colspan="1"
-                        style="border: 1px solid #323a45; border-collapse: collapse; font-weight: 400; padding: 8px; text-align: left; font-weight: bold;">
-                        TUTAR
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var kalem in Model.Kalemler.Select((value, index) => new { index, value }))
-                {
-                    <tr>
-                        <td colspan="1" style="border: 0;padding: 8px;">@(kalem.index + 1)</td>
-                        <td colspan="3" style="border: 0;padding: 8px;">
-                            <strong>
-                                @kalem.value.StokAdi
-                            </strong>
-                        </td>
-                        <td colspan="1" style="border: 0;padding: 8px;">@kalem.value.OlcuBirimi</td>
-                        <td colspan="1" style="border: 0;padding: 8px;">@String.Format("{0:N0}", kalem.value.Miktar)</td>
-                        <td colspan="1" style="border: 0;padding: 8px;">₺@String.Format("{0:N2}", kalem.value.Fiyat)</td>
-                        <td colspan="1" style="border: 0;padding: 8px;">₺@String.Format("{0:N2}", kalem.value.Tutar)</td>
-                    </tr>
-                }
-
-
-            </tbody>
-
-        </table>
-        <div class="offset-lg-8 col-lg-4 fw-semibold text-gray-900 mt-20" style="font-size:14px;">
-            <div class="d-flex align-items-center justify-content-between">
-                <div>Ara Toplam</div>
-                <div>
-                    ₺<span data-kt-element="ara-toplam-tutari">
-                        @if (Model.Kalemler != null)
-                        {
-                            <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar).Sum()))</span>
-                        }
-                        else
-                        {
-                            <span>0,00</span>
-                        }
-                    </span>
-                </div>
-            </div>
-            <div class="d-flex align-items-center justify-content-between">
-                <div>İskonto Tutarı</div>
-                <div>
-                    - ₺<span data-kt-element="iskonto-tutari">
-                        @if (Model.Kalemler != null)
-                        {
-                            <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar * m.IskontoOrani1 / 100).Sum()))</span>
-                        }
-                        else
-                        {
-                            <span>0,00</span>
-                        }
-                    </span>
-                </div>
-            </div>
-            <div class="d-flex align-items-center justify-content-between">
-                <div>KDV Tutarı</div>
-                <div>
-                    ₺<span data-kt-element="kdv-tutari">
-                        @if (Model.Kalemler != null)
-                        {
-                            <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar * m.KdvOrani / 100).Sum()))</span>
-                        }
-                        else
-                        {
-                            <span>0,00</span>
-                        }
-                    </span>
-                </div>
-            </div>
-            <div class="d-flex align-items-center justify-content-between">
-                <div>Genel Toplam</div>
-                <div>
-                    ₺<span data-kt-element="toplam-tutar">
-                        @if (Model.Kalemler != null)
-                        {
-                            <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar + (m.Fiyat * m.Miktar * m.KdvOrani / 100) - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100)).Sum()))</span>
-                        }
-                        else
-                        {
-                            <span>0,00</span>
-                        }
-                    </span>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-</div>
 
 @section Styles {
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -586,33 +431,9 @@
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"
-            integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/"
-            crossorigin="anonymous"></script>
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
-            integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
-
-        var opt = {
-            margin: 1,
-            filename: 'Satış Teklifi-YK YAZILIM.pdf',
-            image: { type: 'jpeg', quality: 2 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'cm', format: 'a4', orientation: 'portrait' }
-        };
-
-
-
-        $('button.yazdir').on('click', function () {
-            const mainPdf = document.querySelector('.main-pdf').cloneNode(true);
-
-            mainPdf.classList.remove('d-none');
-
-            html2pdf().from(mainPdf).set(opt).toPdf().save();
-        });
+ 
 
         var Tip = "@(Tip)";
 

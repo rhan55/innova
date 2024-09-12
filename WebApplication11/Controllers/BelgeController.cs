@@ -18,10 +18,6 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Giris");
 
 
-            if (!YetkiKontrolu("/Belge/Liste/?Tip="+Tip, "Sil"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
 
             if (Tip == "")
             {
@@ -39,20 +35,28 @@ namespace YKPortal.Controllers
             return Redirect("~/Belge/Liste/?Tip="+Tip);
         }
 
-        public ActionResult Liste(string Tip = "", string AranacakKelime = "")
+        public ActionResult Liste(BelgeDto belgeDto, string Tip = "", string AranacakKelime = "")
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/Belge/Liste/?Tip="+Tip, "Gor"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
+       
 
             if (string.IsNullOrEmpty(Tip))
             {
                 return Redirect("~/");
             }
 
+            var now = DateTime.Now;
+
+            if (belgeDto.BaslangicTarihi <= DateTime.MinValue || belgeDto.BaslangicTarihi >= DateTime.MaxValue)
+            {
+                belgeDto.BaslangicTarihi = now.AddMonths(-1);
+            }
+
+            if (belgeDto.BitisTarihi <= DateTime.MinValue || belgeDto.BitisTarihi >= DateTime.MaxValue)
+            {
+                belgeDto.BitisTarihi = now.AddDays(1);
+            }
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "p_BelgeListesi";
@@ -60,17 +64,16 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@Tip", Tip);
             cmd.Parameters.AddWithValue("@AranacakKelime", AranacakKelime);
+            cmd.Parameters.AddWithValue("@BelgeNo", belgeDto.BelgeNo);
+            cmd.Parameters.AddWithValue("@CariAdi", belgeDto.CariAdi);
+            cmd.Parameters.AddWithValue("@Durumu", belgeDto.Durumu);
+            cmd.Parameters.AddWithValue("@BaslangicTarihi", belgeDto.BaslangicTarihi.ToString("yyyy-MM-dd HH:mm"));
+            cmd.Parameters.AddWithValue("@BitisTarihi", belgeDto.BitisTarihi.ToString("yyyy-MM-dd HH:mm"));
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            var model = new BelgeListeViewModel
-            {
-                Belgeler = dt,
-                Sil = YetkiKontrolu("/Belge/Liste?Tip=" + Tip, "Sil"),
-                Duzenle = YetkiKontrolu("/Belge/Liste?Tip=" + Tip, "Duzenle")
-
-            };
-
-            return View(model);
+            ViewBag.Filters = belgeDto;
+            ViewBag.Durumu = belgeDto.Durumu;
+            return View(dt);
         }
  
 
@@ -80,10 +83,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Belge/Liste/?Tip="+Tip, "Gor"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
+       
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -151,10 +151,7 @@ namespace YKPortal.Controllers
             string DepoCikisID="", string DepoGirisID="",
             string Aciklama = "", List<BelgeKalemDto> Kalemler = null)
         {
-            if (!YetkiKontrolu("/Belge/Kaydet", "Duzenle"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
+          
             JsonResult result = new JsonResult();
 
             #region Kayıt işlemi gerçekleştirilecek.
@@ -374,53 +371,6 @@ namespace YKPortal.Controllers
             }
         }
 
-        private bool YetkiKontrolu(string YetkiUrl, string Tip = "Gor")
-        {
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "p_KullaniciYetkileri";
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
-            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            List<YetkilerDto> yetkiler = new List<YetkilerDto>();
-
-            foreach (DataRow row in dt.Rows)
-            {
-                yetkiler.Add(new YetkilerDto()
-                {
-                    MenuID = Convert.ToString(row["MenuID"]),
-                    KullaniciID = Convert.ToString(row["KullaniciID"]),
-                    UyelikID = Convert.ToString(row["UyelikID"]),
-                    Menu = Convert.ToString(row["Menu"]),
-                    UstID = Convert.ToString(row["UstID"]),
-                    Gor = Convert.ToBoolean(row["Gor"]),
-                    Duzenle = Convert.ToBoolean(row["Duzenle"]),
-                    Sil = Convert.ToBoolean(row["Sil"]),
-                    url = Convert.ToString(row["url"]),
-                });
-            }
-            var yetki = yetkiler.Where(m => m.url == YetkiUrl).FirstOrDefault();
-            if (yetki != null)
-            {
-                if (Tip == "Gor")
-                {
-                    return yetki.Gor;
-                }
-                else if (Tip == "Duzenle")
-                {
-                    return yetki.Duzenle;
-                }
-                else if (Tip == "Sil")
-                {
-                    return yetki.Sil;
-                }
-                return false;
-            }
-            else
-            {
-                return false;
-            }
-        }
     }
 }
