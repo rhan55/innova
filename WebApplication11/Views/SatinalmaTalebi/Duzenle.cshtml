@@ -222,7 +222,7 @@
                                                                             <td style="text-align: right;"><strong>Fiyat</strong></td>
                                                                             <td style="text-align: right;"><strong>İskonto Oranı</strong></td>
                                                                             <td style="text-align: right;"><strong>Tutar</strong></td>
-                                                                           
+
                                                                         </tr>
                                                                         <tr>
 
@@ -248,7 +248,7 @@
                                                                             <td class="ps-4">
                                                                                 <div class="form-check">
                                                                                     <input class="form-check-input" name="Durumu" type="checkbox" value="true" id="Durumu" checked />
-                                                                                  
+
                                                                                 </div>
                                                                             </td>
                                                                         </tr>
@@ -320,7 +320,9 @@
 
                                             </table>
                                         </div>
+
                                     </div>
+                                </div>
                             </form>
                         </div>
 
@@ -394,6 +396,13 @@
                         <div class="col-lg-12">
                             <div class="">
                                 <a href="@Url.Content("~/SatinalmaTalebi/Liste/?Tip="+Request.QueryString["Tip"])" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
+                                <form action="/SatinalmaTalebi/PdfOlustur" method="post">
+                                    <input type="hidden" name="Tip" value="@Request.QueryString["Tip"]" />
+                                    <input type="hidden" name="id" value="@Model.ID" />
+                                    <button type="submit" class="btn btn-primary yazdir">
+                                        <span class="indicator-label">Yazdır</span>
+                                    </button>
+                                </form>
                                 <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Kaydet" onclick="Kaydet();">
                                     <span class="indicator-label">Kaydet</span>
 
@@ -418,7 +427,7 @@
     <!--end::Content container-->
 </div>
 <!--end::Content-->
-</div>
+
 @section Styles {
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
@@ -568,7 +577,7 @@
                            deger += "                 <td style='text-align: right;'><strong>Fiyat</strong></td>                                                                         ";
                            deger += "                 <td style='text-align: right;'><strong>İskonto Oranı</strong></td>                                                                 ";
                            deger += "                 <td style='text-align: right;'><strong>Tutar</strong></td>                                                                         ";
-                          
+
 
                            deger += "             </tr>                                                                                                                                  ";
                            deger += "             <tr>                                                                                                                                   ";
