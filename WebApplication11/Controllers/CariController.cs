@@ -1180,8 +1180,6 @@ namespace YKPortal.Controllers
         [HttpGet]
         public JsonResult SelectListe(string search)
         {
-            if (!YetkiKontrolu("/Cari/Ekle", "Gor"))
-                return Json(new { Message = "Yetki Yok" }, JsonRequestBehavior.AllowGet);
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariListesi";

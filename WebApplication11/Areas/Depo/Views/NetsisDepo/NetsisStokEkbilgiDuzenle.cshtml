@@ -11,13 +11,7 @@
     {
        dt= ViewBag.dtDetay as DataTable;
     }
-
-
 }
-
-
-
-
 
 <div style="padding:20px;text-align:center;">
 
@@ -30,7 +24,7 @@
                     <label>Stok Kodu</label>
                 </td>
                 <td colspan="2">
-                    <input type="text" name="Belge_Barkod" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["STOK_KODU"]) : "")" class="form-control" style="font-size:50px;width:100%;height:50px;" />
+                    <input type="text" name="Belge_Barkod" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["STOK_KODU"]) : "")" class="form-control" style="font-size:10px;width:100%;" />
                 </td>
             </tr>
         
@@ -39,38 +33,38 @@
     </form>
     <form action="@Url.Content("~/Depo/NetsisDepo/NetsisStokEkBilgi_Guncelle")" method="post">
 
-        <input type="hidden" name="Stok_Kodu" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["STOK_KODU"]) : "")" class="form-control" style="font-size:50px;width:100%;height:50px;" />
+        <input type="hidden" name="Stok_Kodu" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["STOK_KODU"]) : "")" class="form-control" style="font-size:10px;width:100%;" />
         <table border="0" style="width:100%;">
             <tr>
                 <td>
                     <label> Stok Adı</label>
                 </td>
                 <td colspan="2">
-                    <input type="text" disabled name="Stok_Adi" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["STOK_ADI"]) : "")" class="form-control" style="font-size:50px;width:100%;height:50px;" />
+                    <input type="text" disabled name="Stok_Adi" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["STOK_ADI"]) : "")" class="form-control" style="font-size:10px;width:100%;" />
                 </td>
             </tr>
             <tr>
                 <td>
-                    <label> Kull 1 </label>
+                    <label> Raf 1 </label>
                 </td>
                 <td colspan="2">
-                    <input type="text" name="Okutma_Kull1" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["KULL1S"]) : "")" class="form-control" style="font-size:50px;width:100%;height:50px;" />
+                    <input type="text" name="Okutma_Kull1" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["KULL1S"]) : "")" class="form-control" style="font-size:10px;width:100%;" />
                 </td>
             </tr>
             <tr>
                 <td>
-                    <label> Kull 2 </label>
+                    <label> Raf 2 </label>
                 </td>
                 <td colspan="2">
-                    <input type="text" name="Okutma_Kull2" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["KULL2S"]) : "")" class="form-control" style="font-size:50px;width:100%;height:50px;" />
+                    <input type="text" name="Okutma_Kull2" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["KULL2S"]) : "")" class="form-control" style="font-size:10px;width:100%;" />
                 </td>
             </tr>
             <tr>
                 <td>
-                    <label> Kull 3 </label>
+                    <label> Raf 3 </label>
                 </td>
                 <td colspan="2">
-                    <input type="text" name="Okutma_Kull3" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["KULL3S"]) : "")" class="form-control" style="font-size:50px;width:100%;height:50px;" />
+                    <input type="text" name="Okutma_Kull3" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["KULL3S"]) : "")" class="form-control" style="font-size:10px;width:100%;" />
                 </td>
             </tr>
             <tr>

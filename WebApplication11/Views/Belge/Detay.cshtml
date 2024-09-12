@@ -29,8 +29,7 @@
                             <!--begin::Card body-->
                             <div class="card-body">
                                 <!--begin::Form-->
-                                <form method="post" action="@Url.Action("Detay","SatisFatura",new { Tip = Request.QueryString["Tip"] })">
-
+                               
                                     <input type="hidden" name="ID" id="ID" value="@(Model.ID)" />
                                     <table>
                                         <tr>
@@ -247,7 +246,6 @@
 
                                         </div>
                                     </div>
-                                </form>
                                 <!--begin::Actions-->
                                 <div class="col-lg-12">
 

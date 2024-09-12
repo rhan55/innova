@@ -151,10 +151,6 @@ namespace YKPortal.Controllers
             string DepoCikisID="", string DepoGirisID="",
             string Aciklama = "", List<BelgeKalemDto> Kalemler = null)
         {
-            if (!YetkiKontrolu("/Belge/Kaydet", "Duzenle"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
             JsonResult result = new JsonResult();
 
             #region Kayıt işlemi gerçekleştirilecek.
