@@ -15,7 +15,7 @@ namespace YKPortal.Models.Dto
         public MesajlasmaDto() { 
             ID = Guid.NewGuid();
         }
-     
+
 
         public Guid ID {get { return _ID; }set { _ID = value; }}
         public Guid KullaniciID { get { return _KullaniciID; } set { _KullaniciID = value; } }

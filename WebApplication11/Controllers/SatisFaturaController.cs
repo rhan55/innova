@@ -341,7 +341,7 @@ namespace YKPortal.Controllers
             var belge = BelgeGetir(Tip, id);
             var personel = SatisPersoneliGetir().Where(m => m.ID == belge.SatisPersonelID).FirstOrDefault();
 
-            string htmlSource = System.IO.File.ReadAllText(Server.MapPath("~/PdfKaliplari/satis-fatura.html"));
+            string htmlSource = System.IO.File.ReadAllText(Server.MapPath("~/PdfKaliplari/belge-tema.html"));
             string kalemler = string.Empty;
 
             for (var i = 0; i < belge.Kalemler.Count(); i++)
@@ -377,7 +377,7 @@ namespace YKPortal.Controllers
                 Directory.CreateDirectory(path);
             }
 
-            var kaydedilecekYer = Server.MapPath("~/Uploads/Dosyalar/Teklifler/Satis-Teklifi.pdf");
+            var kaydedilecekYer = Server.MapPath("~/Uploads/Dosyalar/Teklifler/Satis-Fatura.pdf");
 
             using (var stream = new FileStream(kaydedilecekYer, FileMode.Create))
             {
@@ -386,7 +386,7 @@ namespace YKPortal.Controllers
                 HtmlConverter.ConvertToPdf(htmlSource, stream);
             }
 
-            return File(kaydedilecekYer, "application/pdf", "Satis-Teklifi.pdf");
+            return File(kaydedilecekYer, "application/pdf", "Satis-Fatura.pdf");
         }
 
 
