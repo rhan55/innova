@@ -124,16 +124,31 @@ namespace YKPortal.Areas.D.Controllers
                             {
                                 aciklama = aciklama.Substring(0, 90) + "...";
                             }
-                            //aciklama += " app.ykyazilim.com.tr";
-                            string url = @"http://idyazilim.com/Site/SmsGonder/?telefon=" + telefon + "&" +
-                                "KullaniciAdi=" + YKUtils.SmsKullaniciAdi + "&" +
-                                "Parola=" + YKUtils.SmsParola + "&" +
-                                "Isim=" + YKUtils.SmsIsim + "&" +
-                                "Sirket=YK YAZILIM&" +
-                                "Program=" + "YK App" + "&" +
-                                "mesaj=" + GetCookie("Isim") + " kullanıcısı " + gorevDto.BaslangicTarihi.ToString("dd-MM-yyyy HH:mm") + " tarihli görev atadı, görev ayrıntı : " + aciklama + "";
-                            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                            var sonuc = request.GetResponse();
+                            try
+                            {
+                                //aciklama += " app.ykyazilim.com.tr";
+                                string url = @"http://idyazilim.com/Site/SmsGonder/?telefon=" + telefon + "&" +
+                                    "KullaniciAdi=" + YKUtils.SmsKullaniciAdi + "&" +
+                                    "Parola=" + YKUtils.SmsParola + "&" +
+                                    "Isim=" + YKUtils.SmsIsim + "&" +
+                                    "Sirket=YK YAZILIM&" +
+                                    "Program=" + "YK App" + "&" +
+                                    "mesaj=" + GetCookie("Isim") + " kullanıcısı " + gorevDto.BaslangicTarihi.ToString("dd-MM-yyyy HH:mm") + " tarihli görev atadı, görev ayrıntı : " + aciklama + "";
+                                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                                var sonuc = request.GetResponse();
+                            }
+                            catch(Exception err)
+                            {
+                                cmd.Parameters.Clear();
+                                cmd.CommandText = "p_HataKaydet";
+                                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                                cmd.Parameters.AddWithValue("@Kullanici", GetCookie("KullaniciID"));
+                                cmd.Parameters.AddWithValue("@Modul", "Gorev");
+                                cmd.Parameters.AddWithValue("@Aciklama1", "~/Gorev/GorevEkle");
+                                cmd.Parameters.AddWithValue("@Aciklama2", err.Message);
+                                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                            }
                         }
 
 

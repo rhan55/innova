@@ -8,6 +8,7 @@
     string KullaniciAdi = HttpUtility.UrlDecode(Request.Cookies["KullaniciAdi"].Value);
     string Isim = HttpUtility.UrlDecode(Request.Cookies["Isim"].Value);
     string Resim = HttpUtility.UrlDecode(Request.Cookies["Resim"].Value);
+    string Logo = HttpUtility.UrlDecode(Request.Cookies["Logo"].Value);
     string KullaniciID = HttpUtility.UrlDecode(Request.Cookies["KullaniciID"].Value);
     string UyelikID = HttpUtility.UrlDecode(Request.Cookies["UyelikID"].Value);
     string UyelikBitisTarihi = HttpUtility.UrlDecode(Request.Cookies["UyelikBitisTarihi"].Value);
@@ -237,7 +238,7 @@
                     <div class="header-brand">
                         <!--begin::Logo-->
                         <a href="/">
-                            <img alt="Logo" src="~/Tema/media/Logolar/BeyazLogo.png" class="h-25px h-lg-25px" />
+                            <img alt="Logo" src="@(Logo)" class="h-25px h-lg-25px" />
                         </a>
                         <!--end::Logo-->
                         <!--begin::Aside minimize-->

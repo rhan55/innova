@@ -56,6 +56,67 @@ namespace YKPortal.Controllers
                     }
                 }
             }
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_Parametre";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@Kod", "AnaSayfaAktifCari");
+                DataTable dtParametre = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                if (dtParametre.Rows.Count > 0)
+                    ViewBag.AnaSayfaAktifCari = Convert.ToBoolean(Convert.ToString(dtParametre.Rows[0]["Deger"]) == "1" ? true : false);
+            }
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_Parametre";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@Kod", "AnaSayfaAktifStok");
+                DataTable dtParametre = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                if (dtParametre.Rows.Count > 0)
+                    ViewBag.AnaSayfaAktifStok = Convert.ToBoolean(Convert.ToString(dtParametre.Rows[0]["Deger"]) == "1" ? true : false);
+            }
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_Parametre";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@Kod", "AnaSayfaAktifSiparis");
+                DataTable dtParametre = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                if (dtParametre.Rows.Count > 0)
+                    ViewBag.AnaSayfaAktifSiparis = Convert.ToBoolean(Convert.ToString(dtParametre.Rows[0]["Deger"]) == "1" ? true : false);
+            }
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_Parametre";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@Kod", "AnaSayfaBekleyenGorevSayisi");
+                DataTable dtParametre = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                if (dtParametre.Rows.Count > 0)
+                    ViewBag.AnaSayfaBekleyenGorevSayisi = Convert.ToBoolean(Convert.ToString(dtParametre.Rows[0]["Deger"]) == "1" ? true : false);
+            }
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_Parametre";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@Kod", "AnaSayfaTakvim");
+                DataTable dtParametre = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                if (dtParametre.Rows.Count > 0)
+                    ViewBag.AnaSayfaTakvim = Convert.ToBoolean(Convert.ToString(dtParametre.Rows[0]["Deger"]) == "1" ? true : false);
+            }
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_Parametre";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@Kod", "AnaSayfaSonAktiviteler");
+                DataTable dtParametre = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                if(dtParametre.Rows.Count > 0)
+                    ViewBag.AnaSayfaSonAktiviteler = Convert.ToBoolean(Convert.ToString(dtParametre.Rows[0]["Deger"]) == "1" ? true : false);
+            }
+
             SonAktiviteler();
             AnaSayfaBilgileri();
             AnaSayfaTakvimDurumlariListesiGetir();
@@ -234,6 +295,7 @@ namespace YKPortal.Controllers
                     CreateCookie("KullaniciAdi", Convert.ToString(dt.Rows[0]["KullaniciAdi"]));
                     CreateCookie("Parola", Convert.ToString(dt.Rows[0]["Parola"]));
                     CreateCookie("Resim", Convert.ToString(dt.Rows[0]["Resim"]));
+                    CreateCookie("Logo", Convert.ToString(dt.Rows[0]["Logo"]));
                     CreateCookie("UyelikBitisTarihi", Convert.ToString(dt.Rows[0]["UyelikBitisTarihi"]));
 
                     #endregion
@@ -355,6 +417,7 @@ namespace YKPortal.Controllers
             DeleteCookie("KullaniciAdi");
             DeleteCookie("Parola");
             DeleteCookie("Resim");
+            DeleteCookie("Logo");
 
             return Redirect("~/YK/Giris");
 
@@ -466,13 +529,23 @@ namespace YKPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult UyelikDuzenle(UyelikDto uyelikDto)
+        public ActionResult UyelikDuzenle(UyelikDto uyelikDto, HttpPostedFileBase Resim)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_UyelikKaydet";
+
+            if (Resim != null && Resim.ContentLength > 0)
+            {
+                var extension = Resim.FileName.Split('.').Last();
+
+                var imageName = $"{uyelikDto.ID}_{Guid.NewGuid()}.{extension}";
+                Resim.SaveAs(Server.MapPath($"/Uploads/Avatarlar/{imageName}"));
+                cmd.Parameters.AddWithValue("@Resim", $"/Uploads/Avatarlar/{imageName}");
+            }
+
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@ID", uyelikDto.ID);
             cmd.Parameters.AddWithValue("@Isim", uyelikDto.Isim);

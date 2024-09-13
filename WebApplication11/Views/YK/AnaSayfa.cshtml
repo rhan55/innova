@@ -8,169 +8,186 @@
     <div class="row">
         <div class="col-sm-8">
             <div class="d-flex ">
-                <div class="card card-flush p-1 w-100 ms-4" style="text-align: center; background-image: url('/Tema/media/Photo/aktif_cari.jpg');">
-                    <a href="@Url.Action("Liste","Cari",new { Area = "" })">
-                        <p class="fs-1 fw-bold text-gray-700">@String.Format("{0:N0}", ViewBag.Bilgiler.Cari)</p>
-                        <h3 class="text-primary">Aktif Cari</h3>
-                    </a>
-                </div>
-                <div class="card card-flush p-1 w-100 ms-4" style="text-align: center; background-image: url('/Tema/media/Photo/aktif_stok.jpg');">
-                    <a href="@Url.Action("Liste","Stok",new { Area = "" })">
-                        <p class="fs-1 fw-bold text-gray-700">@String.Format("{0:N0}", ViewBag.Bilgiler.Stok)</p>
-                        <h3 class="text-primary">Aktif Stok</h3>
-                    </a>
-                </div>
-                <div class="card card-flush p-1 w-100 ms-4" style="text-align: center; background-image: url('/Tema/media/Photo/aktif_siparis.jpg');">
-                    <a href="@Url.Action("Liste","SatisSiparisi",new { Area = "", Tip = "SS" })">
-                        <p class="fs-1 fw-bold text-gray-700">@String.Format("{0:N0}", ViewBag.Bilgiler.Belge)</p>
-                        <h3 class="text-primary">Aktif Sipariş</h3>
-                    </a>
-                </div>
-
+                @if (ViewBag.AnaSayfaAktifCari == true)
+                {
+                    <div class="card card-flush p-1 w-100 ms-4" style="text-align: center; background-image: url('/Tema/media/Photo/aktif_cari.jpg'); background-repeat: no-repeat; background-size: 100% 100%; ">
+                        <a href="@Url.Action("Liste", "Cari", new { Area = "" })">
+                            <p class="fs-1 fw-bold text-gray-700">@String.Format("{0:N0}", ViewBag.Bilgiler.Cari)</p>
+                            <h3 class="text-primary">Aktif Cari</h3>
+                        </a>
+                    </div>
+                }
+                @if (ViewBag.AnaSayfaAktifStok == true)
+                {
+                    <div class="card card-flush p-1 w-100 ms-4" style="text-align: center; background-image: url('/Tema/media/Photo/aktif_stok.jpg'); background-repeat: no-repeat; background-size: 100% 100%;">
+                        <a href="@Url.Action("Liste","Stok",new { Area = "" })">
+                            <p class="fs-1 fw-bold text-gray-700">@String.Format("{0:N0}", ViewBag.Bilgiler.Stok)</p>
+                            <h3 class="text-primary">Aktif Stok</h3>
+                        </a>
+                    </div>
+                }
+                @if (ViewBag.AnaSayfaAktifSiparis == true)
+                {
+                    <div class="card card-flush p-1 w-100 ms-4" style="text-align: center; background-image: url('/Tema/media/Photo/aktif_siparis.jpg'); background-repeat: no-repeat; background-size: 100% 100%;">
+                        <a href="@Url.Action("Liste", "SatisSiparisi", new { Area = "", Tip = "SS" })">
+                            <p class="fs-1 fw-bold text-gray-700">@String.Format("{0:N0}", ViewBag.Bilgiler.Belge)</p>
+                            <h3 class="text-primary">Aktif Sipariş</h3>
+                        </a>
+                    </div>
+                }
             </div>
-            <div class="card border-0">
-                <div class="card-custom">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <h3 class="card-label">Takvim</h3>
-                        </div>
-                        <form id="Not-Ekle">
-                            <div class="card-toolbar">
-                                <button type="button" class="btn btn-flex btn-primary" data-kt-calendar="add" data-bs-toggle="modal" data-bs-target="#TakvimEtkinlikModal">
-                                    <i class="ki-duotone ki-plus fs-2"></i>
-                                    Add Event
-                                </button>
+            @if (ViewBag.AnaSayfaTakvim == true)
+            {
+                <div class="card border-0">
+                    <div class="card-custom">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <h3 class="card-label">Takvim</h3>
                             </div>
-                        </form>
+                            <form id="Not-Ekle">
+                                <div class="card-toolbar">
+                                    <button type="button" class="btn btn-flex btn-primary" data-kt-calendar="add" data-bs-toggle="modal" data-bs-target="#TakvimEtkinlikModal">
+                                        <i class="ki-duotone ki-plus fs-2"></i>
+                                        Add Event
+                                    </button>
+                                </div>
+                            </form>
 
-                    </div>
-                    <div class="card-body">
-                        <div id="Takvim"></div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-        <div class="col-sm-4">
-            <div class="card card-flush px-4 pt-2 pb-0 mb-2 object-fit-contain" style="text-align: center; object-fit: contain; background-image: url('/Tema/media/Photo/bekleyen_gorev_sayisi.jpg'); background-size: 542px;">
-                <a href="@Url.Action("GorevListe","Gorev",new { Area = "" })">
-                    <p class="fs-1 fw-bold text-gray-700 p-0">@String.Format("{0:N0}", ViewBag.Bilgiler.Gorev)</p>
-                    <h3 class="text-primary">Bekleyen Görev Sayısı</h3>
-                </a>
-            </div>
-            <!--begin::Col-->
-            <div class="mt-4">
-                <div>
-
-                    <!--begin::Timeline widget 3-->
-                    <div class="card h-md-100">
-                        <!--begin::Header-->
-                        <div class="card-header border-0 pt-5 px-4">
-                            <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label fs-4 fw-bold text-gray-900">Son Aktiviteleri</span>
-                                <span class="text-muted mt-1 fw-semibold fs-7">En son yapılan işlemler</span>
-                            </h3>
                         </div>
-                        <!--end::Header-->
-                        <!--begin::Body-->
-                        <div class="card-body pt-4 px-0 overflow-x-hidden overflow-y-auto" style="max-height:480px;">
+                        <div class="card-body">
+                            <div id="Takvim"></div>
+                        </div>
+                    </div>
 
-                            <!--begin::Tab Content (ishlamayabdi)-->
-                            <div class="tab-content mb-0 px-4">
-                                @foreach (var sonAktivite in ViewBag.SonAktiviteler)
-                                {
-                                    <!--begin::Tap pane-->
-                                    <div class="tab-pane fade show active" id="kt_timeline_widget_3_tab_content_4">
-                                        <!--begin::Wrapper-->
-                                        <div class="d-flex align-items-center mb-4">
+                </div>
+            }
 
-                                            <!--begin::Bullet-->
-                                            <span data-kt-element="bullet" class="bullet bullet-vertical d-flex rounded align-items-center min-h-80px h mh-80 me-4 bg-primary"></span>
-                                            <!--end::Bullet-->
-                                            <!--begin::Info-->
-                                            <div class="flex-grow-1 me-0">
-                                                <!--begin::Link-->
-                                                <div class="d-flex m-0 p-0">
-                                                    <a class="text-primary fw-semibold fs-5">Modül : @(sonAktivite.Modul)</a>
-                                                </div>
-                                                <div class="d-flex m-0 p-0">
-                                                    <div class="text-gray-700 fw-semibold fs-6">İşlem : @(sonAktivite.Aciklama1)</div>
-                                                </div>
-                                                <!--begin::Description-->
-                                                @if (sonAktivite.Aciklama1 != "Kullanıcı Girişi")
-                                                {
+            </div>
+        <div class="col-sm-4">
+            @if (ViewBag.AnaSayfaBekleyenGorevSayisi == true)
+            {
+                <div class="card card-flush px-4 pt-2 pb-0 mb-2 object-fit-contain" style="text-align: center; object-fit: contain; background-image: url('/Tema/media/Photo/bekleyen_gorev_sayisi.jpg'); background-size: 542px;">
+                    <a href="@Url.Action("GorevListe", "Gorev", new { Area = "" })">
+                        <p class="fs-1 fw-bold text-gray-700 p-0">@String.Format("{0:N0}", ViewBag.Bilgiler.Gorev)</p>
+                        <h3 class="text-primary">Bekleyen Görev Sayısı</h3>
+                    </a>
+                </div>
+            }
+            <!--begin::Col-->
+            @if (ViewBag.AnaSayfaSonAktiviteler == true)
+            {
+                <div class="mt-4">
+                    <div>
+
+                        <!--begin::Timeline widget 3-->
+                        <div class="card h-md-100">
+                            <!--begin::Header-->
+                            <div class="card-header border-0 pt-5 px-4">
+                                <h3 class="card-title align-items-start flex-column">
+                                    <span class="card-label fs-4 fw-bold text-gray-900">Son Aktiviteleri</span>
+                                    <span class="text-muted mt-1 fw-semibold fs-7">En son yapılan işlemler</span>
+                                </h3>
+                            </div>
+                            <!--end::Header-->
+                            <!--begin::Body-->
+                            <div class="card-body pt-4 px-0 overflow-x-hidden overflow-y-auto" style="max-height:480px;">
+
+                                <!--begin::Tab Content (ishlamayabdi)-->
+                                <div class="tab-content mb-0 px-4">
+                                    @foreach (var sonAktivite in ViewBag.SonAktiviteler)
+                                    {
+                                        <!--begin::Tap pane-->
+                                        <div class="tab-pane fade show active" id="kt_timeline_widget_3_tab_content_4">
+                                            <!--begin::Wrapper-->
+                                            <div class="d-flex align-items-center mb-4">
+
+                                                <!--begin::Bullet-->
+                                                <span data-kt-element="bullet" class="bullet bullet-vertical d-flex rounded align-items-center min-h-80px h mh-80 me-4 bg-primary"></span>
+                                                <!--end::Bullet-->
+                                                <!--begin::Info-->
+                                                <div class="flex-grow-1 me-0">
+                                                    <!--begin::Link-->
                                                     <div class="d-flex m-0 p-0">
-                                                        <div class="text-gray-700 fw-semibold fs-6">Açıklama : @(sonAktivite.Aciklama2)</div>
+                                                        <a class="text-primary fw-semibold fs-5">Modül : @(sonAktivite.Modul)</a>
                                                     </div>
-                                                }
-                                                <!--end::Description-->
-                                            </div>
-                                            <!--end::Info-->
-                                            <!--begin::Action-->
-                                            <div class="d-flex m-0 p-0">
-                                                <div class="text-gray-700 fw-semibold fs-6">
-                                                    @{
-                                                        TimeSpan tarihFarki = DateTime.Now - Convert.ToDateTime(sonAktivite.Tarih);
-                                                        string tarihBilgisi = "";
-                                                        if (tarihFarki.Days > 0)
-                                                        {
-                                                            tarihBilgisi += tarihFarki.Days + " gün önce ";
+                                                    <div class="d-flex m-0 p-0">
+                                                        <div class="text-gray-700 fw-semibold fs-6">İşlem : @(sonAktivite.Aciklama1)</div>
+                                                    </div>
+                                                    <!--begin::Description-->
+                                                    @if (sonAktivite.Aciklama1 != "Kullanıcı Girişi")
+                                                    {
+                                                        <div class="d-flex m-0 p-0">
+                                                            <div class="text-gray-700 fw-semibold fs-6">Açıklama : @(sonAktivite.Aciklama2)</div>
+                                                        </div>
+                                                    }
+                                                    <!--end::Description-->
+                                                </div>
+                                                <!--end::Info-->
+                                                <!--begin::Action-->
+                                                <div class="d-flex m-0 p-0">
+                                                    <div class="text-gray-700 fw-semibold fs-6">
+                                                        @{
+                                                            TimeSpan tarihFarki = DateTime.Now - Convert.ToDateTime(sonAktivite.Tarih);
+                                                            string tarihBilgisi = "";
+                                                            if (tarihFarki.Days > 0)
+                                                            {
+                                                                tarihBilgisi += tarihFarki.Days + " gün önce ";
+                                                            }
+                                                            else if (tarihFarki.Hours > 0)
+                                                            {
+                                                                tarihBilgisi += tarihFarki.Hours + " saat önce ";
+                                                            }
+                                                            else if (tarihFarki.Minutes > 0)
+                                                            {
+                                                                tarihBilgisi += tarihFarki.Minutes + " dakika önce ";
+                                                            }
+                                                            else
+                                                            {
+                                                                tarihBilgisi += " şimdi ";
+                                                            }
                                                         }
-                                                        else if (tarihFarki.Hours > 0)
+                                                        @if (sonAktivite.Modul == "Kullanıcı" && sonAktivite.Aciklama1 == "Kullanıcı Girişi")
                                                         {
-                                                            tarihBilgisi += tarihFarki.Hours + " saat önce ";
-                                                        }
-                                                        else if (tarihFarki.Minutes > 0)
-                                                        {
-                                                            tarihBilgisi += tarihFarki.Minutes + " dakika önce ";
+
+                                                            <span>@(sonAktivite.Aciklama2)</span><br />
+                                                            <span>@(tarihBilgisi)</span><br />
                                                         }
                                                         else
                                                         {
-                                                            tarihBilgisi += " şimdi ";
+                                                            <span>@(sonAktivite.Kullanici)</span><br />
+                                                            <span>@(tarihBilgisi)...</span><br />
                                                         }
-                                                    }
-                                                    @if (sonAktivite.Modul == "Kullanıcı" && sonAktivite.Aciklama1 == "Kullanıcı Girişi")
-                                                    {
-
-                                                        <span>@(sonAktivite.Aciklama2)</span><br />
-                                                        <span>@(tarihBilgisi)</span><br />
-                                                    }
-                                                    else
-                                                    {
-                                                        <span>@(sonAktivite.Kullanici)</span><br />
-                                                        <span>@(tarihBilgisi)...</span><br />
-                                                    }
+                                                    </div>
+                                                    <!--end::Action-->
                                                 </div>
-                                                <!--end::Action-->
+                                                <!--end::Wrapper-->
+
                                             </div>
-                                            <!--end::Wrapper-->
+                                            <!--end::Tap pane-->
+
+
 
                                         </div>
-                                        <!--end::Tap pane-->
-
-
-
+                                                            }
+                                    <!--end::Tab Content-->
+                                    <!--begin::Action-->
+                                    <div class="float-end d-none">
+                                        <a href="#" class="btn btn-sm btn-light me-2" data-bs-toggle="modal" data-bs-target="#kt_modal_create_project">Add Lesson</a>
+                                        <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#kt_modal_create_app">Call Sick for Today</a>
                                     </div>
-                                }
-                                <!--end::Tab Content-->
-                                <!--begin::Action-->
-                                <div class="float-end d-none">
-                                    <a href="#" class="btn btn-sm btn-light me-2" data-bs-toggle="modal" data-bs-target="#kt_modal_create_project">Add Lesson</a>
-                                    <a href="#" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#kt_modal_create_app">Call Sick for Today</a>
+                                    <!--end::Action-->
                                 </div>
-                                <!--end::Action-->
+                                <!--end: Card Body-->
                             </div>
-                            <!--end: Card Body-->
+                            <!--end::Timeline widget 3-->
                         </div>
-                        <!--end::Timeline widget 3-->
+
+
                     </div>
-
-
+                    <!--end::Col-->
                 </div>
-                <!--end::Col-->
+                                                            }
             </div>
-        </div>
     </div>
 </div>
 

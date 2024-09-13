@@ -1,0 +1,94 @@
+﻿<div class="main-pdf">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            font-family: sans-serif;
+        }
+    </style>
+    <div class="yk-logo">
+        <img style="width: 200px;" src="~/Tema/media/Logolar/orijinal.png" />
+
+    </div>
+    <div style="padding-top: 24px;padding-bottom: 24px;display: flex; justify-content: space-between;align-items: start;" class="section-1">
+        <div class="" style="max-width: 50%;">
+            <h1 class="text-gray-700 fw-bold" style="font-size: 14px; max-width:400px; line-height: 18px;">
+                YK YAZILIM PROJE VE DANIŞMANLIK HİZMETLERİ TİCARET VE SANAYİ LİMİTED ŞİRKETİ
+            </h1>
+        </div>
+        <div style="text-align: left;max-width: 50%;">
+
+            <h2 class="fw-bold text-gray-700" style="font-size: 14px;line-height: 20px;">Kime</h2>
+            <p class="fw-bold text-gray-700" style="font-size: 14px; line-height: 18px; font-weight: 100;">[CARI_ADI]</p>
+            <p class="fw-bold" name="SatisPersonelID" style="font-size: 14px;line-height: 18px;">[PERSONEL_ISIM]</p>
+        </div>
+
+    </div>
+    <div class="section-2">
+        <div style="display:flex;">
+            <h3 class="text-gray-700 fw-semibold" style="font-size: 20px; line-height: 18px;">[TITLE]</h3>
+            <h3 class="text-gray-700 ms-5" style="font-size: 20px; line-height: 18px; font-weight:100;">#[BELGE_NO]</h3>
+        </div>
+
+        <p class="text-gray-700" style="font-size: 14px; width: 400px; line-height: 18px; font-weight: 400; margin-top:20px;">[CARI_ADI]</p>
+        <p class="text-gray-700" style="font-size: 14px; line-height: 18px; font-weight: 400;">Tarih: [TARIH]</p>
+
+        <div>
+            <p class="text-gray-700" style="font-size: 14px; line-height: 18px; font-weight: 400;">Açıklama: [ACIKLAMA]</p>
+        </div>
+    </div>
+    <div class="mt-20">
+        <table style="width: 100%; border: 0px solid #323a45; border-collapse: collapse; margin-top:50px;">
+            <thead style="background-color: #323a45;color: white; padding-top:40px;">
+                <tr>
+                    <th colspan="1"
+                        style="border: 1px solid #323a45;border-collapse: collapse;font-weight: 400;padding: 8px;text-align: left; font-weight:bold;">
+                        #
+                    </th>
+                    <th colspan="3"
+                        style="border: 1px solid #323a45; border-collapse: collapse; font-weight: bold; padding: 8px; text-align: left; font-weight: bold;">
+                        ÜRÜN/HİZMET
+                    </th>
+                    <th colspan="1"
+                        style="border: 1px solid #323a45; border-collapse: collapse; font-weight: 400; padding: 8px; text-align: left; font-weight: bold;">
+                        BİRİM
+                    </th>
+                    <th colspan="1"
+                        style="border: 1px solid #323a45; border-collapse: collapse; font-weight: 400; padding: 8px; text-align: left; font-weight: bold;">
+                        MİKTAR
+                    </th>
+                    <th colspan="1"
+                        style="border: 1px solid #323a45; border-collapse: collapse; font-weight: 400; padding: 8px; text-align: left; font-weight: bold;">
+                        FİYAT
+                    </th>
+                    <th colspan="1"
+                        style="border: 1px solid #323a45; border-collapse: collapse; font-weight: 400; padding: 8px; text-align: left; font-weight: bold;">
+                        TUTAR
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                [KALEMLER]
+            </tbody>
+
+        </table>
+        <div class="" style="font-size:14px;display: flex;flex-direction: column;align-items: flex-end">
+            <div style="width: 300px;display:flex;justify-content:space-between">
+                <div>Ara Toplam</div>
+                <div>₺<span>[ARA_TOPLAM]</span></div>
+            </div>
+            <div style="width: 300px;display:flex;justify-content:space-between">
+                <div>İskonto Tutarı</div>
+                <div>- ₺<span>[ISKONTO_TUTAR]</span></div>
+            </div>
+            <div style="width: 300px;display:flex;justify-content:space-between">
+                <div>KDV Tutarı</div>
+                <div>₺<span data-kt-element="kdv-tutari">[KDV_TUTAR]</span></div>
+            </div>
+            <div style="width: 300px;display:flex;justify-content:space-between">
+                <div>Genel Toplam</div>
+                <div>₺<span>[TOPLAM_TUTAR]</span></div>
+            </div>
+        </div>
+    </div>
+</div>
