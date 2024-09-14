@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Mesajlaşma";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -133,79 +132,23 @@
 
                 <div style="min-height:40px;" class="flex-column flex-lg-row-auto w-100 w-lg-300px w-xl-400px mb-10 mb-lg-0">
                     <!--begin::Contacts-->
+
+                    <form action="/Mesaj">
+
+                    </form>
                     <div class="card card-flush">
-                        <!--begin::Card header-->
                         <div style="min-height:40px;" class="card-header px-2" id="kt_chat_contacts_header">
-                            <!--begin::Form-->
-                            <form class="w-100 position-relative mt-2" autocomplete="off">
-                                <!--begin::Icon-->
-                                <i class="ki-duotone ki-magnifier fs-3 text-gray-500 position-absolute mt-6 ms-5 translate-middle-y"><span class="path1"></span><span class="path2"></span></i>            <!--end::Icon-->
-                                <!--begin::Input-->
-                                <input type="text" class="form-control form-control-solid px-13 py-2" name="search" value="" placeholder="Search by username or email...">
-                                <!--end::Input-->
-                            </form>
-                            <!--end::Form-->
+                            <!-- Arama Formu -->
+                            <input type="text" class="form-control form-control-solid py-2" name="aranacakKelime" value="@ViewBag.AranacakKelime" placeholder="Kullanıcı adını veya e-postasını ara...">
                         </div>
-                        <!--end::Card header-->
-                        <!--begin::Card body-->
+
                         <div class="card-body px-4" id="kt_chat_contacts_body">
-                            <!--begin::List-->
-                            <div class="scroll-y me-n5 pe-5 h-200px h-lg-auto" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_header, #kt_app_header, #kt_toolbar, #kt_app_toolbar, #kt_footer, #kt_app_footer, #kt_chat_contacts_header" data-kt-scroll-wrappers="#kt_content, #kt_app_content, #kt_chat_contacts_body" data-kt-scroll-offset="5px" style="max-height: 613px;">
-
-                                <!--begin::User-->
-                                <div class="d-flex flex-stack py-4">
-                                    <!--begin::Details-->
-                                    <div class="d-flex align-items-center">
-                                        <!--begin::Avatar--><div class="symbol  symbol-45px symbol-circle "><span class="symbol-label  bg-light-danger text-danger fs-6 fw-bolder ">M</span><div class="symbol-badge bg-success start-100 top-100 border-4 h-8px w-8px ms-n2 mt-n2"></div></div><!--end::Avatar-->
-                                        <!--begin::Details-->
-                                        <div class="ms-5">
-                                            <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">Melody Macy</a>
-                                            <div class="fw-semibold text-muted">melody@altbox.com</div>
-                                        </div>
-                                        <!--end::Details-->
-                                    </div>
-                                    <!--end::Details-->
-                                    <!--begin::Lat seen-->
-                                    <div class="d-flex flex-column align-items-end ms-2">
-                                        <span class="text-muted fs-7 mb-1">20 hrs</span>
-
-                                    </div>
-                                    <!--end::Lat seen-->
-                                </div>
-                                <!--end::User-->
-                                <!--begin::Separator-->
-                                <div class="separator separator-dashed d-none"></div>
-                                <!--end::Separator-->
-                                <!--begin::User-->
-                                <div class="d-flex flex-stack py-4">
-                                    <!--begin::Details-->
-                                    <div class="d-flex align-items-center">
-                                        <!--begin::Avatar--><div class="symbol  symbol-45px symbol-circle "><img alt="Pic" src="/metronic8/demo1/assets/media/avatars/300-1.jpg"></div><!--end::Avatar-->
-                                        <!--begin::Details-->
-                                        <div class="ms-5">
-                                            <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">Max Smith</a>
-                                            <div class="fw-semibold text-muted">max@kt.com</div>
-                                        </div>
-                                        <!--end::Details-->
-                                    </div>
-                                    <!--end::Details-->
-                                    <!--begin::Lat seen-->
-                                    <div class="d-flex flex-column align-items-end ms-2">
-                                        <span class="text-muted fs-7 mb-1">20 hrs</span>
-
-                                    </div>
-                                    <!--end::Lat seen-->
-                                </div>
-                                <!--end::User-->
-                                <!--begin::Separator-->
-                                <div class="separator separator-dashed d-none"></div>
-                                <!--end::Separator-->
-
+                            <div class="scroll-y me-n5 pe-5 h-200px h-lg-auto" id="kullaniciListesi">
+                                
                             </div>
-                            <!--end::List-->
                         </div>
-                        <!--end::Card body-->
                     </div>
+
                     <!--end::Contacts-->
                 </div>
                 <!--end::Sidebar-->
@@ -1882,6 +1825,69 @@
                     $message.val('').focus();
                 });
             });
+
+            const kullaniciArama = () => {
+
+                const kullaniciListesi = $('#kullaniciListesi');
+
+                const kullaniciElementiOlustur = (kullanici) => {
+                    return `
+                        <div class="d-flex flex-stack py-4">
+                            <div class="d-flex align-items-center">
+                                <!-- Kullanıcı Bilgileri -->
+                                <div class="symbol symbol-45px symbol-circle">
+                                    <span class="symbol-label bg-light-danger text-danger fs-6 fw-bolder">${kullanici.Ad[0]}</span>
+                                </div>
+                                <div class="ms-5">
+                                    <a href="/Mesaj/Chat?kullaniciId=${kullanici.ID}" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">${kullanici.Ad} ${kullanici.Soyad}</a>
+                                    <div class="fw-semibold text-muted">E-posta: ${kullanici.KullaniciAdi}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                const kullaniciListesiOlustur = (aranacakKelime = "") => {
+                    $.ajax({
+                        type: "POST",
+                        url: '/Mesaj/KullaniciGetir?aranacakKelime=' + aranacakKelime,
+                        async: false,
+                        contentType: false,
+                        processData: false,
+                        contentType: "application/json; charset=utf-8",
+                        //dataFilter: function (data) { return data; },
+                        success: function (data) {
+                            const elementler = [];
+                            for (let i = 0; i < data.length; i++) {
+                                elementler.push(kullaniciElementiOlustur(data[i]));
+                            }
+
+                            kullaniciListesi.html(elementler.join(""));
+                        },
+                        error: function (msg) {
+                            console.log(msg)
+                          
+                        }
+                    });
+
+                  
+                }
+
+                return {
+                    kullaniciListesi,
+                    kullaniciListesiOlustur
+                }
+            }
+
+
+            kullaniciArama().kullaniciListesiOlustur("");
+
+            $('input[name="aranacakKelime"]').on('input', function () {
+                if ($('input[name="aranacakKelime"]').val().length > 2) {
+                    kullaniciArama().kullaniciListesiOlustur($('input[name="aranacakKelime"]').val());
+                }
+            })
+
         });
     </script>
 }

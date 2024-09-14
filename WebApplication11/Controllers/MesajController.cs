@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using YKPortal.Models.Dto;
 using YKPortal.Models;
+using System.Web.Http.Results;
 
 namespace YKPortal.Controllers
 {
@@ -15,11 +16,10 @@ namespace YKPortal.Controllers
 
 
         [HttpGet]
-        public ActionResult Chat()
+        public ActionResult Chat(string kullaniciId = "")
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-
 
             return View();
         }
@@ -39,6 +39,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KarsiKullaniciID", mesajlasmaDto.KarsiKullaniciID);
             cmd.Parameters.AddWithValue("@Tarih", mesajlasmaDto.Tarih);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
 
             return RedirectToAction("Liste");
         }
@@ -79,26 +80,30 @@ namespace YKPortal.Controllers
         }
 
 
-        public KullaniciEkleDto KullaniciGetir(string ID)
+     
+        public JsonResult KullaniciGetir(string aranacakKelime = "")
         {
+
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "p_Kullanici";
+            cmd.CommandText = "p_KullaniciListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ID", ID);
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@AranacakKelime", aranacakKelime);
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            var kullaniciListesi = new List<KullaniciEkleDto>();
 
-            if (dt.Rows.Count == 0)
-            {
-                return new KullaniciEkleDto();
+            for (int i = 0;i < dt.Rows.Count; i++) {
+                kullaniciListesi.Add(new KullaniciEkleDto
+                {
+                    Ad = Convert.ToString(dt.Rows[i]["Ad"]),
+                    ID = Convert.ToString(dt.Rows[i]["ID"]),
+                    Soyad = Convert.ToString(dt.Rows[i]["Soyad"]),
+                    KullaniciAdi = Convert.ToString(dt.Rows[i]["KullaniciAdi"]),
+                });
             }
 
-            return new KullaniciEkleDto
-            {
-                Ad = Convert.ToString(dt.Rows[0]["Ad"]),
-                Soyad = Convert.ToString(dt.Rows[0]["Soyad"]),
-            };
+            return Json(kullaniciListesi, JsonRequestBehavior.AllowGet);
         }
 
 
