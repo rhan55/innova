@@ -4,15 +4,29 @@
 @using YKPortal.Models
 
 @{
-    string UyelikIsim = HttpUtility.UrlDecode(Request.Cookies["UyelikIsim"].Value);
-    string KullaniciAdi = HttpUtility.UrlDecode(Request.Cookies["KullaniciAdi"].Value);
-    string Isim = HttpUtility.UrlDecode(Request.Cookies["Isim"].Value);
-    string Resim = HttpUtility.UrlDecode(Request.Cookies["Resim"].Value);
-    string Logo = HttpUtility.UrlDecode(Request.Cookies["Logo"].Value);
-    string KullaniciID = HttpUtility.UrlDecode(Request.Cookies["KullaniciID"].Value);
-    string UyelikID = HttpUtility.UrlDecode(Request.Cookies["UyelikID"].Value);
-    string UyelikBitisTarihi = HttpUtility.UrlDecode(Request.Cookies["UyelikBitisTarihi"].Value);
+    string UyelikIsim = "";
+    string KullaniciAdi = "";
+    string Isim = "";
+    string Resim ="";
+    string Logo = "";
+    string KullaniciID = "";
+    string UyelikID = "";
+    string UyelikBitisTarihi = "";
 
+    try
+    {
+        UyelikIsim = HttpUtility.UrlDecode(Request.Cookies["UyelikIsim"].Value);
+        KullaniciAdi = HttpUtility.UrlDecode(Request.Cookies["KullaniciAdi"].Value);
+        Isim = HttpUtility.UrlDecode(Request.Cookies["Isim"].Value);
+        Resim = HttpUtility.UrlDecode(Request.Cookies["Resim"].Value);
+        KullaniciID = HttpUtility.UrlDecode(Request.Cookies["KullaniciID"].Value);
+        UyelikID = HttpUtility.UrlDecode(Request.Cookies["UyelikID"].Value);
+        UyelikBitisTarihi = HttpUtility.UrlDecode(Request.Cookies["UyelikBitisTarihi"].Value);
+        Logo = HttpUtility.UrlDecode(Request.Cookies["Logo"].Value);
+    }
+    catch
+    {
+    }
     SqlCommand cmd = new SqlCommand();
     cmd.CommandText = "p_KullaniciYetkileri";
     cmd.CommandType = System.Data.CommandType.StoredProcedure;

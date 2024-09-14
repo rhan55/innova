@@ -287,17 +287,16 @@ namespace YKPortal.Controllers
                 if (!Bilgi.StartsWith("UYARI!"))
                 {
                     #region Cookie İşlemleri
-
                     CreateCookie("Isim", Convert.ToString(dt.Rows[0]["Ad"]) + " " + Convert.ToString(dt.Rows[0]["Soyad"]));
-                    CreateCookie("KullaniciID", Convert.ToString(dt.Rows[0]["ID"]));
-                    CreateCookie("UyelikIsim", Convert.ToString(dt.Rows[0]["UyelikIsim"]));
-                    CreateCookie("UyelikID", Convert.ToString(dt.Rows[0]["UyelikID"]));
-                    CreateCookie("KullaniciAdi", Convert.ToString(dt.Rows[0]["KullaniciAdi"]));
-                    CreateCookie("Parola", Convert.ToString(dt.Rows[0]["Parola"]));
-                    CreateCookie("Resim", Convert.ToString(dt.Rows[0]["Resim"]));
-                    CreateCookie("Logo", Convert.ToString(dt.Rows[0]["Logo"]));
-                    CreateCookie("UyelikBitisTarihi", Convert.ToString(dt.Rows[0]["UyelikBitisTarihi"]));
-
+                        CreateCookie("KullaniciID", Convert.ToString(dt.Rows[0]["ID"]));
+                        CreateCookie("UyelikIsim", Convert.ToString(dt.Rows[0]["UyelikIsim"]));
+                        CreateCookie("UyelikID", Convert.ToString(dt.Rows[0]["UyelikID"]));
+                        CreateCookie("KullaniciAdi", Convert.ToString(dt.Rows[0]["KullaniciAdi"]));
+                        CreateCookie("Parola", Convert.ToString(dt.Rows[0]["Parola"]));
+                        CreateCookie("Resim", Convert.ToString(dt.Rows[0]["Resim"]));
+                        CreateCookie("Logo", Convert.ToString(dt.Rows[0]["Logo"]));
+                        CreateCookie("UyelikBitisTarihi", Convert.ToString(dt.Rows[0]["UyelikBitisTarihi"]));
+                    
                     #endregion
 
                     if (Convert.ToString(dt.Rows[0]["AcilisSayfasi"]).Trim().Length > 0)

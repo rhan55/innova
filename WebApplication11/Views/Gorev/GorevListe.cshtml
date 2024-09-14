@@ -175,13 +175,14 @@
                                                         if (item.Trim().Length > 0)
                                                         {
                                                             <div style="float:left;text-align:center;margin-right:3px;">
-                                                                <div class="symbol symbol-circle symbol-20px overflow-hidden me-3">
+                                                                <div class="symbol symbol-circle symbol-20px overflow-hidden me-3" style="display:none;">
                                                                     <div class="symbol-label">
                                                                         <img src="@(item.Split('~')[1])" alt="@(item.Split('~')[0])" class="w-100 h-100 object-fit-cover" />
                                                                     </div>
-                                                                </div><br />
+                                                                </div>
                                                                 <span style="font-size:8px;margin:0px;padding:0px;">@(item.Split('~')[0])</span>
                                                             </div>
+                                                            <br />
                                                         }
                                                     }
 

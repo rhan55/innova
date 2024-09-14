@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
@@ -62,8 +63,9 @@ namespace YKPortal.Models.YKClasses
                 if(mailAdresi.Trim().Length > 0)
                     mail.To.Add(mailAdresi);
             }
-            
 
+
+            mail.IsBodyHtml = true;
             mail.Subject = Baslik;
             mail.Body =Icerik;
             mail.IsBodyHtml = true;
@@ -89,6 +91,22 @@ namespace YKPortal.Models.YKClasses
                 cmd.Parameters.AddWithValue("@Aciklama2", err.Message);
                 IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
             }
+        }
+
+        public static string ParametreGetir(string UyelikID, string ParametreKodu)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_Parametre";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
+            cmd.Parameters.AddWithValue("@Kod", ParametreKodu);
+            DataTable dtNetsisDatatable = (DataTable)(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo));
+            string Deger = "";
+            if (dtNetsisDatatable.Rows.Count > 0)
+            {
+                Deger = Convert.ToString(dtNetsisDatatable.Rows[0]["Deger"]);
+            }
+            return Deger;
         }
 
         public static void LogKaydet_KullaniciGirisi(string ProgramAdi,
@@ -127,5 +145,6 @@ values
 
 
         }
+
     }
 }

@@ -30,7 +30,7 @@
                                 <label for="Aciklama" class="fw-semibold fs-6 mb-2">Açıklama</label>
                                 <!--end::Label-->
                                 <!--begin::texarea-->
-                                <textarea type="text" id="Aciklama" name="Aciklama" class="form-control p-2 mb-3 mb-lg-0">@(HttpUtility.HtmlDecode(Convert.ToString(Model.Tables[0].Rows[0]["Aciklama"])))</textarea>
+                                <textarea type="text" id="Aciklama" name="Aciklama" class="form-control p-2 mb-3 mb-lg-0">@(Html.Raw(Convert.ToString(Model.Tables[0].Rows[0]["Aciklama"])))</textarea>
                                 <!--end::Input-->
                             </div>
                             <div class="col-lg-4">
@@ -154,7 +154,7 @@
                     <tr>
                         <td style="vertical-align: top; width: 140px;">Açıklama</td>
                         <td style="vertical-align: top; padding-left: 5px; padding-right: 5px;">:</td>
-                        <td>@(HttpUtility.HtmlDecode(Convert.ToString(Model.Tables[0].Rows[0]["Aciklama"])))</td>
+                        <td>@Html.Raw(Convert.ToString(Model.Tables[0].Rows[0]["Aciklama"]))</td>
                     </tr>
                 </table>
 
@@ -206,29 +206,41 @@
                     <tbody>
                         @foreach (DataRow sonuc in Model.Tables[2].Rows)
                         {
-                        <tr>
-                            <td style="padding: 5px; vertical-align:top;">@sonuc["KaydiKapatan"]</td>
-                            <td style="padding: 5px; vertical-align: top;">@Convert.ToDateTime(sonuc["TamamlamaTarihi"]).ToString("dd-MM-yyyy HH:mm")</td>
+                            <tr>
+                                <td style="padding: 5px; vertical-align:top;">@sonuc["KaydiKapatan"]</td>
+                                <td style="padding: 5px; vertical-align: top;">@Convert.ToDateTime(sonuc["TamamlamaTarihi"]).ToString("dd-MM-yyyy HH:mm")</td>
 
-                            <td style="padding: 5px; vertical-align: top;">
-                                @sonuc["Aciklama"]
-                                <hr />
-                            </td>
-                            <td style="padding:5px;vertical-align:top;">
-                                @if (Convert.ToString(sonuc["Dosya"]).EndsWith(".jpg") ||
-                             Convert.ToString(sonuc["Dosya"]).EndsWith(".jpeg") ||
-                             Convert.ToString(sonuc["Dosya"]).EndsWith(".png") ||
-                             Convert.ToString(sonuc["Dosya"]).EndsWith(".gif")
-                            )
-                                {
-                                    <img src="@Url.Content("~/Uploads/Dosyalar/"+sonuc["Dosya"])" style="height:150px;margin:3px;" alt="@(sonuc["Dosya"])" />
+                                <td style="padding: 5px; vertical-align: top;">
+                                    @sonuc["Aciklama"]
+                                    <hr />
+                                </td>
+                                <td style="padding:5px;vertical-align:top;">
+                                    @if (Convert.ToString(sonuc["Dosya"]).EndsWith(".jpg") ||
+                                 Convert.ToString(sonuc["Dosya"]).EndsWith(".jpeg") ||
+                                 Convert.ToString(sonuc["Dosya"]).EndsWith(".png") ||
+                                 Convert.ToString(sonuc["Dosya"]).EndsWith(".gif")
+                                )
+                                    {
+                                        <img src="@Url.Content("~/Uploads/Dosyalar/"+sonuc["Dosya"])" style="height:150px;margin:3px;" alt="@(sonuc["Dosya"])" />
 
-                                    <br />
-                                    <a href="@Url.Content("~/Uploads/Dosyalar/"+sonuc["Dosya"])" target="_blank">İndir</a>
-                                }
+                                        <br />
+                                        <a href="@Url.Content("~/Uploads/Dosyalar/"+sonuc["Dosya"])" target="_blank">İndir</a>
+                                    }
 
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                        }
+                        @foreach (DataRow sonuc in Model.Tables[1].Rows)
+                        {
+                            if (Model.Tables[2].Select(" KullaniciID = '"+sonuc["KullaniciID"]+"' ").Length == 0)
+                            {
+                                <tr style="padding:5px;color:white;">
+                                    <td style="padding: 5px; vertical-align:top;">@sonuc["Isim"]</td>
+                                    <td></td>
+                                    <td>HENÜZ CEVAP GELMEDİ</td>
+                                    <td></td>
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>

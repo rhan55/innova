@@ -28,6 +28,8 @@ namespace YKPortal.Areas.Entegrasyon.Controllers
         }
 
 
+
+
         #region Cookie İşlemleri
 
 

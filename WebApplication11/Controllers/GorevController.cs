@@ -21,11 +21,6 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-
-            if (!YetkiKontrolu("/Gorev/GorevListe", "Sil"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_DosyaSil";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -42,11 +37,6 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-
-            if (!YetkiKontrolu("/Gorev/GorevListe", "Duzenle"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_GorevTamamla";
@@ -127,10 +117,6 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Gorev/GorevEkle", "Gor"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
             GorevTipiListesiniOlustur();
             {
                 SqlCommand cmd = new SqlCommand();
@@ -150,10 +136,6 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Gorev/GorevEkle", "Duzenle"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_GorevKaydet";
@@ -203,21 +185,28 @@ namespace YKPortal.Controllers
                             .Replace("(", "");
                         if (telefon.Trim().Length > 0)
                         {
-                            string aciklama = gorevDto.Aciklama;
-                            if (aciklama.Length > 100)
+                            try
                             {
-                                aciklama = aciklama.Substring(0, 90) + "...";
+                                string aciklama = gorevDto.Aciklama;
+                                if (aciklama.Length > 100)
+                                {
+                                    aciklama = aciklama.Substring(0, 90) + "...";
+                                }
+                                aciklama += " app.ykyazilim.com.tr";
+                                string url = @"http://idyazilim.com/Site/SmsGonder/?telefon=" + telefon + "&" +
+                                    "KullaniciAdi=" + YKUtils.SmsKullaniciAdi + "&" +
+                                    "Parola=" + YKUtils.SmsParola + "&" +
+                                    "Isim=" + YKUtils.SmsIsim + "&" +
+                                    "Sirket=YK YAZILIM&" +
+                                    "Program=" + "YK App" + "&" +
+                                    "mesaj=" + GetCookie("Isim") + " kullanıcısı " + gorevDto.BaslangicTarihi.ToString("dd-MM-yyyy HH:mm") + " tarihli görev atadı, görev ayrıntı : " + aciklama + "";
+                                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                                var sonuc = request.GetResponse();
                             }
-                            aciklama += " app.ykyazilim.com.tr";
-                            string url = @"http://idyazilim.com/Site/SmsGonder/?telefon=" + telefon + "&" +
-                                "KullaniciAdi=" + YKUtils.SmsKullaniciAdi + "&" +
-                                "Parola=" + YKUtils.SmsParola + "&" +
-                                "Isim=" + YKUtils.SmsIsim + "&" +
-                                "Sirket=YK YAZILIM&" +
-                                "Program=" + "YK App" + "&" +
-                                "mesaj=" + GetCookie("Isim") + " kullanıcısı " + gorevDto.BaslangicTarihi.ToString("dd-MM-yyyy HH:mm") + " tarihli görev atadı, görev ayrıntı : " + aciklama + "";
-                            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                            var sonuc = request.GetResponse();
+                            catch(Exception err)
+                            {
+
+                            }
                         }
 
 
@@ -303,11 +292,6 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Gorev/GorevListe", "Gor"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
-
             GorevTipiListesiniOlustur();
             var uyelikId = GetCookie("UyelikID");
             SqlCommand cmd = new SqlCommand();
@@ -340,10 +324,6 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Gorev/GorevListe", "Duzenle"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_GorevKaydet";
@@ -377,6 +357,96 @@ namespace YKPortal.Controllers
                     cmd.Parameters.AddWithValue("@SecilenKullaniciID", kullanici);
                     cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
                     IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                    #region Kullanıcıya sms ve mail gönderme
+                    try
+                    {
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "p_Kullanici";
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                        cmd.Parameters.AddWithValue("@ID", kullanici);
+                        string telefon = Convert.ToString(((DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo)).Rows[0]["Telefon"])
+                            .Replace(" ", "")
+                            .Replace("-", "")
+                            .Replace("_", "")
+                            .Replace(")", "")
+                            .Replace("(", "");
+                        if (telefon.Trim().Length > 0)
+                        {
+                            try
+                            {
+                                string aciklama = gorevDto.Aciklama;
+                                if (aciklama.Length > 100)
+                                {
+                                    aciklama = aciklama.Substring(0, 90) + "...";
+                                }
+                                aciklama += " app.ykyazilim.com.tr";
+                                string url = @"http://idyazilim.com/Site/SmsGonder/?telefon=" + telefon + "&" +
+                                    "KullaniciAdi=" + YKUtils.SmsKullaniciAdi + "&" +
+                                    "Parola=" + YKUtils.SmsParola + "&" +
+                                    "Isim=" + YKUtils.SmsIsim + "&" +
+                                    "Sirket=YK YAZILIM&" +
+                                    "Program=" + "YK App" + "&" +
+                                    "mesaj=" + GetCookie("Isim") + " kullanıcısı " + gorevDto.BaslangicTarihi.ToString("dd-MM-yyyy HH:mm") + " tarihli görev atadı, görev ayrıntı : " + aciklama + "";
+                                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                                var sonuc = request.GetResponse();
+                            }
+                            catch (Exception err)
+                            {
+
+                            }
+                        }
+
+
+                        #region Mail Gönder
+
+
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "Select * from MailKaliplari WITH(NOLOCK) Where UyelikID = @UyelikID and Kod = @Kod";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                        cmd.Parameters.AddWithValue("@Kod", "Destek_Gorev_Yeni");
+                        DataTable dtMail = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                        if (dtMail.Rows.Count > 0)
+                        {
+                            string Baslik = Convert.ToString(dtMail.Rows[0]["Isim"]);
+                            string Icerik = Convert.ToString(dtMail.Rows[0]["Icerik"]);
+                            Icerik = Icerik.Replace("{Isim}", GetCookie("Isim"));
+                            Icerik = Icerik.Replace("{Aciklama}", gorevDto.Aciklama);
+                            Icerik = Icerik.Replace("{Tarih}", gorevDto.BaslangicTarihi.ToString("dd-MM-yyyy HH:mm"));
+
+                            cmd.Parameters.Clear();
+                            cmd.CommandText = "select * from Parametreler  WITH(NOLOCK) Where Modul = 'EMail' and UyelikID = @UyelikID";
+                            cmd.CommandType = System.Data.CommandType.Text;
+                            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                            DataTable dtMailBilgileri = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                            YKUtils.MailGonder(Baslik, Icerik, GetCookie("KullaniciAdi"),
+                                    Convert.ToString(dtMailBilgileri.Select(" Isim = 'KullaniciAdi' ")[0]["Deger"]),
+                                    Convert.ToString(dtMailBilgileri.Select(" Isim = 'Parola' ")[0]["Deger"]),
+                                    Convert.ToString(dtMailBilgileri.Select(" Isim = 'Host' ")[0]["Deger"]),
+                                    Convert.ToInt32(dtMailBilgileri.Select(" Isim = 'Port' ")[0]["Deger"]),
+                                    Convert.ToString(dtMailBilgileri.Select(" Isim = 'SSL' ")[0]["Deger"]) == "0" ? false : true
+                                );
+                        }
+
+                        #endregion
+                    }
+                    catch (Exception err)
+                    {
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "p_HataKaydet";
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                        cmd.Parameters.AddWithValue("@Kullanici", GetCookie("KullaniciID"));
+                        cmd.Parameters.AddWithValue("@Modul", "Gorev");
+                        cmd.Parameters.AddWithValue("@Aciklama1", "~/Gorev/GorevEkle");
+                        cmd.Parameters.AddWithValue("@Aciklama2", err.Message);
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    }
+                    #endregion
+
                 }
             }
 
@@ -413,10 +483,6 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Gorev/GorevListe", "Gor"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
             if (Baslangic == null)
             {
                 Baslangic = DateTime.Today.AddMonths(-1);
@@ -471,11 +537,6 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-
-            if (!YetkiKontrolu("/Gorev/GorevListe", "Sil"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_GorevSil";

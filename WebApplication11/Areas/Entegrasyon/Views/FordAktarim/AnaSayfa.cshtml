@@ -1,0 +1,90 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Ford Aktarım";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<form action="@Url.Action("AnaSayfa","FordAktarim",new { Area = "Entegrasyon" })" method="post">
+    <input type="date" name="Tarih" value="@ViewBag.Tarih.ToString("yyyy-MM-dd")" />
+    <input type="submit" name="name" value="Faturaları Getir @ViewBag.Tarih" />
+
+</form>
+
+@if (ViewBag.dtBelgeler != null)
+{
+    DataTable dtBelgeler = ViewBag.dtBelgeler as DataTable;
+<table class="table" border="1">
+    <thead>
+        <tr>
+            <th>BSec</th>
+            <th>SAkt</th>
+            <th>SModul</th>
+            <th>STipi</th>
+            <th>SDöviz</th>
+            <th>SSat.Sayisi</th>
+            <th>SFaturaNo</th>
+            <th>SNetsis FaturaNo</th>
+            <th>SIşEmriNo</th>
+            <th>STarih</th>
+            <th>STutar</th>
+            <th>SCari Kodu</th>
+            <th>SNetsis Cari Kodu</th>
+            <th>SÜnvan</th>
+            <th>SŞehir</th>
+            <th>SPlaka-KM</th>
+            <th>SDosya No</th>
+            <th>SSiparis No</th>
+            <th>SAktarım Durumu</th>
+            <th>SVDaire</th>
+            <th>SVkn</th>
+            <th>SEmail</th>
+            <th>STelefon</th>
+            <th>SAdres</th>
+            <th>SUlke</th>
+            <th>SMüşteri No</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (DataRow satir in dtBelgeler.Rows)
+        {
+            <tr>
+                <td style="padding:3px;">@satir["BSec"]</td>
+                <td style="padding:3px;">@satir["SAkt"]</td>
+                <td style="padding:3px;">@satir["SModul"]</td>
+                <td style="padding:3px;">@satir["STipi"]</td>
+                <td style="padding:3px;">@satir["SDöviz"]</td>
+                <td style="padding:3px;">@satir["SSat.Sayisi"]</td>
+                <td style="padding:3px;">@satir["SFaturaNo"]</td>
+                <td style="padding:3px;">@satir["SNetsis FaturaNo"]</td>
+                <td style="padding:3px;">@satir["SIşEmriNo"]</td>
+                <td style="padding:3px;">@satir["STarih"]</td>
+                <td style="padding:3px;">@satir["STutar"]</td>
+                <td style="padding:3px;">@satir["SCari Kodu"]</td>
+                <td style="padding:3px;">@satir["SNetsis Cari Kodu"]</td>
+                <td style="padding:3px;">@satir["SÜnvan"]</td>
+                <td style="padding:3px;">@satir["SŞehir"]</td>
+                <td style="padding:3px;">@satir["SPlaka-KM"]</td>
+                <td style="padding:3px;">@satir["SDosya No"]</td>
+                <td style="padding:3px;">@satir["SSiparis No"]</td>
+                <td style="padding:3px;">@satir["SAktarım Durumu"]</td>
+                <td style="padding:3px;">@satir["SVDaire"]</td>
+                <td style="padding:3px;">@satir["SVkn"]</td>
+                <td style="padding:3px;">@satir["SEmail"]</td>
+                <td style="padding:3px;">@satir["STelefon"]</td>
+                <td style="padding:3px;">@satir["SAdres"]</td>
+                <td style="padding:3px;">@satir["SUlke"]</td>
+                <td style="padding:3px;">@satir["SMüşteri No"]</td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+
+@section scripts {
+
+   
+
+}
+
