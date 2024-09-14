@@ -313,6 +313,7 @@
     <Compile Include="Controllers\SubeController.cs" />
     <Compile Include="Controllers\TanimlamalarController.cs" />
     <Compile Include="Controllers\YKController.cs" />
+    <Compile Include="Controllers\AyarlarController.cs" />
     <Compile Include="Controllers\ZiyaretController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -320,6 +321,7 @@
     <Compile Include="Hubs\MesajHub.cs" />
     <Compile Include="Models\Dto\AnaSayfaDto.cs" />
     <Compile Include="Models\Dto\AnaSayfaTakvimKaydetDto.cs" />
+    <Compile Include="Models\Dto\B2BAyarlariDto.cs" />
     <Compile Include="Models\Dto\BankaTanimlamalariDto.cs" />
     <Compile Include="Models\Dto\BankaTanimlamalariListeViewModel.cs" />
     <Compile Include="Models\Dto\Belge.cs" />
@@ -3029,6 +3031,7 @@
     <Content Include="Tema\excel\ornek-cari-liste.xls" />
     <Content Include="Views\Stok\Sayim.cshtml" />
     <Content Include="Views\Mesaj\Chat.cshtml" />
+    <Content Include="Views\Ayarlar\B2BAyarlari.cshtml" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>
