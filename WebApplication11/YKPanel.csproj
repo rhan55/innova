@@ -3117,6 +3117,7 @@
     <Folder Include="Areas\D\Data\" />
     <Folder Include="Areas\Entegrasyon\Data\" />
     <Folder Include="Areas\Entegrasyon\Views\Shared\" />
+    <Folder Include="Areas\Personel\" />
     <Folder Include="Areas\Satinalma\Data\" />
     <Folder Include="Areas\Satinalma\Views\Shared\" />
     <Folder Include="Areas\Ziyaret\Data\" />
