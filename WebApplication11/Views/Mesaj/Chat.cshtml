@@ -1,1790 +1,174 @@
 ﻿@{
-    ViewBag.Title = "Mesajlaşma";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+            ViewBag.Title = "Mesajlaşma";
+            Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
-<div class="d-flex flex-column flex-column-fluid">
+<div class="d-flex flex-column flex-column-fluid mt-10">
+    <div>
+        <div id="kt_app_content" class="app-content container flex-column-fluid ">
+            <div id="kt_app_content_container" class="app-container">
+                <div class="d-flex flex-column flex-lg-row">
+                    <div style="min-height:40px;" class="flex-column flex-lg-row-auto w-100 w-lg-300px w-xl-400px mb-10 mb-lg-0">
 
-    <!--begin::Toolbar-->
-    <div id="kt_app_toolbar" class="app-toolbar container py-4 py-lg-6 ">
+                        <div class="card card-flush">
+                            <div style="min-height:40px;" class="card-header px-2" id="kt_chat_contacts_header">
+                                <!-- Arama Formu -->
+                                <input type="text" class="form-control form-control-solid py-2" name="aranacakKelime" value="@ViewBag.AranacakKelime" placeholder="Kullanıcı adını veya e-postasını ara...">
+                            </div>
 
-        <!--begin::Toolbar container-->
-        <div id="kt_app_toolbar_container" class="app-container d d-flex flex-stack">
+                            <div class="card-body px-4" id="kt_chat_contacts_body">
+                                <div class="scroll-y me-n5 pe-5 h-200px h-lg-auto" id="kullaniciListesi">
 
-            <!--begin::Actions-->
-            <div class="d-flex align-items-center gap-2 gap-lg-3">
-                <!--begin::Filter menu-->
-                <div class="m-0">
-                    <!--begin::Menu toggle-->
-                    <a href="#" class="btn btn-sm btn-flex btn-secondary fw-bold" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                        <i class="ki-duotone ki-filter fs-6 text-muted me-1"><span class="path1"></span><span class="path2"></span></i>
-                        Filter
-                    </a>
-                    <!--end::Menu toggle-->
-                    <!--begin::Menu 1-->
-                    <div class="menu menu-sub menu-sub-dropdown w-250px w-md-300px" data-kt-menu="true" id="kt_menu_66e419f97f523">
-                        <!--begin::Header-->
-                        <div class="px-7 py-5">
-                            <div class="fs-5 text-gray-900 fw-bold">Filter Options</div>
-                        </div>
-                        <!--end::Header-->
-                        <!--begin::Menu separator-->
-                        <div class="separator border-gray-200"></div>
-                        <!--end::Menu separator-->
-                        <!--begin::Form-->
-                        <div class="px-7 py-5">
-                            <!--begin::Input group-->
-                            <div class="mb-10">
-                                <!--begin::Label-->
-                                <label class="form-label fw-semibold">Status:</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <div>
-                                    <select class="form-select form-select-solid select2-hidden-accessible" multiple="" data-kt-select2="true" data-close-on-select="false" data-placeholder="Select option" data-dropdown-parent="#kt_menu_66e419f97f523" data-allow-clear="true" data-select2-id="select2-data-7-21td" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                                        <option></option>
-                                        <option value="1">Approved</option>
-                                        <option value="2">Pending</option>
-                                        <option value="2">In Process</option>
-                                        <option value="2">Rejected</option>
-                                    </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-8-mnik" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--multiple form-select form-select-solid" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="-1" aria-disabled="false"><ul class="select2-selection__rendered" id="select2-vb9f-container"></ul><span class="select2-search select2-search--inline"><textarea class="select2-search__field" type="search" tabindex="0" autocorrect="off" autocapitalize="none" spellcheck="false" role="searchbox" aria-autocomplete="list" autocomplete="off" aria-label="Search" aria-describedby="select2-vb9f-container" placeholder="Select option" style="width: 100%;"></textarea></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
                                 </div>
-                                <!--end::Input-->
-                            </div>
-                            <!--end::Input group-->
-                            <!--begin::Input group-->
-                            <div class="mb-10">
-                                <!--begin::Label-->
-                                <label class="form-label fw-semibold">Member Type:</label>
-                                <!--end::Label-->
-                                <!--begin::Options-->
-                                <div class="d-flex">
-                                    <!--begin::Options-->
-                                    <label class="form-check form-check-sm form-check-custom form-check-solid me-5">
-                                        <input class="form-check-input" type="checkbox" value="1">
-                                        <span class="form-check-label">
-                                            Author
-                                        </span>
-                                    </label>
-                                    <!--end::Options-->
-                                    <!--begin::Options-->
-                                    <label class="form-check form-check-sm form-check-custom form-check-solid">
-                                        <input class="form-check-input" type="checkbox" value="2" checked="checked">
-                                        <span class="form-check-label">
-                                            Customer
-                                        </span>
-                                    </label>
-                                    <!--end::Options-->
-                                </div>
-                                <!--end::Options-->
-                            </div>
-                            <!--end::Input group-->
-                            <!--begin::Input group-->
-                            <div class="mb-10">
-                                <!--begin::Label-->
-                                <label class="form-label fw-semibold">Notifications:</label>
-                                <!--end::Label-->
-                                <!--begin::Switch-->
-                                <div class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
-                                    <input class="form-check-input" type="checkbox" value="" name="notifications" checked="">
-                                    <label class="form-check-label">
-                                        Enabled
-                                    </label>
-                                </div>
-                                <!--end::Switch-->
-                            </div>
-                            <!--end::Input group-->
-                            <!--begin::Actions-->
-                            <div class="d-flex justify-content-end">
-                                <button type="reset" class="btn btn-sm btn-light btn-active-light-primary me-2" data-kt-menu-dismiss="true">Reset</button>
-
-                                <button type="submit" class="btn btn-sm btn-primary" data-kt-menu-dismiss="true">Apply</button>
-                            </div>
-                            <!--end::Actions-->
-                        </div>
-                        <!--end::Form-->
-                    </div>
-                    <!--end::Menu 1-->
-                </div>
-                <!--end::Filter menu-->
-                <!--begin::Secondary button-->
-                <!--end::Secondary button-->
-                <!--begin::Primary button-->
-                <a href="#" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_create_app">
-                    Create
-                </a>
-                <!--end::Primary button-->
-            </div>
-            <!--end::Actions-->
-        </div>
-        <!--end::Toolbar container-->
-    </div>
-    <!--end::Toolbar-->
-    <!--begin::Content-->
-    <div id="kt_app_content" class="app-content container flex-column-fluid ">
-
-
-        <!--begin::Content container-->
-        <div id="kt_app_content_container" class="app-container">
-            <!--begin::Layout-->
-            <div class="d-flex flex-column flex-lg-row">
-                <!--begin::Sidebar-->
-
-                <div style="min-height:40px;" class="flex-column flex-lg-row-auto w-100 w-lg-300px w-xl-400px mb-10 mb-lg-0">
-                    <!--begin::Contacts-->
-
-                    <form action="/Mesaj">
-
-                    </form>
-                    <div class="card card-flush">
-                        <div style="min-height:40px;" class="card-header px-2" id="kt_chat_contacts_header">
-                            <!-- Arama Formu -->
-                            <input type="text" class="form-control form-control-solid py-2" name="aranacakKelime" value="@ViewBag.AranacakKelime" placeholder="Kullanıcı adını veya e-postasını ara...">
-                        </div>
-
-                        <div class="card-body px-4" id="kt_chat_contacts_body">
-                            <div class="scroll-y me-n5 pe-5 h-200px h-lg-auto" id="kullaniciListesi">
-                                
                             </div>
                         </div>
                     </div>
-
-                    <!--end::Contacts-->
-                </div>
-                <!--end::Sidebar-->
-                <!--begin::Content-->
-                <div class="flex-lg-row-fluid ms-lg-4">
-                    <!--begin::Messenger-->
-                    <div class="card" id="kt_chat_messenger">
-                        <!--begin::Card header-->
-                        <div class="card-header" id="kt_chat_messenger_header">
-                            <!--begin::Title-->
-                            <div class="card-title ps-4">
-                                <!--begin::User-->
-                                <div class="d-flex">
-                                    <div>
-                                        <img style="width:40px;" class="rounded-circle object-fit-cover" src="~/Tema/media/avatars/300-21.jpg" />
-                                    </div>
-                                    <div class="ms-4">
-                                        <a href="#" class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 mb-2 lh-1">Brian Cox</a>
-                                        <!--begin::Info-->
-                                        <div class="mb-0 lh-1">
-                                            <span class="badge badge-success badge-circle w-10px h-10px me-1"></span>
-                                            <span class="fs-7 fw-semibold text-muted">Active</span>
-                                        </div>
-                                    </div>
-
-                                    <!--end::Info-->
-                                </div>
-                                <!--end::User-->
-                            </div>
-                            <!--end::Title-->
-                            <!--begin::Card toolbar-->
-                            <div class="card-toolbar">
-                                <!--begin::Menu-->
-                                <div class="">
-                                    <button class="btn btn-sm btn-icon btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                        <i class="ki-duotone ki-dots-square fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
-                                    </button>
-
-                                    <!--begin::Menu 3-->
-                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px py-3" data-kt-menu="true">
-                                        <!--begin::Heading-->
-                                        <div class="menu-item px-3">
-                                            <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">
-                                                Contacts
-                                            </div>
-                                        </div>
-                                        <!--end::Heading-->
-                                        <!--begin::Menu item-->
-                                        <div class="menu-item px-3">
-                                            <a href="#" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#kt_modal_users_search">
-                                                Add Contact
-                                            </a>
-                                        </div>
-                                        <!--end::Menu item-->
-                                        <!--begin::Menu item-->
-                                        <div class="menu-item px-3">
-                                            <a href="#" class="menu-link flex-stack px-3" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">
-                                                Invite Contacts
-
-                                                <span class="ms-2" data-bs-toggle="tooltip" aria-label="Specify a contact email to send an invitation" data-bs-original-title="Specify a contact email to send an invitation" data-kt-initialized="1">
-                                                    <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
-                                                </span>
-                                            </a>
-                                        </div>
-                                        <!--end::Menu item-->
-                                        <!--begin::Menu item-->
-                                        <div class="menu-item px-3" data-kt-menu-trigger="hover" data-kt-menu-placement="right-start">
-                                            <a href="#" class="menu-link px-3">
-                                                <span class="menu-title">Groups</span>
-                                                <span class="menu-arrow"></span>
-                                            </a>
-
-                                            <!--begin::Menu sub-->
-                                            <div class="menu-sub menu-sub-dropdown w-175px py-4">
-                                                <!--begin::Menu item-->
-                                                <div class="menu-item px-3">
-                                                    <a href="#" class="menu-link px-3" data-bs-toggle="tooltip" data-bs-original-title="Coming soon" data-kt-initialized="1">
-                                                        Create Group
-                                                    </a>
-                                                </div>
-                                                <!--end::Menu item-->
-                                                <!--begin::Menu item-->
-                                                <div class="menu-item px-3">
-                                                    <a href="#" class="menu-link px-3" data-bs-toggle="tooltip" data-bs-original-title="Coming soon" data-kt-initialized="1">
-                                                        Invite Members
-                                                    </a>
-                                                </div>
-                                                <!--end::Menu item-->
-                                                <!--begin::Menu item-->
-                                                <div class="menu-item px-3">
-                                                    <a href="#" class="menu-link px-3" data-bs-toggle="tooltip" data-bs-original-title="Coming soon" data-kt-initialized="1">
-                                                        Settings
-                                                    </a>
-                                                </div>
-                                                <!--end::Menu item-->
-                                            </div>
-                                            <!--end::Menu sub-->
-                                        </div>
-                                        <!--end::Menu item-->
-                                        <!--begin::Menu item-->
-                                        <div class="menu-item px-3 my-1">
-                                            <a href="#" class="menu-link px-3" data-bs-toggle="tooltip" data-bs-original-title="Coming soon" data-kt-initialized="1">
-                                                Settings
-                                            </a>
-                                        </div>
-                                        <!--end::Menu item-->
-                                    </div>
-                                    <!--end::Menu 3-->
-                                </div>
-                                <!--end::Menu-->
-                            </div>
-                            <!--end::Card toolbar-->
-                        </div>
-                        <!--end::Card header-->
-                        <!--begin::Card body-->
-                        <div class="card-body" id="kt_chat_messenger_body">
-                            <!--begin::Messages-->
-                            <div class="scroll-y ps-4 h-300px h-lg-auto" data-kt-element="messages" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_header, #kt_app_header, #kt_app_toolbar, #kt_toolbar, #kt_footer, #kt_app_footer, #kt_chat_messenger_header, #kt_chat_messenger_footer" data-kt-scroll-wrappers="#kt_content, #kt_app_content, #kt_chat_messenger_body" data-kt-scroll-offset="5px" style="max-height: 465px;">
-
-
-
-                                <!--begin::Message(in)-->
-                                <div class="d-flex justify-content-start mb-10 ">
-                                    <!--begin::Wrapper-->
-                                    <div class="d-flex flex-column align-items-start">
-                                        <!--begin::User-->
-                                        <div class="d-flex align-items-center mb-2">
-                                            <!--begin::Avatar--><div class="symbol  symbol-35px symbol-circle "><img src="~/Tema/media/avatars/300-21.jpg" /></div><!--end::Avatar-->
-                                            <!--begin::Details-->
-                                            <div class="ms-3">
-                                                <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary me-1">Brian Cox</a>
-                                                <span class="text-muted fs-7 mb-1">2 mins</span>
-                                            </div>
-                                            <!--end::Details-->
-
-                                        </div>
-                                        <!--end::User-->
-                                        <!--begin::Text-->
-                                        <div class="p-5 rounded bg-light-info text-gray-900 fw-semibold mw-lg-400px text-start" data-kt-element="message-text">
-                                            How likely are you to recommend our company to your friends and family ?
-                                        </div>
-                                        <!--end::Text-->
-                                    </div>
-                                    <!--end::Wrapper-->
-                                </div>
-                                <!--end::Message(in)-->
-                                <!--begin::Message(out)-->
-                                <div class="d-flex justify-content-end mb-10 ">
-                                    <!--begin::Wrapper-->
-                                    <div class="d-flex flex-column align-items-end">
-                                        <!--begin::User-->
-                                        <div class="d-flex align-items-center mb-2">
-                                            <!--begin::Details-->
-                                            <div class="me-3">
-                                                <span class="text-muted fs-7 mb-1">5 mins</span>
-                                                <a href="#" name="KullaniciID" id="KullaniciID" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">You</a>
-                                            </div>
-                                            <!--end::Details-->
-                                            <!--begin::Avatar--><div class="symbol  symbol-35px symbol-circle"><img style="width:40px;" class="rounded-circle object-fit-cover" src="~/Tema/media/avatars/300-1.jpg" /></div><!--end::Avatar-->
-                                        </div>
-                                        <!--end::User-->
-                                        <!--begin::Text-->
-                                        <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end" data-kt-element="message-text">
-                                            Hey there, we’re just writing to let you know that you’ve been subscribed to a repository on GitHub.
-                                        </div>
-                                        <!--end::Text-->
-                                    </div>
-                                    <!--end::Wrapper-->
-                                </div>
-                                <!--end::Message(out)-->
-
-                            </div>
-                            <!--end::Messages-->
-                        </div>
-                        <!--end::Card body-->
-                        <!--begin::Card footer-->
-                        <div class="card-footer pt-4" id="kt_chat_messenger_footer">
-                            <!--begin::Input-->
-                            <textarea name="Mesaj" id="Mesaj" class="form-control form-control-flush p-0" rows="1" data-kt-element="input" placeholder="Type a message"></textarea>
-                            <!--end::Input-->
-                            <!--begin:Toolbar-->
-                            <div class="d-flex flex-stack">
-                                <!--begin::Actions-->
-                                <div class="d-flex align-items-center me-2">
-                                    <button class="btn btn-sm btn-icon btn-active-light-primary me-1" type="button" data-bs-toggle="tooltip" aria-label="Coming soon" data-bs-original-title="Coming soon" data-kt-initialized="1">
-                                        <i class="ki-duotone ki-paper-clip fs-3"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-icon btn-active-light-primary me-1" type="button" data-bs-toggle="tooltip" aria-label="Coming soon" data-bs-original-title="Coming soon" data-kt-initialized="1">
-                                        <i class="ki-duotone ki-exit-up fs-3"><span class="path1"></span><span class="path2"></span></i>
-                                    </button>
-                                </div>
-                                <!--end::Actions-->
-                                <!--begin::Send-->
-                                <button class="btn btn-primary" type="button" data-kt-element="send">Gönder</button>
-                                <!--end::Send-->
-                            </div>
-                            <!--end::Toolbar-->
-                        </div>
-                        <!--end::Card footer-->
-                    </div>
-                    <!--end::Messenger-->
-                </div>
-                <!--end::Content-->
-            </div>
-            <!--end::Layout-->
-            <!--begin::Modals-->
-            <!--begin::Modal - View Users-->
-            <div class="modal fade" id="kt_modal_view_users" tabindex="-1" aria-hidden="true">
-                <!--begin::Modal dialog-->
-                <div class="modal-dialog mw-650px">
-                    <!--begin::Modal content-->
-                    <div class="modal-content">
-                        <!--begin::Modal header-->
-                        <div class="modal-header pb-0 border-0 justify-content-end">
-                            <!--begin::Close-->
-                            <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
-                                <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
-                            </div>
-                            <!--end::Close-->
-                        </div>
-                        <!--begin::Modal header-->
-                        <!--begin::Modal body-->
-                        <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
-                            <!--begin::Heading-->
-                            <div class="text-center mb-13">
+                    <!--end::Sidebar-->
+                    <!--begin::Content-->
+                    <div class="flex-lg-row-fluid ms-lg-4">
+                        <!--begin::Messenger-->
+                        <div class="card" id="kt_chat_messenger">
+                            <!--begin::Card header-->
+                            <div class="card-header" id="kt_chat_messenger_header">
                                 <!--begin::Title-->
-                                <h1 class="mb-3">Browse Users</h1>
+                                <div class="card-title ps-4">
+                                    <!--begin::User-->
+                                    <div class="d-flex">
+                                        <div>
+                                            <img style="width:40px;" class="rounded-circle object-fit-cover" src="~/Tema/media/avatars/300-21.jpg" />
+                                        </div>
+                                        <div class="ms-4">
+                                            <a href="#" class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 mb-2 lh-1">Brian Cox</a>
+                                            <!--begin::Info-->
+                                            <div class="mb-0 lh-1">
+                                                <span class="badge badge-success badge-circle w-10px h-10px me-1"></span>
+                                                <span class="fs-7 fw-semibold text-muted">Active</span>
+                                            </div>
+                                        </div>
+
+                                        <!--end::Info-->
+                                    </div>
+                                    <!--end::User-->
+                                </div>
                                 <!--end::Title-->
-                                <!--begin::Description-->
-                                <div class="text-muted fw-semibold fs-5">
-                                    If you need more info, please check out our
-                                    <a href="#" class="link-primary fw-bold">Users Directory</a>.
+                                <!--begin::Card toolbar-->
+                                <div class="card-toolbar">
+                                    <!--begin::Menu-->
+                                    <div class="">
+                                        <button class="btn btn-sm btn-icon btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            <i class="ki-duotone ki-dots-square fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+                                        </button>
+
+                                        <!--begin::Menu 3-->
+                                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px py-3" data-kt-menu="true">
+                                            <!--begin::Heading-->
+                                            <div class="menu-item px-3">
+                                                <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">
+                                                    Contacts
+                                                </div>
+                                            </div>
+                                            <!--end::Heading-->
+                                            <!--begin::Menu item-->
+                                            <div class="menu-item px-3">
+                                                <a href="#" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#kt_modal_users_search">
+                                                    Add Contact
+                                                </a>
+                                            </div>
+                                            <!--end::Menu item-->
+                                            <!--begin::Menu item-->
+                                            <div class="menu-item px-3">
+                                                <a href="#" class="menu-link flex-stack px-3" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">
+                                                    Invite Contacts
+
+                                                    <span class="ms-2" data-bs-toggle="tooltip" aria-label="Specify a contact email to send an invitation" data-bs-original-title="Specify a contact email to send an invitation" data-kt-initialized="1">
+                                                        <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                            <!--end::Menu item-->
+                                            <!--begin::Menu item-->
+                                            <div class="menu-item px-3" data-kt-menu-trigger="hover" data-kt-menu-placement="right-start">
+                                                <a href="#" class="menu-link px-3">
+                                                    <span class="menu-title">Groups</span>
+                                                    <span class="menu-arrow"></span>
+                                                </a>
+
+                                                <!--begin::Menu sub-->
+                                                <div class="menu-sub menu-sub-dropdown w-175px py-4">
+                                                    <!--begin::Menu item-->
+                                                    <div class="menu-item px-3">
+                                                        <a href="#" class="menu-link px-3" data-bs-toggle="tooltip" data-bs-original-title="Coming soon" data-kt-initialized="1">
+                                                            Create Group
+                                                        </a>
+                                                    </div>
+                                                    <!--end::Menu item-->
+                                                    <!--begin::Menu item-->
+                                                    <div class="menu-item px-3">
+                                                        <a href="#" class="menu-link px-3" data-bs-toggle="tooltip" data-bs-original-title="Coming soon" data-kt-initialized="1">
+                                                            Invite Members
+                                                        </a>
+                                                    </div>
+                                                    <!--end::Menu item-->
+                                                    <!--begin::Menu item-->
+                                                    <div class="menu-item px-3">
+                                                        <a href="#" class="menu-link px-3" data-bs-toggle="tooltip" data-bs-original-title="Coming soon" data-kt-initialized="1">
+                                                            Settings
+                                                        </a>
+                                                    </div>
+                                                    <!--end::Menu item-->
+                                                </div>
+                                                <!--end::Menu sub-->
+                                            </div>
+                                            <!--end::Menu item-->
+                                            <!--begin::Menu item-->
+                                            <div class="menu-item px-3 my-1">
+                                                <a href="#" class="menu-link px-3" data-bs-toggle="tooltip" data-bs-original-title="Coming soon" data-kt-initialized="1">
+                                                    Settings
+                                                </a>
+                                            </div>
+                                            <!--end::Menu item-->
+                                        </div>
+                                        <!--end::Menu 3-->
+                                    </div>
+                                    <!--end::Menu-->
                                 </div>
-                                <!--end::Description-->
+                                <!--end::Card toolbar-->
                             </div>
-                            <!--end::Heading-->
-                            <!--begin::Users-->
-                            <div class="mb-15">
-                                <!--begin::List-->
-                                <div class="mh-375px scroll-y me-n7 pe-7">
-                                    <!--begin::User-->
-                                    <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
-                                        <!--begin::Details-->
-                                        <div class="d-flex align-items-center">
-                                            <!--begin::Avatar-->
-                                            <div class="symbol symbol-35px symbol-circle">
-                                                <img alt="Pic" src="/metronic8/demo1/assets/media/avatars/300-6.jpg">
-                                            </div>
-                                            <!--end::Avatar-->
-                                            <!--begin::Details-->
-                                            <div class="ms-6">
-                                                <!--begin::Name-->
-                                                <a href="#" class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
-                                                    Emma Smith
-
-                                                    <span class="badge badge-light fs-8 fw-semibold ms-2">
-                                                        Art Director
-                                                    </span>
-                                                </a>
-                                                <!--end::Name-->
-                                                <!--begin::Email-->
-                                                <div class="fw-semibold text-muted">smith@kpmg.com</div>
-                                                <!--end::Email-->
-                                            </div>
-                                            <!--end::Details-->
-                                        </div>
-                                        <!--end::Details-->
-                                        <!--begin::Stats-->
-                                        <div class="d-flex">
-                                            <!--begin::Sales-->
-                                            <div class="text-end">
-                                                <div class="fs-5 fw-bold text-gray-900">$23,000</div>
-
-                                                <div class="fs-7 text-muted">Sales</div>
-                                            </div>
-                                            <!--end::Sales-->
-                                        </div>
-                                        <!--end::Stats-->
-                                    </div>
-                                    <!--end::User-->
-                                    <!--begin::User-->
-                                    <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
-                                        <!--begin::Details-->
-                                        <div class="d-flex align-items-center">
-                                            <!--begin::Avatar-->
-                                            <div class="symbol symbol-35px symbol-circle">
-                                                <span class="symbol-label bg-light-danger text-danger fw-semibold">
-                                                    M
-                                                </span>
-                                            </div>
-                                            <!--end::Avatar-->
-                                            <!--begin::Details-->
-                                            <div class="ms-6">
-                                                <!--begin::Name-->
-                                                <a href="#" class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
-                                                    Melody Macy
-
-                                                    <span class="badge badge-light fs-8 fw-semibold ms-2">
-                                                        Marketing Analytic
-                                                    </span>
-                                                </a>
-                                                <!--end::Name-->
-                                                <!--begin::Email-->
-                                                <div class="fw-semibold text-muted">melody@altbox.com</div>
-                                                <!--end::Email-->
-                                            </div>
-                                            <!--end::Details-->
-                                        </div>
-                                        <!--end::Details-->
-                                        <!--begin::Stats-->
-                                        <div class="d-flex">
-                                            <!--begin::Sales-->
-                                            <div class="text-end">
-                                                <div class="fs-5 fw-bold text-gray-900">$50,500</div>
-
-                                                <div class="fs-7 text-muted">Sales</div>
-                                            </div>
-                                            <!--end::Sales-->
-                                        </div>
-                                        <!--end::Stats-->
-                                    </div>
-                                    <!--end::User-->
-                                    <!--begin::User-->
-                                    <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
-                                        <!--begin::Details-->
-                                        <div class="d-flex align-items-center">
-                                            <!--begin::Avatar-->
-                                            <div class="symbol symbol-35px symbol-circle">
-                                                <img alt="Pic" src="/metronic8/demo1/assets/media/avatars/300-1.jpg">
-                                            </div>
-                                            <!--end::Avatar-->
-                                            <!--begin::Details-->
-                                            <div class="ms-6">
-                                                <!--begin::Name-->
-                                                <a href="#" class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
-                                                    Max Smith
-
-                                                    <span class="badge badge-light fs-8 fw-semibold ms-2">
-                                                        Software Enginer
-                                                    </span>
-                                                </a>
-                                                <!--end::Name-->
-                                                <!--begin::Email-->
-                                                <div class="fw-semibold text-muted">max@kt.com</div>
-                                                <!--end::Email-->
-                                            </div>
-                                            <!--end::Details-->
-                                        </div>
-                                        <!--end::Details-->
-                                        <!--begin::Stats-->
-                                        <div class="d-flex">
-                                            <!--begin::Sales-->
-                                            <div class="text-end">
-                                                <div class="fs-5 fw-bold text-gray-900">$75,900</div>
-
-                                                <div class="fs-7 text-muted">Sales</div>
-                                            </div>
-                                            <!--end::Sales-->
-                                        </div>
-                                        <!--end::Stats-->
-                                    </div>
-                                    <!--end::User-->
-                                    <!--begin::User-->
-                                    <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
-                                        <!--begin::Details-->
-                                        <div class="d-flex align-items-center">
-                                            <!--begin::Avatar-->
-                                            <div class="symbol symbol-35px symbol-circle">
-                                                <img alt="Pic" src="/metronic8/demo1/assets/media/avatars/300-5.jpg">
-                                            </div>
-                                            <!--end::Avatar-->
-                                            <!--begin::Details-->
-                                            <div class="ms-6">
-                                                <!--begin::Name-->
-                                                <a href="#" class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
-                                                    Sean Bean
-
-                                                    <span class="badge badge-light fs-8 fw-semibold ms-2">
-                                                        Web Developer
-                                                    </span>
-                                                </a>
-                                                <!--end::Name-->
-                                                <!--begin::Email-->
-                                                <div class="fw-semibold text-muted">sean@dellito.com</div>
-                                                <!--end::Email-->
-                                            </div>
-                                            <!--end::Details-->
-                                        </div>
-                                        <!--end::Details-->
-                                        <!--begin::Stats-->
-                                        <div class="d-flex">
-                                            <!--begin::Sales-->
-                                            <div class="text-end">
-                                                <div class="fs-5 fw-bold text-gray-900">$10,500</div>
-
-                                                <div class="fs-7 text-muted">Sales</div>
-                                            </div>
-                                            <!--end::Sales-->
-                                        </div>
-                                        <!--end::Stats-->
-                                    </div>
-                                    <!--end::User-->
-                                    <!--begin::User-->
-                                    <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
-                                        <!--begin::Details-->
-                                        <div class="d-flex align-items-center">
-                                            <!--begin::Avatar-->
-                                            <div class="symbol symbol-35px symbol-circle">
-                                                <img src="~/Tema/media/avatars/300-21.jpg" />
-                                            </div>
-                                            <!--end::Avatar-->
-                                            <!--begin::Details-->
-                                            <div class="ms-6">
-                                                <!--begin::Name-->
-                                                <a href="#" name="KarsiKullaniciID" class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
-                                                    Brian Cox
-
-                                                    <span class="badge badge-light fs-8 fw-semibold ms-2">
-                                                        UI/UX Designer
-                                                    </span>
-                                                </a>
-                                                <!--end::Name-->
-                                                <!--begin::Email-->
-                                                <div class="fw-semibold text-muted">brian@exchange.com</div>
-                                                <!--end::Email-->
-                                            </div>
-                                            <!--end::Details-->
-                                        </div>
-                                        <!--end::Details-->
-                                        <!--begin::Stats-->
-                                        <div class="d-flex">
-                                            <!--begin::Sales-->
-                                            <div class="text-end">
-                                                <div class="fs-5 fw-bold text-gray-900">$20,000</div>
-
-                                                <div class="fs-7 text-muted">Sales</div>
-                                            </div>
-                                            <!--end::Sales-->
-                                        </div>
-                                        <!--end::Stats-->
-                                    </div>
-                                    <!--end::User-->
-                                    <!--begin::User-->
-                                    <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
-                                        <!--begin::Details-->
-                                        <div class="d-flex align-items-center">
-                                            <!--begin::Avatar-->
-                                            <div class="symbol symbol-35px symbol-circle">
-                                                <span class="symbol-label bg-light-warning text-warning fw-semibold">
-                                                    C
-                                                </span>
-                                            </div>
-                                            <!--end::Avatar-->
-                                            <!--begin::Details-->
-                                            <div class="ms-6">
-                                                <!--begin::Name-->
-                                                <a href="#" class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
-                                                    Mikaela Collins
-
-                                                    <span class="badge badge-light fs-8 fw-semibold ms-2">
-                                                        Head Of Marketing
-                                                    </span>
-                                                </a>
-                                                <!--end::Name-->
-                                                <!--begin::Email-->
-                                                <div class="fw-semibold text-muted">mik@pex.com</div>
-                                                <!--end::Email-->
-                                            </div>
-                                            <!--end::Details-->
-                                        </div>
-                                        <!--end::Details-->
-                                        <!--begin::Stats-->
-                                        <div class="d-flex">
-                                            <!--begin::Sales-->
-                                            <div class="text-end">
-                                                <div class="fs-5 fw-bold text-gray-900">$9,300</div>
-
-                                                <div class="fs-7 text-muted">Sales</div>
-                                            </div>
-                                            <!--end::Sales-->
-                                        </div>
-                                        <!--end::Stats-->
-                                    </div>
-                                    <!--end::User-->
-                                    <!--begin::User-->
-                                    <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
-                                        <!--begin::Details-->
-                                        <div class="d-flex align-items-center">
-                                            <!--begin::Avatar-->
-                                            <div class="symbol symbol-35px symbol-circle">
-                                                <img alt="Pic" src="/metronic8/demo1/assets/media/avatars/300-9.jpg">
-                                            </div>
-                                            <!--end::Avatar-->
-                                            <!--begin::Details-->
-                                            <div class="ms-6">
-                                                <!--begin::Name-->
-                                                <a href="#" class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
-                                                    Francis Mitcham
-
-                                                    <span class="badge badge-light fs-8 fw-semibold ms-2">
-                                                        Software Arcitect
-                                                    </span>
-                                                </a>
-                                                <!--end::Name-->
-                                                <!--begin::Email-->
-                                                <div class="fw-semibold text-muted">f.mit@kpmg.com</div>
-                                                <!--end::Email-->
-                                            </div>
-                                            <!--end::Details-->
-                                        </div>
-                                        <!--end::Details-->
-                                        <!--begin::Stats-->
-                                        <div class="d-flex">
-                                            <!--begin::Sales-->
-                                            <div class="text-end">
-                                                <div class="fs-5 fw-bold text-gray-900">$15,000</div>
-
-                                                <div class="fs-7 text-muted">Sales</div>
-                                            </div>
-                                            <!--end::Sales-->
-                                        </div>
-                                        <!--end::Stats-->
-                                    </div>
-                                    <!--end::User-->
-                                    <!--begin::User-->
-                                    <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
-                                        <!--begin::Details-->
-                                        <div class="d-flex align-items-center">
-                                            <!--begin::Avatar-->
-                                            <div class="symbol symbol-35px symbol-circle">
-                                                <span class="symbol-label bg-light-danger text-danger fw-semibold">
-                                                    O
-                                                </span>
-                                            </div>
-                                            <!--end::Avatar-->
-                                            <!--begin::Details-->
-                                            <div class="ms-6">
-                                                <!--begin::Name-->
-                                                <a href="#" class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
-                                                    Olivia Wild
-
-                                                    <span class="badge badge-light fs-8 fw-semibold ms-2">
-                                                        System Admin
-                                                    </span>
-                                                </a>
-                                                <!--end::Name-->
-                                                <!--begin::Email-->
-                                                <div class="fw-semibold text-muted">olivia@corpmail.com</div>
-                                                <!--end::Email-->
-                                            </div>
-                                            <!--end::Details-->
-                                        </div>
-                                        <!--end::Details-->
-                                        <!--begin::Stats-->
-                                        <div class="d-flex">
-                                            <!--begin::Sales-->
-                                            <div class="text-end">
-                                                <div class="fs-5 fw-bold text-gray-900">$23,000</div>
-
-                                                <div class="fs-7 text-muted">Sales</div>
-                                            </div>
-                                            <!--end::Sales-->
-                                        </div>
-                                        <!--end::Stats-->
-                                    </div>
-                                    <!--end::User-->
-                                    <!--begin::User-->
-                                    <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
-                                        <!--begin::Details-->
-                                        <div class="d-flex align-items-center">
-                                            <!--begin::Avatar-->
-                                            <div class="symbol symbol-35px symbol-circle">
-                                                <span class="symbol-label bg-light-primary text-primary fw-semibold">
-                                                    N
-                                                </span>
-                                            </div>
-                                            <!--end::Avatar-->
-                                            <!--begin::Details-->
-                                            <div class="ms-6">
-                                                <!--begin::Name-->
-                                                <a href="#" class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
-                                                    Neil Owen
-
-                                                    <span class="badge badge-light fs-8 fw-semibold ms-2">
-                                                        Account Manager
-                                                    </span>
-                                                </a>
-                                                <!--end::Name-->
-                                                <!--begin::Email-->
-                                                <div class="fw-semibold text-muted">owen.neil@gmail.com</div>
-                                                <!--end::Email-->
-                                            </div>
-                                            <!--end::Details-->
-                                        </div>
-                                        <!--end::Details-->
-                                        <!--begin::Stats-->
-                                        <div class="d-flex">
-                                            <!--begin::Sales-->
-                                            <div class="text-end">
-                                                <div class="fs-5 fw-bold text-gray-900">$45,800</div>
-
-                                                <div class="fs-7 text-muted">Sales</div>
-                                            </div>
-                                            <!--end::Sales-->
-                                        </div>
-                                        <!--end::Stats-->
-                                    </div>
-                                    <!--end::User-->
-                                    <!--begin::User-->
-                                    <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
-                                        <!--begin::Details-->
-                                        <div class="d-flex align-items-center">
-                                            <!--begin::Avatar-->
-                                            <div class="symbol symbol-35px symbol-circle">
-                                                <img alt="Pic" src="/metronic8/demo1/assets/media/avatars/300-23.jpg">
-                                            </div>
-                                            <!--end::Avatar-->
-                                            <!--begin::Details-->
-                                            <div class="ms-6">
-                                                <!--begin::Name-->
-                                                <a href="#" class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
-                                                    Dan Wilson
-
-                                                    <span class="badge badge-light fs-8 fw-semibold ms-2">
-                                                        Web Desinger
-                                                    </span>
-                                                </a>
-                                                <!--end::Name-->
-                                                <!--begin::Email-->
-                                                <div class="fw-semibold text-muted">dam@consilting.com</div>
-                                                <!--end::Email-->
-                                            </div>
-                                            <!--end::Details-->
-                                        </div>
-                                        <!--end::Details-->
-                                        <!--begin::Stats-->
-                                        <div class="d-flex">
-                                            <!--begin::Sales-->
-                                            <div class="text-end">
-                                                <div class="fs-5 fw-bold text-gray-900">$90,500</div>
-
-                                                <div class="fs-7 text-muted">Sales</div>
-                                            </div>
-                                            <!--end::Sales-->
-                                        </div>
-                                        <!--end::Stats-->
-                                    </div>
-                                    <!--end::User-->
-                                    <!--begin::User-->
-                                    <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
-                                        <!--begin::Details-->
-                                        <div class="d-flex align-items-center">
-                                            <!--begin::Avatar-->
-                                            <div class="symbol symbol-35px symbol-circle">
-                                                <span class="symbol-label bg-light-danger text-danger fw-semibold">
-                                                    E
-                                                </span>
-                                            </div>
-                                            <!--end::Avatar-->
-                                            <!--begin::Details-->
-                                            <div class="ms-6">
-                                                <!--begin::Name-->
-                                                <a href="#" class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
-                                                    Emma Bold
-
-                                                    <span class="badge badge-light fs-8 fw-semibold ms-2">
-                                                        Corporate Finance
-                                                    </span>
-                                                </a>
-                                                <!--end::Name-->
-                                                <!--begin::Email-->
-                                                <div class="fw-semibold text-muted">emma@intenso.com</div>
-                                                <!--end::Email-->
-                                            </div>
-                                            <!--end::Details-->
-                                        </div>
-                                        <!--end::Details-->
-                                        <!--begin::Stats-->
-                                        <div class="d-flex">
-                                            <!--begin::Sales-->
-                                            <div class="text-end">
-                                                <div class="fs-5 fw-bold text-gray-900">$5,000</div>
-
-                                                <div class="fs-7 text-muted">Sales</div>
-                                            </div>
-                                            <!--end::Sales-->
-                                        </div>
-                                        <!--end::Stats-->
-                                    </div>
-                                    <!--end::User-->
-                                    <!--begin::User-->
-                                    <div class="d-flex flex-stack py-5 border-bottom border-gray-300 border-bottom-dashed">
-                                        <!--begin::Details-->
-                                        <div class="d-flex align-items-center">
-                                            <!--begin::Avatar-->
-                                            <div class="symbol symbol-35px symbol-circle">
-                                                <img alt="Pic" src="/metronic8/demo1/assets/media/avatars/300-12.jpg">
-                                            </div>
-                                            <!--end::Avatar-->
-                                            <!--begin::Details-->
-                                            <div class="ms-6">
-                                                <!--begin::Name-->
-                                                <a href="#" class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
-                                                    Ana Crown
-
-                                                    <span class="badge badge-light fs-8 fw-semibold ms-2">
-                                                        Customer Relationship
-                                                    </span>
-                                                </a>
-                                                <!--end::Name-->
-                                                <!--begin::Email-->
-                                                <div class="fw-semibold text-muted">ana.cf@limtel.com</div>
-                                                <!--end::Email-->
-                                            </div>
-                                            <!--end::Details-->
-                                        </div>
-                                        <!--end::Details-->
-                                        <!--begin::Stats-->
-                                        <div class="d-flex">
-                                            <!--begin::Sales-->
-                                            <div class="text-end">
-                                                <div class="fs-5 fw-bold text-gray-900">$70,000</div>
-
-                                                <div class="fs-7 text-muted">Sales</div>
-                                            </div>
-                                            <!--end::Sales-->
-                                        </div>
-                                        <!--end::Stats-->
-                                    </div>
-                                    <!--end::User-->
-                                    <!--begin::User-->
-                                    <div class="d-flex flex-stack py-5 ">
-                                        <!--begin::Details-->
-                                        <div class="d-flex align-items-center">
-                                            <!--begin::Avatar-->
-                                            <div class="symbol symbol-35px symbol-circle">
-                                                <span class="symbol-label bg-light-info text-info fw-semibold">
-                                                    A
-                                                </span>
-                                            </div>
-                                            <!--end::Avatar-->
-                                            <!--begin::Details-->
-                                            <div class="ms-6">
-                                                <!--begin::Name-->
-                                                <a href="#" class="d-flex align-items-center fs-5 fw-bold text-gray-900 text-hover-primary">
-                                                    Robert Doe
-
-                                                    <span class="badge badge-light fs-8 fw-semibold ms-2">
-                                                        Marketing Executive
-                                                    </span>
-                                                </a>
-                                                <!--end::Name-->
-                                                <!--begin::Email-->
-                                                <div class="fw-semibold text-muted">robert@benko.com</div>
-                                                <!--end::Email-->
-                                            </div>
-                                            <!--end::Details-->
-                                        </div>
-                                        <!--end::Details-->
-                                        <!--begin::Stats-->
-                                        <div class="d-flex">
-                                            <!--begin::Sales-->
-                                            <div class="text-end">
-                                                <div class="fs-5 fw-bold text-gray-900">$45,500</div>
-
-                                                <div class="fs-7 text-muted">Sales</div>
-                                            </div>
-                                            <!--end::Sales-->
-                                        </div>
-                                        <!--end::Stats-->
-                                    </div>
-                                    <!--end::User-->
+                            <!--end::Card header-->
+                            <!--begin::Card body-->
+                            <!-- Kullanıcı Listesi Bölümü -->
+                            <div class="card-body px-4" id="kt_chat_contacts_body">
+                                <div class="scroll-y me-n5 pe-5 h-200px h-lg-auto" id="kullaniciListesi">
+                                    <!-- Kullanıcılar buraya dinamik olarak eklenecek -->
                                 </div>
-                                <!--end::List-->
-                            </div>
-                            <!--end::Users-->
-                            <!--begin::Notice-->
-                            <div class="d-flex justify-content-between">
-                                <!--begin::Label-->
-                                <div class="fw-semibold">
-                                    <label class="fs-6">Adding Users by Team Members</label>
-
-                                    <div class="fs-7 text-muted">If you need more info, please check budget planning</div>
+                                <div id="mesajListesi" class="scroll-y">
+                                    <!-- Mesajlar buraya dinamik olarak eklenecek -->
                                 </div>
-                                <!--end::Label-->
-                                <!--begin::Switch-->
-                                <label class="form-check form-switch form-check-custom form-check-solid">
-                                    <input class="form-check-input" type="checkbox" value="" checked="checked">
-
-                                    <span class="form-check-label fw-semibold text-muted">
-                                        Allowed
-                                    </span>
-                                </label>
-                                <!--end::Switch-->
-                            </div>
-                            <!--end::Notice-->
-                        </div>
-                        <!--end::Modal body-->
-                    </div>
-                    <!--end::Modal content-->
-                </div>
-                <!--end::Modal dialog-->
-            </div>
-            <!--end::Modal - View Users--><!--begin::Modal - Users Search-->
-            <div class="modal fade" id="kt_modal_users_search" tabindex="-1" aria-hidden="true">
-                <!--begin::Modal dialog-->
-                <div class="modal-dialog modal-dialog-centered mw-650px">
-                    <!--begin::Modal content-->
-                    <div class="modal-content">
-                        <!--begin::Modal header-->
-                        <div class="modal-header pb-0 border-0 justify-content-end">
-                            <!--begin::Close-->
-                            <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
-                                <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
-                            </div>
-                            <!--end::Close-->
-                        </div>
-                        <!--begin::Modal header-->
-                        <!--begin::Modal body-->
-                        <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
-                            <!--begin::Content-->
-                            <div class="text-center mb-13">
-                                <h1 class="mb-3">Search Users</h1>
-
-                                <div class="text-muted fw-semibold fs-5">
-                                    Invite Collaborators To Your Project
-                                </div>
-                            </div>
-                            <!--end::Content-->
-                            <!--begin::Search-->
-                            <div id="kt_modal_users_search_handler" data-kt-search-keypress="true" data-kt-search-min-length="2" data-kt-search-enter="enter" data-kt-search-layout="inline" data-kt-search="true">
-
-                                <!--begin::Form-->
-                                <form data-kt-search-element="form" class="w-100 position-relative mb-5" autocomplete="off">
-                                    <!--begin::Hidden input(Added to disable form autocomplete)-->
-                                    <input type="hidden">
-                                    <!--end::Hidden input-->
-                                    <!--begin::Icon-->
-                                    <i class="ki-duotone ki-magnifier fs-2 fs-lg-1 text-gray-500 position-absolute mt-6 ms-5 translate-middle-y"><span class="path1"></span><span class="path2"></span></i>                        <!--end::Icon-->
-                                    <!--begin::Input-->
-                                    <input type="text" class="form-control form-control-lg form-control-solid px-15" name="search" value="" placeholder="Search by username, full name or email..." data-kt-search-element="input">
-                                    <!--end::Input-->
-                                    <!--begin::Spinner-->
-                                    <span class="position-absolute top-50 end-0 translate-middle-y lh-0 d-none me-5" data-kt-search-element="spinner">
-                                        <span class="spinner-border h-15px w-15px align-middle text-muted"></span>
-                                    </span>
-                                    <!--end::Spinner-->
-                                    <!--begin::Reset-->
-                                    <span class="btn btn-flush btn-active-color-primary position-absolute top-50 end-0 translate-middle-y lh-0 me-5 d-none" data-kt-search-element="clear">
-                                        <i class="ki-duotone ki-cross fs-2 fs-lg-1 me-0"><span class="path1"></span><span class="path2"></span></i>
-                                    </span>
-                                    <!--end::Reset-->
+                                <form method="POST" action="/Mesaj/Chat">
+                                    <!-- Mesaj Gönderme Alanı -->
+                                    <div class="input-group mt-5">
+                                        <input type="hidden" id="KullaniciID" value="<%= ViewBag.KullaniciID %>">
+                                        <input type="hidden" id="KarsiKullaniciID" value="@ViewBag.KarsiKullaniciID">
+                                        <textarea id="Mesaj" class="form-control" placeholder="Mesajınızı yazın..."></textarea>
+                                        <button type="button" id="btnSendMessage" class="btn btn-primary">Gönder</button>
+                                    </div>
                                 </form>
-                                <!--end::Form-->
-                                <!--begin::Wrapper-->
-                                <div class="py-5">
-                                    <!--begin::Suggestions-->
-                                    <div data-kt-search-element="suggestions">
-                                        <!--begin::Heading-->
-                                        <h3 class="fw-semibold mb-5">Recently searched:</h3>
-                                        <!--end::Heading-->
-                                        <!--begin::Users-->
-                                        <div class="mh-375px scroll-y me-n7 pe-7">
-                                            <!--begin::User-->
-                                            <a href="#" class="d-flex align-items-center p-3 rounded bg-state-light bg-state-opacity-50 mb-1">
-                                                <!--begin::Avatar-->
-                                                <div class="symbol symbol-35px symbol-circle me-5">
-                                                    <img alt="Pic" src="/metronic8/demo1/assets/media/avatars/300-6.jpg">
-                                                </div>
-                                                <!--end::Avatar-->
-                                                <!--begin::Info-->
-                                                <div class="fw-semibold">
-                                                    <span class="fs-6 text-gray-800 me-2">Emma Smith</span>
-                                                    <span class="badge badge-light">Art Director</span>
-                                                </div>
-                                                <!--end::Info-->
-                                            </a>
-                                            <!--end::User-->
-                                            <!--begin::User-->
-                                            <a href="#" class="d-flex align-items-center p-3 rounded bg-state-light bg-state-opacity-50 mb-1">
-                                                <!--begin::Avatar-->
-                                                <div class="symbol symbol-35px symbol-circle me-5">
-                                                    <span class="symbol-label bg-light-danger text-danger fw-semibold">
-                                                        M
-                                                    </span>
-                                                </div>
-                                                <!--end::Avatar-->
-                                                <!--begin::Info-->
-                                                <div class="fw-semibold">
-                                                    <span class="fs-6 text-gray-800 me-2">Melody Macy</span>
-                                                    <span class="badge badge-light">Marketing Analytic</span>
-                                                </div>
-                                                <!--end::Info-->
-                                            </a>
-                                            <!--end::User-->
-                                            <!--begin::User-->
-                                            <a href="#" class="d-flex align-items-center p-3 rounded bg-state-light bg-state-opacity-50 mb-1">
-                                                <!--begin::Avatar-->
-                                                <div class="symbol symbol-35px symbol-circle me-5">
-                                                    <img alt="Pic" src="/metronic8/demo1/assets/media/avatars/300-1.jpg">
-                                                </div>
-                                                <!--end::Avatar-->
-                                                <!--begin::Info-->
-                                                <div class="fw-semibold">
-                                                    <span class="fs-6 text-gray-800 me-2">Max Smith</span>
-                                                    <span class="badge badge-light">Software Enginer</span>
-                                                </div>
-                                                <!--end::Info-->
-                                            </a>
-                                            <!--end::User-->
-                                            <!--begin::User-->
-                                            <a href="#" class="d-flex align-items-center p-3 rounded bg-state-light bg-state-opacity-50 mb-1">
-                                                <!--begin::Avatar-->
-                                                <div class="symbol symbol-35px symbol-circle me-5">
-                                                    <img alt="Pic" src="/metronic8/demo1/assets/media/avatars/300-5.jpg">
-                                                </div>
-                                                <!--end::Avatar-->
-                                                <!--begin::Info-->
-                                                <div class="fw-semibold">
-                                                    <span class="fs-6 text-gray-800 me-2">Sean Bean</span>
-                                                    <span class="badge badge-light">Web Developer</span>
-                                                </div>
-                                                <!--end::Info-->
-                                            </a>
-                                            <!--end::User-->
-                                            <!--begin::User-->
-                                            <a href="#" class="d-flex align-items-center p-3 rounded bg-state-light bg-state-opacity-50 mb-1">
-                                                <!--begin::Avatar-->
-                                                <div class="symbol symbol-35px symbol-circle me-5">
-                                                    <img alt="Pic" src="/metronic8/demo1/assets/media/avatars/300-21.jpg">
-                                                </div>
-                                                <!--end::Avatar-->
-                                                <!--begin::Info-->
-                                                <div class="fw-semibold">
-                                                    <span class="fs-6 text-gray-800 me-2">Brian Cox</span>
-                                                    <span class="badge badge-light">UI/UX Designer</span>
-                                                </div>
-                                                <!--end::Info-->
-                                            </a>
-                                            <!--end::User-->
-                                        </div>
-                                        <!--end::Users-->
-                                    </div>
-                                    <!--end::Suggestions-->
-                                    <!--begin::Results(add d-none to below element to hide the users list by default)-->
-                                    <div data-kt-search-element="results" class="d-none">
-                                        <!--begin::Users-->
-                                        <div class="mh-375px scroll-y me-n7 pe-7">
-                                            <!--begin::User-->
-                                            <div class="rounded d-flex flex-stack bg-active-lighten p-4" data-user-id="0">
-                                                <!--begin::Details-->
-                                                <div class="d-flex align-items-center">
-                                                    <!--begin::Checkbox-->
-                                                    <label class="form-check form-check-custom form-check-solid me-5">
-                                                        <input class="form-check-input" type="checkbox" name="users" data-kt-check="true" data-kt-check-target="[data-user-id='0']" value="0">
-                                                    </label>
-                                                    <!--end::Checkbox-->
-                                                    <!--begin::Avatar-->
-                                                    <div class="symbol symbol-35px symbol-circle">
-                                                        <img alt="Pic" src="/metronic8/demo1/assets/media/avatars/300-6.jpg">
-                                                    </div>
-                                                    <!--end::Avatar-->
-                                                    <!--begin::Details-->
-                                                    <div class="ms-5">
-                                                        <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">Emma Smith</a>
 
-                                                        <div class="fw-semibold text-muted">smith@kpmg.com</div>
-                                                    </div>
-                                                    <!--end::Details-->
-                                                </div>
-                                                <!--end::Details-->
-                                                <!--begin::Access menu-->
-                                                <div class="ms-2 w-100px">
-                                                    <select class="form-select form-select-solid form-select-sm select2-hidden-accessible" data-control="select2" data-hide-search="true" data-select2-id="select2-data-9-edcb" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                                                        <option value="1">Guest</option>
-                                                        <option value="2" selected="" data-select2-id="select2-data-11-r6o9">Owner</option>
-                                                        <option value="3">Can Edit</option>
-                                                    </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-10-hdyg" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-solid form-select-sm" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-tswx-container" aria-controls="select2-tswx-container"><span class="select2-selection__rendered" id="select2-tswx-container" role="textbox" aria-readonly="true" title="Owner">Owner</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                                </div>
-                                                <!--end::Access menu-->
-                                            </div>
-                                            <!--end::User-->
-                                            <!--begin::Separator-->
-                                            <div class="border-bottom border-gray-300 border-bottom-dashed"></div>
-                                            <!--end::Separator-->
-                                            <!--begin::User-->
-                                            <div class="rounded d-flex flex-stack bg-active-lighten p-4" data-user-id="1">
-                                                <!--begin::Details-->
-                                                <div class="d-flex align-items-center">
-                                                    <!--begin::Checkbox-->
-                                                    <label class="form-check form-check-custom form-check-solid me-5">
-                                                        <input class="form-check-input" type="checkbox" name="users" data-kt-check="true" data-kt-check-target="[data-user-id='1']" value="1">
-                                                    </label>
-                                                    <!--end::Checkbox-->
-                                                    <!--begin::Avatar-->
-                                                    <div class="symbol symbol-35px symbol-circle">
-                                                        <span class="symbol-label bg-light-danger text-danger fw-semibold">
-                                                            M
-                                                        </span>
-                                                    </div>
-                                                    <!--end::Avatar-->
-                                                    <!--begin::Details-->
-                                                    <div class="ms-5">
-                                                        <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">Melody Macy</a>
-
-                                                        <div class="fw-semibold text-muted">melody@altbox.com</div>
-                                                    </div>
-                                                    <!--end::Details-->
-                                                </div>
-                                                <!--end::Details-->
-                                                <!--begin::Access menu-->
-                                                <div class="ms-2 w-100px">
-                                                    <select class="form-select form-select-solid form-select-sm select2-hidden-accessible" data-control="select2" data-hide-search="true" data-select2-id="select2-data-12-i71y" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                                                        <option value="1" selected="" data-select2-id="select2-data-14-v2fh">Guest</option>
-                                                        <option value="2">Owner</option>
-                                                        <option value="3">Can Edit</option>
-                                                    </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-13-1eo4" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-solid form-select-sm" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-hf1t-container" aria-controls="select2-hf1t-container"><span class="select2-selection__rendered" id="select2-hf1t-container" role="textbox" aria-readonly="true" title="Guest">Guest</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                                </div>
-                                                <!--end::Access menu-->
-                                            </div>
-                                            <!--end::User-->
-                                            <!--begin::Separator-->
-                                            <div class="border-bottom border-gray-300 border-bottom-dashed"></div>
-                                            <!--end::Separator-->
-                                            <!--begin::User-->
-                                            <div class="rounded d-flex flex-stack bg-active-lighten p-4" data-user-id="2">
-                                                <!--begin::Details-->
-                                                <div class="d-flex align-items-center">
-                                                    <!--begin::Checkbox-->
-                                                    <label class="form-check form-check-custom form-check-solid me-5">
-                                                        <input class="form-check-input" type="checkbox" name="users" data-kt-check="true" data-kt-check-target="[data-user-id='2']" value="2">
-                                                    </label>
-                                                    <!--end::Checkbox-->
-                                                    <!--begin::Avatar-->
-                                                    <div class="symbol symbol-35px symbol-circle">
-                                                        <img alt="Pic" src="/metronic8/demo1/assets/media/avatars/300-1.jpg">
-                                                    </div>
-                                                    <!--end::Avatar-->
-                                                    <!--begin::Details-->
-                                                    <div class="ms-5">
-                                                        <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">Max Smith</a>
-
-                                                        <div class="fw-semibold text-muted">max@kt.com</div>
-                                                    </div>
-                                                    <!--end::Details-->
-                                                </div>
-                                                <!--end::Details-->
-                                                <!--begin::Access menu-->
-                                                <div class="ms-2 w-100px">
-                                                    <select class="form-select form-select-solid form-select-sm select2-hidden-accessible" data-control="select2" data-hide-search="true" data-select2-id="select2-data-15-9cr3" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                                                        <option value="1">Guest</option>
-                                                        <option value="2">Owner</option>
-                                                        <option value="3" selected="" data-select2-id="select2-data-17-epj6">Can Edit</option>
-                                                    </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-16-g186" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-solid form-select-sm" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-iuk9-container" aria-controls="select2-iuk9-container"><span class="select2-selection__rendered" id="select2-iuk9-container" role="textbox" aria-readonly="true" title="Can Edit">Can Edit</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                                </div>
-                                                <!--end::Access menu-->
-                                            </div>
-                                            <!--end::User-->
-                                            <!--begin::Separator-->
-                                            <div class="border-bottom border-gray-300 border-bottom-dashed"></div>
-                                            <!--end::Separator-->
-                                            <!--begin::User-->
-                                            <div class="rounded d-flex flex-stack bg-active-lighten p-4" data-user-id="3">
-                                                <!--begin::Details-->
-                                                <div class="d-flex align-items-center">
-                                                    <!--begin::Checkbox-->
-                                                    <label class="form-check form-check-custom form-check-solid me-5">
-                                                        <input class="form-check-input" type="checkbox" name="users" data-kt-check="true" data-kt-check-target="[data-user-id='3']" value="3">
-                                                    </label>
-                                                    <!--end::Checkbox-->
-                                                    <!--begin::Avatar-->
-                                                    <div class="symbol symbol-35px symbol-circle">
-                                                        <img alt="Pic" src="/metronic8/demo1/assets/media/avatars/300-5.jpg">
-                                                    </div>
-                                                    <!--end::Avatar-->
-                                                    <!--begin::Details-->
-                                                    <div class="ms-5">
-                                                        <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">Sean Bean</a>
-
-                                                        <div class="fw-semibold text-muted">sean@dellito.com</div>
-                                                    </div>
-                                                    <!--end::Details-->
-                                                </div>
-                                                <!--end::Details-->
-                                                <!--begin::Access menu-->
-                                                <div class="ms-2 w-100px">
-                                                    <select class="form-select form-select-solid form-select-sm select2-hidden-accessible" data-control="select2" data-hide-search="true" data-select2-id="select2-data-18-3p7a" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                                                        <option value="1">Guest</option>
-                                                        <option value="2" selected="" data-select2-id="select2-data-20-592i">Owner</option>
-                                                        <option value="3">Can Edit</option>
-                                                    </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-19-jkw8" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-solid form-select-sm" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-3hxo-container" aria-controls="select2-3hxo-container"><span class="select2-selection__rendered" id="select2-3hxo-container" role="textbox" aria-readonly="true" title="Owner">Owner</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                                </div>
-                                                <!--end::Access menu-->
-                                            </div>
-                                            <!--end::User-->
-                                            <!--begin::Separator-->
-                                            <div class="border-bottom border-gray-300 border-bottom-dashed"></div>
-                                            <!--end::Separator-->
-                                            <!--begin::User-->
-                                            <div class="rounded d-flex flex-stack bg-active-lighten p-4" data-user-id="4">
-                                                <!--begin::Details-->
-                                                <div class="d-flex align-items-center">
-                                                    <!--begin::Checkbox-->
-                                                    <label class="form-check form-check-custom form-check-solid me-5">
-                                                        <input class="form-check-input" type="checkbox" name="users" data-kt-check="true" data-kt-check-target="[data-user-id='4']" value="4">
-                                                    </label>
-                                                    <!--end::Checkbox-->
-                                                    <!--begin::Avatar-->
-                                                    <div class="symbol symbol-35px symbol-circle">
-                                                        <img alt="Pic" src="/Tema/media/avatars/300-21.jpg">
-                                                    </div>
-                                                    <!--end::Avatar-->
-                                                    <!--begin::Details-->
-                                                    <div class="ms-5">
-                                                        <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">Brian Cox</a>
-
-                                                        <div class="fw-semibold text-muted">brian@exchange.com</div>
-                                                    </div>
-                                                    <!--end::Details-->
-                                                </div>
-                                                <!--end::Details-->
-                                                <!--begin::Access menu-->
-                                                <div class="ms-2 w-100px">
-                                                    <select class="form-select form-select-solid form-select-sm select2-hidden-accessible" data-control="select2" data-hide-search="true" data-select2-id="select2-data-21-cizo" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                                                        <option value="1">Guest</option>
-                                                        <option value="2">Owner</option>
-                                                        <option value="3" selected="" data-select2-id="select2-data-23-sq7u">Can Edit</option>
-                                                    </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-22-1u5c" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-solid form-select-sm" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-8kui-container" aria-controls="select2-8kui-container"><span class="select2-selection__rendered" id="select2-8kui-container" role="textbox" aria-readonly="true" title="Can Edit">Can Edit</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                                </div>
-                                                <!--end::Access menu-->
-                                            </div>
-                                            <!--end::User-->
-                                            <!--begin::Separator-->
-                                            <div class="border-bottom border-gray-300 border-bottom-dashed"></div>
-                                            <!--end::Separator-->
-                                            <!--begin::User-->
-                                            <div class="rounded d-flex flex-stack bg-active-lighten p-4" data-user-id="5">
-                                                <!--begin::Details-->
-                                                <div class="d-flex align-items-center">
-                                                    <!--begin::Checkbox-->
-                                                    <label class="form-check form-check-custom form-check-solid me-5">
-                                                        <input class="form-check-input" type="checkbox" name="users" data-kt-check="true" data-kt-check-target="[data-user-id='5']" value="5">
-                                                    </label>
-                                                    <!--end::Checkbox-->
-                                                    <!--begin::Avatar-->
-                                                    <div class="symbol symbol-35px symbol-circle">
-                                                        <span class="symbol-label bg-light-warning text-warning fw-semibold">
-                                                            C
-                                                        </span>
-                                                    </div>
-                                                    <!--end::Avatar-->
-                                                    <!--begin::Details-->
-                                                    <div class="ms-5">
-                                                        <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">Mikaela Collins</a>
-
-                                                        <div class="fw-semibold text-muted">mik@pex.com</div>
-                                                    </div>
-                                                    <!--end::Details-->
-                                                </div>
-                                                <!--end::Details-->
-                                                <!--begin::Access menu-->
-                                                <div class="ms-2 w-100px">
-                                                    <select class="form-select form-select-solid form-select-sm select2-hidden-accessible" data-control="select2" data-hide-search="true" data-select2-id="select2-data-24-fq2y" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                                                        <option value="1">Guest</option>
-                                                        <option value="2" selected="" data-select2-id="select2-data-26-mxvf">Owner</option>
-                                                        <option value="3">Can Edit</option>
-                                                    </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-25-0u3q" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-solid form-select-sm" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-mqjq-container" aria-controls="select2-mqjq-container"><span class="select2-selection__rendered" id="select2-mqjq-container" role="textbox" aria-readonly="true" title="Owner">Owner</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                                </div>
-                                                <!--end::Access menu-->
-                                            </div>
-                                            <!--end::User-->
-                                            <!--begin::Separator-->
-                                            <div class="border-bottom border-gray-300 border-bottom-dashed"></div>
-                                            <!--end::Separator-->
-                                            <!--begin::User-->
-                                            <div class="rounded d-flex flex-stack bg-active-lighten p-4" data-user-id="6">
-                                                <!--begin::Details-->
-                                                <div class="d-flex align-items-center">
-                                                    <!--begin::Checkbox-->
-                                                    <label class="form-check form-check-custom form-check-solid me-5">
-                                                        <input class="form-check-input" type="checkbox" name="users" data-kt-check="true" data-kt-check-target="[data-user-id='6']" value="6">
-                                                    </label>
-                                                    <!--end::Checkbox-->
-                                                    <!--begin::Avatar-->
-                                                    <div class="symbol symbol-35px symbol-circle">
-                                                        <img alt="Pic" src="/metronic8/demo1/assets/media/avatars/300-9.jpg">
-                                                    </div>
-                                                    <!--end::Avatar-->
-                                                    <!--begin::Details-->
-                                                    <div class="ms-5">
-                                                        <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">Francis Mitcham</a>
-
-                                                        <div class="fw-semibold text-muted">f.mit@kpmg.com</div>
-                                                    </div>
-                                                    <!--end::Details-->
-                                                </div>
-                                                <!--end::Details-->
-                                                <!--begin::Access menu-->
-                                                <div class="ms-2 w-100px">
-                                                    <select class="form-select form-select-solid form-select-sm select2-hidden-accessible" data-control="select2" data-hide-search="true" data-select2-id="select2-data-27-sjrd" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                                                        <option value="1">Guest</option>
-                                                        <option value="2">Owner</option>
-                                                        <option value="3" selected="" data-select2-id="select2-data-29-bni7">Can Edit</option>
-                                                    </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-28-isua" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-solid form-select-sm" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-xger-container" aria-controls="select2-xger-container"><span class="select2-selection__rendered" id="select2-xger-container" role="textbox" aria-readonly="true" title="Can Edit">Can Edit</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                                </div>
-                                                <!--end::Access menu-->
-                                            </div>
-                                            <!--end::User-->
-                                            <!--begin::Separator-->
-                                            <div class="border-bottom border-gray-300 border-bottom-dashed"></div>
-                                            <!--end::Separator-->
-                                            <!--begin::User-->
-                                            <div class="rounded d-flex flex-stack bg-active-lighten p-4" data-user-id="7">
-                                                <!--begin::Details-->
-                                                <div class="d-flex align-items-center">
-                                                    <!--begin::Checkbox-->
-                                                    <label class="form-check form-check-custom form-check-solid me-5">
-                                                        <input class="form-check-input" type="checkbox" name="users" data-kt-check="true" data-kt-check-target="[data-user-id='7']" value="7">
-                                                    </label>
-                                                    <!--end::Checkbox-->
-                                                    <!--begin::Avatar-->
-                                                    <div class="symbol symbol-35px symbol-circle">
-                                                        <span class="symbol-label bg-light-danger text-danger fw-semibold">
-                                                            O
-                                                        </span>
-                                                    </div>
-                                                    <!--end::Avatar-->
-                                                    <!--begin::Details-->
-                                                    <div class="ms-5">
-                                                        <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">Olivia Wild</a>
-
-                                                        <div class="fw-semibold text-muted">olivia@corpmail.com</div>
-                                                    </div>
-                                                    <!--end::Details-->
-                                                </div>
-                                                <!--end::Details-->
-                                                <!--begin::Access menu-->
-                                                <div class="ms-2 w-100px">
-                                                    <select class="form-select form-select-solid form-select-sm select2-hidden-accessible" data-control="select2" data-hide-search="true" data-select2-id="select2-data-30-tlbp" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                                                        <option value="1">Guest</option>
-                                                        <option value="2" selected="" data-select2-id="select2-data-32-n43r">Owner</option>
-                                                        <option value="3">Can Edit</option>
-                                                    </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-31-zlqi" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-solid form-select-sm" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-xtxt-container" aria-controls="select2-xtxt-container"><span class="select2-selection__rendered" id="select2-xtxt-container" role="textbox" aria-readonly="true" title="Owner">Owner</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                                </div>
-                                                <!--end::Access menu-->
-                                            </div>
-                                            <!--end::User-->
-                                            <!--begin::Separator-->
-                                            <div class="border-bottom border-gray-300 border-bottom-dashed"></div>
-                                            <!--end::Separator-->
-                                            <!--begin::User-->
-                                            <div class="rounded d-flex flex-stack bg-active-lighten p-4" data-user-id="8">
-                                                <!--begin::Details-->
-                                                <div class="d-flex align-items-center">
-                                                    <!--begin::Checkbox-->
-                                                    <label class="form-check form-check-custom form-check-solid me-5">
-                                                        <input class="form-check-input" type="checkbox" name="users" data-kt-check="true" data-kt-check-target="[data-user-id='8']" value="8">
-                                                    </label>
-                                                    <!--end::Checkbox-->
-                                                    <!--begin::Avatar-->
-                                                    <div class="symbol symbol-35px symbol-circle">
-                                                        <span class="symbol-label bg-light-primary text-primary fw-semibold">
-                                                            N
-                                                        </span>
-                                                    </div>
-                                                    <!--end::Avatar-->
-                                                    <!--begin::Details-->
-                                                    <div class="ms-5">
-                                                        <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">Neil Owen</a>
-
-                                                        <div class="fw-semibold text-muted">owen.neil@gmail.com</div>
-                                                    </div>
-                                                    <!--end::Details-->
-                                                </div>
-                                                <!--end::Details-->
-                                                <!--begin::Access menu-->
-                                                <div class="ms-2 w-100px">
-                                                    <select class="form-select form-select-solid form-select-sm select2-hidden-accessible" data-control="select2" data-hide-search="true" data-select2-id="select2-data-33-hvfw" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                                                        <option value="1" selected="" data-select2-id="select2-data-35-m3ra">Guest</option>
-                                                        <option value="2">Owner</option>
-                                                        <option value="3">Can Edit</option>
-                                                    </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-34-h0sq" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-solid form-select-sm" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-cz1u-container" aria-controls="select2-cz1u-container"><span class="select2-selection__rendered" id="select2-cz1u-container" role="textbox" aria-readonly="true" title="Guest">Guest</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                                </div>
-                                                <!--end::Access menu-->
-                                            </div>
-                                            <!--end::User-->
-                                            <!--begin::Separator-->
-                                            <div class="border-bottom border-gray-300 border-bottom-dashed"></div>
-                                            <!--end::Separator-->
-                                            <!--begin::User-->
-                                            <div class="rounded d-flex flex-stack bg-active-lighten p-4" data-user-id="9">
-                                                <!--begin::Details-->
-                                                <div class="d-flex align-items-center">
-                                                    <!--begin::Checkbox-->
-                                                    <label class="form-check form-check-custom form-check-solid me-5">
-                                                        <input class="form-check-input" type="checkbox" name="users" data-kt-check="true" data-kt-check-target="[data-user-id='9']" value="9">
-                                                    </label>
-                                                    <!--end::Checkbox-->
-                                                    <!--begin::Avatar-->
-                                                    <div class="symbol symbol-35px symbol-circle">
-                                                        <img alt="Pic" src="/metronic8/demo1/assets/media/avatars/300-23.jpg">
-                                                    </div>
-                                                    <!--end::Avatar-->
-                                                    <!--begin::Details-->
-                                                    <div class="ms-5">
-                                                        <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">Dan Wilson</a>
-
-                                                        <div class="fw-semibold text-muted">dam@consilting.com</div>
-                                                    </div>
-                                                    <!--end::Details-->
-                                                </div>
-                                                <!--end::Details-->
-                                                <!--begin::Access menu-->
-                                                <div class="ms-2 w-100px">
-                                                    <select class="form-select form-select-solid form-select-sm select2-hidden-accessible" data-control="select2" data-hide-search="true" data-select2-id="select2-data-36-gmvo" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                                                        <option value="1">Guest</option>
-                                                        <option value="2">Owner</option>
-                                                        <option value="3" selected="" data-select2-id="select2-data-38-6c9w">Can Edit</option>
-                                                    </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-37-ylbg" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-solid form-select-sm" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-txlz-container" aria-controls="select2-txlz-container"><span class="select2-selection__rendered" id="select2-txlz-container" role="textbox" aria-readonly="true" title="Can Edit">Can Edit</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                                </div>
-                                                <!--end::Access menu-->
-                                            </div>
-                                            <!--end::User-->
-                                            <!--begin::Separator-->
-                                            <div class="border-bottom border-gray-300 border-bottom-dashed"></div>
-                                            <!--end::Separator-->
-                                            <!--begin::User-->
-                                            <div class="rounded d-flex flex-stack bg-active-lighten p-4" data-user-id="10">
-                                                <!--begin::Details-->
-                                                <div class="d-flex align-items-center">
-                                                    <!--begin::Checkbox-->
-                                                    <label class="form-check form-check-custom form-check-solid me-5">
-                                                        <input class="form-check-input" type="checkbox" name="users" data-kt-check="true" data-kt-check-target="[data-user-id='10']" value="10">
-                                                    </label>
-                                                    <!--end::Checkbox-->
-                                                    <!--begin::Avatar-->
-                                                    <div class="symbol symbol-35px symbol-circle">
-                                                        <span class="symbol-label bg-light-danger text-danger fw-semibold">
-                                                            E
-                                                        </span>
-                                                    </div>
-                                                    <!--end::Avatar-->
-                                                    <!--begin::Details-->
-                                                    <div class="ms-5">
-                                                        <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">Emma Bold</a>
-
-                                                        <div class="fw-semibold text-muted">emma@intenso.com</div>
-                                                    </div>
-                                                    <!--end::Details-->
-                                                </div>
-                                                <!--end::Details-->
-                                                <!--begin::Access menu-->
-                                                <div class="ms-2 w-100px">
-                                                    <select class="form-select form-select-solid form-select-sm select2-hidden-accessible" data-control="select2" data-hide-search="true" data-select2-id="select2-data-39-10iu" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                                                        <option value="1">Guest</option>
-                                                        <option value="2" selected="" data-select2-id="select2-data-41-3eaj">Owner</option>
-                                                        <option value="3">Can Edit</option>
-                                                    </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-40-uc55" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-solid form-select-sm" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-txcj-container" aria-controls="select2-txcj-container"><span class="select2-selection__rendered" id="select2-txcj-container" role="textbox" aria-readonly="true" title="Owner">Owner</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                                </div>
-                                                <!--end::Access menu-->
-                                            </div>
-                                            <!--end::User-->
-                                            <!--begin::Separator-->
-                                            <div class="border-bottom border-gray-300 border-bottom-dashed"></div>
-                                            <!--end::Separator-->
-                                            <!--begin::User-->
-                                            <div class="rounded d-flex flex-stack bg-active-lighten p-4" data-user-id="11">
-                                                <!--begin::Details-->
-                                                <div class="d-flex align-items-center">
-                                                    <!--begin::Checkbox-->
-                                                    <label class="form-check form-check-custom form-check-solid me-5">
-                                                        <input class="form-check-input" type="checkbox" name="users" data-kt-check="true" data-kt-check-target="[data-user-id='11']" value="11">
-                                                    </label>
-                                                    <!--end::Checkbox-->
-                                                    <!--begin::Avatar-->
-                                                    <div class="symbol symbol-35px symbol-circle">
-                                                        <img alt="Pic" src="/metronic8/demo1/assets/media/avatars/300-12.jpg">
-                                                    </div>
-                                                    <!--end::Avatar-->
-                                                    <!--begin::Details-->
-                                                    <div class="ms-5">
-                                                        <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">Ana Crown</a>
-
-                                                        <div class="fw-semibold text-muted">ana.cf@limtel.com</div>
-                                                    </div>
-                                                    <!--end::Details-->
-                                                </div>
-                                                <!--end::Details-->
-                                                <!--begin::Access menu-->
-                                                <div class="ms-2 w-100px">
-                                                    <select class="form-select form-select-solid form-select-sm select2-hidden-accessible" data-control="select2" data-hide-search="true" data-select2-id="select2-data-42-z9tt" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                                                        <option value="1" selected="" data-select2-id="select2-data-44-9lxy">Guest</option>
-                                                        <option value="2">Owner</option>
-                                                        <option value="3">Can Edit</option>
-                                                    </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-43-crv0" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-solid form-select-sm" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-zubp-container" aria-controls="select2-zubp-container"><span class="select2-selection__rendered" id="select2-zubp-container" role="textbox" aria-readonly="true" title="Guest">Guest</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                                </div>
-                                                <!--end::Access menu-->
-                                            </div>
-                                            <!--end::User-->
-                                            <!--begin::Separator-->
-                                            <div class="border-bottom border-gray-300 border-bottom-dashed"></div>
-                                            <!--end::Separator-->
-                                            <!--begin::User-->
-                                            <div class="rounded d-flex flex-stack bg-active-lighten p-4" data-user-id="12">
-                                                <!--begin::Details-->
-                                                <div class="d-flex align-items-center">
-                                                    <!--begin::Checkbox-->
-                                                    <label class="form-check form-check-custom form-check-solid me-5">
-                                                        <input class="form-check-input" type="checkbox" name="users" data-kt-check="true" data-kt-check-target="[data-user-id='12']" value="12">
-                                                    </label>
-                                                    <!--end::Checkbox-->
-                                                    <!--begin::Avatar-->
-                                                    <div class="symbol symbol-35px symbol-circle">
-                                                        <span class="symbol-label bg-light-info text-info fw-semibold">
-                                                            A
-                                                        </span>
-                                                    </div>
-                                                    <!--end::Avatar-->
-                                                    <!--begin::Details-->
-                                                    <div class="ms-5">
-                                                        <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">Robert Doe</a>
-
-                                                        <div class="fw-semibold text-muted">robert@benko.com</div>
-                                                    </div>
-                                                    <!--end::Details-->
-                                                </div>
-                                                <!--end::Details-->
-                                                <!--begin::Access menu-->
-                                                <div class="ms-2 w-100px">
-                                                    <select class="form-select form-select-solid form-select-sm select2-hidden-accessible" data-control="select2" data-hide-search="true" data-select2-id="select2-data-45-dsvy" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                                                        <option value="1">Guest</option>
-                                                        <option value="2">Owner</option>
-                                                        <option value="3" selected="" data-select2-id="select2-data-47-25j4">Can Edit</option>
-                                                    </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-46-0l8r" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-solid form-select-sm" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-c9a4-container" aria-controls="select2-c9a4-container"><span class="select2-selection__rendered" id="select2-c9a4-container" role="textbox" aria-readonly="true" title="Can Edit">Can Edit</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                                </div>
-                                                <!--end::Access menu-->
-                                            </div>
-                                            <!--end::User-->
-                                            <!--begin::Separator-->
-                                            <div class="border-bottom border-gray-300 border-bottom-dashed"></div>
-                                            <!--end::Separator-->
-                                            <!--begin::User-->
-                                            <div class="rounded d-flex flex-stack bg-active-lighten p-4" data-user-id="13">
-                                                <!--begin::Details-->
-                                                <div class="d-flex align-items-center">
-                                                    <!--begin::Checkbox-->
-                                                    <label class="form-check form-check-custom form-check-solid me-5">
-                                                        <input class="form-check-input" type="checkbox" name="users" data-kt-check="true" data-kt-check-target="[data-user-id='13']" value="13">
-                                                    </label>
-                                                    <!--end::Checkbox-->
-                                                    <!--begin::Avatar-->
-                                                    <div class="symbol symbol-35px symbol-circle">
-                                                        <img alt="Pic" src="/metronic8/demo1/assets/media/avatars/300-13.jpg">
-                                                    </div>
-                                                    <!--end::Avatar-->
-                                                    <!--begin::Details-->
-                                                    <div class="ms-5">
-                                                        <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">John Miller</a>
-
-                                                        <div class="fw-semibold text-muted">miller@mapple.com</div>
-                                                    </div>
-                                                    <!--end::Details-->
-                                                </div>
-                                                <!--end::Details-->
-                                                <!--begin::Access menu-->
-                                                <div class="ms-2 w-100px">
-                                                    <select class="form-select form-select-solid form-select-sm select2-hidden-accessible" data-control="select2" data-hide-search="true" data-select2-id="select2-data-48-6c0s" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                                                        <option value="1">Guest</option>
-                                                        <option value="2">Owner</option>
-                                                        <option value="3" selected="" data-select2-id="select2-data-50-akxu">Can Edit</option>
-                                                    </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-49-kq7h" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-solid form-select-sm" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-s9lj-container" aria-controls="select2-s9lj-container"><span class="select2-selection__rendered" id="select2-s9lj-container" role="textbox" aria-readonly="true" title="Can Edit">Can Edit</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                                </div>
-                                                <!--end::Access menu-->
-                                            </div>
-                                            <!--end::User-->
-                                            <!--begin::Separator-->
-                                            <div class="border-bottom border-gray-300 border-bottom-dashed"></div>
-                                            <!--end::Separator-->
-                                            <!--begin::User-->
-                                            <div class="rounded d-flex flex-stack bg-active-lighten p-4" data-user-id="14">
-                                                <!--begin::Details-->
-                                                <div class="d-flex align-items-center">
-                                                    <!--begin::Checkbox-->
-                                                    <label class="form-check form-check-custom form-check-solid me-5">
-                                                        <input class="form-check-input" type="checkbox" name="users" data-kt-check="true" data-kt-check-target="[data-user-id='14']" value="14">
-                                                    </label>
-                                                    <!--end::Checkbox-->
-                                                    <!--begin::Avatar-->
-                                                    <div class="symbol symbol-35px symbol-circle">
-                                                        <span class="symbol-label bg-light-success text-success fw-semibold">
-                                                            L
-                                                        </span>
-                                                    </div>
-                                                    <!--end::Avatar-->
-                                                    <!--begin::Details-->
-                                                    <div class="ms-5">
-                                                        <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">Lucy Kunic</a>
-
-                                                        <div class="fw-semibold text-muted">lucy.m@fentech.com</div>
-                                                    </div>
-                                                    <!--end::Details-->
-                                                </div>
-                                                <!--end::Details-->
-                                                <!--begin::Access menu-->
-                                                <div class="ms-2 w-100px">
-                                                    <select class="form-select form-select-solid form-select-sm select2-hidden-accessible" data-control="select2" data-hide-search="true" data-select2-id="select2-data-51-7vd7" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                                                        <option value="1">Guest</option>
-                                                        <option value="2" selected="" data-select2-id="select2-data-53-y9jp">Owner</option>
-                                                        <option value="3">Can Edit</option>
-                                                    </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-52-y7j7" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-solid form-select-sm" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-bsys-container" aria-controls="select2-bsys-container"><span class="select2-selection__rendered" id="select2-bsys-container" role="textbox" aria-readonly="true" title="Owner">Owner</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                                </div>
-                                                <!--end::Access menu-->
-                                            </div>
-                                            <!--end::User-->
-                                            <!--begin::Separator-->
-                                            <div class="border-bottom border-gray-300 border-bottom-dashed"></div>
-                                            <!--end::Separator-->
-                                            <!--begin::User-->
-                                            <div class="rounded d-flex flex-stack bg-active-lighten p-4" data-user-id="15">
-                                                <!--begin::Details-->
-                                                <div class="d-flex align-items-center">
-                                                    <!--begin::Checkbox-->
-                                                    <label class="form-check form-check-custom form-check-solid me-5">
-                                                        <input class="form-check-input" type="checkbox" name="users" data-kt-check="true" data-kt-check-target="[data-user-id='15']" value="15">
-                                                    </label>
-                                                    <!--end::Checkbox-->
-                                                    <!--begin::Avatar-->
-                                                    <div class="symbol symbol-35px symbol-circle">
-                                                        <img alt="Pic" src="/metronic8/demo1/assets/media/avatars/300-21.jpg">
-                                                    </div>
-                                                    <!--end::Avatar-->
-                                                    <!--begin::Details-->
-                                                    <div class="ms-5">
-                                                        <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">Ethan Wilder</a>
-
-                                                        <div class="fw-semibold text-muted">ethan@loop.com.au</div>
-                                                    </div>
-                                                    <!--end::Details-->
-                                                </div>
-                                                <!--end::Details-->
-                                                <!--begin::Access menu-->
-                                                <div class="ms-2 w-100px">
-                                                    <select class="form-select form-select-solid form-select-sm select2-hidden-accessible" data-control="select2" data-hide-search="true" data-select2-id="select2-data-54-iuvo" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                                                        <option value="1" selected="" data-select2-id="select2-data-56-n3jn">Guest</option>
-                                                        <option value="2">Owner</option>
-                                                        <option value="3">Can Edit</option>
-                                                    </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-55-kgwd" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-solid form-select-sm" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-ncd7-container" aria-controls="select2-ncd7-container"><span class="select2-selection__rendered" id="select2-ncd7-container" role="textbox" aria-readonly="true" title="Guest">Guest</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                                </div>
-                                                <!--end::Access menu-->
-                                            </div>
-                                            <!--end::User-->
-                                            <!--begin::Separator-->
-                                            <div class="border-bottom border-gray-300 border-bottom-dashed"></div>
-                                            <!--end::Separator-->
-                                            <!--begin::User-->
-                                            <div class="rounded d-flex flex-stack bg-active-lighten p-4" data-user-id="16">
-                                                <!--begin::Details-->
-                                                <div class="d-flex align-items-center">
-                                                    <!--begin::Checkbox-->
-                                                    <label class="form-check form-check-custom form-check-solid me-5">
-                                                        <input class="form-check-input" type="checkbox" name="users" data-kt-check="true" data-kt-check-target="[data-user-id='16']" value="16">
-                                                    </label>
-                                                    <!--end::Checkbox-->
-                                                    <!--begin::Avatar-->
-                                                    <div class="symbol symbol-35px symbol-circle">
-                                                        <img alt="Pic" src="/metronic8/demo1/assets/media/avatars/300-9.jpg">
-                                                    </div>
-                                                    <!--end::Avatar-->
-                                                    <!--begin::Details-->
-                                                    <div class="ms-5">
-                                                        <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">Francis Mitcham</a>
-
-                                                        <div class="fw-semibold text-muted">f.mit@kpmg.com</div>
-                                                    </div>
-                                                    <!--end::Details-->
-                                                </div>
-                                                <!--end::Details-->
-                                                <!--begin::Access menu-->
-                                                <div class="ms-2 w-100px">
-                                                    <select class="form-select form-select-solid form-select-sm select2-hidden-accessible" data-control="select2" data-hide-search="true" data-select2-id="select2-data-57-tipr" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
-                                                        <option value="1">Guest</option>
-                                                        <option value="2">Owner</option>
-                                                        <option value="3" selected="" data-select2-id="select2-data-59-nd7q">Can Edit</option>
-                                                    </select><span class="select2 select2-container select2-container--bootstrap5" dir="ltr" data-select2-id="select2-data-58-3603" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-solid form-select-sm" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-6ftd-container" aria-controls="select2-6ftd-container"><span class="select2-selection__rendered" id="select2-6ftd-container" role="textbox" aria-readonly="true" title="Can Edit">Can Edit</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-                                                </div>
-                                                <!--end::Access menu-->
-                                            </div>
-                                            <!--end::User-->
-
-
-                                        </div>
-                                        <!--end::Users-->
-                                        <!--begin::Actions-->
-                                        <div class="d-flex flex-center mt-15">
-                                            <button type="reset" id="kt_modal_users_search_reset" data-bs-dismiss="modal" class="btn btn-active-light me-3">
-                                                Cancel
-                                            </button>
-
-                                            <button type="submit" id="kt_modal_users_search_submit" class="btn btn-primary">
-                                                Add Selected Users
-                                            </button>
-                                        </div>
-                                        <!--end::Actions-->
-                                    </div>
-                                    <!--end::Results-->
-                                    <!--begin::Empty-->
-                                    <div data-kt-search-element="empty" class="text-center d-none">
-                                        <!--begin::Message-->
-                                        <div class="fw-semibold py-10">
-                                            <div class="text-gray-600 fs-3 mb-2">No users found</div>
-
-                                            <div class="text-muted fs-6">Try to search by username, full name or email...</div>
-                                        </div>
-                                        <!--end::Message-->
-                                        <!--begin::Illustration-->
-                                        <div class="text-center px-5">
-                                            <img src="/metronic8/demo1/assets/media/illustrations/sketchy-1/1.png" alt="" class="w-100 h-200px h-sm-325px">
-                                        </div>
-                                        <!--end::Illustration-->
-                                    </div>
-                                    <!--end::Empty-->
-                                </div>
-                                <!--end::Wrapper-->
                             </div>
-                            <!--end::Search-->
+
+
                         </div>
-                        <!--end::Modal body-->
+                        <!--end::Messenger-->
                     </div>
-                    <!--end::Modal content-->
+                    <!--end::Content-->
                 </div>
-                <!--end::Modal dialog-->
+
             </div>
-            <!--end::Modal - Users Search--><!--end::Modals-->
+            <!--end::Content container-->
         </div>
-        <!--end::Content container-->
     </div>
+
     <!--end::Content-->
 
 </div>
@@ -1795,7 +179,7 @@
         <br />
         <label for="txtMessage">Mesaj: </label> @Html.TextBox("txtMessage") <button id="btnSendMessage">Mesaj Yolla</button>
     </div>
-    <div id="messages"></div>
+
 </div>
 
 @section Scripts {
@@ -1804,73 +188,125 @@
     <script>
         $(function () {
             var chat = $.connection.mesajHub;
-            var $username = $('#txtUsername');
-            var $message = $('#txtMessage');
-            var $messages = $('#messages');
-            $message.focus();
-            chat.client.sendMessage = function (name, message) {
-                $messages.append('<li><strong>' + name + '</strong>: ' + message + '</li>');
+            var $kullaniciID = $('#KullaniciID');
+            var $karsiKullaniciID = $('#KarsiKullaniciID');
+            var $message = $('#Mesaj');
+            var $messages = $('#mesajListesi');
+
+
+            // Gelen mesajları mesaj listesinin sonuna ekle
+            chat.client.sendMessage = function (senderName, messageText) {
+                var messageElement = `
+                    <div class="d-flex justify-content-${senderName === 'You' ? 'end' : 'start'} mb-10">
+                        <div class="d-flex flex-column align-items-${senderName === 'You' ? 'end' : 'start'}">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="me-3">
+                                    <span class="text-muted fs-7 mb-1">Just now</span>
+                                    <div data-id="1" class="kullanici-sec fs-5 fw-bold text-gray-900 text-hover-primary ms-1">${senderName}</div>
+                                </div>
+                            </div>
+                            <div class="p-5 rounded ${senderName === 'You' ? 'bg-light-primary' : 'bg-light-info'} text-gray-900 fw-semibold mw-lg-400px text-${senderName === 'You' ? 'end' : 'start'}">
+                                ${messageText}
+                            </div>
+                        </div>
+                    </div>
+    `;
+                // Bu messageElement'i mesaj listesine eklemek için append yapabilirsiniz
+                $('#mesajListesi').append(messageElement);
             };
+
+
             $.connection.hub.start().done(function () {
                 $('#btnSendMessage').click(function () {
-
                     var data = {
-                        kullaniciId: '',
-                        karsiKullaniciId: '',
-                        mesaj: ''
+                        kullaniciId: $kullaniciID.val(),  // Mesajı gönderen kullanıcı
+                        karsiKullaniciId: $karsiKullaniciID.val(),  // Mesajın gönderildiği kullanıcı
+                        mesaj: $message.val()
+                    };
 
-                    }
-                    chat.server.send($username.val(), $message.val());
-
-                    $message.val('').focus();
+                    // Mesajı SignalR hub'a gönder
+                    chat.server.send(data.kullaniciId, data.karsiKullaniciId, data.mesaj).done(function () {
+                        // Başarılıysa temizle
+                        $message.val('').focus();
+                    })
                 });
             });
 
-            const kullaniciArama = () => {
+            // Kullanıcı seçildiğinde mesajlaşma kısmını güncelle
+            $(document).on('click', '.kullanici-sec', function (event) {
+                event.preventDefault(); // Sayfa yenilenmesini durdur
+                var kullaniciID = $(this).data('id');
+                var kullaniciAd = $(this).data('ad');
 
+                // Seçilen kullanıcının ID ve adını ilgili alanlara set et
+                $('#KarsiKullaniciID').val(kullaniciID);
+                $('#kt_chat_messenger_header .card-title a').text(kullaniciAd);
+
+                // Önceki mesajları temizle (opsiyonel)
+                $('#kt_chat_messenger_body').html('');
+            });
+
+            $("#btnSendMessage").on('click', (event) => {
+                event.preventDefault();
+
+                var data = {
+                    KarsiKullaniciId: $('#KarsiKullaniciID').val(),  // Mesajın gönderildiği kullanıcı
+                    Mesaj: $('#Mesaj').val()
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: '/Mesaj/Kaydet',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    success: function (data) {
+                        consolel.log(data);
+                    },
+                    error: function (msg) {
+                        console.log(msg);
+                    }
+                });
+            });
+
+
+            // Kullanıcı arama fonksiyonu
+            const kullaniciArama = () => {
                 const kullaniciListesi = $('#kullaniciListesi');
 
                 const kullaniciElementiOlustur = (kullanici) => {
                     return `
-                        <div class="d-flex flex-stack py-4">
-                            <div class="d-flex align-items-center">
-                                <!-- Kullanıcı Bilgileri -->
-                                <div class="symbol symbol-45px symbol-circle">
-                                    <span class="symbol-label bg-light-danger text-danger fs-6 fw-bolder">${kullanici.Ad[0]}</span>
-                                </div>
-                                <div class="ms-5">
-                                    <a href="/Mesaj/Chat?kullaniciId=${kullanici.ID}" class="fs-5 fw-bold text-gray-900 text-hover-primary mb-2">${kullanici.Ad} ${kullanici.Soyad}</a>
-                                    <div class="fw-semibold text-muted">E-posta: ${kullanici.KullaniciAdi}</div>
-                                </div>
+                    <div class="d-flex flex-stack py-4 kullanici-sec" data-id="${kullanici.ID}" data-ad="${kullanici.Ad} ${kullanici.Soyad}">
+                        <div class="d-flex align-items-center">
+                            <!-- Kullanıcı Bilgileri -->
+                            <div class="symbol symbol-45px symbol-circle">
+                                <span class="symbol-label bg-light-danger text-danger fs-6 fw-bolder">${kullanici.Ad[0]}</span>
+                            </div>
+                            <div class="ms-5">
+                                <div data-id="1" class="kullanici-sec fs-5 fw-bold text-gray-900 text-hover-primary mb-2">${kullanici.Ad} ${kullanici.Soyad}</div>
+                                <div class="fw-semibold text-muted">E-posta: ${kullanici.KullaniciAdi}</div>
                             </div>
                         </div>
-                    `;
+                    </div>
+                `;
                 }
 
                 const kullaniciListesiOlustur = (aranacakKelime = "") => {
                     $.ajax({
                         type: "POST",
                         url: '/Mesaj/KullaniciGetir?aranacakKelime=' + aranacakKelime,
-                        async: false,
-                        contentType: false,
-                        processData: false,
                         contentType: "application/json; charset=utf-8",
-                        //dataFilter: function (data) { return data; },
                         success: function (data) {
                             const elementler = [];
                             for (let i = 0; i < data.length; i++) {
                                 elementler.push(kullaniciElementiOlustur(data[i]));
                             }
-
                             kullaniciListesi.html(elementler.join(""));
                         },
                         error: function (msg) {
-                            console.log(msg)
-                          
+                            console.log(msg);
                         }
                     });
-
-                  
                 }
 
                 return {
@@ -1880,14 +316,81 @@
             }
 
 
+
             kullaniciArama().kullaniciListesiOlustur("");
 
             $('input[name="aranacakKelime"]').on('input', function () {
-                if ($('input[name="aranacakKelime"]').val().length > 2) {
-                    kullaniciArama().kullaniciListesiOlustur($('input[name="aranacakKelime"]').val());
+                if ($(this).val().length == 0 || $(this).val().length > 2 ) {
+                    kullaniciArama().kullaniciListesiOlustur($(this).val());
                 }
-            })
+            });
 
+            const mesajlarilistele = () => {
+                const mesajListesi = $('#mesajListesi');
+
+                const mesajElementiOlustur = (mesaj) => {
+                    return ` <div id="mesajListesi" class="scroll-y">
+                                <div id="messages">
+                                    <!-- Mesajlar burada listelenecek -->
+                                    <div class="d-flex justify-content-start mb-10">
+                                        <div class="d-flex flex-column align-items-start">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <div class="me-3">
+                                                    <span class="text-muted fs-7 mb-1">10 dakika önce</span>
+                                                    <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">Ahmet Yılmaz</a>
+                                                </div>
+                                            </div>
+                                            <div class="p-5 rounded bg-light-info text-gray-900 fw-semibold mw-lg-400px text-start" name="Mesaj">
+                                                ${mesaj.Mesaj}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end mb-10">
+                                        <div class="d-flex flex-column align-items-end">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <div class="me-3">
+                                                    <span class="text-muted fs-7 mb-1">Şimdi</span>
+                                                    <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">Sen</a>
+                                                </div>
+                                            </div>
+                                            <div name="Mesaj" class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
+                                              ${mesaj.Mesaj}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+      `;
+                }
+
+                const mesajListesiOlustur = () => {
+                    $.ajax({
+                        type: "POST",
+                        url: '/Mesaj/MesajListesiGetir',
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            console.log(data);
+                            const elementler = [];
+                            for (let i = 0; i < data.length; i++) {
+                                elementler.push(mesajElementiOlustur(data[i]));
+                            }
+                            // Listeyi yeniden oluşturmak yerine, mesajları eklemek istiyorsanız append kullanın
+                            $('#mesajListesi').append(elementler.join(""));
+                        },
+                        error: function (msg) {
+                            console.log(msg);
+                        }
+                    });
+                };
+                return {
+                    mesajListesi,
+                    mesajElementiOlustur,
+                    mesajListesiOlustur
+                }
+            }
+
+            mesajlarilistele().mesajListesiOlustur();
         });
+
     </script>
 }

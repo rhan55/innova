@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using YKPortal.Models.Dto;
 using YKPortal.Models;
 using System.Web.Http.Results;
+using Microsoft.AspNet.SignalR.Infrastructure;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace YKPortal.Controllers
 {
@@ -25,7 +27,6 @@ namespace YKPortal.Controllers
         }
 
 
-        [HttpPost]
         public ActionResult Chat(MesajlasmaDto mesajlasmaDto)
         {
             if (!AutoGirisKontrol())
@@ -34,33 +35,23 @@ namespace YKPortal.Controllers
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_MesajKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ID", mesajlasmaDto.ID);     
-            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@KarsiKullaniciID", mesajlasmaDto.KarsiKullaniciID);
-            cmd.Parameters.AddWithValue("@Tarih", mesajlasmaDto.Tarih);
-            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
-
-            return RedirectToAction("Liste");
-        }
-
-        [HttpGet]
-        public ActionResult Liste(string aranacakKelime = null)
-        {
-            if (!AutoGirisKontrol())
-                return Redirect("~/YK/Giris");
-
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "p_MesajListesi";
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
-        
+            if (string.IsNullOrEmpty(mesajlasmaDto.Mesaj))
+            {
+                cmd.Parameters.AddWithValue("@Mesaj", DBNull.Value); // NULL gönder
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@Mesaj", mesajlasmaDto.Mesaj); // Mesajı gönder
+            }
 
-            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek);
 
-           
-            return View(dt);
+            ViewBag.KullaniciID = GetCookie("KullaniciID");
+            return RedirectToAction("Chat");
         }
+
 
         [HttpPost]
         public ActionResult Sil(string id)
@@ -76,11 +67,56 @@ namespace YKPortal.Controllers
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            return RedirectToAction("Liste");
+            return RedirectToAction("Chat");
+        }
+
+        public JsonResult Kaydet(MesajlasmaDto mesajlasma)
+        {
+            if (string.IsNullOrEmpty(mesajlasma.Mesaj) || string.IsNullOrEmpty(mesajlasma.KarsiKullaniciID))
+            {
+                return Json(new IDJsonResult { Sonuc = "Hata", SonucKodu = 422 });
+            }
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_MesajKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@KarsiKullaniciID", mesajlasma.KarsiKullaniciID);
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@Mesaj", mesajlasma.Mesaj);
+
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek);
+
+            return Json(new IDJsonResult { Sonuc = "Başarılı", SonucKodu = 200 });
         }
 
 
      
+        public JsonResult MesajListesiGetir()
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_MesajListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            var mesajListesi = new List<MesajlasmaDto>();
+
+            for (int i = 0;i < dt.Rows.Count; i++) {
+                mesajListesi.Add(new MesajlasmaDto
+                {
+                    ID = Guid.Parse(Convert.ToString(dt.Rows[i]["ID"])),
+                    Mesaj = Convert.ToString(dt.Rows[i]["Mesaj"]),
+                    KullaniciID = Convert.ToString(dt.Rows[i]["KullaniciID"]),
+                    KarsiKullaniciID = Convert.ToString(dt.Rows[i]["KarsiKullaniciID"]),
+                    Tarih = Convert.ToString(dt.Rows[i]["KayitTarihi"]),
+                });
+            }
+
+            return Json(mesajListesi, JsonRequestBehavior.AllowGet);
+        }
+
+
         public JsonResult KullaniciGetir(string aranacakKelime = "")
         {
 
@@ -93,7 +129,8 @@ namespace YKPortal.Controllers
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             var kullaniciListesi = new List<KullaniciEkleDto>();
 
-            for (int i = 0;i < dt.Rows.Count; i++) {
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
                 kullaniciListesi.Add(new KullaniciEkleDto
                 {
                     Ad = Convert.ToString(dt.Rows[i]["Ad"]),
@@ -107,7 +144,6 @@ namespace YKPortal.Controllers
         }
 
 
-   
 
         public bool AutoGirisKontrol()
         {

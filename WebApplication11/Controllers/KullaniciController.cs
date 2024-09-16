@@ -288,7 +288,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Kullanici/Profil", "Gor"))
+            if (!YetkiKontrolu("/Kullanici/Liste", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
@@ -314,7 +314,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Kullanici/Profil", "Duzenle"))
+            if (!YetkiKontrolu("/Kullanici/Liste", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
             }
