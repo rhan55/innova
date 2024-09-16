@@ -558,7 +558,6 @@ namespace YKPortal.Controllers
             return result;
         }
 
-
         [HttpPost]
         public IDJsonResult DestekKayitlari([FromBody] JObject data)
         {
@@ -629,6 +628,71 @@ namespace YKPortal.Controllers
                     entity.BaslangicTarihi = Convert.ToDateTime(item["BaslangicTarihi"]);
                     entity.Aciklama = Convert.ToString(item["Aciklama"]);
                     entity.Durumu = Convert.ToString(item["Durumu"]);
+                    entities.Add(entity);
+                }
+
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                return result;
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        [HttpPost]
+        public IDJsonResult DestekCevaplari([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["UyelikID"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! UyelikID bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["KullaniciID"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! KullaniciID bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["KayitID"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! KayitID bilgisi boş olamaz.";
+                    return result;
+                }
+                string UyelikID = Convert.ToString(data["UyelikID"]);
+                string KullaniciID = Convert.ToString(data["KullaniciID"]);
+                string KayitID = Convert.ToString(data["KayitID"]);
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_Gorev";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
+                cmd.Parameters.AddWithValue("@ID", KayitID);
+                DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
+                List<GorevDto> entities = new List<GorevDto>();
+                foreach (DataRow item in ds.Tables[2].Rows)
+                {
+                    GorevDto entity = new GorevDto();
+                    entity.ID = Convert.ToString(item["ID"]);
+                    entity.UyelikID = Convert.ToString(item["UyelikID"]);
+                    entity.Durumu = Convert.ToString(item["Durumu"]);
+                    entity.Isim = Convert.ToString(item["KaydiKapatan"]);
+                    entity.Tarih = Convert.ToDateTime(item["TamamlamaTarihi"]);
+                    entity.Aciklama = Convert.ToString(item["Aciklama"]);
                     entities.Add(entity);
                 }
 
@@ -820,7 +884,7 @@ namespace YKPortal.Controllers
                                 "DovizKuru:" + hareket.DovizKuru + System.Environment.NewLine +
                                 "DovizTutari:" + hareket.DovizTutari + System.Environment.NewLine +
                                 "ProjeKodu:" + hareket.ProjeKodu + System.Environment.NewLine +
-                                "PlasiyerKodu:" + hareket.PlasiyerKodu + System.Environment.NewLine 
+                                "PlasiyerKodu:" + hareket.PlasiyerKodu + System.Environment.NewLine
                             );
                     }
                     catch (Exception hata1)
@@ -1021,11 +1085,7 @@ and ACIKLAMA1 LIKE '%" + hareket.EvrakNo + "%' and TUTAR = @Tutar";
                                 DekontTip = JTDekontTip.dekCari
                             });
 
-
-
-
                             islem = "4.Yeni Dekont Kaydı C  ";
-
 
                             #endregion
 
@@ -1184,8 +1244,143 @@ and ACIKLAMA1 LIKE '%" + hareket.EvrakNo + "%' and TUTAR = @Tutar";
                 }
             }
 
-
             return response;
+        }
+
+
+
+        [HttpPost]
+        public IDJsonResult PersonelCalismaKaydet([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["SicilNo"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! SicilNo bilgisi boş olamaz.";
+                    return result;
+                }
+                string SicilNo = Convert.ToString(data["SicilNo"]);
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = @"                    
+declare @ID nvarchar(100) = (Select NEWID())
+Insert Into PersonelCalisma(ID, SicilNo, KayitTarihi, KapanmaTarihi) values(@ID, @SicilNo, GETDATE(), null)
+Select @ID as ID
+                    ";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@SicilNo", SicilNo);
+                string ID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+                result.Data = ID;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                return result;
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        [HttpPost]
+        public IDJsonResult PersonelCalismaTamamla([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["KayitID"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! KayitID bilgisi boş olamaz.";
+                    return result;
+                }
+                string KayitID = Convert.ToString(data["KayitID"]);
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = @"  Update PersonelCalisma Set KapanmaTarihi=GETDATE() Where ID = @KayitID                    ";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@KayitID", KayitID);
+                string ID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+                result.Data = ID;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                return result;
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+            [HttpPost]
+        public IDJsonResult PersonelSicilKontrol([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["SicilNo"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! SicilNo bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Parola"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Parola bilgisi boş olamaz.";
+                    return result;
+                }
+                string SicilNo = Convert.ToString(data["SicilNo"]);
+                string Parola = Convert.ToString(data["Parola"]);
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "select COUNT(*) from Kullanicilar where SicilNo = @SicilNo and PersonelParola = @Parola";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@SicilNo", SicilNo);
+                cmd.Parameters.AddWithValue("@Parola", Parola);
+                int kontrol = Convert.ToInt32(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+                if (kontrol > 0)
+                {
+                    result.Data = "ok";
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    return result;
+                }
+                else
+                {
+                    result.Data = "error";
+                    result.SonucKodu = 0;
+                    result.Sonuc = "HATA!";
+                    return result;
+                }
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
         }
 
         #endregion
@@ -1207,4 +1402,5 @@ and ACIKLAMA1 LIKE '%" + hareket.EvrakNo + "%' and TUTAR = @Tutar";
         public string EkBilgi3 { get; set; }
         public string EvrakNumarasi { get; set; }
     }
+
 }

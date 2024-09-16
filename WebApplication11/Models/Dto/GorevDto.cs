@@ -13,6 +13,8 @@ namespace YKPortal.Models.Dto
         private string _GorevTipiID;
         private string _Aciklama;
         private string _Durumu;
+        private string _Isim;
+        private DateTime _Tarih;
         private DateTime _BaslangicTarihi;
         private string _Periyot;
         private string[] _Kullanicilar;
@@ -24,6 +26,8 @@ namespace YKPortal.Models.Dto
         public string Aciklama { get { return _Aciklama ?? ""; } set { _Aciklama = value; } }
         public string Durumu { get { return _Durumu ?? ""; } set { _Durumu = value; } }
         public DateTime BaslangicTarihi { get { return _BaslangicTarihi == null ? DateTime.Today : _BaslangicTarihi; } set { _BaslangicTarihi = value; } }
+        public string Isim { get { return _Isim ?? ""; } set { _Isim = value; } }
+        public DateTime Tarih { get { return _Tarih == null ? DateTime.Today : _Tarih; } set { _Tarih = value; } }
         public string Periyot { get { return _Periyot ?? ""; } set { _Periyot = value; } }
         public string[] Kullanicilar { get { return _Kullanicilar ?? null; } set { _Kullanicilar = value; } }
     }
