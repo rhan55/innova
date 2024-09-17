@@ -154,3 +154,14 @@ div.dt-container {
     left: 0;
     background-color: var(--bs-body-bg);
 }
+
+.kullanici-sec {
+    cursor: pointer;
+    user-select: none;
+    padding-left: 4px!important;
+
+}
+
+.kullanici-sec:hover {
+    background-color: #f9f9f9;
+}
