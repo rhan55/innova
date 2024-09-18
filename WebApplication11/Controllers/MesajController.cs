@@ -31,23 +31,27 @@ namespace YKPortal.Controllers
 
 
         [HttpPost]
-        public ActionResult Sil(string id)
-        {
-            if (!AutoGirisKontrol())
-                return Redirect("~/YK/Giris");
 
+        public JsonResult MesajSil(string id)       
+        {
+            // Mesajın ve karşı kullanıcının ID'si boşsa hata döndür
+            if (id == null)
+            {
+                return Json(new IDJsonResult { Sonuc = "Hata", SonucKodu = 422 });
+            }
+
+            string kullaniciID = GetCookie("KullaniciID");
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_MesajSil";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@ID", id);
 
-            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+         
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek);
 
-            return RedirectToAction("Chat");
+            return Json(new IDJsonResult { Sonuc = "Başarılı", SonucKodu = 200 });
         }
-
-    
 
         [HttpPost]
         public JsonResult Kaydet(MesajlasmaDto mesajlasma, HttpPostedFileBase Dosya)
@@ -68,18 +72,21 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KarsiKullaniciID", mesajlasma.KarsiKullaniciID);
             cmd.Parameters.AddWithValue("@KullaniciID", kullaniciID);
             cmd.Parameters.AddWithValue("@Mesaj", mesajlasma.Mesaj);
-
             // Dosya varsa, kaydet ve dosya yolunu ekle
             if (Dosya != null && Dosya.ContentLength > 0)
             {
                 try
                 {
                     // Dosya kaydediliyor
-                    string dosyaYolu = Server.MapPath($"/Uploads/Dosyalar/{Dosya.FileName}");
+                    var uzanti = Dosya.FileName.Split('.').Last();
+                    var adi = Dosya.FileName.TrimEnd($".{Dosya.FileName.Split('.').Last()}".ToCharArray());
+                    var dosyaAdi = $"{adi}_{Guid.NewGuid()}.{uzanti}";
+
+                    string dosyaYolu = Server.MapPath($"/Uploads/Dosyalar/{dosyaAdi}");
                     Dosya.SaveAs(dosyaYolu);
 
                     // Dosya yolunu mesaj kaydına ekliyoruz
-                    //cmd.Parameters.AddWithValue("@DosyaYolu", Dosya.FileName);
+                   cmd.Parameters.AddWithValue("@Dosya", dosyaAdi);
                 }
                 catch (Exception ex)
                 {
@@ -89,11 +96,11 @@ namespace YKPortal.Controllers
             }
             else
             {
-                //cmd.Parameters.AddWithValue("@DosyaYolu", DBNull.Value);
+               cmd.Parameters.AddWithValue("@Dosya", DBNull.Value);
             }
 
             // Veritabanına sorgu gönderiliyor
-            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek);
+            string dt = (string)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek);
 
             // Başarılı sonuç dön
             return Json(new IDJsonResult { Sonuc = "Başarılı", SonucKodu = 200 });
@@ -120,6 +127,7 @@ namespace YKPortal.Controllers
                     KullaniciID = Convert.ToString(dt.Rows[i]["KullaniciID"]),
                     KarsiKullaniciID = Convert.ToString(dt.Rows[i]["KarsiKullaniciID"]),
                     Tarih = Convert.ToString(dt.Rows[i]["KayitTarihi"]),
+                    Dosya = Convert.ToString(dt.Rows[i]["Dosya"])
                 });
             }
 
