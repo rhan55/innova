@@ -666,6 +666,7 @@ CREATE TABLE [dbo].[Mesajlar](
 	[Mesaj] [nvarchar](4000) NOT NULL,
 	[KayitTarihi] [datetime] NOT NULL,
 	[GorulmeTarihi] [datetime] NULL,
+	[Dosya] nvarchar(max) NULL,
  CONSTRAINT [PK_Mesajlar] PRIMARY KEY CLUSTERED 
 (
 	[ID] ASC

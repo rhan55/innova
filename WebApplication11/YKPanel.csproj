@@ -549,6 +549,7 @@
     <Content Include="Areas\Depo\Views\NetsisDepo\Innova_Uretim_Takimlastirma.cshtml" />
     <Content Include="Areas\Entegrasyon\Views\FordAktarim\AnaSayfa.cshtml" />
     <Content Include="Areas\Depo\Views\Depo\UretimIsEmirleri.cshtml" />
+    <Content Include="Areas\Depo\Views\Depo\UretimIsEmriDetay.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -3037,6 +3038,7 @@
     <Content Include="Views\Stok\Sayim.cshtml" />
     <Content Include="Views\Mesaj\Chat.cshtml" />
     <Content Include="Views\Ayarlar\B2BAyarlari.cshtml" />
+    <Content Include="Views\Kullanici\UretimYetkiler.cshtml" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>

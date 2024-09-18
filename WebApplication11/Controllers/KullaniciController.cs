@@ -516,7 +516,73 @@ namespace YKPortal.Controllers
             return RedirectToAction("Yetkiler", new { KullaniciID = yetkiler[0].KullaniciID });
         }
 
-   
+
+        [HttpGet]
+        public ActionResult UretimYetkiler(YetkilerDto yetkilerDto)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_KullaniciUretimYetkileri";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", yetkilerDto.KullaniciID);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            List<YetkilerDto> yetkiler = new List<YetkilerDto>();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                yetkiler.Add(new YetkilerDto()
+                {
+                    MenuID = Convert.ToString(row["MenuID"]),
+                    KullaniciID = Convert.ToString(row["KullaniciID"]),
+                    UyelikID = Convert.ToString(row["UyelikID"]),
+                    Menu = Convert.ToString(row["Menu"]),
+                    UstID = Convert.ToString(row["UstID"]),
+                    Gor = Convert.ToBoolean(row["Gor"]),
+                    Duzenle = Convert.ToBoolean(row["Duzenle"]),
+                    Sil = Convert.ToBoolean(row["Sil"])
+                });
+            }
+
+
+            YetkiYapisiniOlustur(yetkiler);
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UretimYetkiKaydet(List<YetkilerDto> yetkiler)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+            if (yetkiler.Count == 0)
+            {
+                RedirectToAction("Liste");
+            }
+
+            foreach (var yetki in yetkiler)
+            {
+                var cmd = new SqlCommand();
+                cmd.CommandText = "p_KullaniciUretimYetkiKaydet";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@KullaniciID", yetki.KullaniciID);
+                cmd.Parameters.AddWithValue("@MenuID", yetki.MenuID);
+                cmd.Parameters.AddWithValue("@Gor", yetki.Gor);
+                cmd.Parameters.AddWithValue("@Duzenle", yetki.Duzenle);
+                cmd.Parameters.AddWithValue("@Sil", yetki.Sil);
+
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            }
+
+            return RedirectToAction("UretimYetkiler", new { KullaniciID = yetkiler[0].KullaniciID });
+        }
+
         #region Cookie İşlemleri
 
         public bool AutoGirisKontrol()

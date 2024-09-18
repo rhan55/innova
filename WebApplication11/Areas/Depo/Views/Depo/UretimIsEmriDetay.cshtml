@@ -1,0 +1,131 @@
+﻿@using System.Data
+@using YKPortal.Models.Dto
+@model DataSet
+@{
+    ViewBag.Title = "Üretim İş Emri Detayı";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string KullaniciID = Request.Cookies["KullaniciID"].Value;
+    DataTable dtKayitlar = ViewBag.dtKayitlar as DataTable;
+    string Durumu = "";
+    if (dtKayitlar.Rows.Count > 0)
+    {
+        Durumu = Convert.ToString(dtKayitlar.Rows[0]["Durumu"]);
+    }
+}
+
+
+<div class="container-fluid p-4 m-0">
+    <div class="row">
+        @if (Durumu == "B")
+        {
+            <a href="/Depo/Depo/UretimIsEmriDurumuDegistir/?IsEmriNo=@(Request.QueryString["IsEmriNo"])&Durumu=B" class="btn btn-success" style="width: 150px; float: left; padding: 5px;margin:5px;">Başla</a>
+            <a href="/Depo/Depo/UretimIsEmriArizalar/?IsEmriNo=@(Request.QueryString["IsEmriNo"])" class="btn" style="background-color:red; color: white; width: 150px; float: left; padding: 5px; margin: 5px;">Arıza Kaydı</a>
+        }
+        @if (Durumu == "D")
+        {
+            <a href="/Depo/Depo/UretimIsEmriDurumuDegistir/?IsEmriNo=@(Request.QueryString["IsEmriNo"])&Durumu=T" class="btn" style="background-color: red; color: white; width: 150px; float: left; padding: 5px; margin: 5px;">Bitir</a>
+            <a href="/Depo/Depo/UretimIsEmriArizalar/?IsEmriNo=@(Request.QueryString["IsEmriNo"])" class="btn" style="background-color:red; color: white; width: 150px; float: left; padding: 5px; margin: 5px;">Arıza Kaydı</a>
+            <form action="/Depo/Depo/UretimIsEmriBarkodOku" method="get">
+                <input type="hidden" name="IsEmriNo" id="IsEmriNo" value="@(Request.QueryString["IsEmriNo"])" />
+                <input type="text" class="form-control" name="Barkod" id="Barkod" value="" placeholder="Barkod" />
+                <br />
+                <input type="text" class="form-control" name="StokKodu" id="StokKodu" value="" placeholder="Stok Kodu" disabled required />
+                <br />
+                <input type="text" class="form-control" name="StokAdi" id="StokAdi" value="" placeholder="Stok Adı" disabled required />
+                <br />
+                <select id="Seri" name="Seri" class="form-control" required>
+                    <option value="">Seri Seçimi</option>
+
+                </select>
+                <br />
+                <input type="button" name="name" value="Topla" class="form-control" />
+            </form>
+        }
+        @if (Durumu == "T")
+        {
+            <h3>TAMAMLANMIŞ İŞ EMRİ</h3>
+        }
+
+        <div class="col-lg-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td><strong>Kod</strong></td>
+                        <td><strong>İsim</strong></td>
+                        <td style="text-align:right;"><strong>Miktar</strong></td>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="3"><hr /></td>
+                    </tr>
+                    @foreach (DataRow dr in dtKayitlar.Rows)
+                    {
+                        <tr>
+                            <td>
+                                @dr["StokKodu"]
+                            </td>
+                            <td>
+                                @dr["StokAdi"]
+                            </td>
+                            <td style="text-align:right;">
+                                @String.Format("{0:N4}", Convert.ToDecimal(dr["Miktar"]))
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .tum-kenar-oval {
+        border: 2px solid #a1a1a1;
+        padding: 10px 40px;
+        background: orange;
+        width: 200px;
+        height: 100px;
+        border-radius: 25px;
+        color: white;
+        margin: 20px;
+        float: left;
+    }
+</style>
+@section Scripts {
+    <script>
+        $('#Barkod').keydown(function (e) {
+            if (e.keyCode == 13) {
+
+
+                $.ajax({
+                    url: '/Belge/SelectStokBarkodSeriListe',
+                    data: "{ 'Barkod': '" + Barkod + "' }",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataFilter: function (data) { return data; },
+                    success: function (data) {
+                        // waitingDialog.hide();
+                        $('#Seri').find('option').remove();
+                        var deger = "";
+                        for (var i = 0; i < data.Data.length; i++) {
+                            deger += "<option value='" + data.Data[i].SeriNo + "'>" + data.Data[i].SeriNo + ' - Bakiye : ' + data.Data[i].Bakiye.toFixed(0) + "</option>";
+                        }
+                        $('#Seri').append(deger);
+
+                    },
+                    error: function (msg) {
+                        console.log("HATA!" + msg);
+                    }
+                });
+
+
+            }
+        })
+    </script>
+}
+
+

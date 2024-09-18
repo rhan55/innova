@@ -1,0 +1,240 @@
+﻿@using YKPortal.Models.Dto;
+@{
+    ViewBag.Title = "Üretim Yetkileri";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-flush mt-4">
+                <div class="card-body p-4">
+                    <div class="container border">
+                        <div class="row border-bottom py-1">
+                            <div class="col-lg-6"></div>
+                            <div class="col-lg-2 fw-bold border-start text-center">Gör</div>
+                            <div class="col-lg-2 fw-bold border-start border-end text-center">Düzenle</div>
+                            <div class="col-lg-2 fw-bold border-end text-center">Sil</div>
+                        </div>
+                        @foreach (YetkilerDto yetki in ViewBag.Yetkiler)
+                        {
+                            <div data-component="table-item" data-ustMenuId="@yetki.MenuID">
+                                <div class="row border-bottom yetki-satiri" data-menuId="@yetki.MenuID" data-kullaniciId="@yetki.KullaniciID">
+                                    <div class="col-lg-6">
+                                        <div class="d-flex align-items-center h-100">
+                                            @if (yetki.AltListe.Count > 0)
+                                            {
+                                                <button data-toggle="first-sub-table" class="btn btn-icon btn-sm rounded-circle">
+                                                    <i class="ki-duotone ki-down "></i>
+                                                    <i class="ki-duotone ki-up hidden"></i>
+                                                </button>
+                                            }
+
+                                            @yetki.Menu
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2  text-center border-start">
+
+                                        <label class="w-100 h-100 px-2 py-4" for="@(yetki.MenuID)-Gor">
+                                            <input type="checkbox" @(yetki.Gor ? "checked" : "") id="@(yetki.MenuID)-Gor" name="@(yetki.MenuID)-Gor" data-menuId="@yetki.MenuID" data-tip="Gor" data-grup="yetki" />
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-2 text-center border-start border-end">
+                                        <label class="w-100 h-100 px-2 py-4" for="@(yetki.MenuID)-Duzenle">
+                                            <input type="checkbox"  id="@(yetki.MenuID)-Duzenle" name="@(yetki.MenuID)-Duzenle" data-menuId="@yetki.MenuID" data-tip="Duzenle" data-grup="yetki" checked />
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-2 text-center border-end">
+                                        <label class="w-100 h-100 px-2 py-4" for="@(yetki.MenuID)-Sil">
+                                            <input type="checkbox" @(yetki.Gor ? "checked" : "") id="@(yetki.MenuID)-Sil" name="@(yetki.MenuID)-Sil" data-menuId="@yetki.MenuID" data-tip="Sil" data-grup="yetki" />
+                                        </label>
+                                    </div>
+                                </div>
+                                @if (yetki.AltListe.Count > 0)
+                                {
+                                    <div class="first-sub-table hidden" >
+                                        @foreach (var altYetki in yetki.AltListe)
+                                        {
+                                            <div data-component="table-item" data-ustMenuId="@altYetki.MenuID">
+                                                <div class="row border-bottom yetki-satiri" data-menuId="@altYetki.MenuID" data-kullaniciId="@altYetki.KullaniciID">
+                                                    <div class="col-lg-6 ps-8">
+                                                        <div class="d-flex align-items-center h-100">
+                                                            @if (altYetki.AltListe.Count > 0)
+                                                            {
+                                                                <button data-toggle="second-sub-table" class="btn btn-icon btn-sm rounded-circle">
+                                                                    <i class="ki-duotone ki-down"></i>
+                                                                    <i class="ki-duotone ki-up hidden"></i>
+                                                                </button>
+                                                            }
+
+                                                            @altYetki.Menu
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-2  text-center border-start">
+
+                                                        <label class="w-100 h-100 px-2 py-4" for="@(altYetki.MenuID)-Gor">
+                                                            <input type="checkbox" @(altYetki.Gor ? "checked" : "") id="@(altYetki.MenuID)-Gor" name="@(altYetki.MenuID)-Gor" data-menuId="@altYetki.MenuID" data-tip="Gor" data-grup="yetki" />
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-2 text-center border-start border-end">
+                                                        <label class="w-100 h-100 px-2 py-4" for="@(altYetki.MenuID)-Duzenle">
+                                                            <input type="checkbox" id="@(altYetki.MenuID)-Duzenle" name="@(altYetki.MenuID)-Duzenle" data-menuId="@altYetki.MenuID" data-tip="Duzenle" data-grup="yetki" checked />
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-2 text-center border-end">
+                                                        <label class="w-100 h-100 px-2 py-4" for="@(altYetki.MenuID)-Sil">
+                                                            <input type="checkbox" @(altYetki.Sil ? "checked" : "") id="@(altYetki.MenuID)-Sil" name="@(altYetki.MenuID)-Sil" data-menuId="@altYetki.MenuID" data-tip="Sil" data-grup="yetki" />
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                @if (altYetki.AltListe.Count > 0)
+                                                {
+                                                    <div class="second-sub-table hidden">
+                                                        @foreach (var enAltYetki in altYetki.AltListe)
+                                                        {
+                                                            <div class="row border-bottom yetki-satiri" data-menuId="@enAltYetki.MenuID" data-kullaniciId="@enAltYetki.KullaniciID">
+                                                                <div class="col-lg-6 ps-28">
+                                                                    <div class="d-flex align-items-center h-100">
+                                                                        @enAltYetki.Menu
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-lg-2  text-center border-start">
+
+                                                                    <label class="w-100 h-100 px-2 py-4" for="@(enAltYetki.MenuID)-Gor">
+                                                                        <input type="checkbox" @(enAltYetki.Gor ? "checked" : "") id="@(enAltYetki.MenuID)-Gor" name="@(enAltYetki.MenuID)-Gor" data-menuId="@enAltYetki.MenuID" data-tip="Gor" data-grup="yetki" />
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-lg-2 text-center border-start border-end">
+                                                                    <label class="w-100 h-100 px-2 py-4" for="@(enAltYetki.MenuID)-Duzenle">
+                                                                        <input type="checkbox" @(enAltYetki.Duzenle ? "checked" : "checked") id="@(enAltYetki.MenuID)-Duzenle" name="@(enAltYetki.MenuID)-Duzenle" data-menuId="@enAltYetki.MenuID" data-tip="Duzenle" data-grup="yetki" checked />
+                                                                    </label>
+                                                                </div>
+                                                                <div class="col-lg-2 text-center border-end">
+                                                                    <label class="w-100 h-100 px-2 py-4" for="@(enAltYetki.MenuID)-Sil">
+                                                                        <input type="checkbox" @(enAltYetki.Sil ? "checked" : "") id="@(enAltYetki.MenuID)-Sil" name="@(enAltYetki.MenuID)-Sil" data-menuId="@enAltYetki.MenuID" data-tip="Sil" data-grup="yetki" />
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        }
+
+                    </div>
+                    <div class="d-flex align-items-center justify-content-end mt-6">
+                        <button id="TumunuSec" class="btn btn-secondary btn-sm fw-bold me-2">Tümünü Seç</button>
+                        <button id="TumunuKaldir" class="btn btn-secondary btn-sm fw-bold me-2">Tümünü Kaldır</button>
+                        <button id="YetkiKaydet" class="btn btn-primary btn-sm fw-bold">Kaydet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $('input[type="checkbox"]').on('click', function () {
+                var input = $(this);
+
+                input.closest('[data-ustMenuId="' + input.attr('data-menuId') + '"]').find('[data-tip="' + input.attr('data-tip') + '"]').each(function (index, element) {
+                    $(element).prop('checked', input.is(":checked"));
+                    $(element).trigger("change");
+                })
+
+            })
+
+            $("#TumunuSec").on('click', function () {
+                $('input[data-grup="yetki"]').each(function (index, input) {
+                    $(input).prop('checked', true);
+                })
+            });
+
+            $("#TumunuKaldir").on('click', function () {
+                $('input[data-grup="yetki"]').each(function (index, input) {
+                    $(input).prop('checked', false);
+                })
+            });
+
+            $('[data-toggle="first-sub-table"]').on("click", function (e) {
+                $(this).parent().parent().parent().parent().find(".first-sub-table").toggleClass("hidden");
+                $(this).find('.ki-down').toggleClass("hidden");
+                $(this).find('.ki-up').toggleClass("hidden");
+            });
+
+            $('[data-toggle="second-sub-table"]').on("click", function (e) {
+                $(this).parent().parent().parent().parent().find(".second-sub-table").toggleClass("hidden");
+
+                $(this).find('.ki-down').toggleClass("hidden");
+                $(this).find('.ki-up').toggleClass("hidden");
+            });
+
+
+            let menuIdListesi = [];
+
+
+            $(".yetki-satiri[data-menuId]").each(function (index, element) {
+                menuIdListesi.push({
+                    MenuID: $(element).attr('data-menuId'),
+                    KullaniciID: $(element).attr('data-kullaniciId'),
+                    Gor: $('input[type="checkbox"][name="' + $(element).attr('data-menuId') + '-Gor"]').is(":checked"),
+                    Duzenle: $('input[type="checkbox"][name="' + $(element).attr('data-menuId') + '-Duzenle"]').is(":checked"),
+                    Sil: $('input[type="checkbox"][name="' + $(element).attr('data-menuId') + '-Sil"]').is(":checked")
+                });
+            });
+
+            $('input[type="checkbox"]').on("change", function () {
+                const checkbox = this;
+                menuIdListesi = menuIdListesi.map(function (menu) {
+                    if (menu.MenuID == $(checkbox).attr("data-menuId")) {
+                        switch ($(checkbox).attr('data-tip')) {
+                            case "Gor":
+                                menu.Gor = $(checkbox).is(":checked");
+                                break;
+                            case "Duzenle":
+                                menu.Duzenle = $(checkbox).is(":checked");
+                                break;
+                            case "Sil":
+                                menu.Sil = $(checkbox).is(":checked");
+                                break;
+                        }
+                    }
+
+                    return menu;
+                });
+            });
+
+
+            $('button#YetkiKaydet').on("click", function () {
+
+
+                loader().show();
+                $.ajax({
+                    url: "/Kullanici/UretimYetkiKaydet",
+                    method: "POST",
+                    data: { yetkiler: menuIdListesi },
+                    success: function (response) {
+
+                        console.log("Success:", response);
+                        loader().hide();
+                        window.location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        loader().hide();
+                        console.log("Error:", xhr.responseText);
+                    }
+                })
+            })
+
+        });
+    </script>
+}

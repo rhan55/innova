@@ -14,19 +14,21 @@
 <div class="container-fluid p-4 m-0">
     <div class="row">
         <form action="/Depo/Depo/UretimIsEmirleri" method="get">
-            <input type="text" class="form-control" name="aranacakKelime" id="aranacakKelime" value="" placeholder="Aranacak Kelime" />
-        <br />
+            <input type="hidden" name="Operasyon" id="Operasyon" value="@ViewBag.Operasyon" />
+            <input type="text" class="form-control" name="aranacakKelime" id="aranacakKelime" value="@ViewBag.aranacakKelime" placeholder="Aranacak Kelime" />
+            <br />
         </form>
         <div class="col-lg-12">
             <!--begin::Post-->
             @foreach (DataRow dr in dtKayitlar.Rows)
             {
-            <a href="#" class="tum-kenar-oval" style="width:49%;margin:1px;padding:0px;height:150px;font-size:17px;float:left;text-align:center;vertical-align:middle; ">
-
-                <strong>@dr["IsEmriNo"]</strong><br />
-                <span style="font-size:10x;">@dr["StokAdi"]</span><br />
-                <strong>@String.Format("Miktar : {0:N2}", Convert.ToDecimal(dr["Miktar"]))</strong>
-            </a>
+                <a href="@Url.Action("UretimIsEmriDetay","Depo",new { Area = "Depo", IsEmriNo = dr["IsEmriNo"] })" class="tum-kenar-oval" style="width:49%;margin:1px;padding:0px;height:150px;font-size:14px;float:left;text-align:center;vertical-align:middle; ">
+                    <br>
+                    <span style="font-size:12px;"><strong>@dr["StokAdi"]</strong></span><br />
+                    <span style="font-size:14px;color:green;">@String.Format("Miktar : {0:N0}", Convert.ToDecimal(dr["Miktar"]))</span><br />
+                    <span style="font-size: 10px; color: darkgreen;"><strong>@dr["IsEmriNo"]</strong></span><br />
+                    <span style="font-size: 8px; color: darkgreen;">@dr["Konum"]</span><br />
+                </a>
             }
             <!--end::Post-->
 
@@ -36,12 +38,12 @@
 
 <style>
     .tum-kenar-oval {
-        border: 2px solid #a1a1a1;
+        border: 2px solid orange;
         padding: 10px 40px;
         background: orange;
         width: 200px;
         height: 100px;
-        border-radius: 25px;
+        border-radius: 10px;
         color: white;
         margin: 20px;
         float: left;

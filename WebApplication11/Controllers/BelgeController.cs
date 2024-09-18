@@ -38,8 +38,7 @@ namespace YKPortal.Controllers
         public ActionResult Liste(BelgeDto belgeDto, string Tip = "", string AranacakKelime = "")
         {
             if (!AutoGirisKontrol())
-                return Redirect("~/YK/Giris");
-       
+                return Redirect("~/YK/Giris");       
 
             if (string.IsNullOrEmpty(Tip))
             {
@@ -77,6 +76,22 @@ namespace YKPortal.Controllers
         }
  
 
+        [HttpGet]
+        public ActionResult Yazdir(string Tip, string id = "")
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_BelgeYazdir";
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@ID", id);
+            IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+            return Redirect("~/Belge/Liste/?Tip=" + Tip);
+        }
         [HttpGet]
         public ActionResult Detay(string Tip , string id = "")
         {
