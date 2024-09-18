@@ -61,73 +61,22 @@
                                         </button>
 
                                         <!--begin::Menu 3-->
-                                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px py-3" data-kt-menu="true">
+                                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px" data-kt-menu="true">
                                             <!--begin::Heading-->
-                                            <div class="menu-item px-3">
-                                                <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">
+                                            <div class="menu-item">
+                                                <div class="menu-content text-muted fs-7 text-uppercase">
                                                     Contacts
                                                 </div>
                                             </div>
                                             <!--end::Heading-->
                                             <!--begin::Menu item-->
-                                            <div class="menu-item px-3">
-                                                <a href="#" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#kt_modal_users_search">
+                                            <div class="menu-item p-0">
+                                                <a href="#" class="menu-link rounded-1" data-bs-toggle="modal" data-bs-target="#kt_modal_users_search">
                                                     Add Contact
                                                 </a>
                                             </div>
                                             <!--end::Menu item-->
-                                            <!--begin::Menu item-->
-                                            <div class="menu-item px-3">
-                                                <a href="#" class="menu-link flex-stack px-3" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">
-                                                    Invite Contacts
 
-                                                    <span class="ms-2" data-bs-toggle="tooltip" aria-label="Specify a contact email to send an invitation" data-bs-original-title="Specify a contact email to send an invitation" data-kt-initialized="1">
-                                                        <i class="ki-duotone ki-information fs-7"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
-                                                    </span>
-                                                </a>
-                                            </div>
-                                            <!--end::Menu item-->
-                                            <!--begin::Menu item-->
-                                            <div class="menu-item px-3" data-kt-menu-trigger="hover" data-kt-menu-placement="right-start">
-                                                <a href="#" class="menu-link px-3">
-                                                    <span class="menu-title">Groups</span>
-                                                    <span class="menu-arrow"></span>
-                                                </a>
-
-                                                <!--begin::Menu sub-->
-                                                <div class="menu-sub menu-sub-dropdown w-175px py-4">
-                                                    <!--begin::Menu item-->
-                                                    <div class="menu-item px-3">
-                                                        <a href="#" class="menu-link px-3" data-bs-toggle="tooltip" data-bs-original-title="Coming soon" data-kt-initialized="1">
-                                                            Create Group
-                                                        </a>
-                                                    </div>
-                                                    <!--end::Menu item-->
-                                                    <!--begin::Menu item-->
-                                                    <div class="menu-item px-3">
-                                                        <a href="#" class="menu-link px-3" data-bs-toggle="tooltip" data-bs-original-title="Coming soon" data-kt-initialized="1">
-                                                            Invite Members
-                                                        </a>
-                                                    </div>
-                                                    <!--end::Menu item-->
-                                                    <!--begin::Menu item-->
-                                                    <div class="menu-item px-3">
-                                                        <a href="#" class="menu-link px-3" data-bs-toggle="tooltip" data-bs-original-title="Coming soon" data-kt-initialized="1">
-                                                            Settings
-                                                        </a>
-                                                    </div>
-                                                    <!--end::Menu item-->
-                                                </div>
-                                                <!--end::Menu sub-->
-                                            </div>
-                                            <!--end::Menu item-->
-                                            <!--begin::Menu item-->
-                                            <div class="menu-item px-3 my-1">
-                                                <a href="#" class="menu-link px-3" data-bs-toggle="tooltip" data-bs-original-title="Coming soon" data-kt-initialized="1">
-                                                    Settings
-                                                </a>
-                                            </div>
-                                            <!--end::Menu item-->
                                         </div>
                                         <!--end::Menu 3-->
                                     </div>
@@ -159,9 +108,9 @@
                                                     <button id="btnFileSelect" class="btn btn-sm btn-icon btn-active-light-primary me-1" type="button" data-bs-toggle="tooltip" aria-label="Coming soon" data-bs-original-title="Coming soon" data-kt-initialized="1">
                                                         <i class="ki-duotone ki-paper-clip fs-3"></i>
                                                     </button>
-
+                                                    <div id="fileDisplayArea"></div>
                                                     <!-- Gizli Dosya Seçici -->
-                                                    <input type="file" id="fileInput" style="display: none;" />
+                                                    <input type="file" name="Dosya" id="Dosya" style="display: none;" />
                                                     <button class="btn btn-sm btn-icon btn-active-light-primary me-1" type="button" data-bs-toggle="tooltip" aria-label="Coming soon" data-bs-original-title="Coming soon" data-kt-initialized="1">
                                                         <i class="ki-duotone ki-exit-up fs-3"><span class="path1"></span><span class="path2"></span></i>
                                                     </button>
@@ -285,11 +234,11 @@
 
             // <-----Butona tıklayınca dosya seçme penceresini aç START------->
             $('#btnFileSelect').on('click', function () {
-                $('#fileInput').click();
+                $('#Dosya').click();
             });
 
 
-            $('#fileInput').on('change', function () {
+            $('#Dosya').on('change', function () {
                 var selectedFile = this.files[0];
 
                 if (selectedFile) {
@@ -299,14 +248,17 @@
             });
 
             // Dosya seçildiğinde dosya adını mesaj alanına ekleniyor
-            $('#fileInput').on('change', function () {
+            $('#Dosya').on('change', function () {
                 var selectedFile = this.files[0];
                 if (selectedFile) {
                     $('#selectedFileName').val(selectedFile.name);
                     var currentMessage = $('#Mesaj').val(); // Mevcut mesajı al
                     $('#Mesaj').val(currentMessage + `\nDosya: ${selectedFile.name}`);
+
                 }
             });
+
+
             // <-----Butona tıklayınca dosya seçme penceresini aç END------->
 
             $("#btnSendMessage").on('click', (event) => {
@@ -319,8 +271,9 @@
                 formData.append('KarsiKullaniciID', $('#KarsiKullaniciID').val());  // Mesajın gönderildiği kullanıcı
                 formData.append('Mesaj', $('#Mesaj').val());
 
+
                 // Dosya varsa FormData'ya ekle
-                var dosya = $('#fileInput')[0].files[0];  // Dosya input elementinden dosyayı alıyoruz
+                var dosya = $('#Dosya')[0].files[0];  // Dosya input elementinden dosyayı alıyoruz
                 if (dosya) {
                     formData.append("Dosya", dosya);
                 }
@@ -335,7 +288,6 @@
                                             </div>
                                           <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
                                            ${$('#Mesaj').val()}
-                                      
                                        </div>
                                         </div>
                                     </div>`
@@ -351,7 +303,7 @@
                     success: function (data) {
                         console.log("Mesaj kaydedildi:", data);
                         $('#Mesaj').val('').focus();  // Mesaj kutusunu temizle
-                        $('#fileInput').val('');  // Dosya seçimini temizle
+                        $('#Dosya').val('');  // Dosya seçimini temizle
                         $('#mesajListesi').append(template);
                         scrollToBottom('#mesajListesi');
                     },
@@ -361,8 +313,32 @@
                 });
             });
 
+            $(document).on('click', '.mesaj-sil', function () {
+                mesajAlani = $(this).closest('[data-id]');
+                var mesajID = mesajAlani.data('id');  // Silinecek mesajın ID'sini al
 
-
+                if (confirm("Bu mesajı silmek istediğinizden emin misiniz?")) {
+                    $.ajax({
+                        type: "POST",
+                        url: '/Mesaj/MesajSil',  // Mesaj silme işlemi yapılacak controller metodu
+                        data: { id: mesajID },  // Silinmesi istenen mesaj ID'sini gönder
+                        success: function (response) {
+                            if (response.SonucKodu === 200) {
+                                // Mesaj başarılı bir şekilde silindiyse, mesajı sayfadan kaldır
+                                mesajAlani.remove();
+                                alert('Mesaj başarıyla silindi.');
+                            } else {
+                                // Silme işlemi başarısız olduysa kullanıcıya bildirim yap
+                                alert('Mesaj silinemedi. Lütfen tekrar deneyin.');
+                            }
+                        },
+                        error: function () {
+                            // Hata durumunda kullanıcıya bir mesaj göster
+                            alert('Bir hata oluştu, mesaj silinemedi.');
+                        }
+                    });
+                }
+            });
             // Kullanıcı arama fonksiyonu
             const kullaniciArama = () => {
                 const kullaniciListesi = $('#kullaniciListesi');
@@ -373,7 +349,7 @@
                                         <div class="d-flex align-items-center">
                                             <!-- Kullanıcı Bilgileri -->
                                             <div class="symbol symbol-45px symbol-circle">
-                                                <span class="symbol-label bg-light-danger text-danger fs-6 fw-bolder">
+                                                <span class="symbol-label bg-light text-danger fs-6 fw-bolder">
                                                     <img style="height:40px;width:40px;border-radius:100%;object-fit:cover;" src="${kullanici.Resim}" />
                                                 </span>
                                             </div>
@@ -381,6 +357,10 @@
                                                 <div data-id="1" class="kullanici-sec fs-5 fw-bold text-gray-900 text-hover-primary mb-2">${kullanici.Ad} ${kullanici.Soyad}</div>
                                                 <div class="fw-semibold text-muted">E-posta: ${kullanici.KullaniciAdi}</div>
                                             </div>
+                                        </div>
+                                        <div class="d-flex flex-column align-items-end ms-2">
+                                                    <span class="text-muted fs-7 mb-1">5 hrs</span>
+                                                    <span class="badge badge-sm badge-circle badge-light-success">2</span>
                                         </div>
                                     </div>
                                 `;
@@ -420,121 +400,134 @@
                 }
             });
 
-            const mesajlarilistele = () => {
-                const mesajListesi = $('#mesajListesi');
+        const mesajlarilistele = () => {
+            const mesajListesi = $('#mesajListesi');
 
-                const mesajElementiOlustur = (mesaj) => {
-                    var kullaniciID = $('#KullaniciID').val();
-                    var karsiKullaniciID = $('#KarsiKullaniciID').val();
-                    var dosyaLinki = '';
-                    var dosyaIkonu = '';
+            const mesajElementiOlustur = (mesaj) => {
+                var kullaniciID = $('#KullaniciID').val();
+                var karsiKullaniciID = $('#KarsiKullaniciID').val();
+                var id = $('#ID').val();
+     var dosyaLinki = '';
+     var dosyaIkonu = '';
+      // Dosya varsa ikonu ve linkini oluştur
+    if (mesaj.DosyaAdi) {
+    var dosyaUzantisi = mesaj.DosyaAdi.split('.').pop().toLowerCase();
+    switch (dosyaUzantisi) {
+      case 'pdf':
+          dosyaIkonu = '<i class="text-gray-700 fs-1 fa fa-file-pdf-o"></i>';
+          break;
+      case 'jpg':
+      case 'jpeg':
+      case 'png':
+          dosyaIkonu = '<i class="fs-1 fa fa-file-image-o"></i>';
+          break;
+      case 'doc':
+      case 'docx':
+          dosyaIkonu = '<i class="fs-1 fa fa-file-word-o"></i>';
+          break;
+      case 'xls':
+      case 'xlsx':
+          dosyaIkonu = '<i class="fs-1 fa fa-file-excel-o"></i>';
+          break;
+      default:
+          dosyaIkonu = '<i class="fs-1 fa fa-file-o"></i>';
+          break;
+}
+    const dosyaElementOlustur = (dosya) =>{
 
-                    if (mesaj.DosyaAdi) {
-                        // Dosya uzantısını al
-                        var dosyaUzantisi = mesaj.DosyaAdi.split('.').pop().toLowerCase();
+    
 
-                        // Dosya uzantısına göre ikon belirle
-                        switch (dosyaUzantisi) {
-                            case 'pdf':
-                                dosyaIkonu = '<i class="fa fa-file-pdf-o"></i>'; // PDF ikonu
-                                break;
-                            case 'jpg':
-                            case 'jpeg':
-                            case 'png':
-                                dosyaIkonu = '<i class="fa fa-file-image-o"></i>'; // Resim ikonu
-                                break;
-                            case 'doc':
-                            case 'docx':
-                                dosyaIkonu = '<i class="fa fa-file-word-o"></i>'; // Word ikonu
-                                break;
-                            case 'xls':
-                            case 'xlsx':
-                                dosyaIkonu = '<i class="fa fa-file-excel-o"></i>'; // Excel ikonu
-                                break;
-                            default:
-                                dosyaIkonu = '<i class="fa fa-file-o"></i>'; // Genel dosya ikonu
-                                break;
-                        }
+     // Dosya linkini oluştur
+     dosyaLinki = `
+         <div class="d-flex align-items-center mt-2">
+             ${dosyaIkonu}
+             <a href="/Uploads/Dosyalar/${mesaj.DosyaAdi}" target="_blank" class="ms-2">${mesaj.DosyaAdi}</a>
+         </div>`;
+ }
+    }
 
-                        dosyaLinki = `
-            <div class="d-flex align-items-center">
-                ${dosyaIkonu}
-                <a href="/Uploads/Dosyalar/${mesaj.DosyaAdi}" target="_blank" class="ms-2">${mesaj.DosyaAdi}</a>
+
+                let generateLink = mesaj.Dosya ? `<a href="/Uploads/Dosyalar/${mesaj.Dosya}">${mesaj.Mesaj}</a>` : null;
+                console.log(mesaj);
+
+        // Karşı kullanıcıdan gelen mesaj
+        if (mesaj.KullaniciID == karsiKullaniciID && mesaj.KarsiKullaniciID == kullaniciID) {
+            return `
+            <div class="d-flex justify-content-start mb-10" data-id="${mesaj.ID}">
+                <div class="d-flex flex-column align-items-start">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="me-3">
+                            <span class="text-muted fs-7 mb-1">10 dakika önce</span>
+                            <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">AAA</a>
+                        </div>
+                    </div>
+                   
+                    <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
+
+                        ${generateLink ? generateLink : mesaj.Mesaj}
+                    </div>
+      
+                </div>
             </div>`;
-                    }
-
-                    if (mesaj.KullaniciID == karsiKullaniciID && mesaj.KarsiKullaniciID == kullaniciID) {
-                        return `
-                   <div class="d-flex justify-content-start mb-10">
-                       <div class="d-flex flex-column align-items-start">
-                           <div class="d-flex align-items-center mb-2">
-                               <div class="me-3">
-                                   <span class="text-muted fs-7 mb-1">10 dakika önce</span>
-                                   <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">AAA</a>
-                               </div>
-                           </div>
-                          <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
-                            ${mesaj.Mesaj}
-                            ${dosyaLinki}
+        }
+        // Kullanıcıdan gelen mesaj
+              
+        else if (mesaj.KullaniciID == kullaniciID && mesaj.KarsiKullaniciID == karsiKullaniciID) {
+            return `
+            <div class="d-flex justify-content-end mb-10" data-id="${mesaj.ID}">
+                <div class="d-flex flex-column align-items-end">
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="me-3">
+                            <span class="text-muted fs-7 mb-1">Şimdi</span>
+                            <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">Sen</a>
                         </div>
-                       </div>
-                   </div>
-                   `
+                    </div>
+                    <button class="btn btn-danger btn-sm mesaj-sil" >
+                         <i class="fa fa-trash"></i> Sil
+                    </button>
+                    <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
+                      ${generateLink ? generateLink : mesaj.Mesaj}
+                    </div>
+                 
+                </div>
+            </div>`;
+        }
+        return '';
+    };
 
-                    } else if (mesaj.KullaniciID == kullaniciID && mesaj.KarsiKullaniciID == karsiKullaniciID) {
-
-                        return ` <div class="d-flex justify-content-end mb-10">
-                         <div class="d-flex flex-column align-items-end">
-                             <div class="d-flex align-items-center mb-2">
-                                 <div class="me-3">
-                                     <span class="text-muted fs-7 mb-1">Şimdi</span>
-                                     <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">Sen</a>
-                                 </div>
-                             </div>
-                           <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
-                            ${mesaj.Mesaj}
-                           ${dosyaLinki}
-                        </div>
-                         </div>
-                     </div>`
-
-
-
-                    }
-                    return '';
+    const mesajListesiOlustur = () => {
+        $.ajax({
+            type: "POST",
+            url: '/Mesaj/MesajListesiGetir',
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                console.log(data);
+                const elementler = [];
+                data = data.filter(m => (m.KarsiKullaniciID == $('#KarsiKullaniciID').val() || m.KullaniciID == $('#KarsiKullaniciID').val()))
+                for (let i = 0; i < data.length; i++) {
+                    elementler.push(mesajElementiOlustur(data[i]));
                 }
-
-                const mesajListesiOlustur = () => {
-                    $.ajax({
-                        type: "POST",
-                        url: '/Mesaj/MesajListesiGetir',
-                        contentType: "application/json; charset=utf-8",
-                        success: function (data) {
-                            console.log(data);
-                            const elementler = [];
-                            data = data.filter(m => (m.KarsiKullaniciID == $('#KarsiKullaniciID').val() || m.KullaniciID == $('#KarsiKullaniciID').val()))
-                            for (let i = 0; i < data.length; i++) {
-                                elementler.push(mesajElementiOlustur(data[i]));
-                            }
-                            $('#mesajListesi').html(elementler.join("")); // Mevcut mesajları tamamen yenile
-                            scrollToBottom('#mesajListesi');
-                        },
-                        error: function (msg) {
-                            console.log(msg);
-                        }
-                    });
-                };
-
-                return {
-                    mesajListesi,
-                    mesajElementiOlustur,
-                    mesajListesiOlustur
-                }
+                $('#mesajListesi').html(elementler.join("")); // Mevcut mesajları tamamen yenile
+                scrollToBottom('#mesajListesi');
+            },
+            error: function (msg) {
+                console.log(msg);
             }
-
-
-            mesajlarilistele();
         });
 
+    };
+
+    return {
+        mesajListesi,
+        mesajElementiOlustur,
+        mesajListesiOlustur
+    };
+};
+
+mesajlarilistele();
+
+
+
+   });
     </script>
 }
