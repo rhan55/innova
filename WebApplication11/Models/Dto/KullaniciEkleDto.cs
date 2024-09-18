@@ -26,6 +26,7 @@ namespace YKPortal.Models.Dto
         private string _Aciklama2;
         private string _Aciklama3;
         private string _Kullanici;
+        private string _Resim;
         private bool _Onay;
 
         public string ID { get { return _ID ?? ""; } set { _ID = value; } }
@@ -47,6 +48,7 @@ namespace YKPortal.Models.Dto
         public string Aciklama2 { get { return _Aciklama2 ?? ""; } set { _Aciklama2 = value; } }
         public string Aciklama3 { get { return _Aciklama3 ?? ""; } set { _Aciklama3 = value; } }
         public string Kullanici { get { return _Kullanici ?? ""; } set { _Kullanici = value; } }
+        public string Resim { get { return _Resim ?? ""; } set { _Resim = value; } }
         public bool Onay { get { return _Onay == null ? false : _Onay ; } set { _Onay = value; } }
 
     }

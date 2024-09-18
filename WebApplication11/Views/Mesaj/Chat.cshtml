@@ -1,6 +1,6 @@
 ﻿@{
-            ViewBag.Title = "Mesajlaşma";
-            Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Mesajlaşma";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
@@ -17,7 +17,7 @@
                                 <input type="text" class="form-control form-control-solid py-2" name="aranacakKelime" value="@ViewBag.AranacakKelime" placeholder="Kullanıcı adını veya e-postasını ara...">
                             </div>
 
-                            <div class="card-body px-4" id="kt_chat_contacts_body">
+                            <div class="card-body" id="kt_chat_contacts_body">
                                 <div class="scroll-y me-n5 pe-5 h-200px h-lg-auto" id="kullaniciListesi">
 
                                 </div>
@@ -36,7 +36,7 @@
                                     <!--begin::User-->
                                     <div class="d-flex">
                                         <div>
-                                            <img style="width:40px;" class="rounded-circle object-fit-cover" src="~/Tema/media/avatars/300-21.jpg" />
+                                            <img style="width:40px;height: 40px;" class="rounded-circle object-fit-cover" src="" id="karsiResim" />
                                         </div>
                                         <div class="ms-4">
                                             <a href="#" class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 mb-2 lh-1">Brian Cox</a>
@@ -138,20 +138,39 @@
                             <!--end::Card header-->
                             <!--begin::Card body-->
                             <!-- Kullanıcı Listesi Bölümü -->
-                            <div class="card-body px-4" id="kt_chat_contacts_body">
-                                <div class="scroll-y me-n5 pe-5 h-200px h-lg-auto" id="kullaniciListesi">
+                            <div class="card-body" id="kt_chat_contacts_body">
+                                <div class="scroll-y me-n5 pe-5 h-200px h-lg-auto" id="kullaniciListesi" style="height:500px;">
                                     <!-- Kullanıcılar buraya dinamik olarak eklenecek -->
                                 </div>
-                                <div id="mesajListesi" class="scroll-y">
-                                    <!-- Mesajlar buraya dinamik olarak eklenecek -->
+                                <div id="mesajListesi" class="scroll-y" style="height:500px;">
+
                                 </div>
                                 <form method="POST" action="/Mesaj/Chat">
                                     <!-- Mesaj Gönderme Alanı -->
                                     <div class="input-group mt-5">
-                                        <input type="hidden" id="KullaniciID" value="<%= ViewBag.KullaniciID %>">
+                                        <input type="hidden" id="KullaniciID" value="@ViewBag.KullaniciID">
                                         <input type="hidden" id="KarsiKullaniciID" value="@ViewBag.KarsiKullaniciID">
-                                        <textarea id="Mesaj" class="form-control" placeholder="Mesajınızı yazın..."></textarea>
-                                        <button type="button" id="btnSendMessage" class="btn btn-primary">Gönder</button>
+                                        <div style="height:1px;width:100%; background-color:#f1f1f1;"></div>
+                                        <div class="d-flex flex-column" style="width:100%;">
+                                            <textarea id="Mesaj" class="form-control border-0" placeholder="Mesajınızı yazın..."></textarea>
+                                            <div class="d-flex justify-content-between align-items-end border-top">
+                                                <div class="d-flex align-items-center me-2">
+                                                    <!-- Dosya Seçme Butonu -->
+                                                    <button id="btnFileSelect" class="btn btn-sm btn-icon btn-active-light-primary me-1" type="button" data-bs-toggle="tooltip" aria-label="Coming soon" data-bs-original-title="Coming soon" data-kt-initialized="1">
+                                                        <i class="ki-duotone ki-paper-clip fs-3"></i>
+                                                    </button>
+
+                                                    <!-- Gizli Dosya Seçici -->
+                                                    <input type="file" id="fileInput" style="display: none;" />
+                                                    <button class="btn btn-sm btn-icon btn-active-light-primary me-1" type="button" data-bs-toggle="tooltip" aria-label="Coming soon" data-bs-original-title="Coming soon" data-kt-initialized="1">
+                                                        <i class="ki-duotone ki-exit-up fs-3"><span class="path1"></span><span class="path2"></span></i>
+                                                    </button>
+                                                </div>
+                                                <button type="button" id="btnSendMessage" class="btn btn-primary rounded-1" style="height:36px;">Gönder</button>
+                                            </div>
+                                        </div>
+
+
                                     </div>
                                 </form>
 
@@ -173,19 +192,18 @@
 
 </div>
 
-<div>
-    <div>
-        <label for="txtUserName">Kullanıcı: </label> @Html.TextBox("txtUsername")
-        <br />
-        <label for="txtMessage">Mesaj: </label> @Html.TextBox("txtMessage") <button id="btnSendMessage">Mesaj Yolla</button>
-    </div>
 
-</div>
 
 @section Scripts {
     <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
     <script src="~/SignalR/Hubs"></script>
     <script>
+
+        function scrollToBottom(select) {
+            var $chatContainer = $(select); // Replace with your container's ID or class
+            $chatContainer.scrollTop($chatContainer[0].scrollHeight);
+        }
+
         $(function () {
             var chat = $.connection.mesajHub;
             var $kullaniciID = $('#KullaniciID');
@@ -197,20 +215,20 @@
             // Gelen mesajları mesaj listesinin sonuna ekle
             chat.client.sendMessage = function (senderName, messageText) {
                 var messageElement = `
-                    <div class="d-flex justify-content-${senderName === 'You' ? 'end' : 'start'} mb-10">
-                        <div class="d-flex flex-column align-items-${senderName === 'You' ? 'end' : 'start'}">
-                            <div class="d-flex align-items-center mb-2">
-                                <div class="me-3">
-                                    <span class="text-muted fs-7 mb-1">Just now</span>
-                                    <div data-id="1" class="kullanici-sec fs-5 fw-bold text-gray-900 text-hover-primary ms-1">${senderName}</div>
-                                </div>
-                            </div>
-                            <div class="p-5 rounded ${senderName === 'You' ? 'bg-light-primary' : 'bg-light-info'} text-gray-900 fw-semibold mw-lg-400px text-${senderName === 'You' ? 'end' : 'start'}">
-                                ${messageText}
-                            </div>
-                        </div>
-                    </div>
-    `;
+                                    <div class="d-flex justify-content-${senderName === 'You' ? 'end' : 'start'} mb-10">
+                                        <div class="d-flex flex-column align-items-${senderName === 'You' ? 'end' : 'start'}">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <div class="me-3">
+                                                    <span class="text-muted fs-7 mb-1">Just now</span>
+                                                    <div data-id="1" class="kullanici-sec fs-5 fw-bold text-gray-900 text-hover-primary ms-1">${senderName}</div>
+                                                </div>
+                                            </div>
+                                            <div class="p-5 rounded ${senderName === 'You' ? 'bg-light-primary' : 'bg-light-info'} text-gray-900 fw-semibold mw-lg-400px text-${senderName === 'You' ? 'end' : 'start'}">
+                                                ${messageText}
+                                            </div>
+                                        </div>
+                                    </div>
+                    `;
                 // Bu messageElement'i mesaj listesine eklemek için append yapabilirsiniz
                 $('#mesajListesi').append(messageElement);
             };
@@ -232,42 +250,117 @@
                 });
             });
 
+            $(document).on('click', '.kullanici-sec', function (event) {
+                event.preventDefault();
+
+                var karsiKullaniciID = $(this).data('id');
+                var kullaniciAd = $(this).data('ad');
+                var resimYolu = $(this).data('resim');
+
+                // Seçilen kullanıcının adını ve ID'sini göster
+                $('#KarsiKullaniciID').val(karsiKullaniciID);
+                $('#kt_chat_messenger_header .card-title a').text(kullaniciAd);
+                $('#karsiResim').attr('src', resimYolu);
+
+
+                // Mesajları getir
+                mesajlarilistele(karsiKullaniciID);
+            });
+
+
             // Kullanıcı seçildiğinde mesajlaşma kısmını güncelle
             $(document).on('click', '.kullanici-sec', function (event) {
-                event.preventDefault(); // Sayfa yenilenmesini durdur
+                event.preventDefault();
                 var kullaniciID = $(this).data('id');
                 var kullaniciAd = $(this).data('ad');
 
-                // Seçilen kullanıcının ID ve adını ilgili alanlara set et
+
                 $('#KarsiKullaniciID').val(kullaniciID);
                 $('#kt_chat_messenger_header .card-title a').text(kullaniciAd);
 
-                // Önceki mesajları temizle (opsiyonel)
                 $('#kt_chat_messenger_body').html('');
+
+                mesajlarilistele().mesajListesiOlustur();
             });
+
+            // <-----Butona tıklayınca dosya seçme penceresini aç START------->
+            $('#btnFileSelect').on('click', function () {
+                $('#fileInput').click();
+            });
+
+
+            $('#fileInput').on('change', function () {
+                var selectedFile = this.files[0];
+
+                if (selectedFile) {
+                    console.log('Seçilen dosya: ', selectedFile.name);
+
+                }
+            });
+
+            // Dosya seçildiğinde dosya adını mesaj alanına ekleniyor
+            $('#fileInput').on('change', function () {
+                var selectedFile = this.files[0];
+                if (selectedFile) {
+                    $('#selectedFileName').val(selectedFile.name);
+                    var currentMessage = $('#Mesaj').val(); // Mevcut mesajı al
+                    $('#Mesaj').val(currentMessage + `\nDosya: ${selectedFile.name}`);
+                }
+            });
+            // <-----Butona tıklayınca dosya seçme penceresini aç END------->
 
             $("#btnSendMessage").on('click', (event) => {
                 event.preventDefault();
 
-                var data = {
-                    KarsiKullaniciId: $('#KarsiKullaniciID').val(),  // Mesajın gönderildiği kullanıcı
-                    Mesaj: $('#Mesaj').val()
-                };
+                // FormData oluşturuyoruz, hem mesaj hem de dosya için kullanılacak
+                var formData = new FormData();
+
+                // Mesaj ve KarsiKullaniciId ekleniyor
+                formData.append('KarsiKullaniciID', $('#KarsiKullaniciID').val());  // Mesajın gönderildiği kullanıcı
+                formData.append('Mesaj', $('#Mesaj').val());
+
+                // Dosya varsa FormData'ya ekle
+                var dosya = $('#fileInput')[0].files[0];  // Dosya input elementinden dosyayı alıyoruz
+                if (dosya) {
+                    formData.append("Dosya", dosya);
+                }
+
+                const template =    ` <div class="d-flex justify-content-end mb-10">
+                                        <div class="d-flex flex-column align-items-end">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <div class="me-3">
+                                                    <span class="text-muted fs-7 mb-1">Şimdi</span>
+                                                    <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">Sen</a>
+                                                </div>
+                                            </div>
+                                          <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
+                                           ${$('#Mesaj').val()}
+                                      
+                                       </div>
+                                        </div>
+                                    </div>`
+
 
                 $.ajax({
                     type: "POST",
                     url: '/Mesaj/Kaydet',
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(data),
+                    contentType: false,  // FormData olduğu için false olarak ayarlanıyor
+                    processData: false,  // FormData ile JSON string'e çevrilmesini engelliyoruz
+                    data: formData,  // FormData'yı doğrudan gönderiyoruz
                     dataType: 'json',
                     success: function (data) {
-                        console.log(data);
+                        console.log("Mesaj kaydedildi:", data);
+                        $('#Mesaj').val('').focus();  // Mesaj kutusunu temizle
+                        $('#fileInput').val('');  // Dosya seçimini temizle
+                        $('#mesajListesi').append(template);
+                        scrollToBottom('#mesajListesi');
                     },
                     error: function (msg) {
-                        console.log(msg);
+                        console.log("Mesaj kaydedilemedi: ", msg);
                     }
                 });
             });
+
 
 
             // Kullanıcı arama fonksiyonu
@@ -276,19 +369,21 @@
 
                 const kullaniciElementiOlustur = (kullanici) => {
                     return `
-                    <div class="d-flex flex-stack py-4 kullanici-sec" data-id="${kullanici.ID}" data-ad="${kullanici.Ad} ${kullanici.Soyad}">
-                        <div class="d-flex align-items-center">
-                            <!-- Kullanıcı Bilgileri -->
-                            <div class="symbol symbol-45px symbol-circle">
-                                <span class="symbol-label bg-light-danger text-danger fs-6 fw-bolder">${kullanici.Ad[0]}</span>
-                            </div>
-                            <div class="ms-5">
-                                <div data-id="1" class="kullanici-sec fs-5 fw-bold text-gray-900 text-hover-primary mb-2">${kullanici.Ad} ${kullanici.Soyad}</div>
-                                <div class="fw-semibold text-muted">E-posta: ${kullanici.KullaniciAdi}</div>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                                    <div class="d-flex flex-stack py-4 kullanici-sec" data-id="${kullanici.ID}" data-ad="${kullanici.Ad} ${kullanici.Soyad}" data-resim="${kullanici.Resim}" style="">
+                                        <div class="d-flex align-items-center">
+                                            <!-- Kullanıcı Bilgileri -->
+                                            <div class="symbol symbol-45px symbol-circle">
+                                                <span class="symbol-label bg-light-danger text-danger fs-6 fw-bolder">
+                                                    <img style="height:40px;width:40px;border-radius:100%;object-fit:cover;" src="${kullanici.Resim}" />
+                                                </span>
+                                            </div>
+                                            <div class="ms-5">
+                                                <div data-id="1" class="kullanici-sec fs-5 fw-bold text-gray-900 text-hover-primary mb-2">${kullanici.Ad} ${kullanici.Soyad}</div>
+                                                <div class="fw-semibold text-muted">E-posta: ${kullanici.KullaniciAdi}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
                 }
 
                 const kullaniciListesiOlustur = (aranacakKelime = "") => {
@@ -320,7 +415,7 @@
             kullaniciArama().kullaniciListesiOlustur("");
 
             $('input[name="aranacakKelime"]').on('input', function () {
-                if ($(this).val().length == 0 || $(this).val().length > 2 ) {
+                if ($(this).val().length == 0 || $(this).val().length > 2) {
                     kullaniciArama().kullaniciListesiOlustur($(this).val());
                 }
             });
@@ -329,38 +424,84 @@
                 const mesajListesi = $('#mesajListesi');
 
                 const mesajElementiOlustur = (mesaj) => {
-                    return ` <div id="mesajListesi" class="scroll-y">
-                                <div id="messages">
-                                    <!-- Mesajlar burada listelenecek -->
-                                    <div class="d-flex justify-content-start mb-10">
-                                        <div class="d-flex flex-column align-items-start">
-                                            <div class="d-flex align-items-center mb-2">
-                                                <div class="me-3">
-                                                    <span class="text-muted fs-7 mb-1">10 dakika önce</span>
-                                                    <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">Ahmet Yılmaz</a>
-                                                </div>
-                                            </div>
-                                            <div class="p-5 rounded bg-light-info text-gray-900 fw-semibold mw-lg-400px text-start" name="Mesaj">
-                                                ${mesaj.Mesaj}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-end mb-10">
-                                        <div class="d-flex flex-column align-items-end">
-                                            <div class="d-flex align-items-center mb-2">
-                                                <div class="me-3">
-                                                    <span class="text-muted fs-7 mb-1">Şimdi</span>
-                                                    <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">Sen</a>
-                                                </div>
-                                            </div>
-                                            <div name="Mesaj" class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
-                                              ${mesaj.Mesaj}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-      `;
+                    var kullaniciID = $('#KullaniciID').val();
+                    var karsiKullaniciID = $('#KarsiKullaniciID').val();
+                    var dosyaLinki = '';
+                    var dosyaIkonu = '';
+
+                    if (mesaj.DosyaAdi) {
+                        // Dosya uzantısını al
+                        var dosyaUzantisi = mesaj.DosyaAdi.split('.').pop().toLowerCase();
+
+                        // Dosya uzantısına göre ikon belirle
+                        switch (dosyaUzantisi) {
+                            case 'pdf':
+                                dosyaIkonu = '<i class="fa fa-file-pdf-o"></i>'; // PDF ikonu
+                                break;
+                            case 'jpg':
+                            case 'jpeg':
+                            case 'png':
+                                dosyaIkonu = '<i class="fa fa-file-image-o"></i>'; // Resim ikonu
+                                break;
+                            case 'doc':
+                            case 'docx':
+                                dosyaIkonu = '<i class="fa fa-file-word-o"></i>'; // Word ikonu
+                                break;
+                            case 'xls':
+                            case 'xlsx':
+                                dosyaIkonu = '<i class="fa fa-file-excel-o"></i>'; // Excel ikonu
+                                break;
+                            default:
+                                dosyaIkonu = '<i class="fa fa-file-o"></i>'; // Genel dosya ikonu
+                                break;
+                        }
+
+                        dosyaLinki = `
+            <div class="d-flex align-items-center">
+                ${dosyaIkonu}
+                <a href="/Uploads/Dosyalar/${mesaj.DosyaAdi}" target="_blank" class="ms-2">${mesaj.DosyaAdi}</a>
+            </div>`;
+                    }
+
+                    if (mesaj.KullaniciID == karsiKullaniciID && mesaj.KarsiKullaniciID == kullaniciID) {
+                        return `
+                   <div class="d-flex justify-content-start mb-10">
+                       <div class="d-flex flex-column align-items-start">
+                           <div class="d-flex align-items-center mb-2">
+                               <div class="me-3">
+                                   <span class="text-muted fs-7 mb-1">10 dakika önce</span>
+                                   <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">AAA</a>
+                               </div>
+                           </div>
+                          <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
+                            ${mesaj.Mesaj}
+                            ${dosyaLinki}
+                        </div>
+                       </div>
+                   </div>
+                   `
+
+                    } else if (mesaj.KullaniciID == kullaniciID && mesaj.KarsiKullaniciID == karsiKullaniciID) {
+
+                        return ` <div class="d-flex justify-content-end mb-10">
+                         <div class="d-flex flex-column align-items-end">
+                             <div class="d-flex align-items-center mb-2">
+                                 <div class="me-3">
+                                     <span class="text-muted fs-7 mb-1">Şimdi</span>
+                                     <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">Sen</a>
+                                 </div>
+                             </div>
+                           <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
+                            ${mesaj.Mesaj}
+                           ${dosyaLinki}
+                        </div>
+                         </div>
+                     </div>`
+
+
+
+                    }
+                    return '';
                 }
 
                 const mesajListesiOlustur = () => {
@@ -371,17 +512,19 @@
                         success: function (data) {
                             console.log(data);
                             const elementler = [];
+                            data = data.filter(m => (m.KarsiKullaniciID == $('#KarsiKullaniciID').val() || m.KullaniciID == $('#KarsiKullaniciID').val()))
                             for (let i = 0; i < data.length; i++) {
                                 elementler.push(mesajElementiOlustur(data[i]));
                             }
-                            // Listeyi yeniden oluşturmak yerine, mesajları eklemek istiyorsanız append kullanın
-                            $('#mesajListesi').append(elementler.join(""));
+                            $('#mesajListesi').html(elementler.join("")); // Mevcut mesajları tamamen yenile
+                            scrollToBottom('#mesajListesi');
                         },
                         error: function (msg) {
                             console.log(msg);
                         }
                     });
                 };
+
                 return {
                     mesajListesi,
                     mesajElementiOlustur,
@@ -389,7 +532,8 @@
                 }
             }
 
-            mesajlarilistele().mesajListesiOlustur();
+
+            mesajlarilistele();
         });
 
     </script>
