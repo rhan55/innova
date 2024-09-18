@@ -1,0 +1,56 @@
+﻿@using System.Data
+@using YKPortal.Models.Dto
+@model DataSet
+@{
+    ViewBag.Title = "Üretim İş Emirleri";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string KullaniciID = Request.Cookies["KullaniciID"].Value;
+    DataTable dtKayitlar = ViewBag.dtKayitlar as DataTable;
+
+}
+
+
+<div class="container-fluid p-4 m-0">
+    <div class="row">
+        <form action="/Depo/Depo/UretimIsEmirleri" method="get">
+            <input type="text" class="form-control" name="aranacakKelime" id="aranacakKelime" value="" placeholder="Aranacak Kelime" />
+        <br />
+        </form>
+        <div class="col-lg-12">
+            <!--begin::Post-->
+            @foreach (DataRow dr in dtKayitlar.Rows)
+            {
+            <a href="#" class="tum-kenar-oval" style="width:49%;margin:1px;padding:0px;height:150px;font-size:17px;float:left;text-align:center;vertical-align:middle; ">
+
+                <strong>@dr["IsEmriNo"]</strong><br />
+                <span style="font-size:10x;">@dr["StokAdi"]</span><br />
+                <strong>@String.Format("Miktar : {0:N2}", Convert.ToDecimal(dr["Miktar"]))</strong>
+            </a>
+            }
+            <!--end::Post-->
+
+        </div>
+    </div>
+</div>
+
+<style>
+    .tum-kenar-oval {
+        border: 2px solid #a1a1a1;
+        padding: 10px 40px;
+        background: orange;
+        width: 200px;
+        height: 100px;
+        border-radius: 25px;
+        color: white;
+        margin: 20px;
+        float: left;
+    }
+</style>
+@section Scripts {
+    <script>
+
+    </script>
+}
+
+

@@ -241,7 +241,8 @@ Select N'9a30cf98-2963-4057-9bfe-9952ceef8f1d', N'AnaSayfaTakvim', N'Takvim Göz
 Select N'3ec921f1-699b-48bc-bfad-a0049f4769d4', N'Cari', N'Otomatik Cari Kodu Üret', N'1', N'checkbox', N'Genel' union all
 Select N'bb7a0290-f7e0-49a8-bf74-a72bf515d234', N'NetsisDatabase', N'Netsis Database', N'', N'text', N'Genel' union all
 Select N'1ab0c5f8-8250-4da2-b786-e0e8600e09cf', N'AnaSayfaSonAktiviteler', N'Son Aktiviteler Gözüksün', N'0', N'checkbox', N'Ana Sayfa' union all
-Select N'de5e7885-3884-4049-bc0b-ee5d88199ea9', N'Cari', N'Cari Kodu - Ön Değeri', N'120-', N'text', N'Genel'
+Select N'de5e7885-3884-4049-bc0b-ee5d88199ea9', N'Cari', N'Cari Kodu - Ön Değeri', N'120-', N'text', N'Genel' union all
+Select N'de5e7885-3884-4049-bc0b-ee5d88199ea8', N'Uygulama', N'Uygulama', N'', N'text', N'Genel'
 ) YK1
 LEFT OUTER JOIN ParametrelerStandart WITH(NOLOCK) ON ParametrelerStandart.ID = YK1.ID
 Where ParametrelerStandart.ID IS NULL

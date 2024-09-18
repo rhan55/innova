@@ -1,4 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using NetOpenX.Rest.Client;
+using NetOpenX.Rest.Client.BLL;
+using NetOpenX.Rest.Client.Model;
+using NetOpenX.Rest.Client.Model.Custom;
+using NetOpenX.Rest.Client.Model.Enums;
+using NetOpenX.Rest.Client.Model.NetOpenX;
+using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -20,7 +26,63 @@ namespace YKPortal.Areas.Entegrasyon.Controllers
     public class FordAktarimController : Controller
     {
 
+        public JsonResult CariAc()
+        {
+            oAuth2 _oAuth2;
+            _oAuth2 = new oAuth2("http://178.233.83.125:7070");
+            var l = new JLogin()
+            {
+                BranchCode = 0,
+                NetsisUser = "netsis",
+                NetsisPassword = "net1",
+                DbType = JNVTTipi.vtMSSQL,
+                DbName = "ENTERPRISE9",
+                DbPassword = "",
+                DbUser = "TEMELSET"
+            };
+            _oAuth2.Login(l);
 
+            var _ARPsManager = new ARPsManager(_oAuth2);
+            var resultPostDataCM = _ARPsManager.PostInternal(new ARPs()
+            {
+                CariTemelBilgi = new ARPsPrimInfo()
+                {
+                    CARI_KOD = "J0001",
+                    CARI_ISIM = "Rest Cari 1",
+                    CARI_TIP = "S",
+                    Sube_Kodu = 0,
+                    ACIK1 = "acik1",
+                    ACIK2 = "acik2",
+                    ACIK3 = "acik3",
+                    CARI_ADRES = "izmir",
+                    CARI_IL = "izmir",
+                    CARI_TEL = "2322225566",
+                    CARI_ILCE = "ksk",
+                    EMAIL = "oner.kaya@logo.com.tr",
+                    WEB = "www.logo.com.tr",
+                    CM_RAP_TARIH = DateTime.Now.AddMonths(1)
+                },
+                CariEkBilgi = new ARPsSuppInfo()
+                {
+                    CARI_KOD = "J0001",
+                    TcKimlikNo = "12345678911",
+                    Kull1N = 1,
+                    Kull1S = "1",
+                    S_Yedek1 = "syedek1"
+                }
+            });
+
+            if (resultPostDataCM.IsSuccessful)
+            {
+                var carikod = resultPostDataCM.Data.CariTemelBilgi.CARI_KOD;
+            }
+            else
+            {
+                var hata = (resultPostDataCM.ErrorDesc);
+
+            }
+            return Json("ok", JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult AnaSayfa(DateTime? Tarih = null)
         {
@@ -406,6 +468,11 @@ namespace YKPortal.Areas.Entegrasyon.Controllers
             }
             return false;
         }
+
+
+
+
+
 
 
         #region Cookie İşlemleri

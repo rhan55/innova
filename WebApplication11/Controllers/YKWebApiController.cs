@@ -60,7 +60,6 @@ namespace YKPortal.Controllers
             return result;
         }
 
-
         [HttpPost]
         public IDJsonResult KullaniciGirisi([FromBody] JObject data)
         {

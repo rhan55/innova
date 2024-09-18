@@ -2131,7 +2131,8 @@ CREATE PROC [dbo].[p_GorevListesi](
 @GorevTipiID nvarchar(100)='',
 @KayitYapanKullanici nvarchar(100)='',
 @AtananKullanici nvarchar(100)='',
-@Durum nvarchar(100)=''
+@Durum nvarchar(100)='',
+@Periyot nvarchar(100)=''
 )
 as
 BEGIN
@@ -2158,6 +2159,7 @@ BEGIN
 	LEFT OUTER JOIN GrupKodlari WITH(NOLOCK) ON GrupKodlari.ID = Gorevler.GorevTipiID
 	Where Gorevler.Silindi = 0 
 	and Gorevler.UyelikID = @UyelikID 
+	and (Gorevler.Periyot = @Periyot or @Periyot = '')
 	and Gorevler.KayitTarihi between @Baslangic and @Bitis
 	and (CAST(Gorevler.GorevTipiID as nvarchar(100)) = @GorevTipiID or @GorevTipiID = '')
 	and (CAST(Kullanicilar.ID as nvarchar(100)) = @KayitYapanKullanici or @KayitYapanKullanici = '')

@@ -30,7 +30,7 @@
                                 <label for="Aciklama" class="fw-semibold fs-6 mb-2">Açıklama</label>
                                 <!--end::Label-->
                                 <!--begin::texarea-->
-                                <textarea type="text" id="Aciklama" name="Aciklama" class="form-control p-2 mb-3 mb-lg-0">@(Html.Raw(Convert.ToString(Model.Tables[0].Rows[0]["Aciklama"])))</textarea>
+                                <textarea type="text" id="Aciklama" name="Aciklama" class="form-control p-2 mb-3 mb-lg-0">@(HttpUtility.HtmlDecode(Convert.ToString(Model.Tables[0].Rows[0]["Aciklama"])))</textarea>
                                 <!--end::Input-->
                             </div>
                             <div class="col-lg-4">
@@ -60,34 +60,34 @@
                             </div>
                             <!--end::Input group-->
                             <div class="col-lg-6">
-                                <div class="d-flex justify-content-end align-items-center  mt-10">
-                                    <div class="form-check  ms-16">
+                                <div class="d-flex justify-content-end align-items-center mt-10">
+                                    <div class=" ms-16">
                                         <input class="form-check-input" type="radio" name="periyot" id="TekSeferlik" value="T"
                                                @(Convert.ToString(Model.Tables[0].Rows[0]["Periyot"]) == "T" ? "checked" : "")>
                                         <label class="form-check-label" for="TekSeferlik">
                                             Tek Seferlik
                                         </label>
                                     </div>
-                                    <div class="form-check  ms-16">
+                                    <div class=" ms-16">
                                         <input class="form-check-input" type="radio" name="periyot" id="periyotGunluk" value="G"
-                                               @(Convert.ToString(Model.Tables[0].Rows[0]["Periyot"]) == "G" ? "checked" : "") >
+                                               @(Convert.ToString(Model.Tables[0].Rows[0]["Periyot"]) == "G" ? "checked" : "")>
                                         <label class="form-check-label" for="periyotGunluk">
                                             Günlük
                                         </label>
                                     </div>
-                                    <div class="form-check ms-16">
+                                    <div class=" ms-16">
                                         <input class="form-check-input" type="radio" name="periyot" id="periyotHaftalik" value="H"
-                                               @(Convert.ToString(Model.Tables[0].Rows[0]["Periyot"]) == "H" ? "checked" : "") >
+                                               @(Convert.ToString(Model.Tables[0].Rows[0]["Periyot"]) == "H" ? "checked" : "")>
                                         <label class="form-check-label" for="periyotHaftalik">
                                             Haftalık
                                         </label>
                                     </div>
-                                    <div class="form-check ms-16">
-                                        <input class="form-check-input" type="radio" name="periyot" id="periyotYillik" value="Y"
-                                               @(Convert.ToString(Model.Tables[0].Rows[0]["Periyot"]) == "Y" ? "checked" : "") >
+                                    <div class=" ms-16">
+                                        <input class="form-check-input" type="radio" name="periyot" id="periyotYillik" value="A"
+                                               @(Convert.ToString(Model.Tables[0].Rows[0]["Periyot"]) == "A" ? "checked" : "")>
 
                                         <label class="form-check-label" for="periyotYillik">
-                                            Yıllık
+                                            Aylık
                                         </label>
                                     </div>
                                 </div>
@@ -154,7 +154,7 @@
                     <tr>
                         <td style="vertical-align: top; width: 140px;">Açıklama</td>
                         <td style="vertical-align: top; padding-left: 5px; padding-right: 5px;">:</td>
-                        <td>@Html.Raw(Convert.ToString(Model.Tables[0].Rows[0]["Aciklama"]))</td>
+                        <td>@HttpUtility.HtmlDecode(Convert.ToString(Model.Tables[0].Rows[0]["Aciklama"]))</td>
                     </tr>
                 </table>
 
@@ -211,7 +211,7 @@
                                 <td style="padding: 5px; vertical-align: top;">@Convert.ToDateTime(sonuc["TamamlamaTarihi"]).ToString("dd-MM-yyyy HH:mm")</td>
 
                                 <td style="padding: 5px; vertical-align: top;">
-                                    @sonuc["Aciklama"]
+                                    @HttpUtility.HtmlDecode(Convert.ToString(sonuc["Aciklama"]))
                                     <hr />
                                 </td>
                                 <td style="padding:5px;vertical-align:top;">

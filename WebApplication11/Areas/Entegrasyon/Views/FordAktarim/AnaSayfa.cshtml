@@ -15,67 +15,67 @@
 @if (ViewBag.dtBelgeler != null)
 {
     DataTable dtBelgeler = ViewBag.dtBelgeler as DataTable;
-<table class="table" border="1">
+<table border="1">
     <thead>
         <tr>
-            <th>BSec</th>
-            <th>SAkt</th>
-            <th>SModul</th>
-            <th>STipi</th>
-            <th>SDöviz</th>
-            <th>SSat.Sayisi</th>
-            <th>SFaturaNo</th>
-            <th>SNetsis FaturaNo</th>
-            <th>SIşEmriNo</th>
-            <th>STarih</th>
-            <th>STutar</th>
-            <th>SCari Kodu</th>
-            <th>SNetsis Cari Kodu</th>
-            <th>SÜnvan</th>
-            <th>SŞehir</th>
-            <th>SPlaka-KM</th>
-            <th>SDosya No</th>
-            <th>SSiparis No</th>
-            <th>SAktarım Durumu</th>
-            <th>SVDaire</th>
-            <th>SVkn</th>
-            <th>SEmail</th>
-            <th>STelefon</th>
-            <th>SAdres</th>
-            <th>SUlke</th>
-            <th>SMüşteri No</th>
+            <th><strong>Sec</strong></th>
+            <th><strong>Akt</strong></th>
+            <th><strong>Modul</strong></th>
+            <th><strong>Tipi</strong></th>
+            <th><strong>Döviz</strong></th>
+            <th><strong>Sat.Sayisi</strong></th>
+            <th><strong>FaturaNo</strong></th>
+            <th><strong>Netsis FaturaNo</strong></th>
+            <th><strong>IşEmriNo</strong></th>
+            <th><strong>Tarih</strong></th>
+            <th><strong>Tutar</strong></th>
+            <th><strong>Cari Kodu</strong></th>
+            <th><strong>Netsis Cari Kodu</strong></th>
+            <th><strong>Ünvan</strong></th>
+            <th><strong>Şehir</strong></th>
+            <th><strong>Plaka-KM</strong></th>
+            <th><strong>Dosya No</strong></th>
+            <th><strong>Siparis No</strong></th>
+            <th><strong>Aktarım Durumu</strong></th>
+            <th><strong>VDaire</strong></th>
+            <th><strong>Vkn</strong></th>
+            <th><strong>Email</strong></th>
+            <th><strong>Telefon</strong></th>
+            <th><strong>Adres</strong></th>
+            <th><strong>Ulke</strong></th>
+            <th><strong>Müşteri No</strong></th>
         </tr>
     </thead>
     <tbody>
         @foreach (DataRow satir in dtBelgeler.Rows)
         {
             <tr>
-                <td style="padding:3px;">@satir["BSec"]</td>
-                <td style="padding:3px;">@satir["SAkt"]</td>
-                <td style="padding:3px;">@satir["SModul"]</td>
-                <td style="padding:3px;">@satir["STipi"]</td>
-                <td style="padding:3px;">@satir["SDöviz"]</td>
-                <td style="padding:3px;">@satir["SSat.Sayisi"]</td>
-                <td style="padding:3px;">@satir["SFaturaNo"]</td>
-                <td style="padding:3px;">@satir["SNetsis FaturaNo"]</td>
-                <td style="padding:3px;">@satir["SIşEmriNo"]</td>
-                <td style="padding:3px;">@satir["STarih"]</td>
-                <td style="padding:3px;">@satir["STutar"]</td>
-                <td style="padding:3px;">@satir["SCari Kodu"]</td>
-                <td style="padding:3px;">@satir["SNetsis Cari Kodu"]</td>
-                <td style="padding:3px;">@satir["SÜnvan"]</td>
-                <td style="padding:3px;">@satir["SŞehir"]</td>
-                <td style="padding:3px;">@satir["SPlaka-KM"]</td>
-                <td style="padding:3px;">@satir["SDosya No"]</td>
-                <td style="padding:3px;">@satir["SSiparis No"]</td>
-                <td style="padding:3px;">@satir["SAktarım Durumu"]</td>
-                <td style="padding:3px;">@satir["SVDaire"]</td>
-                <td style="padding:3px;">@satir["SVkn"]</td>
-                <td style="padding:3px;">@satir["SEmail"]</td>
-                <td style="padding:3px;">@satir["STelefon"]</td>
-                <td style="padding:3px;">@satir["SAdres"]</td>
-                <td style="padding:3px;">@satir["SUlke"]</td>
-                <td style="padding:3px;">@satir["SMüşteri No"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["BSec"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["SAkt"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["SModul"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["STipi"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["SDöviz"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["SSat.Sayisi"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["SFaturaNo"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["SNetsis FaturaNo"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["SIşEmriNo"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["STarih"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["STutar"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["SCari Kodu"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["SNetsis Cari Kodu"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["SÜnvan"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["SŞehir"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["SPlaka-KM"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["SDosya No"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["SSiparis No"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["SAktarım Durumu"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["SVDaire"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["SVkn"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["SEmail"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["STelefon"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["SAdres"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["SUlke"]</td>
+                <td style="padding:3px;" class="text-nowrap">@satir["SMüşteri No"]</td>
             </tr>
         }
     </tbody>

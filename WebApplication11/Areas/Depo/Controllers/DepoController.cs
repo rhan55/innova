@@ -44,6 +44,22 @@ namespace YKPortal.Areas.Depo.Controllers
             return View();
         }
 
+
+        public ActionResult UretimIsEmirleri(string aranacakKelime)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_UretimIsEmriListesi";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@aranacakKelime", aranacakKelime);
+            ViewBag.dtKayitlar = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+
+            return View();
+        }
         #region Cookie İşlemleri
 
 

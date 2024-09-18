@@ -9,6 +9,7 @@ using YKPortal.Models.Dto;
 using YKPortal.Models;
 using YKPortal.Models.YKClasses;
 using System.Net;
+using System.Text.RegularExpressions;
 
 namespace YKPortal.Controllers
 {
@@ -32,6 +33,7 @@ namespace YKPortal.Controllers
             IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
             return Redirect("~/Gorev/GorevDuzenle/" + GorevID);
         }
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult GorevTamamla(string GorevID, string Aciklama, string Durumu, DateTime TamamlamaTarihi)
         {
@@ -192,7 +194,8 @@ namespace YKPortal.Controllers
                                 {
                                     aciklama = aciklama.Substring(0, 90) + "...";
                                 }
-                                aciklama += " app.ykyazilim.com.tr";
+                                aciklama = Regex.Replace(aciklama, "<.*?>", String.Empty);
+                                
                                 string url = @"http://idyazilim.com/Site/SmsGonder/?telefon=" + telefon + "&" +
                                     "KullaniciAdi=" + YKUtils.SmsKullaniciAdi + "&" +
                                     "Parola=" + YKUtils.SmsParola + "&" +
@@ -381,7 +384,7 @@ namespace YKPortal.Controllers
                                 {
                                     aciklama = aciklama.Substring(0, 90) + "...";
                                 }
-                                aciklama += " app.ykyazilim.com.tr";
+                                aciklama = Regex.Replace(aciklama, "<.*?>", String.Empty);
                                 string url = @"http://idyazilim.com/Site/SmsGonder/?telefon=" + telefon + "&" +
                                     "KullaniciAdi=" + YKUtils.SmsKullaniciAdi + "&" +
                                     "Parola=" + YKUtils.SmsParola + "&" +
@@ -478,7 +481,8 @@ namespace YKPortal.Controllers
         [HttpGet]
         public ActionResult GorevListe(GorevDto gorevDto, DateTime? Baslangic = null, DateTime? Bitis = null,
             DateTime? Baslangic2 = null, DateTime? Bitis2 = null,
-            string Durum="Beklemede", string GorevTipiID = "", string KayitYapanKullanici = "", string AtananKullanici = "")
+            string Durum="Beklemede", string GorevTipiID = "", string KayitYapanKullanici = "", string AtananKullanici = "",
+            string Periyot="")
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
@@ -519,6 +523,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KayitYapanKullanici", KayitYapanKullanici);
             cmd.Parameters.AddWithValue("@AtananKullanici", AtananKullanici);
             cmd.Parameters.AddWithValue("@Durum", Durum);
+            cmd.Parameters.AddWithValue("@Periyot", Periyot);
             DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
 
             ViewBag.Baslangic = Baslangic;
@@ -529,6 +534,7 @@ namespace YKPortal.Controllers
             ViewBag.KayitYapanKullanici = KayitYapanKullanici;
             ViewBag.AtananKullanici = AtananKullanici;
             ViewBag.Durum = Durum;
+            ViewBag.Periyot = Periyot;
 
             return View(ds);
         }
