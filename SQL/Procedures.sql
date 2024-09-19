@@ -1,3 +1,44 @@
+
+
+
+
+
+
+
+drop proc [p_UretimIsEmriListesi]
+GO
+CREATE proc [dbo].[p_UretimIsEmriListesi](
+@UyelikID nvarchar(100)='',
+@aranacakKelime nvarchar(100)=''
+)
+as
+BEGIN
+
+declare @Uygulama nvarchar(100) = (select Top(1) Deger from Parametreler WITH(NOLOCK) Where UyelikID = @UyelikID and Modul = 'Uygulama')
+IF @Uygulama = 'NETSIS'
+BEGIN
+	declare @NetsisDatabase nvarchar(100) = (select Top(1) Deger from Parametreler WITH(NOLOCK) Where UyelikID = @UyelikID and Modul = 'NetsisDatabase')
+	
+	declare @Sorgu nvarchar(max)='
+	select 
+	 ISEMRINO as IsEmriNo,
+	 TARIH as Tarih,
+	 TBLISEMRI.STOK_KODU as StokKodu,
+	 TBLSTSABIT.STOK_ADI as StokAdi,
+	 TBLISEMRI.MIKTAR as Miktar,
+	 ACIKLAMA as Aciklama
+	From '+@NetsisDatabase+'.dbo.TBLISEMRI WITH(NOLOCK)
+	LEFT OUTER JOIN '+@NetsisDatabase+'.dbo.TBLSTSABIT WITH(NOLOCK) ON TBLSTSABIT.STOK_KODU = TBLISEMRI.STOK_KODU
+	WHERE TBLISEMRI.KAPALI = ''H'' and ISEMRINO LIKE ''%'+@aranacakKelime+'%''
+	Order by Tarih asc
+	'
+	EXECUTE(@Sorgu)
+END
+
+
+END
+
+GO
 drop proc [p_AnaSayfa]
 GO
 CREATE proc [dbo].[p_AnaSayfa](
@@ -3050,16 +3091,18 @@ GO
 create proc [dbo].[p_MesajKaydet](
 @KullaniciID nvarchar(100),
 @KarsiKullaniciID nvarchar(100)=null,	
-@Mesaj nvarchar(max)=null
+@Mesaj nvarchar(max)=null,
+@Dosya nvarchar(max)=null
 )
 as
 BEGIN
 
 declare @ID nvarchar(100) = NEWID()
 Insert Into Mesajlar
-(ID,KullaniciID,KarsiKullaniciID,Mesaj,KayitTarihi)
-Select @ID,@KullaniciID,@KarsiKullaniciID,@Mesaj,GETDATE()
+(ID,KullaniciID,KarsiKullaniciID,Mesaj,KayitTarihi,Dosya)
+Select @ID,@KullaniciID,@KarsiKullaniciID,@Mesaj,GETDATE(),@Dosya
 
+Select @ID
 
 END
 GO
@@ -3079,6 +3122,7 @@ BEGIN
 	Order by KayitTarihi asc
 
 END
+
 GO
 drop proc [p_MesajSil]
 GO

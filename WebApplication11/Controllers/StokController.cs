@@ -1073,7 +1073,30 @@ namespace YKPortal.Controllers
 
             return Redirect("~/Stok/FiyatListesi/?StokID="+StokID);
         }
+        
+        public JsonResult SelectStokBarkodSeriListe(string Barkod)
+        {
 
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_StokBarkodSerileri";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Barkod", Barkod);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            var liste = new List<StokDto>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                liste.Add(new StokDto
+                {
+                    SeriNo = Convert.ToString(dt.Rows[i]["SeriNo"]),
+                });
+            }
+
+            return Json(liste, JsonRequestBehavior.AllowGet);
+
+        }
         public JsonResult SelectStokSeriListe(string StokID)
         {
 

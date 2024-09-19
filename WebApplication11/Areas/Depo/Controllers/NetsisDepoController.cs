@@ -54,6 +54,10 @@ namespace YKPortal.Areas.Depo.Controllers
                 {
                     ViewBag.dtDetay = dt;
                 }
+                else
+                {
+                    ViewBag.Uyarı = "STOK BULUNAMADI!";
+                }
 
             }
 

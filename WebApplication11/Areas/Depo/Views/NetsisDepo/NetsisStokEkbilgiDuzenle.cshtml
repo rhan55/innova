@@ -16,9 +16,7 @@
 <div style="padding:20px;text-align:center;">
 
     <form action="@Url.Content("~/Depo/NetsisDepo/NetsisStokEkbilgiDuzenle")" method="get">
-
         <table border="0" style="width:100%;">
-
             <tr>
                 <td>
                     <label>Stok Kodu</label>
@@ -26,10 +24,10 @@
                 <td colspan="2">
                     <input type="text" name="Belge_Barkod" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["STOK_KODU"]) : "")" class="form-control" style="font-size:10px;width:100%;" />
                 </td>
-            </tr>
-        
+            </tr>        
         </table>
         <hr />
+        <h4><span style="color:red;">@ViewBag.Uyarı</span></h4>
     </form>
     <form action="@Url.Content("~/Depo/NetsisDepo/NetsisStokEkBilgi_Guncelle")" method="post">
 
