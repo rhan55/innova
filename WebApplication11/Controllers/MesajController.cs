@@ -54,6 +54,33 @@ namespace YKPortal.Controllers
         }
 
         [HttpPost]
+        public JsonResult TopluSil(List<string> idListesi)
+        {
+            if (!AutoGirisKontrol())
+                return Json(new IDJsonResult { Sonuc = "Başarısız", SonucKodu = 400 });
+
+
+            if (idListesi == null)
+            {
+                return Json(new IDJsonResult { Sonuc = "Başarısız", SonucKodu = 400 });
+            }
+
+            foreach (string id in idListesi)
+            {
+                string kullaniciID = GetCookie("KullaniciID");
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_MesajSil";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                cmd.Parameters.AddWithValue("@ID", id);
+
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek);
+            }
+
+            return Json(new IDJsonResult { Sonuc = "Başarılı", SonucKodu = 400 });
+        }
+
+        [HttpPost]
         public JsonResult Kaydet(MesajlasmaDto mesajlasma, HttpPostedFileBase Dosya)
         {
             // Mesajın ve karşı kullanıcının ID'si boşsa hata döndür
@@ -72,7 +99,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KarsiKullaniciID", mesajlasma.KarsiKullaniciID);
             cmd.Parameters.AddWithValue("@KullaniciID", kullaniciID);
             cmd.Parameters.AddWithValue("@Mesaj", mesajlasma.Mesaj);
-            // Dosya varsa, kaydet ve dosya yolunu ekle
+            // Dosya varsa, kaydet ve dosya yolunu ekle 
             if (Dosya != null && Dosya.ContentLength > 0)
             {
                 try
