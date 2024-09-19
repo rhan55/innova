@@ -236,9 +236,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="NetOpenX.Rest.Client">
-      <HintPath>..\packages\NetOpenX.Rest.Client\NetOpenX.Rest.Client.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
