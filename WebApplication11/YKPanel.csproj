@@ -3033,7 +3033,7 @@
     <Content Include="Tema\excel\ornek-cari-liste.xls" />
     <Content Include="Views\Stok\Sayim.cshtml" />
     <Content Include="Views\Mesaj\Chat.cshtml" />
-    <Content Include="Views\Ayarlar\B2BAyarlari.cshtml" />
+    <Content Include="Views\Ayarlar\ConfigAyarlari.cshtml" />
     <Content Include="Views\Kullanici\UretimYetkiler.cshtml" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">

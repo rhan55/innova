@@ -34,7 +34,7 @@ namespace YKPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult B2BAyarlari(B2BAyarlariDto b2bAyarlariDto)
+        public ActionResult ConfigAyarlari(B2BAyarlariDto b2bAyarlariDto)
         {
             var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
 

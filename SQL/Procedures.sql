@@ -1,10 +1,98 @@
 
 
 
+drop proc [p_KullaniciListesiMesaj]
+GO
+CREATE proc [dbo].[p_KullaniciListesiMesaj](
+@UyelikID nvarchar(100),
+@AranacakKelime nvarchar(max)=''
+)
+as
+BEGIN
 
+if(@AranacakKelime = 'DestekKullanicilari')
+BEGIN
+set @AranacakKelime = '%'+@AranacakKelime+'%'
+select 
+* 
+from Kullanicilar WITH(NOLOCK)
+Where (Silindi = 0 and UyelikID = @UyelikID) and
+(KullaniciAdi like '%ykyazilim.com.tr')
+END
+ELSE
+BEGIN
 
+set @AranacakKelime = '%'+@AranacakKelime+'%'
+select * from (
+select 
+*,
+(Select COUNT(*) from Mesajlar WITH(NOLOCK) Where Mesajlar.KarsiKullaniciID = Kullanicilar.ID and Mesajlar.GorulmeTarihi IS NOT NULL) as YeniMesaj
+from Kullanicilar WITH(NOLOCK)
+Where (Silindi = 0 and UyelikID = @UyelikID) and
+(KullaniciAdi like @AranacakKelime or Ad like @AranacakKelime or Soyad like @AranacakKelime)
+) YK1
+Order by YeniMesaj desc,KayitTarihi desc
+END
 
+END
+go
+drop proc [p_KullaniciUretimYetkiKaydet]
+go
+create PROC [dbo].[p_KullaniciUretimYetkiKaydet](
+@UyelikID nvarchar(100),
+@KullaniciID nvarchar(100),
+@MenuID nvarchar(100),
+@Gor bit,
+@Duzenle bit,
+@Sil bit
+)
+as
+BEGIN
+	IF EXISTS (Select * from Yetkiler WITH(NOLOCK) Where UyelikID = @UyelikID and KullaniciID = @KullaniciID and MenuID = @MenuID)
+	BEGIN
+		Update Yetkiler Set 
+			Gor = @Gor,
+			Duzenle = @Duzenle,
+			Sil = @Sil
+		Where UyelikID = @UyelikID and KullaniciID = @KullaniciID and MenuID = @MenuID
+	END
+	ELSE
+	BEGIN
+		Insert Into Yetkiler 
+		(MenuID,KullaniciID,UyelikID,Gor,Duzenle,Sil,KayitTarihi,KayitYapanKullanici)
+		values
+		(@MenuID,@KullaniciID,@UyelikID,@Gor,@Duzenle,@Sil,GETDATE(),@KullaniciID)
+	END
+END
 
+go
+drop proc [p_KullaniciUretimYetkileri]
+GO
+create PROC [dbo].[p_KullaniciUretimYetkileri](
+@KullaniciID nvarchar(100) = '45B83A26-D48D-4B59-BD12-92CD2788C093',
+@UyelikID nvarchar(100)='68854AF6-504F-48C7-B64E-ECCBF881DB80'
+)
+as
+BEGIN
+
+Select 
+Menuler.ID as MenuID,
+Kullanicilar.ID as KullaniciID,
+Kullanicilar.UyelikID,
+Menuler.Menu,
+Menuler.UstID,
+Menuler.icon,
+Menuler.url,
+ISNULL(Yetkiler.Gor,0) as Gor,
+ISNULL(Yetkiler.Duzenle,0) as Duzenle,
+ISNULL(Yetkiler.Sil,0) as Sil
+From MenulerUretim as Menuler WITH(NOLOCK)
+LEFT OUTER JOIN Kullanicilar WITH(NOLOCK) ON Kullanicilar.ID = @KullaniciID --and UyelikID = @UyelikID
+LEFT OUTER JOIN Yetkiler WITH(NOLOCK) ON Yetkiler.MenuID = Menuler.ID and Yetkiler.KullaniciID = Kullanicilar.ID
+Order by Menuler.Sira
+END
+
+GO
 drop proc [p_UretimIsEmriListesi]
 GO
 CREATE proc [dbo].[p_UretimIsEmriListesi](
@@ -3114,13 +3202,13 @@ create proc [dbo].[p_MesajListesi](
 as
 BEGIN
 
-
 	select 
 	* 
 	from Mesajlar WITH(NOLOCK)
 	Where (KullaniciID = @KullaniciID or KarsiKullaniciID = @KullaniciID)
 	Order by KayitTarihi asc
-
+	
+	Update Mesajlar set GorulmeTarihi = GETDATE() Where KarsiKullaniciID = @KullaniciID
 END
 
 GO

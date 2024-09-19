@@ -166,9 +166,10 @@ namespace YKPortal.Controllers
         {
 
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "p_KullaniciListesi";
+            cmd.CommandText = "p_KullaniciListesiMesaj";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@AranacakKelime", aranacakKelime);
    
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
@@ -184,6 +185,7 @@ namespace YKPortal.Controllers
                     Soyad = Convert.ToString(dt.Rows[i]["Soyad"]),
                     KullaniciAdi = Convert.ToString(dt.Rows[i]["KullaniciAdi"]),
                     Resim = Convert.ToString(dt.Rows[i]["Resim"]),
+                    YeniMesaj = Convert.ToString(dt.Rows[i]["YeniMesaj"]),
                 });
             }
 
