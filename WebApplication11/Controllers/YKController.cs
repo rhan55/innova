@@ -210,6 +210,36 @@ namespace YKPortal.Controllers
             }
         }
 
+        [HttpPost]
+        public JsonResult AnaSayfaBilgileriGetir()
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_AnaSayfa";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var anasayfaBilgileri = new AnaSayfaDto
+            {
+                Cari = Convert.ToInt32(dt.Rows[0]["Cari"]),
+                Stok = Convert.ToInt32(dt.Rows[0]["Stok"]),
+                Belge = Convert.ToInt32(dt.Rows[0]["Belge"]),
+                Gorev = Convert.ToInt32(dt.Rows[0]["Gorev"]),
+                YeniOkunmamisMesaj = Convert.ToInt32(dt.Rows[0]["YeniOkunmamisMesaj"]),
+            };
+
+            JsonResult result = new JsonResult()
+            {
+                Data = new IDJsonResult { 
+                    Data = anasayfaBilgileri,
+                    Sonuc = "0"
+                },
+            };
+
+            return result;
+        }
+
         private void AnaSayfaBilgileri()
         {
             SqlCommand cmd = new SqlCommand();
@@ -225,6 +255,7 @@ namespace YKPortal.Controllers
                 Stok = Convert.ToInt32(dt.Rows[0]["Stok"]),
                 Belge = Convert.ToInt32(dt.Rows[0]["Belge"]),
                 Gorev = Convert.ToInt32(dt.Rows[0]["Gorev"]),
+                YeniOkunmamisMesaj = Convert.ToInt32(dt.Rows[0]["YeniOkunmamisMesaj"]),
             };
 
             ViewBag.Bilgiler = ansayfaBilgileri;

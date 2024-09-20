@@ -339,6 +339,10 @@
                                         }
                                     </div>
                                     <!--begin::Menu toggle-->
+                                    <a href="/Mesaj/Chat" class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px position-relative" id="kt_drawer_chat_toggle">
+                                        <i class="ki-duotone ki-message-text-2 fs-2" style="font-size: 24px!important;"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
+                                        <span class="badge badge-circle badge-success badge-sm position-absolute top-0 start-50 hidden" data-id="YeniOkunmamisMesaj" style="padding: 4px;font-size: 10px;">0</span>
+                                    </a>
                                     <a href="#" class="btn btn-sm btn-icon btn-icon-muted btn-active-icon-primary" data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
                                         <i class="ki-duotone ki-night-day theme-light-show fs-1">
                                             <span class="path1"></span>
@@ -357,6 +361,7 @@
                                             <span class="path2"></span>
                                         </i>
                                     </a>
+
                                     <!--begin::Menu toggle-->
                                     <!--begin::Menu-->
                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-title-gray-700 m-0 p-0 menu-icon-gray-500 menu-active-bg menu-state-color fw-semibold fs-base w-150px" data-kt-menu="true" data-kt-element="theme-mode-menu">
@@ -422,31 +427,31 @@
                     }
                     <!--end::Toolbar-->
                 </div>
-                    <!--begin::Content-->
-                    <div class="content d-flex flex-column flex-column-fluid pt-0" id="kt_content">
-                        <!--begin::Post-->
-                        @RenderBody()
+                <!--begin::Content-->
+                <div class="content d-flex flex-column flex-column-fluid pt-0" id="kt_content">
+                    <!--begin::Post-->
+                    @RenderBody()
 
-                        <!--end::Post-->
-                    </div>
-
-                    <!--end::Content-->
-                    <!--begin::Footer-->
-                    <div class="footer py-4 d-flex flex-lg-column" id="kt_footer">
-                        <!--begin::Container-->
-                        <div class="container-fluid d-flex flex-column flex-md-row align-items-center justify-content-between">
-                            <!--begin::Copyright-->
-                            <div class="text-gray-900 order-2 order-md-1">
-                                <span class="text-muted fw-semibold me-1">2014 - @(DateTime.Today.Year)&copy;</span>
-                                <a href="https://ykyazilim.com.tr" target="_blank" class="text-gray-800 text-hover-primary">@System.Configuration.ConfigurationManager.AppSettings["FirmaAdi"]</a>
-                            </div>
-                            <!--end::Copyright-->
-
-                        </div>
-                        <!--end::Container-->
-                    </div>
-                    <!--end::Footer-->
+                    <!--end::Post-->
                 </div>
+
+                <!--end::Content-->
+                <!--begin::Footer-->
+                <div class="footer py-4 d-flex flex-lg-column" id="kt_footer">
+                    <!--begin::Container-->
+                    <div class="container-fluid d-flex flex-column flex-md-row align-items-center justify-content-between">
+                        <!--begin::Copyright-->
+                        <div class="text-gray-900 order-2 order-md-1">
+                            <span class="text-muted fw-semibold me-1">2014 - @(DateTime.Today.Year)&copy;</span>
+                            <a href="https://ykyazilim.com.tr" target="_blank" class="text-gray-800 text-hover-primary">@System.Configuration.ConfigurationManager.AppSettings["FirmaAdi"]</a>
+                        </div>
+                        <!--end::Copyright-->
+
+                    </div>
+                    <!--end::Container-->
+                </div>
+                <!--end::Footer-->
+            </div>
             <!--end::Wrapper-->
         </div>
     </div>
@@ -462,7 +467,8 @@
     <script src="~/Tema/js/scripts.bundle.js"></script>
     <script src="~/Tema/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
     <script src="~/Tema/plugins/custom/vis-timeline/vis-timeline.bundle.js"></script>
-
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="~/SignalR/Hubs"></script>
 
 
     <script></script>
@@ -485,6 +491,65 @@
             return {
                 toggle, hide, show
             }
+        }
+
+        const anaSayfaBilgileri = {
+            Cari: 0,
+            Stok: 0,
+            Belge: 0,
+            YeniOkunmamisMesaj: 0
+        }
+
+        function AnaSayfaBilgileriGetir() {
+            $.ajax({
+                url: "/YK/AnaSayfaBilgileriGetir",
+                method: 'POST',
+                data: JSON.stringify({}),
+                success: (response) => {
+                    if (response.Data) {
+                        anaSayfaBilgileri.Belge = response.Data.Belge;
+                        anaSayfaBilgileri.Cari = response.Data.Cari;
+                        anaSayfaBilgileri.Stok = response.Data.Stok;
+                        anaSayfaBilgileri.YeniOkunmamisMesaj = response.Data.YeniOkunmamisMesaj;
+                        YeniOkunmamisMesajEkle();
+                    }
+                },
+                error: (err) => {
+                    console.log(err)
+                }
+            })
+        }
+
+        function YeniOkunmamisMesajEkle(ekle = null) {
+            if (ekle == null) {
+                if (anaSayfaBilgileri.YeniOkunmamisMesaj > 0) {
+                    $('[data-id="YeniOkunmamisMesaj"]').html(anaSayfaBilgileri.YeniOkunmamisMesaj);
+                    $('[data-id="YeniOkunmamisMesaj"]').removeClass('hidden');
+                } else {
+                    $('[data-id="YeniOkunmamisMesaj"]').addClass('hidden');
+                }
+            } else if (ekle === "") {
+                var suAnkiMesajSayisi = Number($('[data-id="YeniOkunmamisMesaj"]').html());
+                console.log(suAnkiMesajSayisi);
+                $('[data-id="YeniOkunmamisMesaj"]').html(suAnkiMesajSayisi + 1);
+                $('[data-id="YeniOkunmamisMesaj"]').removeClass('hidden');
+            }
+           
+        }
+
+        function bildirimHubBaglantisi() {
+            var bildirimHub = $.connection.bildirimHub;
+
+            bildirimHub.client.receiveNotification = function (bosIcerik) {
+                
+                YeniOkunmamisMesajEkle("");
+            };
+
+            $.connection.hub.start().done(function () {
+                console.log('Connected to SignalR hub');
+            }).fail(function (error) {
+                console.log('Could not connect: ' + error);
+            })
         }
 
         $(document).ready(function () {
@@ -681,96 +746,14 @@
 
                 navigationContainer.innerHTML = filteredNavigation.join("")
             });
-            //function getRemainingDays() {
-            //    var cookieName = "UyelikBitisTarihi";
-            //    var countdownDiv = document.getElementById("countdownDiv");
-            //
-            //    // Çerezden bitiş tarihini al
-            //    var cookieValue = getCookie(cookieName);
-            //
-            //    if (cookieValue) {
-            //        var expireDate = new Date(cookieValue);
-            //        var currentDate = new Date();
-            //
-            //        // Kalan günleri hesapla
-            //        var timeDiff = expireDate.getTime() - currentDate.getTime();
-            //        var remainingDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-            //
-            //        // Sayaçı div içine yerleştir
-            //        if (remainingDays <= 15) {
-            //            countdownDiv.textContent = "Üyeliğinizin bitmesine " + remainingDays + " gün kaldı.";
-            //        } else {
-            //            countdownDiv.textContent = "Üyeliğinizin bitiş tarihine çok zaman var. Gün : " + remainingDays;
-            //        }
-            //    } else {
-            //        countdownDiv.textContent = "Üyelik bitiş tarihi çerezi bulunamadı.";
-            //    }
-            //}
-            //getRemainingDays();
-            //function getCookie(cookieName) {
-            //    var name = cookieName + "=";
-            //    var decodedCookie = decodeURIComponent(document.cookie);
-            //    var cookieArray = decodedCookie.split(';');
-            //
-            //    for (var i = 0; i < cookieArray.length; i++) {
-            //        var cookie = cookieArray[i].trim();
-            //        if (cookie.indexOf(name) === 0) {
-            //            return cookie.substring(name.length, cookie.length);
-            //        }
-            //    }
-            //    return null;
-            //}
 
-            ////// Örnek olarak "UyelikBitisTarihi" çerezini alalım
-            // var uyelikBitisTarihi = getCookie("UyelikBitisTarihi");
-            //if (uyelikBitisTarihi != null) {
+        });
 
-            //    function getRemainingDays() {
-            //        var cookieName = "UyelikBitisTarihi";
-            //        var countdownDiv = document.getElementById("countdownDiv");
-            //      // Çerezden bitiş tarihini al
-            //        var cookieValue = getCookie(cookieName);
+        $(document).ready(function () {
+            AnaSayfaBilgileriGetir();
+            bildirimHubBaglantisi();
 
-            //        if (cookieValue) {
-            //            var expireDate = new Date(cookieValue);
-            //            var currentDate = new Date();
-
-            //            // Kalan günleri hesapla
-            //            var timeDiff = expireDate.getTime() - currentDate.getTime();
-            //            var remainingDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-            // //Sayaçı div içine yerleştir
-            //            if (remainingDays <= 15) {
-            //                countdownDiv.textContent = "Üyeliğinizin bitmesine " + remainingDays + " gün kaldı.";
-            //            } else {
-            //                countdownDiv.textContent = "Üyeliğinizin bitiş tarihine çok zaman var.";
-            //            }
-            //       } else {
-            //            countdownDiv.textContent = "Üyelik bitiş tarihi çerezi bulunamadı.";
-            //        }
-            //    }
-
-            //    function getCookie(cookieName) {
-            //        var name = cookieName + "=";
-            //        var decodedCookie = decodeURIComponent(document.cookie);
-            //        var cookieArray = decodedCookie.split(';');
-
-            //        for (var i = 0; i < cookieArray.length; i++) {
-            //           var cookie = cookieArray[i].trim();
-            //            if (cookie.indexOf(name) === 0) {
-            //               return cookie.substring(name.length, cookie.length);
-            //            }
-            //        }
-            //        return null;
-            //   }
-
-            //    // Sayfa yüklendiğinde sayaç güncellensin
-            //    document.addEventListener("DOMContentLoaded", function () {
-            //      getRemainingDays();
-            //    });
-
-            //}
-
-      });
+        })
 
     </script>
     @RenderSection("Scripts", required: false)

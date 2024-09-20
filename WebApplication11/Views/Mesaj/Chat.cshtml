@@ -39,12 +39,12 @@
                                             <img style="width:40px;height: 40px;" class="rounded-circle object-fit-cover" src="" id="karsiResim" />
                                         </div>
                                         <div class="ms-4">
-                                            <a href="#" class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 mb-2 lh-1">Brian Cox</a>
+                                            <div class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 mb-2 lh-1" data-container="active-user" data-id=""></div>
                                             <!--begin::Info-->
-                                            <div class="mb-0 lh-1">
+                                            @*<div class="mb-0 lh-1">
                                                 <span class="badge badge-success badge-circle w-10px h-10px me-1"></span>
                                                 <span class="fs-7 fw-semibold text-muted">Active</span>
-                                            </div>
+                                            </div>*@
                                         </div>
 
                                         <!--end::Info-->
@@ -182,13 +182,35 @@
 
 
 @section Scripts {
-    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
-    <script src="~/SignalR/Hubs"></script>
+ 
     <script>
 
         function scrollToBottom(select) {
             var $chatContainer = $(select); // Replace with your container's ID or class
             $chatContainer.scrollTop($chatContainer[0].scrollHeight);
+        }
+
+        function BildirimSayisiniDuzenle(element) {
+            var varOlanSayi = Number($('[data-id="YeniOkunmamisMesaj"]').html());
+            if (varOlanSayi != 0) {
+                kullaniciMesajSayisi = Number($(element).find('.badge.badge-sm.badge-circle.badge-light-success').html());
+
+                varOlanSayi = varOlanSayi - kullaniciMesajSayisi;
+                $(element).find('.badge.badge-sm.badge-circle.badge-light-success').html("0")
+
+                if (varOlanSayi <= 0) {
+                    $('[data-id="YeniOkunmamisMesaj"]').html("0");
+                    $('[data-id="YeniOkunmamisMesaj"]').addClass('hidden');
+                   
+                } else {
+                    $('[data-id="YeniOkunmamisMesaj"]').html(varOlanSayi);
+                    $('[data-id="YeniOkunmamisMesaj"]').removeClass(varOlanSayi);
+                }
+            }
+        }
+
+        function KarsiKullaniMesajiniEkle(kimden, mesaj) {
+            
         }
 
         $(function () {
@@ -200,26 +222,41 @@
 
 
             chat.client.receiveMessage = function (kimden, mesaj) {
-                const template =  `
-                                     <div class="d-flex justify-content-start mb-10">
-                                      <div id="select" class="min-w-40px max-w-40"></div>
-                                         <div class="d-flex flex-column align-items-start">
-                                             <div class="d-flex align-items-center mb-2">
-                                                 <div class="me-3">
-                                                     <span class="text-muted fs-7 mb-1">10 dakika önce</span>
-                                                     <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">AAA</a>
-                                                 </div>
-                                             </div>
+
+                const template = `
+         <div class="d-flex justify-content-start mb-10">
+          <div id="select" class="min-w-40px max-w-40"></div>
+             <div class="d-flex flex-column align-items-start">
+                 <div class="d-flex align-items-center mb-2">
+                     <div class="me-3">
+                         <span class="text-muted fs-7 mb-1">10 dakika önce</span>
+                     </div>
+                 </div>
         
-                                             <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
-                                                ${mesaj}
-                                             </div>
-                                         </div>
-                                     </div>`;
+                 <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
+                    ${mesaj}
+                 </div>
+             </div>
+         </div>`;
 
-                
+                const aktifKullanici = $('[data-container="active-user"]').data('id');
+                console.log(aktifKullanici);
+                console.log(kimden);
+                if (kimden == aktifKullanici) {
+                    $('#mesajListesi').append(template);
+                    scrollToBottom('#mesajListesi');
+                } else {
+                    $('.kullanici-sec').each(function (index, element) {
+                        console.log(element);
+                        var kullaniciID = $(element).data('id');
 
-                console.log(kimden, mesaj);
+                        if (kimden == kullaniciID) {
+                            var varOlanKullaniciMesajSayisi = Number($(element).find('.badge.badge-sm.badge-circle.badge-light-success').html());
+                            $(element).find('.badge.badge-sm.badge-circle.badge-light-success').html(varOlanKullaniciMesajSayisi + 1);
+                        }
+                    })
+                }
+
             }
 
 
@@ -246,13 +283,14 @@
             // Kullanıcı seçildiğinde mesajlaşma kısmını güncelle
             $(document).on('click', '.kullanici-sec', function (event) {
                 event.preventDefault();
-                console.log('clicked')
+                BildirimSayisiniDuzenle(this);
                 var kullaniciID = $(this).data('id');
                 var kullaniciAd = $(this).data('ad');
                 var resimYolu = $(this).data('resim');
 
                 $('#KarsiKullaniciID').val(kullaniciID);
-                $('#kullaniciChatHeader .card-title a').text(kullaniciAd);
+                $('#kullaniciChatHeader .card-title [data-container="active-user"]').text(kullaniciAd);
+                $('#kullaniciChatHeader .card-title [data-container="active-user"]').attr('data-id', kullaniciID);
                 $('#karsiResim').attr('src', resimYolu);
 
                 $('#kt_chat_messenger_body').html('');
@@ -336,7 +374,6 @@
                     data: formData,  // FormData'yı doğrudan gönderiyoruz
                     dataType: 'json',
                     success: function (data) {
-                        console.log("Mesaj kaydedildi:", data);
                         $('#Mesaj').val('').focus();  // Mesaj kutusunu temizle
                         $('#Dosya').val('');  // Dosya seçimini temizle
                         $('#mesajListesi').append(template);
@@ -421,7 +458,6 @@
                     data: JSON.stringify(idListesi),
                     contentType: "application/json; charset=utf-8",
                     success: function (response) {
-                        console.log("Success:", response);
                         idListesi = [];
                         $('.mesajSec').toggleClass('hidden');
                         $('.topluSilButon').toggleClass('hidden');
@@ -463,7 +499,7 @@
                                             </div>
                                         </div>
                                         <div class="d-flex flex-column align-items-end ms-2">
-                                                    <span class="text-muted fs-7 mb-1">5 hrs</span>
+                                                    <span class="text-muted fs-7 mb-1"></span>
                                                     <span class="badge badge-sm badge-circle badge-light-success">${kullanici.YeniMesaj}</span>
                                         </div>
                                     </div>
@@ -549,10 +585,7 @@
          </div>`;
  }
     }
-
-
-                let generateLink = mesaj.Dosya ? `<a href="/Uploads/Dosyalar/${mesaj.Dosya}">${mesaj.Mesaj}</a>` : null;
-                console.log(mesaj);
+    let generateLink = mesaj.Dosya ? `<a href="/Uploads/Dosyalar/${mesaj.Dosya}">${mesaj.Mesaj}</a>` : null;
 
         // Karşı kullanıcıdan gelen mesaj
         if (mesaj.KullaniciID == karsiKullaniciID && mesaj.KarsiKullaniciID == kullaniciID) {
@@ -562,7 +595,7 @@
                 <div class="d-flex flex-column align-items-start">
                     <div class="d-flex align-items-center mb-2">
                         <div class="me-3">
-                            <span class="text-muted fs-7 mb-1">10 dakika önce</span>
+                            <span class="text-muted fs-7 mb-1">${mesaj.Tarih}</span>
                             <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1"></a>
                         </div>
                     </div>
@@ -584,7 +617,7 @@
                 <div class="d-flex flex-column align-items-end">
                     <div class="d-flex align-items-center mb-2">
                         <div class="me-3">
-                            <span class="text-muted fs-7 mb-1">Şimdi</span>
+                            <span class="text-muted fs-7 mb-1">${mesaj.Tarih}</span>
                             <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">Sen</a>
                         </div>
                     </div>
@@ -609,7 +642,6 @@
             url: '/Mesaj/MesajListesiGetir',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
-                console.log(data);
                 const elementler = [];
                 data = data.filter(m => (m.KarsiKullaniciID == $('#KarsiKullaniciID').val() || m.KullaniciID == $('#KarsiKullaniciID').val()))
                 for (let i = 0; i < data.length; i++) {

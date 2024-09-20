@@ -11,11 +11,13 @@ namespace YKPortal.Models.Dto
         private int _Stok;
         private int _Belge;
         private int _Gorev;
+        private int _YeniOkunmamisMesaj;
 
         public int Cari { get { return _Cari == null ? 0 : _Cari; } set { _Cari = value; } }
         public int Stok { get { return _Stok == null ? 0 : _Stok; } set { _Stok = value; } }
         public int Belge { get { return _Belge == null ? 0 : _Belge; } set { _Belge = value; } }
         public int Gorev { get { return _Gorev == null ? 0 : _Gorev; } set { _Gorev = value; } }
+        public int YeniOkunmamisMesaj { get { return _YeniOkunmamisMesaj == null ? 0 : _YeniOkunmamisMesaj; } set { _YeniOkunmamisMesaj = value; } }
 
     }
 }

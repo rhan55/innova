@@ -19,8 +19,11 @@ namespace YKPortal.Hubs
 
         public void SendMessage(string aliciKullaniciID, string gonderenkullaniciID, string mesaj)
         {
+            BildirimHub.BildirimGonder(aliciKullaniciID);
+
             if (UserConnections.TryGetValue(aliciKullaniciID, out var connectionId))
             {
+      
                 Clients.Client(connectionId).ReceiveMessage(gonderenkullaniciID, mesaj);
             }
         }
