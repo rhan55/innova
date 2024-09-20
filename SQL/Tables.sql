@@ -1,3 +1,24 @@
+IF NOT EXISTS(select * from sys.tables Where name = 'Mesajlar')
+BEGIN
+
+CREATE TABLE [dbo].[Mesajlar](
+	[ID] [uniqueidentifier] ROWGUIDCOL  NOT NULL,
+	[KullaniciID] [uniqueidentifier] NOT NULL,
+	[KarsiKullaniciID] [uniqueidentifier] NOT NULL,
+	[Mesaj] [nvarchar](4000) NULL,
+	[KayitTarihi] [datetime] NOT NULL,
+	[GorulmeTarihi] [datetime] NULL,
+	[Dosya] [nvarchar](max) NULL,
+ CONSTRAINT [PK_Mesajlar] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Mesajlar] ADD  CONSTRAINT [DF_Mesajlar_ID]  DEFAULT (newid()) FOR [ID]
+GO
+GO
 IF NOT EXISTS(select * from sys.tables Where name = 'AnaSayfaTakvim')
 BEGIN
 

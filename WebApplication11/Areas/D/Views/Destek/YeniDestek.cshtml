@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-lg-12">
             <!--begin::Form-->
-            <form id="kt_modal_add_user_form" class="form" action="@Url.Action("YeniDestek","Destek",new { Area = "D" })" method="post" enctype="multipart/form-data">
+            <form id="kt_modal_add_user_form" name="kt_modal_add_user_form" class="form" action="@Url.Action("YeniDestek","Destek",new { Area = "D" })" method="post" enctype="multipart/form-data">
                 <!--begin::Scroll-->
                 <div class="d-flex flex-column scroll-y px-5 px-lg-10  mt-10">
                     <input type="hidden" name="ID" value="@ViewBag.ID" />
@@ -102,7 +102,7 @@
                     <!--begin::Actions-->
                     <div class="pt-10">
                         <a onclick="history.back()" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
-                        <button type="submit" class="btn btn-primary btn-sm" id="btnKaydet" name="btnKaydet" data-kt-users-modal-action="Kaydet" >
+                        <button type="button" class="btn btn-primary btn-sm" onclick="Kaydet();" id="btnKaydet" name="btnKaydet" data-kt-users-modal-action="Kaydet" >
                             <span class="indicator-label">Kaydet</span>
                             <span class="indicator-progress">
                                 Lütfen Bekleyin...
@@ -134,6 +134,20 @@
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+
+    function Kaydet() {
+        if ($("#GorevTipiID").val() == "") {
+            alert('Kategori seçiniz!');
+            return;
+        }
+        if ($("#Aciklama").val() == "") {
+            alert('Açıklama yazın!');
+            return;
+        }
+        $("#btnKaydet").attr("disabled","disabled");
+        $('#kt_modal_add_user_form').submit();
+    }
+
 
     $(document).ready(function () {
 

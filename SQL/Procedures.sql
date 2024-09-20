@@ -1,10 +1,10 @@
 
 
-
 drop proc [p_KullaniciListesiMesaj]
 GO
 CREATE proc [dbo].[p_KullaniciListesiMesaj](
 @UyelikID nvarchar(100),
+@KullaniciID nvarchar(100),
 @AranacakKelime nvarchar(max)=''
 )
 as
@@ -26,12 +26,15 @@ set @AranacakKelime = '%'+@AranacakKelime+'%'
 select * from (
 select 
 *,
-(Select COUNT(*) from Mesajlar WITH(NOLOCK) Where Mesajlar.KarsiKullaniciID = Kullanicilar.ID and Mesajlar.GorulmeTarihi IS NOT NULL) as YeniMesaj
+(Select COUNT(*) from Mesajlar WITH(NOLOCK) Where Mesajlar.KullaniciID = Kullanicilar.ID and Mesajlar.KarsiKullaniciID = @KullaniciID and Mesajlar.GorulmeTarihi IS NULL) as YeniMesaj,
+(Select top(1) KayitTarihi from Mesajlar WITH(NOLOCK) Where Mesajlar.KullaniciID = Kullanicilar.ID and Mesajlar.KarsiKullaniciID = @KullaniciID Order by KayitTarihi desc) as SonMesajTarihi
 from Kullanicilar WITH(NOLOCK)
-Where (Silindi = 0 and UyelikID = @UyelikID) and
+Where (Silindi = 0 and UyelikID = @UyelikID) 
+and Kullanicilar.ID <> @KullaniciID
+and
 (KullaniciAdi like @AranacakKelime or Ad like @AranacakKelime or Soyad like @AranacakKelime)
 ) YK1
-Order by YeniMesaj desc,KayitTarihi desc
+Order by YeniMesaj desc,SonMesajTarihi desc
 END
 
 END
@@ -146,7 +149,8 @@ BEGIN
 			 From GorevKullanicilari WITH(NOLOCK) 
 			 LEFT OUTER JOIN Gorevler WITH(NOLOCK) ON Gorevler.ID = GorevKullanicilari.GorevID
 			 Where GorevKullanicilari.UyelikID = @UyelikID  and KullaniciID = @KullaniciID and Gorevler.Durumu <> 'Tamamlandi'
-			)
+			),
+	YeniOkunmamisMesaj = ((Select COUNT(*) from Mesajlar WITH(NOLOCK) Where Mesajlar.KarsiKullaniciID = @KullaniciID and Mesajlar.GorulmeTarihi IS NULL))
 
 END
 GO
@@ -2879,11 +2883,12 @@ BEGIN
 Insert Into Loglar (UyelikID,Modul,Aciklama1,Aciklama2,KayitTarihi,Kullanici) 
 values (@UyelikID,'Kullanıcı','Yeni Kullanıcı Eklendi',@Ad+' '+@Soyad,GETDATE(),@ID)
 
-
 set @ID = NEWID()
 Insert Into Kullanicilar
 (ID,UyelikID,KullaniciAdi,Parola,Ad,Soyad,Telefon,Adres,Il,Ilce,Aktif,Aciklama1,Aciklama2,Aciklama3,Onay,KayitTarihi,KayitYapanKullanici,Silindi,Resim)
 Select @ID,@UyelikID,@KullaniciAdi,@Parola,@Ad,@Soyad,@Telefon,@Adres,@Il,@Ilce,@Aktif,@Aciklama1,@Aciklama2,@Aciklama3,@Onay,GETDATE(),@Kullanici,0,@Resim
+
+
 
 declare @Baslik nvarchar(max) = 'YK YAZILIM - Aktivasyon'
 declare @Icerik nvarchar(max) = ''
@@ -3208,7 +3213,7 @@ BEGIN
 	Where (KullaniciID = @KullaniciID or KarsiKullaniciID = @KullaniciID)
 	Order by KayitTarihi asc
 	
-	Update Mesajlar set GorulmeTarihi = GETDATE() Where KarsiKullaniciID = @KullaniciID
+	Update Mesajlar set GorulmeTarihi = GETDATE() Where KarsiKullaniciID = @KullaniciID and GorulmeTarihi IS NULL
 END
 
 GO
