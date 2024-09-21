@@ -16,25 +16,55 @@ namespace YKPortal.Controllers
     {
 
         [HttpGet]
-        public ActionResult B2BAyarlari()
+        public ActionResult Config()
         {
             var kullanici = KullaniciGetir(GetCookie("KullaniciID"));
 
             if (kullanici == null || !kullanici.KullaniciAdi.Contains("@ykyazilim.com.tr"))
             {
-              return RedirectToAction("~/YK/AnaSayfa");
+                return Redirect("~/YK/AnaSayfa");
             }
+
+            var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+
+            // B2B Ayarlari
             var b2bAyarlariDto = new B2BAyarlariDto();
+          
+            b2bAyarlariDto.B2BLogoKullaniciAdi = config.AppSettings.Settings["B2BLogoKullaniciAdi"].Value;
+            b2bAyarlariDto.B2BLogoSirket = config.AppSettings.Settings["B2BLogoSirket"].Value;
+            b2bAyarlariDto.B2BLogoParola = config.AppSettings.Settings["B2BLogoParola"].Value;
+            // Seo Ayarlari
+            var seoAyarlariDto = new SeoAyarlariDto();
+           
+            seoAyarlariDto.SeoDescription = config.AppSettings.Settings["SeoDescription"].Value;
+            seoAyarlariDto.SeoKeywords = config.AppSettings.Settings["SeoKeywords"].Value;
+            seoAyarlariDto.FirmaAdi = config.AppSettings.Settings["FirmaAdi"].Value;
 
-            b2bAyarlariDto.B2BLogoKullaniciAdi = ConfigurationManager.AppSettings["B2BLogoKullaniciAdi"];
-            b2bAyarlariDto.B2BLogoSirket = ConfigurationManager.AppSettings["B2BLogoSirket"];
-            b2bAyarlariDto.B2BLogoParola = ConfigurationManager.AppSettings["B2BLogoParola"];
+            seoAyarlariDto.SSLYonlendir = BoolKontrolu(config.AppSettings.Settings["SSLYonlendir"].Value);
+            seoAyarlariDto.AnaSayfadaAcilisSayfasiKontrolu = BoolKontrolu(config.AppSettings.Settings["AnaSayfadaAcilisSayfasiKontrolu"].Value);
+            seoAyarlariDto.IlkUyelikdeKullaniciyiOnayliYap = BoolKontrolu(config.AppSettings.Settings["IlkUyelikdeKullaniciyiOnayliYap"].Value);
+            seoAyarlariDto.YeniUyelikKaydi = BoolKontrolu(config.AppSettings.Settings["YeniUyelikKaydi"].Value);
+            seoAyarlariDto.SifremiUnuttum = BoolKontrolu(config.AppSettings.Settings["SifremiUnuttum"].Value);
+            // Sms Ayarlari
 
-            return View(b2bAyarlariDto);
+            var smsAyarlariDto = new SmsAyarlariDto();
+
+            smsAyarlariDto.SmsKullaniciAdi = config.AppSettings.Settings["SmsKullaniciAdi"].Value;
+            smsAyarlariDto.SmsParola = config.AppSettings.Settings["SmsParola"].Value;
+            smsAyarlariDto.SmsIsim = config.AppSettings.Settings["SmsIsim"].Value;
+
+
+            ViewBag.B2B = b2bAyarlariDto;
+            ViewBag.SEO = seoAyarlariDto;
+            ViewBag.SMS = smsAyarlariDto;
+
+            return View();
         }
 
+       
+
         [HttpPost]
-        public ActionResult ConfigAyarlari(B2BAyarlariDto b2bAyarlariDto)
+        public ActionResult B2bAyarlari(B2BAyarlariDto b2bAyarlariDto)
         {
             var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
 
@@ -45,10 +75,52 @@ namespace YKPortal.Controllers
 
             config.Save();
 
-            return View(b2bAyarlariDto);
+            return RedirectToAction("Config", new {tab = "b2b"});
+        } 
+
+        [HttpPost]
+        public ActionResult SeoAyarlari(SeoAyarlariDto seoAyarlariDto)
+        {
+            var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+
+
+            config.AppSettings.Settings["SeoDescription"].Value = seoAyarlariDto.SeoDescription;
+            config.AppSettings.Settings["SeoKeywords"].Value = seoAyarlariDto.SeoKeywords;
+            config.AppSettings.Settings["FirmaAdi"].Value = seoAyarlariDto.FirmaAdi;
+
+            // Boolean conversion
+            config.AppSettings.Settings["SSLYonlendir"].Value = seoAyarlariDto.SSLYonlendir.ToString();
+            config.AppSettings.Settings["AnaSayfadaAcilisSayfasiKontrolu"].Value = seoAyarlariDto.AnaSayfadaAcilisSayfasiKontrolu.ToString();
+            config.AppSettings.Settings["IlkUyelikdeKullaniciyiOnayliYap"].Value = seoAyarlariDto.IlkUyelikdeKullaniciyiOnayliYap.ToString();
+            config.AppSettings.Settings["YeniUyelikKaydi"].Value = seoAyarlariDto.YeniUyelikKaydi.ToString();
+            config.AppSettings.Settings["SifremiUnuttum"].Value = seoAyarlariDto.SifremiUnuttum.ToString();
+
+
+            config.Save();
+
+            return RedirectToAction("Config", new { tab = "seo" });
         }
 
 
+        [HttpPost]
+        public ActionResult SmsAyarlari(SmsAyarlariDto smsAyarlariDto)
+        {
+            var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+
+
+            config.AppSettings.Settings["B2BLogoKullaniciAdi"].Value = smsAyarlariDto.SmsKullaniciAdi;
+            config.AppSettings.Settings["B2BLogoSirket"].Value = smsAyarlariDto.SmsParola;
+            config.AppSettings.Settings["B2BLogoParola"].Value = smsAyarlariDto.SmsIsim;
+
+            config.Save();
+
+            return RedirectToAction("Config", new { tab = "sms" });
+        }
+
+        private bool BoolKontrolu(string key)
+        {
+            return key == "1";
+        }
 
         private KullaniciEkleDto KullaniciGetir(string ID)
         {
@@ -67,7 +139,8 @@ namespace YKPortal.Controllers
 
             return new KullaniciEkleDto
             {
-                Ad = Convert.ToString(dt.Rows[0]["Ad"])
+                Ad = Convert.ToString(dt.Rows[0]["Ad"]),
+                KullaniciAdi = Convert.ToString(dt.Rows[0]["KullaniciAdi"])
             };
         }
 

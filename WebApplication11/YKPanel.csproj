@@ -338,6 +338,8 @@
     <Compile Include="Models\Dto\MesajlasmaDto.cs" />
     <Compile Include="Models\Dto\PersonelDto.cs" />
     <Compile Include="Models\Dto\PersonelListeViewModel.cs" />
+    <Compile Include="Models\Dto\SeoAyarlariDto.cs" />
+    <Compile Include="Models\Dto\SmsAyarlariDto.cs" />
     <Compile Include="Models\Dto\StokListeViewModel.cs" />
     <Compile Include="Models\Dto\CariZiyaretListeViewModel.cs" />
     <Compile Include="Models\Dto\KullaniciListeViewModel.cs" />
@@ -3036,6 +3038,7 @@
     <Content Include="Views\Mesaj\Chat.cshtml" />
     <Content Include="Views\Ayarlar\ConfigAyarlari.cshtml" />
     <Content Include="Views\Kullanici\UretimYetkiler.cshtml" />
+    <Content Include="Views\Ayarlar\Config.cshtml" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>
