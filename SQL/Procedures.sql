@@ -2854,7 +2854,8 @@ CREATE proc [dbo].[p_KullaniciKaydet](
 @Aciklama3 nvarchar(max),
 @Onay bit = 0,
 @Kullanici nvarchar(100),
-@Resim nvarchar(max)=''
+@Resim nvarchar(max)='',
+@Ilk bit=0
 )
 as
 BEGIN
@@ -2888,6 +2889,9 @@ Insert Into Kullanicilar
 (ID,UyelikID,KullaniciAdi,Parola,Ad,Soyad,Telefon,Adres,Il,Ilce,Aktif,Aciklama1,Aciklama2,Aciklama3,Onay,KayitTarihi,KayitYapanKullanici,Silindi,Resim)
 Select @ID,@UyelikID,@KullaniciAdi,@Parola,@Ad,@Soyad,@Telefon,@Adres,@Il,@Ilce,@Aktif,@Aciklama1,@Aciklama2,@Aciklama3,@Onay,GETDATE(),@Kullanici,0,@Resim
 
+Insert Into Yetkiler 
+(UyelikID,KullaniciID,MenuID,Gor,Duzenle,Sil,KayitTarihi,KayitYapanKullanici)
+select @UyelikID,@ID,ID,1,1,1,GETDATE(),@ID from Menuler WITH(NOLOCK) Where @Ilk = 1
 
 
 declare @Baslik nvarchar(max) = 'YK YAZILIM - Aktivasyon'
@@ -5645,6 +5649,40 @@ order by Loglar.KayitTarihi desc
 
 END
 GO
+drop proc [p_StokBul]
+GO
+CREATE proc [dbo].[p_StokBul](
+@ID nvarchar(100)='',
+@UyelikID nvarchar(100)
+)
+as
+BEGIN
+IF @ID = ''
+BEGIN
+	return;
+END
+Insert Into Loglar (UyelikID,Modul,Aciklama1,Aciklama2,KayitTarihi,Kullanici) values (@UyelikID,'Stok','Stok Detaya Girildi',(select top(1) Isim from Stoklar WITH(NOLOCK) Where ID = @ID),GETDATE(),NULL)
+
+select 
+Stoklar.*,
+G1.Deger as GrupKodu1,
+G2.Deger as GrupKodu2,
+G3.Deger as GrupKodu3,
+G4.Deger as GrupKodu4,
+G5.Deger as GrupKodu5,
+G6.Deger as GrupKodu6,
+C1.Isim as AnaStok
+from Stoklar WITH(NOLOCK)
+LEFT OUTER JOIN GrupKodlari G1 WITH(NOLOCK) ON G1.ID = Stoklar.GrupKodu1ID
+LEFT OUTER JOIN GrupKodlari G2 WITH(NOLOCK) ON G2.ID = Stoklar.GrupKodu2ID
+LEFT OUTER JOIN GrupKodlari G3 WITH(NOLOCK) ON G3.ID = Stoklar.GrupKodu3ID
+LEFT OUTER JOIN GrupKodlari G4 WITH(NOLOCK) ON G4.ID = Stoklar.GrupKodu4ID
+LEFT OUTER JOIN GrupKodlari G5 WITH(NOLOCK) ON G5.ID = Stoklar.GrupKodu5ID
+LEFT OUTER JOIN GrupKodlari G6 WITH(NOLOCK) ON G6.ID = Stoklar.GrupKodu6ID
+LEFT OUTER JOIN Stoklar C1 WITH(NOLOCK) ON C1.ID = Stoklar.AnaStokID
+Where ISNULL(Stoklar.Silindi,0) = 0 and  Stoklar.UyelikID = @UyelikID and Stoklar.ID = @ID
+
+END
 drop proc [p_Stok]
 GO
 CREATE proc [dbo].[p_Stok](

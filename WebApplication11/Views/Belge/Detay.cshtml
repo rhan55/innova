@@ -8,6 +8,9 @@
 
     DataTable dtDepolar = ViewBag.Depolar as DataTable;
     bool YKIsMobileDevice = Request.Browser.IsMobileDevice;
+
+    bool DepoDepoTransferiAciklamaGizle = Convert.ToBoolean(ViewBag.DepoDepoTransferiAciklamaGizle);
+    bool DepoDepoTransferiFiyatGizle = Convert.ToBoolean(ViewBag.DepoDepoTransferiFiyatGizle);
 }
 <div class="d-flex flex-column flex-column-fluid">
 
@@ -96,7 +99,47 @@
 
                                     <div class="mb-0">
 
+                                        <table style="width:100%;">
 
+                                            <tr>
+
+                                                <td>
+                                                    <label for="Barkod">Barkod</label>
+                                                    <input  type="text" name="Barkod" id="Barkod" value="" class="form-control" onkeydown="KaydetBarkod();" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span>Kod : </span>
+                                                    <span id="BarkodStokKodu" name="BarkodStokKodu"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <span>İsim : </span>
+                                                    <span id="BarkodStokAdi" name="BarkodStokAdi"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <select class="form-control" name="BarkodSeri" id="BarkodSeri" placeholder="Lütfen Seçim Yapınız">
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label for="BarkodMiktar">Miktar</label>
+                                                    <input type="text" name="BarkodMiktar" id="BarkodMiktar" value="1"  class="form-control" style="text-align:right;" />
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <input type="button" name="Kaydet" id="Kaydet" value="Kaydet" class="btn btn-primary" onclick="Kaydet2();" style="width:75px;" />
+                                                </td>
+                                            </tr>
+                                        </table>
                                         <!--end::Row-->
                                         <!--begin::Table wrapper-->
                                         <div class="row p-3">
@@ -115,8 +158,8 @@
                                                             <td class="me-4 text-gray-600"><strong>BİRİM</strong></td>
 
                                                             <td class="me-4 text-gray-600"><strong>MİKTAR</strong></td>
-                                                            <td class="me-4 text-gray-600"><strong>FİYAT</strong></td>
-                                                            <td class="me-4 text-gray-600"><strong>TUTAR</strong></td>
+                                                            <td class="me-4 text-gray-600" style="@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")"><strong>FİYAT</strong></td>
+                                                            <td class="me-4 text-gray-600" style="@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")"><strong>TUTAR</strong></td>
                                                             <td><strong></strong></td>
                                                         }
                                                     </tr>
@@ -163,8 +206,8 @@
 
                                                                             <td><strong>Birim</strong></td>
                                                                             <td style="text-align: right;"><strong>Miktar</strong></td>
-                                                                            <td style="text-align: right;"><strong>Fiyat</strong></td>
-                                                                            <td style="text-align: right;"><strong>Tutar</strong></td>
+                                                                            <td style="text-align: right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")"><strong>Fiyat</strong></td>
+                                                                            <td style="text-align: right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")"><strong>Tutar</strong></td>
                                                                         </tr>
                                                                         <tr>
 
@@ -175,10 +218,10 @@
                                                                                 <input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
                                                                             </td>
                                                                             <td>
-                                                                                <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                                                <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")" />
                                                                             </td>
                                                                             <td>
-                                                                                <input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" readonly />
+                                                                                <input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")" readonly />
                                                                             </td>
                                                                         </tr>
                                                                     </table>
@@ -219,10 +262,10 @@
                                                                     <input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
                                                                 </td>
                                                                 <td class="text-end" style="max-width:150px;">
-                                                                    <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                                    <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")" />
                                                                 </td>
                                                                 <td class="text-end" style="max-width:150px;">
-                                                                    <input type="text" data-kt-element="tutar-data" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" readonly />
+                                                                    <input type="text" data-kt-element="tutar-data" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")" readonly />
                                                                 </td>
                                                                 <td>
                                                                     <button type='button' class="deleteBtn pt-2" data-ID2="@(ID)">Sil</button>
@@ -250,7 +293,7 @@
                                 <div class="col-lg-12">
 
                                     <table style="width:100%;">
-                                        <tr>
+                                        <tr style="@(DepoDepoTransferiAciklamaGizle == true ? "display:none;" : "")">
                                             <td style="width:75px;">Açıklama</td>
                                             <td>:</td>
                                             <td colspan="5">
@@ -293,6 +336,122 @@
 
         var Tip = "@(Tip)";
 
+        function Kaydet2() {
+            if ($("#BarkodSeri").val() == "") {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Seri seçilmelidir.",
+                    showConfirmButton: true,
+                    //timer: 3000
+                });
+                return;
+            }
+            YeniSatirAc($("#BarkodStokKodu").text(),$("#BarkodStokAdi").text(), $("#BarkodSeri").val());
+        }
+
+        function KaydetBarkod() {
+            if (event.keyCode == 13) {
+                KaydetKontrol();
+            }
+        }
+
+        function KaydetKontrol() {
+            if ($("#Tarih").val() == "") {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Tarih seçilmelidir.",
+                    showConfirmButton: true,
+                    //timer: 3000
+                });
+                return;
+            }
+            if ($("#CikisDepo").val() == "") {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Depo seçilmelidir.",
+                    showConfirmButton: true,
+                    //timer: 3000
+                });
+                return;
+            }
+            if ($("#Barkod").val() == "" ) {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "Barkod okutunuz.",
+                    showConfirmButton: true,
+                    //timer: 3000
+                });
+                return;
+            }
+            var data_ = {
+                "search": $("#Barkod").val()
+            };
+            $("#BarkodStokKodu").text("");
+            $("#BarkodStokAdi").text("");
+
+            $.ajax({
+                async: false,
+                cache: false,
+                type: "GET",
+                url: "/Stok/SelectStok",
+                data: data_,
+                success: function (data) {
+                    console.log("Stok Miktarı : " + data.length);
+                    if (data.length > 0) {
+                        console.log("Stok ID : " + data[0]["ID"]);
+                        $("#BarkodStokKodu").text(data[0]["Kod"]);
+                        $("#BarkodStokAdi").text(data[0]["Isim"]);
+                        $.ajax({
+                            url: '/Stok/SelectStokSeriListe',
+                            data: "{ StokID: '" + data[0]["ID"] + "' }",
+                            dataType: "json",
+                            type: "POST",
+                            contentType: "application/json; charset=utf-8",
+                            dataFilter: function (data2) { return data2; },
+                            success: function (data3) {
+                                console.log("Seri Miktarı : " + data3.length);
+                                console.log(data3);
+                                $('#BarkodSeri').empty();
+                                var deger = "";
+
+                                deger += "<option value=''>Seri Seçimi...</option>";
+                                for (var i = 0; i < data3.length; i++) {
+                                    console.log("Seri Eklendi : " + data3[i].SeriNo);
+                                        deger += "<option value='"+data3[i].SeriNo+"'>" + data3[i].SeriNo + "</option>";
+                                }
+                                $('#BarkodSeri').append(deger);
+
+                                if (data3.length == 0) {
+                                    $('#BarkodSeri').hide();
+                                } else {
+                                    $('#BarkodSeri').show();
+                                }
+                            },
+                            error: function (msg) {
+                                console.log("HATA!"+msg.m);
+                            }
+                        });
+
+                    }
+                },
+                error: function (msg) {
+                    console.log("HATA:"+msg.m);
+                }
+            });
+
+
+        }
+
+
+
+
+
+
+
 
         $(".deleteBtn").click(function () {
             $(this).closest("tr").remove();
@@ -306,7 +465,7 @@
             $("#" + tutarid).val((parseFloat($("#" + miktarid).val().replace(",", ".")) * parseFloat($("#" + fiyatid).val().replace(",", "."))).toFixed(2));
         }
 
-        function YeniSatirAc() {
+        function YeniSatirAc(eklenecekStokKodu, eklenecekStokAdi, eklenecekSeri) {
             var IsMobile = "@(YKIsMobileDevice == true ? "1" : "0")";
             var YeniID = IDGuidOlustur().replace(/-/g, "");
 
@@ -336,16 +495,16 @@
                 deger += "             <tr>  ";
                            deger += "                 <td><strong>Birim</strong></td> ";
                            deger += "                 <td style='text-align: right;'><strong>Miktar</strong></td>                                                                        ";
-                           deger += "                 <td style='text-align: right;'><strong>Fiyat</strong></td>                                                                         ";
-                           deger += "                 <td style='text-align: right;'><strong>Tutar</strong></td>                                                                         ";
+                           deger += "                 <td style='text-align: right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")'><strong>Fiyat</strong></td>                                                                         ";
+                           deger += "                 <td style='text-align: right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")'><strong>Tutar</strong></td>                                                                         ";
                            deger += "             </tr>                                                                                                                                  ";
                            deger += "             <tr>                                                                                                                                   ";
 
 
                 deger += "                 <td><input type='text' name='OlcuBirimi_" + YeniID + "' id='OlcuBirimi_" + YeniID + "' value='Adet' class='form-control p-2' /></td>                   ";
                 deger += "                 <td><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2' style='text-align:right;' /></td>              ";
-                deger += "                 <td><input type='text' name='Fiyat_" + YeniID + "' id='Fiyat_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2' style='text-align:right;' /></td>                 ";
-                deger += "                 <td><input type='text' name='Tutar_" + YeniID + "' id='Tutar_" + YeniID + "' value='0'  onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");'  class='form-control p-2' style='text-align:right;' readonly /></td>        ";
+                deger += "                 <td><input type='text' name='Fiyat_" + YeniID + "' id='Fiyat_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2' style='text-align:right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")' /></td>                 ";
+                deger += "                 <td><input type='text' name='Tutar_" + YeniID + "' id='Tutar_" + YeniID + "' value='0'  onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");'  class='form-control p-2' style='text-align:right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")' readonly /></td>        ";
                            deger += "             </tr>";
                            deger += "         </table>";
                 deger += "     </td><td><button type='button' class='deleteBtn' onclick='SatirSil(\"" + YeniID +"\")' data-ID2='"+YeniID+"'>Sil</button></td>";
@@ -362,6 +521,9 @@
                     deger += "              <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2' />";
                 } else {
                     deger += "              <select  name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' class='form-control p-2'>";
+                    if (eklenecekSeri != null) {
+                        deger += "<option value='" + eklenecekSeri + "'>" + eklenecekSeri+"</option>";
+                    }
                     deger += "        </select>";
                     deger += "";
                 }
@@ -370,11 +532,16 @@
 
                 deger += "      <td style='max-width:100px;'><input type='text' name='OlcuBirimi_" + YeniID + "' id ='OlcuBirimi_" + YeniID + "' value = 'Adet' class='form-control p-2' /></td > ";
                 deger += "      <td style='max-width:100px;'><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2' style='text-align:right;' /></td>";
-                deger += "      <td style='max-width:150px;'><input type='text' name='Fiyat_" + YeniID + "' id = 'Fiyat_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2' style = 'text-align:right;' /></td > ";
-                deger += "      <td style='max-width:150px;'><input type='text' name='Tutar_" + YeniID + "' id = 'Tutar_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");' class='form-control p-2' style = 'text-align:right;' readonly /></td > ";
+                deger += "      <td style='max-width:150px;'><input type='text' name='Fiyat_" + YeniID + "' id = 'Fiyat_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2' style = 'text-align:right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")' /></td > ";
+                deger += "      <td style='max-width:150px;'><input type='text' name='Tutar_" + YeniID + "' id = 'Tutar_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID +"\");' class='form-control p-2' style = 'text-align:right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")' readonly /></td > ";
                 deger += "      <td><button type='button' class='deleteBtn' onclick='SatirSil(\""+YeniID+"\")' data-ID2='"+YeniID+"'>Sil</button></td></tr>";
             }
-            var newSelect = $("<select class='form-select form-select-solid p-2 rounded-1 ' name='StokID_" + YeniID + "' id='StokID_" + YeniID + "' style='min-width:150px;max-width:350px;' aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız' ></select>");
+            var ekbilgi = "";
+            if (eklenecekStokKodu != null) {
+                ekbilgi = "<option value='" + eklenecekStokKodu + "'>" + eklenecekStokKodu+"</option>";
+            }
+
+            var newSelect = $("<select class='form-select form-select-solid p-2 rounded-1 ' name='StokID_" + YeniID + "' id='StokID_" + YeniID + "' style='min-width:150px;max-width:350px;' aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız' >"+ekbilgi+"</select>");
 
             $('#TabloKalemler tbody').append(deger);
             $("#TD_" + YeniID + "").append(newSelect);
@@ -557,6 +724,7 @@
                     dataFilter: function (data) { return data; },
                     success: function (data) {
                         // waitingDialog.hide();
+                        console.log(data);
                         $('#Seri_' + stokid.replace("StokID_", "")).find('option').remove();
                             var deger = "";
                         for (var i = 0; i < data.Data.length; i++) {
@@ -564,6 +732,11 @@
                         }
                         $('#Seri_' + stokid.replace("StokID_", "")).append(deger);
 
+                        if (data.Data.length == 0) {
+                            $('#Seri_' + stokid.replace("StokID_", "")).hide();
+                        } else {
+                            $('#Seri_' + stokid.replace("StokID_", "")).show();
+                        }
                     },
                         error: function (msg) {
                             console.log("HATA!"+msg);
@@ -578,12 +751,10 @@
 
     @foreach (BelgeKalemDto satir in Model.Kalemler)
     {
-        <script>
+<script>
 
 
             $(function () {
-
-
 
                 const StokIDSelect@(satir.ID.Replace("-","")) = $('#StokID_@(satir.ID.Replace("-",""))').select2({
                     ajax: {
@@ -636,14 +807,19 @@
                     dataFilter: function (data) { return data; },
                     success: function (data) {
                         // waitingDialog.hide();
-
+                        console.log(data);
                             $('#Seri_@(satir.ID.Replace("-",""))').remove();
                             var deger = "";
                             for (var i = 0; i < data.length; i++) {
                                 deger += "<option value='"+data[i].SeriNo+"'>" + data[i].SeriNo + "</option>";
                             }
-                            $('#Seri_@(satir.ID.Replace("-",""))').append(deger);
+                        $('#Seri_@(satir.ID.Replace("-",""))').append(deger);
 
+                        if (data.length == 0) {
+                            $('#Seri_@(satir.ID.Replace("-",""))').hide();
+                        } else {
+                            $('#Seri_@(satir.ID.Replace("-",""))').show();
+                        }
                     },
                     error: function (msg) {
                         console.log(msg);
@@ -651,6 +827,6 @@
                 });
             });
 
-        </script>
+</script>
     }
 }

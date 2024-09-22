@@ -530,6 +530,7 @@ namespace YKPortal.Controllers
                 cmd.Parameters.AddWithValue("@Onay", ConfigurationManager.AppSettings["IlkUyelikdeKullaniciyiOnayliYap"] == "1" ? true : false);
                 cmd.Parameters.AddWithValue("@Kullanici", "");
                 cmd.Parameters.AddWithValue("@Resim", "");
+                cmd.Parameters.AddWithValue("@Ilk", "1");
                 dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                 if (dt.Rows.Count > 0 && Convert.ToString(dt.Rows[0]["ID"]).Length > 0)
                 {

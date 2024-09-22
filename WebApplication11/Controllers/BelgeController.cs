@@ -158,6 +158,29 @@ namespace YKPortal.Controllers
                 ViewBag.Depolar = (DataTable)IDVeritabani.Sorgula(cmdDepolar, SorgulaTuru.Tablo);
             }
 
+            {
+                SqlCommand cmdKayit = new SqlCommand();
+                cmdKayit.CommandType = System.Data.CommandType.Text;
+                cmdKayit.CommandText = "select ISNULL(Deger,0) as Deger from Parametreler WITH(NOLOCK) Where UyelikID = @UyelikID and Modul = 'DepoDepoTransferiAciklamaGizle'";
+                cmdKayit.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                DataTable dtKayit = (DataTable)IDVeritabani.Sorgula(cmdKayit, SorgulaTuru.Tablo);
+                if (dtKayit.Rows.Count > 0)
+                    ViewBag.DepoDepoTransferiAciklamaGizle = Convert.ToString(dtKayit.Rows[0]["Deger"]) == "1" ? true : false;
+                else
+                    ViewBag.DepoDepoTransferiAciklamaGizle = false;
+            }
+            {
+                SqlCommand cmdKayit = new SqlCommand();
+                cmdKayit.CommandType = System.Data.CommandType.Text;
+                cmdKayit.CommandText = "select ISNULL(Deger,0) as Deger from Parametreler WITH(NOLOCK) Where UyelikID = @UyelikID and Modul = 'DepoDepoTransferiFiyatGizle'";
+                cmdKayit.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                DataTable dtKayit = (DataTable)IDVeritabani.Sorgula(cmdKayit, SorgulaTuru.Tablo);
+                if (dtKayit.Rows.Count > 0)
+                    ViewBag.DepoDepoTransferiFiyatGizle = Convert.ToString(dtKayit.Rows[0]["Deger"]) == "1" ? true : false;
+                else
+                    ViewBag.DepoDepoTransferiFiyatGizle = false;
+            }
+
             return View(entity);
         }
 

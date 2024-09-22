@@ -1120,6 +1120,32 @@ namespace YKPortal.Controllers
             return Json(liste, JsonRequestBehavior.AllowGet);
 
         }
+        public JsonResult SelectStok(string search)
+        {
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_StokBul";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Barkod", search);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            var liste = new List<StokDto>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                liste.Add(new StokDto
+                {
+                    ID = Convert.ToString(dt.Rows[i]["ID"]),
+                    Isim = Convert.ToString(dt.Rows[i]["Isim"]),
+                    Kod = Convert.ToString(dt.Rows[i]["Kod"]),
+                });
+                break;
+            }
+
+            return Json(liste, JsonRequestBehavior.AllowGet);
+
+        }
         public JsonResult SelectListe(string search)
         {
 
