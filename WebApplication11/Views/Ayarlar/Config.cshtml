@@ -4,14 +4,13 @@
 }
 
 
-
 <div class="container">
-    <div class="row">
+    <div class="row mt-10">
         <div class="card-body">
-            <ul class="nav nav-pills nav-pills-custom row position-relative mx-0 mb-9">
+            <ul class="nav nav-pills nav-pills-custom row position-relative mx-0 mb-9 d-flex align-items-center justify-content-center" >
                 <li class="nav-item col-2 mx-0 p-0">
                     <!--begin::Link-->
-                    <a class="nav-link d-flex justify-content-center w-100 border-0 h-100 active" data-bs-toggle="pill" href="#tab_b2b">
+                    <a class="nav-link d-flex justify-content-center w-100 border-0 h-100 active Tab-Class" data-bs-toggle="pill" href="#tab_b2b">
                         <!--begin::Subtitle-->
                         <span class="nav-text text-gray-800 fw-bold fs-6 mb-3">B2B Ayarları</span>
                         <!--end::Subtitle-->
@@ -23,7 +22,7 @@
                 </li>
                 <li class="nav-item col-2 mx-0 p-0">
                     <!--begin::Link-->
-                    <a class="nav-link d-flex justify-content-center w-100 border-0 h-100" data-bs-toggle="pill" href="#tab_seo">
+                    <a class="nav-link d-flex justify-content-center w-100 border-0 h-100  Tab-Class" data-bs-toggle="pill" href="#tab_seo">
                         <!--begin::Subtitle-->
                         <span class="nav-text text-gray-800 fw-bold fs-6 mb-3">SEO Ayarları</span>
                         <!--end::Subtitle-->
@@ -35,7 +34,7 @@
                 </li>
                 <li class="nav-item col-2 mx-0 p-0">
                     <!--begin::Link-->
-                    <a class="nav-link d-flex justify-content-center w-100 border-0 h-100" data-bs-toggle="pill" href="#tab_sms">
+                    <a class="nav-link d-flex justify-content-center w-100 border-0 h-100 Tab-Class" data-bs-toggle="pill" href="#tab_sms">
                         <!--begin::Subtitle-->
                         <span class="nav-text text-gray-800 fw-bold fs-6 mb-3">SMS Ayarları</span>
                         <!--end::Subtitle-->
@@ -47,13 +46,14 @@
                 </li>
                 <span class="position-absolute z-index-1 bottom-0 w-100 h-4px bg-light rounded"></span>
             </ul>
+
+
             <div class="tab-content">
-                <div class="tab-pane fade show active " id="tab_b2b" style="margin:10px;">
-
+                <div class="tab-pane fade  show active" id="tab_b2b" style="margin:10px;">
                     <div class="container mt-10">
-                        <form action="/Ayarlar/B2BAyarlari" method="post">
+                        <form id="b2bForm">
 
-                            <div class="row mb-12">
+                            <div class="row mb-10">
                                 <!--begin::Input group-->
                                 <div class="col-lg-6">
                                     <!--begin::Label-->
@@ -101,15 +101,16 @@
                         </form>
                     </div>
                 </div>
-                <div class="tab-pane fade " id="tab_seo" style="margin:10px;">
-                    <div class="container mt-10">
-                        <form action="/Ayarlar/SeoAyarlari" method="post">
+                <div class="tab-pane fade" id="tab_seo">
 
-                            <div class="row mb-12">
+                    <div class="container mt-14">
+                        <form id="seoForm">
+
+                            <div class="row mb-10">
                                 <!--begin::Input group-->
                                 <div class="col-lg-4">
                                     <!--begin::Label-->
-                                    <label for="SeoDescription" class="fw-bold text-gray-700 fs-6 mb-2">Seo Açıklaması</label>
+                                    <label for="SeoDescription" class="fw-bold text-gray-700 fs-6 mb-2">SEO Açıklaması</label>
                                     <!--end::Label-->
                                     <!--begin::Input-->
                                     <input type="text" id="SeoDescription" name="SeoDescription" class="form-control p-2" value="@ViewBag.SEO.SeoDescription">
@@ -120,7 +121,7 @@
 
                                 <div class="col-lg-4">
                                     <!--begin::Label-->
-                                    <label for="SeoKeywords" class="fw-bold text-gray-700 fs-6 mb-2">SeoAnahtar Kelimeler</label>
+                                    <label for="SeoKeywords" class="fw-bold text-gray-700 fs-6 mb-2">SEO Anahtar Kelimeler</label>
                                     <!--end::Label-->
                                     <!--begin::Input-->
                                     <input type="text" id="SeoKeywords" name="SeoKeywords" class="form-control p-2" value="@ViewBag.SEO.SeoKeywords">
@@ -136,11 +137,11 @@
                                     <!--end::Input-->
                                 </div>
                             </div>
-                            <div class="row mb-12">
+                            <div class="row">
                                 <!--begin::Input group-->
                                 <div class="col-lg-2 d-flex align-items-center ">
                                     <div class="form-check">
-                                        <input class="form-check-input" name="SSLYonlendir" type="checkbox" value="true" id="SSLYonlendir"  @(ViewBag.SEO.SSLYonlendir ? "checked" : "") />
+                                        <input class="form-check-input" name="SSLYonlendir" type="checkbox" value="true" id="SSLYonlendir" @(ViewBag.SEO.SSLYonlendir ? "checked" : "") />
                                         <label class="form-check-label user-select-none cursor-pointer" for="SSLYonlendir">
                                             SSL Yönlendir
                                         </label>
@@ -149,26 +150,26 @@
                                 <!--begin::Input group-->
 
 
-                                <div class="col-lg-2 d-flex align-items-center ">
+                                <div class="col-lg-2 d-flex align-items-center mt-5">
                                     <div class="form-check">
-                                        <input class="form-check-input" name="AnaSayfadaAcilisSayfasiKontrolu" type="checkbox" value="true" id="AnaSayfadaAcilisSayfasiKontrolu" @(ViewBag.SEO.AnaSayfadaAcilisSayfasiKontrolu ? "checked" : "")  />
+                                        <input class="form-check-input" name="AnaSayfadaAcilisSayfasiKontrolu" type="checkbox" value="true" id="AnaSayfadaAcilisSayfasiKontrolu" @(ViewBag.SEO.AnaSayfadaAcilisSayfasiKontrolu ? "checked" : "") />
                                         <label class="form-check-label user-select-none cursor-pointer" for="AnaSayfadaAcilisSayfasiKontrolu">
-                                            AnaSayfada Açılış Sayfası Kontrolü
+                                            AnaSayfa'da Açılış Sayfası Kontrolü
                                         </label>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-2 d-flex align-items-center ">
+                                <div class="col-lg-2 d-flex align-items-center mt-5">
                                     <div class="form-check">
                                         <input class="form-check-input" name="IlkUyelikdeKullaniciyiOnayliYap" type="checkbox" value="true" id="IlkUyelikdeKullaniciyiOnayliYap" @(ViewBag.SEO.IlkUyelikdeKullaniciyiOnayliYap ? "checked" : "") />
                                         <label class="form-check-label user-select-none cursor-pointer" for="IlkUyelikdeKullaniciyiOnayliYap">
-                         
-                                            İlk Üyelikte Kullanıcıyı Onaylı YAp
+
+                                            İlk Üyelikte Kullanıcıyı Onaylı Yap
                                         </label>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-2 d-flex align-items-center ">
+                                <div class="col-lg-2 d-flex align-items-center">
                                     <div class="form-check">
                                         <input class="form-check-input" name="YeniUyelikKaydi" type="checkbox" value="true" id="YeniUyelikKaydi" @(ViewBag.SEO.YeniUyelikKaydi ? "checked" : "") />
                                         <label class="form-check-label user-select-none cursor-pointer" for="YeniUyelikKaydi">
@@ -176,7 +177,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 d-flex align-items-center ">
+                                <div class="col-lg-2 d-flex align-items-center">
                                     <div class="form-check">
                                         <input class="form-check-input" name="SifremiUnuttum" type="checkbox" value="true" id="SifremiUnuttum" @(ViewBag.SEO.SifremiUnuttum ? "checked" : "") />
                                         <label class="form-check-label user-select-none cursor-pointer" for="SifremiUnuttum">
@@ -184,10 +185,7 @@
                                         </label>
                                     </div>
                                 </div>
-
                             </div>
-                            
-
                             <div class="pt-10">
                                 <a onclick="history.back()" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
                                 <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Kaydet">
@@ -195,21 +193,17 @@
 
                                 </button>
                             </div>
-
-
                         </form>
                     </div>
-
                 </div>
-                <div class="tab-pane fade" id="tab_sms" style="margin:10px;">
+                <div class="tab-pane fade" id="tab_sms">
                     <div class="container mt-10">
-                        <form action="/Ayarlar/B2BAyarlari" method="post">
-
-                            <div class="row mb-12">
+                        <form id="smsForm">
+                            <div class="row mb-10">
                                 <!--begin::Input group-->
                                 <div class="col-lg-6">
                                     <!--begin::Label-->
-                                    <label for="SmsKullaniciAdi" class="fw-bold text-gray-700 fs-6 mb-2">Sms Kullanıcı Adı</label>
+                                    <label for="SmsKullaniciAdi" class="fw-bold text-gray-700 fs-6 mb-2">SMS Kullanıcı Adı</label>
                                     <!--end::Label-->
                                     <!--begin::Input-->
                                     <input type="text" id="SmsKullaniciAdi" name="SmsKullaniciAdi" class="form-control p-2" value="@ViewBag.SMS.SmsKullaniciAdi">
@@ -220,7 +214,7 @@
 
                                 <div class="col-lg-6">
                                     <!--begin::Label-->
-                                    <label for="SmsParola" class="fw-bold text-gray-700 fs-6 mb-2">Sms Parola</label>
+                                    <label for="SmsParola" class="fw-bold text-gray-700 fs-6 mb-2">SMS Parola</label>
                                     <!--end::Label-->
                                     <!--begin::Input-->
                                     <input type="text" id="SmsParola" name="SmsParola" class="form-control p-2" value="@ViewBag.SMS.SmsParola">
@@ -232,7 +226,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <!--begin::Label-->
-                                    <label for="SmsIsim" class="fw-bold text-gray-700 fs-6 mb-2">Sms İsim</label>
+                                    <label for="SmsIsim" class="fw-bold text-gray-700 fs-6 mb-2">SMS İsim</label>
                                     <!--end::Label-->
                                     <!--begin::Input-->
                                     <input type="text" id="SmsIsim" name="SmsIsim" class="form-control p-2" value="@ViewBag.SMS.SmsIsim">
@@ -248,12 +242,114 @@
 
                                 </button>
                             </div>
-
-
                         </form>
                     </div>
-                </div> 
-            </div>
+                </div>
+            </div>          
         </div>
-        </div>
+    </div>
 </div>
+
+
+
+@section Scripts {
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+        
+
+
+            // B2B formunu submit ettiğimizde
+            $('#b2bForm').on('submit', function (e) {
+                e.preventDefault(); // Formun normal submit olmasını engelle
+
+                // Form verilerini topla
+                var formData = {
+                    B2BLogoKullaniciAdi: $('#B2BLogoKullaniciAdi').val(),
+                    B2BLogoSirket: $('#B2BLogoSirket').val(),
+                    B2BLogoParola: $('#B2BLogoParola').val()
+                };
+
+                $.ajax({
+                    url: '/Ayarlar/B2BAyarlari', // Metodun adresi
+                    type: 'POST',
+                    data: formData, // Gönderilecek veri
+                    success: function (response) {
+                        // Başarılı olduğunda yapılacaklar
+                        alert("B2B Ayarları başarıyla kaydedildi.");
+                    },
+                    error: function (xhr, status, error) {
+                        // Hata durumunda yapılacaklar
+                        alert("Bir hata oluştu: " + error);
+                    }
+                });
+            });
+
+
+            // B2B formunu submit ettiğimizde
+            $('#seoForm').on('submit',function (e) {
+                e.preventDefault(); // Formun normal submit olmasını engelle
+
+                // Form verilerini topla
+                var formData = {
+                    SeoDescription: $('#SeoDescription').val(),
+                    SeoKeywords: $('#SeoKeywords').val(),
+                    FirmaAdi: $('#FirmaAdi').val(),
+                    SSLYonlendir: $('#SSLYonlendir').is(":checked"),
+                    AnaSayfadaAcilisSayfasiKontrolu: $('#AnaSayfadaAcilisSayfasiKontrolu').is(":checked"),
+                    IlkUyelikdeKullaniciyiOnayliYap: $('#IlkUyelikdeKullaniciyiOnayliYap').is(":checked"),
+                    YeniUyelikKaydi: $('#YeniUyelikKaydi').is(":checked"),
+                    SifremiUnuttum: $('#SifremiUnuttum').is(":checked"),
+                  
+                };
+
+                $.ajax({
+                    url: '/Ayarlar/SeoAyarlari',
+                    type: 'POST',
+                    data: formData, 
+                    success: function (response) {
+                       
+                        alert("SEO Ayarları başarıyla kaydedildi.");
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Bir hata oluştu: " + error);
+                    }
+                });
+            });
+
+
+            // B2B formunu submit ettiğimizde
+            $('#smsForm').on('submit', function (e) {
+                e.preventDefault(); // Formun normal submit olmasını engelle
+
+            
+                var formData = {
+                    SmsKullaniciAdi: $('#SmsKullaniciAdi').val(),
+                    SmsParola: $('#SmsParola').val(),
+                    SmsIsim: $('#SmsIsim').val(),                  
+          
+                };
+
+                $.ajax({
+                    url: '/Ayarlar/SmsAyarlari', 
+                    type: 'POST',
+                    data: formData, 
+                    success: function (response) {
+                        
+                        alert("SMS Ayarları başarıyla kaydedildi.");
+                    },
+                    error: function (xhr, status, error) {
+                        
+                        alert("Bir hata oluştu: " + error);
+                    }
+                });
+            });
+        });
+
+    </script>
+
+
+}

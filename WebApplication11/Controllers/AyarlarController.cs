@@ -29,13 +29,13 @@ namespace YKPortal.Controllers
 
             // B2B Ayarlari
             var b2bAyarlariDto = new B2BAyarlariDto();
-          
+
             b2bAyarlariDto.B2BLogoKullaniciAdi = config.AppSettings.Settings["B2BLogoKullaniciAdi"].Value;
             b2bAyarlariDto.B2BLogoSirket = config.AppSettings.Settings["B2BLogoSirket"].Value;
             b2bAyarlariDto.B2BLogoParola = config.AppSettings.Settings["B2BLogoParola"].Value;
             // Seo Ayarlari
             var seoAyarlariDto = new SeoAyarlariDto();
-           
+
             seoAyarlariDto.SeoDescription = config.AppSettings.Settings["SeoDescription"].Value;
             seoAyarlariDto.SeoKeywords = config.AppSettings.Settings["SeoKeywords"].Value;
             seoAyarlariDto.FirmaAdi = config.AppSettings.Settings["FirmaAdi"].Value;
@@ -61,65 +61,84 @@ namespace YKPortal.Controllers
             return View();
         }
 
-       
-
         [HttpPost]
-        public ActionResult B2bAyarlari(B2BAyarlariDto b2bAyarlariDto)
+        public JsonResult B2bAyarlari(B2BAyarlariDto b2bAyarlariDto)
         {
-            var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+            try
+            {
+                var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
 
+                config.AppSettings.Settings["B2BLogoKullaniciAdi"].Value = b2bAyarlariDto.B2BLogoKullaniciAdi;
+                config.AppSettings.Settings["B2BLogoSirket"].Value = b2bAyarlariDto.B2BLogoSirket;
+                config.AppSettings.Settings["B2BLogoParola"].Value = b2bAyarlariDto.B2BLogoParola;
 
-            config.AppSettings.Settings["B2BLogoKullaniciAdi"].Value = b2bAyarlariDto.B2BLogoKullaniciAdi;
-            config.AppSettings.Settings["B2BLogoSirket"].Value = b2bAyarlariDto.B2BLogoSirket;
-            config.AppSettings.Settings["B2BLogoParola"].Value = b2bAyarlariDto.B2BLogoParola;
+                config.Save();
 
-            config.Save();
-
-            return RedirectToAction("Config", new {tab = "b2b"});
-        } 
-
-        [HttpPost]
-        public ActionResult SeoAyarlari(SeoAyarlariDto seoAyarlariDto)
-        {
-            var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
-
-
-            config.AppSettings.Settings["SeoDescription"].Value = seoAyarlariDto.SeoDescription;
-            config.AppSettings.Settings["SeoKeywords"].Value = seoAyarlariDto.SeoKeywords;
-            config.AppSettings.Settings["FirmaAdi"].Value = seoAyarlariDto.FirmaAdi;
-
-            // Boolean conversion
-            config.AppSettings.Settings["SSLYonlendir"].Value = seoAyarlariDto.SSLYonlendir.ToString();
-            config.AppSettings.Settings["AnaSayfadaAcilisSayfasiKontrolu"].Value = seoAyarlariDto.AnaSayfadaAcilisSayfasiKontrolu.ToString();
-            config.AppSettings.Settings["IlkUyelikdeKullaniciyiOnayliYap"].Value = seoAyarlariDto.IlkUyelikdeKullaniciyiOnayliYap.ToString();
-            config.AppSettings.Settings["YeniUyelikKaydi"].Value = seoAyarlariDto.YeniUyelikKaydi.ToString();
-            config.AppSettings.Settings["SifremiUnuttum"].Value = seoAyarlariDto.SifremiUnuttum.ToString();
-
-
-            config.Save();
-
-            return RedirectToAction("Config", new { tab = "seo" });
+                return Json(new { success = true, message = "B2B ayarları başarıyla kaydedildi." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Bir hata oluştu: " + ex.Message });
+            }
         }
 
+        [HttpPost]
+        public JsonResult SeoAyarlari(SeoAyarlariDto seoAyarlariDto)
+        {
+            try
+            {
+                var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+
+
+                config.AppSettings.Settings["SeoDescription"].Value = seoAyarlariDto.SeoDescription;
+                config.AppSettings.Settings["SeoKeywords"].Value = seoAyarlariDto.SeoKeywords;
+                config.AppSettings.Settings["FirmaAdi"].Value = seoAyarlariDto.FirmaAdi;
+
+                // Boolean conversion
+                config.AppSettings.Settings["SSLYonlendir"].Value = seoAyarlariDto.SSLYonlendir.ToString();
+                config.AppSettings.Settings["AnaSayfadaAcilisSayfasiKontrolu"].Value = seoAyarlariDto.AnaSayfadaAcilisSayfasiKontrolu.ToString();
+                config.AppSettings.Settings["IlkUyelikdeKullaniciyiOnayliYap"].Value = seoAyarlariDto.IlkUyelikdeKullaniciyiOnayliYap.ToString();
+                config.AppSettings.Settings["YeniUyelikKaydi"].Value = seoAyarlariDto.YeniUyelikKaydi.ToString();
+                config.AppSettings.Settings["SifremiUnuttum"].Value = seoAyarlariDto.SifremiUnuttum.ToString();
+
+
+                config.Save();
+
+                return Json(new { success = true, message = "SEO ayarları başarıyla kaydedildi." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Bir hata oluştu: " + ex.Message });
+            }
+        }
 
         [HttpPost]
-        public ActionResult SmsAyarlari(SmsAyarlariDto smsAyarlariDto)
+        public JsonResult SmsAyarlari(SmsAyarlariDto smsAyarlariDto)
         {
-            var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+            try
+            {
+                var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
 
 
-            config.AppSettings.Settings["B2BLogoKullaniciAdi"].Value = smsAyarlariDto.SmsKullaniciAdi;
-            config.AppSettings.Settings["B2BLogoSirket"].Value = smsAyarlariDto.SmsParola;
-            config.AppSettings.Settings["B2BLogoParola"].Value = smsAyarlariDto.SmsIsim;
+                config.AppSettings.Settings["SmsKullaniciAdi"].Value = smsAyarlariDto.SmsKullaniciAdi;
+                config.AppSettings.Settings["SmsParola"].Value = smsAyarlariDto.SmsParola;
+                config.AppSettings.Settings["SmsIsim"].Value = smsAyarlariDto.SmsIsim;
 
-            config.Save();
+                config.Save();
 
-            return RedirectToAction("Config", new { tab = "sms" });
+
+                return Json(new { success = true, message = "SMS ayarları başarıyla kaydedildi." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Bir hata oluştu: " + ex.Message });
+            }
         }
+
 
         private bool BoolKontrolu(string key)
         {
-            return key == "1";
+            return key == "True";
         }
 
         private KullaniciEkleDto KullaniciGetir(string ID)
