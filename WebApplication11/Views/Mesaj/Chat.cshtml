@@ -9,7 +9,7 @@
         <div id="kt_app_content" class="app-content container flex-column-fluid ">
             <div id="kt_app_content_container" class="app-container">
                 <div class="d-flex flex-column flex-lg-row">
-                    <div style="min-height:40px;" class="flex-column flex-lg-row-auto w-100 w-lg-300px w-xl-400px mb-10 mb-lg-0">
+                    <div style="min-height:40px;" class="flex-column flex-lg-row-auto w-100 w-lg-300px w-xl-450px mb-10 mb-lg-0">
 
                         <div class="card card-flush">
                             <div style="min-height:40px;" class="card-header px-2" id="kt_chat_contacts_header">
@@ -221,27 +221,28 @@
             var $messages = $('#mesajListesi');
 
 
-            chat.client.receiveMessage = function (kimden, mesaj) {
+            chat.client.receiveMessage = function (kimden, mesaj, tarih) {
 
                 const template = `
-         <div class="d-flex justify-content-start mb-10">
-          <div id="select" class="min-w-40px max-w-40"></div>
-             <div class="d-flex flex-column align-items-start">
-                 <div class="d-flex align-items-center mb-2">
-                     <div class="me-3">
-                         <span class="text-muted fs-7 mb-1">10 dakika önce</span>
-                     </div>
-                 </div>
+                     <div class="d-flex justify-content-start mb-10">
+                      <div id="select" class="min-w-40px max-w-40"></div>
+                         <div class="d-flex flex-column align-items-start">
+                             <div class="d-flex align-items-center mb-2">
+                                 <div class="me-3">
+                                     <span class="text-muted fs-7 mb-1">${tarih}</span>
+                                 </div>
+                             </div>
         
-                 <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
-                    ${mesaj}
-                 </div>
-             </div>
-         </div>`;
+                             <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
+                                ${mesaj}
+                             </div>
+                         </div>
+                     </div>`;
 
                 const aktifKullanici = $('[data-container="active-user"]').data('id');
                 console.log(aktifKullanici);
                 console.log(kimden);
+                console.log(tarih)
                 if (kimden == aktifKullanici) {
                     $('#mesajListesi').append(template);
                     scrollToBottom('#mesajListesi');
@@ -251,6 +252,8 @@
                         var kullaniciID = $(element).data('id');
 
                         if (kimden == kullaniciID) {
+                           
+                            $(element).find('[data-container="sonMesajTarihi"]').html(tarih);
                             var varOlanKullaniciMesajSayisi = Number($(element).find('.badge.badge-sm.badge-circle.badge-light-success').html());
                             $(element).find('.badge.badge-sm.badge-circle.badge-light-success').html(varOlanKullaniciMesajSayisi + 1);
                         }
@@ -260,17 +263,19 @@
             }
 
 
-            $.connection.hub.start().done(function () {
+            $.connection.hub.start({ transport: ['webSockets', 'longPolling'], connectionTimeout: 20000 }).done(function () {
                 $('#btnSendMessage').click(function () {
                     var data = {
                         gonderenkullaniciID: $kullaniciID.val(),  // Mesajı gönderen kullanıcı
                         aliciKullaniciID: $karsiKullaniciID.val(),  // Mesajın gönderildiği kullanıcı
-                        mesaj: $('#Mesaj').val()
+                        mesaj: $('#Mesaj').val(),
+                        tarih: new Date().toLocaleString()
                     };
 
                     // Mesajı SignalR hub'a gönder
-                    chat.server.sendMessage(data.aliciKullaniciID, data.gonderenkullaniciID, data.mesaj).done(function () {
+                    chat.server.sendMessage(data.aliciKullaniciID, data.gonderenkullaniciID, data.mesaj, data.tarih).done(function () {
                         // Başarılıysa temizle
+                        $('.kullanici-sec[data-id="' + data.gonderenkullaniciID + '"]').find('[data-container="sonMesajTarihi"]').html(data.tarih);
                         $('#Mesaj').val('').focus();
                     })
                 });
@@ -481,6 +486,15 @@
 
             // Kullanıcı arama fonksiyonu
             const kullaniciArama = () => {
+
+                const applyLineClamp = (element, lineCount) => {
+                    element.style.display = '-webkit-box';
+                    element.style.webkitLineClamp = lineCount;
+                    element.style.webkitBoxOrient = 'vertical';
+                    element.style.overflow = 'hidden';
+                    element.style.textOverflow = 'ellipsis';
+                };
+
                 const kullaniciListesi = $('#kullaniciListesi');
 
                 const kullaniciElementiOlustur = (kullanici) => {
@@ -493,18 +507,24 @@
                                                     <img style="height:40px;width:40px;border-radius:100%;object-fit:cover;" src="${kullanici.Resim}" />
                                                 </span>
                                             </div>
-                                            <div class="ms-5">
-                                                <div data-id="1" class="kullanici-sec fs-5 fw-bold text-gray-900 text-hover-primary mb-2">${kullanici.Ad} ${kullanici.Soyad}</div>
-                                                <div class="fw-semibold text-muted">E-posta: ${kullanici.KullaniciAdi}</div>
+                                            <div class="">
+                                                <div data-id="1" class="kullanici-sec fs-5 fw-bold text-gray-900 text-hover-primary mb-1">${kullanici.Ad} ${kullanici.Soyad}</div>
+                                                <div class="ps-2 fw-semibold text-muted">E-posta: ${kullanici.KullaniciAdi}</div>
+                                                 <div class=" ps-2 fw-semibold text-muted text-gray-600 son-mesaj-icerigi">${kullanici.SonMesajIcerigi}</div>
                                             </div>
                                         </div>
-                                        <div class="d-flex flex-column align-items-end ms-2">
-                                                    <span class="text-muted fs-7 mb-1"></span>
-                                                    <span class="badge badge-sm badge-circle badge-light-success">${kullanici.YeniMesaj}</span>
+                                        <div style="width:90px;" class="d-flex flex-column align-items-end ms-2">
+                                                 <div class="text-muted fs-7 text-end pe-3">
+                                                      <p class="text-gray-600 fw-semibold" data-container="sonMesajTarihi">${kullanici.SonMesajTarihi}</p>
+                                                      <span class="text-muted fs-7 mb-1"></span>
+                                                      <span class="badge badge-sm badge-circle badge-light-success">${kullanici.YeniMesaj}</span>
+                                                 </div>            
+                                                   
                                         </div>
                                     </div>
                                 `;
                 }
+              
 
                 const kullaniciListesiOlustur = (aranacakKelime = "") => {
                     $.ajax({
@@ -517,6 +537,11 @@
                                 elementler.push(kullaniciElementiOlustur(data[i]));
                             }
                             kullaniciListesi.html(elementler.join(""));
+                            // Line-clamp uygulaması burada yapılıyor
+                            const mesajIcerikleri = document.querySelectorAll('.son-mesaj-icerigi');
+                            mesajIcerikleri.forEach(function (element) {
+                                applyLineClamp(element, 1);  // 1 satır ile sınırla
+                            });
                         },
                         error: function (msg) {
                             console.log(msg);
@@ -528,6 +553,8 @@
                     kullaniciListesi,
                     kullaniciListesiOlustur
                 }
+
+            
             }
 
 

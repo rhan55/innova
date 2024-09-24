@@ -161,6 +161,7 @@ namespace YKPortal.Controllers
             return Json(mesajListesi, JsonRequestBehavior.AllowGet);
         }
 
+      
 
         public JsonResult KullaniciGetir(string aranacakKelime = "")
         {
@@ -186,6 +187,8 @@ namespace YKPortal.Controllers
                     KullaniciAdi = Convert.ToString(dt.Rows[i]["KullaniciAdi"]),
                     Resim = Convert.ToString(dt.Rows[i]["Resim"]),
                     YeniMesaj = Convert.ToString(dt.Rows[i]["YeniMesaj"]),
+                    SonMesajTarihi = Convert.ToString(dt.Rows[i]["SonMesajTarihi"]),
+                    SonMesajIcerigi = Convert.ToString(dt.Rows[i]["SonMesajIcerigi"]),
                 });
             }
 

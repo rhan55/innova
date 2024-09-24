@@ -17,14 +17,14 @@ namespace YKPortal.Hubs
             UserConnections.AddOrUpdate(kullaniciID, Context.ConnectionId, (key, oldValue) => Context.ConnectionId);
         }
 
-        public void SendMessage(string aliciKullaniciID, string gonderenkullaniciID, string mesaj)
+        public void SendMessage(string aliciKullaniciID, string gonderenkullaniciID, string mesaj, string tarih = "")
         {
             BildirimHub.BildirimGonder(aliciKullaniciID);
 
             if (UserConnections.TryGetValue(aliciKullaniciID, out var connectionId))
             {
       
-                Clients.Client(connectionId).ReceiveMessage(gonderenkullaniciID, mesaj);
+                Clients.Client(connectionId).ReceiveMessage(gonderenkullaniciID, mesaj, tarih);
             }
         }
 
