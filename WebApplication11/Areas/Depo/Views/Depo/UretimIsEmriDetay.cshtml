@@ -12,6 +12,15 @@
     {
         Durumu = Convert.ToString(dtKayitlar.Rows[0]["Durumu"]);
     }
+
+    bool tamamlandi = true;
+    foreach (DataRow dr in dtKayitlar.Rows)
+    {
+        if (Convert.ToDecimal(dr["ToplananMiktar"]) == 0)
+        {
+            tamamlandi = false;
+        }
+    }
 }
 
 
@@ -24,11 +33,19 @@
         }
         @if (Durumu == "D")
         {
-            <a href="/Depo/Depo/UretimIsEmriDurumuDegistir/?IsEmriNo=@(Request.QueryString["IsEmriNo"])&Durumu=T" class="btn" style="background-color: red; color: white; width: 150px; float: left; padding: 5px; margin: 5px;">Bitir</a>
+            if (tamamlandi == true)
+            {
+                <a href="/Depo/Depo/UretimIsEmriDurumuDegistir/?IsEmriNo=@(Request.QueryString["IsEmriNo"])&Durumu=T" class="btn" style="background-color: red; color: white; width: 150px; float: left; padding: 5px; margin: 5px;">Bitir</a>
+            }
+            else
+            {
+                <button class="btn" style="background-color: red; color: white; width: 150px; float: left; padding: 5px; margin: 5px;" onclick="alert('Ürünler tamamlanmadı!');">Bitir</button>
+            }
+
             <a href="/Depo/Depo/UretimIsEmriArizalar/?IsEmriNo=@(Request.QueryString["IsEmriNo"])" class="btn" style="background-color:red; color: white; width: 150px; float: left; padding: 5px; margin: 5px;">Arıza Kaydı</a>
             <form action="/Depo/Depo/UretimIsEmriBarkodOku" method="get">
                 <input type="hidden" name="IsEmriNo" id="IsEmriNo" value="@(Request.QueryString["IsEmriNo"])" />
-                <input type="text" class="form-control" name="Barkod" id="Barkod" value="" placeholder="Barkod" />
+                <input type="text" class="form-control" name="Barkod" id="Barkod" value="" placeholder="Barkod" autofocus onblur="BarkodOku();" />
                 <br />
                 <input type="text" class="form-control" name="StokKodu" id="StokKodu" value="" placeholder="Stok Kodu" disabled required />
                 <br />
@@ -36,10 +53,11 @@
                 <br />
                 <select id="Seri" name="Seri" class="form-control" required>
                     <option value="">Seri Seçimi</option>
-
                 </select>
                 <br />
-                <input type="button" name="name" value="Topla" class="form-control" />
+                <input type="text" class="form-control" name="Miktar" id="Miktar" value="1" placeholder="Miktar" required />
+                <br />
+                <input type="button" name="name" value="Topla" class="btn btn-primary" onclick="Kaydet();" />
             </form>
         }
         @if (Durumu == "T")
@@ -54,16 +72,22 @@
                         <td><strong>Kod</strong></td>
                         <td><strong>İsim</strong></td>
                         <td style="text-align:right;"><strong>Miktar</strong></td>
+                        <td style="text-align:right;"><strong>Toplanan</strong></td>
 
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="3"><hr /></td>
+                        <td colspan="4"><hr /></td>
                     </tr>
                     @foreach (DataRow dr in dtKayitlar.Rows)
                     {
-                        <tr>
+                        string renk = "";
+                        if (Convert.ToDecimal(dr["ToplananMiktar"]) > 0)
+                        {
+                            renk = "color:green;font-weight: bold;";
+                        }
+                        <tr style="@(renk)">
                             <td>
                                 @dr["StokKodu"]
                             </td>
@@ -72,6 +96,9 @@
                             </td>
                             <td style="text-align:right;">
                                 @String.Format("{0:N4}", Convert.ToDecimal(dr["Miktar"]))
+                            </td>
+                            <td style="text-align:right;">
+                                @String.Format("{0:N4}", Convert.ToDecimal(dr["ToplananMiktar"]))
                             </td>
                         </tr>
                     }
@@ -96,35 +123,146 @@
 </style>
 @section Scripts {
     <script>
+
+
+        function Kaydet() {
+
+
+
+            if ($("#StokKodu").val() == "") {
+                alert("StokKodu boş olamaz!");
+                return;
+            }
+
+             var stokkodlari = [@{
+    foreach (DataRow dr in dtKayitlar.Rows)
+    {
+                    @Html.Raw("\""+dr["StokKodu"]+"\",")
+    }
+}];
+             var stokkodlariMiktarli = [@{
+    foreach (DataRow dr in dtKayitlar.Rows)
+    {
+                    @Html.Raw("\""+dr["Miktar"]+"\",")
+    }
+}];
+            if (stokkodlari.indexOf($("#StokKodu").val()) == -1) {
+                alert("Ürün eşleşmedi!");
+                return;
+            }
+            if (parseFloat($("#Miktar").val()) > parseFloat(stokkodlariMiktarli[stokkodlari.indexOf($("#StokKodu").val())])) {
+                alert("Miktar fazla olamaz!");
+                return;
+            }
+
+            if ($("#Seri").val() == "") {
+                alert("Seri No seçilmelidir!");
+                return;
+            }
+
+
+            $.ajax({
+                    url: '/Depo/Depo/UretimIsEmriOkut',
+                data: "{ IsEmriNo: '@(Request.QueryString["IsEmriNo"])', StokKodu: '" + $("#StokKodu").val() + "', SeriNo: '" + $("#Seri").val() + "', Miktar: '" + $("#Miktar").val() +"' }",
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataFilter: function (data2) { return data2; },
+                success: function (data3) {
+                        window.location.reload();
+                    },
+                error: function (msg) {
+                        console.log("HATA!" + msg.m);
+                    }
+                });
+        }
+
         $('#Barkod').keydown(function (e) {
             if (e.keyCode == 13) {
 
-
-                $.ajax({
-                    url: '/Belge/SelectStokBarkodSeriListe',
-                    data: "{ 'Barkod': '" + Barkod + "' }",
-                    dataType: "json",
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    dataFilter: function (data) { return data; },
-                    success: function (data) {
-                        // waitingDialog.hide();
-                        $('#Seri').find('option').remove();
-                        var deger = "";
-                        for (var i = 0; i < data.Data.length; i++) {
-                            deger += "<option value='" + data.Data[i].SeriNo + "'>" + data.Data[i].SeriNo + ' - Bakiye : ' + data.Data[i].Bakiye.toFixed(0) + "</option>";
-                        }
-                        $('#Seri').append(deger);
-
-                    },
-                    error: function (msg) {
-                        console.log("HATA!" + msg);
-                    }
-                });
+                BarkodOku();
 
 
             }
-        })
+        });
+
+        function BarkodOku() {
+            const myArray = $("#Barkod").val().split("#");
+            let stok = myArray[0];
+            let seri = "";
+            if (myArray.length > 1) {
+                seri = myArray[1];
+            }
+            let miktar = "1";
+            if (myArray.length > 2) {
+                miktar = myArray[3];
+                $("#Miktar").val(miktar);
+            } else {
+                $("#Miktar").val("1");
+            }
+
+            var data_ = {
+                "search": stok
+            };
+            $("#StokKodu").val("");
+            $("#StokAdi").val("");
+            $.ajax({
+                async: false,
+                cache: false,
+                type: "GET",
+                url: "/Stok/SelectStok",
+                data: data_,
+                success: function (data) {
+                    console.log("Stok Miktarı : " + data.length);
+                    if (data.length > 0) {
+                        console.log("Stok ID : " + data[0]["ID"]);
+                        $("#StokKodu").val(data[0]["Kod"]);
+                        $("#StokAdi").val(data[0]["Isim2"]);
+                        $.ajax({
+                            url: '/Stok/SelectStokSeriListe',
+                            data: "{ StokID: '" + data[0]["ID"] + "' }",
+                            dataType: "json",
+                            type: "POST",
+                            contentType: "application/json; charset=utf-8",
+                            dataFilter: function (data2) { return data2; },
+                            success: function (data3) {
+                                console.log("Seri Miktarı : " + data3.length);
+                                console.log(data3);
+                                $('#Seri').empty();
+                                var deger = "";
+
+                                deger += "<option value=''>Seri Seçimi...</option>";
+                                var KayitCalisacak = false;
+                                for (var i = 0; i < data3.length; i++) {
+                                    console.log("Seri Eklendi : " + data3[i].SeriNo);
+                                    deger += "<option value='" + data3[i].SeriNo + "' " + (seri == data3[i].SeriNo ? "selected" : "") + ">" + data3[i].SeriNo + " - " + data3[i].Bakiye + "</option>";
+                                    if (seri == data3[i].SeriNo) {
+                                        KayitCalisacak = true;
+                                    }
+                                }
+                                $('#Seri').append(deger);
+
+                                if (data3.length == 0) {
+                                    $('#Seri').hide();
+                                } else {
+                                    $('#Seri').show();
+                                }
+
+                                if (KayitCalisacak == true) {
+                                    Kaydet();
+                                }
+                            },
+                            error: function (msg) {
+                                console.log("HATA!" + msg.m);
+                            }
+                        });
+                    }
+                },
+                error: function (msg) {
+                    console.log("HATA:" + msg.m);
+                }
+            });
+        }
     </script>
 }
 

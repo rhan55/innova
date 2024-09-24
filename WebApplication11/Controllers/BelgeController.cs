@@ -283,6 +283,38 @@ namespace YKPortal.Controllers
         }
 
 
+        public JsonResult SelectStokSeriliGiris(string StokID)
+        {
+            JsonResult result = new JsonResult();
+            List<StokDto> entities = new List<StokDto>();
+            #region İşlemler
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "select SeriliGiris,SeriliCikis from w_Stoklar where ID = @StokID";
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.Parameters.AddWithValue("@StokID", StokID);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            #endregion
+            result.Data = Convert.ToString(dt.Rows[0]["SeriliGiris"]);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult SelectStokSeriliCikis(string StokID)
+        {
+            JsonResult result = new JsonResult();
+            List<StokDto> entities = new List<StokDto>();
+            #region İşlemler
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "select SeriliGiris,SeriliCikis from w_Stoklar where ID = @StokID";
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.Parameters.AddWithValue("@StokID", StokID);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            #endregion
+            result.Data = Convert.ToString(dt.Rows[0]["SeriliCikis"]);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult SelectStokSeriListe(string StokID, string DepoID)
         {
             JsonResult result = new JsonResult();
@@ -298,11 +330,14 @@ namespace YKPortal.Controllers
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             foreach (DataRow satir in dt.Rows)
             {
-                StokDto entity = new StokDto();
-                entity.ID = Convert.ToString(satir["ID"]);
-                entity.SeriNo = Convert.ToString(satir["SeriNo"]);
-                entity.Bakiye = Convert.ToDecimal(satir["Bakiye"]);
-                entities.Add(entity);
+                if (Convert.ToDecimal(satir["Bakiye"]) > 0)
+                {
+                    StokDto entity = new StokDto();
+                    entity.ID = Convert.ToString(satir["ID"]);
+                    entity.SeriNo = Convert.ToString(satir["SeriNo"]);
+                    entity.Bakiye = Convert.ToDecimal(satir["Bakiye"]);
+                    entities.Add(entity);
+                }
             }
             #endregion
             result.Data = entities;

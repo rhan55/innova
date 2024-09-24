@@ -89,6 +89,21 @@ Where Aktif = 1 and UstID = @UstID Order by Sira";
             return View();
         }
 
+        public JsonResult UretimIsEmriOkut(string IsEmriNo, string StokKodu, string SeriNo, decimal Miktar=0)
+        {
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_UretimIsEmriOkut";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@IsEmriNo", IsEmriNo);
+            cmd.Parameters.AddWithValue("@StokKodu", StokKodu);
+            cmd.Parameters.AddWithValue("@SeriNo", SeriNo);
+            cmd.Parameters.AddWithValue("@Miktar", Miktar);
+            IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+            return Json("ok", JsonRequestBehavior.AllowGet);
+        }
         public ActionResult UretimIsEmriDurumuDegistir(string IsEmriNo, string Durumu)
         {
 

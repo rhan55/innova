@@ -103,7 +103,9 @@ CAST(0 as decimal(18,2)) as TalepMiktari,
 '' Aciklama2,
 K1.Deger as KategoriKodu1,
 K2.Deger as KategoriKodu2,
-K3.Deger as KategoriKodu3
+K3.Deger as KategoriKodu3,
+0 as SeriliCikis,
+0 as SeriliGiris
 from Stoklar S WITH(NOLOCK)
 LEFT OUTER JOIN GrupKodlari K1 WITH(NOLOCK) ON K1.ID = S.GrupKodu1ID
 LEFT OUTER JOIN GrupKodlari K2 WITH(NOLOCK) ON K2.ID = S.GrupKodu2ID

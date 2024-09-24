@@ -1097,24 +1097,29 @@ namespace YKPortal.Controllers
             return Json(liste, JsonRequestBehavior.AllowGet);
 
         }
+
         public JsonResult SelectStokSeriListe(string StokID)
         {
 
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "p_StokSerileri";
+            cmd.CommandText = "p_StokBarkodSerileri";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-            cmd.Parameters.AddWithValue("@StokID", StokID);
+            cmd.Parameters.AddWithValue("@Barkod", StokID);
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             var liste = new List<StokDto>();
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                liste.Add(new StokDto
+                if (Convert.ToDecimal(dt.Rows[i]["Bakiye"]) > 0)
                 {
-                    SeriNo = Convert.ToString(dt.Rows[i]["SeriNo"]),
-                });
+                    liste.Add(new StokDto
+                    {
+                        SeriNo = Convert.ToString(dt.Rows[i]["SeriNo"]),
+                        Bakiye = Convert.ToDecimal(dt.Rows[i]["Miktar"]),
+                    });
+                }
             }
 
             return Json(liste, JsonRequestBehavior.AllowGet);
@@ -1138,6 +1143,7 @@ namespace YKPortal.Controllers
                 {
                     ID = Convert.ToString(dt.Rows[i]["ID"]),
                     Isim = Convert.ToString(dt.Rows[i]["Isim"]),
+                    Aciklama = Convert.ToString(dt.Rows[i]["Isim2"]),
                     Kod = Convert.ToString(dt.Rows[i]["Kod"]),
                 });
                 break;
@@ -1165,6 +1171,7 @@ namespace YKPortal.Controllers
                 {
                     ID = Convert.ToString(dt.Rows[i]["ID"]),
                     Isim = Convert.ToString(dt.Rows[i]["Isim"]),
+                    Aciklama = Convert.ToString(dt.Rows[i]["Isim2"]),
                     Kod = Convert.ToString(dt.Rows[i]["Kod"]),
                 });
             }

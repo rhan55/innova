@@ -117,7 +117,6 @@ namespace YKPortal.Areas.Depo.Controllers
 
             if (Belge_Lokasyon_Barkod == "")
             {
-
                 cmd = new SqlCommand();
                 string _srg = " SELECT TOP 10 FISNO, BARKOD, KAYIT_TARIHI FROM INNOVA..TBLOKUTMA WITH (NOLOCK) WHERE 1=1 and  DBNAME= 'Uretim_Lokasyon' ORDER BY ID DESC ";
                 cmd.CommandText = _srg;
