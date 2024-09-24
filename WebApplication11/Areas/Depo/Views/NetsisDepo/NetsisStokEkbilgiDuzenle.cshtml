@@ -22,7 +22,7 @@
                     <label>Stok Kodu</label>
                 </td>
                 <td colspan="2">
-                    <input type="text" name="Belge_Barkod" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["STOK_KODU"]) : "")" class="form-control" style="font-size:10px;width:100%;" />
+                    <input type="text" name="Belge_Barkod" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["STOK_KODU"]) : "")" class="form-control" style="font-size:10px;width:100%;" autofocus />
                 </td>
             </tr>        
         </table>

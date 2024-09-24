@@ -5652,7 +5652,7 @@ GO
 drop proc [p_StokBul]
 GO
 CREATE proc [dbo].[p_StokBul](
-@ID nvarchar(100)='',
+@Barkod nvarchar(100)='',
 @UyelikID nvarchar(100)
 )
 as
@@ -5680,7 +5680,7 @@ LEFT OUTER JOIN GrupKodlari G4 WITH(NOLOCK) ON G4.ID = Stoklar.GrupKodu4ID
 LEFT OUTER JOIN GrupKodlari G5 WITH(NOLOCK) ON G5.ID = Stoklar.GrupKodu5ID
 LEFT OUTER JOIN GrupKodlari G6 WITH(NOLOCK) ON G6.ID = Stoklar.GrupKodu6ID
 LEFT OUTER JOIN Stoklar C1 WITH(NOLOCK) ON C1.ID = Stoklar.AnaStokID
-Where ISNULL(Stoklar.Silindi,0) = 0 and  Stoklar.UyelikID = @UyelikID and Stoklar.ID = @ID
+Where ISNULL(Stoklar.Silindi,0) = 0 and  Stoklar.UyelikID = @UyelikID and Stoklar.ID = @Barkod
 
 END
 drop proc [p_Stok]
