@@ -187,12 +187,12 @@
 
                                         <!--begin::Menu item-->
                                         <div class="menu-item">
-                                            <a href="@Url.Action("Profil", "Kullanici", new { Area = "" })" class="menu-link px-4 py-0">Profilime Git</a>
+                                            <a href="@Url.Action("Profil", "Kullanici", new { Area = "" })" class="menu-link px-4">Profilime Git</a>
                                         </div>
                                         <!--end::Menu item-->
                                         <!--begin::Menu item-->
                                         <div class="menu-item">
-                                            <a href="/YK/Cikis" class="menu-link px-4 py-0">Çıkış Yap</a>
+                                            <a href="/YK/Cikis" class="menu-link px-4">Çıkış Yap</a>
                                         </div>
                                         <!--end::Menu item-->
                                     </div>
@@ -219,7 +219,7 @@
                             <!--begin:Menu item-->
                             <div class="d-flex align-items-center position-relative my-1">
 
-                                <input type="text" id="searchInNavigation" class="form-control px-2 shadow-none border-0 py-0 w-230px rounded-xs" placeholder="Ara" />
+                                <input type="text" id="searchInNavigation" class="form-control px-2 shadow-none border-0 py-1 w-230px rounded-xs" placeholder="Ara" />
                             </div>
                             <div id="navigation">
 
@@ -529,7 +529,7 @@
                 }
             } else if (ekle === "") {
                 var suAnkiMesajSayisi = Number($('[data-id="YeniOkunmamisMesaj"]').html());
-                console.log(suAnkiMesajSayisi);
+            
                 $('[data-id="YeniOkunmamisMesaj"]').html(suAnkiMesajSayisi + 1);
                 $('[data-id="YeniOkunmamisMesaj"]').removeClass('hidden');
             }
@@ -544,7 +544,7 @@
                 YeniOkunmamisMesajEkle("");
             };
 
-            $.connection.hub.start().done(function () {
+            $.connection.hub.start({ transport: ['webSockets', 'longPolling'], connectionTimeout: 20000 }).done(function () {
                 console.log('Connected to SignalR hub');
             }).fail(function (error) {
                 console.log('Could not connect: ' + error);
@@ -654,27 +654,25 @@
             function createLink(item) {
 
                              return `
-                                                               <div class="menu-item">
-                                                                   <!--begin:Menu link-->
-                                                                   <a class="menu-link py-0" href="${item.url}">
+                                                               <div class="menu-item text-light">                                                                 
+                                                                   <a class="menu-link" href="${item.url}">
                                                                        <span class="menu-bullet ps-12">
                                                                            <span class="bullet bullet-dot"></span>
                                                                        </span>
-                                                                       <span class="menu-title">${item.title}</span>
-                                                                   </a>
-                                                                   <!--end:Menu link-->
+                                                                       <span class="menu-title text-light">${item.title}</span>
+                                                                   </a>                                                           
                                                                </div>
                                                                        `
             }
             function createMenu(navigationMenu, links) {
                 return `
                                                           <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                                                              <span class="menu-link py-0 ps-4">
+                                                              <span class="menu-link ps-4 text-light py-3">
                                                                   <span class="menu-icon">
-                                                                      <i class="${navigationMenu.icon}"></i>
+                                                                      <i class="${navigationMenu.icon} text-light"></i>
                                                                   </span>
-                                                                  <span class="menu-title">${navigationMenu.title}</span>
-                                                                  <span class="menu-arrow"></span>
+                                                                  <span class="menu-title text-light">${navigationMenu.title}</span>
+                                                                  <span class="menu-arrow me-2"></span>
                                                               </span>
 
                                                               <div class="menu-sub menu-sub-accordion">${links.join('')}</div>
@@ -683,10 +681,9 @@
                                                            `;
             }
             function createNavigation(navigation, menus) {
-                return ` <div data-kt-menu-trigger="click" class="menu-item ${navigation.isOpen ? 'show' : ''} menu-accordion">
-                                                          <!--begin:Menu link-->
-                                                          <span class="menu-link py-0">
-                                                              <span class="menu-icon">
+                return ` <div data-kt-menu-trigger="click" class="menu-item ${navigation.isOpen ? 'show' : ''} menu-accordion">                                                     
+                                                          <span class="menu-link text-light py-3">
+                                                              <span class="menu-icon text-light">
                                                                   <i class="${navigation.icon}">
                                                                        <span class="path1"></span>
                                                            <span class="path2"></span>
@@ -694,8 +691,8 @@
                                                            <span class="path4"></span>
                                                                   </i>
                                                               </span>
-                                                              <span class="menu-title">${navigation.title}</span>
-                                                              <span class="menu-arrow"></span>
+                                                              <span class="menu-title text-light">${navigation.title}</span>
+                                                              <span class="menu-arrow me-2"></span>
                                                           </span>
                                                           <div class="menu-sub menu-sub-accordion">
                                                               ${menus.join('')}

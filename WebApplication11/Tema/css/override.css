@@ -62,9 +62,6 @@ tr.selected .menu-link {
     top: 0 !important;
 }
 
-#navigation > .menu-accordion > .menu-link {
-    padding: 0 !important;
-}
 
 div.dt-container div.dt-info {
     display: flex;

@@ -204,7 +204,7 @@
                    
                 } else {
                     $('[data-id="YeniOkunmamisMesaj"]').html(varOlanSayi);
-                    $('[data-id="YeniOkunmamisMesaj"]').removeClass(varOlanSayi);
+                    $('[data-id="YeniOkunmamisMesaj"]').removeClass('hidden');
                 }
             }
         }
@@ -246,20 +246,20 @@
                 if (kimden == aktifKullanici) {
                     $('#mesajListesi').append(template);
                     scrollToBottom('#mesajListesi');
-                } else {
-                    $('.kullanici-sec').each(function (index, element) {
-                        console.log(element);
-                        var kullaniciID = $(element).data('id');
+                } 
 
-                        if (kimden == kullaniciID) {
-                           
-                            $(element).find('[data-container="sonMesajTarihi"]').html(tarih);
-                            var varOlanKullaniciMesajSayisi = Number($(element).find('.badge.badge-sm.badge-circle.badge-light-success').html());
-                            $(element).find('.badge.badge-sm.badge-circle.badge-light-success').html(varOlanKullaniciMesajSayisi + 1);
-                        }
-                    })
-                }
 
+                $('.kullanici-sec').each(function (index, element) {
+                    console.log(element);
+                    var kullaniciID = $(element).data('id');
+
+                    if (kimden == kullaniciID) {
+                        $(element).find('[data-container="sonMesajTarihi"]').html(tarih);
+                        $(element).find('.son-mesaj-icerigi').html(mesaj);
+                        var varOlanKullaniciMesajSayisi = Number($(element).find('.badge.badge-sm.badge-circle.badge-light-success').html());
+                        $(element).find('.badge.badge-sm.badge-circle.badge-light-success').html(varOlanKullaniciMesajSayisi + 1);
+                    }
+                })
             }
 
 

@@ -16,6 +16,7 @@ namespace YKPortal
         {
             // SignalR'ı başlatıyoruz
             app.MapSignalR();
-        }
+         
+          }
     }
 }
