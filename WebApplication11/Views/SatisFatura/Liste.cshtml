@@ -15,7 +15,7 @@
 }
 
 <div id="kt_content_container" class="container-fluid p-0 m-0">
-    <div class="card card-flush border-0 shadow-none m-0 p-0">
+    <div class="card bg-transparent border-0 shadow-none m-0 p-0">
         <div class="card-header align-items-center border-0 shadow-0 gap-2 gap-md-5 p-0 m-0">
 
 
@@ -126,17 +126,17 @@
 </div>
 
 <div class="container-fluid">
-    <div class="row mt-4">
+    <div class="row">
         <div style="margin:3px;" class="scroll-x">
 
 
             <style>
-                .max-w-500 {
-                    max-width: 250px !important;
+                .max-w-700 {
+                    max-width: 700px !important;
                 }
 
-                .max-w-500 {
-                    max-width: 360px !important;
+                .max-w-700 {
+                    max-width: 700px !important;
                 }
             </style>
             <table class="table p-4 align-middle border rounded table-row-dashed fs-6 g-5 mt-4">
@@ -148,7 +148,7 @@
                         <th><strong>Belge No</strong></th>
                         @if (Request.QueryString["Tip"] == "SF")
                         {
-                            <th class="max-w-500"><strong>Cari</strong></th>
+                            <th class="max-w-700"><strong>Cari</strong></th>
                         }
                         else if (Request.QueryString["Tip"] == "DT")
                         {
@@ -174,7 +174,7 @@
                                 </td>
                                 @if (Request.QueryString["Tip"] == "SF")
                                 {
-                                    <td class="text-wrap max-w-500 d-block text-gray-600 fw-semibold" style="vertical-align: middle;">
+                                    <td class="text-wrap max-w-700 d-block text-gray-600 fw-semibold" style="vertical-align: middle;">
                                         @(Convert.ToString(Model.Belgeler.Rows[i]["CariIsim"]))
                                     </td>
                                 }

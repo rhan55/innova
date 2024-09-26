@@ -6,18 +6,18 @@
 
 <div class="d-flex flex-column flex-column-fluid mt-10">
     <div>
-        <div id="kt_app_content" class="app-content container flex-column-fluid ">
+        <div id="kt_app_content" class="app-content container flex-column-fluid pt-4 pb-0">
             <div id="kt_app_content_container" class="app-container">
                 <div class="d-flex flex-column flex-lg-row">
                     <div style="min-height:40px;" class="flex-column flex-lg-row-auto w-100 w-lg-300px w-xl-450px mb-10 mb-lg-0">
 
                         <div class="card card-flush">
-                            <div style="min-height:40px;" class="card-header px-2" id="kt_chat_contacts_header">
+                            <div style="min-height:40px;" class="card-header px-2 mt-2" id="kt_chat_contacts_header">
                                 <!-- Arama Formu -->
                                 <input type="text" class="form-control form-control-solid py-2" name="aranacakKelime" value="@ViewBag.AranacakKelime" placeholder="Kullanıcı adını veya e-postasını ara...">
                             </div>
 
-                            <div class="card-body" id="kt_chat_contacts_body">
+                            <div class="card-body p-2" id="kt_chat_contacts_body">
                                 <div class="scroll-y me-n5 pe-5 h-200px h-lg-auto" id="kullaniciListesi">
 
                                 </div>
@@ -30,7 +30,7 @@
                         <!--begin::Messenger-->
                         <div class="card" id="kt_chat_messenger">
                             <!--begin::Card header-->
-                            <div class="card-header hidden" id="kullaniciChatHeader">
+                            <div class="card-header p-0 hidden" id="kullaniciChatHeader">
                                 <!--begin::Title-->
                                 <div class="card-title ps-4">
                                     <!--begin::User-->
@@ -42,14 +42,14 @@
                                             <div class="fs-4 fw-bold text-gray-900 text-hover-primary me-1 mb-2 lh-1" data-container="active-user" data-id=""></div>
                                             <!--begin::Info-->
                                             @*<div class="mb-0 lh-1">
-                                                <span class="badge badge-success badge-circle w-10px h-10px me-1"></span>
-                                                <span class="fs-7 fw-semibold text-muted">Active</span>
-                                            </div>*@
+                                                    <span class="badge badge-success badge-circle w-10px h-10px me-1"></span>
+                                                    <span class="fs-7 fw-semibold text-muted">Active</span>
+                                                </div>*@
                                         </div>
 
                                         <!--end::Info-->
                                     </div>
-                                  
+
                                     <!--end::User-->
                                 </div>
                                 <!--end::Title-->
@@ -59,10 +59,10 @@
                                     <div class="d-flex">
                                         <div class="d-flex">
                                             <button type="button" id="TumunuSec" class=" TumunuSec btn btn-light-primary btn-sm fw-bold hidden me-2" data-status="0">
-                                                <span class="indicator-label fw-bold secim-sec" >Tümünü Seç</span>
+                                                <span class="indicator-label fw-bold secim-sec">Tümünü Seç</span>
                                                 <span class="indicator-label fw-bold hidden secim-temizle">Seçimleri Temizle</span>
                                             </button>
-                                           
+
 
                                             <button type="button" id="topluSilButon" class=" topluSilButon btn btn-primary btn-sm fw-bold me-2 hidden">
                                                 <span class="indicator-label fw-bold">Seçimleri Sil</span>
@@ -92,7 +92,7 @@
                                                     <!--begin::Menu link-->
                                                     <button type="button" id="SilCheckboxGoster" class="menu-link rounded-1 bg-white border-0 w-100" onclick="">
                                                         Mesaj Seç
-                                                       
+
                                                     </button>
                                                     <!--end::Menu link-->
 
@@ -111,8 +111,8 @@
                             <!--end::Card header-->
                             <!--begin::Card body-->
                             <!-- Kullanıcı Listesi Bölümü -->
-                            <div class="card-body hidden" id="kullaniciChatEkrani">
-                                <div class="scroll-y me-n5 pe-5 h-200px h-lg-auto" id="kullaniciListesi" >
+                            <div class="card-body p-2 hidden" id="kullaniciChatEkrani">
+                                <div class="scroll-y me-n5 pe-5 h-200px h-lg-auto" id="kullaniciListesi">
                                     <!-- Kullanıcılar buraya dinamik olarak eklenecek -->
                                 </div>
                                 <div id="mesajListesi" class="scroll-y" style="height:500px;">
@@ -139,7 +139,7 @@
                                                         <i class="ki-duotone ki-exit-up fs-3"><span class="path1"></span><span class="path2"></span></i>
                                                     </button>
                                                 </div>
-                                                <button type="button" id="btnSendMessage" class="btn btn-primary rounded-1" style="height:36px;">Gönder</button>
+                                                <button type="button" id="btnSendMessage" class="btn btn-primary btn-sm rounded-1">Gönder</button>
                                             </div>
                                         </div>
 
@@ -148,19 +148,19 @@
                                 </form>
 
                             </div>
-                            <div style="height:600px;" class="card-body d-flex align-items-center justify-content-center border-0 shadow-none"  id="kullaniciBosEkan">
+                            <div style="height:600px;" class="card-body p-2 d-flex align-items-center justify-content-center border-0 shadow-none" id="kullaniciBosEkan">
                                 <div>
                                     <div class="d-flex align-items-center justify-content-center">
 
                                         <i style="font-size: 200px;" class="bi bi-chat-square-text text-primary"></i>
 
                                     </div>
-                                   <div class="d-flex flex-column align-items-center justify-content-center">
-                                       <h1 class="text-primary" style="padding-top: 16px;padding-bottom: 16px;">MERHABA!</h1>
-                                       <p class="text-gray-500 fs-1 fw-semibold">Sohbet başlatmak için bir kullanıcı seçiniz!</p>
-                                   </div>
+                                    <div class="d-flex flex-column align-items-center justify-content-center">
+                                        <h1 class="text-primary" style="padding-top: 16px;padding-bottom: 16px;">MERHABA!</h1>
+                                        <p class="text-gray-500 fs-1 fw-semibold">Sohbet başlatmak için bir kullanıcı seçiniz!</p>
+                                    </div>
                                 </div>
-                             
+
 
                             </div>
 
@@ -182,7 +182,6 @@
 
 
 @section Scripts {
- 
     <script>
 
         function scrollToBottom(select) {
@@ -201,7 +200,7 @@
                 if (varOlanSayi <= 0) {
                     $('[data-id="YeniOkunmamisMesaj"]').html("0");
                     $('[data-id="YeniOkunmamisMesaj"]').addClass('hidden');
-                   
+
                 } else {
                     $('[data-id="YeniOkunmamisMesaj"]').html(varOlanSayi);
                     $('[data-id="YeniOkunmamisMesaj"]').removeClass('hidden');
@@ -210,7 +209,7 @@
         }
 
         function KarsiKullaniMesajiniEkle(kimden, mesaj) {
-            
+
         }
 
         $(function () {
@@ -224,20 +223,20 @@
             chat.client.receiveMessage = function (kimden, mesaj, tarih) {
 
                 const template = `
-                     <div class="d-flex justify-content-start mb-10">
-                      <div id="select" class="min-w-40px max-w-40"></div>
-                         <div class="d-flex flex-column align-items-start">
-                             <div class="d-flex align-items-center mb-2">
-                                 <div class="me-3">
-                                     <span class="text-muted fs-7 mb-1">${tarih}</span>
+                         <div class="d-flex justify-content-start mb-6">
+                          <div id="select" class="min-w-40px max-w-40"></div>
+                             <div class="d-flex flex-column align-items-start">
+                                 <div class="d-flex align-items-center mb-2">
+                                     <div class="me-3">
+                                         <span class="text-muted fs-7 mb-1">${tarih}</span>
+                                     </div>
+                                 </div>
+
+                                 <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
+                                    ${mesaj}
                                  </div>
                              </div>
-        
-                             <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
-                                ${mesaj}
-                             </div>
-                         </div>
-                     </div>`;
+                         </div>`;
 
                 const aktifKullanici = $('[data-container="active-user"]').data('id');
                 console.log(aktifKullanici);
@@ -246,7 +245,7 @@
                 if (kimden == aktifKullanici) {
                     $('#mesajListesi').append(template);
                     scrollToBottom('#mesajListesi');
-                } 
+                }
 
 
                 $('.kullanici-sec').each(function (index, element) {
@@ -280,7 +279,7 @@
                     })
                 });
                 chat.server.registerUser($kullaniciID.val());
-                
+
             });
 
 
@@ -347,7 +346,7 @@
                 // Mesaj ve KarsiKullaniciId ekleniyor
                 formData.append('KarsiKullaniciID', $('#KarsiKullaniciID').val());  // Mesajın gönderildiği kullanıcı
                 formData.append('Mesaj', $('#Mesaj').val());
-              
+
 
                 // Dosya varsa FormData'ya ekle
                 var dosya = $('#Dosya')[0].files[0];  // Dosya input elementinden dosyayı alıyoruz
@@ -355,20 +354,20 @@
                     formData.append("Dosya", dosya);
                 }
 
-                const template =    ` <div class="d-flex justify-content-end mb-10">
-                                      
-                                        <div class="d-flex flex-column align-items-end">
-                                            <div class="d-flex align-items-center mb-2">
-                                                <div class="me-3">
-                                                    <span class="text-muted fs-7 mb-1">Şimdi</span>
-                                                    <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">Sen</a>
+                const template = ` <div class="d-flex justify-content-end mb-10">
+
+                                            <div class="d-flex flex-column align-items-end">
+                                                <div class="d-flex align-items-center mb-2">
+                                                    <div class="me-3">
+                                                        <span class="text-muted fs-7 mb-1">Şimdi</span>
+                                                        <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">Sen</a>
+                                                    </div>
                                                 </div>
+                                              <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
+                                               ${$('#Mesaj').val()}
+                                           </div>
                                             </div>
-                                          <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
-                                           ${$('#Mesaj').val()}
-                                       </div>
-                                        </div>
-                                    </div>`
+                                        </div>`
 
 
                 $.ajax({
@@ -420,14 +419,14 @@
 
             //TOPLU SİLME İŞLEMİ
 
-           
+
 
             $('#SilCheckboxGoster').on('click', function () {
-                $('.mesajSec').toggleClass('hidden'); 
-                $('.topluSilButon').toggleClass('hidden'); 
-                $('.TumunuSec').toggleClass('hidden'); 
-                $('.TumunuTemizle').toggleClass('hidden'); 
-               
+                $('.mesajSec').toggleClass('hidden');
+                $('.topluSilButon').toggleClass('hidden');
+                $('.TumunuSec').toggleClass('hidden');
+                $('.TumunuTemizle').toggleClass('hidden');
+
             });
 
             $('.TumunuSec').on('click', function () {
@@ -456,7 +455,7 @@
                 $('input[type="checkbox"]:checked.mesajSec').each(function () {
                     idListesi.push($(this).val());
                 });
-                
+
                 $.ajax({
                     url: "/Mesaj/TopluSil",
                     method: "POST",
@@ -480,7 +479,7 @@
                     }
                 })
 
-            } 
+            }
 
 
 
@@ -499,32 +498,32 @@
 
                 const kullaniciElementiOlustur = (kullanici) => {
                     return `
-                                    <div class="d-flex flex-stack py-4 kullanici-sec" data-id="${kullanici.ID}" data-ad="${kullanici.Ad} ${kullanici.Soyad}" data-resim="${kullanici.Resim}" style="">
-                                        <div class="d-flex align-items-center">
-                                            <!-- Kullanıcı Bilgileri -->
-                                            <div class="symbol symbol-45px symbol-circle">
-                                                <span class="symbol-label bg-light text-danger fs-6 fw-bolder">
-                                                    <img style="height:40px;width:40px;border-radius:100%;object-fit:cover;" src="${kullanici.Resim}" />
-                                                </span>
+                                        <div class="d-flex flex-stack py-4 kullanici-sec" data-id="${kullanici.ID}" data-ad="${kullanici.Ad} ${kullanici.Soyad}" data-resim="${kullanici.Resim}" style="">
+                                            <div class="d-flex align-items-center">
+                                                <!-- Kullanıcı Bilgileri -->
+                                                <div class="symbol symbol-45px symbol-circle">
+                                                    <span class="symbol-label bg-light text-danger fs-6 fw-bolder">
+                                                        <img style="height:40px;width:40px;border-radius:100%;object-fit:cover;" src="${kullanici.Resim}" />
+                                                    </span>
+                                                </div>
+                                                <div class="">
+                                                    <div data-id="1" class="kullanici-sec fs-5 fw-bold text-gray-900 text-hover-primary mb-1">${kullanici.Ad} ${kullanici.Soyad}</div>
+                                                    <div class="ps-2 fw-semibold text-muted">E-posta: ${kullanici.KullaniciAdi}</div>
+                                                     <div class=" ps-2 fw-semibold text-muted text-gray-600 son-mesaj-icerigi">${kullanici.SonMesajIcerigi}</div>
+                                                </div>
                                             </div>
-                                            <div class="">
-                                                <div data-id="1" class="kullanici-sec fs-5 fw-bold text-gray-900 text-hover-primary mb-1">${kullanici.Ad} ${kullanici.Soyad}</div>
-                                                <div class="ps-2 fw-semibold text-muted">E-posta: ${kullanici.KullaniciAdi}</div>
-                                                 <div class=" ps-2 fw-semibold text-muted text-gray-600 son-mesaj-icerigi">${kullanici.SonMesajIcerigi}</div>
+                                            <div style="width:90px;" class="d-flex flex-column align-items-end ms-2">
+                                                     <div class="text-muted fs-7 text-end pe-3">
+                                                          <p class="text-gray-600 fw-semibold" data-container="sonMesajTarihi">${kullanici.SonMesajTarihi}</p>
+                                                          <span class="text-muted fs-7 mb-1"></span>
+                                                          <span class="badge badge-sm badge-circle badge-light-success">${kullanici.YeniMesaj}</span>
+                                                     </div>
+
                                             </div>
                                         </div>
-                                        <div style="width:90px;" class="d-flex flex-column align-items-end ms-2">
-                                                 <div class="text-muted fs-7 text-end pe-3">
-                                                      <p class="text-gray-600 fw-semibold" data-container="sonMesajTarihi">${kullanici.SonMesajTarihi}</p>
-                                                      <span class="text-muted fs-7 mb-1"></span>
-                                                      <span class="badge badge-sm badge-circle badge-light-success">${kullanici.YeniMesaj}</span>
-                                                 </div>            
-                                                   
-                                        </div>
-                                    </div>
-                                `;
+                                    `;
                 }
-              
+
 
                 const kullaniciListesiOlustur = (aranacakKelime = "") => {
                     $.ajax({
@@ -554,7 +553,7 @@
                     kullaniciListesiOlustur
                 }
 
-            
+
             }
 
 
@@ -567,134 +566,134 @@
                 }
             });
 
-        const mesajlarilistele = () => {
-            const mesajListesi = $('#mesajListesi');
+            const mesajlarilistele = () => {
+                const mesajListesi = $('#mesajListesi');
 
-            const mesajElementiOlustur = (mesaj) => {
-                var kullaniciID = $('#KullaniciID').val();
-                var karsiKullaniciID = $('#KarsiKullaniciID').val();
-                var id = $('#ID').val();
-     var dosyaLinki = '';
-     var dosyaIkonu = '';
-      // Dosya varsa ikonu ve linkini oluştur
-    if (mesaj.DosyaAdi) {
-    var dosyaUzantisi = mesaj.DosyaAdi.split('.').pop().toLowerCase();
-    switch (dosyaUzantisi) {
-      case 'pdf':
-          dosyaIkonu = '<i class="text-gray-700 fs-1 fa fa-file-pdf-o"></i>';
-          break;
-      case 'jpg':
-      case 'jpeg':
-      case 'png':
-          dosyaIkonu = '<i class="fs-1 fa fa-file-image-o"></i>';
-          break;
-      case 'doc':
-      case 'docx':
-          dosyaIkonu = '<i class="fs-1 fa fa-file-word-o"></i>';
-          break;
-      case 'xls':
-      case 'xlsx':
-          dosyaIkonu = '<i class="fs-1 fa fa-file-excel-o"></i>';
-          break;
-      default:
-          dosyaIkonu = '<i class="fs-1 fa fa-file-o"></i>';
-          break;
-}
-    const dosyaElementOlustur = (dosya) =>{
+                const mesajElementiOlustur = (mesaj) => {
+                    var kullaniciID = $('#KullaniciID').val();
+                    var karsiKullaniciID = $('#KarsiKullaniciID').val();
+                    var id = $('#ID').val();
+                    var dosyaLinki = '';
+                    var dosyaIkonu = '';
+                    // Dosya varsa ikonu ve linkini oluştur
+                    if (mesaj.DosyaAdi) {
+                        var dosyaUzantisi = mesaj.DosyaAdi.split('.').pop().toLowerCase();
+                        switch (dosyaUzantisi) {
+                            case 'pdf':
+                                dosyaIkonu = '<i class="text-gray-700 fs-1 fa fa-file-pdf-o"></i>';
+                                break;
+                            case 'jpg':
+                            case 'jpeg':
+                            case 'png':
+                                dosyaIkonu = '<i class="fs-1 fa fa-file-image-o"></i>';
+                                break;
+                            case 'doc':
+                            case 'docx':
+                                dosyaIkonu = '<i class="fs-1 fa fa-file-word-o"></i>';
+                                break;
+                            case 'xls':
+                            case 'xlsx':
+                                dosyaIkonu = '<i class="fs-1 fa fa-file-excel-o"></i>';
+                                break;
+                            default:
+                                dosyaIkonu = '<i class="fs-1 fa fa-file-o"></i>';
+                                break;
+                        }
+                        const dosyaElementOlustur = (dosya) => {
 
-    
 
-     // Dosya linkini oluştur
-     dosyaLinki = `
-         <div class="d-flex align-items-center mt-2">
-             ${dosyaIkonu}
-             <a href="/Uploads/Dosyalar/${mesaj.DosyaAdi}" target="_blank" class="ms-2">${mesaj.DosyaAdi}</a>
-         </div>`;
- }
-    }
-    let generateLink = mesaj.Dosya ? `<a href="/Uploads/Dosyalar/${mesaj.Dosya}">${mesaj.Mesaj}</a>` : null;
 
-        // Karşı kullanıcıdan gelen mesaj
-        if (mesaj.KullaniciID == karsiKullaniciID && mesaj.KarsiKullaniciID == kullaniciID) {
-            return `
-            <div class="d-flex justify-content-start mb-10" data-id="${mesaj.ID}">
-             <div id="select" class="min-w-40px max-w-40"></div>
-                <div class="d-flex flex-column align-items-start">
-                    <div class="d-flex align-items-center mb-2">
-                        <div class="me-3">
-                            <span class="text-muted fs-7 mb-1">${mesaj.Tarih}</span>
-                            <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1"></a>
+                            // Dosya linkini oluştur
+                            dosyaLinki = `
+             <div class="d-flex align-items-center mt-2">
+                 ${dosyaIkonu}
+                 <a href="/Uploads/Dosyalar/${mesaj.DosyaAdi}" target="_blank" class="ms-2">${mesaj.DosyaAdi}</a>
+             </div>`;
+                        }
+                    }
+                    let generateLink = mesaj.Dosya ? `<a href="/Uploads/Dosyalar/${mesaj.Dosya}">${mesaj.Mesaj}</a>` : null;
+
+                    // Karşı kullanıcıdan gelen mesaj
+                    if (mesaj.KullaniciID == karsiKullaniciID && mesaj.KarsiKullaniciID == kullaniciID) {
+                        return `
+                <div class="d-flex justify-content-start mb-6" data-id="${mesaj.ID}">
+                 <div id="select" class="min-w-40px max-w-40"></div>
+                    <div class="d-flex flex-column align-items-start">
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="me-3">
+                                <span class="text-muted fs-7 mb-1">${mesaj.Tarih}</span>
+                                <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1"></a>
+                            </div>
                         </div>
-                    </div>
-                   
-                    <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
 
-                        ${generateLink ? generateLink : mesaj.Mesaj}
-                    </div>
-      
-                </div>
-            </div>`;
-        }
-        // Kullanıcıdan gelen mesaj
-              
-        else if (mesaj.KullaniciID == kullaniciID && mesaj.KarsiKullaniciID == karsiKullaniciID) {
-            return `
-            <div data-container="mesaj-container" class="d-flex justify-content-end mb-10" data-id="${mesaj.ID}">
-             
-                <div class="d-flex flex-column align-items-end">
-                    <div class="d-flex align-items-center mb-2">
-                        <div class="me-3">
-                            <span class="text-muted fs-7 mb-1">${mesaj.Tarih}</span>
-                            <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">Sen</a>
-                        </div>
-                    </div>
-                    <div class="d-flex align-items-center Silme-Checkbox-Gizle">
-                        <div class="me-4 ">
-                            <input type="checkbox" class="mesajSec hidden" value="${mesaj.ID}" />
-                        </div>
                         <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
+
                             ${generateLink ? generateLink : mesaj.Mesaj}
                         </div>
+
                     </div>
-                 
-                </div>
-            </div>`;
-        }
-        return '';
-    };
+                </div>`;
+                    }
+                    // Kullanıcıdan gelen mesaj
 
-    const mesajListesiOlustur = () => {
-        $.ajax({
-            type: "POST",
-            url: '/Mesaj/MesajListesiGetir',
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                const elementler = [];
-                data = data.filter(m => (m.KarsiKullaniciID == $('#KarsiKullaniciID').val() || m.KullaniciID == $('#KarsiKullaniciID').val()))
-                for (let i = 0; i < data.length; i++) {
-                    elementler.push(mesajElementiOlustur(data[i]));
-                }
-                $('#mesajListesi').html(elementler.join("")); // Mevcut mesajları tamamen yenile
-                scrollToBottom('#mesajListesi');
-            },
-            error: function (msg) {
-                console.log(msg);
-            }
+                    else if (mesaj.KullaniciID == kullaniciID && mesaj.KarsiKullaniciID == karsiKullaniciID) {
+                        return `
+                <div data-container="mesaj-container" class="d-flex justify-content-end mb-6" data-id="${mesaj.ID}">
+
+                    <div class="d-flex flex-column align-items-end">
+                        <div class="d-flex align-items-center mb-2">
+                            <div class="me-3">
+                                <span class="text-muted fs-7 mb-1">${mesaj.Tarih}</span>
+                                <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">Sen</a>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center Silme-Checkbox-Gizle">
+                            <div class="me-4 ">
+                                <input type="checkbox" class="mesajSec hidden" value="${mesaj.ID}" />
+                            </div>
+                            <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
+                                ${generateLink ? generateLink : mesaj.Mesaj}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>`;
+                    }
+                    return '';
+                };
+
+                const mesajListesiOlustur = () => {
+                    $.ajax({
+                        type: "POST",
+                        url: '/Mesaj/MesajListesiGetir',
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            const elementler = [];
+                            data = data.filter(m => (m.KarsiKullaniciID == $('#KarsiKullaniciID').val() || m.KullaniciID == $('#KarsiKullaniciID').val()))
+                            for (let i = 0; i < data.length; i++) {
+                                elementler.push(mesajElementiOlustur(data[i]));
+                            }
+                            $('#mesajListesi').html(elementler.join("")); // Mevcut mesajları tamamen yenile
+                            scrollToBottom('#mesajListesi');
+                        },
+                        error: function (msg) {
+                            console.log(msg);
+                        }
+                    });
+
+                };
+
+                return {
+                    mesajListesi,
+                    mesajElementiOlustur,
+                    mesajListesiOlustur
+                };
+            };
+
+            mesajlarilistele();
+
+
+
         });
-
-    };
-
-    return {
-        mesajListesi,
-        mesajElementiOlustur,
-        mesajListesiOlustur
-    };
-};
-
-mesajlarilistele();
-
-
-
-   });
     </script>
 }

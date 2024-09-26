@@ -595,6 +595,7 @@
     <Content Include="Tema\favicons\mstile-310x150.png" />
     <Content Include="Tema\favicons\mstile-310x310.png" />
     <Content Include="Tema\favicons\mstile-70x70.png" />
+    <Content Include="Tema\media\features-logos\tailwind.png" />
     <Content Include="Tema\media\flags\anasayfa.png" />
     <Content Include="Tema\media\flags\ara.png" />
     <Content Include="Tema\media\flags\iptal.png" />
@@ -618,6 +619,8 @@
     <Content Include="Tema\media\flags\Uretim_Tamamlananlar.png" />
     <Content Include="Tema\media\flags\Uretim_Transfer_Onayi.png" />
     <Content Include="Tema\media\flags\yeni.png" />
+    <Content Include="Tema\media\framework-logos\inactive\nextjs.svg" />
+    <Content Include="Tema\media\framework-logos\nextjs.svg" />
     <Content Include="Tema\media\Logolar\BeyazLogo.png" />
     <Content Include="Tema\media\logos\custom-1.png" />
     <Content Include="Tema\media\logos\custom-1.svg" />
@@ -2800,6 +2803,10 @@
     <Content Include="Tema\plugins\custom\tinymce\skins\content\default\content.min.css" />
     <Content Include="Tema\plugins\custom\tinymce\skins\content\document\content.css" />
     <Content Include="Tema\plugins\custom\tinymce\skins\content\document\content.min.css" />
+    <Content Include="Tema\plugins\custom\tinymce\skins\content\tinymce-5-dark\content.css" />
+    <Content Include="Tema\plugins\custom\tinymce\skins\content\tinymce-5-dark\content.min.css" />
+    <Content Include="Tema\plugins\custom\tinymce\skins\content\tinymce-5\content.css" />
+    <Content Include="Tema\plugins\custom\tinymce\skins\content\tinymce-5\content.min.css" />
     <Content Include="Tema\plugins\custom\tinymce\skins\content\writer\content.css" />
     <Content Include="Tema\plugins\custom\tinymce\skins\content\writer\content.min.css" />
     <Content Include="Tema\plugins\custom\tinymce\skins\ui\oxide-dark\content.css" />
@@ -2826,6 +2833,22 @@
     <Content Include="Tema\plugins\custom\tinymce\skins\ui\oxide\skin.mobile.min.css" />
     <Content Include="Tema\plugins\custom\tinymce\skins\ui\oxide\skin.shadowdom.css" />
     <Content Include="Tema\plugins\custom\tinymce\skins\ui\oxide\skin.shadowdom.min.css" />
+    <Content Include="Tema\plugins\custom\tinymce\skins\ui\tinymce-5-dark\content.css" />
+    <Content Include="Tema\plugins\custom\tinymce\skins\ui\tinymce-5-dark\content.inline.css" />
+    <Content Include="Tema\plugins\custom\tinymce\skins\ui\tinymce-5-dark\content.inline.min.css" />
+    <Content Include="Tema\plugins\custom\tinymce\skins\ui\tinymce-5-dark\content.min.css" />
+    <Content Include="Tema\plugins\custom\tinymce\skins\ui\tinymce-5-dark\skin.css" />
+    <Content Include="Tema\plugins\custom\tinymce\skins\ui\tinymce-5-dark\skin.min.css" />
+    <Content Include="Tema\plugins\custom\tinymce\skins\ui\tinymce-5-dark\skin.shadowdom.css" />
+    <Content Include="Tema\plugins\custom\tinymce\skins\ui\tinymce-5-dark\skin.shadowdom.min.css" />
+    <Content Include="Tema\plugins\custom\tinymce\skins\ui\tinymce-5\content.css" />
+    <Content Include="Tema\plugins\custom\tinymce\skins\ui\tinymce-5\content.inline.css" />
+    <Content Include="Tema\plugins\custom\tinymce\skins\ui\tinymce-5\content.inline.min.css" />
+    <Content Include="Tema\plugins\custom\tinymce\skins\ui\tinymce-5\content.min.css" />
+    <Content Include="Tema\plugins\custom\tinymce\skins\ui\tinymce-5\skin.css" />
+    <Content Include="Tema\plugins\custom\tinymce\skins\ui\tinymce-5\skin.min.css" />
+    <Content Include="Tema\plugins\custom\tinymce\skins\ui\tinymce-5\skin.shadowdom.css" />
+    <Content Include="Tema\plugins\custom\tinymce\skins\ui\tinymce-5\skin.shadowdom.min.css" />
     <Content Include="Tema\plugins\custom\tinymce\tinymce.bundle.js" />
     <Content Include="Tema\plugins\custom\typedjs\typedjs.bundle.js" />
     <Content Include="Tema\plugins\custom\vis-timeline\vis-timeline.bundle.css" />
@@ -3047,6 +3070,7 @@
     <Content Include="Views\Mesaj\Chat.cshtml" />
     <Content Include="Views\Kullanici\UretimYetkiler.cshtml" />
     <Content Include="Views\Ayarlar\Config.cshtml" />
+    <Content Include="Views\Shared\_TestLayout.cshtml" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>
