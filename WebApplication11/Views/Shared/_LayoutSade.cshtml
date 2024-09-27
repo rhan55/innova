@@ -12,7 +12,8 @@
     string KullaniciID = HttpUtility.UrlDecode(Request.Cookies["KullaniciID"].Value);
     string UyelikID = HttpUtility.UrlDecode(Request.Cookies["UyelikID"].Value);
     string UyelikBitisTarihi = HttpUtility.UrlDecode(Request.Cookies["UyelikBitisTarihi"].Value);
-
+    string AcilisSayfasi = HttpUtility.UrlDecode(Request.Cookies["AcilisSayfasi"].Value);
+    
 }
 
 <!DOCTYPE html>
@@ -104,8 +105,8 @@
                     <!--begin::Brand-->
                     <div class="header-brand">
                         <!--begin::Logo-->
-                        <a href="#">
-                            <img alt="Logo" src="@(Logo)" class="h-25px h-lg-25px" />
+                        <a href="@Url.Content(AcilisSayfasi)">
+                            <img alt="@(AcilisSayfasi)" src="@(Logo)" class="h-25px h-lg-25px" />
                         </a>
                         <!--end::Logo-->
                         <!--begin::Aside minimize-->

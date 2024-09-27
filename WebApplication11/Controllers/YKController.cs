@@ -111,7 +111,7 @@ namespace YKPortal.Controllers
                 cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
                 cmd.Parameters.AddWithValue("@Kod", "AnaSayfaSonAktiviteler");
                 DataTable dtParametre = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-                if(dtParametre.Rows.Count > 0)
+                if (dtParametre.Rows.Count > 0)
                     ViewBag.AnaSayfaSonAktiviteler = Convert.ToBoolean(Convert.ToString(dtParametre.Rows[0]["Deger"]) == "1" ? true : false);
             }
 
@@ -177,7 +177,8 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@BitisTarihi", anasayfaTakvimKaydetDto.BitisTarihi);
 
 
-            try {
+            try
+            {
                 DataTable takvimListesi = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                 List<FullcalendarDto> entities = new List<FullcalendarDto>();
 
@@ -192,7 +193,8 @@ namespace YKPortal.Controllers
                 result.Data = new { Success = true, Message = "Başarılı", Data = entities };
                 return Json(result, JsonRequestBehavior.AllowGet);
 
-            } catch(Exception exception)
+            }
+            catch (Exception exception)
             {
                 result.Data = new { Success = false, Message = exception.Message };
                 return Json(result, JsonRequestBehavior.AllowGet);
@@ -220,7 +222,8 @@ namespace YKPortal.Controllers
 
             JsonResult result = new JsonResult()
             {
-                Data = new IDJsonResult { 
+                Data = new IDJsonResult
+                {
                     Data = anasayfaBilgileri,
                     Sonuc = "0"
                 },
@@ -308,15 +311,16 @@ namespace YKPortal.Controllers
                 {
                     #region Cookie İşlemleri
                     CreateCookie("Isim", Convert.ToString(dt.Rows[0]["Ad"]) + " " + Convert.ToString(dt.Rows[0]["Soyad"]));
-                        CreateCookie("KullaniciID", Convert.ToString(dt.Rows[0]["ID"]));
-                        CreateCookie("UyelikIsim", Convert.ToString(dt.Rows[0]["UyelikIsim"]));
-                        CreateCookie("UyelikID", Convert.ToString(dt.Rows[0]["UyelikID"]));
-                        CreateCookie("KullaniciAdi", Convert.ToString(dt.Rows[0]["KullaniciAdi"]));
-                        CreateCookie("Parola", Convert.ToString(dt.Rows[0]["Parola"]));
-                        CreateCookie("Resim", Convert.ToString(dt.Rows[0]["Resim"]));
-                        CreateCookie("Logo", Convert.ToString(dt.Rows[0]["Logo"]));
-                        CreateCookie("UyelikBitisTarihi", Convert.ToString(dt.Rows[0]["UyelikBitisTarihi"]));
-                    
+                    CreateCookie("KullaniciID", Convert.ToString(dt.Rows[0]["ID"]));
+                    CreateCookie("UyelikIsim", Convert.ToString(dt.Rows[0]["UyelikIsim"]));
+                    CreateCookie("UyelikID", Convert.ToString(dt.Rows[0]["UyelikID"]));
+                    CreateCookie("KullaniciAdi", Convert.ToString(dt.Rows[0]["KullaniciAdi"]));
+                    CreateCookie("Parola", Convert.ToString(dt.Rows[0]["Parola"]));
+                    CreateCookie("Resim", Convert.ToString(dt.Rows[0]["Resim"]));
+                    CreateCookie("Logo", Convert.ToString(dt.Rows[0]["Logo"]));
+                    CreateCookie("UyelikBitisTarihi", Convert.ToString(dt.Rows[0]["UyelikBitisTarihi"]));
+                    CreateCookie("AcilisSayfasi", Convert.ToString(dt.Rows[0]["AcilisSayfasi"]));
+
                     #endregion
 
                     if (Convert.ToString(dt.Rows[0]["AcilisSayfasi"]).Trim().Length > 0)
@@ -437,6 +441,7 @@ namespace YKPortal.Controllers
             DeleteCookie("Parola");
             DeleteCookie("Resim");
             DeleteCookie("Logo");
+            DeleteCookie("AcilisSayfasi");
 
             return Redirect("~/YK/Giris");
 

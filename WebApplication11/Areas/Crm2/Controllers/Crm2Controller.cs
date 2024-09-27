@@ -89,7 +89,7 @@ namespace YKPortal.Areas.Crm2.Controllers
             }
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "select count(*) as Sayi1 from Crm2Kayitlar WITH(NOLOCK) Where Silindi = 0 and UyelikID = @UyelikID ";
+                cmd.CommandText = "select count(*) as Sayi1 from Crm2Kayitlar WITH(NOLOCK) Where Silindi = 0 and UyelikID = @UyelikID and DATEDIFF(DAY,KabulTarihi,GETDATE()) > 90";
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
                 cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
