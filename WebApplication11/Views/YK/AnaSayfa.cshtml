@@ -1,7 +1,10 @@
 ﻿@using YKPortal.Models.Dto
+
 @{
     ViewBag.Title = "Ana Sayfa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 
 
 <div class="container-fluid">
@@ -38,6 +41,7 @@
             </div>
             @if (ViewBag.AnaSayfaTakvim == true)
             {
+
                 <div class="card border-0 mt-4">
                     <div class="card-custom">
                         <div class="card-header">
@@ -46,23 +50,34 @@
                             </div>
                             <form id="Not-Ekle">
                                 <div class="card-toolbar">
-                                    <button type="button" class="btn btn-flex btn-primary" data-kt-calendar="add" data-bs-toggle="modal" data-bs-target="#TakvimEtkinlikModal">
+                                    <button type="button" class="btn btn-flex btn-primary btn-sm" data-kt-calendar="add" data-bs-toggle="modal" data-bs-target="#TakvimEtkinlikModal">
                                         <i class="ki-duotone ki-plus fs-2"></i>
-                                        Add Event
+                                        Ekle
                                     </button>
                                 </div>
                             </form>
 
                         </div>
-                        <div class="card-body">
-                            <div id="Takvim"></div>
+
+
+
+                        <div id="kt_app_content_container" class="app-container card-body">
+                            <div id="Takvim">
+                                
+                            </div> <!-- Takvim alanı -->
+                            <!-- Modal Yapısı -->
+
                         </div>
+
+
                     </div>
 
                 </div>
+
+
             }
 
-            </div>
+        </div>
         <div class="col-sm-4">
             @if (ViewBag.AnaSayfaBekleyenGorevSayisi == true)
             {
@@ -168,7 +183,7 @@
 
 
                                         </div>
-                                                            }
+                                    }
                                     <!--end::Tab Content-->
                                     <!--begin::Action-->
                                     <div class="float-end d-none">
@@ -186,270 +201,197 @@
                     </div>
                     <!--end::Col-->
                 </div>
-                                                            }
-            </div>
+            }
+        </div>
     </div>
 </div>
 
-<div class="modal fade" id="TakvimEtkinlikModal" tabindex-="1" aria-hidden="true" data-bs-focus="false">
-    <!--begin::Modal dialog-->
+<div class="modal fade" id="TakvimEtkinlikModal" tabindex="-1" aria-hidden="true" data-bs-focus="false">
     <div class="modal-dialog modal-dialog-centered mw-650px">
-        <!--begin::Modal content-->
         <div class="modal-content">
-            <!--begin::Form-->
+            <!-- Form Yapısı -->
             <form class="form" action="/YK/TakvimKaydet" method="post" id="takvimKaydetForm">
-                <!--begin::Modal header-->
+                <!-- Modal Header -->
                 <div class="modal-header">
-                    <!--begin::Modal title-->
-                    <h2 class="fw-bold" data-kt-calendar="title">Etkinlik Ekle</h2>
-                    <!--end::Modal title-->
-                    <!--begin::Close-->
-                    <button type="button" class="btn btn-icon btn-sm btn-active-icon-primary" id="kt_modal_add_event_close" data-bs-dismiss="modal">
-                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    <h2 class="fw-bold">Etkinlik Ekle</h2>
+                    <button type="button" class="btn btn-icon btn-sm btn-active-icon-primary" data-bs-dismiss="modal">
+                        <i class="ki-duotone ki-cross fs-1"></i>
                     </button>
-                    <!--end::Close-->
                 </div>
-                <!--end::Modal header-->
-                <!--begin::Modal body-->
+              
+                <!-- Modal Body -->
                 <div class="modal-body py-10 px-lg-17">
-                    <!--begin::Input group-->
+                    <!-- Etkinlik Adı -->
                     <div class="fv-row mb-9">
-                        <!--begin::Label-->
                         <label class="fs-6 fw-semibold required mb-2">Etkinlik Adı</label>
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <input type="text" id="Baslik" class="form-control form-control-solid" placeholder="" name="Baslik" />
-                        <!--end::Input-->
+                        <input type="text" id="Baslik" class="form-control form-control-solid" name="Baslik" placeholder="Etkinlik Adı" />
                     </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
+
+                    <!-- Açıklama -->
                     <div class="fv-row mb-9">
-                        <!--begin::Label-->
                         <label class="fs-6 fw-semibold mb-2">Açıklama</label>
-                        <!--end::Label-->
-                        <textarea name="Aciklama" id="Aciklama" class="form-control form-control form-control-solid" data-kt-autosize="true"></textarea>
-                        <!--end::Input-->
+                        <textarea name="Aciklama" id="Aciklama" class="form-control form-control form-control-solid" data-kt-autosize="true" placeholder="Açıklama"></textarea>
                     </div>
-                    <!--end::Input group-->
-                    <!--begin::Input group-->
 
-
+                    <!-- Durum Seçimi -->
                     <div class="row mt-4">
-                        <div class="col-lg-4 ">
+                        <div class="col-lg-12">
                             <div class="form-group">
-                                <label for="Durumu" class=" form-label">Durumu</label>
-                                <select class="form-control p-2 rounded-1" name="Durumu" id="Durumu"
-                                        aria-label="Floating label select example">
+                                <label for="Durumu" class="form-label">Durumu</label>
+                                <select class="form-control px-2 py-3 rounded-1 border-0" name="Durumu" id="Durumu" style="background-color: #F9F9F9;">
                                     <option value="">Lütfen Seçim Yapınız</option>
-                                    @foreach (GrupKoduDto takvimDurumu in ViewBag.TakvimDurumlari)
+                                    @foreach (var takvimDurumu in ViewBag.TakvimDurumlari)
                                     {
-                                        <option value="@(takvimDurumu.Deger)">@(takvimDurumu.Deger)</option>
+                                        <option value="@takvimDurumu.Deger">@takvimDurumu.Deger</option>
                                     }
+
                                 </select>
                             </div>
                         </div>
+                    </div>
 
-
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <div class="row row-cols-lg-2 g-10">
-                            <div class="col">
-                                <div class="fv-row mb-9">
-                                    <!--begin::Label-->
-                                    <label class="fs-6 fw-semibold mb-2 required">Tarihi</label>
-                                    <!--end::Label-->
-                                    <!--begin::Input-->
-                                    <input type="datetime-local" class="form-control form-control-solid" name="Tarih" id="Tarih" />
-                                    <!--end::Input-->
-                                </div>
+                    <!-- Tarih Seçimi -->
+                    <div class="row mt-4">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="fs-6 fw-semibold mb-2 required">Tarihi</label>
+                                <input type="datetime-local" class="form-control form-control-solid" name="Tarih" id="Tarih" />
                             </div>
-
-
                         </div>
-                        <!--end::Input group-->
-                        <!--begin::Input group-->
-                        <!--<div class="row row-cols-lg-2 g-10">
-        <div class="col">
-            <div class="fv-row mb-9">-->
-                        <!--begin::Label-->
-                        <!--<label class="fs-6 fw-semibold mb-2 required">Etkinlik Bitiş Tarihi</label>-->
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <!--<input class="form-control form-control-solid" name="calendar_event_end_date" placeholder="Pick a end date" id="kt_calendar_datepicker_end_date" />-->
-                        <!--end::Input-->
-                        <!--</div>
-        </div>
-        <div class="col" data-kt-calendar="datepicker">
-            <div class="fv-row mb-9">-->
-                        <!--begin::Label-->
-                        <!--<label class="fs-6 fw-semibold mb-2">Etkinlik Bitiş Saati</label>-->
-                        <!--end::Label-->
-                        <!--begin::Input-->
-                        <!--<input class="form-control form-control-solid" name="calendar_event_end_time" placeholder="Pick a end time" id="kt_calendar_datepicker_end_time" />-->
-                        <!--end::Input-->
-                        <!--</div>
-            </div>
-
-        </div>-->
-                        <!--end::Input group-->
                     </div>
-
                 </div>
-                    <!--end::Modal body-->
-                    <!--begin::Modal footer-->
-                    <div class="modal-footer flex-center">
-                        <!--begin::Button-->
-                        <button type="reset" id="kt_modal_add_event_cancel" class="btn btn-light me-3" data-bs-dismiss="modal">
-                            Vazgeç
-                        </button>
-                        <!--end::Button-->
-                        <!--begin::Button-->
-                        <button type="submit" id="takvimKaydetButonu" class="btn btn-primary">
-                            <span class="indicator-label">
-                                Kaydet
-                            </span>
-                            <span class="indicator-progress">
-                                Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                            </span>
-                        </button>
-                        <!--end::Button-->
-                    </div>
-                    <!--end::Modal footer-->
-</form>
-            <!--end::Form-->
+
+                <!-- Modal Footer -->
+                <div class="modal-footer flex-center">
+                    <button type="reset" class="btn btn-light me-3" data-bs-dismiss="modal">Vazgeç</button>
+                    <button type="submit" id="kt_modal_add_event_submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.7/js/dataTables.min.js"></script>
+
     <script>
-
         $(document).ready(function () {
-            const todayDate = moment().startOf('day');
-            function updateCalendarEvents() {
-                $.ajax({
-                    url: '/YK/Takvim',
-                    type: 'POST',
-                    contentType: "application/json",
-                    dataType: "json",
-                    data: JSON.stringify({
-                        BaslangicTarihi: todayDate.clone().subtract(1, 'year'),
-                        BitisTarihi: todayDate.clone().add(1, 'year')
-                    }),
-                    success: function (response) {
-                        if (response.Data.Success) {
-                            $('#Takvim').fullCalendar('removeEvents');
-                            $('#Takvim').fullCalendar('addEventSource', response.Data.Data);
-
-                        }
-                    },
-                    error: function () {
-                    //    alert('there was an error while fetching events!');
-                    }
-                })
-            }
-
-            $("#takvimKaydetForm").on('submit', function (event) {
-                event.preventDefault();
-
-                var _data = {};
-
-                _data.Baslik = $('#takvimKaydetForm input#Baslik').val();
-                _data.Aciklama = $('#takvimKaydetForm textarea#Aciklama').val();
-                _data.Durumu = $('#takvimKaydetForm select#Durumu option:selected').val();
-                _data.Tarih = $('#takvimKaydetForm input#Tarih').val();
-
-                console.log(_data);
-                $.ajax({
-                    url: '/YK/TakvimKaydet',
-                    data: JSON.stringify(_data), // Veriyi JSON formatına dönüştür
-                    contentType: "application/json",
-                    dataType: "json",
-                    type: "POST",
-                    success: function (data) {
-                        console.log(data);
-                    },
-                    error: function (msg) {
-                        console.log(msg);
-                    }
-                });
-            })
 
             var TakvimModulu = function () {
-                // Private functions
-
+                var calendar;
                 var exampleBasic = function () {
                     var todayDate = moment().startOf('day');
-                    var YM = todayDate.format('YYYY-MM');
-                    var YESTERDAY = todayDate.clone().subtract(1, 'day').format('YYYY-MM-DD');
                     var TODAY = todayDate.format('YYYY-MM-DD');
-                    var TOMORROW = todayDate.clone().add(1, 'day').format('YYYY-MM-DD');
 
                     var calendarEl = document.getElementById('Takvim');
-                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                    calendar = new FullCalendar.Calendar(calendarEl, {
                         headerToolbar: {
                             left: 'prev,next today',
                             center: 'title',
                             right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
                         },
-
-                        height: 800,
-                        contentHeight: 780,
-                        aspectRatio: 3,  // see: https://fullcalendar.io/docs/aspectRatio
-
+                        height: 600,
+                        contentHeight: 580,
+                        aspectRatio: 3,
                         nowIndicator: true,
-                        now: TODAY + 'T09:25:00', // just for demo
-
+                        now: TODAY + 'T09:25:00',
                         views: {
                             dayGridMonth: { buttonText: 'month' },
                             timeGridWeek: { buttonText: 'week' },
                             timeGridDay: { buttonText: 'day' }
                         },
-
                         initialView: 'dayGridMonth',
                         initialDate: TODAY,
-
                         editable: true,
-                        dayMaxEvents: true, // allow "more" link when too many events
+                        dayMaxEvents: true,
                         navLinks: true,
-     
-
-                        eventContent: function (info) {
-                            var element = $(info.el);
-
-                            if (info.event.extendedProps && info.event.extendedProps.description) {
-                                if (element.hasClass('fc-day-grid-event')) {
-                                    element.data('content', info.event.extendedProps.description);
-                                    element.data('placement', 'top');
-                                    KTApp.initPopover(element);
-                                } else if (element.hasClass('fc-time-grid-event')) {
-                                    element.find('.fc-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
-                                } else if (element.find('.fc-list-item-title').lenght !== 0) {
-                                    element.find('.fc-list-item-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');
+                        events: function (fetchInfo, successCallback, failureCallback) {
+                            const todayDate = moment().startOf('day');
+                            $.ajax({
+                                url: '/YK/Takvim', // Sunucudaki controller ve metot yolu
+                                type: 'POST',
+                                contentType: "application/json",
+                                dataType: "json",
+                                data: JSON.stringify({
+                                    BaslangicTarihi: todayDate.clone().subtract(1, 'year').toISOString(),  // Tarihi ISO formatında gönder
+                                    BitisTarihi: todayDate.clone().add(1, 'year').toISOString()  // Tarihi ISO formatında gönder
+                                }),
+                                success: function (response) {
+                                    if (response.Data.Success) {
+                                        successCallback(response.Data.Data.map((event) => ({
+                                            title: event.title,
+                                            start: event.start,
+                                            className: "fc-event-solid-info fc-event-light",
+                                        })))
+                                    } else {
+                                        console.error('Etkinlikler alınırken bir hata oluştu:', response.Message);
+                                    }
+                                },
+                                error: function () {
+                                    console.error('Etkinlikler alınırken bir hata oluştu.');
                                 }
-                            }
+                            });
                         }
                     });
 
                     calendar.render();
-                    updateCalendarEvents();
                 }
 
+                var updateCalendarEvents = function () {
+
+
+                }
+
+                var saveCalendarEvent = function () {
+                    var _data = {
+                        Baslik: $('#Baslik').val(),
+                        Aciklama: $('#Aciklama').val(),
+                        Durumu: $('#Durumu option:selected').val(),
+                        Tarih: moment($('#Tarih').val()).toISOString() // ISO formatında tarih gönderme
+                    };
+
+                    console.log(_data); // Verileri kontrol etme
+
+                    // AJAX isteği ile verileri gönderme
+                    $.ajax({
+                        url: '/YK/TakvimKaydet',
+                        type: 'POST',
+                        data: JSON.stringify(_data),  // JSON formatına dönüştürülmüş veri
+                        contentType: "application/json",
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.Success) {
+                                $('#TakvimEtkinlikModal').modal('hide');  // Modalı kapat
+                                updateCalendarEvents();  // Takvimi güncelle
+                            } else {
+                                console.error('Kaydetme işleminde hata oluştu:', response.Message);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Kaydetme hatası:', status, error);
+                        }
+                    });
+                }
                 return {
-                    // Public Functions
                     init: function () {
                         exampleBasic();
-                    }
+                        updateCalendarEvents();
+                    },
+                    updateCalendarEvents: updateCalendarEvents,
+                    saveCalendarEvent: saveCalendarEvent
                 };
             }();
 
-            // On document ready
-            KTUtil.onDOMContentLoaded(function () {
-                TakvimModulu.init();
-            });
+            // Takvim modülünü başlat
+            TakvimModulu.init();
 
-        })
+            $('#takvimKaydetForm').on('submit', function (event) {
+                event.preventDefault(); // Formun doğal submit işlemini durdurur
 
-      
+                TakvimModulu.saveCalendarEvent();
+
+            });            
+        });
     </script>
 }
