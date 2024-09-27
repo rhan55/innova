@@ -8,7 +8,7 @@
 
     DataTable dtDepolar = ViewBag.Depolar as DataTable;
     bool YKIsMobileDevice = Request.Browser.IsMobileDevice;
-   //YKIsMobileDevice = true;
+    //YKIsMobileDevice = true;
     bool DepoDepoTransferiAciklamaGizle = Convert.ToBoolean(ViewBag.DepoDepoTransferiAciklamaGizle);
     bool DepoDepoTransferiFiyatGizle = Convert.ToBoolean(ViewBag.DepoDepoTransferiFiyatGizle);
 }
@@ -32,266 +32,244 @@
                             <!--begin::Card body-->
                             <div class="card-body">
                                 <!--begin::Form-->
-                             
-                                    <input type="hidden" name="ID" id="ID" value="@(Model.ID)" />
-                                    <table>
-                                        <tr>
-                                            <td>Belge No</td>
-                                            <td>:</td>
-                                            <td>
-                                                <input type="text" name="BelgeNo" maxlength="16" id="BelgeNo" value="@(Convert.ToString(Model.BelgeNo))" class="form-control p-2 rounded-1" placeholder="" />
-                                            </td>
-                                            <td style="width:5px;"></td>
-                                            <td>Cari</td>
-                                            <td>:</td>
-                                            <td style="width:200px;">
-                                                <select class="form-select form-select-solid p-2 rounded-1" name="CariID" id="CariID"
-                                                        aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
 
-                                                    @if (Model.CariID != "")
+                                <input type="hidden" name="ID" id="ID" value="@(Model.ID)" />
+                                <table>
+                                    <tr>
+                                        <td>Belge No</td>
+                                        <td>:</td>
+                                        <td>
+                                            <input type="text" name="BelgeNo" maxlength="16" id="BelgeNo" value="@(Convert.ToString(Model.BelgeNo))" class="form-control p-2 rounded-1" placeholder="" />
+                                        </td>
+                                        <td style="width:5px;"></td>
+                                        <td>Cari</td>
+                                        <td>:</td>
+                                        <td style="width:200px;">
+                                            <select class="form-select form-select-solid p-2 rounded-1" name="CariID" id="CariID"
+                                                    aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+
+                                                @if (Model.CariID != "")
+                                                {
+                                                    <option value="@Model.CariID" selected>@Model.CariAdi</option>
+                                                }
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr style="@(Tip == "AI" ? "display:none;" : "")">
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td style="width:5px;"></td>
+                                        <td>Çıkış Depo</td>
+                                        <td>:</td>
+                                        <td>
+                                            <select class="form-select form-select-solid p-2 rounded-1" name="DepoCikisID" id="DepoCikisID"
+                                                    aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                                @foreach (DataRow drDepo in dtDepolar.Rows)
+                                                {
+                                                    <option value="@drDepo["ID"]" @(Model.DepoCikisID == drDepo["ID"].ToString() || Request.QueryString["CikisDepo"] == drDepo["ID"].ToString() ? "selected" : "")>@drDepo["Isim"]</option>
+                                                }
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tarih</td>
+                                        <td>:</td>
+                                        <td>
+                                            <input type="date" name="Tarih" id="Tarih" value="@(Convert.ToDateTime(Model.Tarih).ToString("yyyy-MM-dd"))" class="form-control form-control-solid p-2 rounded-1" placeholder="" />
+                                        </td>
+                                        <td style="width:5px;"></td>
+                                        <td>Giriş Depo</td>
+                                        <td>:</td>
+                                        <td>
+                                            <select class="form-select form-select-solid p-2 rounded-1" name="DepoGirisID" id="DepoGirisID"
+                                                    aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                                @foreach (DataRow drDepo in dtDepolar.Rows)
+                                                {
+                                                    <option value="@drDepo["ID"]" @("16" == Convert.ToString(drDepo["ID"]) || Model.DepoGirisID == drDepo["ID"].ToString() || Request.QueryString["GirisDepo"] == drDepo["ID"].ToString() ? "selected" : "")>@drDepo["Isim"]</option>
+                                                }
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+
+
+
+                                <!--begin::Wrapper-->
+
+                                <div class="mb-0">
+                                    @if (true)
+                                    {
+
+                                        <form action="/Depo/Depo/UretimIsEmriBarkodOku" method="get" id="TableBarkod" name="TableBarkod">
+                                            <input type="hidden" name="IsEmriNo" id="IsEmriNo" value="@(Request.QueryString["IsEmriNo"])" />
+
+                                            <input type="text" class="form-control" style="display:none;" name="Miktar" id="Miktar" value="1" placeholder="Miktar" required />
+                                            <br />
+                                            <input type="text" class="form-control" name="Barkod" id="Barkod" value="" placeholder="Barkod" autofocus onblur="BarkodOku();" />
+                                            <br />
+                                            <input type="text" class="form-control" style="display:none;" name="StokKodu" id="StokKodu" value="" placeholder="Stok Kodu" disabled required />
+                                            <br />
+                                            <input type="text" class="form-control" style="display:none;" name="StokAdi" id="StokAdi" value="" placeholder="Stok Adı" disabled required />
+                                            <br />
+                                            <select id="Seri" name="Seri" class="form-control" style="display:none;" required>
+                                                <option value="">Seri Seçimi</option>
+                                            </select>
+                                            <br />
+                                            <strong><span id="Bilgilendirme" name="Bilgilendirme"></span></strong>
+                                            <br />
+                                            <input type="button" name="name" value="Ekle" style="display:none;" class="btn btn-primary" onclick="Kaydet2();" />
+                                        </form>
+                                    }
+                                    <!--end::Row-->
+                                    <!--begin::Table wrapper-->
+                                    <div class="row p-3">
+                                        <table class="table" id="TabloKalemler" name="TabloKalemler" border="1">
+                                            <thead>
+                                                <tr style="padding:5px;">
+                                                    @if (YKIsMobileDevice)
                                                     {
-                                                        <option value="@Model.CariID" selected>@Model.CariAdi</option>
+                                                        <td colspan="3" style="text-align:center;"><strong>ÜRÜN</strong></td>
+                                                        <td colspan="2" style="text-align:center;display:none;"><strong>SERİ</strong></td>
                                                     }
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr style="@(Tip == "AI" ? "display:none;" : "")">
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td style="width:5px;"></td>
-                                            <td>Çıkış Depo</td>
-                                            <td>:</td>
-                                            <td>
-                                                <select class="form-select form-select-solid p-2 rounded-1" name="DepoCikisID" id="DepoCikisID"
-                                                        aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                    @foreach (DataRow drDepo in dtDepolar.Rows)
+                                                    else
                                                     {
-                                                        <option value="@drDepo["ID"]" @(Model.DepoCikisID == drDepo["ID"].ToString() || Request.QueryString["CikisDepo"] == drDepo["ID"].ToString() ? "selected" : "")>@drDepo["Isim"]</option>
+                                                        <td class="me-4 text-gray-600"><strong>ÜRÜN</strong></td>
+                                                        <td class="me-4 text-gray-600" style='display:none;'><strong>SERİ</strong></td>
+                                                        <td class="me-4 text-gray-600"><strong>BİRİM</strong></td>
+
+                                                        <td class="me-4 text-gray-600"><strong>MİKTAR</strong></td>
+                                                        <td class="me-4 text-gray-600" style="@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")"><strong>FİYAT</strong></td>
+                                                        <td class="me-4 text-gray-600" style="@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")"><strong>TUTAR</strong></td>
+                                                        <td><strong></strong></td>
                                                     }
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>Tarih</td>
-                                            <td>:</td>
-                                            <td>
-                                                <input type="date" name="Tarih" id="Tarih" value="@(Convert.ToDateTime(Model.Tarih).ToString("yyyy-MM-dd"))" class="form-control form-control-solid p-2 rounded-1" placeholder="" />
-                                            </td>
-                                            <td style="width:5px;"></td>
-                                            <td>Giriş Depo</td>
-                                            <td>:</td>
-                                            <td>
-                                                <select class="form-select form-select-solid p-2 rounded-1" name="DepoGirisID" id="DepoGirisID"
-                                                        aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                    @foreach (DataRow drDepo in dtDepolar.Rows)
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (BelgeKalemDto satir in Model.Kalemler)
+                                                {
+                                                    string ID = satir.ID.Replace("-", "");
+                                                    if (YKIsMobileDevice)
                                                     {
-                                                        <option value="@drDepo["ID"]" @(Model.DepoGirisID == drDepo["ID"].ToString() || Request.QueryString["GirisDepo"] == drDepo["ID"].ToString() ? "selected" : "")>@drDepo["Isim"]</option>
-                                                    }
-                                                </select>
-                                            </td>
-                                        </tr>
-                                    </table>
 
-                             
+                                                        <tr data-ID="@satir.ID" data-ID2="@ID">
+                                                            <td colspan="4">
+                                                                <table style="width:100%;margin-bottom:15px;">
+                                                                    <tr>
+                                                                        <td class="min-w-300px w-475px" colspan="3">
+                                                                            <select class="form-select Depo-cikis form-select-solid p-2 rounded-1" name="StokID_@(ID)" id="StokID_@(ID)" style="width:100%;"
+                                                                                    aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                                                                <option value="@satir.StokID" selected>@satir.StokAdi</option>
+                                                                            </select>
 
-                                    <!--begin::Wrapper-->
+                                                                        </td>
 
-                                    <div class="mb-0">
-                                        @if (false)
-                                        {
-                                            <input type="button" name="name" value="Barkod Okutma" onclick="$('#TableBarkod').toggle();" />
-                                            <table style="width:100%;display:none;" id="TableBarkod" name="TableBarkod">
+                                                                        <td>
+                                                                            @if (Tip == "AI")
+                                                                            {
+                                                                                <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
+                                                                            }
+                                                                            else if (Tip == " DT")
+                                                                            {
 
-                                                <tr>
-
-                                                    <td>
-                                                        <label for="Barkod">Barkod</label>
-                                                        <input type="text" name="Barkod" id="Barkod" value="" class="form-control" onkeydown="KaydetBarkod();" />
-
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <span>Kod : </span>
-                                                        <span id="BarkodStokKodu" name="BarkodStokKodu"></span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <span>İsim : </span>
-                                                        <span id="BarkodStokAdi" name="BarkodStokAdi"></span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <select class="form-control" name="BarkodSeri" id="BarkodSeri" placeholder="Lütfen Seçim Yapınız">
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <label for="BarkodMiktar">Miktar</label>
-                                                        <input type="text" name="BarkodMiktar" id="BarkodMiktar" value="1" class="form-control" style="text-align:right;" onchange="$(this).val($(this).val().replace(',','.'));" />
-
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="2">
-                                                        <input type="button" name="Kaydet" id="Kaydet" value="Kaydet" class="btn btn-primary" onclick="Kaydet2();" style="width:75px;" />
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        }
-                                        <!--end::Row-->
-                                        <!--begin::Table wrapper-->
-                                        <div class="row p-3">
-                                            <table class="table" id="TabloKalemler" name="TabloKalemler" border="1">
-                                                <thead>
-                                                    <tr style="padding:5px;">
-                                                        @if (YKIsMobileDevice)
-                                                        {
-                                                            <td colspan="3" style="text-align:center;"><strong>ÜRÜN</strong></td>
-                                                            <td colspan="2" style="text-align:center;"><strong>SERİ</strong></td>
-                                                        }
-                                                        else
-                                                        {
-                                                            <td class="me-4 text-gray-600"><strong>ÜRÜN</strong></td>
-                                                            <td class="me-4 text-gray-600"><strong>SERİ</strong></td>
-                                                            <td class="me-4 text-gray-600"><strong>BİRİM</strong></td>
-
-                                                            <td class="me-4 text-gray-600"><strong>MİKTAR</strong></td>
-                                                            <td class="me-4 text-gray-600" style="@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")"><strong>FİYAT</strong></td>
-                                                            <td class="me-4 text-gray-600" style="@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")"><strong>TUTAR</strong></td>
-                                                            <td><strong></strong></td>
-                                                        }
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach (BelgeKalemDto satir in Model.Kalemler)
-                                                    {
-                                                        string ID = satir.ID.Replace("-", "");
-                                                        if (YKIsMobileDevice)
-                                                        {
-
-                                                            <tr data-ID="@satir.ID" data-ID2="@ID">
-                                                                <td colspan="4">
-                                                                    <table style="width:100%;margin-bottom:15px;">
-                                                                        <tr>
-                                                                            <td class="min-w-300px w-475px" colspan="3">
-                                                                                <select class="form-select Depo-cikis form-select-solid p-2 rounded-1" name="StokID_@(ID)" id="StokID_@(ID)" style="width:100%;"
+                                                                                <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <select class="form-select form-select-solid p-2 rounded-1" name="Seri_@(ID)" id="Seri_@(ID)"
                                                                                         aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                                                    <option value="@satir.StokID" selected>@satir.StokAdi</option>
+                                                                                    <option value="@satir.Seri" selected>@satir.Seri</option>
                                                                                 </select>
+                                                                            }
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
 
-                                                                            </td>
+                                                                        <td><strong>Birim</strong></td>
+                                                                        <td style="text-align: right;"><strong>Miktar</strong></td>
+                                                                        <td style="text-align: right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")"><strong>Fiyat</strong></td>
+                                                                        <td style="text-align: right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")"><strong>Tutar</strong></td>
+                                                                    </tr>
+                                                                    <tr>
 
-                                                                            <td>
-                                                                                @if (Tip == "AI")
-                                                                                {
-                                                                                    <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
-                                                                                }
-                                                                                else if (Tip == " DT")
-                                                                                {
-
-                                                                                    <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    <select class="form-select form-select-solid p-2 rounded-1" name="Seri_@(ID)" id="Seri_@(ID)"
-                                                                                            aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                                                        <option value="@satir.Seri" selected>@satir.Seri</option>
-                                                                                    </select>
-                                                                                }
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-
-                                                                            <td><strong>Birim</strong></td>
-                                                                            <td style="text-align: right;"><strong>Miktar</strong></td>
-                                                                            <td style="text-align: right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")"><strong>Fiyat</strong></td>
-                                                                            <td style="text-align: right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")"><strong>Tutar</strong></td>
-                                                                        </tr>
-                                                                        <tr>
-
-                                                                            <td>
-                                                                                <input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control p-2 me-10" />
-                                                                            </td>
-                                                                            <td>
-                                                                                <input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                                            </td>
-                                                                            <td>
-                                                                                <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")" />
-                                                                            </td>
-                                                                            <td>
-                                                                                <input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")" readonly />
-                                                                            </td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </td>
-                                                                <td>
-                                                                    <button type='button' class="deleteBtn pt-2" data-ID2="@(ID)">Sil</button>
-                                                                </td>
-                                                            </tr>
-                                                        }
-                                                        else
-                                                        {
-                                                            <tr class="border-bottom border-bottom-dashed" data-ID="@satir.ID" data-ID2="@ID">
-                                                                <td class="pe-7">
-                                                                    <select class="form-select form-select-solid p-2 rounded-1" name="StokID_@(ID)" id="StokID_@(ID)" style="min-width:150px;max-width:350px;"
-                                                                            aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                                        <option value="@satir.StokID" selected>@satir.StokAdi</option>
-                                                                    </select>
-
-                                                                </td>
-                                                                <td class="ps-0">
-                                                                    @if (Tip == "AI")
-                                                                    {
-                                                                        <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <select class="form-select form-select-solid p-2 rounded-1" name="Seri_@(ID)" id="Seri_@(ID)"
-                                                                                aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                                            <option value="@satir.Seri" selected>@satir.Seri</option>
-                                                                        </select>
-                                                                    }
-                                                                </td>
-
-                                                                <td style="max-width:200px;">
-                                                                    <input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control p-2" />
-                                                                </td>
-                                                                <td style="max-width:200px;">
-                                                                    <input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                                </td>
-                                                                <td class="text-end" style="max-width:150px;">
-                                                                    <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")" />
-                                                                </td>
-                                                                <td class="text-end" style="max-width:150px;">
-                                                                    <input type="text" data-kt-element="tutar-data" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")" readonly />
-                                                                </td>
-                                                                <td>
-                                                                    <button type='button' class="deleteBtn pt-2" data-ID2="@(ID)">Sil</button>
-                                                                </td>
-
-                                                            </tr>
-                                                        }
+                                                                        <td>
+                                                                            <input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control p-2 me-10" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")" />
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="text" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")" readonly />
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                            <td>
+                                                                <button type='button' class="deleteBtn pt-2" data-ID2="@(ID)">Sil</button>
+                                                            </td>
+                                                        </tr>
                                                     }
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr class="border-top border-top-dashed align-top fs-6 fw-bold text-gray-700 pt-10">
+                                                    else
+                                                    {
+                                                        <tr class="border-bottom border-bottom-dashed" data-ID="@satir.ID" data-ID2="@ID">
+                                                            <td class="pe-7">
+                                                                <select class="form-select form-select-solid p-2 rounded-1" name="StokID_@(ID)" id="StokID_@(ID)" style="min-width:150px;max-width:350px;"
+                                                                        aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                                                    <option value="@satir.StokID" selected>@satir.StokAdi</option>
+                                                                </select>
 
-                                                        <th colspan="1" class="py-2">
-                                                            <div class="pe-4">
-                                                                <button type="button" name="btnYeniSatir" id="btnYeniSatir" onclick="YeniSatirAc();" class="btn btn-primary" style="width:150px;">+ Yeni Satır Aç</button>
-                                                            </div>
-                                                        </th>
-                                                </tfoot>
-                                            </table>
+                                                            </td>
+                                                            <td class="ps-0">
+                                                                @if (Tip == "AI")
+                                                                {
+                                                                    <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
+                                                                }
+                                                                else
+                                                                {
+                                                                    <select class="form-select form-select-solid p-2 rounded-1" name="Seri_@(ID)" id="Seri_@(ID)"
+                                                                            aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                                                        <option value="@satir.Seri" selected>@satir.Seri</option>
+                                                                    </select>
+                                                                }
+                                                            </td>
+
+                                                            <td style="max-width:200px;">
+                                                                <input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control p-2" />
+                                                            </td>
+                                                            <td style="max-width:200px;">
+                                                                <input type="text" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
+                                                            </td>
+                                                            <td class="text-end" style="max-width:150px;">
+                                                                <input type="text" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")" />
+                                                            </td>
+                                                            <td class="text-end" style="max-width:150px;">
+                                                                <input type="text" data-kt-element="tutar-data" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")" readonly />
+                                                            </td>
+                                                            <td>
+                                                                <button type='button' class="deleteBtn pt-2" data-ID2="@(ID)">Sil</button>
+                                                            </td>
+
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                            <tfoot>
+                                                <tr class="border-top border-top-dashed align-top fs-6 fw-bold text-gray-700 pt-10">
+
+                                                    <th colspan="1" class="py-2">
+                                                        <div class="pe-4">
+                                                            <button type="button" name="btnYeniSatir" id="btnYeniSatir" onclick="YeniSatirAc();" class="btn btn-primary" style="width:150px;">+ Yeni Satır Aç</button>
+                                                        </div>
+                                                    </th>
+                                            </tfoot>
+                                        </table>
 
 
-                                        </div>
                                     </div>
+                                </div>
                                 <!--begin::Actions-->
                                 <div class="col-lg-12">
 
@@ -340,58 +318,25 @@
         var Tip = "@(Tip)";
 
         function Kaydet2() {
-            if ($("#BarkodSeri").val() == "") {
-                Swal.fire({
-                    position: "center",
-                    icon: "error",
-                    title: "Seri seçilmelidir.",
-                    showConfirmButton: true,
-                    //timer: 3000
-                });
-                return;
-            }
-            YeniSatirAc($("#BarkodStokKodu").text(), $("#BarkodStokAdi").text(), $("#BarkodSeri").val(), $("#BarkodMiktar").val());
+
+            YeniSatirAc($("#StokKodu").val(), $("#StokAdi").val(), $("#Seri").val(), $("#Miktar").val());
         }
 
-        function KaydetBarkod() {
-            if (event.keyCode == 13) {
-                KaydetKontrol();
-            }
-        }
 
-        function KaydetKontrol() {
-            if ($("#Tarih").val() == "") {
-                Swal.fire({
-                    position: "center",
-                    icon: "error",
-                    title: "Tarih seçilmelidir.",
-                    showConfirmButton: true,
-                    //timer: 3000
-                });
-                return;
-            }
-            if ($("#CikisDepo").val() == "") {
-                Swal.fire({
-                    position: "center",
-                    icon: "error",
-                    title: "Depo seçilmelidir.",
-                    showConfirmButton: true,
-                    //timer: 3000
-                });
-                return;
-            }
-            if ($("#Barkod").val() == "" ) {
-                Swal.fire({
-                    position: "center",
-                    icon: "error",
-                    title: "Barkod okutunuz.",
-                    showConfirmButton: true,
-                    //timer: 3000
-                });
-                return;
-            }
+        $('#Barkod').keydown(function (e) {
+            if (e.keyCode == 13) {
 
-            const myArray = $("#Barkod").val().split("+");
+                BarkodOku();
+
+
+            }
+        });
+
+        function BarkodOku() {
+            if ($("#Barkod").val() == "") {
+                return;
+            }
+            const myArray = $("#Barkod").val().split("#");
             let stok = myArray[0];
             let seri = "";
             if (myArray.length > 1) {
@@ -400,17 +345,16 @@
             let miktar = "1";
             if (myArray.length > 2) {
                 miktar = myArray[3];
-                $("#BarkodMiktar").val(miktar);
+                $("#Miktar").val(miktar);
             } else {
-                $("#BarkodMiktar").val("1");
+                //$("#Miktar").val("1");
             }
 
             var data_ = {
                 "search": stok
             };
-            $("#BarkodStokKodu").text("");
-            $("#BarkodStokAdi").text("");
-
+            $("#StokKodu").val("");
+            $("#StokAdi").val("");
             $.ajax({
                 async: false,
                 cache: false,
@@ -421,9 +365,8 @@
                     console.log("Stok Miktarı : " + data.length);
                     if (data.length > 0) {
                         console.log("Stok ID : " + data[0]["ID"]);
-                        $("#BarkodStokKodu").text(data[0]["Kod"]);
-                        $("#BarkodStokAdi").text(data[0]["Isim"]);
-                        $("#BarkodMiktar").text(miktar);
+                        $("#StokKodu").val(data[0]["Kod"]);
+                        $("#StokAdi").val(data[0]["Isim2"]);
                         $.ajax({
                             url: '/Stok/SelectStokSeriListe',
                             data: "{ StokID: '" + data[0]["ID"] + "' }",
@@ -434,45 +377,51 @@
                             success: function (data3) {
                                 console.log("Seri Miktarı : " + data3.length);
                                 console.log(data3);
-                                $('#BarkodSeri').empty();
+                                $('#Seri').empty();
                                 var deger = "";
 
                                 deger += "<option value=''>Seri Seçimi...</option>";
                                 var KayitCalisacak = false;
                                 for (var i = 0; i < data3.length; i++) {
                                     console.log("Seri Eklendi : " + data3[i].SeriNo);
-                                    deger += "<option value='" + data3[i].SeriNo + "' " + (data3[i].SeriNo == seri ? "selected" : "")+">" + data3[i].SeriNo + "</option>";
+                                    deger += "<option value='" + data3[i].SeriNo + "' " + (seri == data3[i].SeriNo ? "selected" : "") + ">" + data3[i].SeriNo + " - " + data3[i].Bakiye + "</option>";
                                     if (seri == data3[i].SeriNo) {
                                         KayitCalisacak = true;
                                     }
                                 }
-                                $('#BarkodSeri').append(deger);
+                                $('#Seri').append(deger);
 
-                                if (data3.length == 0) {
-                                    $('#BarkodSeri').hide();
-                                } else {
-                                    $('#BarkodSeri').show();
-                                }
+                                //if (data3.length == 0) {
+                                //    $('#Seri').hide();
+                                //} else {
+                                //    $('#Seri').show();
+                                //}
 
                                 if (KayitCalisacak == true) {
                                     Kaydet2();
+                                } else {
+                                    Kaydet2();
                                 }
+                                $("#Barkod").val("");
+                                $("#StokKodu").val("");
+                                $("#StokAdi").val("");
+                                $("#Barkod").focus();
                             },
                             error: function (msg) {
-                                console.log("HATA!"+msg.m);
+                                console.log("HATA!" + msg.m);
                             }
                         });
-
+                    } else {
+                        alert("Barkod bulunamadı!");
+                        $("#Barkod").val("");
+                        $("#Barkod").focus();
                     }
                 },
                 error: function (msg) {
-                    console.log("HATA:"+msg.m);
+                    console.log("HATA:" + msg.m);
                 }
             });
-
-
         }
-
 
 
 
@@ -500,6 +449,28 @@
         }
 
         function YeniSatirAc(eklenecekStokKodu, eklenecekStokAdi, eklenecekSeri, eklenecekMiktar) {
+
+            $("#Bilgilendirme").text("");
+            var StokGuncellendi = false;
+            if (eklenecekStokKodu != null) {
+                $('#TabloKalemler tbody tr').each(function () {
+                    var $data = $(this).attr("data-ID2");
+                    var KalemID = $(this).attr("data-ID");
+                    if ($data != "" && $data != null) {
+                        var StokID = $("#StokID_" + $data).val();
+                        if (StokID == eklenecekStokKodu) {
+                            $("#Miktar_" + $data).val(parseFloat($("#Miktar_" + $data).val()) + parseFloat(eklenecekMiktar));
+                            StokGuncellendi = true;
+                            $("#Bilgilendirme").text(eklenecekStokKodu+"-"+eklenecekStokAdi+" Güncellendi.");
+                        }
+                    }
+                });
+            }
+
+            if (StokGuncellendi) {
+                return;
+            }
+
             var IsMobile = "@(YKIsMobileDevice == true ? "1" : "0")";
             var YeniID = IDGuidOlustur().replace(/-/g, "");
 
@@ -509,18 +480,18 @@
                            deger += "     <td colspan='4'>                                                                                                                               ";
                          // deger += "         <table style='width:100%;margin-bottom:15px;'>";
                 deger += "             <tr id='TR_" + YeniID + "' name='TR_" + YeniID +"'>                                                                                                                               ";
-                          deger += "                 <td colspan='2'>                                                                                                                   ";
-                          deger += "                     <select class='form-select form-select-solid p-2 rounded-1' name='StokID_" + YeniID + "' id='StokID_" + YeniID + "' style='width:100%;'          ";
-                          deger += "                             aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız'>             ";
-                          deger += "                                                                                   ";
-                          deger += "                     </select>                                                                                                                      ";
+                deger += "                 <td colspan='2' id='TD_" + YeniID + "' name='TD_" + YeniID + "'>                                                                                                                   ";
+                          //deger += "                     <select class='form-select form-select-solid p-2 rounded-1' name='StokID_" + YeniID + "' id='StokID_" + YeniID + "' style='width:100%;'          ";
+                          //deger += "                             aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız'>             ";
+                          //deger += "                                                                                   ";
+                          //deger += "                     </select>                                                                                                                      ";
                           deger += "                                                                                                                                                    ";
                           deger += "                 </td>                                                                                                                              ";
                 deger += "                 <td colspan='2'>                                                                                                                               ";
                            if (Tip == 'AI') {
                                deger += "                         <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2' />                         ";
                            } else {
-                               deger += "                         <select name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' class='form-control p-2' >         ";
+                               deger += "                         <select name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' style='display:none;' class='form-control p-2' >         ";
                                deger += "                         </select>                                                                                                                  ";
                            }
                           deger += "                 </td>                                                                                                                              ";
@@ -532,8 +503,8 @@
                           deger += "                 <td style='text-align: right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")'><strong>Tutar</strong></td>                                                                         ";
                           deger += "             </tr>                                                                                                                                  ";
                 deger += "             <tr id='TR_" + YeniID + "' name='TR_" + YeniID +"'>                                                                                                                                   ";
-                         
-                         
+
+
                 deger += "                 <td><input type='text' name='OlcuBirimi_" + YeniID + "' id='OlcuBirimi_" + YeniID + "' value='Adet' class='form-control p-2' /></td>                   ";
                 deger += "                 <td><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='" + (eklenecekSeri != null ? eklenecekMiktar : "1") + "' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2' style='text-align:right;' /></td>              ";
                           deger += "                 <td><input type='text' name='Fiyat_" + YeniID + "' id='Fiyat_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2' style='text-align:right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")' /></td>                 ";
@@ -551,7 +522,7 @@
                 if (Tip == "AI") {
                     deger += "              <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2' />";
                 } else {
-                    deger += "              <select  name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' class='form-control p-2'>";
+                    deger += "              <select  name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' style='display:none;' class='form-control p-2'>";
                     if (eklenecekSeri != null) {
                         deger += "<option value='" + eklenecekSeri + "'>" + eklenecekSeri+"</option>";
                     }
@@ -573,13 +544,14 @@
             }
 
             var newSelect = $("<select class='form-select form-select-solid p-2 rounded-1 ' name='StokID_" + YeniID + "' id='StokID_" + YeniID + "' style='min-width:150px;max-width:350px;' aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız' >"+ekbilgi+"</select>");
-            
+
             $('#TabloKalemler tbody').append(deger);
             $("#TD_" + YeniID + "").append(newSelect);
 
             newSelect.select2();
 
             StokAramaOlustur("StokID_" + YeniID + "");
+            $("#Bilgilendirme").text(eklenecekStokKodu + "-" + eklenecekStokAdi + "  Eklendi.");
         }
 
         function Kaydet() {
@@ -754,10 +726,9 @@
                         contentType: "application/json; charset=utf-8",
                         dataFilter: function (data) { return data; },
                         success: function (dataGCKontrol) {
-                            
+
                             if (dataGCKontrol.Data == "E") {
                                 $('#Seri_' + stokid.replace("StokID_", "")).show();
-
                                 $.ajax({
                                     url: '/Belge/SelectStokSeriListe',
                                     data: "{ 'StokID': '" + stok_id + "', 'DepoID': '" + $("#DepoCikisID").val() + "' }",
@@ -804,7 +775,7 @@
 
     @foreach (BelgeKalemDto satir in Model.Kalemler)
     {
-<script>
+        <script>
 
 
             $(function () {
@@ -880,6 +851,6 @@
                 });
             });
 
-</script>
+        </script>
     }
 }

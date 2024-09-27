@@ -25,16 +25,14 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-
-
             string redirectUrl = Request.Url.ToString().Replace("http:", "https:");
-            if (!Request.IsLocal && !Request.IsSecureConnection && ConfigurationManager.AppSettings["SSLYonlendir"] == "1")
+            if (!Request.IsLocal && !Request.IsSecureConnection && Convert.ToBoolean(ConfigurationManager.AppSettings["SSLYonlendir"]))
             {
                 Response.Redirect(redirectUrl, false);
                 HttpContext.ApplicationInstance.CompleteRequest();
             }
 
-            if (ConfigurationManager.AppSettings["AnaSayfadaAcilisSayfasiKontrolu"] == "1")
+            if (Convert.ToBoolean(ConfigurationManager.AppSettings["AnaSayfadaAcilisSayfasiKontrolu"]))
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "p_KullaniciGirisi";
@@ -527,7 +525,7 @@ namespace YKPortal.Controllers
                 cmd.Parameters.AddWithValue("@Aciklama1", "");
                 cmd.Parameters.AddWithValue("@Aciklama2", "");
                 cmd.Parameters.AddWithValue("@Aciklama3", "");
-                cmd.Parameters.AddWithValue("@Onay", ConfigurationManager.AppSettings["IlkUyelikdeKullaniciyiOnayliYap"] == "1" ? true : false);
+                cmd.Parameters.AddWithValue("@Onay", Convert.ToBoolean(ConfigurationManager.AppSettings["IlkUyelikdeKullaniciyiOnayliYap"]));
                 cmd.Parameters.AddWithValue("@Kullanici", "");
                 cmd.Parameters.AddWithValue("@Resim", "");
                 cmd.Parameters.AddWithValue("@Ilk", "1");

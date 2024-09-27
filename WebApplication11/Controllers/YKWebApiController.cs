@@ -557,6 +557,139 @@ namespace YKPortal.Controllers
             return result;
         }
 
+
+        [HttpPost]
+        public IDJsonResult DestekCevapla([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["UyelikID"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! UyelikID bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["KullaniciID"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! KullaniciID bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["GorevID"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! GorevID bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Aciklama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Aciklama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Durumu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Durumu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["TamamlamaTarihi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! TamamlamaTarihi bilgisi boş olamaz.";
+                    return result;
+                }
+                string UyelikID = Convert.ToString(data["UyelikID"]);
+                string KullaniciID = Convert.ToString(data["KullaniciID"]);
+                string GorevID = Convert.ToString(data["GorevID"]);
+                string Aciklama = Convert.ToString(data["Aciklama"]);
+                string Durumu = Convert.ToString(data["Durumu"]);
+                DateTime TamamlamaTarihi = Convert.ToDateTime(data["TamamlamaTarihi"]);
+
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_GorevTamamla";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@GorevID", GorevID);
+                cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
+                cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
+                cmd.Parameters.AddWithValue("@Aciklama", Aciklama);
+                cmd.Parameters.AddWithValue("@Durumu", Durumu);
+                cmd.Parameters.AddWithValue("@TamamlamaTarihi", TamamlamaTarihi);
+                string SonID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+
+
+
+                List<DosyaDto> UrunResimleri = data["Resimler"].ToObject<List<DosyaDto>>();
+
+                foreach (DosyaDto resim in UrunResimleri)
+                {
+                    File.WriteAllBytes(System.Web.Hosting.HostingEnvironment.MapPath("~/Uploads/Dosyalar/" + SonID + "_" + resim.Dosya), resim.ImageByte);
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "p_DosyaKaydet";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ID", "");
+                    cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
+                    cmd.Parameters.AddWithValue("@Modul", "Gorev");
+                    cmd.Parameters.AddWithValue("@KayitID", SonID);
+                    cmd.Parameters.AddWithValue("@Dosya", SonID + "_" + resim.Dosya);
+                    cmd.Parameters.AddWithValue("@Isim", resim.Dosya);
+                    cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                }
+
+
+                #region Mail Gönder
+
+
+                cmd.Parameters.Clear();
+                cmd.CommandText = "Select * from MailKaliplari WITH(NOLOCK) Where UyelikID = @UyelikID and Kod = @Kod";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
+                cmd.Parameters.AddWithValue("@Kod", "Destek_Gorev_Tamamlama");
+                DataTable dtMail = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                if (dtMail.Rows.Count > 0)
+                {
+                    string Baslik = Convert.ToString(dtMail.Rows[0]["Isim"]);
+                    string Icerik = Convert.ToString(dtMail.Rows[0]["Icerik"]);
+                    Icerik = Icerik.Replace("{Isim}", ""); //GetCookie("Isim")
+                    Icerik = Icerik.Replace("{KayitNo}", GorevID.ToUpper());
+                    Icerik = Icerik.Replace("{Durumu}", Durumu);
+                    Icerik = Icerik.Replace("{Aciklama}", Aciklama);
+
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "select * from Parametreler WITH(NOLOCK) Where Modul = 'EMail' and UyelikID = @UyelikID";
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
+                    DataTable dtMailBilgileri = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                    YKUtils.MailGonder(Baslik, Icerik, "", //GetCookie("KullaniciAdi")
+                            Convert.ToString(dtMailBilgileri.Select(" Isim = 'KullaniciAdi' ")[0]["Deger"]),
+                            Convert.ToString(dtMailBilgileri.Select(" Isim = 'Parola' ")[0]["Deger"]),
+                            Convert.ToString(dtMailBilgileri.Select(" Isim = 'Host' ")[0]["Deger"]),
+                            Convert.ToInt32(dtMailBilgileri.Select(" Isim = 'Port' ")[0]["Deger"]),
+                            Convert.ToString(dtMailBilgileri.Select(" Isim = 'SSL' ")[0]["Deger"]) == "0" ? false : true
+                        );
+                }
+
+                #endregion
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+
         [HttpPost]
         public IDJsonResult DestekKayitlari([FromBody] JObject data)
         {
@@ -1327,7 +1460,7 @@ Select @ID as ID
             return result;
         }
 
-            [HttpPost]
+        [HttpPost]
         public IDJsonResult PersonelSicilKontrol([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
