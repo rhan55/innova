@@ -125,14 +125,9 @@ namespace YKPortal.Controllers
         [HttpPost]
         public ActionResult TakvimKaydet(AnasayfaTakvimKaydetDto anasayfaTakvimKaydetDto)
         {
-            JsonResult result = new JsonResult();
-
-            #region Kayıt işlemi gerçekleştirilecek.
-
             if (anasayfaTakvimKaydetDto == null)
             {
-                result.Data = new { Success = false, Message = "Invalid input data." };
-                return Json(result, JsonRequestBehavior.AllowGet);
+                return Json(new { Success = false, Message = "Invalid input data." }, JsonRequestBehavior.AllowGet);
             }
 
             SqlCommand cmd = new SqlCommand();
@@ -151,16 +146,12 @@ namespace YKPortal.Controllers
             try
             {
                 string ID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
-                result.Data = new { Success = true, Message = "Record saved successfully.", ID = ID };
+                return Json(new { Success = true, Message = "Record saved successfully.", ID = ID }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                result.Data = new { Success = false, Message = ex.Message };
+                return Json(new { Success = false, Message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
-
-            #endregion
-
-            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

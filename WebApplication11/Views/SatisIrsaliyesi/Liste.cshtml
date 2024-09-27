@@ -32,7 +32,7 @@
                 <!--begin::Hide default export buttons-->
                 <div id="kt_datatable_example_buttons" class="d-none"></div>
                 <!--end::Hide default export buttons-->
-                <a href="@Url.Action("Detay","SatisIrsaliyesi",new { Tip = Request.QueryString["Tip"], KayitID = "" })" class="btn btn-sm btn-primary me-4" style="width:100px;">Yeni Teklif</a>
+                <a href="@Url.Action("Detay","SatisIrsaliyesi",new { Tip = Request.QueryString["Tip"], KayitID = "" })" class="btn btn-sm btn-primary me-7" style="width:100px;">Yeni Teklif</a>
             </div>
         </div>
     </div>
@@ -126,7 +126,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div style="margin:3px;" class="scroll-x">
+        <div style="overflow: scroll; height:710px ;">
 
 
             <style>
@@ -173,7 +173,7 @@
                                 </td>
                                 @if (Request.QueryString["Tip"] == "SI")
                                 {
-                                    <td class="text-wrap max-w-700 d-block text-gray-600 fw-semibold" style="vertical-align: middle;">
+                                    <td class="max-w-700 text-gray-600 fw-semibold" style="vertical-align: middle;">
                                         @(Convert.ToString(Model.Belgeler.Rows[i]["CariIsim"]))
                                     </td>
                                 }

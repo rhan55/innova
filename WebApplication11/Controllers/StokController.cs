@@ -1183,7 +1183,7 @@ namespace YKPortal.Controllers
                 {
                     ID = Convert.ToString(dt.Rows[i]["ID"]),
                     Isim = Convert.ToString(dt.Rows[i]["Isim"]),
-                    Aciklama = Convert.ToString(dt.Rows[i]["Isim2"]),
+                    Aciklama = Convert.ToString(dt.Rows[i]["Aciklama"]),
                     Kod = Convert.ToString(dt.Rows[i]["Kod"]),
                 });
             }

@@ -132,7 +132,7 @@ License: For each use you must have a valid license purchased only from above li
 <!--end::Head-->
 <!--begin::Body-->
 
-<body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true"
+<body id="kt_app_body" data-kt-app-layout="light-sidebar" data-kt-app-header-fixed="true"
       data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true"
       data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true"
       data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" class="app-default">
@@ -500,7 +500,7 @@ License: For each use you must have a valid license purchased only from above li
                     </div>
                     <!--end::Content wrapper-->
                     <!--begin::Footer-->
-                    <div id="kt_app_footer" class="app-footer">
+                 
                         <!--begin::Footer container-->
                         <div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
                             <!--begin::Copyright-->
@@ -512,7 +512,7 @@ License: For each use you must have a valid license purchased only from above li
 
                         </div>
                         <!--end::Footer container-->
-                    </div>
+                  
                     <!--end::Footer-->
                 </div>
                 <!--end:::Main-->
@@ -731,7 +731,7 @@ License: For each use you must have a valid license purchased only from above li
 
                           return `
                                                             <div class="menu-item">
-                                                                <a class="menu-link py-1" href="${item.url}">
+                                                                <a class="menu-link hover py-1" href="${item.url}">
                                                                     <span class="menu-bullet ps-1">
                                                                         <span class="bullet bullet-dot"></span>
                                                                     </span>
@@ -743,7 +743,7 @@ License: For each use you must have a valid license purchased only from above li
          function createMenu(navigationMenu, links) {
              return `
                                                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                                                           <span class="menu-link ps-4 py-1">
+                                                           <span class="menu-link hover ps-4 py-1">
                                                                <span class="menu-icon">
                                                                    <i class="${navigationMenu.icon}"></i>
                                                                </span>
@@ -758,7 +758,7 @@ License: For each use you must have a valid license purchased only from above li
          }
          function createNavigation(navigation, menus) {
              return ` <div data-kt-menu-trigger="click" class="menu-item ${navigation.isOpen ? 'show' : ''} menu-accordion">
-                                                       <span class="menu-link ps-2">
+                                                       <span class="menu-link hover ps-2">
                                                            <span class="menu-icon">
                                                                <i class="${navigation.icon}">
                                                                     <span class="path1"></span>

@@ -32,7 +32,7 @@
                 <!--begin::Hide default export buttons-->
                 <div id="kt_datatable_example_buttons" class="d-none"></div>
                 <!--end::Hide default export buttons-->
-                <a href="@Url.Action("Detay","SatinalmaSiparisi",new { Tip = Request.QueryString["Tip"], KayitID = "" })" class="btn btn-sm btn-primary me-4" style="width:100px;">Yeni Sipariş</a>
+                <a href="@Url.Action("Detay","SatinalmaSiparisi",new { Tip = Request.QueryString["Tip"], KayitID = "" })" class="btn btn-sm btn-primary me-7" style="width:100px;">Yeni Sipariş</a>
             </div>
         </div>
     </div>
@@ -128,9 +128,9 @@
 
 
 
-<div class="container-fluid">
+<div class="container-fluid px-4">
     <div class="row">
-        <div style="margin:3px;" class="scroll-x">
+        <div style="overflow: scroll; height:710px ;" >
 
 
             <style>
@@ -142,7 +142,7 @@
                     max-width: 700px !important;
                 }
             </style>
-            <table class="table p-4 align-middle border rounded table-row-dashed fs-6 g-5 mt-4">
+            <table class=" table p-4 align-middle border rounded table-row-dashed fs-6 g-5 mt-4">
                 <thead>
 
                     <!--begin::Table row-->
@@ -163,7 +163,7 @@
                     </tr>
                     <!--end::Table row-->
                 </thead>
-                <tbody>
+                <tbody class="dt-scroll-body">
                     @if (Model != null)
                     {
                         for (var i = 0; i < Model.Belgeler.Rows.Count; i++)
@@ -177,7 +177,7 @@
                                 </td>
                                 @if (Request.QueryString["Tip"] == "AS")
                                 {
-                                    <td class="text-wrap max-w-700 d-block text-gray-600 fw-semibold" style="vertical-align: middle;">
+                                    <td class="max-w-700 text-gray-600 fw-semibold" style="vertical-align: middle;">
                                         @(Convert.ToString(Model.Belgeler.Rows[i]["CariIsim"]))
                                     </td>
                                 }
