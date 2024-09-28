@@ -1022,7 +1022,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Stok/FiyatListesi", "Gor"))
+            if (!YetkiKontrolu("/Stok/Liste", "Gor"))
             {
                 return Redirect("~/YK/Anasayfa");
             }

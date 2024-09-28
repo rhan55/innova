@@ -166,11 +166,11 @@
                         max-width: 250px !important;
                     }
 
-                    .max-w-360 {
-                        max-width: 360px !important;
+                    .max-w-400 {
+                        max-width: 400px !important;
                     }
                 </style>
-                <div class="my-4 scroll-x">
+                <div style="overflow: scroll; height: calc(100% - 200px);">
 
                     <table class="table p-2 align-middle border rounded table-row-dashed fs-6 g-5" id="Stok-datatable">
 
@@ -179,7 +179,7 @@
                             <!--begin::Table row-->
                             <tr class="text-start" style="font-size:15px;">
                                 <th id="select" class="min-w-40px max-w-40px no-export"></th>
-                                <th class="min-w-125px max-w-360"><strong>Stok İsmi</strong></th>
+                                <th class="min-w-125px max-w-400"><strong>Stok İsmi</strong></th>
                                 <th class="min-w-125px"><strong>Stok Kodu</strong></th>
                                 <th class="min-w-125px mt-8"><strong>Açıklama</strong></th>
                                 <th class="min-w-125px mt-8"><strong>GrupKodu1</strong></th>
@@ -198,7 +198,7 @@
 
                                     <td class="pt-4 pb-4">
                                         <a href="/Stok/Duzenle/@(Convert.ToString(Model.Stoklar.Rows[i]["ID"]))">
-                                            <strong class="text-wrap max-w-360 d-block"> @(Convert.ToString(Model.Stoklar.Rows[i]["Isim"])) </strong>
+                                            <strong class="text-wrap max-w-400 d-block"> @(Convert.ToString(Model.Stoklar.Rows[i]["Isim"])) </strong>
                                         </a>
                                     </td>
                                     <td class="pt-4 pb-4">
@@ -231,7 +231,7 @@
                                             <div class="menu-item p-0">
                                                 <a href="/Stok/YeniStokHareketKaydi?StokID=@(Convert.ToString(Model.Stoklar.Rows[i]["ID"]))&Isim=@ViewBag.Isim" class="menu-link py-0  px-2">Yeni Stok Hareket</a>
                                             </div>
-                                          
+
                                             @if (Model.Sil)
                                             {
                                                 <!--begin::Menu item-->

@@ -16,7 +16,7 @@
                     <div class="row mb-7">
                         <div class="col-lg-6 ">
                             <div class="form-group">
-                                <label for="StokID" class=" form-label">Stok İsim</label>
+                                <label for="StokID" class=" form-label fw-bold text-gray-700">Stok İsim</label>
                                 <select class="form-select form-select-solid p-2 rounded-1" name="StokID" id="StokID" required aria-label="Floating label select example" data-control="select2" data-placeholder="arama yapmak için birşeyler yazın...">
                                     @if (Request.QueryString["StokID"] != null)
                                     {
@@ -27,7 +27,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="BelgeNo" class="fw-semibold fs-6 mb-2">Belge No</label>
+                                <label for="BelgeNo" class="fw-bold text-gray-700 fs-6 mb-2">Belge No</label>
                                 <input type="text" name="BelgeNo" id="BelgeNo" value="@Model.BelgeNo" class="form-control p-2 mb-3 mb-lg-0" required" />
                             </div>
                         </div>
@@ -43,14 +43,14 @@
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group">
-                                <label for="VadeTarihi" class="fw-semibold fs-6 mb-2">Vade Tarihi</label>
+                                <label for="VadeTarihi" class="fw-bold text-gray-700 fs-6 mb-2">Vade Tarihi</label>
                                 <input type="date" value="@(Model.VadeTarihi == null ? DateTime.Now.ToString("yyyy-MM-dd") : Model.VadeTarihi.ToString("yyyy-MM-dd") )" name="VadeTarihi" id="VadeTarihi" class="form-control p-2 mb-3 mb-lg-0" required" />
                             </div>
                         </div>
                         <div class="col-lg-3">
 
                             <div class="form-group">
-                                <label for="HareketTipi" class="fw-semibold fs-6 mb-2">Hareket Tipi/Türü</label>
+                                <label for="HareketTipi" class="fw-bold text-gray-700 fs-6 mb-2">Hareket Tipi/Türü</label>
                                 <select class="form-control p-2 rounded-1" data-control="select2" name="HareketTipi" id="HareketTipi"
                                         aria-label="Floating label select example">
 
@@ -63,11 +63,11 @@
                         </div>
                         <div class="col-lg-2 mt-10">
                             <div class="flex">
-                                <label class="form-label flex items-center gap-2.5 text-nowrap me-4">
+                                <label class="form-label fw-bold text-gray-700 flex items-center gap-2.5 text-nowrap me-4">
                                     <input class="form-check-input" name="GC" type="radio" value="G" @(Model.GC == "" ? "checked" : (Model.GC == "G" ? "checked" : "") ) />
                                     Giriş
                                 </label>
-                                <label class="form-label flex items-center gap-2.5 text-nowrap">
+                                <label class="form-label fw-bold text-gray-700 flex items-center gap-2.5 text-nowrap">
                                     <input class="form-check-input " name="GC" type="radio" value="C" @(Model.GC == "C" ? "checked" : "") />
                                     Çıkış
                                 </label>
@@ -76,7 +76,7 @@
                         </div>
                         <div class="col-lg-3">
                             <div class="form-group">
-                                <label for="Miktar" style="text-align:right;" class="fw-semibold fs-6 mb-2">Miktar</label>
+                                <label for="Miktar" style="text-align:right;" class="fw-bold text-gray-700 fs-6 mb-2">Miktar</label>
                                 <input type="text" name="Miktar" id="Miktar" value="@Model.Miktar" class="form-control p-2 mb-3 mb-lg-0 text-end" required" />
                             </div>
                         </div>
@@ -84,13 +84,13 @@
                     <div class="row">
                         <div class="col-lg-2">
                             <div class="form-group" style="text-align:right;">
-                                <label for="Tutar" class="fw-semibold fs-6 mb-2">Tutar</label>
+                                <label for="Tutar" class="fw-bold text-gray-700 fs-6 mb-2">Tutar</label>
                                 <input type="text" name="Tutar" id="Tutar" value="@String.Format("{0:N2}",Model.Tutar).Replace(".","")" class="form-control p-2 mb-3 mb-lg-0" autofocus required style="text-align:right;" />
                             </div>
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group">
-                                <label for="DovizTipi" class="fw-semibold fs-6 mb-2">Döviz Birimi</label>
+                                <label for="DovizTipi" class="fw-bold text-gray-700 fs-6 mb-2">Döviz Birimi</label>
                                 <select class="form-control p-2 rounded-1" data-control="select2" name="DovizTipi" id="DovizTipi" required aria-label="Floating label select example">
                                     @foreach (GrupKoduDto grupKodu in ViewBag.DovizBirimleri)
                                     {
@@ -101,7 +101,7 @@
                         </div>
                         <div class="col-lg-8">
                             <div class="form-group">
-                                <label for="Aciklama" class=" form-label ">Açıklama</label>
+                                <label for="Aciklama" class=" form-label fw-bold text-gray-700">Açıklama</label>
                                 <textarea type="text" name="Aciklama" class="form-control p-2 rounded-1" id="Aciklama">@Model.BelgeNo</textarea>
                             </div>
                         </div>

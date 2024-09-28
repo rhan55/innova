@@ -78,7 +78,7 @@
                                 </div>
                             </div>
 
-                            <div class="card-body px-4 scroll-x">
+                            <div style="overflow: scroll; height: calc(100% - 80px);">
                                 <table class="table align-middle rounded-0 table-row-dashed  fs-6 g-5" id="Kasa-datatable">
                                     <thead>
                                         <!--begin::Table row-->
@@ -87,7 +87,7 @@
                                             <th class="min-w-125px"><strong>İsim </strong></th>
                                             <th class="min-w-125px"><strong>Personel</strong></th>
                                             <th class="min-w-125px"><strong>Döviz</strong></th>
-                                           
+
                                             <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
 
                                         </tr>
@@ -101,7 +101,7 @@
                                                     @kasa.Kod
                                                 </td>
                                                 <td>
-                                                   @kasa.Isim
+                                                    @kasa.Isim
                                                 </td>
                                                 <td>
                                                     @kasa.Personel

@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "DovizBirimiListe";
+    ViewBag.Title = "Doviz Birimi Liste";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -18,7 +18,7 @@
                                 <span class="path1 text-gray-500"></span>
                                 <span class="path2 text-gray-500"></span>
                             </i>
-                            <input type="text" data-kt-filter="search" class="form-control  w-250px py-1 ps-14"/>
+                            <input type="text" data-kt-filter="search" class="form-control  w-250px py-1 ps-14" />
                         </div>
                         <!--end::Search-->
                     </div>
@@ -74,7 +74,7 @@
                 <!--begin::Card body-->
                 <!--end::Card body-->
             </div>
-            <div class="my-4">
+            <div style="overflow: scroll; height: calc(100% - 80px);">
                 <!--begin::Table-->
                 <table class="table align-middle border rounded table-row-dashed fs-6 display nowrap w-100 p-4" id="DovizBirimi-datatable">
                     <thead>
@@ -98,7 +98,7 @@
                                     <div href="" class="text-gray-600 text-hover-primary ">@(Convert.ToString(Model.Rows[i]["Isim"]))</div>
                                 </td>
 
-                            
+
                                 <td class="text-end py-2">
                                     <a href="#" class=" text-gray-700 fw-bold btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                         İşlemler

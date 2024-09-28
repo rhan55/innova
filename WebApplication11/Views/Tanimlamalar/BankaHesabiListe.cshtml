@@ -1,11 +1,10 @@
 ﻿
 @model YKPortal.Models.Dto.BankaTanimlamalariListeViewModel
 @{
-    ViewBag.Title = "BankaHesabiListe";
+    ViewBag.Title = "Banka Hesabı Liste";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>BankaHesabiListe</h2>
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Post-->
@@ -77,7 +76,7 @@
                 <!--begin::Card body-->
                 <!--end::Card body-->
             </div>
-            <div class="my-4">
+            <div style="overflow: scroll; height: calc(100% - 80px);">
                 <!--begin::Table-->
                 <table class="table align-middle border rounded table-row-dashed fs-6 display nowrap w-100 p-4" id="Banka-datatable">
                     <thead>
