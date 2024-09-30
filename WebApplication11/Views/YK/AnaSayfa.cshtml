@@ -63,7 +63,7 @@
 
                         <div id="kt_app_content_container" class="app-container card-body">
                             <div id="Takvim">
-                                
+
                             </div> <!-- Takvim alanı -->
                             <!-- Modal Yapısı -->
 
@@ -218,7 +218,7 @@
                         <i class="ki-duotone ki-cross fs-1"></i>
                     </button>
                 </div>
-              
+
                 <!-- Modal Body -->
                 <div class="modal-body py-10 px-lg-17">
                     <!-- Etkinlik Adı -->
@@ -271,7 +271,33 @@
     </div>
 </div>
 
+
+
+<!-- Modal HTML yapısı -->
+<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventModalTitle"></h5>
+                <button type="button" class="btn btn-sm btn-icon btn-danger" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="eventModalDescription"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
+
+    @* Türkçe desteği *@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/tr.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.7/js/dataTables.min.js"></script>
 
@@ -279,7 +305,9 @@
         $(document).ready(function () {
 
             var TakvimModulu = function () {
-                var calendar;
+
+                var calendar; // calendar değişkeni global olarak bu modülde tanımlandı
+
                 var exampleBasic = function () {
                     var todayDate = moment().startOf('day');
                     var TODAY = todayDate.format('YYYY-MM-DD');
@@ -291,46 +319,37 @@
                             center: 'title',
                             right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
                         },
+                        locale: 'tr',  // Takvimi Türkçe yapar
                         height: 600,
                         contentHeight: 580,
                         aspectRatio: 3,
                         nowIndicator: true,
                         now: TODAY + 'T09:25:00',
                         views: {
-                            dayGridMonth: { buttonText: 'month' },
-                            timeGridWeek: { buttonText: 'week' },
-                            timeGridDay: { buttonText: 'day' }
+                            dayGridMonth: { buttonText: 'Ay' }, // Türkçe dilinde ay görünümü
+                            timeGridWeek: { buttonText: 'Hafta' }, // Hafta görünümü
+                            timeGridDay: { buttonText: 'Gün' } // Gün görünümü
                         },
                         initialView: 'dayGridMonth',
                         initialDate: TODAY,
                         editable: true,
                         dayMaxEvents: true,
                         navLinks: true,
-                        events: function (fetchInfo, successCallback, failureCallback) {
-                            const todayDate = moment().startOf('day');
-                            $.ajax({
-                                url: '/YK/Takvim', // Sunucudaki controller ve metot yolu
-                                type: 'POST',
-                                contentType: "application/json",
-                                dataType: "json",
-                                data: JSON.stringify({
-                                    BaslangicTarihi: todayDate.clone().subtract(1, 'year').toISOString(),  // Tarihi ISO formatında gönder
-                                    BitisTarihi: todayDate.clone().add(1, 'year').toISOString()  // Tarihi ISO formatında gönder
-                                }),
-                                success: function (response) {
-                                    if (response.Data.Success) {
-                                        successCallback(response.Data.Data.map((event) => ({
-                                            title: event.title,
-                                            start: event.start,
-                                            className: "fc-event-solid-info fc-event-light",
-                                        })))
-                                    } else {
-                                        console.error('Etkinlikler alınırken bir hata oluştu:', response.Message);
-                                    }
-                                },
-                                error: function () {
-                                    console.error('Etkinlikler alınırken bir hata oluştu.');
-                                }
+                        events: '/YK/Takvim',
+                        eventClick: function (info) {
+                            // Tıklanan etkinlikte açıklama ve başlık gösterimi
+                            $('#eventModalTitle').text(info.event.title);  // Etkinlik başlığını modal başlığına koyuyoruz
+                            $('#eventModalDescription').text(info.event.extendedProps.description);  // Açıklamayı modal içeriğine koyuyoruz
+                            $('#eventModal').modal('show');  // Modalı açıyoruz
+                        },
+
+                        eventDidMount: function (info) {
+                            // Tooltip eklemek için
+                            $(info.el).tooltip({
+                                title: info.event.extendedProps.description,  // Açıklamayı tooltip olarak göster
+                                placement: 'top',
+                                trigger: 'hover',
+                                container: 'body'
                             });
                         }
                     });
@@ -338,60 +357,55 @@
                     calendar.render();
                 }
 
-                var updateCalendarEvents = function () {
-
-
-                }
-
-                var saveCalendarEvent = function () {
-                    var _data = {
-                        Baslik: $('#Baslik').val(),
-                        Aciklama: $('#Aciklama').val(),
-                        Durumu: $('#Durumu option:selected').val(),
-                        Tarih: moment($('#Tarih').val()).toISOString() // ISO formatında tarih gönderme
-                    };
-
-                    console.log(_data); // Verileri kontrol etme
-
-                    // AJAX isteği ile verileri gönderme
-                    $.ajax({
-                        url: '/YK/TakvimKaydet',
-                        type: 'POST',
-                        data: JSON.stringify(_data),  // JSON formatına dönüştürülmüş veri
-                        contentType: "application/json",
-                        dataType: "json",
-                        success: function (response) {
-                            if (response.Success) {
-                                $('#TakvimEtkinlikModal').modal('hide');  // Modalı kapat
-                                updateCalendarEvents();  // Takvimi güncelle
-                            } else {
-                                console.error('Kaydetme işleminde hata oluştu:', response.Message);
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('Kaydetme hatası:', status, error);
-                        }
-                    });
-                }
                 return {
                     init: function () {
-                        exampleBasic();
-                        updateCalendarEvents();
+                        exampleBasic(); // Takvimi başlat
                     },
-                    updateCalendarEvents: updateCalendarEvents,
-                    saveCalendarEvent: saveCalendarEvent
+                    updateCalendarEvents: function () {
+                        calendar.refetchEvents(); // Takvimi yeniden yükleyerek etkinlikleri günceller
+                    },
+                    saveCalendarEvent: function () {
+                        var _data = {
+                            Baslik: $('#Baslik').val(),
+                            Aciklama: $('#Aciklama').val(),
+                            Durumu: $('#Durumu option:selected').val(),
+                            Tarih: moment($('#Tarih').val()).toISOString() // Sadece başlangıç tarihi göndermek
+                        };
+
+                        console.log(_data); // Verileri kontrol etme
+
+                        // AJAX isteği ile verileri gönderme
+                        $.ajax({
+                            url: '/YK/TakvimKaydet',
+                            type: 'POST',
+                            data: JSON.stringify(_data),  // JSON formatına dönüştürülmüş veri
+                            contentType: "application/json",
+                            dataType: "json",
+                            success: function (response) {
+                                if (response.Success) {
+                                    $('#TakvimEtkinlikModal').modal('hide');  // Modalı kapat
+                                    TakvimModulu.updateCalendarEvents();  // Takvimi güncelle
+                                } else {
+                                    console.error('Kaydetme işleminde hata oluştu:', response.Message);
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Kaydetme hatası:', status, error);
+                            }
+                        });
+                    }
                 };
             }();
-
             // Takvim modülünü başlat
             TakvimModulu.init();
 
+            // Form submit işlemi
             $('#takvimKaydetForm').on('submit', function (event) {
                 event.preventDefault(); // Formun doğal submit işlemini durdurur
-
                 TakvimModulu.saveCalendarEvent();
+            });
 
-            });            
         });
     </script>
+
 }

@@ -10,6 +10,8 @@ namespace YKPortal.Models.Dto
     {
         public string id { get; set; }
         public string title { get; set; }
-        public string start { get; set; }
+        public long start { get; set; }
+        public long end { get; set; }
+        public string description { get; set; }
     }
 }

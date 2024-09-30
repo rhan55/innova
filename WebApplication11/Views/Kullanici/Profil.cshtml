@@ -137,7 +137,7 @@
                     <!--begin::Label-->
                     <label class="required fw-semibold fs-6 mb-2">Ad</label>
                     <!--end::Label-->
-                    <!--begin::Input-->A
+                    <!--begin::Input-->
                     <input type="text" name="Ad" id="Ad" class="form-control  mb-3 mb-lg-0" placeholder="Ad" value="@(Convert.ToString(Model.Rows[0]["Ad"]))" />
                     <!--end::Input-->
                 </div>
@@ -196,7 +196,7 @@
                     <div class="d-flex flex-column col-lg-6 ps-3">
                         <label class="required fw-semibold fs-6 mb-2">İlçe</label>
                         <input class="form-control  mb-3 mb-lg-0" name="Ilce" id="exampleFormControlTextarea1" value="@(Convert.ToString(Model.Rows[0]["Ilce"]))" />
-                        
+
                     </div>
                 </div>
             </div>
@@ -218,7 +218,7 @@
             </div>
         </div>
         <!--begin::Row Input group-->
-        <div class="row mb-7">
+        <div class="row">
             <div class="col-lg-6">
                 <div class="form-check form-check-custom form-check-solid ">
                     <input @(Convert.ToBoolean(Model.Rows[0]["Aktif"]) ? "checked" : "") name="Aktif" class="form-check-input" type="checkbox" value="true" id="form_checkbox" />
@@ -229,20 +229,19 @@
             </div>
         </div>
         <!--end::Row Input group-->
-
+        <div class="pt-10">
+            <a href="/Kullanici/Sil/@(Convert.ToString(Model.Rows[0]["ID"]))" class="btn btn-danger">Sil</a>
+            <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Düzenle">
+                <span class="indicator-label">Düzenle</span>
+                <span class="indicator-progress">
+                    Lütfen Bekleyin...
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+        </div>
     </div>
     <!--end::Scroll-->
     <!--begin::Actions-->
-    <div class="text-center pt-10">
-        <a href="/Kullanici/Sil/@(Convert.ToString(Model.Rows[0]["ID"]))" class="btn btn-danger">Sil</a>
-        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="Düzenle">
-            <span class="indicator-label">Düzenle</span>
-            <span class="indicator-progress">
-                Lütfen Bekleyin...
-                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-            </span>
-        </button>
-    </div>
     <!--end::Actions-->
 </form>
 <!--end::Form-->

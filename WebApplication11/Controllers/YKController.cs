@@ -154,17 +154,13 @@ namespace YKPortal.Controllers
             }
         }
 
-        [HttpPost]
-        public JsonResult Takvim(AnasayfaTakvimKaydetDto anasayfaTakvimKaydetDto)
+        [HttpGet]
+        public JsonResult Takvim(DateTime start, DateTime end)
         {
             JsonResult result = new JsonResult();
 
 
-            if (anasayfaTakvimKaydetDto == null)
-            {
-                result.Data = new { Success = false, Message = "Invalid input data." };
-                return Json(result, JsonRequestBehavior.AllowGet);
-            }
+       
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -173,8 +169,8 @@ namespace YKPortal.Controllers
             // Parametreleri ekle
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
-            cmd.Parameters.AddWithValue("@BaslangicTarihi", anasayfaTakvimKaydetDto.BaslangicTarihi);
-            cmd.Parameters.AddWithValue("@BitisTarihi", anasayfaTakvimKaydetDto.BitisTarihi);
+            cmd.Parameters.AddWithValue("@BaslangicTarihi", start);
+            cmd.Parameters.AddWithValue("@BitisTarihi", end);
 
 
             try
@@ -187,11 +183,13 @@ namespace YKPortal.Controllers
                     var entity = new FullcalendarDto();
                     entity.id = Convert.ToString(takvimListesi.Rows[i]["ID"]);
                     entity.title = Convert.ToString(takvimListesi.Rows[i]["Baslik"]);
-                    entity.start = Convert.ToString(takvimListesi.Rows[i]["Tarih"]);
+                    entity.start = new DateTimeOffset(Convert.ToDateTime(takvimListesi.Rows[i]["Tarih"]).ToUniversalTime()).ToUnixTimeMilliseconds();
+                    entity.end = new DateTimeOffset(Convert.ToDateTime(takvimListesi.Rows[i]["Tarih"]).ToUniversalTime()).ToUnixTimeMilliseconds();
+                    entity.description = Convert.ToString(takvimListesi.Rows[i]["Aciklama"]) ?? string.Empty;
                     entities.Add(entity);
                 }
                 result.Data = new { Success = true, Message = "Başarılı", Data = entities };
-                return Json(result, JsonRequestBehavior.AllowGet);
+                return Json(entities, JsonRequestBehavior.AllowGet);
 
             }
             catch (Exception exception)
