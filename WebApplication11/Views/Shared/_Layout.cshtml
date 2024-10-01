@@ -57,18 +57,7 @@
 }
 
 <!DOCTYPE html>
-<!--
-Author: Keenthemes
-Product Name: MetronicProduct Version: 8.2.7
-Purchase: https://1.envato.market/EA4JP
-Website: http://www.keenthemes.com
-Contact: support@keenthemes.com
-Follow: www.twitter.com/keenthemes
-Dribbble: www.dribbble.com/keenthemes
-Like: www.facebook.com/keenthemes
-License: For each use you must have a valid license purchased only from above link in order to legally use the theme for your project.
--->
-<html lang="en">
+<html lang="tr">
 <!--begin::Head-->
 
 <head>
@@ -427,7 +416,7 @@ License: For each use you must have a valid license purchased only from above li
                         <div id="kt_app_sidebar_menu_wrapper" class="app-sidebar-wrapper">
                             <!--begin::Scroll wrapper-->
                             <div id="kt_app_sidebar_menu_scroll" class="scroll-y my-5 mx-3" data-kt-scroll="true"
-                                 data-kt-scroll-activate="true" data-kt-scroll-height="780px"
+                                 data-kt-scroll-activate="true" data-kt-scroll-height="754px"
                                  data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer"
                                  data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px"
                                  data-kt-scroll-save-state="true">
@@ -441,10 +430,10 @@ License: For each use you must have a valid license purchased only from above li
                                     <div id="navigation"></div>
                                     @if (KullaniciAdi.EndsWith("@ykyazilim.com.tr"))
                                     {
-                                        <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="@Url.Action("UyelikListesi", "YK", new { Area = "" })"><span class="menu-icon"><i class="ki-duotone ki-slack fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Üyelikler</span></a><!--end:Menu link--></div>
+                                        <div class="menu-item"><!--begin:Menu link--><a class=" menu-link hover ps-2" href="@Url.Action("UyelikListesi", "YK", new { Area = "" })"><span class="menu-icon"><i class="ki-duotone ki-slack fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Üyelikler</span></a><!--end:Menu link--></div>
                                     }
 
-                                    <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="@Url.Action("Cikis", "YK", new { Area = "" })"><span class="menu-icon"><i class="ki-duotone ki-exit-left fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Çıkış</span></a><!--end:Menu link--></div>
+                                    <div class="menu-item"><!--begin:Menu link--><a class=" menu-link hover ps-2" href="@Url.Action("Cikis", "YK", new { Area = "" })"><span class="menu-icon"><i class="ki-duotone ki-exit-left fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Çıkış</span></a><!--end:Menu link--></div>
                                 </div>
                                 <!--end::Menu-->
                             </div>
@@ -495,24 +484,22 @@ License: For each use you must have a valid license purchased only from above li
                         <div id="kt_app_content" class="app-content flex-column-fluid">
                             <!--begin::Content container-->
                             @RenderBody()
-                            
+
                         </div>
                     </div>
                     <!--end::Content wrapper-->
                     <!--begin::Footer-->
-                 
-                        <!--begin::Footer container-->
-                        <div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
-                            <!--begin::Copyright-->
-                            <div class="text-gray-900 order-2 order-md-1">
-                                <span class="text-muted fw-semibold me-1">2014 - @(DateTime.Today.Year)&copy;</span>
-                                <a href="https://ykyazilim.com.tr" target="_blank" class="text-gray-800 text-hover-primary">@System.Configuration.ConfigurationManager.AppSettings["FirmaAdi"]</a>
-                            </div>
-                            <!--end::Copyright-->
-
+                    <!--begin::Footer container-->
+                    <div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
+                        <!--begin::Copyright-->
+                        <div class="text-gray-900 order-2 order-md-1">
+                            <span class="text-muted fw-semibold me-1">2014 - @(DateTime.Today.Year)&copy;</span>
+                            <a href="https://ykyazilim.com.tr" target="_blank" class="text-gray-800 text-hover-primary">@System.Configuration.ConfigurationManager.AppSettings["FirmaAdi"]</a>
                         </div>
-                        <!--end::Footer container-->
-                  
+                        <!--end::Copyright-->
+
+                    </div>
+                    <!--end::Footer container-->
                     <!--end::Footer-->
                 </div>
                 <!--end:::Main-->
@@ -524,6 +511,19 @@ License: For each use you must have a valid license purchased only from above li
     <!--end::App-->
     <!--begin::Drawers-->
     <!--end::Modal - Invite Friend-->
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 105">
+        <div id="kt_docs_toast_toggle" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <i class="ki-duotone ki-abstract-19 fs-2 text-danger me-3"><span class="path1"></span><span class="path2"></span></i>
+                <strong class="me-auto" data-element="toast-title"></strong>
+ 
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" data-element="toast-description">
+             
+            </div>
+        </div>
+    </div>
     <!--end::Modals-->
     <!--begin::Javascript-->
     <script>var hostUrl = "~/Tema/";</script>
@@ -549,6 +549,16 @@ License: For each use you must have a valid license purchased only from above li
     <script src="~/Tema/js/custom/utilities/modals/new-target.js"></script>
     <script src="~/Tema/js/custom/utilities/modals/users-search.js"></script>
     <script>
+
+    function toastr(title = "", description = "") {
+        const toastElement = document.getElementById('kt_docs_toast_toggle');
+        $(toastElement).find('[data-element="toast-title"]').html(title);
+        $(toastElement).find('[data-element="toast-description"]').html(description);
+
+        const toast = bootstrap.Toast.getOrCreateInstance(toastElement);
+
+        toast.show();
+    }
 
      function loader() {
          var toggle = () => {

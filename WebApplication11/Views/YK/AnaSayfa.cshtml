@@ -287,7 +287,9 @@
                 <p id="eventModalDescription"></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <input type="hidden" id="EventID" value="" />
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="EtkinlikSil btn btn-sm btn-danger" data-bs-dismiss="modal">Sil</button>
             </div>
         </div>
     </div>
@@ -303,7 +305,6 @@
 
     <script>
         $(document).ready(function () {
-
             var TakvimModulu = function () {
 
                 var calendar; // calendar değişkeni global olarak bu modülde tanımlandı
@@ -341,6 +342,7 @@
                             $('#eventModalTitle').text(info.event.title);  // Etkinlik başlığını modal başlığına koyuyoruz
                             $('#eventModalDescription').text(info.event.extendedProps.description);  // Açıklamayı modal içeriğine koyuyoruz
                             $('#eventModal').modal('show');  // Modalı açıyoruz
+                            $('#EventID').val(info.event.id);
                         },
 
                         eventDidMount: function (info) {
@@ -393,11 +395,47 @@
                                 console.error('Kaydetme hatası:', status, error);
                             }
                         });
+                    },
+                    refetchEvents: () => {
+                        if (calendar) {
+                            calendar.refetchEvents();
+                        }
                     }
+                 
                 };
             }();
             // Takvim modülünü başlat
             TakvimModulu.init();
+
+            $(document).on('click', '.EtkinlikSil', function () {
+                // Etkinlik ID'sini butonun data-id özelliğinden alıyoruz.
+                var etkinlikID = $('#EventID').val();
+                console.log(etkinlikID);
+
+                // Kullanıcıdan onay alma
+                if (confirm("Bu etkinliği silmek istediğinizden emin misiniz?")) {
+                    $.ajax({
+                        type: "POST",
+                        url: '/YK/TakvimEtkinlikSil',  // Silme işlemi yapacak olan sunucu tarafı endpoint
+                        data: { id: etkinlikID },  // Silinecek etkinliğin ID'si
+                        success: function (response) {
+                            if (response.SonucKodu === 200) {
+                                // Başarılı olduğunda, ilgili etkinliği DOM'dan kaldırıyoruz
+                                $('#etkinlik-' + etkinlikID).remove();
+                                alert('Etkinlik başarıyla silindi.');
+                                TakvimModulu.refetchEvents();
+                            } else {
+                                // Eğer silme işlemi başarısız olursa
+                                alert('Etkinlik silinemedi. Lütfen tekrar deneyin.');
+                            }
+                        },
+                        error: function () {
+                            // AJAX isteğinde bir hata oluştuğunda
+                            alert('Bir hata oluştu, etkinlik silinemedi.');
+                        }
+                    });
+                }
+            });
 
             // Form submit işlemi
             $('#takvimKaydetForm').on('submit', function (event) {

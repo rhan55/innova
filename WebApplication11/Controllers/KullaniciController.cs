@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using YKPortal.Areas.Satinalma.Controllers;
 using YKPortal.Models;
 using YKPortal.Models.Dto;
 
@@ -487,15 +488,15 @@ namespace YKPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult YetkiKaydet(List<YetkilerDto> yetkiler)
+        public JsonResult YetkiKaydet(List<YetkilerDto> yetkiler)
         {
             if (!AutoGirisKontrol())
-                return Redirect("~/YK/Giris");
+                return Json(new YKJsonResult { SonucKodu = "403"});
 
 
             if (yetkiler.Count == 0)
             {
-                RedirectToAction("Liste");
+                return Json(new YKJsonResult { SonucKodu = "422" });
             }
 
             foreach (var yetki in yetkiler)
@@ -513,7 +514,7 @@ namespace YKPortal.Controllers
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             }
 
-            return RedirectToAction("Yetkiler", new { KullaniciID = yetkiler[0].KullaniciID });
+            return Json(new YKJsonResult { SonucKodu = "Yetki yok", Data = new { KullaniciID = yetkiler[0].KullaniciID } });
         }
 
 

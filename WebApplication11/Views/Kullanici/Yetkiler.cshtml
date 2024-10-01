@@ -42,12 +42,12 @@
                                     </div>
                                     <div class="col-lg-2 text-center border-start border-end">
                                         <label class="w-100 h-100 px-2 py-4" for="@(yetki.MenuID)-Duzenle">
-                                            <input type="checkbox"  id="@(yetki.MenuID)-Duzenle" name="@(yetki.MenuID)-Duzenle" data-menuId="@yetki.MenuID" data-tip="Duzenle" data-grup="yetki" checked />
+                                            <input type="checkbox" @(yetki.Duzenle ? "checked" : "") id="@(yetki.MenuID)-Duzenle" name="@(yetki.MenuID)-Duzenle" data-menuId="@yetki.MenuID" data-tip="Duzenle" data-grup="yetki" />
                                         </label>
                                     </div>
                                     <div class="col-lg-2 text-center border-end">
                                         <label class="w-100 h-100 px-2 py-4" for="@(yetki.MenuID)-Sil">
-                                            <input type="checkbox" @(yetki.Gor ? "checked" : "") id="@(yetki.MenuID)-Sil" name="@(yetki.MenuID)-Sil" data-menuId="@yetki.MenuID" data-tip="Sil" data-grup="yetki" />
+                                            <input type="checkbox" @(yetki.Sil ? "checked" : "") id="@(yetki.MenuID)-Sil" name="@(yetki.MenuID)-Sil" data-menuId="@yetki.MenuID" data-tip="Sil" data-grup="yetki" />
                                         </label>
                                     </div>
                                 </div>
@@ -79,7 +79,7 @@
                                                     </div>
                                                     <div class="col-lg-2 text-center border-start border-end">
                                                         <label class="w-100 h-100 px-2 py-4" for="@(altYetki.MenuID)-Duzenle">
-                                                            <input type="checkbox" id="@(altYetki.MenuID)-Duzenle" name="@(altYetki.MenuID)-Duzenle" data-menuId="@altYetki.MenuID" data-tip="Duzenle" data-grup="yetki" checked />
+                                                            <input type="checkbox" @(altYetki.Duzenle ? "checked" : "") id="@(altYetki.MenuID)-Duzenle" name="@(altYetki.MenuID)-Duzenle" data-menuId="@altYetki.MenuID" data-tip="Duzenle" data-grup="yetki" />
                                                         </label>
                                                     </div>
                                                     <div class="col-lg-2 text-center border-end">
@@ -108,7 +108,7 @@
                                                                 </div>
                                                                 <div class="col-lg-2 text-center border-start border-end">
                                                                     <label class="w-100 h-100 px-2 py-4" for="@(enAltYetki.MenuID)-Duzenle">
-                                                                        <input type="checkbox" @(enAltYetki.Duzenle ? "checked" : "checked") id="@(enAltYetki.MenuID)-Duzenle" name="@(enAltYetki.MenuID)-Duzenle" data-menuId="@enAltYetki.MenuID" data-tip="Duzenle" data-grup="yetki" checked />
+                                                                        <input type="checkbox" @(enAltYetki.Duzenle ? "checked" : "") id="@(enAltYetki.MenuID)-Duzenle" name="@(enAltYetki.MenuID)-Duzenle" data-menuId="@enAltYetki.MenuID" data-tip="Duzenle" data-grup="yetki"/>
                                                                     </label>
                                                                 </div>
                                                                 <div class="col-lg-2 text-center border-end">
@@ -227,10 +227,13 @@
 
                         console.log("Success:", response);
                         loader().hide();
+                        toastr("Yetkiler Kaydedildi", "Yetkiler başarıllı bir şekilde kaydedildi.");
                         window.location.reload();
                     },
                     error: function (xhr, status, error) {
                         loader().hide();
+                        toastr("Yetkiler Kaydedilemedi", "Yetki kaydedirken bir sorun oluştu, bu sorun devam ederse destek talebinde bulunun.");
+
                         console.log("Error:", xhr.responseText);
                     }
                 })

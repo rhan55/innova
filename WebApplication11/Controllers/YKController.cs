@@ -122,6 +122,7 @@ namespace YKPortal.Controllers
         }
 
 
+
         [HttpPost]
         public ActionResult TakvimKaydet(AnasayfaTakvimKaydetDto anasayfaTakvimKaydetDto)
         {
@@ -159,9 +160,6 @@ namespace YKPortal.Controllers
         {
             JsonResult result = new JsonResult();
 
-
-       
-
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "p_AnaSayfaTakvimListesi";
@@ -171,7 +169,6 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@BaslangicTarihi", start);
             cmd.Parameters.AddWithValue("@BitisTarihi", end);
-
 
             try
             {
@@ -197,6 +194,32 @@ namespace YKPortal.Controllers
                 result.Data = new { Success = false, Message = exception.Message };
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
+        }
+
+
+        [HttpPost]
+
+        public JsonResult TakvimEtkinlikSil(FullcalendarDto fullcalendarDto)
+        {
+
+            if (fullcalendarDto.id == null)
+            {
+                return Json(new IDJsonResult { Sonuc = "Hata", SonucKodu = 422 });
+            }
+
+            string kullaniciID = GetCookie("KullaniciID");
+            string UyelikID = GetCookie("UyelikID");
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_AnasayfaTakvimSil";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@ID", fullcalendarDto.id);
+
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek);
+
+            return Json(new IDJsonResult { Sonuc = "Başarılı", SonucKodu = 200 });
         }
 
         [HttpPost]
