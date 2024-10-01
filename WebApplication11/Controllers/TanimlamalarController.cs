@@ -48,15 +48,26 @@ namespace YKPortal.Controllers
 
         }
         [HttpGet]
-        public ActionResult Ekle(string grupKodu)
+        public ActionResult Ekle(string grupKodu = "")
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Tanimlamalar/Ekle", "Gor"))
+            if (string.IsNullOrWhiteSpace(grupKodu))
             {
-                return Redirect("~/YK/Anasayfa");
+                if (!YetkiKontrolu("/Tanimlamalar/Ekle", "Gor"))
+                {
+                    return Redirect("~/YK/Anasayfa");
+                }
+            } else
+            {
+                if (!YetkiKontrolu("/Tanimlamalar/GrupKodu?grupKodu=" + grupKodu, "Duzenle"))
+                {
+                    return Redirect("~/YK/Anasayfa");
+                }
             }
+
+            
 
             ViewBag.GrupKodu = grupKodu;
 
