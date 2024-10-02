@@ -340,7 +340,7 @@
                             ₺<span data-kt-element="kdv-tutari">
                                 @if (Model.Kalemler != null)
                                 {
-                                    <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar * m.KdvOrani / 100).Sum()))</span>
+                                    <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => (m.Fiyat * m.Miktar - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100)) * m.KdvOrani / 100).Sum()))</span>
                                 }
                                 else
                                 {
@@ -355,7 +355,7 @@
                             ₺<span data-kt-element="toplam-tutar">
                                 @if (Model.Kalemler != null)
                                 {
-                                    <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar + (m.Fiyat * m.Miktar * m.KdvOrani / 100) - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100)).Sum()))</span>
+                                    <span>@(String.Format("{0:N2}", Model.Kalemler.Select(m => m.Fiyat * m.Miktar - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100) + ((m.Fiyat * m.Miktar - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100)) * m.KdvOrani / 100) ).Sum()))</span>
                                 }
                                 else
                                 {
@@ -413,13 +413,20 @@
 
         $(".deleteBtn").click(function () {
             $(this).closest("tr").remove();
+            ToplamTutarHesapla();
+            KdvTutarHesapla();
+            IskontoTutarHesapla();
+            AraToplamHesapla();
         });
 
         function SatirSil(SatirID) {
             $("#TR_" + SatirID).remove();
+            ToplamTutarHesapla();
+            KdvTutarHesapla();
+            IskontoTutarHesapla();
+            AraToplamHesapla();
         }
-
-
+        //Binlik ayıracı eklemek için---------
         function TutarHesapla(miktarid, fiyatid, tutarid) {
             var kdvInput = $('#KdvOrani_' + miktarid.split('_')[1]);
             var iskontoInput = $('#IskontoOrani1_' + miktarid.split('_')[1]);
@@ -439,7 +446,7 @@
             if (isNaN(iskonto)) iskonto = 0; // Eğer iskonto bir sayı değilse, 0 yap
 
             // Tutar hesaplaması KDV ve İskonto uygulanarak
-            var finalTutar = tutar + (tutar * kdv / 100) - (tutar * iskonto / 100);
+            var finalTutar = tutar - (tutar * iskonto / 100);
 
             // Formatla ve inputa yaz
             $("#" + tutarid).val(formatNumberWithSeparator(finalTutar));
@@ -459,10 +466,12 @@
         function ToplamTutarHesapla() {
             var toplamTutar = 0;
             $('[data-kt-element="tutar-data"]').each(function (index, input) {
+
+                var kdvData = parseFloat($(input).closest('[data-ID2]').find('[data-kt-element="kdv-data"]').val());
                 if ($(input).val().includes(',')) {
-                    toplamTutar = toplamTutar + parseFloat($(input).val().replace(".", "").replace(",", "."));
+                    toplamTutar = toplamTutar + parseFloat($(input).val().replace(".", "").replace(",", ".")) + (kdvData * parseFloat($(input).val().replace(".", "").replace(",", ".")) / 100);
                 } else {
-                    toplamTutar = toplamTutar + parseFloat($(input).val());
+                    toplamTutar = toplamTutar + parseFloat($(input).val()) + (kdvData * parseFloat($(input).val()));
                 }
             });
 
@@ -472,12 +481,12 @@
         function KdvTutarHesapla() {
             var kdvTutari = 0;
             $('[data-kt-element="kdv-data"]').each(function (index, input) {
+
                 var kdvId = $(input).attr('id');
                 var kdv = parseFloat($(input).val());
-                var miktar = parseFloat($("#Miktar_" + kdvId.split("_")[1]).val());
-                var fiyat = parseFloat($("#Fiyat_" + kdvId.split("_")[1]).val());
+                var tutar = parseFloat($("#Tutar_" + kdvId.split("_")[1]).val());
 
-                kdvTutari = kdvTutari + kdv * miktar * fiyat / 100;
+                kdvTutari = kdvTutari + kdv * tutar / 100;
             });
 
             $('[data-kt-element="kdv-tutari"]').text(formatNumberWithSeparator(kdvTutari));
