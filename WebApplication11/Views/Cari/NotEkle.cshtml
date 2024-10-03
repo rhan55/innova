@@ -44,6 +44,7 @@
                     <input type="hidden" name="CariID" value="@ViewBag.CariID" />
                     <input type="hidden" name="ID" value="@ViewBag.CariID" />
                     <!--begin::Row Input group-->
+
                     <div class="row">
                         <!--begin::Input group-->
                         <div class="col-lg-6">
@@ -51,7 +52,7 @@
                             <label for="Aciklama" class="fw-bold text-gray-800 fs-6 mb-2">Not</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <textarea type="text" id="Aciklama" name="Aciklama" class="form-control" placeholder="Notunuzu Yazınız..."></textarea>
+                            <textarea type="text" id="Aciklama" name="Aciklama" class="form-control p-2 rounded-1" placeholder="Notunuzu Yazınız..."></textarea>
                             <!--end::Input-->
                         </div>
                         <!--end::Input group-->
@@ -83,16 +84,16 @@
 
     <script>
 
-        $(document).ready(function () {
+        //$(document).ready(function () {
 
-            var AciklamaEditorOptions = { selector: "#Aciklama", height: 200 };
+        //    var AciklamaEditorOptions = { selector: "#Aciklama", height: 200 };
 
-            if (KTThemeMode.getMode() === "dark") {
-                AciklamaEditorOptions["skin"] = "oxide-dark";
-                AciklamaEditorOptions["content_css"] = "dark";
-            }
+        //    if (KTThemeMode.getMode() === "dark") {
+        //        AciklamaEditorOptions["skin"] = "oxide-dark";
+        //        AciklamaEditorOptions["content_css"] = "dark";
+        //    }
 
-            tinymce.init(AciklamaEditorOptions);
+        //    tinymce.init(AciklamaEditorOptions);
 
         });
 

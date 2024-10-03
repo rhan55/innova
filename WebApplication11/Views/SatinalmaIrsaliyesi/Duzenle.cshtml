@@ -21,7 +21,7 @@
             <!--begin::Card body-->
             <div class="card-body p-12">
                 <!--begin::Form-->
-                <form method="post" action="@Url.Action("Duzenle","SatinalmaIrsaliyesi",new { Tip = Request.QueryString["Tip"] })">
+                <form method="post" action="@Url.Action("Kaydet","SatinalmaIrsaliyesi",new { Tip = Request.QueryString["Tip"] })">
                     <!--begin::Wrapper-->
                     <div class="d-flex flex-column align-items-start flex-xxl-row">
 
@@ -573,11 +573,11 @@
                            deger += "             <tr>                                                                                                                                   ";
 
                 deger += "                 <td><input type='text' name='OlcuBirimi_" + YeniID + "' id='OlcuBirimi_" + YeniID + "' value='Adet' class='form-control p-2 me-10' /></td>                   ";
-                deger += "                 <td><input type='text' data-kt-element='iskonto-data' name='IskontoOrani1_" + YeniID + "' id='IskontoOrani1_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control ' style='text-align:right;' /></td>";
+                deger += "                 <td><input type='text' data-kt-element='iskonto-data' name='IskontoOrani1_" + YeniID + "' id='IskontoOrani1_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control ' style='text-align:right;' /></td>              ";
                 deger += "                 <td><input type='text' data-kt-element='kdv-data' name='KdvOrani_" + YeniID + "' id='KdvOrani_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control ' style='text-align:right;' /></td>              ";
-                deger += "                 <td><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\"); formatNumberWithSeparator(\"Miktar_" + YeniID + "\");' class='form-control me-10' style='text-align:right;' /></td>";
-                deger += "                 <td><input type='text' name='Fiyat_" + YeniID + "' id='Fiyat_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\"); formatNumberWithSeparator(\"Miktar_" + YeniID + "\");'  style='text-align:right;' /></td>";
-                deger += "                 <td><input type='text' data-kt-element='iskonto-data' name='IskontoOrani1_" + YeniID + "' id='IskontoOrani1_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control ' style='text-align:right;' /></td>";
+                deger += "                 <td><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\"); formatNumberWithSeparator(\"Miktar_" + YeniID + "\");' class='form-control me-10' style='text-align:right;' /></td>              ";
+                deger += "                 <td><input type='text' name='Fiyat_" + YeniID + "' id='Fiyat_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\"); formatNumberWithSeparator(\"Miktar_" + YeniID + "\");'  style='text-align:right;' /></td>                 ";
+                deger += "                 <td><input type='text' data-kt-element='iskonto-data' name='IskontoOrani1_" + YeniID + "' id='IskontoOrani1_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control ' style='text-align:right;' /></td>              ";
                 deger += "<td style='max-width:150px;'><input type='text' data-kt-element='tutar-data' name='Tutar_" + YeniID + "' id='Tutar_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\", \"Fiyat_" + YeniID + "\", \"Tutar_" + YeniID + "\"); formatNumberWithSeparator(\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' readonly /></td>";
                            deger += "             </tr>";
                            deger += "         </table>";
@@ -604,12 +604,13 @@
                 deger += "      </td>";
 
                 deger += "      <td style='max-width:100px;'><input type='text' name='OlcuBirimi_" + YeniID + "' id ='OlcuBirimi_" + YeniID + "' value='Adet' class='form-control p-2 me-10' /></td > ";
-                deger += "      <td style='max-width:100px;'><input type='text' data-kt-element='kdv-data' name='KdvOrani_" + YeniID + "' id='KdvOrani_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' /></td>";
+                deger += "      <td style='max-width:100px;'><input type='text' data-kt-element='kdv-data' name='KdvOrani_" + YeniID + "' id='KdvOrani_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' /></td>              ";
                 deger += "      <td style='max-width:100px;'><input type='text' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\"); formatNumberWithSeparator(\"Miktar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' /></td>";
                 deger += "      <td style='max-width:150px;'><input type='text' name='Fiyat_" + YeniID + "' id = 'Fiyat_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");  formatNumberWithSeparator(\"Fiyat_" + YeniID + "\");' class='form-control p-2 me-10' style = 'text-align:right;' /></td > ";
-                deger += "      <td><input type='text' data-kt-element='iskonto-data' name='IskontoOrani1_" + YeniID + "' id='IskontoOrani1_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' /></td>";
+                deger += "      <td><input type='text' data-kt-element='iskonto-data' name='IskontoOrani1_" + YeniID + "' id='IskontoOrani1_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' /></td>              ";
                 deger += "<td style='max-width:150px;'><input type='text' data-kt-element='tutar-data' name='Tutar_" + YeniID + "' id='Tutar_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\", \"Fiyat_" + YeniID + "\", \"Tutar_" + YeniID + "\"); formatNumberWithSeparator(\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' readonly /></td>";
-                deger += "      <td><button type='button' class='deleteBtn btn-sm pt-2' onclick='SatirSil(\""+YeniID+"\")' data-ID2='"+YeniID+"'>Sil</button></td></tr>";
+                deger += "<td><button type='button' class='deleteBtn btn-sm pt-2' onclick='SatirSil(\"" + YeniID + "\")' data-ID2='" + YeniID + "'>Sil</button></td></tr>";
+
             }
             var newSelect = $("<select class='form-select form-select-solid p-2 rounded-1 ' name='StokID_" + YeniID + "' id='StokID_" + YeniID + "' style='min-width:150px;max-width:350px;' aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız' ></select>");
 
@@ -622,6 +623,7 @@
         }
 
         function Kaydet() {
+            loader().show();
             // Belge numarası kontrolü (AF tipi için zorunlu)
             if ($("#BelgeNo").val() == "" && Tip == "AI") {
                 alert("Lütfen belge numarası yazınız.");
@@ -684,7 +686,6 @@
 
             console.log(_data);
 
-            // AJAX isteği gönderimi
             $.ajax({
                 url: '/SatinalmaIrsaliyesi/Kaydet',
                 data: JSON.stringify(_data), // Veriyi JSON formatına dönüştür
@@ -692,14 +693,18 @@
                 dataType: "json",
                 type: "POST",
                 success: function (data) {
-                    alert("Belge Kaydedildi!");
-                    // Detay sayfasını aç
-                    window.open("/SatinalmaIrsaliyesi/Duzenle?id=" + data.Data + "&Tip=@(Request.QueryString["Tip"])","_parent");
+                    loader().hide();
+                    toastr("Kaydedildi");
+
                 },
                 error: function (msg) {
                     console.log(msg);
+                    loader().hide();
+                    toastr("Kaydedilemedi", msg);
                 }
             });
+
+        
         }
 
 
