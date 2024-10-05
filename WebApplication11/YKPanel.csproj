@@ -329,6 +329,7 @@
     </Compile>
     <Compile Include="Hubs\BildirimHub.cs" />
     <Compile Include="Hubs\MesajHub.cs" />
+    <Compile Include="Models\ComponentDto\BelgeEkleComponent.cs" />
     <Compile Include="Models\Dto\AnaSayfaDto.cs" />
     <Compile Include="Models\Dto\AnaSayfaTakvimKaydetDto.cs" />
     <Compile Include="Models\Dto\B2BAyarlariDto.cs" />
@@ -645,6 +646,7 @@
     <Content Include="Tema\media\Photo\bekleyen_gorev_sayisi.jpg" />
     <Content Include="Tema\media\Photo\Web sitesi_03.jpg" />
     <Content Include="Tema\media\slayts\1.png" />
+    <Content Include="Tema\plugins\custom\currency-formatter\currency-formatter.js" />
     <Content Include="Tema\plugins\custom\datatables\datatables.css" />
     <Content Include="Tema\plugins\custom\datatables\datatables.min.css" />
     <Content Include="Tema\css\override.css" />
@@ -3072,6 +3074,7 @@
     <Content Include="Views\Kullanici\UretimYetkiler.cshtml" />
     <Content Include="Views\Ayarlar\Config.cshtml" />
     <Content Include="Views\Shared\_TestLayout.cshtml" />
+    <Content Include="Views\Shared\Components\_BelgeEkleComponent.cshtml" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>
