@@ -733,6 +733,54 @@ Where Crm2Notlar.UyelikID = @UyelikID and Crm2Notlar.KayitID = @KayitID Order by
                 ViewBag.dtKullanici = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
             }
 
+            return View(dt);
+        }
+
+        [HttpGet]
+        public ActionResult Cariler2(string Tur = "", string KullaniciID="", string aranacakKelime = "")
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_Crm2_Cariler";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
+            cmd.Parameters.AddWithValue("@Tur", Tur);
+            cmd.Parameters.AddWithValue("@AranacakKelime", aranacakKelime);
+            ViewBag.aranacakKelime = aranacakKelime;
+            ViewBag.Tur = Tur;
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+
+            {
+                SqlCommand cmd2 = new SqlCommand();
+                cmd2.CommandText = "p_Kullanici";
+                cmd2.CommandType = CommandType.StoredProcedure;
+                cmd2.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd2.Parameters.AddWithValue("@ID", GetCookie("KullaniciID"));
+                ViewBag.dtKullanici = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
+            }
+
+            {
+                SqlCommand cmd2 = new SqlCommand();
+                cmd2.CommandText = @"
+select 
+* 
+from (
+	select 
+	Kullanicilar.ID,
+	Kullanicilar.Ad+' '+Kullanicilar.Soyad as Isim,
+	(select COUNT(*) from Crm2Kayitlar WITH(NOLOCK) Where Crm2Kayitlar.Silindi = 0 and Crm2Kayitlar.Sozlesme = 0 and Crm2Kayitlar.AlanKullanici = Kullanicilar.ID) as Miktar from kullanicilar
+) YK1 
+
+
+";
+                cmd2.CommandType = System.Data.CommandType.Text;
+                DataTable dtKullanicilar = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
+                ViewBag.dtKullanicilar = dtKullanicilar;
+            }
 
             return View(dt);
         }

@@ -12,6 +12,7 @@
     }
     Layout = "~/Views/Shared/_LayoutSade.cshtml";
     DataTable dtKullanici = ViewBag.dtKullanici as DataTable;
+    DataTable dtKullanicilar = ViewBag.dtKullanicilar as DataTable;
 }
 
 <!--begin::Container-->
@@ -28,11 +29,16 @@
                             <span class="path1 text-gray-500"></span>
                             <span class="path2 text-gray-500"></span>
                         </i>
+
+
+
+
+
                         <form action="@Url.Action("Cariler2","Crm2",new { Area = "Crm2" })" method="get">
                             <input type="hidden" name="Tur" id="Tur" value="@ViewBag.Tur" />
-                           
+
                             <input type="text" id="aranacakKelime" name="aranacakKelime" value="@ViewBag.aranacakKelime" data-kt-filter="search" class="form-control  w-250px py-1 ps-14" placeholder="aranacak kelime" />
-                           
+
                         </form>
                     </div>
                     <!--end::Search-->
@@ -49,6 +55,18 @@
             </div>
             <!--begin::Card body-->
             <div class="card-body">
+                <a href="/Crm2/Crm2/Cariler2/?Tur=Tumu" class="btn btn-light me-3 btn-sm fw-bold" data-kt-users-modal-action="cancel">Geri</a>
+
+                @if (Model.Rows.Count == 0)
+                {
+                    foreach (DataRow dr in dtKullanicilar.Rows)
+                    {
+                        <p>
+                            <a href="/Crm2/Crm2/Cariler2/?Tur=Tumu&KullaniciID=@dr["ID"]" class="btn btn-primary">@dr["Isim"] - @dr["Miktar"]</a>
+                        </p>
+                    }
+                }
+
                 <!--begin::Table-->
                 <table class="table align-middle table-row-dashed fs-6" id="grup-kodu-datatable">
 

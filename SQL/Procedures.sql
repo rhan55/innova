@@ -5657,12 +5657,6 @@ CREATE proc [dbo].[p_StokBul](
 )
 as
 BEGIN
-IF @ID = ''
-BEGIN
-	return;
-END
-Insert Into Loglar (UyelikID,Modul,Aciklama1,Aciklama2,KayitTarihi,Kullanici) values (@UyelikID,'Stok','Stok Detaya Girildi',(select top(1) Isim from Stoklar WITH(NOLOCK) Where ID = @ID),GETDATE(),NULL)
-
 select 
 Stoklar.*,
 G1.Deger as GrupKodu1,
@@ -5683,6 +5677,7 @@ LEFT OUTER JOIN Stoklar C1 WITH(NOLOCK) ON C1.ID = Stoklar.AnaStokID
 Where ISNULL(Stoklar.Silindi,0) = 0 and  Stoklar.UyelikID = @UyelikID and Stoklar.ID = @Barkod
 
 END
+GO
 drop proc [p_Stok]
 GO
 CREATE proc [dbo].[p_Stok](
