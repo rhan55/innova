@@ -18,7 +18,7 @@ namespace YKPortal.Models.ComponentDto
         public string Tip { get; set; }
         public string Baslik { get; set; }
         public BelgeDto BelgeDto { get; set; }
-        public BelgeEkleKalemComponent KalemBilgileri { get; set; }
+        public BelgeEkleKalemComponent KalemBilgileri { get; set; } = new BelgeEkleKalemComponent();
         public DataTable Depolar { get; set; }
         public List<SatisPersonelleriDto> SatisPersonelleri { get; set; }
 
