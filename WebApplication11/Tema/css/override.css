@@ -164,3 +164,9 @@ div.dt-container {
 }
 
 
+
+/* Dark Mod */
+.dark-mode .form-select {
+    background-color: #333 !important; /* Koyu bir arka plan rengi */
+    color: #fff; /* Beyaz yazı rengi */
+}

@@ -80,7 +80,7 @@
                                     <div>
                                         <div class="" style="@(Model.Tip == "DT")">
                                             <div class="form-group ">
-                                                <label for="CariID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Cari</label>
+                                                <label for="CariID" class="form-label fs-6 fw-bold text-gray-600 mb-3 cari-select">Cari</label>
                                                 <select class="form-select form-select-solid p-2 rounded-1" name="CariID" id="CariID"
                                                         aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
 
@@ -95,6 +95,48 @@
 
                                 </div>
                             }
+                            @if (Model.DurumuVarMi)
+                            {
+                                <div class="col-lg-4 col-12">
+                                    <!--begin::Label-->
+                                    <label for="Durumu" class="form-label fs-6 fw-bold text-gray-600 mb-3">Durumu</label>
+                                    <!--begin::Input-->
+                                    <div class="form-group">
+                                        <select class="px-2 py-1 rounded-1 form-control form-control-solid" data-control="select2" name="Durumu" id="Durumu"
+                                                aria-label="Floating label select example">
+                                            <option value="">Lütfen Seçim Yapınız</option>
+                                            <option value="Öneri" @(Model.BelgeDto.Durumu == "Öneri" ? "selected" : "")>Öneri</option>
+                                            <option value="Onaylandı" @(Model.BelgeDto.Durumu == "Onaylandı" ? "selected" : "")>Onaylandı</option>
+                                            <option value="Reddedildi" @(Model.BelgeDto.Durumu == "Reddedildi" ? "selected" : "")>Reddedildi</option>
+                                        </select>
+                                    </div>                            <!--end::Input-->
+                                </div>
+                            }
+
+                        </div>
+                        <div class="row mb-4">
+                            @if (Model.SatisPersoneliVarMi)
+                            {
+
+                                <div class="col-lg-4 col-12">
+                                    <div class="form-group">
+                                        <!--begin::Label-->
+                                        <label for="SatisPersonelID" class="required form-label fs-6 fw-bold text-gray-600 mb-3">Satış Personeli</label>
+                                        <!--end::Label-->
+                                        <select class="form-control p-2 rounded-1" data-control="select2" name="SatisPersonelID" id="SatisPersonelID" data-placeholder="Lütfen Seçim Yapınız"
+                                                aria-label="Floating label select example">
+                                            <option value=""></option>
+                                            @foreach (SatisPersonelleriDto personel in Model.SatisPersonelleri)
+                                            {
+                                                <option value="@personel.ID">@personel.Isim</option>
+                                            }
+                                        </select>
+                                        <!--end::Input group-->
+                                    </div>
+                                </div>
+
+                            }
+
                             @if (Model.CikisDepoVarMi)
                             {
                                 <div class="col-lg-4 col-12">
@@ -120,61 +162,23 @@
                                 </div>
                             }
                         </div>
-                        @if (Model.SatisPersoneliVarMi)
-                        {
-                            <div class="row mb-4">
-                                <div class="col-lg-4 col-12">
-                                    <div class="form-group">
-                                        <!--begin::Label-->
-                                        <label for="SatisPersonelID" class="required form-label fs-6 fw-bold text-gray-600 mb-3">Satış Personeli</label>
-                                        <!--end::Label-->
-                                        <select class="form-control p-2 rounded-1" data-control="select2" name="SatisPersonelID" id="SatisPersonelID" data-placeholder="Lütfen Seçim Yapınız"
-                                                aria-label="Floating label select example">
-                                            <option value=""></option>
-                                            @foreach (SatisPersonelleriDto personel in Model.SatisPersonelleri)
-                                            {
-                                                <option value="@personel.ID">@personel.Isim</option>
-                                            }
-                                        </select>
-                                        <!--end::Input group-->
+                        <div class="row">
+
+                            @if (Model.AciklamaVarMi)
+                            {
+                                <div class="row mb-4">
+                                    <div class="col-@(Model.Tip == "DT")">
+                                        <label for="Aciklama" class="form-label fs-6 fw-bold text-gray-600 mb-3">Açıklama</label>
+                                        <textarea type="text" name="Aciklama" id="Aciklama" class="form-control p-2 rounded-1"> @(Convert.ToString(Model.BelgeDto.Aciklama)) </textarea>
                                     </div>
                                 </div>
+                            }
+                            <div class="my-8" style="text-align:center;vertical-align:middle;">
+                                <div class="bg-gray-200" style="clear:both;height:1px;width:100%;"></div>
+                                <h4 class="fw-bold text-gray-600 mt-3">KALEMLER</h4>
+                                <div class="bg-gray-200" style="clear:both;height:1px;width:100%;"></div>
                             </div>
-                        }
-
-                        @if (Model.DurumuVarMi)
-                        {
-                            <div class="col-lg-4 col-12">
-                                <!--begin::Label-->
-                                <label for="Durumu" class="form-label fs-6 fw-bold text-gray-600 mb-3">Durumu</label>
-                                <!--begin::Input-->
-                                <div class="form-group">
-                                    <select class="px-2 py-1 rounded-1 form-control form-control-solid" data-control="select2" name="Durumu" id="Durumu"
-                                            aria-label="Floating label select example">
-                                        <option value="">Lütfen Seçim Yapınız</option>
-                                        <option value="Öneri" @(Model.BelgeDto.Durumu == "Öneri" ? "selected" : "")>Öneri</option>
-                                        <option value="Onaylandı" @(Model.BelgeDto.Durumu == "Onaylandı" ? "selected" : "")>Onaylandı</option>
-                                        <option value="Reddedildi" @(Model.BelgeDto.Durumu == "Reddedildi" ? "selected" : "")>Reddedildi</option>
-                                    </select>
-                                </div>                            <!--end::Input-->
-                            </div>
-                        }
-
-                        @if (Model.AciklamaVarMi)
-                        {
-                            <div class="row mb-4">
-                                <div class="col-@(Model.Tip == "DT")">
-                                    <label for="Aciklama" class="form-label fs-6 fw-bold text-gray-600 mb-3">Açıklama</label>
-                                    <textarea type="text" name="Aciklama" id="Aciklama" class="form-control p-2 rounded-1"> @(Convert.ToString(Model.BelgeDto.Aciklama)) </textarea>
-                                </div>
-                            </div>
-                        }
-                        <div class="my-8" style="text-align:center;vertical-align:middle;">
-                            <div class="bg-gray-200" style="clear:both;height:1px;width:100%;"></div>
-                            <h4 class="fw-bold text-gray-600 mt-3">KALEMLER</h4>
-                            <div class="bg-gray-200" style="clear:both;height:1px;width:100%;"></div>
                         </div>
-
                         <!--end::Row-->
                         <!--begin::Table wrapper-->
                         <div class="row p-3 scroll-x">
@@ -433,6 +437,7 @@
                 <div class="col-lg-4">
                     <button type="button" name="btnYeniSatir" id="btnYeniSatir" onclick="YeniSatirAc();" class="btn btn-primary btn-sm" style="width:150px;">+ Yeni Satır Aç</button>
                 </div>
+
                 <div class="offset-lg-10 col-lg-2 fw-bold text-gray-600 fs-5">
                     <div class="d-flex align-items-center justify-content-between">
                         <div>Ara Toplam</div>
@@ -523,4 +528,15 @@
 
 <script>
     const belgeEkleCompenentValue = @Html.Raw(personJson);
+
+</script>
+<script src="~/Tema/js/app/belge.js"></script>
+
+<script>
+    var controllerName = '@ViewBag.ControllerName'; // Razor ile sayfa bazında controller adı
+    var tip = '@ViewBag.Tip';
+
+    function Kaydet() {
+        kaydet(controllerName, tip);
+    }
 </script>

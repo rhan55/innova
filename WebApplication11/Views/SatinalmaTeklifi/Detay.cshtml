@@ -14,7 +14,7 @@
 
 @Html.Partial("~/Views/Shared/Components/_BelgeEkleComponent.cshtml", new BelgeEkleComponent
 {
-    Baslik = "Satış Fatura",
+    Baslik = "Satınalma Teklifi",
     Tip = Request.QueryString["Tip"],
     BelgeDto = new BelgeDto(),
     Depolar = dtDepolar,
@@ -35,6 +35,9 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.classList.add('dark-mode');
+        }
 
         var Tip = "@(Tip)";
 

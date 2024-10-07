@@ -597,6 +597,7 @@
     <Content Include="Tema\favicons\mstile-310x150.png" />
     <Content Include="Tema\favicons\mstile-310x310.png" />
     <Content Include="Tema\favicons\mstile-70x70.png" />
+    <Content Include="Tema\js\app\belge.js" />
     <Content Include="Tema\media\features-logos\tailwind.png" />
     <Content Include="Tema\media\flags\anasayfa.png" />
     <Content Include="Tema\media\flags\ara.png" />
