@@ -215,19 +215,22 @@ namespace YKPortal.Controllers
             {
                 foreach (BelgeKalemDto item in Kalemler)
                 {
-                    cmd.Parameters.Clear();
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "p_BelgeKalemKaydet";
-                    cmd.Parameters.AddWithValue("@ID", item.ID);
-                    cmd.Parameters.AddWithValue("@BelgeID", ID);
-                    cmd.Parameters.AddWithValue("@StokID", item.StokID);
-                    cmd.Parameters.AddWithValue("@Seri", item.Seri);
-                    cmd.Parameters.AddWithValue("@Miktar", Convert.ToDecimal(item.Miktar));
-                    cmd.Parameters.AddWithValue("@Fiyat", Convert.ToDecimal(item.Fiyat));
-                    cmd.Parameters.AddWithValue("@IskontoOrani1", 0);
-                    cmd.Parameters.AddWithValue("@KdvOrani", 0);
-                    cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
-                    silinenler += Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek)) + ",";
+                    if (item.StokID != "")
+                    {
+                        cmd.Parameters.Clear();
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.CommandText = "p_BelgeKalemKaydet";
+                        cmd.Parameters.AddWithValue("@ID", item.ID);
+                        cmd.Parameters.AddWithValue("@BelgeID", ID);
+                        cmd.Parameters.AddWithValue("@StokID", item.StokID);
+                        cmd.Parameters.AddWithValue("@Seri", item.Seri);
+                        cmd.Parameters.AddWithValue("@Miktar", Convert.ToDecimal(item.Miktar));
+                        cmd.Parameters.AddWithValue("@Fiyat", Convert.ToDecimal(item.Fiyat));
+                        cmd.Parameters.AddWithValue("@IskontoOrani1", 0);
+                        cmd.Parameters.AddWithValue("@KdvOrani", 0);
+                        cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
+                        silinenler += Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek)) + ",";
+                    }
                 }
             }
 

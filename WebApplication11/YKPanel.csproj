@@ -560,6 +560,8 @@
     <Content Include="Areas\Depo\Views\Depo\UretimIsEmirleri.cshtml" />
     <Content Include="Areas\Depo\Views\Depo\UretimIsEmriDetay.cshtml" />
     <Content Include="Areas\Crm2\Views\Crm2\Cariler2.cshtml" />
+    <Content Include="Areas\Depo\Views\Depo\BarkodKontrol.cshtml" />
+    <Content Include="Areas\Depo\Views\Depo\GirisCikisIslemleri.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

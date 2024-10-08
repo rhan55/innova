@@ -1,0 +1,136 @@
+﻿
+@using System.Data
+@{
+    ViewBag.Title = "Depo Otomasyonu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string KullaniciID = Request.Cookies["KullaniciID"].Value;
+
+    DataTable dt = new DataTable();
+    if (ViewBag.dtDetay != null)
+    {
+        dt = ViewBag.dtDetay as DataTable;
+    }
+}
+
+<div style="padding:20px;text-align:center;">
+
+    <form action="@Url.Content("~/Depo/Depo/BarkodKontrol")" method="get" name="myForm" id="myForm">
+        <table border="0" style="width:100%;">
+            <tr>
+                <td>
+                    <label>Barkod</label>
+                </td>
+                <td colspan="2">
+                    <input type="text" name="Barkod" id="Barkod" value="" class="form-control" style="font-size:10px;width:100%;" autofocus />
+                    
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3"><main>
+    <div id="reader"></div>
+</main></td>
+            </tr>
+        </table>
+        <hr />
+        <h4><span style="color:red;">@ViewBag.Uyarı</span></h4>
+    </form>
+
+    <table border="0" style="width:100%;">
+        <tr>
+            <td>
+                <label> Barkod</label>
+            </td>
+            <td colspan="2">
+                <input type="text" disabled name="Stok_Adi" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["SeriNo"]) : "")" class="form-control" style="font-size:10px;width:100%;" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label> Stok Kodu </label>
+            </td>
+            <td colspan="2">
+                <input type="text" name="Okutma_Kull1" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["StokKodu"]) : "")" class="form-control" style="font-size:10px;width:100%;" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label> Stok Adı </label>
+            </td>
+            <td colspan="2">
+                <input type="text" name="Okutma_Kull2" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["StokAdi"]) : "")" class="form-control" style="font-size:10px;width:100%;" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label> Otel </label>
+            </td>
+            <td colspan="2">
+                <input type="text" name="Okutma_Kull3" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["Otel"]) : "")" class="form-control" style="font-size:10px;width:100%;" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label> Bölüm </label>
+            </td>
+            <td colspan="2">
+                <input type="text" name="Okutma_Kull3" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["Bolum"]) : "")" class="form-control" style="font-size:10px;width:100%;" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label> Departman </label>
+            </td>
+            <td colspan="2">
+                <input type="text" name="Okutma_Kull3" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["Departman"]) : "")" class="form-control" style="font-size:10px;width:100%;" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <hr />
+            <td>
+        </tr>
+
+    </table>
+
+
+</div>
+
+@section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.4/html5-qrcode.min.js" integrity="sha512-k/KAe4Yff9EUdYI5/IAHlwUswqeipP+Cp5qnrsUjTPCgl51La2/JhyyjNciztD7mWNKLSXci48m7cctATKfLlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #reader {
+            width: 350px;
+        }
+
+        #result {
+            text-align: center;
+            font-size: 1.5rem;
+        }
+    </style>
+    <script>
+        const scanner = new Html5QrcodeScanner('reader', {
+            qrbox: {
+                width: 250,
+                height: 250,
+            },
+            fps: 20,
+        });
+        scanner.render(success, error);
+        function success(result) {
+            $("#Barkod").val(result);
+            scanner.clear();
+            document.getElementById('reader').remove();
+            document.getElementById("myForm").submit();
+        }
+        function error(err) {
+            console.error(err);
+        }
+    </script>
+}
