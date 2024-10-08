@@ -110,7 +110,8 @@ namespace YKPortal.Controllers
             }
             ViewBag.Personeller = SatisPersoneliGetir();
             ViewBag.Depolar = DepoListesiGetir();
-
+            ViewBag.ControllerName = "SatinalmaTeklifi"; // Sayfaya özel controller adı
+            ViewBag.Tip = "AT"; // Sayfaya özel tip değeri
             return View(new BelgeDto());
         }
 
@@ -187,7 +188,8 @@ namespace YKPortal.Controllers
                 ViewBag.Depolar = (DataTable)IDVeritabani.Sorgula(cmdDepolar, SorgulaTuru.Tablo);
             }
 
-
+            ViewBag.ControllerName = "SatinalmaTeklifi"; // Sayfaya özel controller adı
+            ViewBag.Tip = "AT"; // Sayfaya özel tip değeri
             return View(entity);
         }
 
@@ -331,7 +333,8 @@ namespace YKPortal.Controllers
 
             ViewBag.Personeller = SatisPersoneliGetir();
             ViewBag.Duzenle = YetkiKontrolu("/SatinalmaTeklifi/Liste?Tip=AT", "Duzenle");
-
+            ViewBag.ControllerName = "SatinalmaTeklifi"; // Sayfaya özel controller adı
+            ViewBag.Tip = "AT"; // Sayfaya özel tip değeri
             return View(entity);
         }
 

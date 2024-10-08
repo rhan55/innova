@@ -112,6 +112,8 @@ namespace YKPortal.Controllers
             ViewBag.Personeller = SatisPersoneliGetir();
             ViewBag.Depolar = DepoListesiGetir();
             ViewBag.Durumu = belgeDto.Durumu;
+            ViewBag.ControllerName = "SatinalmaFatura"; // Sayfaya özel controller adı
+            ViewBag.Tip = "AF"; // Sayfaya özel tip değeri
             return View(new BelgeDto());
         }
 
@@ -188,6 +190,8 @@ namespace YKPortal.Controllers
             }
 
             ViewBag.Durumu = belgeDto.Durumu;
+            ViewBag.ControllerName = "SatinalmaFatura"; // Sayfaya özel controller adı
+            ViewBag.Tip = "AF"; // Sayfaya özel tip değeri
             return View(entity);
         }
 
@@ -331,6 +335,8 @@ namespace YKPortal.Controllers
 
             ViewBag.Personeller = SatisPersoneliGetir();
             ViewBag.Durumu = belgeDto.Durumu;
+            ViewBag.ControllerName = "SatinalmaFatura"; // Sayfaya özel controller adı
+            ViewBag.Tip = "AF"; // Sayfaya özel tip değeri
             return View(entity);
         }
 

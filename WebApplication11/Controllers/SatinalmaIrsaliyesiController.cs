@@ -10,6 +10,7 @@ using YKPortal.Models.Dto;
 using iText.Html2pdf.Resolver.Font;
 using iText.Html2pdf;
 using System.IO;
+using static iText.IO.Util.IntHashtable;
 
 namespace YKPortal.Controllers
 {
@@ -111,6 +112,9 @@ namespace YKPortal.Controllers
 
             ViewBag.Personeller = SatisPersoneliGetir();
             ViewBag.Depolar = DepoListesiGetir();
+            ViewBag.ControllerName = "SatinalmaIrsaliyesi"; // Sayfaya özel controller adı
+            ViewBag.Tip = "AI"; // Sayfaya özel tip değeri
+          
 
             return View(new BelgeDto());
         }
@@ -187,7 +191,8 @@ namespace YKPortal.Controllers
                 ViewBag.Depolar = (DataTable)IDVeritabani.Sorgula(cmdDepolar, SorgulaTuru.Tablo);
             }
 
-
+            ViewBag.ControllerName = "SatinalmaIrsaliyesi"; // Sayfaya özel controller adı
+            ViewBag.Tip = "AI"; // Sayfaya özel tip değeri
             return View(entity);
         }
 
@@ -329,6 +334,8 @@ namespace YKPortal.Controllers
 
             ViewBag.Personeller =SatisPersoneliGetir();
             ViewBag.Duzenle = YetkiKontrolu("/SatinalmaIrsaliyesi/Liste/?Tip=AI", "Duzenle");
+            ViewBag.ControllerName = "SatinalmaIrsaliyesi"; // Sayfaya özel controller adı
+            ViewBag.Tip = "AI"; // Sayfaya özel tip değeri
 
             return View(entity);
         }

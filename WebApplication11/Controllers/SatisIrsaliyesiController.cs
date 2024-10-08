@@ -110,7 +110,8 @@ namespace YKPortal.Controllers
             }
             ViewBag.Personeller =SatisPersoneliGetir();
             ViewBag.Depolar = DepoListesiGetir();
-
+            ViewBag.ControllerName = "SatisIrsaliyesi"; // Sayfaya özel controller adı
+            ViewBag.Tip = "SI"; // Sayfaya özel tip değeri
             return View(new BelgeDto());
         }
 
@@ -185,7 +186,8 @@ namespace YKPortal.Controllers
                 cmdDepolar.Parameters.AddWithValue("@AranacakKelime", "");
                 ViewBag.Depolar = (DataTable)IDVeritabani.Sorgula(cmdDepolar, SorgulaTuru.Tablo);
             }
-
+            ViewBag.ControllerName = "SatisIrsaliyesi"; // Sayfaya özel controller adı
+            ViewBag.Tip = "SI"; // Sayfaya özel tip değeri
             return View(entity);
         }
 
@@ -327,7 +329,8 @@ namespace YKPortal.Controllers
 
             ViewBag.Personeller = SatisPersoneliGetir();
             ViewBag.Duzenle = YetkiKontrolu("/SatisIrsaliyesi/Liste/?Tip=SI", "Duzenle");
-
+            ViewBag.ControllerName = "SatisIrsaliyesi"; // Sayfaya özel controller adı
+            ViewBag.Tip = "SI"; // Sayfaya özel tip değeri
             return View(entity);
         }
 
