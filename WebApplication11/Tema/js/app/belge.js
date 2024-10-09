@@ -10,8 +10,10 @@ function kaydet(controllerName, tip) {
     var kalemler = [];
     $('#TabloKalemler tbody tr').each(function () {
         var satirID = $(this).attr("data-ID2");
+        var kalemId = $(this).attr("data-id");
         if (satirID) {
             kalemler.push({
+                ID: kalemId,
                 StokID: $("#StokID_" + satirID).val(),
                 Seri: $("#Seri_" + satirID).val(),
                 Miktar: $("#Miktar_" + satirID).val(),

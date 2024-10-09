@@ -49,22 +49,38 @@
 </div>
 
 
+@section Styles {
+    <style>
+        .tox-statusbar__branding {
+            display: none !important;
+        }
+    </style>
+}
+
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="~/Tema/plugins/custom/tinymce/tinymce.bundle.js"></script>
+    <script src="~/Tema/plugins/custom/tinymce/tinymce.min.js"></script>
+
 
     <script>
 
         $(document).ready(function () {
+            var AciklamaEditorOptions = {
+                selector: "#Aciklama",
+                height: 200,
+                promotion: false
+            };
 
-            var AciklamaEditorOptions = { selector: "#Aciklama", height: 200 };
-
-            if (KTThemeMode.getMode() === "dark") {
-                AciklamaEditorOptions["skin"] = "oxide-dark";
-                AciklamaEditorOptions["content_css"] = "dark";
+            if (typeof KTThemeMode !== 'undefined') { // KTThemeMode varsa kontrol et
+                if (KTThemeMode.getMode() === "dark") {
+                    AciklamaEditorOptions["skin"] = "oxide-dark";
+                    AciklamaEditorOptions["content_css"] = "dark";
+                }
             }
 
+            // tinyMCE init
             tinymce.init(AciklamaEditorOptions);
+
 
         });
 

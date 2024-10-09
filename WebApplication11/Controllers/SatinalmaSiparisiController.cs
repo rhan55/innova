@@ -335,7 +335,7 @@ namespace YKPortal.Controllers
             ViewBag.Duzenle = YetkiKontrolu("/SatinalmaSiparisi/Liste?Tip=AS", "Duzenle");
             ViewBag.ControllerName = "SatinalmaSiparisi"; // Sayfaya özel controller adı
             ViewBag.Tip = "AS"; // Sayfaya özel tip değeri
-
+            ViewBag.IsDuzenleSayfasi = true;
 
             return View(entity);
         }
@@ -373,8 +373,8 @@ namespace YKPortal.Controllers
                                 .Replace("[ACIKLAMA]", belge.Aciklama)
                                 .Replace("[ARA_TOPLAM]", String.Format("{0:N2}", belge.Kalemler.Select(m => m.Fiyat * m.Miktar).Sum()))
                                 .Replace("[ISKONTO_TUTAR]", String.Format("{0:N2}", belge.Kalemler.Select(m => m.Fiyat * m.Miktar * m.IskontoOrani1 / 100).Sum()))
-                                .Replace("[KDV_TUTAR]", String.Format("{0:N2}", belge.Kalemler.Select(m => m.Fiyat * m.Miktar * m.KdvOrani / 100).Sum()))
-                                .Replace("[TOPLAM_TUTAR]", String.Format("{0:N2}", belge.Kalemler.Select(m => m.Fiyat * m.Miktar + (m.Fiyat * m.Miktar * m.KdvOrani / 100) - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100)).Sum()))
+                                .Replace("[KDV_TUTAR]", String.Format("{0:N2}", belge.Kalemler.Select(m => (m.Fiyat * m.Miktar - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100)) * m.KdvOrani / 100).Sum()))
+                                .Replace("[TOPLAM_TUTAR]", String.Format("{0:N2}", belge.Kalemler.Select(m => m.Fiyat * m.Miktar - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100) + ((m.Fiyat * m.Miktar - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100)) * m.KdvOrani / 100)).Sum()))
                                 .Replace("[KALEMLER]", kalemler);
 
             var path = Server.MapPath("~/Uploads/Dosyalar/Teklifler");
