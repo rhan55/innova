@@ -1,25 +1,71 @@
 ﻿using System.Data.SqlClient;
 using System.Data;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using YKPortal.Models;
 using YKPortal.Models.Dto;
 using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Web;
-using System.Web.Http.Results;
-using System.Configuration;
 using System.Data.OleDb;
-using System.Web.Services;
 using System.Collections;
-using Newtonsoft.Json;
 
 namespace YKPortal.Controllers
 {
     public class StokController : Controller
     {
         #region Sayım İşlemleri
+
+        public ActionResult HizliStokTanimlama()
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            {
+                var cmd = new SqlCommand();
+                cmd.CommandText = "p_GrupKoduListesi";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@UstID", DBNull.Value);
+                cmd.Parameters.AddWithValue("@Kod", "CariGrupKod1");
+                cmd.Parameters.AddWithValue("@AranacakKelime", "");
+                ViewBag.dtGrupKodu1 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            }
+            {
+                var cmd = new SqlCommand();
+                cmd.CommandText = "p_GrupKoduListesi";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@UstID", DBNull.Value);
+                cmd.Parameters.AddWithValue("@Kod", "CariGrupKod2");
+                cmd.Parameters.AddWithValue("@AranacakKelime", "");
+                ViewBag.dtGrupKodu2 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            }
+
+            return View();
+        }
+
+        public JsonResult HizliStokKaydet(
+                string Kod1,string Kod2, 
+                string StokKodu, string StokAdi, string OlcuBirimi,
+                string Barkod1, string Barkod2, string Barkod3
+            )
+        {
+            var cmd = new SqlCommand();
+            cmd.CommandText = "p_HizliStokKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Kod1", Kod1);
+            cmd.Parameters.AddWithValue("@Kod2", Kod2);
+            cmd.Parameters.AddWithValue("@StokKodu", StokKodu);
+            cmd.Parameters.AddWithValue("@StokAdi", StokAdi);
+            cmd.Parameters.AddWithValue("@OlcuBirimi", OlcuBirimi);
+            cmd.Parameters.AddWithValue("@Barkod1", Barkod1);
+            cmd.Parameters.AddWithValue("@Barkod2", Barkod2);
+            cmd.Parameters.AddWithValue("@Barkod3", Barkod3);
+            IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            return Json("Stok kaydedildi.", JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult Sayim()
         {

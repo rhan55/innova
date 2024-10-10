@@ -2903,13 +2903,13 @@ set @Icerik += 'Hesabınızı doğrulamak için <a href="http://app.ykyazilim.co
 set @Icerik += ''
 set @Icerik += ''
 set @Icerik += ''
-
+/*
 EXEC msdb.dbo.sp_send_dbmail @profile_name = 'YKMail',
                     @recipients = @KullaniciAdi,
                     @subject = @Baslik, 
 					@body_format = 'HTML',
                     @body = @Icerik;
-
+*/
 END
 ELSE
 BEGIN

@@ -23,10 +23,10 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/Kullanici/Liste", "Gor"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
+            //if (!YetkiKontrolu("/Kullanici/Liste", "Gor"))
+            //{
+            //    return Redirect("~/YK/Anasayfa");
+           // }
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_KullaniciListesi";

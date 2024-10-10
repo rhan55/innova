@@ -6,82 +6,82 @@
     ViewBag.Title = "Stok Sayımı";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    DataTable dtFirmalar = ViewBag.dtFirmalar as DataTable;
+    DataTable dtGrupKodu1 = ViewBag.dtGrupKodu1 as DataTable;
+    DataTable dtGrupKodu2 = ViewBag.dtGrupKodu2 as DataTable;
 }
-<div class="container-fluid d-flex" id="kt_content">
-    <div class="row">
-        <table>
+<div class="container-fluid d-flex" id="kt_content"  style="width:90%;padding:3px;">
+    <div class="row"  style="width:100%;">
+        
+
+        <table style="width:100%;">
             <tr>
-                <td>
-                    <label for="Tarih">Tarih</label>
-                    <input type="date" name="Tarih" id="Tarih" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control" />
-
-                </td>
-                <td>
-
-                    <label for="Firma">Firma</label>
-                    <select name="Firma" id="Firma" class="form-control" onchange="SubeleriGetir();">
-                        @foreach (DataRow item in dtFirmalar.Rows)
+                <td style="width:100%;">
+                    <label for="Kod1">Grup Kodu</label>
+                    <select name="Kod1" id="Kod1" class="form-control" onchange="StokKoduOlustur();">
+                        <option value="">Seçim yapınız...</option>
+                        @foreach (DataRow item in dtGrupKodu1.Rows)
                         {
-                            <option value="@item["Firma"]">@item["Firma"]</option>
+                            <option value="@item["ID"]">@item["Deger"]</option>
                         }
                     </select>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <label for="Sube">Sube</label>
-                    <select name="Sube" id="Sube" class="form-control" onchange="DepolariGetir();">
+                    <label for="Kod2">Kod 1</label>
+                    <select name="Kod2" id="Kod2" class="form-control" onchange="StokKoduOlustur();">
+                        <option value="">Seçim yapınız...</option>
+                        @foreach (DataRow item in dtGrupKodu2.Rows)
+                        {
+                            <option value="@item["ID"]">@item["Deger"]</option>
+                        }
                     </select>
-                </td>
-                <td>
-                    <label for="Depo">Depo</label>
-                    <select name="Depo" id="Depo" class="form-control" onchange="Listele();">
-                    </select>
-                </td>
-
-            </tr>
-            <tr>
-
-                <td colspan="2">
-                    <label for="Barkod">Barkod</label>
-                    <input type="text" name="Barkod" id="Barkod" value="" class="form-control" onkeydown="KaydetBarkod();" autofocus />
-
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="Stok">Stok</label><br />
-                    <select name="Stok" id="Stok" class="form-control">
-                    </select>
-
-                
-
-                </td>
-                <td>
-                    <label for="Miktar">Miktar</label><br />
-                    <input type="number" name="Miktar" id="Miktar" value="1" class="form-control" style="text-align: center; width: 100px;" />
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
+                    <label for="StokKodu">Stok Kodu</label>
+                    <input type="text" name="StokKodu" id="StokKodu" value="" style="background-color:lightgray;" class="form-control" readonly="readonly" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <label for="StokAdi">Stok Adı</label>
+                    <input type="text" name="StokAdi" id="StokAdi" value="" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <label for="OlcuBirimi">Ölçü Birimi</label>
+                    <input type="text" name="OlcuBirimi" id="OlcuBirimi" value="" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <label for="Barkod1">Barkod 1</label>
+                    <input type="text" name="Barkod1" id="Barkod1" value="" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <label for="Barkod2">Barkod 2</label>
+                    <input type="text" name="Barkod2" id="Barkod2" value="" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <label for="Barkod3">Barkod 3</label>
+                    <input type="text" name="Barkod3" id="Barkod3" value="" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <br /><br />
                     <input type="button" name="Kaydet" id="Kaydet" value="Kaydet" class="btn btn-primary" onclick="Kaydet();" style="width:75px;" />
                 </td>
             </tr>
         </table>
 
-        <table id="TabloDetay" name="TabloDetay">
-            <thead>
-                <tr>
-                    <th>Stok Kodu</th>
-                    <th>Stok Adı</th>
-                    <th style="text-align: right;padding:1px;">Miktar</th>
-                    <th style="text-align:center;">İşlem</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
     </div>
 </div>
 
@@ -95,61 +95,59 @@
 
     <script>
         $(function () {
-
-
-
-                const StokIDSelect = $('#Stok').select2({
-                    ajax: {
-                        url: "/Stok/SelectListe",
-                        data: function (params) {
-                            var query = {
-                                search: params.term,
-                            }
-
-                            // Query parameters will be ?search=[term]&type=public
-                            return query;
-                        },
-                        processResults: function (data) {
-                            var results = [];
-                            if (data && data.length > 0) {
-                                data.forEach(function (item) {
-                                    results.push({ id: item.ID, text: item.Isim })
-                                });
-                            }
-
-                            return {
-                                results: results
-                            };
+            const StokIDSelect = $('#Stok').select2({
+                ajax: {
+                    url: "/Stok/SelectListe",
+                    data: function (params) {
+                        var query = {
+                            search: params.term,
                         }
+
+                        // Query parameters will be ?search=[term]&type=public
+                        return query;
                     },
-                    delay: 250,
-                    minimumInputLength: 1,
-                    language: {
-                        placeholder: function () {
-                            return "Arama yapmak için en az 1 karakter girin";
-                        },
-                        inputTooShort: function () {
-                            return "En az lütfen en az 1 karakter girin";
+                    processResults: function (data) {
+                        var results = [];
+                        if (data && data.length > 0) {
+                            data.forEach(function (item) {
+                                results.push({ id: item.ID, text: item.Isim })
+                            });
                         }
+
+                        return {
+                            results: results
+                        };
                     }
-                });
+                },
+                delay: 250,
+                minimumInputLength: 1,
+                language: {
+                    placeholder: function () {
+                        return "Arama yapmak için en az 1 karakter girin";
+                    },
+                    inputTooShort: function () {
+                        return "En az lütfen en az 1 karakter girin";
+                    }
+                }
+            });
 
 
         });
 
-        function DepolariGetir() {
+        function StokKoduOlustur() {
+            /*
             $.ajax({
                 async: false,
                 cache: false,
                 type: "GET",
-                url: "/Stok/DepolariGetir",
+                url: "/Stok/StokKoduOlustur",
                 data: { "Firma": $("#Firma").val() },
                 success: function (data2) {
                     $('#Depo').empty();
-                   //$('#Depo')
-                   //    .append($("<option></option>")
-                   //        .attr("value", "")
-                   //        .text("Depo Seçimi"));
+                    //$('#Depo')
+                    //    .append($("<option></option>")
+                    //        .attr("value", "")
+                    //        .text("Depo Seçimi"));
                     $.each(data2, function (data3, key, value) {
                         $('#Depo')
                             .append($("<option></option>")
@@ -160,6 +158,7 @@
                 error: function (data) {
                 }
             });
+            */
         }
         function SubeleriGetir() {
             $.ajax({
@@ -188,7 +187,7 @@
             });
         }
 
-        SubeleriGetir();
+        
 
         function KaydetBarkod() {
             if (event.keyCode == 13) {
@@ -197,51 +196,31 @@
         }
 
         function Kaydet() {
-            if ($("#Tarih").val() == "") {
+            if ($("#Kod1").val() == "") {
                 Swal.fire({
                     position: "center",
                     icon: "error",
-                    title: "Tarih seçilmelidir.",
+                    title: "Kod 1 seçilmelidir.",
                     showConfirmButton: true,
                     //timer: 3000
                 });
                 return;
             }
-            if ($("#Firma").val() == "") {
+            if ($("#Kod2").val() == "") {
                 Swal.fire({
                     position: "center",
                     icon: "error",
-                    title: "Firma seçilmelidir.",
+                    title: "Kod 2 seçilmelidir.",
                     showConfirmButton: true,
                     //timer: 3000
                 });
                 return;
             }
-            if ($("#Sube").val() == "") {
+            if ($("#StokAdi").val() == "") {
                 Swal.fire({
                     position: "center",
                     icon: "error",
-                    title: "Sube seçilmelidir.",
-                    showConfirmButton: true,
-                    //timer: 3000
-                });
-                return;
-            }
-            if ($("#Depo").val() == "") {
-                Swal.fire({
-                    position: "center",
-                    icon: "error",
-                    title: "Depo seçilmelidir.",
-                    showConfirmButton: true,
-                    //timer: 3000
-                });
-                return;
-            }
-            if ($("#Barkod").val() == "" && ($("#Stok").val() == "" || $("#Stok").val() == null)) {
-                Swal.fire({
-                    position: "center",
-                    icon: "error",
-                    title: "Barkod veya ürün seçilmelidir.",
+                    title: "Stok Adı girilmelidir.",
                     showConfirmButton: true,
                     //timer: 3000
                 });
@@ -249,52 +228,33 @@
             }
 
             var data_ = {
-                "Tarih": $("#Tarih").val(),
-                "Firma": $("#Firma").val(),
-                "Sube": $("#Sube").val(),
-                "Depo": $("#Depo").val(),
-                "Barkod": $("#Barkod").val(),
-                "Stok": $("#Stok").val(),
-                "Miktar": $("#Miktar").val()
+                "Kod1": $("#Kod1").val(),
+                "Kod2": $("#Kod2").val(),
+                "StokKodu": $("#StokKodu").val(),
+                "StokAdi": $("#StokAdi").val(),
+                "OlcuBirimi": $("#OlcuBirimi").val(),
+                "Barkod1": $("#Barkod1").val(),
+                "Barkod2": $("#Barkod2").val(),
+                "Barkod3": $("#Barkod3").val()
             };
 
             $.ajax({
                 async: false,
                 cache: false,
                 type: "GET",
-                url: "/Stok/SayimKaydet",
+                url: "/Stok/HizliStokKaydet",
                 data: data_,
                 success: function (data) {
-                    $("#Barkod").val("");
-                    $("#Stok").val("");
-                    $("#Miktar").val("1");
-                    if (data == "ok") {
-                        Listele();
-                    } else {
-
-                        Swal.fire({
-                            title: data + " Stok açılsın mı?",
-                            showDenyButton: true,
-                            showCancelButton: true,
-                            confirmButtonText: "Evet",
-                            denyButtonText: "Hayır"
-                        }).then((result) => {
-                            /* Read more about isConfirmed, isDenied below */
-                            if (result.isConfirmed) {
-                                window.open("@(Request.Url.Scheme+"://"+Request.Url.Authority)/Stok/HizliStokTanimlama", '_blank');
-                                
-
-                            } else if (result.isDenied) {
-
-                            }
-                        });
-
-                    }
-                    $("#Barkod").focus();
+                    alert(data);
+                    window.location.reload();
                 },
                 error: function (data) {
 
-                    $("#EnjeksiyonKullaniciBarkoduOkut").val("");
+                    Swal.fire({
+                        title: "HATA!",
+                        text: data,
+                        icon: "error"
+                    });
                 }
             });
 
@@ -325,7 +285,7 @@
                         deger += "<td style='padding:1px;'>" + data[i].StokKodu + "</td>";
                         deger += "<td style='padding:1px;'>" + data[i].StokAdi + "</td>";
                         deger += "<td style='text-align:right;padding:1px;'>" + data[i].Miktar + "</td>";
-                        deger += "<td style='text-align:center;padding:1px;'><input type='button' value='Sil' class='btn btn-primary' onclick='Sil(\"" + data[i].ID + "\",\"" + data[i].StokAdi+"\");' /></td>";
+                        deger += "<td style='text-align:center;padding:1px;'><input type='button' value='Sil' class='btn btn-primary' onclick='Sil(\"" + data[i].ID + "\",\"" + data[i].StokAdi + "\");' /></td>";
                         deger += "</tr>";
                     }
                     $('#TabloDetay tbody').append(deger);
@@ -341,10 +301,10 @@
             });
         }
 
-        function Sil(id,stokadi) {
+        function Sil(id, stokadi) {
 
             Swal.fire({
-                title: stokadi+" adlı ürünün sayımını silmek istediğinizden emin misiniz?",
+                title: stokadi + " adlı ürünün sayımını silmek istediğinizden emin misiniz?",
                 showDenyButton: true,
                 showCancelButton: true,
                 confirmButtonText: "Sil",
@@ -382,7 +342,7 @@
                         },
                         error: function (data) {
 
-
+                            $("#EnjeksiyonKullaniciBarkoduOkut").val("");
                         }
                     });
                 } else if (result.isDenied) {
