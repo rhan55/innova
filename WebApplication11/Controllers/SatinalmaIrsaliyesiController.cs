@@ -41,9 +41,11 @@ namespace YKPortal.Controllers
             IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
             return Redirect("~/SatinalmaIrsaliyesi/Liste/?Tip=" + Tip);
         }
+     
 
         public ActionResult Liste(BelgeDto belgeDto, string Tip = "", string AranacakKelime = "")
         {
+
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
@@ -52,10 +54,9 @@ namespace YKPortal.Controllers
                 return Redirect("~/");
             }
 
-            if (!YetkiKontrolu("/SatinalmaIrsaliyesi/Liste/?Tip=AI", "Gor"))
-            {
+            var yetkiUrl = "/SatinalmaIrsaliyesi/Liste/?Tip=AI";
+            if (!YetkiKontrolu(yetkiUrl, "Gor"))
                 return Redirect("~/YK/Anasayfa");
-            }
 
             var now = DateTime.Now;
 
@@ -84,16 +85,18 @@ namespace YKPortal.Controllers
 
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-            ViewBag.Filters = belgeDto;
             var model = new BelgeListeViewModel
             {
                 Belgeler = dt,
-                Sil = YetkiKontrolu("/SatinalmaIrsaliyesi/Liste/?Tip=AI", "Sil"),
-                Duzenle = YetkiKontrolu("/SatinalmaIrsaliyesi/Liste/?Tip=AI", "Duzenle")
-
+                Sil = YetkiKontrolu(yetkiUrl, "Sil"),
+                Duzenle = YetkiKontrolu(yetkiUrl, "Duzenle")
             };
+
             ViewBag.Filters = belgeDto;
             ViewBag.Durumu = belgeDto.Durumu;
+            ViewBag.ControllerName = "SatinalmaFatura";
+            ViewBag.Tip = Tip;
+
             return View(model);
         }
 

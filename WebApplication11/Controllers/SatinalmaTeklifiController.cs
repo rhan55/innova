@@ -45,10 +45,10 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/SatinalmaTeklifi/Liste/?Tip=AT", "Gor"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
+
+            var yetkiUrl = "/SatinalmaTeklifi/Liste/?Tip=AT";
+            if (!YetkiKontrolu(yetkiUrl, "Gor"))
+                return Redirect("~/YK/Anasayfa");       
 
             if (string.IsNullOrEmpty(Tip))
             {
@@ -87,12 +87,15 @@ namespace YKPortal.Controllers
             var model = new BelgeListeViewModel
             {
                 Belgeler = dt,
-                Sil = YetkiKontrolu("/SatinalmaTeklifi/Liste/?Tip=AT", "Sil"),
-                Duzenle = YetkiKontrolu("/SatinalmaTeklifi/Liste/?Tip=AT", "Duzenle")
-
+                Sil = YetkiKontrolu(yetkiUrl, "Sil"),
+                Duzenle = YetkiKontrolu(yetkiUrl, "Duzenle")
             };
+
             ViewBag.Filters = belgeDto;
             ViewBag.Durumu = belgeDto.Durumu;
+            ViewBag.ControllerName = "SatinalmaFatura";
+            ViewBag.Tip = Tip;
+
             return View(model);
         }
 

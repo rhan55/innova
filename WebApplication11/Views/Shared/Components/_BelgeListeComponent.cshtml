@@ -1,0 +1,267 @@
+﻿@using System.Data
+@model YKPortal.Models.ComponentDto.BelgeListeComponent
+
+
+@{
+    // Dinamik controller ve tip değerlerini alıyoruz
+    var controllerName = ViewBag.ControllerName;
+    var tip = ViewBag.Tip;
+    var EkleButton = ViewBag.EkleButton ?? "Yeni Kayıt"; // Başlık bilgisi, dinamik olacak
+}
+
+
+
+
+<div id="kt_content_container" class="container-fluid p-0 m-0">
+    <div class="card bg-transparent border-0 shadow-none m-0 p-0">
+        <div class="card-header align-items-center border-0 shadow-0 gap-2 gap-md-5 p-0 m-0">
+
+
+            <div class="card-toolbar flex-row-fluid justify-content-end gap-3">
+                <button type="button" id="topluSilButon" class="btn btn-light-primary btn-sm fw-bold" onclick="$('#DivFiltre').toggle();">
+                    <span class="indicator-label fw-bold">Filtre</span>
+                    <i class="ki-duotone ki-filter">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                    </i>
+                </button>
+
+                <!--end::Menu-->
+                <!--end::Export dropdown-->
+                <!--begin::Hide default export buttons-->
+                <div id="kt_datatable_example_buttons" class="d-none"></div>
+                <!--end::Hide default export buttons-->
+                <a href="@Url.Action("Detay", controllerName, new { Tip = tip, KayitID = "" })" class="btn btn-sm btn-primary me-7" style="width:100px;">
+                    @EkleButton
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="container-fluid" id="DivFiltre" name="DivFiltre" style="display:none;">
+    <div class="card border-0 shadow-none">
+        <div class="card-body">
+
+            <!--begin::Filtreleme alanı-->
+            <form method="POST" action="/@(controllerName)/Liste/?Tip=@(tip)" class="content p-0" id="datatableFilters">
+                <div class="d-flex">
+                    <h3 class="text-primary fw-bold mb-4">Filtreler</h3>
+                    <i class="ki-duotone text-primary ki-filt er-search fs-2">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                        <span class="path3"></span>
+                    </i>
+                </div>
+
+                <div class="row">
+                    @if (Model.CariIsimVarMi)
+                    {
+                        <div class="col-lg-3">
+                            <!--begin::Label-->
+                            <label for="CariAdi" class="fw-bold fs-6 mb-1 text-gray-600">Cari</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <input type="text" name="CariAdi" id="CariAdi" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.CariAdi)" />
+                            <!--end::Input-->
+                        </div>
+                    }
+                    @if (Model.BelgeNoVarMi)
+                    {
+                        <div class="col-lg-3">
+                            <!--begin::Label-->
+                            <label for="BelgeNo" class="fw-bold fs-6 mb-1 text-gray-600">Belge Numarası</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <input type="text" name="BelgeNo" id="BelgeNo" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" value="@(ViewBag.Filters.BelgeNo)" />
+                            <!--end::Input-->
+                        </div>
+                    }
+                    @if (Model.BaslangicTarihiVarMi)
+                    {
+                        <div class="col-lg-3">
+                            <!--begin::Label-->
+                            <label for="BaslangicTarihi" class="fw-bold fs-6 mb-1 text-gray-600">Başlangıç Tarihi</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <input type="datetime-local" name="BaslangicTarihi" id="BaslangicTarihi" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" required
+                                   value="@(ViewBag.Filters.BaslangicTarihi.ToString("yyyy-MM-ddTHH:mm"))" />
+                            <!--end::Input-->
+                        </div>
+                    }
+
+                    @if (Model.BitisTarihiVarMi)
+                    {
+                        <div class="col-lg-3">
+                            <!--begin::Label-->
+                            <label for="BitisTarihi" class="fw-bold fs-6 mb-1 text-gray-600">Bitiş Tarihi</label>
+                            <!--end::Label-->
+                            <input type="datetime-local" name="BitisTarihi" id="BitisTarihi" class="form-control form-control-solid px-2 py-1 mb-3 mb-lg-0" required
+                                   value="@(ViewBag.Filters.BitisTarihi.ToString("yyyy-MM-ddTHH:mm"))" />
+                            <!--end::Input-->
+                        </div>
+
+                    }
+                </div>
+                <div class="row mt-4">
+                    @if (Model.DurumuVarMi)
+                    {
+                        <div class="col-lg-3">
+                            <!--begin::Label-->
+                            <label for="Durumu" class="fw-bold fs-6 mb-1 text-gray-600">Durumu</label>
+                            <!--begin::Input-->
+                            <div class="form-group">
+                                <select class="px-2 py-1 rounded-1 form-control form-control-solid" data-control="select2" name="Durumu" id="Durumu"
+                                        aria-label="Floating label select example">
+                                    <option value="">Lütfen Seçim Yapınız</option>
+                                    <option value="Öneri" @(ViewBag.Durumu == "Öneri" ? "selected" : "")>Öneri</option>
+                                    <option value="Onaylandı" @(ViewBag.Durumu == "Onaylandı" ? "selected" : "")>Onaylandı</option>
+                                    <option value="Reddedildi" @(ViewBag.Durumu == "Reddedildi" ? "selected" : "")>Reddedildi</option>
+                                </select>
+                            </div>
+                        </div>
+                    }
+
+
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-3 mt-4 d-flex justify-content-end align-items-end">
+                        <button type="button" id="filtreleriTemizle" class="btn btn-light btn-sm fw-bold me-3" data-kt-users-modal-action="cancel">Temizle</button>
+                        <button type="submit" class="btn btn-primary btn-sm fw-bold" data-kt-users-modal-action="Ara">
+                            <span class="indicator-label">Filtrele</span>
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid px-4">
+    <div class="row">
+        <div style="overflow: scroll; height:710px;">
+            <table class="table align-middle border rounded-1 table-row-dashed fs-6 g-5">
+                <thead>
+                    <!-- Tablo Başlıkları -->
+                    <tr>
+                        @if (Model.TarihVarMi)
+                        {
+                            <th><strong>Tarih</strong></th>
+                        }
+                        @if (Model.BelgeNoVarMi)
+                        {
+                            <th><strong>Belge No</strong></th>
+                        }
+                        @if (Model.CariIsimVarMi)
+                        {
+                            <th class="max-w-700"><strong>Cari</strong></th>
+                        }
+                        @if (Model.CikisDepoVarMi)
+                        {
+                            <th><strong>Çıkış Depo</strong></th>
+                        }
+                        @if (Model.GirisDepoVarMi)
+                        {
+                            <th><strong>Giriş Depo</strong></th>
+                        }
+                        @if (Model.TutarVarMi)
+                        {
+                            <th style="text-align:right;"><strong>Tutar</strong></th>
+                        }
+                        @if (Model.IslemVarMi)
+                        {
+                            <th class="text-end"><strong>İşlemler</strong></th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Belgeler != null && Model.Belgeler.Rows.Count > 0)
+                    {
+                        foreach (DataRow belge in Model.Belgeler.Rows)
+                        {
+                            <tr>
+                                @if (Model.TarihVarMi)
+                                {
+                                    <td class="text-gray-600 fw-semibold">
+                                        @(Convert.ToDateTime(belge["Tarih"]).ToString("dd-MM-yyyy"))
+                                    </td>
+                                }
+                                @if (Model.BelgeNoVarMi)
+                                {
+                                    <td>@belge["BelgeNo"]</td>
+                                }
+                                @if (Model.CariIsimVarMi)
+                                {
+                                    <td class="max-w-700 text-gray-600 fw-semibold">
+                                        @belge["CariIsim"]
+                                    </td>
+                                }
+                                @if (Model.CikisDepoVarMi)
+                                {
+                                    <td class="text-gray-600 fw-semibold">
+                                        @belge["DepoCikis"]
+                                    </td>
+                                }
+                                @if (Model.GirisDepoVarMi)
+                                {
+                                    <td class="text-gray-600 fw-semibold">
+                                        @belge["DepoGiris"]
+                                    </td>
+                                }
+                                @if (Model.TutarVarMi)
+                                {
+                                    <td class="text-gray-600 fw-semibold" style="text-align:right;">
+                                        @(String.Format("{0:N2}", Convert.ToDecimal(belge["Tutar"])))
+                                    </td>
+                                }
+
+                                <td class="text-end">
+                                    <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm  fw-bold" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                        İşlemler
+                                        <i class="ki-duotone ki-down fs-5 ms-1"></i>
+                                    </a>
+                                    <!--begin::Menu-->
+                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px p-0" data-kt-menu="true">
+                                        <!--begin::Menu item-->
+                                           @if (Model.DuzenleYetkisiVarMi)
+                                           {
+                                            <div class="menu-item px-0 py-0">
+                                                <a href="/@(controllerName)/Duzenle?id=@belge["ID"]&Tip=@tip" class="menu-link rounded-0 py-1  px-2">Düzenle</a>
+                                            </div>
+                                            }
+                                            <!--end::Menu item-->
+                                            <!--begin::Menu item-->
+
+                                            @if (Model.SilYetkisiVarMi)
+                                            {
+                                                <div class="menu-item px-0 py-0">
+
+                                                    <a href="/@(controllerName)/Sil?id=@belge["ID"]&Tip=@(tip)" class="menu-link rounded-0 py-1  px-2" onclick="return confirm('Silmek istediğinizden emin misiniz?')">Sil</a>
+                                                </div>
+                                            }
+
+
+                                            <!--end::Menu item-->
+                                        </div>
+                                    <!--end::Menu-->
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center text-gray-500">
+                                Kayıt bulunamadı.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

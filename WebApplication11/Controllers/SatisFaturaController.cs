@@ -51,10 +51,10 @@ namespace YKPortal.Controllers
                 return Redirect("~/");
             }
 
-            if (!YetkiKontrolu("/SatisFatura/Liste/?Tip=SF", "Gor"))
-            {
+            var yetkiUrl = "/SatisFatura/Liste/?Tip=SF";
+            if (!YetkiKontrolu(yetkiUrl, "Gor"))
                 return Redirect("~/YK/Anasayfa");
-            }
+
 
 
             var now = DateTime.Now;
@@ -87,12 +87,15 @@ namespace YKPortal.Controllers
             var model = new BelgeListeViewModel
             {
                 Belgeler = dt,
-                Sil = YetkiKontrolu("/SatisFatura/Liste/?Tip=SF", "Sil"),
-                Duzenle = YetkiKontrolu("/SatisFatura/Liste/?Tip=SF", "Duzenle")
-
+                Sil = YetkiKontrolu(yetkiUrl, "Sil"),
+                Duzenle = YetkiKontrolu(yetkiUrl, "Duzenle")
             };
+
             ViewBag.Filters = belgeDto;
             ViewBag.Durumu = belgeDto.Durumu;
+            ViewBag.ControllerName = "SatinalmaFatura";
+            ViewBag.Tip = Tip;
+
             return View(model);
         }
 

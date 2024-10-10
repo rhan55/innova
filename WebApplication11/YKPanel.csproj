@@ -330,6 +330,7 @@
     <Compile Include="Hubs\BildirimHub.cs" />
     <Compile Include="Hubs\MesajHub.cs" />
     <Compile Include="Models\ComponentDto\BelgeEkleComponent.cs" />
+    <Compile Include="Models\ComponentDto\BelgeListeComponent.cs" />
     <Compile Include="Models\Dto\AnaSayfaDto.cs" />
     <Compile Include="Models\Dto\AnaSayfaTakvimKaydetDto.cs" />
     <Compile Include="Models\Dto\B2BAyarlariDto.cs" />
@@ -3178,7 +3179,7 @@
     <Content Include="Views\Shared\Components\_BelgeEkleComponent.cshtml" />
     <Content Include="Tema\plugins\custom\tinymce\langs\README.md" />
     <Content Include="Tema\plugins\custom\tinymce\license.md" />
-    <Content Include="Views\Stok\HizliStokTanimlama.cshtml" />
+    <Content Include="Views\Shared\Components\_BelgeListeComponent.cshtml" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>

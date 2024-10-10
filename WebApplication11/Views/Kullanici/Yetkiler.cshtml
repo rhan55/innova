@@ -193,31 +193,23 @@
                 });
             });
 
-            $('input[type="checkbox"]').on("change", function () {
-                const checkbox = this;
-                menuIdListesi = menuIdListesi.map(function (menu) {
-                    if (menu.MenuID == $(checkbox).attr("data-menuId")) {
-                        switch ($(checkbox).attr('data-tip')) {
-                            case "Gor":
-                                menu.Gor = $(checkbox).is(":checked");
-                                break;
-                            case "Duzenle":
-                                menu.Duzenle = $(checkbox).is(":checked");
-                                break;
-                            case "Sil":
-                                menu.Sil = $(checkbox).is(":checked");
-                                break;
-                        }
-                    }
-
-                    return menu;
+            function menuListesiYenile() {
+                menuIdListesi = [];
+                $(".yetki-satiri[data-menuId]").each(function (index, element) {
+                    menuIdListesi.push({
+                        MenuID: $(element).attr('data-menuId'),
+                        KullaniciID: $(element).attr('data-kullaniciId'),
+                        Gor: $('input[type="checkbox"][name="' + $(element).attr('data-menuId') + '-Gor"]').is(":checked"),
+                        Duzenle: $('input[type="checkbox"][name="' + $(element).attr('data-menuId') + '-Duzenle"]').is(":checked"),
+                        Sil: $('input[type="checkbox"][name="' + $(element).attr('data-menuId') + '-Sil"]').is(":checked")
+                    });
                 });
-            });
-
+            }
 
             $('button#YetkiKaydet').on("click", function () {
 
-
+                menuListesiYenile();
+                
                 loader().show();
                 $.ajax({
                     url: "/Kullanici/YetkiKaydet",

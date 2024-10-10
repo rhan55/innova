@@ -48,10 +48,11 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-            if (!YetkiKontrolu("/SatisSiparisi/Liste/?Tip=SS", "Gor"))
-            {
+
+            var yetkiUrl = "/SatisSiparisi/Liste/?Tip=SS";
+            if (!YetkiKontrolu(yetkiUrl, "Gor"))
                 return Redirect("~/YK/Anasayfa");
-            }
+
             if (string.IsNullOrEmpty(Tip))
             {
                 return Redirect("~/");
@@ -85,16 +86,18 @@ namespace YKPortal.Controllers
 
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
             var model = new BelgeListeViewModel
             {
                 Belgeler = dt,
-                Sil = YetkiKontrolu("/SatisSiparisi/Liste/?Tip=SS", "Sil"),
-                Duzenle = YetkiKontrolu("/SatisSiparisi/Liste/?Tip=SS", "Duzenle")
-
+                Sil = YetkiKontrolu(yetkiUrl, "Sil"),
+                Duzenle = YetkiKontrolu(yetkiUrl, "Duzenle")
             };
+
             ViewBag.Filters = belgeDto;
             ViewBag.Durumu = belgeDto.Durumu;
+            ViewBag.ControllerName = "SatinalmaFatura";
+            ViewBag.Tip = Tip;
+
             return View(model);
         }
 
