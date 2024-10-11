@@ -18,6 +18,8 @@ namespace YKPortal.Models.Dto
         private string _SeriNo;
         private string _Aciklama;
         private string _Barkod;
+        private string _Barkod2;
+        private string _Barkod3;
         private string _OlcuBirimi;
         private string _GrupKodu1ID;
         private string _GrupKodu2ID;
@@ -50,6 +52,7 @@ namespace YKPortal.Models.Dto
         private string _KayitYapanKullaniciID;
         private string _AnaStokID;
         private decimal _Bakiye;
+        public string Dosya { get; set; }
 
         public string ID { get { return _ID ?? ""; } set { _ID = value; } }
         public string StokID { get { return _StokID ?? ""; } set { _StokID = value; } }
@@ -60,6 +63,8 @@ namespace YKPortal.Models.Dto
         public string SeriNo { get { return _SeriNo ?? ""; } set { _SeriNo = value; } }
         public string Aciklama { get { return _Aciklama ?? ""; } set { _Aciklama = value; } }
         public string Barkod { get { return _Barkod ?? ""; } set { _Barkod = value; } }
+        public string Barkod2 { get { return _Barkod2 ?? ""; } set { _Barkod2 = value; } }
+        public string Barkod3 { get { return _Barkod3 ?? ""; } set { _Barkod3 = value; } }
         public string OlcuBirimi { get { return _OlcuBirimi ?? ""; } set { _OlcuBirimi = value; } }
         public string GrupKodu1ID { get { return _GrupKodu1ID ?? ""; } set { _GrupKodu1ID = value; } }
         public string GrupKodu2ID { get { return _GrupKodu2ID ?? ""; } set { _GrupKodu2ID = value; } }

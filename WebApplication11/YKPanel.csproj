@@ -3180,6 +3180,7 @@
     <Content Include="Tema\plugins\custom\tinymce\langs\README.md" />
     <Content Include="Tema\plugins\custom\tinymce\license.md" />
     <Content Include="Views\Shared\Components\_BelgeListeComponent.cshtml" />
+    <Content Include="Views\Stok\HizliStokTanimlama.cshtml" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>

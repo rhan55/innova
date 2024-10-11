@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Web;
 using System.Data.OleDb;
 using System.Collections;
+using YKPortal.Models.YKClasses;
 
 namespace YKPortal.Controllers
 {
@@ -45,13 +46,17 @@ namespace YKPortal.Controllers
             return View();
         }
 
+        [HttpPost]
         public JsonResult HizliStokKaydet(
-                string Kod1,string Kod2, 
+                string Kod1, string Kod2,
                 string StokKodu, string StokAdi, string OlcuBirimi,
-                string Barkod1, string Barkod2, string Barkod3
+                string Barkod1, string Barkod2, string Barkod3, HttpPostedFileBase Resim
             )
         {
+
             var cmd = new SqlCommand();
+
+            cmd.Parameters.Clear();
             cmd.CommandText = "p_HizliStokKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
@@ -64,6 +69,31 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@Barkod2", Barkod2);
             cmd.Parameters.AddWithValue("@Barkod3", Barkod3);
             IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            if (Resim != null && Resim.ContentLength > 0)
+            {
+                try
+                {
+                    //Resim.SaveAs(Server.MapPath("~/Uploads/Dosyalar/" + StokKodu + "_" + Resim.FileName));
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "p_N_StokResimKaydet";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                    cmd.Parameters.AddWithValue("@KayitID", StokKodu);
+                    cmd.Parameters.AddWithValue("@Dosya", StokKodu + "_" + Resim.FileName);
+                    byte[] file = new byte[Resim.ContentLength];
+                    Resim.InputStream.Read(file, 0, file.Length);
+                    cmd.Parameters.AddWithValue("@Resim", file);
+                    cmd.Parameters.AddWithValue("@ResimBoyut", file.Length);
+                    cmd.Parameters.AddWithValue("@Kullanici", GetCookie("KullaniciID"));
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                }
+                catch(Exception err)
+                {
+
+                }
+            }
+
             return Json("Stok kaydedildi.", JsonRequestBehavior.AllowGet);
         }
 
@@ -183,7 +213,7 @@ namespace YKPortal.Controllers
         }
 
         public JsonResult SayimListesi(string Tarih, string Firma, string Sube, string Depo)
-        { 
+        {
             var cmd = new SqlCommand();
             cmd.CommandText = "p_StokSayimListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -209,7 +239,7 @@ namespace YKPortal.Controllers
                     Barkod = Convert.ToString(dr["Barkod"]),
                     StokID = Convert.ToString(dr["StokID"]),
                     StokKodu = Convert.ToString(dr["StokKodu"]),
-                    StokAdi = Convert.ToString(dr["StokAdi"]).Replace("\n\r",""),
+                    StokAdi = Convert.ToString(dr["StokAdi"]).Replace("\n\r", ""),
                     Miktar = Convert.ToDecimal(dr["Miktar"])
                 });
             }
@@ -433,7 +463,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-           
+
             if (!YetkiKontrolu("/Stok/Liste", "Duzenle"))
             {
                 return Redirect("~/YK/Anasayfa");
@@ -509,7 +539,7 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-        
+
 
             if (!YetkiKontrolu("/Stok/Liste", "Duzenle"))
             {
@@ -996,7 +1026,7 @@ namespace YKPortal.Controllers
 
             StokFiyatDto entity = new StokFiyatDto();
             if (ID != null)
-            {   
+            {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "p_StokFiyat";
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -1081,7 +1111,7 @@ namespace YKPortal.Controllers
                 cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
                 cmd.Parameters.AddWithValue("@ID", StokID);
                 ViewBag.Isim = Convert.ToString(((DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo)).Rows[0]["Isim"]);
-                
+
             }
             {
                 SqlCommand cmd = new SqlCommand();
@@ -1117,7 +1147,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            return Redirect("~/Stok/FiyatListesi/?StokID="+StokID);
+            return Redirect("~/Stok/FiyatListesi/?StokID=" + StokID);
         }
         bool Calis_SelectStokBarkodSeriListe = false;
         public JsonResult SelectStokBarkodSeriListe(string Barkod)
@@ -1202,7 +1232,14 @@ namespace YKPortal.Controllers
                     ID = Convert.ToString(dt.Rows[i]["ID"]),
                     Isim = Convert.ToString(dt.Rows[i]["Isim"]),
                     Aciklama = Convert.ToString(dt.Rows[i]["Isim2"]),
+                    GrupKodu1ID = Convert.ToString(dt.Rows[i]["KategoriKodu1"]),
+                    GrupKodu2ID = Convert.ToString(dt.Rows[i]["KategoriKodu2"]),
+                    OlcuBirimi = Convert.ToString(dt.Rows[i]["OlcuBirimi"]),
+                    Barkod = Convert.ToString(dt.Rows[i]["BARKOD"]),
+                    Barkod2 = Convert.ToString(dt.Rows[i]["BARKOD2"]),
+                    Barkod3 = Convert.ToString(dt.Rows[i]["BARKOD3"]),
                     Kod = Convert.ToString(dt.Rows[i]["Kod"]),
+                    Dosya = dt.Rows[i]["Dosya"] == DBNull.Value ? "" : Convert.ToBase64String((byte[])dt.Rows[i]["Dosya"]),
                 });
                 break;
             }

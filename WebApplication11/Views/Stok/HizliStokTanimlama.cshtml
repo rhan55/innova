@@ -3,7 +3,7 @@
 @using System.Data
 @model System.Data.DataTable
 @{
-    ViewBag.Title = "Stok Sayımı";
+    ViewBag.Title = "Stok Tanımlama";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     DataTable dtGrupKodu1 = ViewBag.dtGrupKodu1 as DataTable;
@@ -16,12 +16,19 @@
         <table style="width:100%;">
             <tr>
                 <td style="width:100%;">
+                    <lable>Stok Ara</lable>
+                    <select name="StokAra" id="StokAra" class="form-control">
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
                     <label for="Kod1">Grup Kodu</label>
                     <select name="Kod1" id="Kod1" class="form-control" onchange="StokKoduOlustur();">
                         <option value="">Seçim yapınız...</option>
                         @foreach (DataRow item in dtGrupKodu1.Rows)
                         {
-                            <option value="@item["ID"]">@item["Deger"]</option>
+                        <option value="@item["ID"]">@item["Deger"]</option>
                         }
                     </select>
                 </td>
@@ -33,7 +40,7 @@
                         <option value="">Seçim yapınız...</option>
                         @foreach (DataRow item in dtGrupKodu2.Rows)
                         {
-                            <option value="@item["ID"]">@item["Deger"]</option>
+                        <option value="@item["ID"]">@item["Deger"]</option>
                         }
                     </select>
                 </td>
@@ -76,8 +83,20 @@
             </tr>
             <tr>
                 <td colspan="2">
+                    <label for="Barkod3">Fotoğraf</label>
+                    <input type="file" name="Resim" id="Resim" value=""  class="form-control"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
                     <br /><br />
                     <input type="button" name="Kaydet" id="Kaydet" value="Kaydet" class="btn btn-primary" onclick="Kaydet();" style="width:75px;" />
+                    <input type="button" name="Kaydet" id="Yeni" value="Yeni" class="btn btn-primary" onclick="window.location.reload();" style="width:75px;" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <img id="Dosya" name="Dosya" src="" height="300" />
                 </td>
             </tr>
         </table>
@@ -95,7 +114,10 @@
 
     <script>
         $(function () {
-            const StokIDSelect = $('#Stok').select2({
+
+
+            
+            const StokIDSelect = $('#StokAra').select2({
                 ajax: {
                     url: "/Stok/SelectListe",
                     data: function (params) {
@@ -113,7 +135,6 @@
                                 results.push({ id: item.ID, text: item.Isim })
                             });
                         }
-
                         return {
                             results: results
                         };
@@ -130,9 +151,13 @@
                     }
                 }
             });
-
+            $('#StokAra').on('select2:select', function (e) {
+                StokSec();
+            });
 
         });
+
+
 
         function StokKoduOlustur() {
             /*
@@ -160,29 +185,69 @@
             });
             */
         }
-        function SubeleriGetir() {
+
+        function StokSec() {
+
             $.ajax({
                 async: false,
                 cache: false,
                 type: "GET",
-                url: "/Stok/SubeleriGetir",
-                data: { "Firma": $("#Firma").val() },
+                url: "/Stok/SelectStok",
+                data: { "search": $("#StokAra").val() },
                 success: function (data2) {
-
-                    $('#Sube').empty();
-                    //$('#Sube')
-                    //    .append($("<option></option>")
-                    //        .attr("value", "")
-                    //        .text("Şube Seçimi"));
-                    $.each(data2, function (data3, key, value) {
-                        $('#Sube')
-                            .append($("<option></option>")
-                                .attr("value", key.ID)
-                                .text(key.Isim));
-                    });
-                    DepolariGetir();
+                    if (data2.length > 0) {
+                        console.log(data2);
+                        $("#Kod1").val(data2[0].GrupKodu1ID);
+                        $("#Kod2").val(data2[0].GrupKodu2ID);
+                        $("#StokKodu").val(data2[0].ID);
+                        $("#StokAdi").val(data2[0].Isim);
+                        $("#OlcuBirimi").val(data2[0].OlcuBirimi);
+                        $("#Barkod1").val(data2[0].Barkod);
+                        $("#Barkod2").val(data2[0].Barkod2);
+                        $("#Barkod3").val(data2[0].Barkod3);
+                        $("#Dosya").attr("src", "data:image/jpg;base64, " + data2[0].Dosya);
+                    }
                 },
                 error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+
+        function StokAra() {
+            if ($("#StokAra").val() == "") {
+                $('#Stoklar').find('option')
+                    .remove()
+                    .end();
+                $("#TRStoklar").hide();
+                return;
+            }
+            $.ajax({
+                async: false,
+                cache: false,
+                type: "GET",
+                url: "/Stok/SelectListe",
+                data: { "search": $("#StokAra").val() },
+                success: function (data2) {
+                    $('#Stoklar').find('option')
+                                 .remove()
+                        .end();
+                    for (var i = 0; i < data2.length; i++) {
+                        $('#Stoklar')
+                            .append($("<option></option>")
+                                .attr("value", data2[i]["ID"])
+                                .text(data2[i]["Isim"]));
+                    }
+
+                    if (data2.length > 0) {
+                        $("#TRStoklar").show();
+                    } else {
+                        $("#TRStoklar").hide();
+                    }
+
+                },
+                error: function (data) {
+                    console.log(data);
                 }
             });
         }
@@ -227,23 +292,26 @@
                 return;
             }
 
-            var data_ = {
-                "Kod1": $("#Kod1").val(),
-                "Kod2": $("#Kod2").val(),
-                "StokKodu": $("#StokKodu").val(),
-                "StokAdi": $("#StokAdi").val(),
-                "OlcuBirimi": $("#OlcuBirimi").val(),
-                "Barkod1": $("#Barkod1").val(),
-                "Barkod2": $("#Barkod2").val(),
-                "Barkod3": $("#Barkod3").val()
-            };
+            var data_ = new FormData();
+            data_.append("Kod1", $("#Kod1").val());
+            data_.append("Kod2", $("#Kod2").val());
+            data_.append("StokKodu", $("#StokKodu").val());
+            data_.append("StokAdi", $("#StokAdi").val());
+            data_.append("OlcuBirimi", $("#OlcuBirimi").val());
+            data_.append("Barkod1", $("#Barkod1").val());
+            data_.append("Barkod2", $("#Barkod2").val());
+            data_.append("Barkod3", $("#Barkod3").val());
+            data_.append('Resim', $('#Resim')[0].files[0]);
 
             $.ajax({
-                async: false,
-                cache: false,
-                type: "GET",
+                type: "POST",
                 url: "/Stok/HizliStokKaydet",
                 data: data_,
+                dataType: "json",
+                enctype: 'multipart/form-data',
+                async: false,
+                contentType: false,
+                processData: false,
                 success: function (data) {
                     alert(data);
                     window.location.reload();
