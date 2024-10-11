@@ -57,24 +57,24 @@
                                 <div class=" ms-16">
                                     <input class="form-check-input" type="radio" name="periyot" id="TekSeferlik" value="T" checked>
                                     <label class="form-check-label" for="TekSeferlik">
-                                        Tek 
+                                        Tek
                                     </label>
                                 </div>
                                 <div class=" ms-16">
-                                    <input class="form-check-input" type="radio" name="periyot" id="periyotGunluk" value="G" >
+                                    <input class="form-check-input" type="radio" name="periyot" id="periyotGunluk" value="G">
                                     <label class="form-check-label" for="periyotGunluk">
                                         Günlük
                                     </label>
                                 </div>
                                 <br />
                                 <div class=" ms-16">
-                                    <input class="form-check-input" type="radio" name="periyot" id="periyotHaftalik" value="H" >
+                                    <input class="form-check-input" type="radio" name="periyot" id="periyotHaftalik" value="H">
                                     <label class="form-check-label" for="periyotHaftalik">
                                         Haftalık
                                     </label>
                                 </div>
                                 <div class=" ms-16">
-                                    <input class="form-check-input" type="radio" name="periyot" id="periyotYillik" value="A" >
+                                    <input class="form-check-input" type="radio" name="periyot" id="periyotYillik" value="A">
                                     <label class="form-check-label" for="periyotYillik">
                                         Aylık
                                     </label>
@@ -123,19 +123,31 @@
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="~/Tema/plugins/custom/tinymce/tinymce.bundle.js"></script>
+    <script src="~/Tema/plugins/custom/tinymce/tinymce.min.js"></script>
+
+
     <script>
+
         $(document).ready(function () {
+            var AciklamaEditorOptions = {
+                selector: "#Aciklama",
+                height: 200,
+                promotion: false
+            };
 
-            var AciklamaEditorOptions = { selector: "#Aciklama", height: 200 };
-
-            if (KTThemeMode.getMode() === "dark") {
-                AciklamaEditorOptions["skin"] = "oxide-dark";
-                AciklamaEditorOptions["content_css"] = "dark";
+            if (typeof KTThemeMode !== 'undefined') { // KTThemeMode varsa kontrol et
+                if (KTThemeMode.getMode() === "dark") {
+                    AciklamaEditorOptions["skin"] = "oxide-dark";
+                    AciklamaEditorOptions["content_css"] = "dark";
+                }
             }
 
+            // tinyMCE init
             tinymce.init(AciklamaEditorOptions);
+
+
         });
+
     </script>
 
 }

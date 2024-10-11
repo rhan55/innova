@@ -14,7 +14,7 @@ namespace YKPortal.Models.Dto
         private string _Isim;
         private string _Icerik;
         private string _KullaniciID;
-
+        private string[] _Kullanicilar;
 
         public string ID { get { return _ID ?? ""; } set { _ID = value; } }
         public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; } }
@@ -22,6 +22,7 @@ namespace YKPortal.Models.Dto
         public string Isim { get { return _Isim ?? string.Empty; } set { _Isim = value; } }
         public string Icerik { get { return _Icerik ?? ""; } set { _Icerik = value; } }
         public string KullaniciID { get { return _KullaniciID ?? ""; } set { _KullaniciID = value; } }
+        public string[] Kullanicilar { get { return _Kullanicilar ?? null; } set { _Kullanicilar = value; } }
 
     }
 }
