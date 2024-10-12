@@ -132,51 +132,7 @@ namespace YKPortal.Controllers
                 cmd.Parameters.AddWithValue("@Isim", mailKalibiDto.Isim);
                 cmd.Parameters.AddWithValue("@Icerik", mailKalibiDto.Icerik);
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
-              
-
-                // Kullanıcılara SMS ve Mail Gönderme
-                //if (mailKalibiDto.Kullanicilar != null)
-                //{
-                //    foreach (string kullanici in mailKalibiDto.Kullanicilar)
-                //    {
-                //        // Mail Kalıbı Bilgilerini Getir
-                //        cmd.Parameters.Clear();
-                //        cmd.CommandText = "Select * from MailKaliplari WITH(NOLOCK) Where UyelikID = @UyelikID and Kod = @Kod";
-                //        cmd.CommandType = System.Data.CommandType.Text;
-                //        cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-                //        cmd.Parameters.AddWithValue("@Kod", "Destek_Gorev_Yeni");
-                //        DataTable dtMail = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
-                //        if (dtMail.Rows.Count > 0)
-                //        {
-                //            string Baslik = Convert.ToString(dtMail.Rows[0]["Isim"]);
-                //            string Icerik = Convert.ToString(dtMail.Rows[0]["Icerik"]);
-                //            Icerik = Icerik.Replace("{Kod}", mailKalibiDto.Icerik);
-                //            Icerik = Icerik.Replace("{Isim}", GetCookie("Isim"));                        
-                //            Icerik = Icerik.Replace("{Icerik}", mailKalibiDto.Icerik);
-
-                //            // Mail Gönderme Bilgileri
-                //            cmd.Parameters.Clear();
-                //            cmd.CommandText = "select * from Parametreler  WITH(NOLOCK) Where Modul = 'EMail' and UyelikID = @UyelikID";
-                //            cmd.CommandType = System.Data.CommandType.Text;
-                //            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-                //            DataTable dtMailBilgileri = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
-                //            // Mail Gönder
-                //            YKUtils.MailGonder(
-                //                Baslik,
-                //                Icerik,
-                //                GetCookie("KullaniciAdi"),
-                //                Convert.ToString(dtMailBilgileri.Select(" Isim = 'KullaniciAdi' ")[0]["Deger"]),
-                //                Convert.ToString(dtMailBilgileri.Select(" Isim = 'Parola' ")[0]["Deger"]),
-                //                Convert.ToString(dtMailBilgileri.Select(" Isim = 'Host' ")[0]["Deger"]),
-                //                Convert.ToInt32(dtMailBilgileri.Select(" Isim = 'Port' ")[0]["Deger"]),
-                //                Convert.ToString(dtMailBilgileri.Select(" Isim = 'SSL' ")[0]["Deger"]) == "0" ? false : true
-                //            );
-                //        }
-                //    }
-                //}
+  
             }
             catch (Exception err)
             {

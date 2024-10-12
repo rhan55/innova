@@ -8,7 +8,7 @@ function kaydet(controllerName, tip) {
 
     // Kalemler verisinin toplanması
     var kalemler = [];
-    $('#TabloKalemler tbody tr').each(function () {
+    $('#TabloKalemler .tablo-satir').each(function () {
         var satirID = $(this).attr("data-ID2");
         var kalemId = $(this).attr("data-id");
         if (satirID) {
@@ -131,7 +131,7 @@ function formatNumberWithSeparator(number) {
 function ToplamTutarHesapla() {
     var toplamTutar = 0;
     $('[data-kt-element="tutar-data"]').each(function (index, input) {
-
+       
         var kdvData = parseFloat($(input).closest('[data-ID2]').find('[data-kt-element="kdv-data"]').val());
         if ($(input).val().includes(',')) {
             toplamTutar = toplamTutar + parseFloat($(input).val().replace(".", "").replace(",", ".")) + (kdvData * parseFloat($(input).val().replace(".", "").replace(",", ".")) / 100);
@@ -139,6 +139,7 @@ function ToplamTutarHesapla() {
             toplamTutar = toplamTutar + parseFloat($(input).val()) + (kdvData * parseFloat($(input).val()));
         }
     });
+    console.log(toplamTutar);
 
     $('[data-kt-element="toplam-tutar"]').text(formatNumberWithSeparator(toplamTutar));
 }
@@ -267,97 +268,86 @@ function StokAramaOlustur(stokid) {
     });
 }
 
+
 function YeniSatirAc(Tip, IsMobile) {
     var YeniID = IDGuidOlustur().replace(/-/g, "");
     var deger = "";
-    console.log(Tip);
-    var deger = "";
+
     if (IsMobile == "1") {
+        // Mobile view için yeni satır oluşturma
+        deger += `<div class="row pb-4 tablo-satir" data-ID=''  data-ID2='${YeniID}' id='TR_${YeniID}' name='TR_${YeniID}'>`;
 
-        deger += "<tr data-ID='' data-ID2='" + YeniID + "' id='TR_" + YeniID + "' name='TR_" + YeniID + "'>                                                                                                             ";
-        deger += "     <td colspan='4'>                                                                                                                               ";
-        deger += "         <table style='width:100%;margin-bottom:15px;'>                                                                                             ";
-        deger += "             <tr>                                                                                                                                   ";
-        deger += "                 <td colspan='3'>                                                                                                                   ";
-        deger += "                     <select class='form-select form-select-solid p-2 rounded-1' name='StokID_" + YeniID + "' id='StokID_" + YeniID + "' style='width:100%;'          ";
-        deger += "                             aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız'>             ";
-        deger += "                                                                                   ";
-        deger += "                     </select>                                                                                                                      ";
-        deger += "                                                                                                                                                    ";
-        deger += "                 </td>                                                                                                                              ";
-        deger += "                 <td>                                                                                                                               ";
-        if (Tip == Tip) {
-            deger += "                         <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2 me-10' />                         ";
-        } else if (Tip == 'DT') {
-            deger += "                         <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2 me-10' />                         ";
+        // Ürün Seçimi
+        deger += `
+            <div class="col-12 col-lg-2 d-flex flex-column">
+                <label style="font-weight: bold; margin-bottom: 5px;">Ürün</label>
+                <select class='form-select form-select-solid p-2 rounded-1' name='StokID_${YeniID}' id='StokID_${YeniID}' style='width:100%;' data-control='select2' data-placeholder='Lütfen Seçim Yapınız'>
+                </select>
+            </div>
+        `;
+
+        // Seri Girişi
+        if (Tip === 'DT') {
+            deger += `
+                <div class="col-12 col-lg-1 d-flex flex-column">
+                    <label style="font-weight: bold; margin-bottom: 5px;">Seri</label>
+                    <input type='text' name='Seri_${YeniID}' id='Seri_${YeniID}' value='' class='form-control p-2 me-10' />
+                </div>
+            `;
         } else {
-            deger += "                         <select class='form-select form-select-solid p-2 rounded-1' name='Seri_" + YeniID + "' id='Seri_" + YeniID + ")'                              ";
-
-            deger += "                                 aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız'>         ";
-            deger += "                         </select>                                                                                                                  ";
+            deger += `
+                <div class="col-12 col-lg-1 d-flex flex-column">
+                    <label style="font-weight: bold; margin-bottom: 5px;">Seri</label>
+                    <select class='form-select form-select-solid p-2 rounded-1' name='Seri_${YeniID}' id='Seri_${YeniID}' data-control='select2' data-placeholder='Lütfen Seçim Yapınız'>
+                    </select>
+                </div>
+            `;
         }
-        deger += "                 </td>                                                                                                                              ";
-        deger += "             </tr>                                                                                                                                  ";
-        deger += "             <tr>        ";
 
+        // Diğer Bilgiler (Birim, KDV, Miktar, Fiyat, İskonto, Tutar)
+        deger += `
+            <div class="col-12 col-lg-1 d-flex flex-column mb-2 mb-lg-0">
+                <label style="font-weight: bold; margin-bottom: 5px;">Birim</label>
+                <input type='text' name='OlcuBirimi_${YeniID}' id='OlcuBirimi_${YeniID}' value='Adet' class='form-control p-2 me-10' />
+            </div>
+            <div class="col-12 col-lg-1 d-flex flex-column mb-2 mb-lg-0">
+                <label style="font-weight: bold; margin-bottom: 5px;">KDV Oranı</label>
+                <input type='text' data-component='money-input' data-kt-element="kdv-data" onchange="TutarHesapla('Miktar_${YeniID}','Fiyat_${YeniID}','Tutar_${YeniID}'); formatNumberWithSeparator('Miktar_${YeniID}');" name='KdvOrani_${YeniID}' id='KdvOrani_${YeniID}' value='0' class='form-control p-2 me-10' style='text-align:right;' onchange='TutarHesapla("Miktar_${YeniID}","Fiyat_${YeniID}","Tutar_${YeniID}");'/>
+            </div>
+            <div class="col-12 col-lg-1 d-flex flex-column mb-2 mb-lg-0">
+                <label style="font-weight: bold; margin-bottom: 5px;">Miktar</label>
+                <input type='text' data-component='money-input' onchange="TutarHesapla('Miktar_${YeniID}','Fiyat_${YeniID}','Tutar_${YeniID}'); formatNumberWithSeparator('Miktar_${YeniID}');" name='Miktar_${YeniID}' id='Miktar_${YeniID}' value='1' class='form-control p-2 me-10' style='text-align:right;' onchange='TutarHesapla("Miktar_${YeniID}","Fiyat_${YeniID}","Tutar_${YeniID}"); formatNumberWithSeparator("Miktar_${YeniID}");'/>
+            </div>
+            <div class="col-12 col-lg-2 d-flex flex-column mb-2 mb-lg-0">
+                <label style="font-weight: bold; margin-bottom: 5px;">Fiyat</label>
+                <input type='text' data-component='money-input' onchange="TutarHesapla('Miktar_${YeniID}','Fiyat_${YeniID}','Tutar_${YeniID}'); formatNumberWithSeparator('Miktar_${YeniID}');" name='Fiyat_${YeniID}' id='Fiyat_${YeniID}' value='0' class='form-control p-2 me-10' style='text-align:right;' onchange='TutarHesapla("Miktar_${YeniID}","Fiyat_${YeniID}","Tutar_${YeniID}"); formatNumberWithSeparator("Fiyat_${YeniID}");'/>
+            </div>
+            <div class="col-12 col-lg-1 d-flex flex-column mb-2 mb-lg-0">
+                <label style="font-weight: bold; margin-bottom: 5px;">İskonto Oranı</label>
+                <input type='text' data-component='money-input' data-kt-element="iskonto-data" onchange="TutarHesapla('Miktar_${YeniID}','Fiyat_${YeniID}','Tutar_${YeniID}'); formatNumberWithSeparator('Miktar_${YeniID}');" name='IskontoOrani1_${YeniID}' id='IskontoOrani1_${YeniID}' value='0' class='form-control p-2 me-10' style='text-align:right;' onchange='TutarHesapla("Miktar_${YeniID}","Fiyat_${YeniID}","Tutar_${YeniID}");'/>
+            </div>
+            <div class="col-12 col-lg-2 d-flex flex-column pb-2 mb-2 mb-lg-0">
+                <label style="font-weight: bold; margin-bottom: 5px;">Tutar</label>
+                <input type='text' data-component='money-input' data-kt-element="tutar-data" name='Tutar_${YeniID}' id='Tutar_${YeniID}' value='0' class='form-control p-2 me-10' style='text-align:right;' readonly />
+            </div>
+        `;
 
-        deger += "                 <td><strong>Birim</strong></td>                                                                                                    ";
-        deger += "                 <td><strong>KDV Oranı</strong></td>                                                                                                    ";
-        deger += "                 <td style='text-align: right;'><strong>Miktar</strong></td>                                                                        ";
-        deger += "                 <td style='text-align: right;'><strong>Fiyat</strong></td>                                                                         ";
-        deger += "                 <td style='text-align: right;'><strong>İskonto Oranı</strong></td>                                                                         ";
-        deger += "                 <td style='text-align: right;'><strong>Tutar</strong></td>                                                                         ";
-        deger += "             </tr>                                                                                                                                  ";
-        deger += "             <tr>                                                                                                                                   ";
-
-        deger += "                 <td><input type='text' name='OlcuBirimi_" + YeniID + "' id='OlcuBirimi_" + YeniID + "' value='Adet' class='form-control p-2 me-10' /></td>                   ";
-        deger += "                 <td><input type='text' data-component='money-input' data-kt-element='iskonto-data' name='IskontoOrani1_" + YeniID + "' id='IskontoOrani1_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control ' style='text-align:right;' /></td>              ";
-        deger += "                 <td><input type='text' data-component='money-input' data-kt-element='kdv-data' name='KdvOrani_" + YeniID + "' id='KdvOrani_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control ' style='text-align:right;' /></td>              ";
-        deger += "                 <td><input type='text' data-component='money-input' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\"); formatNumberWithSeparator(\"Miktar_" + YeniID + "\");' class='form-control me-10' style='text-align:right;' /></td>              ";
-        deger += "                 <td><input type='text' data-component='money-input' name='Fiyat_" + YeniID + "' id='Fiyat_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\"); formatNumberWithSeparator(\"Miktar_" + YeniID + "\");'  style='text-align:right;' /></td>                 ";
-        deger += "                 <td><input type='text' data-component='money-input' data-kt-element='iskonto-data' name='IskontoOrani1_" + YeniID + "' id='IskontoOrani1_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control ' style='text-align:right;' /></td>              ";
-        deger += "<td style='max-width:150px;'><input type='text' data-component='money-input' data-kt-element='tutar-data' name='Tutar_" + YeniID + "' id='Tutar_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\", \"Fiyat_" + YeniID + "\", \"Tutar_" + YeniID + "\"); formatNumberWithSeparator(\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' readonly /></td>";
-        deger += "             </tr>";
-        deger += "         </table>";
-        deger += "     </td><td><button type='button' class='deleteBtn btn-sm pt-2' onclick='SatirSil(\"" + YeniID + "\")' data-ID2='" + YeniID + "'>Sil</button></td>";
-        deger += " </tr>";
-
-
-    } else {
-
-        deger += "<tr data-ID='' data-ID2='" + YeniID + "' id='TR_" + YeniID + "' name='TR_" + YeniID + "'>";
-        deger += "      <td style='max-width:150px;' id='TD_" + YeniID + "' name='TD_" + YeniID + "'>";
-        deger += "      </td>";
-        deger += "      <td style='max-width:100px;'>";
-        if (Tip == Tip) {
-            deger += "              <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2 me-10' />";
-        } else if (Tip == "DT") {
-            deger += "              <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2 me-10' />";
-        } else {
-            deger += "              <select class='form-select form-select-solid p-2 rounded-1' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "'";
-            deger += "                      aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız'>";
-            deger += "              </select>";
-            deger += "";
-        }
-        deger += "      </td>";
-
-        deger += "      <td style='max-width:100px;'><input type='text' name='OlcuBirimi_" + YeniID + "' id ='OlcuBirimi_" + YeniID + "' value='Adet' class='form-control p-2 me-10' /></td > ";
-        deger += "      <td style='max-width:100px;'><input type='text' data-component='money-input' data-kt-element='kdv-data' name='KdvOrani_" + YeniID + "' id='KdvOrani_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' /></td>              ";
-        deger += "      <td style='max-width:100px;'><input type='text' data-component='money-input' name='Miktar_" + YeniID + "' id='Miktar_" + YeniID + "' value='1' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\"); formatNumberWithSeparator(\"Miktar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' /></td>";
-        deger += "      <td style='max-width:150px;'><input type='text' data-component='money-input' name='Fiyat_" + YeniID + "' id = 'Fiyat_" + YeniID + "' value = '0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");  formatNumberWithSeparator(\"Fiyat_" + YeniID + "\");' class='form-control p-2 me-10' style = 'text-align:right;' /></td > ";
-        deger += "      <td><input type='text' data-kt-element='iskonto-data' data-component='money-input' name='IskontoOrani1_" + YeniID + "' id='IskontoOrani1_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\",\"Fiyat_" + YeniID + "\",\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' /></td>              ";
-        deger += "<td style='max-width:150px;'><input type='text' data-component='money-input' data-kt-element='tutar-data' name='Tutar_" + YeniID + "' id='Tutar_" + YeniID + "' value='0' onchange='TutarHesapla(\"Miktar_" + YeniID + "\", \"Fiyat_" + YeniID + "\", \"Tutar_" + YeniID + "\"); formatNumberWithSeparator(\"Tutar_" + YeniID + "\");' class='form-control p-2 me-10' style='text-align:right;' readonly /></td>";
-        deger += "<td><button type='button' class='deleteBtn btn-sm pt-2' onclick='SatirSil(\"" + YeniID + "\")' data-ID2='" + YeniID + "'>Sil</button></td></tr>";
+        
+        deger += `
+                <div class="col-12 col-lg-1 d-flex flex-column align-items-end justify-content-end pt-4 pt-lg-0">
+                    <div>
+                        <button type="button" class="deleteBtn btn-sm" onclick='SatirSil("${YeniID}")' data-ID2='${YeniID}'>Sil</button>
+                    </div>
+                </div>
+        `;
+        deger += `</div>`;
     }
-    var newSelect = $("<select class='form-select form-select-solid p-2 rounded-1 ' name='StokID_" + YeniID + "' id='StokID_" + YeniID + "' style='min-width:150px;max-width:350px;' aria-label='Floating label select example' data-control='select2' data-placeholder='Lütfen Seçim Yapınız' ></select>");
-
-    // Yeni satır eklenmesi ve select2'nin aktif edilmesi
-    $('#TabloKalemler tbody').append(deger);
-    $("#TD_" + YeniID).append(newSelect);
-
-    newSelect.select2();
-    StokAramaOlustur("StokID_" + YeniID + "");
+   
+    $('#TabloKalemler').append(deger);
+    $("#StokID_" + YeniID).select2();
+    StokAramaOlustur("StokID_" + YeniID);
 }
+
 // Select2 ile stok arama fonksiyonu
 
 // Stok seçimi için select2 fonksiyonunu başlatan fonksiyon

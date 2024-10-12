@@ -162,12 +162,12 @@
                                 </div>
                             }
                         </div>
-                        <div class="row">
+                        <div class="row mb-4">
 
                             @if (Model.AciklamaVarMi)
                             {
-                                <div class="row mb-4">
-                                    <div class="col-@(Model.Tip == "DT")">
+                                <div class="">
+                                    <div class=" col-@(Model.Tip == "DT")">
                                         <label for="Aciklama" class="form-label fs-6 fw-bold text-gray-600 mb-3">Açıklama</label>
                                         <textarea type="text" name="Aciklama" id="Aciklama" class="form-control p-2 rounded-1"> @(Convert.ToString(Model.BelgeDto.Aciklama)) </textarea>
                                     </div>
@@ -181,235 +181,88 @@
                         </div>
                         <!--end::Row-->
                         <!--begin::Table wrapper-->
-                        <div class="row p-3 scroll-x">
-                            <table class="table" id="TabloKalemler" name="TabloKalemler">
-                                <thead>
-                                    <tr style="padding:5px;">
-                                        @if (Request.Browser.IsMobileDevice)
+                   
+                        <div>
+                            <div id="TabloKalemler" name="TabloKalemler">
+                                @foreach (BelgeKalemDto satir in Model.BelgeDto.Kalemler)
+                                {
+                                    string ID = satir.ID.Replace("-", "");
+                                    <div class="row pb-4 tablo-satir" id="TR_@(ID)" data-id="@satir.ID" data-ID2="@ID">
+                                        @if (Model.KalemBilgileri.UrunVarMi)
                                         {
-                                            if (Model.KalemBilgileri.UrunVarMi)
-                                            {
-                                                <td colspan="3" style="text-align:center;"><strong>ÜRÜN</strong></td>
-                                            }
-                                            if (Model.KalemBilgileri.SeriVarMi)
-                                            {
-                                                <td colspan="2" style="text-align:center;"><strong>SERİ</strong></td>
-                                            }
+                                            <div class="col-12 col-lg-2 d-flex flex-column mb-2 mb-lg-0" >
+                                                <label style="font-weight: bold; margin-bottom: 5px;">Ürün</label>
+                                                <select class="form-select Depo-cikis form-select-solid p-2 rounded-1" name="StokID_@(ID)" id="StokID_@(ID)" aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                                    <option value="@satir.StokID" selected>@satir.StokAdi</option>
+                                                </select>
+                                            </div>
                                         }
-                                        else
+                                        @if (Model.KalemBilgileri.SeriVarMi)
                                         {
-                                            if (Model.KalemBilgileri.UrunVarMi)
-                                            {
-                                                <td class="me-4 text-gray-600"><strong>ÜRÜN</strong></td>
-                                            }
-                                            if (Model.KalemBilgileri.SeriVarMi)
-                                            {
-                                                <td class="me-4 text-gray-600"><strong>SERİ</strong></td>
-                                            }
-                                            if (Model.KalemBilgileri.BirimVarMi)
-                                            {
-                                                <td class="me-4 text-gray-600"><strong>BİRİM</strong></td>
-                                            }
-                                            if (Model.KalemBilgileri.KdvVarMi)
-                                            {
-                                                <td class="me-4 text-gray-600"><strong>KDV ORANI</strong></td>
-                                            }
-                                            if (Model.KalemBilgileri.MiktarVarMi)
-                                            {
-                                                <td class="me-4 text-gray-600"><strong>MİKTAR</strong></td>
-                                            }
-                                            if (Model.KalemBilgileri.FiyatVarMi)
-                                            {
-                                                <td class="me-4 text-gray-600"><strong>FİYAT</strong></td>
-                                            }
-                                            if (Model.KalemBilgileri.IskontoVarMi)
-                                            {
-                                                <td class="me-4 text-gray-600"><strong>İSKONTO ORANI</strong></td>
-                                            }
-                                            if (Model.KalemBilgileri.TutarVarMi)
-                                            {
-                                                <td class="me-4 text-gray-600"><strong>TUTAR</strong></td>
-                                            }
-
-                                            <td><strong></strong></td>
+                                            <div class="col-12 col-lg-1 d-flex flex-column mb-2 mb-lg-0">
+                                                <label style="font-weight: bold; margin-bottom: 5px;">Seri</label>
+                                                <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
+                                            </div>
                                         }
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (BelgeKalemDto satir in Model.BelgeDto.Kalemler)
-                                    {
-                                        string ID = satir.ID.Replace("-", "");
-                                        if (Request.Browser.IsMobileDevice)
+                                        @if (Model.KalemBilgileri.BirimVarMi)
                                         {
-
-                                            <tr data-ID="@satir.ID" data-ID2="@ID">
-                                                <td colspan="4">
-                                                    <table style="width:100%;margin-bottom:15px;">
-                                                        <tr>
-                                                            @if (Model.KalemBilgileri.UrunVarMi)
-                                                            {
-                                                                <td class="min-w-300px w-475px" colspan="3">
-                                                                    <select class="form-select Depo-cikis form-select-solid p-2 rounded-1" name="StokID_@(ID)" id="StokID_@(ID)" style="width:100%;"
-                                                                            aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                                        <option value="@satir.StokID" selected>@satir.StokAdi</option>
-                                                                    </select>
-
-                                                                </td>
-                                                            }
-                                                            @if (Model.KalemBilgileri.SeriVarMi)
-                                                            {
-                                                                <td>
-                                                                    <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
-                                                                </td>
-                                                            }
-                                                        </tr>
-                                                        <tr>
-
-                                                            @if (Model.KalemBilgileri.BirimVarMi)
-                                                            {
-                                                                <td style="text-align: right;"><strong>Birim</strong></td>
-                                                            }
-                                                            @if (Model.KalemBilgileri.KdvVarMi)
-                                                            {
-                                                                <td style="text-align: right;"><strong>Kdv Oranı</strong></td>
-                                                            }
-                                                            @if (Model.KalemBilgileri.MiktarVarMi)
-                                                            {
-                                                                <td style="text-align: right;"><strong>Miktar</strong></td>
-                                                            }
-                                                            @if (Model.KalemBilgileri.FiyatVarMi)
-                                                            {
-                                                                <td style="text-align: right;"><strong>Fiyat</strong></td>
-                                                            }
-                                                            @if (Model.KalemBilgileri.IskontoVarMi)
-                                                            {
-                                                                <td style="text-align: right;"><strong>İskonto Oranı</strong></td>
-                                                            }
-                                                            @if (Model.KalemBilgileri.TutarVarMi)
-                                                            {
-                                                                <td style="text-align: right;"><strong>Tutar</strong></td>
-                                                            }
-
-                                                        </tr>
-                                                        <tr>
-                                                            @if (Model.KalemBilgileri.BirimVarMi)
-                                                            {
-                                                                <td>
-                                                                    <input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control p-2 me-10" />
-                                                                </td>
-                                                            }
-                                                            @if (Model.KalemBilgileri.KdvVarMi)
-                                                            {
-                                                                <td>
-                                                                    <input type="text" data-kt-element="kdv-data" data-component='money-input' name="KdvOrani_@(ID)" id="KdvOrani_@(ID)" value="@(String.Format("{0:N2}",satir.KdvOrani))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                                </td>
-                                                            }
-                                                            @if (Model.KalemBilgileri.MiktarVarMi)
-                                                            {
-                                                                <td>
-                                                                    <input type="text" name="Miktar_@(ID)" data-component='money-input' id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)'); formatNumberWithSeparator('Miktar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                                </td>
-                                                            }
-                                                            @if (Model.KalemBilgileri.FiyatVarMi)
-                                                            {
-                                                                <td>
-                                                                    <input type="text" data-component='money-input' name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');formatNumberWithSeparator('Fiyat_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                                </td>
-                                                            }
-                                                            @if (Model.KalemBilgileri.IskontoVarMi)
-                                                            {
-                                                                <td>
-                                                                    <input type="text" data-component='money-input' data-kt-element="iskonto-data" name="IskontoOrani1_@(ID)" id="IskontoOrani1_@(ID)" value="@(String.Format("{0:N2}",satir.IskontoOrani1))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                                </td>
-                                                            }
-                                                            @if (Model.KalemBilgileri.TutarVarMi)
-                                                            {
-                                                                <td>
-                                                                    <input type="text" data-component='money-input' name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)', 'Fiyat_@(ID)', 'Tutar_@(ID)'); formatNumberWithSeparator('Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" readonly />
-                                                                </td>
-                                                            }
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                                <td>
-                                                    <button type='button' class="deleteBtn btn-sm pt-2" data-ID2="@(ID)">Sil</button>
-                                                </td>
-                                            </tr>
+                                            <div class="col-12 col-lg-1 d-flex flex-column mb-2 mb-lg-0">
+                                                <label style="font-weight: bold; margin-bottom: 5px;">Birim</label>
+                                                <input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}", satir.OlcuBirimi))" class="form-control p-2" />
+                                            </div>
                                         }
-                                        else
+                                        @if (Model.KalemBilgileri.KdvVarMi)
                                         {
-                                            <tr class="border-bottom border-bottom-dashed" data-ID="@satir.ID" data-ID2="@ID">
-                                                @if (Model.KalemBilgileri.UrunVarMi)
-                                                {
-                                                    <td class="pe-7">
-                                                        <select class="form-select form-select-solid p-2 rounded-1" name="StokID_@(ID)" id="StokID_@(ID)" style="min-width:150px;max-width:350px;"
-                                                                aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                                            <option value="@satir.StokID" selected>@satir.StokAdi</option>
-                                                        </select>
-
-                                                    </td>
-                                                }
-                                                @if (Model.KalemBilgileri.SeriVarMi)
-                                                {
-                                                    <td class="ps-0">
-                                                        <input type="text" name="Seri_@(ID)" id="Seri_@(ID)" value="@(satir.Seri)" class="form-control p-2" />
-                                                    </td>
-                                                }
-                                                @if (Model.KalemBilgileri.BirimVarMi)
-                                                {
-                                                    <td style="max-width:200px;">
-                                                        <input type="text" name="OlcuBirimi_@(ID)" id="OlcuBirimi_@(ID)" value="@(String.Format("{0:N2}",satir.OlcuBirimi))" class="form-control p-2" />
-                                                    </td>
-                                                }
-                                                @if (Model.KalemBilgileri.KdvVarMi)
-                                                {
-                                                    <td>
-                                                        <input type="text" data-component='money-input' data-kt-element="kdv-data" name="KdvOrani_@(ID)" id="KdvOrani_@(ID)" value="@(String.Format("{0:N2}",satir.KdvOrani))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                    </td>
-                                                }
-                                                @if (Model.KalemBilgileri.MiktarVarMi)
-                                                {
-                                                    <td style="max-width:200px;">
-                                                        <input type="text" data-component='money-input' name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}",satir.Miktar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)'); formatNumberWithSeparator('Miktar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                    </td>
-                                                }
-                                                @if (Model.KalemBilgileri.FiyatVarMi)
-                                                {
-                                                    <td class="text-end" style="max-width:150px;">
-                                                        <input type="text" data-component='money-input' name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}",satir.Fiyat))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)'); formatNumberWithSeparator('Fiyat_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                    </td>
-                                                }
-                                                @if (Model.KalemBilgileri.IskontoVarMi)
-                                                {
-                                                    <td>
-                                                        <input type="text" data-component='money-input' data-kt-element="iskonto-data" name="IskontoOrani1_@(ID)" id="IskontoOrani1_@(ID)" value="@(String.Format("{0:N2}",satir.IskontoOrani1))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;" />
-                                                    </td>
-                                                }
-                                                @if (Model.KalemBilgileri.TutarVarMi)
-                                                {
-                                                    <td class="text-end" style="max-width:150px;">
-                                                        <input type="text" data-component='money-input' data-kt-element="tutar-data" name="Tutar_@(ID)" id="Tutar_@(ID)" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)'); formatNumberWithSeparator('Tutar_@(ID)');" value="@(String.Format("{0:N2}",satir.Tutar))" class="form-control p-2 me-10" style="text-align:right;" readonly />
-                                                    </td>
-                                                }
-
-                                                <td>
-                                                    <button type='button' class="deleteBtn btn-sm pt-2" data-ID2="@(ID)">Sil</button>
-                                                </td>
-
-                                            </tr>
+                                            <div class="col-12 col-lg-1 d-flex flex-column mb-2 mb-lg-0">
+                                                <label style="font-weight: bold; margin-bottom: 5px;">Kdv Oranı</label>
+                                                <input type="text" data-component='money-input' data-kt-element="kdv-data" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)'); formatNumberWithSeparator('Miktar_@(ID)');" name="KdvOrani_@(ID)" id="KdvOrani_@(ID)" value="@(String.Format("{0:N2}", satir.KdvOrani))" class="form-control p-2" />
+                                            </div>
                                         }
-                                    }
-                                </tbody>
-                            </table>
-
-
+                                        @if (Model.KalemBilgileri.MiktarVarMi)
+                                        {
+                                            <div class="col-12 col-lg-1 d-flex flex-column mb-2 mb-lg-0">
+                                                <label style="font-weight: bold; margin-bottom: 5px;">Miktar</label>
+                                                <input type="text" data-component='money-input' onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)'); formatNumberWithSeparator('Miktar_@(ID)');" name="Miktar_@(ID)" id="Miktar_@(ID)" value="@(String.Format("{0:N2}", satir.Miktar))" class="form-control p-2" />
+                                            </div>
+                                        }
+                                        @if (Model.KalemBilgileri.FiyatVarMi)
+                                        {
+                                            <div class="col-12 col-lg-2 d-flex flex-column mb-2 mb-lg-0">
+                                                <label style="font-weight: bold; margin-bottom: 5px;">Fiyat</label>
+                                                <input type="text" data-component='money-input' onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)'); formatNumberWithSeparator('Miktar_@(ID)');" name="Fiyat_@(ID)" id="Fiyat_@(ID)" value="@(String.Format("{0:N2}", satir.Fiyat))" class="form-control p-2" />
+                                            </div>
+                                        }
+                                        @if (Model.KalemBilgileri.IskontoVarMi)
+                                        {
+                                            <div class="col-12 col-lg-1 d-flex flex-column mb-2 mb-lg-0">
+                                                <label style="font-weight: bold; margin-bottom: 5px;">İskonto Oranı</label>
+                                                <input type="text" data-component='money-input' data-kt-element="iskonto-data" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)'); formatNumberWithSeparator('Miktar_@(ID)');" name="IskontoOrani1_@(ID)" id="IskontoOrani1_@(ID)" value="@(String.Format("{0:N2}", satir.IskontoOrani1))" class="form-control p-2" />
+                                            </div>
+                                        }
+                                        @if (Model.KalemBilgileri.TutarVarMi)
+                                        {
+                                           <div class="col-12 col-lg-2 d-flex flex-column mb-2 mb-lg-0">
+                                               <label style="font-weight: bold; margin-bottom: 5px;">Tutar</label>
+                                               <input type="text" data-component='money-input' data-kt-element="tutar-data" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}", satir.Tutar))" class="form-control p-2" readonly />
+                                           </div>
+                                        }
+                                    <div class="col-12 col-lg-1 d-flex flex-column align-items-end justify-content-end pt-4 pt-lg-0">
+                                        <div>
+                                            <button type="button" class="deleteBtn btn-sm" onclick="SatirSil('@(ID)')" data-ID2='@(ID)'>Sil</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                }
+                            </div>
                         </div>
+
                     </div>
+                    <div class="col-lg-4">
+                        <button type="button" onclick="YeniSatirAc('DT', '1')" name="btnYeniSatir" id="btnYeniSatir" class="btn btn-primary btn-sm" style="width:150px;">+ Yeni Satır Aç</button>
+                    </div>
+
                 </form>
 
-                <div class="col-lg-4">
-                    <button type="button" name="btnYeniSatir" id="btnYeniSatir" class="btn btn-primary btn-sm" style="width:150px;">+ Yeni Satır Aç</button>
-                </div>
 
                 <div class="offset-lg-10 col-lg-2 fw-bold text-gray-600 fs-5">
                     <div class="d-flex align-items-center justify-content-between">
@@ -478,19 +331,21 @@
                 <!--begin::Actions-->
                 <div class="col-lg-12">
                     <div class="d-flex">
-                        <a href="@Url.Content("~/SatisFatura/Liste/?Tip=+" + Model.Tip)" class="btn btn-light me-3 btn-sm" data-kt-users-modal-action="cancel">Geri</a>
-
                         @if (ViewBag.IsDuzenleSayfasi != null && ViewBag.IsDuzenleSayfasi == true)
                         {
-                           <form action="/@ViewBag.ControllerName/PdfOlustur" method="post">
-                               <input type="hidden" name="Tip" value="@ViewBag.Tip" />
-                               <input type="hidden" name="id" value="@Model.BelgeDto.ID" />
-                               <button type="submit" class="btn btn-sm btn-success me-3 yazdir">
-                                   <span class="indicator-label">Yazdır</span>
-                               </button>
-                           </form>
+                            <a onclick="history.back()" class="btn btn-light me-3 btn-sm" data-kt-users-modal-action="cancel">Geri</a>
                         }
-                     
+                        @if (ViewBag.IsDuzenleSayfasi != null && ViewBag.IsDuzenleSayfasi == true)
+                        {
+                            <form action="/@ViewBag.ControllerName/PdfOlustur" method="post">
+                                <input type="hidden" name="Tip" value="@ViewBag.Tip" />
+                                <input type="hidden" name="id" value="@Model.BelgeDto.ID" />
+                                <button type="submit" class="btn btn-sm btn-success me-3 yazdir">
+                                    <span class="indicator-label">Yazdır</span>
+                                </button>
+                            </form>
+                        }
+
                         <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Kaydet">
                             <span class="indicator-label">Kaydet</span>
 
