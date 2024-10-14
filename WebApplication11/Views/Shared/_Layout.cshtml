@@ -541,13 +541,7 @@
 
     <!--end::Vendors Javascript-->
     <!--begin::Custom Javascript(used for this page only)-->
-    <script src="~/Tema/js/widgets.bundle.js"></script>
-    <script src="~/Tema/js/custom/widgets.js"></script>
-    <script src="~/Tema/js/custom/apps/chat/chat.js"></script>
-    <script src="~/Tema/js/custom/utilities/modals/upgrade-plan.js"></script>
-    <script src="~/Tema/js/custom/utilities/modals/create-app.js"></script>
-    <script src="~/Tema/js/custom/utilities/modals/new-target.js"></script>
-    <script src="~/Tema/js/custom/utilities/modals/users-search.js"></script>
+  
     <script>
 
     function toastr(title = "", description = "") {
@@ -635,7 +629,21 @@
          }).fail(function (error) {
              console.log('Could not connect: ' + error);
          })
-     }
+        }
+
+        function setDateTimeNow(input) {
+            var now = new Date();
+            var year = now.getFullYear();
+            var month = ('0' + (now.getMonth() + 1)).slice(-2); // Ayı 2 haneli formatla
+            var day = ('0' + now.getDate()).slice(-2); // Günü 2 haneli formatla
+            var hours = ('0' + now.getHours()).slice(-2); // Saati 2 haneli formatla
+            var minutes = ('0' + now.getMinutes()).slice(-2); // Dakikayı 2 haneli formatla
+
+            var formattedDateTime = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
+
+            // input alanına set et
+            $(input).val(formattedDateTime);
+        }
 
      $(document).ready(function () {
 

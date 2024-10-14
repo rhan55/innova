@@ -236,9 +236,9 @@
                     <!-- Durum Seçimi -->
                     <div class="row mt-4">
                         <div class="col-lg-12">
-                            <div class="form-group">
-                                <label for="Durumu" class="form-label">Durumu</label>
-                                <select class="form-select form-select-solid p-2 rounded-1" name="Durumu" data-control="select2" id="Durumu">
+                            <div class="form-group d-flex flex-column">
+                                <label for="TakvimDurumu" class="form-label">Durumu</label>
+                                <select class="form-control form-control-solid p-2 rounded-1"  name="Durumu" id="TakvimDurumu">
                                     <option value="">Lütfen Seçim Yapınız</option>
                                     @foreach (var takvimDurumu in ViewBag.TakvimDurumlari)
                                     {
@@ -246,6 +246,8 @@
                                     }
 
                                 </select>
+                                <div data-error="TakvimDurumu"></div>
+
                             </div>
                         </div>
                     </div>
@@ -255,7 +257,7 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label class="fs-6 fw-semibold mb-2 required">Tarihi</label>
-                                <input type="datetime-local" class="form-control form-control-solid" name="Tarih" id="Tarih" value="@(DateTime.Now.ToString("yyyy-MM-ddTHH:mm"))"/>
+                                <input type="datetime-local" class="form-control form-control-solid" name="Tarih" id="Tarih" value="@(DateTime.Now.ToString("yyyy-MM-ddTHH:mm"))" />
                             </div>
                         </div>
                     </div>
@@ -294,17 +296,24 @@
         </div>
     </div>
 </div>
+@section Styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 
+}
 @section Scripts {
 
     @* Türkçe desteği *@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/tr.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.7/js/dataTables.min.js"></script>
 
     <script>
+
+
+
         $(document).ready(function () {
+
             var TakvimModulu = function () {
 
                 var calendar; // calendar değişkeni global olarak bu modülde tanımlandı
@@ -367,12 +376,46 @@
                         calendar.refetchEvents(); // Takvimi yeniden yükleyerek etkinlikleri günceller
                     },
                     saveCalendarEvent: function () {
+                        const Durumu = $('#TakvimDurumu option:selected');
+
+                        let isValidated = true;
+                        const message = {
+                            Durumu: [],
+
+                        };
+
+
+
+                        if (Durumu.val() === "") {
+                            isValidated = false;
+                            message.Durumu.push("Lütfen bir durum seçiniz.")
+                        }
+
+                        if (!isValidated) {
+                            document.querySelector('[data-error="TakvimDurumu"]').innerHTML = message.Durumu.map(error => `<div class="text-danger">${error}</div>`).join("");
+                            return;
+                        }
+
                         var _data = {
                             Baslik: $('#Baslik').val(),
                             Aciklama: $('#Aciklama').val(),
-                            Durumu: $('#Durumu option:selected').val(),
+                            Durumu: $('#TakvimDurumu option:selected').val(),
                             Tarih: moment($('#Tarih').val()).toISOString() // Sadece başlangıç tarihi göndermek
                         };
+
+                        var temizle = function () {
+                            $('#Baslik').val('')
+                            $('#Aciklama').val('')
+
+                            $('#TakvimDurumu option').each(function () {
+                                $(this).attr('selected', false)
+                                if ($(this).val() == "") {
+                                    $(this).attr("selected", true);
+                                }
+
+                                setDateTimeNow("#Tarih");
+                            });
+                        }
 
                         console.log(_data); // Verileri kontrol etme
 
@@ -385,7 +428,8 @@
                             dataType: "json",
                             success: function (response) {
                                 if (response.Success) {
-                                    $('#TakvimEtkinlikModal').modal('hide');  // Modalı kapat
+                                    $('#TakvimEtkinlikModal').modal('hide');
+                                    temizle();
                                     TakvimModulu.updateCalendarEvents();  // Takvimi güncelle
                                 } else {
                                     console.error('Kaydetme işleminde hata oluştu:', response.Message);
@@ -401,7 +445,7 @@
                             calendar.refetchEvents();
                         }
                     }
-                 
+
                 };
             }();
             // Takvim modülünü başlat

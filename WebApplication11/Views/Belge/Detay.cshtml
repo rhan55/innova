@@ -94,6 +94,8 @@
                         <form action="/Depo/Depo/UretimIsEmriBarkodOku" method="get" id="TableBarkod" name="TableBarkod" clas>
                             <input type="hidden" name="IsEmriNo" id="IsEmriNo" value="@(Request.QueryString["IsEmriNo"])" />
 
+                            <input type="text" name="OlcuBirimi" id="OlcuBirimi"  class="form-control p-2" required/>
+
                             <input type="text" class="form-control mb-2" style="display:none;" name="Miktar" id="Miktar" value="1" placeholder="Miktar" required />
 
                             <input type="text" class="form-control mb-2" name="Barkod" id="Barkod" value="" placeholder="Barkod" autofocus onblur="BarkodOku();" />
@@ -127,7 +129,6 @@
                                         <td class="me-4 text-gray-600"><strong>ÜRÜN</strong></td>
                                         <td class="me-4 text-gray-600" style='display:none;'><strong>SERİ</strong></td>
                                         <td class="me-4 text-gray-600"><strong>BİRİM</strong></td>
-
                                         <td class="me-4 text-gray-600"><strong>MİKTAR</strong></td>
                                         <td class="me-4 text-gray-600" style="@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")"><strong>FİYAT</strong></td>
                                         <td class="me-4 text-gray-600" style="@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")"><strong>TUTAR</strong></td>
@@ -408,23 +409,11 @@
         }
 
 
-
-
-
-
-
         $(".deleteBtn").click(function () {
             $(this).closest("tr").remove();
         });
 
         function SatirSil(SatirID) {
-            $("#TR_" + SatirID).remove();
-            $("#TR_" + SatirID).remove();
-            $("#TR_" + SatirID).remove();
-            $("#TR_" + SatirID).remove();
-            $("#TR_" + SatirID).remove();
-            $("#TR_" + SatirID).remove();
-            $("#TR_" + SatirID).remove();
             $("#TR_" + SatirID).remove();
         }
 
@@ -475,7 +464,7 @@
                            if (Tip == 'AI') {
                                deger += "                         <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2' />                         ";
                            } else {
-                               deger += "                         <select name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' style='display:none;' class='form-control p-2' >         ";
+                               deger += "                         <select name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' class='form-control p-2' >         ";
                                deger += "                         </select>                                                                                                                  ";
                            }
                           deger += "                 </td>                                                                                                                              ";
@@ -506,7 +495,7 @@
                 if (Tip == "AI") {
                     deger += "              <input type='text' name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' value='' class='form-control p-2' />";
                 } else {
-                    deger += "              <select  name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' style='display:none;' class='form-control p-2'>";
+                    deger += "              <select  name='Seri_" + YeniID + "' id='Seri_" + YeniID + "' class='form-control p-2'>";
                     if (eklenecekSeri != null) {
                         deger += "<option value='" + eklenecekSeri + "'>" + eklenecekSeri+"</option>";
                     }

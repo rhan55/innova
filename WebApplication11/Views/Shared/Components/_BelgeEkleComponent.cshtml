@@ -181,7 +181,7 @@
                         </div>
                         <!--end::Row-->
                         <!--begin::Table wrapper-->
-                   
+
                         <div>
                             <div id="TabloKalemler" name="TabloKalemler">
                                 @foreach (BelgeKalemDto satir in Model.BelgeDto.Kalemler)
@@ -190,7 +190,7 @@
                                     <div class="row pb-4 tablo-satir" id="TR_@(ID)" data-id="@satir.ID" data-ID2="@ID">
                                         @if (Model.KalemBilgileri.UrunVarMi)
                                         {
-                                            <div class="col-12 col-lg-2 d-flex flex-column mb-2 mb-lg-0" >
+                                            <div class="col-12 col-lg-2 d-flex flex-column mb-2 mb-lg-0">
                                                 <label style="font-weight: bold; margin-bottom: 5px;">Ürün</label>
                                                 <select class="form-select Depo-cikis form-select-solid p-2 rounded-1" name="StokID_@(ID)" id="StokID_@(ID)" aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
                                                     <option value="@satir.StokID" selected>@satir.StokAdi</option>
@@ -241,16 +241,16 @@
                                         }
                                         @if (Model.KalemBilgileri.TutarVarMi)
                                         {
-                                           <div class="col-12 col-lg-2 d-flex flex-column mb-2 mb-lg-0">
-                                               <label style="font-weight: bold; margin-bottom: 5px;">Tutar</label>
-                                               <input type="text" data-component='money-input' data-kt-element="tutar-data" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}", satir.Tutar))" class="form-control p-2" readonly />
-                                           </div>
+                                            <div class="col-12 col-lg-2 d-flex flex-column mb-2 mb-lg-0">
+                                                <label style="font-weight: bold; margin-bottom: 5px;">Tutar</label>
+                                                <input type="text" data-component='money-input' data-kt-element="tutar-data" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}", satir.Tutar))" class="form-control p-2" readonly />
+                                            </div>
                                         }
-                                    <div class="col-12 col-lg-1 d-flex flex-column align-items-end justify-content-end pt-4 pt-lg-0">
-                                        <div>
-                                            <button type="button" class="deleteBtn btn-sm" onclick="SatirSil('@(ID)')" data-ID2='@(ID)'>Sil</button>
+                                        <div class="col-12 col-lg-1 d-flex flex-column align-items-end justify-content-end pt-4 pt-lg-0">
+                                            <div>
+                                                <button type="button" class="deleteBtn btn-sm" onclick="SatirSil('@(ID)')" data-ID2='@(ID)'>Sil</button>
+                                            </div>
                                         </div>
-                                    </div>
                                     </div>
                                 }
                             </div>
@@ -331,10 +331,9 @@
                 <!--begin::Actions-->
                 <div class="col-lg-12">
                     <div class="d-flex">
-                        @if (ViewBag.IsDuzenleSayfasi != null && ViewBag.IsDuzenleSayfasi == true)
-                        {
-                            <a onclick="history.back()" class="btn btn-light me-3 btn-sm" data-kt-users-modal-action="cancel">Geri</a>
-                        }
+
+                        <a onclick="history.back()" class="btn btn-light me-3 btn-sm" data-kt-users-modal-action="cancel">Geri</a>
+
                         @if (ViewBag.IsDuzenleSayfasi != null && ViewBag.IsDuzenleSayfasi == true)
                         {
                             <form action="/@ViewBag.ControllerName/PdfOlustur" method="post">
