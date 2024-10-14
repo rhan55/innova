@@ -93,7 +93,7 @@ namespace YKPortal.Controllers
 
             ViewBag.Filters = belgeDto;
             ViewBag.Durumu = belgeDto.Durumu;
-            ViewBag.ControllerName = "SatinalmaFatura";
+            ViewBag.ControllerName = "SatinalmaTalebi";
             ViewBag.Tip = Tip;
 
             return View(model);

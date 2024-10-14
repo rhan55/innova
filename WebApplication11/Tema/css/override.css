@@ -182,3 +182,8 @@ div.dt-container {
     background-color: #333 !important; /* Koyu bir arka plan rengi */
     color: #fff; /* Beyaz yazı rengi */
 }
+
+.app-sidebar {
+    height: 100dvh;
+    overflow-y: hidden;
+}

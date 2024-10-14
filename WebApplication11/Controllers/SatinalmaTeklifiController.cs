@@ -93,7 +93,7 @@ namespace YKPortal.Controllers
 
             ViewBag.Filters = belgeDto;
             ViewBag.Durumu = belgeDto.Durumu;
-            ViewBag.ControllerName = "SatinalmaFatura";
+            ViewBag.ControllerName = "SatinalmaTeklifi";
             ViewBag.Tip = Tip;
 
             return View(model);
@@ -393,7 +393,8 @@ namespace YKPortal.Controllers
                 properties.SetFontProvider(new DefaultFontProvider(true, true, true));
                 HtmlConverter.ConvertToPdf(htmlSource, stream);
             }
-
+            ViewBag.Tip = "AT"; // Sayfaya özel tip değeri
+            ViewBag.IsDuzenleSayfasi = true;
             return File(kaydedilecekYer, "application/pdf", "Satinalma-Teklifi.pdf");
         }
 
