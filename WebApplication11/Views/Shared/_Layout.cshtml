@@ -415,7 +415,7 @@
                         <div id="kt_app_sidebar_menu_wrapper" class="app-sidebar-wrapper">
                             <!--begin::Scroll wrapper-->
                             <div id="kt_app_sidebar_menu_scroll" class="scroll-y my-5 mx-3" data-kt-scroll="true"
-                                 data-kt-scroll-activate="true" data-kt-scroll-height="726px"
+                                 data-kt-scroll-activate="true" data-kt-scroll-height="500px"
                                  data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer"
                                  data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px"
                                  data-kt-scroll-save-state="true">
@@ -426,6 +426,8 @@
                                     <div class="d-flex align-items-center position-relative ms-1 app-sidebar-logo h-40px">
                                         <input type="text" id="searchInNavigation" class=" bg-secondary form-control px-2 shadow-none border-0 py-1 w-230px rounded-xs app-sidebar-logo-default" placeholder="Ara" />
                                     </div>
+                                    <div class="menu-item"><!--begin:Menu link--><a class=" menu-link hover ps-2" href="@Url.Action("AnaSayfa", "YK", new { Area = "" })"><span class="menu-icon"><i class="ki-duotone ki-slack fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Ana Sayfa</span></a><!--end:Menu link--></div>
+
                                     <div id="navigation"></div>
                                     @if (KullaniciAdi.EndsWith("@ykyazilim.com.tr"))
                                     {

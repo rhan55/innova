@@ -2347,24 +2347,14 @@ BEGIN
 			Where CAST(GorevKullanicilari.KullaniciID as nvarchar(100)) = @AtananKullanici
 		)
 	)
-	--and Gorevler.ID IN (
-	--		select 
-	--			GorevHareketleri.GorevID 
-	--		from GorevHareketleri WITH(NOLOCK) 
-	--		Where UyelikID = @UyelikID and GorevHareketleri.TamamlamaTarihi between @Baslangic2 and @Bitis2
-	--	)
 	) YK1
-	Where (ISNULL(Durum,'Beklemede') = @Durum or ISNULL(Durum,'Beklemede') = CASE WHEN @Durum = 'Beklemede' Then 'Cevaplandı' ELSE 'XXXXX' END or @Durum = '')
-
+	Where (CASE WHEN ISNULL(Durum,'Beklemede') = N'Cevaplandı' or ISNULL(Durum,'Beklemede') = N'Tamamlandı' THEN 'Beklemede' ELSE ISNULL(Durum,'Beklemede') END = @Durum  or @Durum = '')
 	Order by YK1.BaslangicTarihi asc
 
 	Select 
 	Kullanicilar.Resim,
 	Kullanicilar.Ad+' '+LEFT(Kullanicilar.Soyad,1)+'.' as Isim,
-	SUM(1)
-	---
-	--SUM(CASE WHEN GorevHareketleri.ID IS NULL THEN 0 ELSE 1 END) 
-	as Miktar
+	SUM(1) as Miktar
 	from Gorevler WITH(NOLOCK)	
 	INNER JOIN GorevKullanicilari WITH(NOLOCK) ON 		GorevKullanicilari.UyelikID = Gorevler.UyelikID 		and GorevKullanicilari.GorevID = Gorevler.ID
 	LEFT OUTER JOIN GorevHareketleri WITH(NOLOCK) ON 		GorevHareketleri.UyelikID = Gorevler.UyelikID 		and GorevHareketleri.GorevID = Gorevler.ID and GorevHareketleri.KullaniciID = GorevKullanicilari.KullaniciID
