@@ -1,5 +1,39 @@
 
+drop proc p_N_StokResimKaydet
+go
+create proc p_N_StokResimKaydet(
+@UyelikID nvarchar(100),
+@KayitID nvarchar(100),
+@Dosya nvarchar(100),
+@Resim image,
+@ResimBoyut nvarchar(100),
+@Kullanici nvarchar(100)
+)
+as
+BEGIN
 
+Insert Into ANTPAK2023.dbo.TBLEVRAK
+(TABLOTIPI,KOD,EVRAKTIPI,ACIKLAMA,KULID,DOSYAADI,BILGIBOYUT,BILGI,STORAGETYPE)
+values 
+(2,'335-HH-001',0,@KayitID,2,@Dosya,@ResimBoyut,@Resim,0)
+
+END
+go
+drop proc p_BelgeYazdir
+GO
+create proc p_BelgeYazdir(
+@UyelikID nvarchar(100),
+@ID nvarchar(100)
+)
+as
+BEGIN
+
+	select 0
+
+END
+
+
+GO
 drop proc [p_KullaniciListesiMesaj]
 GO
 CREATE proc [dbo].[p_KullaniciListesiMesaj](
@@ -853,7 +887,7 @@ and (
    and ISNULL(Cariler.Isim,'') like '%'+@AranacakKelime+'%'
    and ISNULL(Cariler.Unvan,'') like '%'+@AranacakKelime+'%'
 )
-and Cariler.Isim like '%'+@CariAdi+'%'
+and ISNULL(Cariler.Isim,'') like '%'+@CariAdi+'%'
 and Belgeler.BelgeNo like '%'+@BelgeNo+'%'
 and Belgeler.Tarih between @BaslangicTarihi and @BitisTarihi
 and (Belgeler.Durumu = @Durumu or @Durumu = '')
@@ -5659,13 +5693,20 @@ as
 BEGIN
 select 
 Stoklar.*,
-G1.Deger as GrupKodu1,
-G2.Deger as GrupKodu2,
-G3.Deger as GrupKodu3,
-G4.Deger as GrupKodu4,
-G5.Deger as GrupKodu5,
-G6.Deger as GrupKodu6,
-C1.Isim as AnaStok
+Stoklar.Isim as Isim2,
+ISNULL(G1.Deger,'') as KategoriKodu1,
+ISNULL(G2.Deger,'') as KategoriKodu2,
+ISNULL(G1.Deger,'') as GrupKodu1,
+ISNULL(G2.Deger,'') as GrupKodu2,
+ISNULL(G3.Deger,'') as GrupKodu3,
+ISNULL(G4.Deger,'') as GrupKodu4,
+ISNULL(G5.Deger,'') as GrupKodu5,
+ISNULL(G6.Deger,'') as GrupKodu6,
+C1.Isim as AnaStok,
+Stoklar.Barkod,
+Stoklar.Barkod as Barkod2,
+Stoklar.Barkod as Barkod3,
+(select top(1) BILGI from ANTPAK2023.dbo.TBLEVRAK  where KAYITNO = 225) Dosya
 from Stoklar WITH(NOLOCK)
 LEFT OUTER JOIN GrupKodlari G1 WITH(NOLOCK) ON G1.ID = Stoklar.GrupKodu1ID
 LEFT OUTER JOIN GrupKodlari G2 WITH(NOLOCK) ON G2.ID = Stoklar.GrupKodu2ID
