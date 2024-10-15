@@ -11,6 +11,7 @@ using iText.Html2pdf.Resolver.Font;
 using iText.Html2pdf;
 using System.IO;
 using iText.Layout.Font;
+using iText.IO.Font;
 
 namespace YKPortal.Controllers
 {

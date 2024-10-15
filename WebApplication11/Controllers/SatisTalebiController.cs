@@ -395,20 +395,15 @@ namespace YKPortal.Controllers
 
             var kaydedilecekYer = Path.Combine(path, fileName);
 
-            try {
-                using (var stream = new FileStream(kaydedilecekYer, FileMode.Create))
-                {
-                    // Yeni FontProvider Kullanımı
-                    ConverterProperties properties = new ConverterProperties();
-                    FontProvider fontProvider = new DefaultFontProvider(false, false, true);
-
-                    properties.SetFontProvider(fontProvider);
-
-                    HtmlConverter.ConvertToPdf(htmlSource, stream, properties);
-                }
-            } catch(Exception ex)
+            using (var stream = new FileStream(kaydedilecekYer, FileMode.Create))
             {
-                Console.WriteLine(JsonSerializer.Serialize(ex));
+                // Yeni FontProvider Kullanımı
+                ConverterProperties properties = new ConverterProperties();
+                FontProvider fontProvider = new DefaultFontProvider(false, false, true);
+
+                properties.SetFontProvider(fontProvider);
+
+                HtmlConverter.ConvertToPdf(htmlSource, stream, properties);
             }
 
             return File(kaydedilecekYer, "application/pdf", fileName);
