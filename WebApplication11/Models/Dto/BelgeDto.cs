@@ -54,6 +54,7 @@ namespace YKPortal.Models.Dto
         SatisIrsaliyesi,
         SatisFaturasi,
         SatinalmaTeklifi,
-        DepoTransferi
+        DepoTransferi,
+        SatinalmaSiparisi
     }
 }

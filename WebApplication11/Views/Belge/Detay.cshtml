@@ -110,7 +110,7 @@
 
                             <strong><span id="Bilgilendirme" name="Bilgilendirme"></span></strong>
 
-                            <input type="button" name="name" value="Ekle" style="display:none;" class="btn btn-primary" onclick="Kaydet2();" />
+                            <input type="button" name="name" value="Ekle" style="display:none;" class="btn btn-primary btn-sm" onclick="Kaydet2();" />
                         </form>
                     }
                     <!--end::Row-->
@@ -199,7 +199,7 @@
                                                 </table>
                                             </td>
                                             <td>
-                                                <button type='button' class="deleteBtn pt-2" data-ID2="@(ID)">Sil</button>
+                                                <button type='button' class="deleteBtn  btn-sm pt-2" data-ID2="@(ID)">Sil</button>
                                             </td>
                                         </tr>
                                     }
@@ -240,7 +240,7 @@
                                                 <input type="text" data-kt-element="tutar-data" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}",satir.Tutar))" onchange="TutarHesapla('Miktar_@(ID)','Fiyat_@(ID)','Tutar_@(ID)');" class="form-control p-2 me-10" style="text-align:right;@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")" readonly />
                                             </td>
                                             <td>
-                                                <button type='button' class="deleteBtn pt-2" data-ID2="@(ID)">Sil</button>
+                                                <button type='button' class="deleteBtn btn-sm pt-2" data-ID2="@(ID)">Sil</button>
                                             </td>
 
                                         </tr>
@@ -252,7 +252,7 @@
 
                                     <th colspan="1" class="py-2">
                                         <div class="pe-4">
-                                            <button type="button" name="btnYeniSatir" id="btnYeniSatir" onclick="YeniSatirAc();" class="btn btn-primary" style="width:150px;">+ Yeni Satır Aç</button>
+                                            <button type="button" name="btnYeniSatir" id="btnYeniSatir" onclick="YeniSatirAc();" class="btn btn-primary btn-sm" style="width:150px;">+ Yeni Satır Aç</button>
                                         </div>
                                     </th>
                             </tfoot>
@@ -276,8 +276,8 @@
 
                     <div class="" style="text-align:right;">
                         <br />
-                        <a href="@Url.Content("~/Belge/Liste/?Tip="+Request.QueryString["Tip"])" class="btn btn-light me-3" data-kt-users-modal-action="cancel">Geri</a>
-                        <button type="submit" class="btn btn-success" data-kt-users-modal-action="Kaydet" id="Kaydet" name="Kaydet" onclick="Kaydet();">
+                        <a href="@Url.Content("~/Belge/Liste/?Tip="+Request.QueryString["Tip"])" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
+                        <button type="submit" class="btn btn-success btn-sm" data-kt-users-modal-action="Kaydet" id="Kaydet" name="Kaydet" onclick="Kaydet();">
                             <span class="indicator-label">Belgeyi Kaydet</span>
 
                         </button>

@@ -10,6 +10,8 @@ using YKPortal.Models.Dto;
 using iText.Html2pdf.Resolver.Font;
 using iText.Html2pdf;
 using System.IO;
+using iText.Layout.Font;
+using iText.IO.Font;
 
 namespace YKPortal.Controllers
 {
@@ -284,7 +286,7 @@ namespace YKPortal.Controllers
             switch (Request.QueryString["Tip"])
             {
                 case "AS":
-                    entity.BelgeTipi = BelgeTipi.SatinalmaTeklifi;
+                    entity.BelgeTipi = BelgeTipi.SatinalmaSiparisi;
                     break;
                 default:
                     break;
@@ -346,7 +348,6 @@ namespace YKPortal.Controllers
         [HttpPost]
         public ActionResult PdfOlustur(string Tip, string id = "")
         {
-
             var belge = BelgeGetir(Tip, id);
             var personel = SatisPersoneliGetir().Where(m => m.ID == belge.SatisPersonelID).FirstOrDefault();
 
@@ -366,36 +367,42 @@ namespace YKPortal.Controllers
                 kalemler = kalemler + kalemSource;
             }
 
-
             htmlSource = htmlSource.Replace("[CARI_ADI]", belge.CariAdi)
-                                .Replace("[PERSONEL_ISIM]", personel?.Isim ?? string.Empty)
-                                .Replace("[TITLE]", "Satınalma Siparişi")
-                                .Replace("[BELGE_NO]", belge.BelgeNo)
-                                .Replace("[TARIH]", belge.Tarih.ToString("dd/MM/yyyy HH:mm:ss"))
-                                .Replace("[ACIKLAMA]", belge.Aciklama)
-                                .Replace("[ARA_TOPLAM]", String.Format("{0:N2}", belge.Kalemler.Select(m => m.Fiyat * m.Miktar).Sum()))
-                                .Replace("[ISKONTO_TUTAR]", String.Format("{0:N2}", belge.Kalemler.Select(m => m.Fiyat * m.Miktar * m.IskontoOrani1 / 100).Sum()))
-                                .Replace("[KDV_TUTAR]", String.Format("{0:N2}", belge.Kalemler.Select(m => (m.Fiyat * m.Miktar - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100)) * m.KdvOrani / 100).Sum()))
-                                .Replace("[TOPLAM_TUTAR]", String.Format("{0:N2}", belge.Kalemler.Select(m => m.Fiyat * m.Miktar - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100) + ((m.Fiyat * m.Miktar - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100)) * m.KdvOrani / 100)).Sum()))
-                                .Replace("[KALEMLER]", kalemler);
+                                  .Replace("[PERSONEL_ISIM]", personel?.Isim ?? string.Empty)
+                                  .Replace("[TITLE]", "Satınalma Siparişi")
+                                  .Replace("[BELGE_NO]", belge.BelgeNo)
+                                  .Replace("[TARIH]", belge.Tarih.ToString("dd/MM/yyyy HH:mm:ss"))
+                                  .Replace("[ACIKLAMA]", belge.Aciklama)
+                                  .Replace("[ARA_TOPLAM]", String.Format("{0:N2}", belge.Kalemler.Select(m => m.Fiyat * m.Miktar).Sum()))
+                                  .Replace("[ISKONTO_TUTAR]", String.Format("{0:N2}", belge.Kalemler.Select(m => m.Fiyat * m.Miktar * m.IskontoOrani1 / 100).Sum()))
+                                  .Replace("[KDV_TUTAR]", String.Format("{0:N2}", belge.Kalemler.Select(m => (m.Fiyat * m.Miktar - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100)) * m.KdvOrani / 100).Sum()))
+                                  .Replace("[TOPLAM_TUTAR]", String.Format("{0:N2}", belge.Kalemler.Select(m => m.Fiyat * m.Miktar - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100) + ((m.Fiyat * m.Miktar - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100)) * m.KdvOrani / 100)).Sum()))
+                                  .Replace("[KALEMLER]", kalemler);
 
-            var path = Server.MapPath("~/Uploads/Dosyalar/Teklifler");
+            var uploadFolder = "SatinalmaSiparisi";
+            var fileName = Guid.NewGuid().ToString() + "-Satinalma-Siparisi.pdf";
+
+            var path = Server.MapPath("~/Uploads/Dosyalar/" + uploadFolder);
 
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
 
-            var kaydedilecekYer = Server.MapPath("~/Uploads/Dosyalar/Teklifler/Satinalma-Siparisi.pdf");
+            var kaydedilecekYer = Path.Combine(path, fileName);
 
             using (var stream = new FileStream(kaydedilecekYer, FileMode.Create))
             {
+                // Yeni FontProvider Kullanımı
                 ConverterProperties properties = new ConverterProperties();
-                properties.SetFontProvider(new DefaultFontProvider(true, true, true));
-                HtmlConverter.ConvertToPdf(htmlSource, stream);
+                FontProvider fontProvider = new DefaultFontProvider(false, false, true);
+
+                properties.SetFontProvider(fontProvider);
+
+                HtmlConverter.ConvertToPdf(htmlSource, stream, properties);
             }
 
-            return File(kaydedilecekYer, "application/pdf", "Satinalma-Siparisi.pdf");
+            return File(kaydedilecekYer, "application/pdf", fileName);
         }
 
 

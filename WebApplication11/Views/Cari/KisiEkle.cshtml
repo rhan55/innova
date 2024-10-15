@@ -10,7 +10,7 @@
 
         <div class="col-lg-10">
             <!--begin::Form-->
-            <form id="kt_modal_add_user_form" class="form" action="@Url.Action("KisiEkle","Cari",null)" method="post" enctype="multipart/form-data">
+            <form id="cari-kisi-ekle-form" class="form" action="@Url.Action("KisiEkle","Cari",null)" method="post" enctype="multipart/form-data">
 
                 @if (Model != null)
                 {
@@ -52,7 +52,9 @@
                             <input type="text" id="Isim" name="Isim" class="form-control p-2 mb-3 mb-lg-0" value="" />
 
                             <!--end::Input-->
+                            <div class="mt-3" data-error="Isim"></div>
                         </div>
+                 
                         <!--end::Input group-->
                         <!--begin::Input group-->
                         <div class="col-lg-6">
@@ -137,6 +139,30 @@
                 "mask": "(999) 999-9999"
             }).mask("#Telefon");
 
+            const form = document.getElementById('cari-kisi-ekle-form')   
+            const Isim = document.getElementById('Isim')
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                let isValidated = true;
+                const message = {
+                    Isim: [],
+                   
+                };
+
+           
+                if (Isim.value === "") {
+                    isValidated = false;
+                    message.Isim.push("Lütfen bir isim giriniz.")
+                }
+          
+                if (isValidated) {
+                    form.submit();
+                } else {
+                    document.querySelector('[data-error="Isim"]').innerHTML = message.Isim.map(error => `<div class="text-danger">${error}</div>`).join("");
+                 
+                }
+            });
         });
 
     </script>
