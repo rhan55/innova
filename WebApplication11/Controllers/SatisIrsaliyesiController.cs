@@ -10,6 +10,7 @@ using YKPortal.Models.Dto;
 using iText.Html2pdf.Resolver.Font;
 using iText.Html2pdf;
 using System.IO;
+using iText.Layout.Font;
 
 namespace YKPortal.Controllers
 {
@@ -376,23 +377,30 @@ namespace YKPortal.Controllers
                                 .Replace("[TOPLAM_TUTAR]", String.Format("{0:N2}", belge.Kalemler.Select(m => m.Fiyat * m.Miktar - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100) + ((m.Fiyat * m.Miktar - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100)) * m.KdvOrani / 100)).Sum()))
                                 .Replace("[KALEMLER]", kalemler);
 
-            var path = Server.MapPath("~/Uploads/Dosyalar/Teklifler");
+            var uploadFolder = "SatisIrsaliyesi";
+            var fileName = Guid.NewGuid().ToString() + "-Satis-Irsaliyesi.pdf";
+
+            var path = Server.MapPath("~/Uploads/Dosyalar/" + uploadFolder);
 
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
 
-            var kaydedilecekYer = Server.MapPath("~/Uploads/Dosyalar/Teklifler/Satis-Irsaliyesi.pdf");
+            var kaydedilecekYer = Path.Combine(path, fileName);
 
             using (var stream = new FileStream(kaydedilecekYer, FileMode.Create))
             {
+                // Yeni FontProvider Kullanımı
                 ConverterProperties properties = new ConverterProperties();
-                properties.SetFontProvider(new DefaultFontProvider(true, true, true));
-                HtmlConverter.ConvertToPdf(htmlSource, stream);
+                FontProvider fontProvider = new DefaultFontProvider(false, false, true);
+
+                properties.SetFontProvider(fontProvider);
+
+                HtmlConverter.ConvertToPdf(htmlSource, stream, properties);
             }
 
-            return File(kaydedilecekYer, "application/pdf", "Satis-Irsaliyesi.pdf");
+            return File(kaydedilecekYer, "application/pdf", fileName);
         }
 
 
