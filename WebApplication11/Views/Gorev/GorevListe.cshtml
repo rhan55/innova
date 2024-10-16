@@ -21,111 +21,7 @@
                     <!--begin::Container-->
                     <div id="kt_content_container p-0" class="container-fluid p-0 m-0">
                         <div class="card card-flush">
-
-                            <div class="card-body px-4 scroll-x" align="center">
-                                @foreach (DataRow satir in Model.Tables[1].Rows)
-                                {
-                                    <div style="text-align:center;float:left;padding:5px;">
-                                        <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                            <div class="symbol-label">
-                                                <img src="@(Convert.ToString(satir["Resim"]))" alt="@(Convert.ToString(satir["Isim"]))" class="w-100 h-100 object-fit-cover" />
-
-                                            </div>
-                                        </div>
-                                        <br />
-                                        <span>@(Convert.ToString(satir["Isim"]))</span>
-                                        <br />
-                                        <span style="font-size:15px;"><strong>@(Convert.ToString(satir["Miktar"]))</strong></span>
-                                    </div>
-                                }
-                                <div style="clear:both;"></div>
-                            </div>
-                            <div class="card-header align-items-center py-5 gap-2 gap-md-5 px-4">
-
-                                <div class="card-title">
-                                    <!--begin::Search-->
-                                    <div class="d-flex align-items-center position-relative my-1">
-                                        
-                                        <form action="@Url.Content("~/Gorev/GorevListe")" method="get" id="FormListe" name="FormListe" style="display:none;">
-                                            <table>
-                                                <tr>
-                                                    <td style="text-align:right;"><label for="GorevTipiID">Durum</label></td>
-                                                    <td>
-                                                        <select id="Durum" name="Durum">
-                                                            <option value="">Lütfen Seçim Yapınız</option>
-                                                            <option value="Beklemede" @(ViewBag.Durum == "Beklemede" ? "selected" : "")>Beklemede ve Cevaplananlar</option>
-                                                            <option value="Tamamlandı" @(ViewBag.Durum == "Tamamlandı" ? "selected" : "")>Tamamlandı</option>
-                                                            <option value="Onaylandı" @(ViewBag.Durum == "Onaylandı" ? "selected" : "")>Onaylandı</option>
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="text-align:right;"><label for="GorevTipiID">Görev Tipi</label></td>
-                                                    <td>
-                                                        <select id="GorevTipiID" name="GorevTipiID">
-                                                            <option value="">Lütfen Seçim Yapınız</option>
-                                                            @foreach (GrupKoduDto gorevTipi in ViewBag.GorevTipleri)
-                                                            {
-                                                                <option value="@gorevTipi.ID" @(gorevTipi.ID == ViewBag.GorevTipiID ? "selected" : "")>@gorevTipi.Deger</option>
-                                                            }
-                                                        </select>
-                                                        <select id="Periyot" name="Periyot">
-                                                            <option value="">Periyot</option>
-                                                            <option value="T" @(ViewBag.Periyot == "T" ? "selected" : "")>Tek Seferlik</option>
-                                                            <option value="G" @(ViewBag.Periyot == "G" ? "selected" : "")>Günlük</option>
-                                                            <option value="H" @(ViewBag.Periyot == "H" ? "selected" : "")>Haftalık</option>
-                                                            <option value="A" @(ViewBag.Periyot == "A" ? "selected" : "")>Aylık</option>
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="text-align:right;"><label for="GorevTipi">Kayıt Tarihi</label></td>
-                                                    <td>
-                                                        <input type="date" name="Baslangic" id="Baslangic" value="@(Convert.ToDateTime(ViewBag.Baslangic).ToString("yyyy-MM-dd"))" />
-                                                        <input type="date" name="Bitis" id="Bitis" value="@(Convert.ToDateTime(ViewBag.Bitis).ToString("yyyy-MM-dd"))" />
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="text-align:right;"><label for="GorevTipi">İşlem Tarihi</label></td>
-                                                    <td>
-                                                        <input type="date" name="Baslangic2" id="Baslangic2" value="@(Convert.ToDateTime(ViewBag.Baslangic2).ToString("yyyy-MM-dd"))" />
-                                                        <input type="date" name="Bitis2" id="Bitis2" value="@(Convert.ToDateTime(ViewBag.Bitis2).ToString("yyyy-MM-dd"))" />
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="text-align:right;"> <label for="KayitYapanKullanici">Kaydı Açan</label></td>
-                                                    <td>
-                                                        <select id="KayitYapanKullanici" name="KayitYapanKullanici">
-                                                            <option value="">Lütfen Seçim Yapınız</option>
-                                                            @foreach (DataRow drKullanici in dtKullanicilar.Rows)
-                                                            {
-                                                                <option value="@drKullanici["ID"]" @(Convert.ToString(drKullanici["ID"]) == Convert.ToString(ViewBag.KayitYapanKullanici) ? "selected" : "")>@drKullanici["Ad"] @drKullanici["Soyad"] - @drKullanici["Aciklama1"]</option>
-                                                            }
-                                                        </select>
-                                                        <label for="AtananKullanici">Atanan</label>
-                                                        <select id="AtananKullanici" name="AtananKullanici">
-                                                            <option value="">Lütfen Seçim Yapınız</option>
-                                                            @foreach (DataRow drKullanici in dtKullanicilar.Rows)
-                                                            {
-                                                                <option value="@drKullanici["ID"]" @(Convert.ToString(drKullanici["ID"]) == Convert.ToString(ViewBag.AtananKullanici) ? "selected" : "")>@drKullanici["Ad"] @drKullanici["Soyad"] - @drKullanici["Aciklama1"]</option>
-                                                            }
-                                                        </select>
-                                                        <input type="submit" name="btnGetir" id="btnGetir" value="Getir" class="btn btn-primary btn-sm" />
-                                                    </td>
-                                                </tr>
-                                            </table>
-
-
-
-
-                                        </form>
-
-                                    </div>
-                                    <!--end::Search-->
-                                    <!--begin::Export buttons-->
-                                    <div id="kt_datatable_example_1_export" class="d-none"></div>
-                                    <!--end::Export buttons-->
-                                </div>
+                            <div class="card-header">
                                 <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
                                     <!--begin::Export dropdown-->
                                     <input type="button" name="name" value="Filtre" onclick="$('#FormListe').toggle();" class="btn btn-sm btn-bg-primary" style="color:white;" />
@@ -138,6 +34,115 @@
                                         <i class="ki-duotone ki-plus fs-2"></i>Görev Ekle
                                     </a>
                                 </div>
+                            </div>
+                            @if (Model.Tables[1].Rows.Count > 0)
+                            {
+                                <div class="card-body px-4 scroll-x" align="center">
+                                    @foreach (DataRow satir in Model.Tables[1].Rows)
+                                    {
+                                        <div style="text-align:center;float:left;padding:5px;">
+                                            <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+                                                <div class="symbol-label">
+                                                    <img src="@(Convert.ToString(satir["Resim"]))" alt="@(Convert.ToString(satir["Isim"]))" class="w-100 h-100 object-fit-cover" />
+
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <span>@(Convert.ToString(satir["Isim"]))</span>
+                                            <br />
+                                            <span style="font-size:15px;"><strong>@(Convert.ToString(satir["Miktar"]))</strong></span>
+                                        </div>
+                                    }
+                                    <div style="clear:both;"></div>
+                                </div>
+                            }
+                            <div class="card-header align-items-center py-5 gap-2 gap-md-5 px-4">
+                                <div class="d-flex align-items-center position-relative my-1 w-100">
+
+                                    <form action="@Url.Content("~/Gorev/GorevListe")" method="get" class="w-100" id="FormListe" name="FormListe" style="display: none;">
+                                        <div class="row w-100">
+                                            <div  class="col-12 col-lg-4 mb-4 ">
+                                                <label  for="Durum" class="required form-label ">Durum</label>
+                                                <select class="form-control form-control-solid p-2 rounded-1" id="Durum" name="Durum">
+                                                    <option value="">Lütfen Seçim Yapınız</option>
+                                                    <option value="Beklemede" @(ViewBag.Durum == "Beklemede" ? "selected" : "")>Beklemede ve Cevaplananlar</option>
+                                                    <option value="Tamamlandı" @(ViewBag.Durum == "Tamamlandı" ? "selected" : "")>Tamamlandı</option>
+                                                    <option value="Onaylandı" @(ViewBag.Durum == "Onaylandı" ? "selected" : "")>Onaylandı</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-12 col-lg-4 mb-4">
+                                                <label style="width:100%;" for="GorevTipiID" class="border-bottom required form-label">Görev Tipi</label>
+                                                <div class="row">
+                                                    <div class="col-12 col-lg-8">
+                                                        <select class="form-control form-control-solid p-2 rounded-1" id="GorevTipiID" name="GorevTipiID">
+                                                            <option value="">Lütfen Seçim Yapınız</option>
+                                                            @foreach (GrupKoduDto gorevTipi in ViewBag.GorevTipleri)
+                                                            {
+                                                                <option value="@gorevTipi.ID" @(gorevTipi.ID == ViewBag.GorevTipiID ? "selected" : "")>@gorevTipi.Deger</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-12 col-lg-4">
+                                                        <select class="form-control form-control-solid p-2 rounded-1" id="Periyot" name="Periyot">
+                                                            <option value="">Periyot</option>
+                                                            <option value="T" @(ViewBag.Periyot == "T" ? "selected" : "")>Tek Seferlik</option>
+                                                            <option value="G" @(ViewBag.Periyot == "G" ? "selected" : "")>Günlük</option>
+                                                            <option value="H" @(ViewBag.Periyot == "H" ? "selected" : "")>Haftalık</option>
+                                                            <option value="A" @(ViewBag.Periyot == "A" ? "selected" : "")>Aylık</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-4 mb-4">
+                                                <label style="width:100%;" for="Baslangic" class="required form-label border-bottom">Kayıt Tarihi</label>
+                                                <div class="row">
+                                                    <div class="col-12 col-lg-6">
+                                                        <input type="date" class="form-control form-control-solid p-2 rounded-1" name="Baslangic" id="Baslangic" value="@(Convert.ToDateTime(ViewBag.Baslangic).ToString("yyyy-MM-dd"))" />
+                                                    </div>
+                                                    <div class="col-12 col-lg-6">
+                                                        <input type="date" class="form-control form-control-solid p-2 rounded-1" name="Bitis" id="Bitis" value="@(Convert.ToDateTime(ViewBag.Bitis).ToString("yyyy-MM-dd"))" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-4 mb-4">
+                                                <label style="width:100%;" for="Baslangic2" class="required form-label border-bottom">İşlem Tarihi</label>
+                                                <div class="row">
+                                                    <div class="col-12 col-lg-6">
+                                                        <input type="date" class="form-control form-control-solid p-2 rounded-1" name="Baslangic2" id="Baslangic2" value="@(Convert.ToDateTime(ViewBag.Baslangic2).ToString("yyyy-MM-dd"))" />
+                                                    </div>
+                                                    <div class="col-12 col-lg-6">
+                                                        <input type="date" class="form-control form-control-solid p-2 rounded-1" name="Bitis2" id="Bitis2" value="@(Convert.ToDateTime(ViewBag.Bitis2).ToString("yyyy-MM-dd"))" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-4 mb-4" >
+                                                <label  for="KayitYapanKullanici" class="required  form-label">Kaydı Açan</label>
+                                                <select class="form-control form-control-solid p-2 rounded-1" id="KayitYapanKullanici" name="KayitYapanKullanici">
+                                                    <option value="">Lütfen Seçim Yapınız</option>
+                                                    @foreach (DataRow drKullanici in dtKullanicilar.Rows)
+                                                    {
+                                                        <option value="@drKullanici["ID"]" @(Convert.ToString(drKullanici["ID"]) == Convert.ToString(ViewBag.KayitYapanKullanici) ? "selected" : "")>@drKullanici["Ad"] @drKullanici["Soyad"] - @drKullanici["Aciklama1"]</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-12 col-lg-4 mb-4">
+                                                <label for="AtananKullanici" class="required form-label">Atanan</label>
+                                                <select class="form-control form-control-solid p-2 rounded-1" id="AtananKullanici" name="AtananKullanici">
+                                                    <option value="">Lütfen Seçim Yapınız</option>
+                                                    @foreach (DataRow drKullanici in dtKullanicilar.Rows)
+                                                    {
+                                                        <option value="@drKullanici["ID"]" @(Convert.ToString(drKullanici["ID"]) == Convert.ToString(ViewBag.AtananKullanici) ? "selected" : "")>@drKullanici["Ad"] @drKullanici["Soyad"] - @drKullanici["Aciklama1"]</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="col-12 offset-lg-8 col-lg-4 d-flex justify-content-end mb-4">
+                                                <button type="submit" class="btn btn-primary btn-sm" id="btnGetir">Getir</button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+
                             </div>
 
                             <div class="card-body px-4 scroll-x">
@@ -165,91 +170,91 @@
                                             {
                                                 renk = "color:black;";
                                             }
-                                        <tr style="@(renk)">
-                                            <td style="padding-left:3px;width:40px;vertical-align:top;text-align:center;">
-                                                <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                                    <div class="symbol-label">
-                                                        <img src="@(Convert.ToString(Model.Tables[0].Rows[i]["Resim"]))" alt="@(Convert.ToString(Model.Tables[0].Rows[i]["KaydiAcan"]))" class="w-100 h-100 object-fit-cover" />
+                                            <tr style="@(renk)">
+                                                <td style="padding-left:3px;width:40px;vertical-align:top;text-align:center;">
+                                                    <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
+                                                        <div class="symbol-label">
+                                                            <img src="@(Convert.ToString(Model.Tables[0].Rows[i]["Resim"]))" alt="@(Convert.ToString(Model.Tables[0].Rows[i]["KaydiAcan"]))" class="w-100 h-100 object-fit-cover" />
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <br />
-                                                @(Convert.ToString(Model.Tables[0].Rows[i]["KaydiAcan"]))
-                                            </td>
-                                            <td style="padding-left:3px;width:150px;vertical-align:top;text-align:center;">
-                                                @{
-                                                    foreach (string item in Convert.ToString(Model.Tables[0].Rows[i]["AtananKullanicilar"]).Split('|'))
-                                                    {
-                                                        if (item.Trim().Length > 0)
+                                                    <br />
+                                                    @(Convert.ToString(Model.Tables[0].Rows[i]["KaydiAcan"]))
+                                                </td>
+                                                <td style="padding-left:3px;width:150px;vertical-align:top;text-align:center;">
+                                                    @{
+                                                        foreach (string item in Convert.ToString(Model.Tables[0].Rows[i]["AtananKullanicilar"]).Split('|'))
                                                         {
-                                                            <div style="float:left;text-align:center;margin-right:3px;">
-                                                                <div class="symbol symbol-circle symbol-20px overflow-hidden me-3" style="display:none;">
-                                                                    <div class="symbol-label">
-                                                                        <img src="@(item.Split('~')[1])" alt="@(item.Split('~')[0])" class="w-100 h-100 object-fit-cover" />
+                                                            if (item.Trim().Length > 0)
+                                                            {
+                                                                <div style="float:left;text-align:center;margin-right:3px;">
+                                                                    <div class="symbol symbol-circle symbol-20px overflow-hidden me-3" style="display:none;">
+                                                                        <div class="symbol-label">
+                                                                            <img src="@(item.Split('~')[1])" alt="@(item.Split('~')[0])" class="w-100 h-100 object-fit-cover" />
+                                                                        </div>
                                                                     </div>
+                                                                    <span style="font-size:13px;margin:0px;padding:0px;">@(item.Split('~')[0])</span>
                                                                 </div>
-                                                                <span style="font-size:13px;margin:0px;padding:0px;">@(item.Split('~')[0])</span>
-                                                            </div>
-                                                            <br />
+                                                                <br />
+                                                            }
                                                         }
+
                                                     }
+                                                </td>
+                                                <td style="vertical-align: top; width: 150px; ">
+                                                    <strong>@(Convert.ToDateTime(Model.Tables[0].Rows[i]["BaslangicTarihi"]).ToString("dd-MM-yyyy HH:mm"))</strong>
+                                                    <br />
+                                                    @if (Convert.ToString(Model.Tables[0].Rows[i]["Periyot"]) == "T")
+                                                    {
+                                                        <span style="color: green;">Tek Seferlik</span>
+                                                    }
+                                                    else if (Convert.ToString(Model.Tables[0].Rows[i]["Periyot"]) == "G")
+                                                    {
+                                                        <span style="color: blue;">Günlük</span>
+                                                    }
+                                                    else if (Convert.ToString(Model.Tables[0].Rows[i]["Periyot"]) == "H")
+                                                    {
+                                                        <span style="color: orange;">Haftalık</span>
+                                                    }
+                                                    else if (Convert.ToString(Model.Tables[0].Rows[i]["Periyot"]) == "Y")
+                                                    {
+                                                        <span style="color: red;">Yıllık</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>Bilinmeyen</span>
+                                                    }
+                                                    <br>
+                                                    <span style="color:green;">@Convert.ToString(Model.Tables[0].Rows[i]["Durumu"])</span>
+                                                    <span>@(Convert.ToString(Model.Tables[0].Rows[i]["GorevAtamaSayisi"]))/@(Convert.ToString(Model.Tables[0].Rows[i]["GorevHareketSayisi"]))</span>
 
-                                                }
-                                            </td>
-                                            <td style="vertical-align: top; width: 150px; ">
-                                                <strong>@(Convert.ToDateTime(Model.Tables[0].Rows[i]["BaslangicTarihi"]).ToString("dd-MM-yyyy HH:mm"))</strong>
-                                                <br />
-                                                @if (Convert.ToString(Model.Tables[0].Rows[i]["Periyot"]) == "T")
-                                                {
-                                                    <span style="color: green;">Tek Seferlik</span>
-                                                }
-                                                else if (Convert.ToString(Model.Tables[0].Rows[i]["Periyot"]) == "G")
-                                                {
-                                                    <span style="color: blue;">Günlük</span>
-                                                }
-                                                else if (Convert.ToString(Model.Tables[0].Rows[i]["Periyot"]) == "H")
-                                                {
-                                                    <span style="color: orange;">Haftalık</span>
-                                                }
-                                                else if (Convert.ToString(Model.Tables[0].Rows[i]["Periyot"]) == "Y")
-                                                {
-                                                    <span style="color: red;">Yıllık</span>
-                                                }
-                                                else
-                                                {
-                                                    <span>Bilinmeyen</span>
-                                                }
-                                                <br>
-                                                <span style="color:green;">@Convert.ToString(Model.Tables[0].Rows[i]["Durumu"])</span>
-                                                <span>@(Convert.ToString(Model.Tables[0].Rows[i]["GorevAtamaSayisi"]))/@(Convert.ToString(Model.Tables[0].Rows[i]["GorevHareketSayisi"]))</span>
+                                                </td>
+                                                <td style="vertical-align: top;">
+                                                    <span style="color:orange;">@(Convert.ToString(Model.Tables[0].Rows[i]["Gorev"]))</span>
+                                                    <br />
+                                                    @(Html.Raw(HttpUtility.HtmlDecode(Convert.ToString(Model.Tables[0].Rows[i]["Aciklama"]))))
+                                                </td>
 
-                                            </td>
-                                            <td style="vertical-align: top;">
-                                                <span style="color:orange;">@(Convert.ToString(Model.Tables[0].Rows[i]["Gorev"]))</span>
-                                                <br />
-                                                @(Html.Raw(HttpUtility.HtmlDecode(Convert.ToString(Model.Tables[0].Rows[i]["Aciklama"]))))
-                                            </td>
+                                                <td class="text-end" style="padding-right: 3px; vertical-align: top;width:150px;">
 
-                                            <td class="text-end" style="padding-right: 3px; vertical-align: top;width:150px;">
+                                                    @if (Convert.ToString(Model.Tables[0].Rows[i]["KayitYapanKullanici"]) == KullaniciID)
+                                                    {
 
-                                                @if (Convert.ToString(Model.Tables[0].Rows[i]["KayitYapanKullanici"]) == KullaniciID)
-                                                {
-                                                   
-                                                            <a href="/Gorev/GorevDuzenle/@(Convert.ToString(Model.Tables[0].Rows[i]["ID"]))" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" style="background-color:dodgerblue;color:white;font-size:14px;">Detay / Düzenle</a>
+                                                        <a href="/Gorev/GorevDuzenle/@(Convert.ToString(Model.Tables[0].Rows[i]["ID"]))" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" style="background-color:dodgerblue;color:white;font-size:14px;">Detay / Düzenle</a>
                                                         <br /><br />
-                                                            <button type="button" data-id="@(Convert.ToString(Model.Tables[0].Rows[i]["ID"]))" class="btn btn-sil btn-light btn-active-light-primary btn-flex btn-center btn-sm"  style="background-color:red;color:white;" data-bs-toggle="modal" data-bs-target="#Gorev-silme">
-                                                                Sil
-                                                            </button>
-                                                       
-                                                }
-                                                else
-                                                {
-                                                    <a href="/Gorev/GorevDuzenle/@(Convert.ToString(Model.Tables[0].Rows[i]["ID"]))" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm">Detay'a Git</a>
+                                                        <button type="button" data-id="@(Convert.ToString(Model.Tables[0].Rows[i]["ID"]))" class="btn btn-sil btn-light btn-active-light-primary btn-flex btn-center btn-sm" style="background-color:red;color:white;" data-bs-toggle="modal" data-bs-target="#Gorev-silme">
+                                                            Sil
+                                                        </button>
 
-                                                }
-                                                <br />
-                                                <span style="color:gray;">@Convert.ToDateTime(Model.Tables[0].Rows[i]["KayitTarihi"]).ToString("dd-MM-yyyy HH:mm")</span>
-                                            </td>
-                                        </tr>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="/Gorev/GorevDuzenle/@(Convert.ToString(Model.Tables[0].Rows[i]["ID"]))" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm">Detay'a Git</a>
+
+                                                    }
+                                                    <br />
+                                                    <span class="form-control form-control-solid p-2 rounded-1" style="color:gray;">@Convert.ToDateTime(Model.Tables[0].Rows[i]["KayitTarihi"]).ToString("dd-MM-yyyy HH:mm")</span>
+                                                </td>
+                                            </tr>
                                         }
                                     </tbody>
                                 </table>

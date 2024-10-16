@@ -13,5 +13,6 @@ namespace YKPortal.Models.Dto
         public long start { get; set; }
         public long end { get; set; }
         public string description { get; set; }
+        public string customStatus { get; set; }
     }
 }

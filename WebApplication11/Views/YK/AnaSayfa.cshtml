@@ -213,7 +213,7 @@
             <form class="form" action="/YK/TakvimKaydet" method="post" id="takvimKaydetForm">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h2 class="fw-bold">Etkinlik Ekle</h2>
+                    <h2 class="fw-bold" data-takvimModalBaslik></h2>
                     <button type="button" class="btn btn-icon btn-sm btn-active-icon-primary" data-bs-dismiss="modal">
                         <i class="ki-duotone ki-cross fs-1"></i>
                     </button>
@@ -221,16 +221,17 @@
 
                 <!-- Modal Body -->
                 <div class="modal-body py-10 px-lg-17">
+                    <input type="hidden" name="ID" id="TakvimID" value="" />
                     <!-- Etkinlik Adı -->
                     <div class="fv-row mb-9">
                         <label class="fs-6 fw-semibold required mb-2">Etkinlik Adı</label>
-                        <input type="text" id="Baslik" class="form-control form-control-solid" name="Baslik" placeholder="Etkinlik Adı" />
+                        <input type="text" id="TakvimBaslik" class="form-control form-control-solid" name="Baslik" placeholder="Etkinlik Adı" />
                     </div>
 
                     <!-- Açıklama -->
                     <div class="fv-row mb-9">
                         <label class="fs-6 fw-semibold mb-2">Açıklama</label>
-                        <textarea name="Aciklama" id="Aciklama" class="form-control form-control form-control-solid" data-kt-autosize="true" placeholder="Açıklama"></textarea>
+                        <textarea name="Aciklama" id="TakvimAciklama" class="form-control form-control form-control-solid" data-kt-autosize="true" placeholder="Açıklama"></textarea>
                     </div>
 
                     <!-- Durum Seçimi -->
@@ -257,7 +258,7 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label class="fs-6 fw-semibold mb-2 required">Tarihi</label>
-                                <input type="datetime-local" class="form-control form-control-solid" name="Tarih" id="Tarih" value="@(DateTime.Now.ToString("yyyy-MM-ddTHH:mm"))" />
+                                <input type="datetime-local" class="form-control form-control-solid" name="Tarih" id="TakvimTarih" value="@(DateTime.Now.ToString("yyyy-MM-ddTHH:mm"))" />
                             </div>
                         </div>
                     </div>
@@ -265,37 +266,15 @@
 
                 <!-- Modal Footer -->
                 <div class="modal-footer flex-center">
-                    <button type="reset" class="btn btn-light me-3" data-bs-dismiss="modal">Vazgeç</button>
-                    <button type="submit" id="kt_modal_add_event_submit" class="btn btn-primary">Kaydet</button>
+                    <button type="button" class="EtkinlikSil btn btn-sm btn-danger" data-bs-dismiss="modal" style="display: none;">Sil</button>
+                    <button type="reset" class="btn btn-light me-3 btn-sm" data-bs-dismiss="modal">Vazgeç</button>
+                    <button type="submit" id="kt_modal_add_event_submit" class="btn btn-primary btn-sm">Kaydet</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-
-
-<!-- Modal HTML yapısı -->
-<div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="eventModalTitle"></h5>
-                <button type="button" class="btn btn-sm btn-icon btn-danger" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p value="" id="eventModalDescription"></p>
-            </div>
-            <div class="modal-footer">
-                <input type="hidden" id="EventID" value="" />
-                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Kapat</button>
-                <button type="button" class="EtkinlikSil btn btn-sm btn-danger" data-bs-dismiss="modal">Sil</button>
-            </div>
-        </div>
-    </div>
-</div>
 @section Styles {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
@@ -310,10 +289,13 @@
 
     <script>
 
+      
 
 
         $(document).ready(function () {
-
+            $('#TakvimEtkinlikModal').on('hidden.bs.modal', function () {
+                $('button.EtkinlikSil').hide();
+            })
             var TakvimModulu = function () {
 
                 var calendar; // calendar değişkeni global olarak bu modülde tanımlandı
@@ -345,13 +327,42 @@
                         editable: true,
                         dayMaxEvents: true,
                         navLinks: true,
-                        events: '/YK/Takvim',
+                        events: function (dateRange, callback) {
+                            $.ajax({
+                                url: '/YK/Takvim',
+                                dataType: 'json',
+                                data: {
+                                    start: dateRange.startStr, 
+                                    end: dateRange.endStr, 
+                                },
+                                success: function (response) {
+                                    callback(response);
+                                },
+                                error: function (err) {
+                                    toastr("Takvim Hatası", "Takvim bilgileri getirilemedi.")
+                                }
+                            });
+                        },
                         eventClick: function (info) {
+                            console.log(info.event);
                             // Tıklanan etkinlikte açıklama ve başlık gösterimi
-                            $('#eventModalTitle').text(info.event.title);  // Etkinlik başlığını modal başlığına koyuyoruz
-                            $('#eventModalDescription').text(info.event.extendedProps.description);  // Açıklamayı modal içeriğine koyuyoruz
-                            $('#eventModal').modal('show');  // Modalı açıyoruz
-                            $('#EventID').val(info.event.id);
+                            $('[data-takvimModalBaslik]').text(info.event.title + " Düzenle");  // Etkinlik başlığını modal başlığına koyuyoruz
+                            //$('#eventModalDescription').text(info.event.extendedProps.description);  // Açıklamayı modal içeriğine koyuyoruz
+                            $('button.EtkinlikSil').show()
+                            $('#TakvimEtkinlikModal').modal('show');  // Modalı açıyoruz
+                            $("#TakvimDurumu option").each(function () {
+                                if ($(this).val() == info.event.extendedProps.customStatus) {
+                                    $(this).attr('selected', true);
+                                } else {
+                                    $(this).attr('selected', false);
+                                }
+                            })
+                            $('#TakvimID').val(info.event.id);
+                            $('#TakvimBaslik').val(info.event.title);
+                            $('#TakvimAciklama').val(info.event.extendedProps.description);
+                            setDateTimeInput('#TakvimTarih', info.event.start)
+                      
+                            //$('#EventID').val(info.event.id);
                         },
 
                         eventDidMount: function (info) {
@@ -385,7 +396,6 @@
                         };
 
 
-
                         if (Durumu.val() === "") {
                             isValidated = false;
                             message.Durumu.push("Lütfen bir durum seçiniz.")
@@ -397,15 +407,20 @@
                         }
 
                         var _data = {
-                            Baslik: $('#Baslik').val(),
-                            Aciklama: $('#Aciklama').val(),
+                            Baslik: $('#TakvimBaslik').val(),
+                            Aciklama: $('#TakvimAciklama').val(),
                             Durumu: $('#TakvimDurumu option:selected').val(),
-                            Tarih: moment($('#Tarih').val()).toISOString() // Sadece başlangıç tarihi göndermek
+                            Tarih: moment($('#TakvimTarih').val()).toISOString() // Sadece başlangıç tarihi göndermek
                         };
 
+                        if ($("input#TakvimID").val() && $("input#TakvimID").val().length > 0) {
+                            _data.Id = $("input#TakvimID").val()
+                        }
+
                         var temizle = function () {
-                            $('#Baslik').val('')
-                            $('#Aciklama').val('')
+                            $('#TakvimID').val('')
+                            $('#TakvimBaslik').val('')
+                            $('#TakvimAciklama').val('')
 
                             $('#TakvimDurumu option').each(function () {
                                 $(this).attr('selected', false)
@@ -413,8 +428,10 @@
                                     $(this).attr("selected", true);
                                 }
 
-                                setDateTimeNow("#Tarih");
+                                setDateTimeInput("#TakvimTarih");
                             });
+
+                            $('button.EtkinlikSil').hide();
                         }
 
                         console.log(_data); // Verileri kontrol etme
@@ -453,7 +470,7 @@
 
             $(document).on('click', '.EtkinlikSil', function () {
                 // Etkinlik ID'sini butonun data-id özelliğinden alıyoruz.
-                var etkinlikID = $('#EventID').val();
+                var etkinlikID = $('#TakvimID').val();
                 console.log(etkinlikID);
 
                 // Kullanıcıdan onay alma
@@ -468,6 +485,7 @@
                                 $('#etkinlik-' + etkinlikID).remove();
                                 alert('Etkinlik başarıyla silindi.');
                                 TakvimModulu.refetchEvents();
+                                $('button.EtkinlikSil').hide();
                             } else {
                                 // Eğer silme işlemi başarısız olursa
                                 alert('Etkinlik silinemedi. Lütfen tekrar deneyin.');
@@ -486,6 +504,10 @@
                 event.preventDefault(); // Formun doğal submit işlemini durdurur
                 TakvimModulu.saveCalendarEvent();
             });
+
+            $('button[data-bs-target="#TakvimEtkinlikModal"]').on('click', function () {
+                $('[data-takvimModalBaslik]').html('Etkinlik Ekle');
+            })
 
         });
     </script>

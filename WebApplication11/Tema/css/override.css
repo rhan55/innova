@@ -187,3 +187,7 @@ div.dt-container {
     height: 100dvh;
     overflow-y: hidden;
 }
+
+.tox-statusbar__branding {
+    display: hidden!important;
+}

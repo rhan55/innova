@@ -211,7 +211,7 @@
                                 <td style="padding: 5px; vertical-align: top;">@Convert.ToDateTime(sonuc["TamamlamaTarihi"]).ToString("dd-MM-yyyy HH:mm")</td>
 
                                 <td style="padding: 5px; vertical-align: top;">
-                                    @HttpUtility.HtmlDecode(Convert.ToString(sonuc["Aciklama"]))
+                                    @Html.Raw(HttpUtility.HtmlDecode(Convert.ToString(sonuc["Aciklama"])))
                                     <hr />
                                 </td>
                                 <td style="padding:5px;vertical-align:top;">
@@ -275,11 +275,11 @@
                                 <!--begin::texarea-->
                                 <select id="Durumu" name="Durumu" class="form-control">
 
-                                    <option value="Cevaplandı" selected>Cevaplandı</option>
-                                    <option value="Tamamlandı">Tamamlandı</option>
+                                    <option value="Cevaplandı" @(Model.Tables[0].Rows[0]["Durumu"] == "Cevaplandı" ? "selected" : "")>Cevaplandı</option>
+                                    <option value="Tamamlandı" @(Model.Tables[0].Rows[0]["Durumu"] == "Tamamlandı" ? "selected" : "")>Tamamlandı</option>
                                     @if (Convert.ToString(Model.Tables[0].Rows[0]["KayitYapanKullanici"]) == KullaniciID)
                                     {
-                                        <option value="Onaylandı">Onaylandı</option>
+                                        <option value="Onaylandı" @(Model.Tables[0].Rows[0]["Durumu"] == "Onaylandı" ? "selected" : "")>Onaylandı</option>
                                     }
                                 </select>
                                 <!--end::Input-->

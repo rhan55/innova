@@ -631,8 +631,8 @@
          })
         }
 
-        function setDateTimeNow(input) {
-            var now = new Date();
+        function setDateTimeInput(input, date = null) {
+            var now = date ? new Date(date) : new Date();
             var year = now.getFullYear();
             var month = ('0' + (now.getMonth() + 1)).slice(-2); // Ayı 2 haneli formatla
             var day = ('0' + now.getDate()).slice(-2); // Günü 2 haneli formatla

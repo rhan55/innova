@@ -155,6 +155,7 @@ namespace YKPortal.Controllers
             }
         }
 
+
         [HttpGet]
         public JsonResult Takvim(DateTime start, DateTime end)
         {
@@ -183,6 +184,7 @@ namespace YKPortal.Controllers
                     entity.start = new DateTimeOffset(Convert.ToDateTime(takvimListesi.Rows[i]["Tarih"]).ToUniversalTime()).ToUnixTimeMilliseconds();
                     entity.end = new DateTimeOffset(Convert.ToDateTime(takvimListesi.Rows[i]["Tarih"]).ToUniversalTime()).ToUnixTimeMilliseconds();
                     entity.description = Convert.ToString(takvimListesi.Rows[i]["Aciklama"]) ?? string.Empty;
+                    entity.customStatus = Convert.ToString(takvimListesi.Rows[i]["Durumu"]) ?? string.Empty;
                     entities.Add(entity);
                 }
                 result.Data = new { Success = true, Message = "Başarılı", Data = entities };
