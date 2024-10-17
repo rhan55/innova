@@ -98,7 +98,7 @@ function TutarHesapla(miktarid, fiyatid, tutarid) {
 
     var miktar = parseFloat($("#" + miktarid).val().replace(/\./g, '').replace(',', '.')); // Tüm noktaları kaldır, ilk virgülü noktaya çevir
     var fiyat = parseFloat($("#" + fiyatid).val().replace(/\./g, '').replace(',', '.'));   // Tüm noktaları kaldır, ilk virgülü noktaya çevir
-
+  
     if (isNaN(miktar)) miktar = 0;  // Eğer miktar bir sayı değilse, 0 yap
     if (isNaN(fiyat)) fiyat = 0;    // Eğer fiyat bir sayı değilse, 0 yap
 
@@ -134,7 +134,7 @@ function ToplamTutarHesapla() {
        
         var kdvData = parseFloat($(input).closest('[data-ID2]').find('[data-kt-element="kdv-data"]').val());
         if ($(input).val().includes(',')) {
-            toplamTutar = toplamTutar + parseFloat($(input).val().replace(".", "").replace(",", ".")) + (kdvData * parseFloat($(input).val().replace(".", "").replace(",", ".")) / 100);
+            toplamTutar = toplamTutar + parseFloat($(input).val().replace(/\./g, '').replace(',', '.')) + (kdvData * parseFloat($(input).val().replace(/\./g, '').replace(',', '.')) / 100);
         } else {
             toplamTutar = toplamTutar + parseFloat($(input).val()) + (kdvData * parseFloat($(input).val()));
         }
@@ -149,8 +149,8 @@ function KdvTutarHesapla() {
     $('[data-kt-element="kdv-data"]').each(function (index, input) {
 
         var kdvId = $(input).attr('id');
-        var kdv = parseFloat($(input).val());
-        var tutar = parseFloat($("#Tutar_" + kdvId.split("_")[1]).val());
+        var kdv = parseFloat($(input).val().replace(/\./g, '').replace(',', '.'));
+        var tutar = parseFloat($("#Tutar_" + kdvId.split("_")[1]).val().replace(/\./g, '').replace(',', '.'));
 
         kdvTutari = kdvTutari + kdv * tutar / 100;
     });
@@ -162,9 +162,9 @@ function IskontoTutarHesapla() {
     var iskontoTutari = 0;
     $('[data-kt-element="iskonto-data"]').each(function (index, input) {
         var iskontoId = $(input).attr('id');
-        var iskonto = parseFloat($(input).val());
-        var miktar = parseFloat($("#Miktar_" + iskontoId.split("_")[1]).val());
-        var fiyat = parseFloat($("#Fiyat_" + iskontoId.split("_")[1]).val());
+        var iskonto = parseFloat($(input).val().replace(/\./g, '').replace(',', '.'));
+        var miktar = parseFloat($("#Miktar_" + iskontoId.split("_")[1]).val().replace(/\./g, '').replace(',', '.'));
+        var fiyat = parseFloat($("#Fiyat_" + iskontoId.split("_")[1]).val().replace(/\./g, '').replace(',', '.'));
 
         iskontoTutari = iskontoTutari + iskonto * miktar * fiyat / 100;
     });
@@ -176,8 +176,8 @@ function AraToplamHesapla() {
     var araToplam = 0;
     $('[data-kt-element="iskonto-data"]').each(function (index, input) {
         var iskontoId = $(input).attr('id');
-        var miktar = parseFloat($("#Miktar_" + iskontoId.split("_")[1]).val());
-        var fiyat = parseFloat($("#Fiyat_" + iskontoId.split("_")[1]).val());
+        var miktar = parseFloat($("#Miktar_" + iskontoId.split("_")[1]).val().replace(/\./g, '').replace(',', '.'));
+        var fiyat = parseFloat($("#Fiyat_" + iskontoId.split("_")[1]).val().replace(/\./g, '').replace(',', '.'));
         araToplam = araToplam + miktar * fiyat;
     });
 
@@ -334,7 +334,7 @@ function YeniSatirAc(Tip, IsMobile) {
 
         
         deger += `
-                <div class="col-12 col-lg-1 d-flex flex-column align-items-end justify-content-end pt-4 pt-lg-0">
+                <div class="col-12 col-lg-1 mt-8 pt-lg-0">
                     <div>
                         <button type="button" class="deleteBtn btn-sm" onclick='SatirSil("${YeniID}")' data-ID2='${YeniID}'>Sil</button>
                     </div>

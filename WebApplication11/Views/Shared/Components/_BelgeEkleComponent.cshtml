@@ -246,7 +246,7 @@
                                                 <input type="text" data-component='money-input' data-kt-element="tutar-data" name="Tutar_@(ID)" id="Tutar_@(ID)" value="@(String.Format("{0:N2}", satir.Tutar))" class="form-control p-2" readonly />
                                             </div>
                                         }
-                                        <div class="col-12 col-lg-1 d-flex flex-column align-items-end justify-content-end pt-4 pt-lg-0">
+                                        <div style="height:50px;" class="col-12 col-lg-1 mt-8 pt-lg-0">
                                             <div>
                                                 <button type="button" class="deleteBtn btn-sm" onclick="SatirSil('@(ID)')" data-ID2='@(ID)'>Sil</button>
                                             </div>
@@ -258,7 +258,7 @@
 
                     </div>
                     <div class="col-lg-4">
-                        <button type="button" onclick="YeniSatirAc('DT', '1')" name="btnYeniSatir" id="btnYeniSatir" class="btn btn-primary btn-sm" style="width:150px;">+ Yeni Satır Aç</button>
+                        <button type="button" onclick="YeniSatirAc('DT', '1')" name="btnYeniSatir" id="btnYeniSatir" class="btn btn-primary btn-sm " style="width:150px;">+ Yeni Satır Aç</button>
                     </div>
 
                 </form>
