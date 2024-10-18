@@ -211,50 +211,7 @@
 <script>
 
     $(document).ready(function () {
-
-
-
-
-        const gorevTipidSelect = $('#GorevTipiID').select2({
-            ajax: {
-                url: "/Gorev/GorevTipiListesiniOlustur",
-                data: function (params) {
-                    var query = {
-                        search: params.term,
-                    }
-
-                    // Query parameters will be ?search=[term]&type=public
-                    return query;
-                },
-                processResults: function (data) {
-                    var results = [];
-                    if (data && data.length > 0) {
-                        data.forEach(function (item) {
-                            results.push({ id: item.ID, text: item.Isim })
-                        });
-                    }
-
-                    return {
-                        results: results
-                    };
-                },
-            },
-            delay: 250,
-            minimumInputLength: 3,
-            language: {
-                placeholder: function () {
-                    return "Arama yapmak için en az 3 karakter girin";
-                },
-                inputTooShort: function () {
-                    return "Lütfen en az 3 karakter girin";
-                }
-            }
-        });
-
-
-
-
-
+        const gorevTipidSelect = $('#GorevTipiID').select2(select2Options("/Gorev/GorevTipiListesiniOlustur"));
     });
 
 </script>

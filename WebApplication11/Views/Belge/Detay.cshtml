@@ -609,84 +609,13 @@
 
         $(function () {
 
-            const CariIDSelect = $('#CariID').select2({
-                ajax: {
-                    url: "/Cari/SelectListe",
-                    data: function (params) {
-                        var query = {
-                            search: params.term,
-                        }
-
-                        // Query parameters will be ?search=[term]&type=public
-                        return query;
-                    },
-                    processResults: function (data) {
-                        var results = [];
-                        if (data && data.length > 0) {
-                            data.forEach(function (item) {
-                                results.push({ id: item.ID, text: item.Isim })
-                            });
-                        }
-
-                        return {
-                            results: results
-                        };
-                    }
-                },
-                delay: 250,
-                minimumInputLength: 1,
-                language: {
-                    placeholder: function () {
-                        return "Arama yapmak için en az 1 karakter girin";
-                    },
-                    inputTooShort: function () {
-                        return "En az lütfen en az 1 karakter girin";
-                    }
-                }
-            });
-
-
+            const CariIDSelect = $('#CariID').select2(select2Options("/Cari/SelectListe"));
         });
 
         function StokAramaOlustur(stokid) {
             $(function () {
 
-                const StokIDSelect = $('#' + stokid).select2({
-                    ajax: {
-                        url: "/Stok/SelectListe",
-                        data: function (params) {
-                            var query = {
-                                search: params.term,
-                            }
-
-                            // Query parameters will be ?search=[term]&type=public
-                            return query;
-                        },
-                        processResults: function (data) {
-                            var results = [];
-                            if (data && data.length > 0) {
-                                data.forEach(function (item) {
-                                    results.push({ id: item.ID, text: item.Isim })
-                                });
-                            }
-
-                            return {
-                                results: results
-                            };
-                        }
-                    },
-
-                    delay: 250,
-                    minimumInputLength: 1,
-                    language: {
-                        placeholder: function () {
-                            return "Arama yapmak için en az 1 karakter girin";
-                        },
-                        inputTooShort: function () {
-                            return "En az lütfen en az 1 karakter girin";
-                        }
-                    }
-                });
+                const StokIDSelect = $('#' + stokid).select2(select2Options("/Stok/SelectListe"));
 
                 $('#' + stokid).on('select2:selecting', function (e) {
                     var stok_id = (e.params.args.data.id);
@@ -753,44 +682,7 @@
 
             $(function () {
 
-                const StokIDSelect@(satir.ID.Replace("-","")) = $('#StokID_@(satir.ID.Replace("-",""))').select2({
-                    ajax: {
-                        url: "/Stok/SelectListe",
-                        data: function (params) {
-                            var query = {
-                                search: params.term,
-                            }
-
-                            // Query parameters will be ?search=[term]&type=public
-                            return query;
-                        },
-                        processResults: function (data) {
-                            var results = [];
-                            if (data && data.length > 0) {
-                                data.forEach(function (item) {
-                                    results.push({ id: item.ID, text: item.Isim })
-                                });
-                            }
-
-                            return {
-                                results: results
-                            };
-                        }
-                    },
-                    delay: 250,
-                    minimumInputLength: 1,
-                    language: {
-                        placeholder: function () {
-                            return "Arama yapmak için en az 1 karakter girin";
-                        },
-                        inputTooShort: function () {
-                            return "En az lütfen en az 1 karakter girin";
-                        }
-                    }
-                });
-
-
-            });
+                const StokIDSelect@(satir.ID.Replace("-","")) = $('#StokID_@(satir.ID.Replace("-",""))').select2(select2Options("/Stok/SelectListe"));
 
 
             $('#StokID_@(satir.ID.Replace("-",""))').on('change', function () {

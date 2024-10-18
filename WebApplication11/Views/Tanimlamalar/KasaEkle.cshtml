@@ -82,79 +82,11 @@
 
         $(document).ready(function () {
 
-            const PersonelIDSelect = $('#PersonelID').select2({
-                ajax: {
-                    url: "/Tanimlamalar/PersonelGetir",
-                    data: function (params) {
-                        var query = {
-                            search: params.term,
-                        }
-
-                        // Query parameters will be ?search=[term]&type=public
-                        return query;
-                    },
-                    processResults: function (data) {
-                        var results = [];
-                        if (data && data.length > 0) {
-                            data.forEach(function (item) {
-                                results.push({ id: item.ID, text: item.Isim })
-                            });
-                        }
-
-                        return {
-                            results: results
-                        };
-                    },
-                },
-                delay: 250,
-                minimumInputLength: 3,
-                language: {
-                    placeholder: function () {
-                        return "Arama yapmak için en az 3 karakter girin";
-                    },
-                    inputTooShort: function () {
-                        return "En azLütfen en az 3 karakter girin";
-                    }
-                }
-            });
+            const PersonelIDSelect = $('#PersonelID').select2(select2Options("/Tanimlamalar/PersonelGetir"));
 
             $(document).ready(function () {
 
-                const DovizIDSelect = $('#DovizID').select2({
-                    ajax: {
-                        url: "/Tanimlamalar/DovizGetir",
-                        data: function (params) {
-                            var query = {
-                                search: params.term,
-                            }
-
-                            // Query parameters will be ?search=[term]&type=public
-                            return query;
-                        },
-                        processResults: function (data) {
-                            var results = [];
-                            if (data && data.length > 0) {
-                                data.forEach(function (item) {
-                                    results.push({ id: item.ID, text: item.Isim })
-                                });
-                            }
-
-                            return {
-                                results: results
-                            };
-                        },
-                    },
-                    delay: 250,
-                    minimumInputLength: 3,
-                    language: {
-                        placeholder: function () {
-                            return "Arama yapmak için en az 3 karakter girin";
-                        },
-                        inputTooShort: function () {
-                            return "En azLütfen en az 3 karakter girin";
-                        }
-                    }
-                });
+                const DovizIDSelect = $('#DovizID').select2(select2Options("/Tanimlamalar/DovizGetir"));
 
         });
 

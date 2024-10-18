@@ -546,6 +546,43 @@
   
     <script>
 
+        function select2Options(url) {
+            return {
+                ajax: {
+                    url: url,
+                    data: function (params) {
+                        var query = {
+                            search: params.term,
+                        }
+
+                        // Query parameters will be ?search=[term]&type=public
+                        return query;
+                    },
+                    processResults: function (data) {
+                        var results = [];
+                        if (data && data.length > 0) {
+                            data.forEach(function (item) {
+                                results.push({ id: item.ID, text: item.Isim })
+                            });
+                        }
+
+                        return {
+                            results: results
+                        };
+                    },
+                },
+                delay: 250,
+                minimumInputLength: 1,
+                language: {
+                    placeholder: function () {
+                        return "Arama yapmak için en az 1 karakter girin";
+                    },
+                    inputTooShort: function () {
+                        return "Lütfen en az 1 karakter girin";
+                    }
+                }
+            }
+        }
     function toastr(title = "", description = "") {
         const toastElement = document.getElementById('kt_docs_toast_toggle');
         $(toastElement).find('[data-element="toast-title"]').html(title);
