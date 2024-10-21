@@ -1,0 +1,53 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Tatil Günleri";
+    DataTable dtKayit = ViewBag.dtKayit as DataTable;
+}
+
+<form action="@(System.Configuration.ConfigurationManager.AppSettings["IISIcIsim"])/YKMakine/TatilGunuEkle" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" id="id" value="@ViewBag.id" />
+    <h3>Detay #@ViewBag.id</h3>
+    <table style="font-size:12px;" border="1" class="table responsive">
+        <tr>
+            <td style="padding:3px;"><label>Açıklama</label><input type="text" name="Aciklama" id="Aciklama" value="@(dtKayit.Rows.Count > 0 ? dtKayit.Rows[0]["Aciklama"] : "")" style="" class="form-control" required /></td>
+            <td style="padding:3px;"><label>Başlangıç</label><input type="date" name="Baslangic" id="Baslangic" value="@(dtKayit.Rows.Count > 0 ? Convert.ToDateTime(dtKayit.Rows[0]["Baslangic"]).ToString("yyyy-MM-dd") : "")" style="" class="form-control" required /></td>
+            <td style="padding:3px;"><label>Başlangıç</label><input type="date" name="Bitis" id="Bitis" value="@(dtKayit.Rows.Count > 0 ? Convert.ToDateTime(dtKayit.Rows[0]["Bitis"]).ToString("yyyy-MM-dd") : "")" style="" class="form-control" required /></td>
+            <td style="padding:3px;">.<br /><input type="submit" name="name" value="Kaydet" class="btn btn-success" style="" /></td>
+        </tr>
+    </table>
+    <br />
+
+</form>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th style="padding: 2px; text-align: center;">Açıklama</th>
+            <th style="padding: 2px; text-align: left;">Başlangıç</th>
+            <th style="padding: 2px; text-align: left;">Bitiş</th>
+            <th style="padding: 2px; text-align: center;">İşlem</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (DataRow satir in Model.Rows)
+            {
+                string renk = "";
+        <tr style="@(renk)">
+            <td style="padding: 2px; text-align: left;">@satir["Aciklama"]</td>
+            <td style="padding:2px;text-align:center;">@Convert.ToDateTime(satir["Baslangic"]).ToString("dd-MM-yyyy")</td>
+            <td style="padding:2px;text-align:center;">@Convert.ToDateTime(@satir["Bitis"]).ToString("dd-MM-yyyy")</td>
+            <td style="padding:2px;text-align:center;">
+                <a href="@Url.Action("TatilGunleri", "YKMakine", new { id = satir["ID"] })">Detay</a> |
+                <a href="@Url.Action("TatilGunuSil", "YKMakine", new { id = satir["ID"] })" onclick="return confirm('Silmek istediğinizden emin misiniz?')">Sil</a>
+            </td>
+        </tr>
+            }
+        }
+    </tbody>
+</table>
+@section scripts {
+
+}

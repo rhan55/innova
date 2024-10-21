@@ -1,0 +1,482 @@
+﻿@model System.Data.DataTable
+@using System.Data.SqlClient
+@using System.Data
+@using System.Collections
+@{
+    ViewBag.Title = "Bakım Detayı";
+
+    bool SonlandirilmisBelge = false;
+    DataTable dtSorular = (DataTable)ViewBag.Sorular;
+    ArrayList SoruKategorileri = new ArrayList();
+    ArrayList SoruKategorileriSonuc = new ArrayList();
+    foreach (DataRow soru in dtSorular.Rows)
+    {
+        if (!SoruKategorileri.Contains(Convert.ToString(soru["KategoriAdi"])))
+        {
+            if (Convert.ToInt32(soru["Gosterme"]) == 0)
+            {
+                SoruKategorileri.Add(Convert.ToString(soru["KategoriAdi"]));
+            }
+        }
+        if (!SoruKategorileriSonuc.Contains(Convert.ToString(soru["KategoriAdi"])))
+        {
+            SoruKategorileriSonuc.Add(Convert.ToString(soru["KategoriAdi"]));
+        }
+    }
+
+
+
+}
+
+
+
+
+@if (true)
+{
+
+    <section class="card" style="padding:5px;">
+
+
+        <style>
+            .kbw-signature {
+                width: 300px;
+                height: 200px;
+            }
+        </style>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script>
+        </script>
+        <div>
+            <table class="">
+                <thead>
+                    <tr>
+                        <td>Bakım Detayları #@Model.Rows[0]["ID"]  - <a href="@Url.Action("BakimListem", "YKMakine", new { Tarih = DateTime.Today.ToString("yyyy-MM-dd") })">Listeye Geri Dön</a></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+
+                        {
+                            <tr style="font-size:12px;">
+                                <td>
+                                    <strong>Müşteri: @Model.Rows[0]["CariAdi"]</strong><br />
+                                    <strong>Adres: @Model.Rows[0]["Adres"]</strong><br />
+                                    <strong>Telefon: @Model.Rows[0]["Telefon"]</strong><br />
+                                    <strong>Seri: @Model.Rows[0]["SeriNo"]</strong><br />
+                                    @if (Convert.ToInt32(Model.Rows[0]["TipID"]) == 2)
+                                    {
+                                        <span style="color:red;"><strong>Şikayet: </strong>@Model.Rows[0]["Sikayet"]</span><br />
+                                        <span style="color:green;"><strong>Yapılan İşlem: </strong>@Model.Rows[0]["Aciklama"]</span>
+                                    }
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            <hr />
+            @if (SoruKategorileri.Count > 0)
+            {
+                <form role="form" name="FormBakimSikayet" id="FormBakimSikayet" action="@Url.Action("BakimSikayetKaydet", "YKMakine", null)" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" id="id" value="@(Model.Rows[0]["ID"])" />
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Şikayet</label>
+                        <textarea rows="5" class="form-control" id="Sikayet" name="Sikayet">@Model.Rows[0]["Sikayet"]</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-danger">Şikayeti Kaydet</button>
+                </form>
+                <div style="margin:10px;">
+                    <img src="@Url.Content("~/Content/1.png")" style="height:30px;margin-left:20px;" />Görsel Kontrol
+                    <img src="@Url.Content("~/Content/2.png")" style="height:30px;margin-left:20px;" />Ölçüm
+                    <img src="@Url.Content("~/Content/3.png")" style="height:30px;margin-left:20px;" />İşlev Kontrol
+                    <img src="@Url.Content("~/Content/4.png")" style="height:30px;margin-left:20px;" />Temizlik
+                    <img src="@Url.Content("~/Content/5.png")" style="height:30px;margin-left:20px;" />Yağlama
+                </div>
+            }
+            @if (Convert.ToInt32(Model.Rows[0]["TipID"]) == 1)
+            {
+                if (Convert.ToString(Model.Rows[0]["Durum"]).Trim().Length == 0)
+                {
+                    //Sorular
+                    foreach (string kategori in SoruKategorileri)
+                    {
+                        string guid = Guid.NewGuid().ToString().Replace("-", "_");
+                        ArrayList kontrolEdilecekIDler = new ArrayList();
+                        <form action="@Url.Action("BakimYapSoru","YKMakine",new { id= Model.Rows[0]["ID"], Tip = Model.Rows[0]["Tip"], KategoriAdi = kategori})" id="Form@(Model.Rows[0]["ID"])" method="post" enctype="multipart/form-data">
+                            <h3>@kategori</h3>
+                            <table class="table">
+                                <tr>
+                                    <td><strong>#</strong></td>
+                                    <td><strong>Soru</strong></td>
+                                </tr>
+                                @foreach (DataRow soru in dtSorular.Rows)
+                                {
+                                    if (Convert.ToString(soru["KategoriAdi"]) == kategori)
+                                    {
+                                        <tr>
+                                            <td>@soru["SoruSirasi"]</td>
+                                            <td><strong>@soru["Soru"]</strong></td>
+                                        </tr>
+                                        <tr style="text-align:left;">
+                                            <td colspan="2">
+                                                @if (Convert.ToBoolean(soru["TestTipi1"]) == true)
+                                                {
+                                                    <label for="dessert1-@(soru["ID"])">
+                                                        <img src="@Url.Content("~/Content/1.png")" style="height:30px;margin-top:-20px;" />
+                                                    </label>
+                                                    <input type="checkbox" name="Cevap1_@(soru["ID"])" id="dessert1-@(soru["ID"])" value="1" style="height: 25px; width: 25px;" />
+                                                }
+                                                @if (Convert.ToBoolean(soru["TestTipi2"]) == true)
+                                                {
+                                                    <label for="dessert2-@(soru["ID"])">
+                                                        <img src="@Url.Content("~/Content/2.png")" style="height: 30px; margin-top: -20px;" />
+                                                    </label>
+                                                    <input type="checkbox" name="Cevap2_@(soru["ID"])" id="dessert2-@(soru["ID"])" value="1" style="height: 25px; width: 25px; " />
+                                                }
+                                                @if (Convert.ToBoolean(soru["TestTipi3"]) == true)
+                                                {
+                                                    <label for="dessert3-@(soru["ID"])">
+                                                        <img src="@Url.Content("~/Content/3.png")" style="height: 30px; margin-top: -20px;" />
+                                                    </label>
+                                                    <input type="checkbox" name="Cevap3_@(soru["ID"])" id="dessert3-@(soru["ID"])" value="1" style="height: 25px; width: 25px; " />
+                                                }
+                                                @if (Convert.ToBoolean(soru["TestTipi4"]) == true)
+                                                {
+                                                    <label for="dessert4-@(soru["ID"])">
+                                                        <img src="@Url.Content("~/Content/4.png")" style="height: 30px; margin-top: -20px;" />
+                                                    </label>
+                                                    <input type="checkbox" name="Cevap4_@(soru["ID"])" id="dessert4-@(soru["ID"])" value="1" style="height: 25px; width: 25px; " />
+                                                }
+                                                @if (Convert.ToBoolean(soru["TestTipi5"]) == true)
+                                                {
+                                                    <label for="dessert5-@(soru["ID"])">
+                                                        <img src="@Url.Content("~/Content/5.png")" style="height: 30px; margin-top: -20px;" />
+                                                    </label>
+                                                    <input type="checkbox" name="Cevap5_@(soru["ID"])" id="dessert5-@(soru["ID"])" value="1" style="height: 25px; width: 25px; " />
+                                                }
+                                                @if (Convert.ToBoolean(soru["Dosya"]) == true)
+                                                {
+                                                    kontrolEdilecekIDler.Add("Dosya_[" + soru["ID"] + "]");
+                                                    <label for="Dosya_[@(soru["ID"])]" class="btn"><img src="@Url.Content("~/Content/mobile.png")" style="height:30px;" /></label>
+                                                    <input type="file" id="Dosya_[@(soru["ID"])]" name="Dosya_[@(soru["ID"])]" accept="image/*" Capture="" style="display:none;">
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <input type="button" name="name" value="Kaydet" class="btn btn-success" onclick="Kontrol_@(guid)();" />
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <script>
+                                function Kontrol_@(guid)() {
+                                    var FormuGonder = true;
+                                    @foreach (string item in kontrolEdilecekIDler)
+                                    {
+                                        @Html.Raw("var deger" + guid + " = document.getElementById(\""+ item + "\").files.length > 0; ")
+                                        @Html.Raw("console.log(deger" + guid + ");\n")
+                                        @Html.Raw("if(deger" + guid + " == false) {")
+                                        @Html.Raw(" FormuGonder = false;")
+                                        @Html.Raw("} ")
+                                    }
+
+                                    if (FormuGonder) {
+                                        document.getElementById("Form@(Model.Rows[0]["ID"])").submit();
+                                    } else {
+                                        swal({
+                                            title: "UYARI",
+                                            type: "info",
+                                            text: "Resim alanlarının tamamı doldurulmalı.",
+                                            showConfirmButton: true
+                                        }, function (isConfirm) {
+                                            if (isConfirm) {
+
+                                            }
+                                        });
+                                    }
+                                }
+                            </script>
+
+
+
+
+                        </form>
+                    }
+                    if (SoruKategorileri.Count == 0)
+                    {
+                        // Son İşlem
+                        <form role="form" name="FormBakim" id="FormBakim" action="@Url.Action("BakimKapat", "YKMakine", null)" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="id" id="id" value="@(Model.Rows[0]["ID"])" />
+
+                            <div><input type="hidden" name="SeriNo" id="SeriNo" value="@(Model.Rows[0]["SeriNo"])" /></div>
+
+                            <div class="form-group">
+                                <label for="exampleInputFile">İşlem Tipleri <strong>( Şu anki durum: @Model.Rows[0]["Tip"] )</strong></label>
+                                <select class="form-control" name="Durum" id="Durum" required>
+                                    @foreach (System.Data.DataRow item2 in ((System.Data.DataTable)ViewBag.IslemTipleri).Rows)
+                                    {
+                                        <option value="@item2["Kod"]" @(Convert.ToString(item2["Kod"]) == "Bakım Yapıldı" ? "selected" : "")>@item2["Kod"]</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Yapılan İşlem</label>
+                                <textarea rows="5" class="form-control" id="Aciklama" name="Aciklama"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Yetkili İsim</label>
+                                <textarea rows="1" class="form-control" id="YetkiliIsim" name="YetkiliIsim"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">İmza</label><br />
+                                <div id="sig" name="sig"></div>
+                                <input type="hidden" name="Imza" id="Imza" value="" />
+                            </div>
+                            <input type="hidden" name="Imza" id="Imza" value="" />
+                            <hr />
+                            <button type="button" class="btn btn-danger" onclick="FormGonder();">Kaydet</button>
+                        </form>
+                    }
+                }
+                else
+                {
+                    SonlandirilmisBelge = true;
+
+                    // Son İşlem Bilgisi
+                    <table class="table table-striped table-advance table-hover">
+                        <tr>
+                            <td><strong>Belge Numarası</strong></td>
+                            <td>@Model.Rows[0]["ID"]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bakımı Yapan</strong></td>
+                            <td>@Model.Rows[0]["Isim"]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Durumu</strong></td>
+                            <td style="color:dodgerblue;">@Model.Rows[0]["Durum"]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cari Kodu</strong></td>
+                            <td>@Model.Rows[0]["CariKodu"]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cari Adı</strong></td>
+                            <td><strong>@Model.Rows[0]["CariAdi"]</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Adres</strong></td>
+                            <td>@Model.Rows[0]["Adres"]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Telefon</strong></td>
+                            <td>@Model.Rows[0]["Telefon"]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tarih</strong></td>
+                            <td>@Convert.ToDateTime(Model.Rows[0]["Tarih"]).ToString("dd-MM-yyyy")</td>
+                        </tr>
+                        @if (Model.Rows[0]["IslemTarihi"] != DBNull.Value)
+                        {
+                            <tr>
+                                <td><strong>İşlem Tarihi</strong></td>
+                                <td id="@(Convert.ToDateTime(Model.Rows[0]["Tarih"]) != Convert.ToDateTime(Model.Rows[0]["IslemTarihi"]) ? "pulsate-regular" : "")" style="@(Convert.ToDateTime(Model.Rows[0]["Tarih"]) != Convert.ToDateTime(Model.Rows[0]["IslemTarihi"]) ? "color:red;" : "")"><strong>@Model.Rows[0]["IslemTarihi"]</strong></td>
+                            </tr>
+                        }
+                        <tr>
+                            <td><strong>Açıklama</strong></td>
+                            <td>@Model.Rows[0]["Aciklama"]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Şikayet</strong></td>
+                            <td>@Model.Rows[0]["Sikayet"]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Yetkili İsim</strong></td>
+                            <td>@Model.Rows[0]["YetkiliIsim"]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Stok Adı</strong></td>
+                            <td>@Model.Rows[0]["StokAdi"]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Seri No</strong></td>
+                            <td style="color:red;">@Model.Rows[0]["SeriNo"]</td>
+                        </tr>
+                    </table>
+
+                    foreach (string kategori in SoruKategorileriSonuc)
+                    {
+                        <h3>@kategori </h3>
+                        <table class="table">
+                            <tr>
+                                <td><strong>#</strong></td>
+                                <td><strong>Soru</strong></td>
+                            </tr>
+                            @foreach (DataRow soru in dtSorular.Rows)
+                            {
+                                if (Convert.ToString(soru["KategoriAdi"]) == kategori)
+                                {
+                                    <tr>
+                                        <td>@soru["SoruSirasi"]</td>
+                                        <td><strong>@soru["Soru"]</strong></td>
+                                    </tr>
+                                    <tr style="text-align:left;">
+                                        <td colspan="2">
+                                            @if (Convert.ToBoolean(soru["TestTipi1"]) == true)
+                                            {
+                                                <label for="dessert1-@(soru["ID"])">
+                                                    <img src="@Url.Content("~/Content/1.png")" style="height:30px;margin-top:-20px;" />
+                                                </label>
+                                                <input type="checkbox" name="Cevap1_@(soru["ID"])" id="dessert1-@(soru["ID"])" value="1" style="height: 25px; width: 25px;" disabled @(Convert.ToBoolean(soru["CevapTestTipi1"]) == true ? "checked='checked'" : "") />
+                                            }
+                                            @if (Convert.ToBoolean(soru["TestTipi2"]) == true)
+                                            {
+                                                <label for="dessert2-@(soru["ID"])">
+                                                    <img src="@Url.Content("~/Content/2.png")" style="height: 30px; margin-top: -20px;" />
+                                                </label>
+                                                <input type="checkbox" name="Cevap2_@(soru["ID"])" id="dessert2-@(soru["ID"])" value="1" style="height: 25px; width: 25px; " disabled @(Convert.ToBoolean(soru["CevapTestTipi2"]) == true ? "checked='checked'" : "") />
+                                            }
+                                            @if (Convert.ToBoolean(soru["TestTipi3"]) == true)
+                                            {
+                                                <label for="dessert3-@(soru["ID"])">
+                                                    <img src="@Url.Content("~/Content/3.png")" style="height: 30px; margin-top: -20px;" />
+                                                </label>
+                                                <input type="checkbox" name="Cevap3_@(soru["ID"])" id="dessert3-@(soru["ID"])" value="1" style="height: 25px; width: 25px; " disabled @(Convert.ToBoolean(soru["CevapTestTipi3"]) == true ? "checked='checked'" : "") />
+                                            }
+                                            @if (Convert.ToBoolean(soru["TestTipi4"]) == true)
+                                            {
+                                                <label for="dessert4-@(soru["ID"])">
+                                                    <img src="@Url.Content("~/Content/4.png")" style="height: 30px; margin-top: -20px;" />
+                                                </label>
+                                                <input type="checkbox" name="Cevap4_@(soru["ID"])" id="dessert4-@(soru["ID"])" value="1" style="height: 25px; width: 25px; " disabled @(Convert.ToBoolean(soru["CevapTestTipi4"]) == true ? "checked='checked'" : "") />
+                                            }
+                                            @if (Convert.ToBoolean(soru["TestTipi5"]) == true)
+                                            {
+                                                <label for="dessert5-@(soru["ID"])">
+                                                    <img src="@Url.Content("~/Content/5.png")" style="height: 30px; margin-top: -20px;" />
+                                                </label>
+                                                <input type="checkbox" name="Cevap5_@(soru["ID"])" id="dessert5-@(soru["ID"])" value="1" style="height: 25px; width: 25px; " disabled @(Convert.ToBoolean(soru["CevapTestTipi5"]) == true ? "checked='checked'" : "") />
+                                            }
+                                            @if (Convert.ToBoolean(soru["Dosya"]) == true)
+                                            {
+                                                <a href="@Url.Content("~/Resimler/"+soru["CevapDosya"])" target="_blank">
+                                                    <img src="@Url.Content("~/Resimler/"+soru["CevapDosya"])" alt="" style="height:100px;" />
+                                                </a>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </table>
+                    }
+
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">İmza : </label><br />
+                        <div id='prev'></div>
+                    </div>
+                    <hr />
+
+                }
+            }
+            else if (Convert.ToInt32(Model.Rows[0]["TipID"]) == 2)
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_Servis_CariCihaz";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CariKodu", Model.Rows[0]["CariKodu"]);
+
+                DataTable dtCihazlar = (DataTable)YKWebPortal.Models.ID.Sorgula(cmd, YKWebPortal.Models.SorgulaTuru.Tablo, "");
+
+
+                <form role="form" name="FormBakim" id="FormBakim" action="@Url.Action("BakimKapat", "YKMakine", null)" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" id="id" value="@(Model.Rows[0]["ID"])" />
+                    <div class="form-group" style="display:none;">
+                        <label for="exampleInputFile">İşlem Tipleri <strong>( Şu anki durum: @Model.Rows[0]["Tip"] )</strong></label>
+                        <select class="form-control" name="Durum" id="Durum" required>
+                            @foreach (System.Data.DataRow item2 in ((System.Data.DataTable)ViewBag.IslemTipleri).Rows)
+                            {
+                                <option value="@item2["Kod"]" @(Convert.ToString(item2["Kod"]) == "Bakım Yapıldı" ? "selected" : "")>@item2["Kod"]</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputFile">Seri No</label>
+                        <select class="form-control" name="SeriNo" id="SeriNo" required>
+                            <option value=""></option>
+                            @foreach (System.Data.DataRow item2 in dtCihazlar.Rows)
+                            {
+                                <option value="@item2["Kod"]" @(Convert.ToString(Model.Rows[0]["SeriNo"]) == Convert.ToString(item2["Kod"]) ? "selected" : "")>@item2["Kod"] - @item2["Isim"]</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputFile">Arıza Resmi</label>
+                        <input type="file" id="Cevap1" name="Cevap1" accept="image/*" Capture="">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Yapılan İşlem</label>
+                        <textarea rows="5" class="form-control" id="Aciklama" name="Aciklama"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Yetkili İsim</label>
+                        <textarea rows="1" class="form-control" id="YetkiliIsim" name="YetkiliIsim"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">İmza</label><br />
+                        <div id="sigAriza" name="sigAriza"></div>
+                    </div>
+                    <input type="hidden" name="Imza" id="Imza" value="" />
+                    <hr />
+                    <button type="button" class="btn btn-danger" onclick="FormGonder();">Kaydet</button>
+                </form>
+
+            }
+        </div>
+
+    </section>
+
+
+
+
+    @section scripts {
+
+        <script>
+
+                var sig = $('#sig').signature();
+                var sigAriza = $('#sigAriza').signature();
+
+                function FormGonder() {
+                    $("#Imza").val(sig.signature('toJSON'));
+                    document.getElementById("FormBakim").submit();
+                }
+                
+
+                @if (SonlandirilmisBelge )
+                {
+                    @Html.Raw("var imza = '"+Html.Raw(Convert.ToString(Model.Rows[0]["Imza"]))+"';\n");
+                    @Html.Raw(@"
+                        $('#prev').signature({disabled: true});
+                        $('#prev').signature('enable').
+		                        signature('draw', imza).
+		                        signature('disable');
+                    ");
+                }
+        </script>
+
+
+
+
+    }
+
+
+
+
+}

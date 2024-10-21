@@ -1,0 +1,105 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Cari Sıralaması";
+}
+
+<div style="width:100%;">
+    <table id="TableCariSiralamasi" name="TableCariSiralamasi" style="width:100%;">
+        <thead>
+            <tr>
+                <th>Kod</th>
+                <th>İsim (@(Model.Rows.Count) kayıt mevcut.)</th>
+                <th>İl</th>
+                <th>İlçe</th>
+                <th>Adres</th>
+                <th>Sıra</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow satir in Model.Rows)
+            {
+                <tr>
+                    <td>@satir["CariKodu"]</td>
+                    <td>@satir["CariAdi"]</td>
+                    <td>@satir["Il"]</td>
+                    <td>@satir["Ilce"]</td>
+                    <td>@satir["Adres"]</td>
+                    <td><input type="number" name="Sira_@(satir["ID"])" data-carikodu="@satir["CariKodu"]" value="@satir["Sira"]"  /> </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <input type="button" name="btnKaydet" id="btnKaydet" value="Kaydet" class="btn btn-primary" onclick="Kaydet();" />
+    <span style="color:red;"><strong>Bu işlem biraz uzun sürebilir, lütfen kaydet'e tıklatıktan sonra bekleyiniz...'</strong></span>
+</div>
+
+@section scripts {
+
+    <script type="text/javascript">
+        function Kaydet() {
+            $("#btnKaydet").val("Lütfen Bekleyin...");
+            var table = document.getElementById("TableCariSiralamasi");
+            for (var i = 1, row; row = table.rows[i]; i++)
+            {
+                //satırları dönüyoruz 1 satır veri olduğu için veri satırını dönüyoruz
+                for (var j = 1, col; col = row.cells[j]; j++)
+                {
+                    //kolonları dönüyoruz
+                    if (col.querySelector('input') != null) {
+                        var CariKodu = col.querySelector('input').getAttribute("data-carikodu");
+                        var Sira = col.querySelector('input').value;//.getAttribute("checked");
+                        
+                        $("#btnKaydet").val("Kaydediliyor... "+Sira+"/"+CariKodu);
+                        console.log("{ 'CariKodu':'" + CariKodu + "','Sira':'" + Sira + "'  }");
+                        if (Sira != 999) {
+                            $.ajax({
+                                url: '/YKMakine/CariSiralamaKaydet',
+                                data: "{ 'CariKodu':'" + CariKodu + "','Sira':'" + Sira + "'  }",
+                                dataType: "json",
+                                async: false,
+                                type: "POST",
+                                contentType: "application/json; charset=utf-8",
+                                dataFilter: function (data) { return data; },
+                                success: function (data) {
+                                    console.log(data);
+                                    if (data.SonucKodu == "1") {
+
+                                    } else {
+                                        Swal.fire({
+                                            position: "center",
+                                            icon: "error",
+                                            title: data.Aciklama,
+                                            showConfirmButton: true,
+                                            //timer: 3000
+                                        });
+                                        return;
+                                    }
+                                },
+                                error: function (msg) {
+                                    console.log("HATA! " + msg);
+                                    Swal.fire({
+                                        position: "center",
+                                        icon: "error",
+                                        title: msg,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Sıralamalar başarıyla kaydedildi",
+                showConfirmButton: true,
+                //timer: 3000
+            });
+            $("#btnKaydet").val("Kaydet");
+        }
+
+    </script>
+}

@@ -1,0 +1,51 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Kategoriler";
+    DataTable dtKayit = ViewBag.dtKayit as DataTable;
+}
+
+<form action="@(System.Configuration.ConfigurationManager.AppSettings["IISIcIsim"])/YKMakine/KategoriEkle" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" id="id" value="@ViewBag.id" />
+    <h3>Detay #@ViewBag.id</h3>
+    <table style="font-size:12px;" border="1" class="table responsive">
+        <tr>
+            <td style="padding:3px;"><label>Sıra</label><input type="text" name="Sira" id="Sira" value="@(dtKayit.Rows.Count > 0 ? dtKayit.Rows[0]["Sira"] : "")" style="" class="form-control" required /></td>
+            <td style="padding:3px;"><label>Değer</label><input type="text" name="Deger" id="Deger" value="@(dtKayit.Rows.Count > 0 ? dtKayit.Rows[0]["Deger"] : "")" style="" class="form-control" required /></td>
+         
+            <td style="padding:3px;">.<br /><input type="submit" name="name" value="Kaydet" class="btn btn-success" style="" /></td>
+        </tr>
+    </table>
+    <br />
+
+</form>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th style="padding: 2px; text-align: center;">Sıra</th>
+            <th style="padding: 2px; text-align: left;">Değer</th>
+            <th style="padding: 2px; text-align: center;">İşlem</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (DataRow satir in Model.Rows)
+            {
+                string renk = "";
+        <tr style="@(renk)">
+            <td style="padding: 2px; text-align: left;">@satir["Sira"]</td>
+            <td style="padding:2px;text-align:center;">@satir["Deger"]</td>
+            <td style="padding:2px;text-align:center;">
+                <a href="@Url.Action("Kategoriler", "YKMakine", new { id = satir["ID"] })">Detay</a> |
+                <a href="@Url.Action("KategoriSil", "YKMakine", new { id = satir["ID"] })" onclick="return confirm('Silmek istediğinizden emin misiniz?')">Sil</a>
+            </td>
+        </tr>
+            }
+        }
+    </tbody>
+</table>
+@section scripts {
+
+}

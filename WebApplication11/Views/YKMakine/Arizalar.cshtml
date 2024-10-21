@@ -1,0 +1,219 @@
+﻿@using System.Data
+@model System.Data.DataSet
+@{
+    ViewBag.Title = "Arızalar";
+
+    DataTable dtCariler = ViewBag.dtCariler as DataTable;
+    DataTable dtTeknisyenler = ViewBag.Teknisyenler as DataTable;
+}
+
+<div style="width:100%;">
+    @if (true)
+    {
+        <form action="@Url.Action("ArizaKaydet","YKMakine",null)" method="get">
+            <input type="button" name="name" value="Yeni Kayıt" onclick="$('#YeniAriza').toggle();" />
+            <table style="width:100%;display:none;" id="YeniAriza" name="YeniAriza">
+                <tr>
+                    <td>Cari</td>
+                    <td>:</td>
+                    <td>
+                        <select name="CariKodu" id="CariKodu" class="js-example-basic-single" onChange="SerileriGetir();" style="width:450px;">
+                            @foreach (DataRow satir in dtCariler.Rows)
+                            {
+                                <option value="@satir["Depo"]">@satir["Depo"]</option>
+                            }
+                        </select>
+                    </td>
+                    <td>Seri</td>
+                    <td>:</td>
+                    <td>
+                        <input type="text" name="SeriNo" id="SeriNo" class="form-control" value="" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Açıklama</td>
+                    <td>:</td>
+                    <td colspan="4"><textarea name="Sikayet" id="Sikayet" rows="5" class="form-control"></textarea></td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td><input type="submit" name="name" value="Kaydet ve Detayı Git" class="btn btn-success" /></td>
+                </tr>
+            </table>
+        </form>
+    }
+
+    @foreach (DataRow satir in Model.Tables[1].Rows)
+    {
+        <div style="float:left;text-align:center;width:130px;height:70px;padding:3px;" class="@(Convert.ToString(satir["Durum"]).EndsWith("Parça Bekleniyor") ? "blinking-text" : "")">
+            <span style="font-size:15px;"><strong>@satir["Durum"]</strong></span><br />
+            <span style="font-size:30px;"><strong>@satir["Miktar"]</strong></span>
+        </div>
+    }
+
+
+
+    <form action="@Url.Action("Arizalar","YKMakine",null)" method="get">
+        <table>
+            <tr>
+                <td>Başlangıç</td>
+                <td><input type="date" name="Baslangic" id="Baslangic" value="@ViewBag.Baslangic" /></td>
+            </tr>
+            <tr>
+                <td>Bitiş</td>
+                <td><input type="date" name="Bitis" id="Bitis" value="@ViewBag.Bitis" /></td>
+            </tr>
+            <tr>
+                <td>Durum</td>
+                <td>
+                    <select id="Durum" name="Durum">
+                        <option value="">Hepsi</option>
+                        <option value="Beklemede" @(Convert.ToString(ViewBag.Durum) == "Beklemede" ? "selected" : "")> Beklemede</option>
+                        <option value="Yapılıyor" @(Convert.ToString(ViewBag.Durum) == "Yapılıyor" ? "selected" : "")> Yapılıyor</option>
+                        <option value="Parça Bekleniyor" @(Convert.ToString(ViewBag.Durum) == "Parça Bekleniyor" ? "selected" : "")> Parça Bekleniyor</option>
+                        <option value="Arıza Yapıldı" @(Convert.ToString(ViewBag.Durum) == "Arıza Yapıldı" ? "selected" : "")> Arıza Yapıldı</option>
+                        <option value="Bakım Yapıldı" @(Convert.ToString(ViewBag.Durum) == "Bakım Yapıldı" ? "selected" : "")> Bakım Yapıldı</option>
+                        <option value="Teslim Edildi" @(Convert.ToString(ViewBag.Durum) == "Teslim Edildi" ? "selected" : "")> Teslim Edildi</option>
+                        <option value="İptal" @(Convert.ToString(ViewBag.Durum) == "İptal" ? "selected" : "")>İptal</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Teknisyen</td>
+                <td>
+                    <select id="Teknisyen" name="Teknisyen">
+                        <option value="">Hepsi</option>
+                        @foreach (DataRow teknisyen in dtTeknisyenler.Rows)
+                        {
+                            <option value="@teknisyen["ID"]" @(Convert.ToString(teknisyen["ID"]) == ViewBag.Teknisyen ? "selected" : "")>@teknisyen["Isim"]</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Cari</td>
+                <td>
+                    <select name="Cari" id="Cari">
+                        <option value="">Hepsi</option>
+                        @foreach (DataRow satir in dtCariler.Rows)
+                        {
+                            <option value="@satir["Depo"]" @(Convert.ToString(satir["Depo"]) == ViewBag.Cari ? "selected" : "")>@satir["Depo"]</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Kayıt Sayısı:@Model.Tables[0].Rows.Count</td>
+                <td><input type="submit" name="name" value="Yenile" /></td>
+            </tr>
+        </table>
+    </form>
+    <table id="TableCariSiralamasi" name="TableCariSiralamasi" style="width:100%;">
+        <thead>
+            <tr>
+                <th>Tarih</th>
+                <th>Durum</th>
+                <th>Teknisyen</th>
+                <th>Cari Adı</th>
+                <th>Seri No</th>
+                <th>Detay</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow satir in Model.Tables[0].Rows)
+            {
+
+                string renk = "";
+                string IDclass = "";
+                if (Convert.ToString(satir["Durum"]) == "" || Convert.ToString(satir["Durum"]) == "Beklemede")
+                {
+                    renk = "background-color:orange;";
+                }
+                else if (Convert.ToString(satir["Durum"]).EndsWith("Yapıldı"))
+                {
+                    renk = "background-color:green;color:white;";
+                }
+
+                if (Convert.ToString(satir["Durum"]).EndsWith("Parça Bekleniyor"))
+                {
+                    IDclass = "blinking-text";
+                }
+                <tr style="@(renk)" class="@(IDclass)">
+                    <td>@satir["Tarih"]</td>
+                    <td>@(Convert.ToString(satir["Durum"]) == "" ? "Beklemede" : satir["Durum"])</td>
+                    <td>@satir["TeknisyenAdi"]</td>
+                    <td>@satir["CariAdi"]</td>
+                    <td>@satir["SeriNo"]</td>
+                    <td><a href="@Url.Content("~/YKMakine/ArizaDetay/"+satir["ID"])">Detay'a Git</a></td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<style>
+    @@keyframes blink {
+        0% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .blinking-text {
+        background: red;
+        color: black;
+        animation: blink 1s infinite;
+    }
+</style>
+
+
+@section scripts {
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.js-example-basic-single').select2();
+        });
+
+        function SerileriGetir() {
+            var carikodu = $("#CariKodu").val();
+            $.ajax({
+                async: false,
+                cache: false,
+                type: "GET",
+                url: "/YKMakine/CariCihazGetir",
+                data: { "CariKodu": carikodu },
+                success: function (data2) {
+                    $('#SeriNo').empty();
+                    $('#SeriNo')
+                        .append($("<option></option>")
+                            .attr("value", "")
+                            .text(""));
+                    $.each(data2.Data, function (data3, key, value) {
+                        $('#SeriNo')
+                            .append($("<option></option>")
+                                .attr("value", key.Value)
+                                .text(key.Text));
+                    });
+                },
+                error: function (data) {
+                }
+            });
+
+
+        }
+
+    </script>
+}

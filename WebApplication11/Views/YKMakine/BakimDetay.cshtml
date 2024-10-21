@@ -1,0 +1,237 @@
+﻿@model System.Data.DataTable
+@{
+    ViewBag.Title = "Bakım Detayı - "+Model.Rows[0]["ID"];
+    int sira = 0;
+}
+
+
+
+<style>
+
+    #prev {
+        width: 300px;
+        height: 200px;
+    }
+</style>
+<section class="card">
+    <header class="card-header">
+
+
+
+        <!-- Preview -->
+
+
+    </header>
+
+
+    <table class="table table-striped table-advance table-hover">
+        <tr>
+            <td><strong>Belge Numarası</strong></td>
+            <td>@Model.Rows[0]["ID"]</td>
+        </tr>
+        <tr>
+            <td><strong>Bakımı Yapan</strong></td>
+            <td>@Model.Rows[0]["Isim"]</td>
+        </tr>
+        <tr>
+            <td><strong>Durumu</strong></td>
+            <td style="color:dodgerblue;">@Model.Rows[0]["Durum"]</td>
+        </tr>
+        <tr>
+            <td><strong>Cari Kodu</strong></td>
+            <td>@Model.Rows[0]["CariKodu"]</td>
+        </tr>
+        <tr>
+            <td><strong>Cari Adı</strong></td>
+            <td><strong>@Model.Rows[0]["CariAdi"]</strong></td>
+        </tr>
+        <tr>
+            <td><strong>Adres</strong></td>
+            <td>@Model.Rows[0]["Adres"]</td>
+        </tr>
+        <tr>
+            <td><strong>Telefon</strong></td>
+            <td>@Model.Rows[0]["Telefon"]</td>
+        </tr>
+        <tr>
+            <td><strong>Tarih</strong></td>
+            <td>@Convert.ToDateTime(Model.Rows[0]["Tarih"]).ToString("dd-MM-yyyy")</td>
+        </tr>
+        @if (Model.Rows[0]["IslemTarihi"] != DBNull.Value)
+        {
+            <tr>
+                <td><strong>İşlem Tarihi</strong></td>
+                <td id="@(Convert.ToDateTime(Model.Rows[0]["Tarih"]) != Convert.ToDateTime(Model.Rows[0]["IslemTarihi"]) ? "pulsate-regular" : "")" style="@(Convert.ToDateTime(Model.Rows[0]["Tarih"]) != Convert.ToDateTime(Model.Rows[0]["IslemTarihi"]) ? "color:red;" : "")"><strong>@Model.Rows[0]["IslemTarihi"]</strong></td>
+            </tr>
+        }
+        <tr>
+            <td><strong>Açıklama</strong></td>
+            <td>@Model.Rows[0]["Aciklama"]</td>
+        </tr>
+        <tr>
+            <td><strong>Şikayet</strong></td>
+            <td>@Model.Rows[0]["Sikayet"]</td>
+        </tr>
+        <tr>
+            <td><strong>Yetkili İsim</strong></td>
+            <td>@Model.Rows[0]["YetkiliIsim"]</td>
+        </tr>
+        <tr>
+            <td><strong>Stok Adı</strong></td>
+            <td>@Model.Rows[0]["StokAdi"]</td>
+        </tr>
+        <tr>
+            <td><strong>Seri No</strong></td>
+            <td style="color:red;">@Model.Rows[0]["SeriNo"]</td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+
+                <section class="card">
+                    <header class="card-header">
+                        İşlemler
+                    </header>
+                    <div class="card-body">
+                        <ul class="grid cs-style-1" style="float:left;margin-right:3px;border:1px;border-color:black;">
+                            <li>
+                                <figure>
+                                    <img src="@Url.Content("~/Resimler/"+Model.Rows[0]["Cevap1"])" alt="" style="height:300px;">
+                                    <figcaption>
+                                        <span>LDU Kontrol (Manuel Otomatik Kurtarma</span>
+                                        <a class="fancybox" rel="group" href="@Url.Content("~/Resimler/"+Model.Rows[0]["Cevap1"])"></a>
+                                    </figcaption>
+                                </figure>
+                            </li>
+                        </ul>
+                        <ul class="grid cs-style-1" style="float:left;margin-right:3px;">
+                            <li>
+                                <figure>
+                                    <img src="@Url.Content("~/Resimler/"+Model.Rows[0]["Cevap2"])" alt="" style="height:300px;">
+                                    <figcaption>
+                                        <span>Motor mekan ve regülatör</span>
+                                        <a class="fancybox" rel="group" href="@Url.Content("~/Resimler/"+Model.Rows[0]["Cevap2"])"></a>
+                                    </figcaption>
+                                </figure>
+                            </li>
+                        </ul>
+                        <ul class="grid cs-style-1" style="float:left;margin-right:3px;">
+                            <li>
+                                <figure>
+                                    <img src="@Url.Content("~/Resimler/"+Model.Rows[0]["Cevap3"])" alt="" style="height:300px;">
+                                    <figcaption>
+                                        <span>Kat Kapıları</span>
+                                        <a class="fancybox" rel="group" href="@Url.Content("~/Resimler/"+Model.Rows[0]["Cevap3"])"></a>
+                                    </figcaption>
+                                </figure>
+                            </li>
+                        </ul>
+                        <ul class="grid cs-style-1" style="float:left;margin-right:3px;">
+                            <li>
+                                <figure>
+                                    <img src="@Url.Content("~/Resimler/"+Model.Rows[0]["Cevap4"])" alt="" style="height:300px;">
+                                    <figcaption>
+                                        <span>Karşı Ağırlık</span>
+                                        <a class="fancybox" rel="group" href="@Url.Content("~/Resimler/"+Model.Rows[0]["Cevap4"])"></a>
+                                    </figcaption>
+                                </figure>
+                            </li>
+                        </ul>
+                        <ul class="grid cs-style-1" style="float:left;margin-right:3px;">
+                            <li>
+                                <figure>
+                                    <img src="@Url.Content("~/Resimler/"+Model.Rows[0]["Cevap5"])" alt="" style="height:300px;">
+                                    <figcaption>
+                                        <span>Kuyu Dibi (Paraşüt ve Makaralar)</span>
+                                        <a class="fancybox" rel="group" href="@Url.Content("~/Resimler/"+Model.Rows[0]["Cevap5"])"></a>
+                                    </figcaption>
+                                </figure>
+                            </li>
+                        </ul>
+                        <ul class="grid cs-style-1" style="float:left;margin-right:3px;">
+                            <li>
+                                <figure>
+                                    <img src="@Url.Content("~/Resimler/"+Model.Rows[0]["Cevap6"])" alt="" style="height:300px;">
+                                    <figcaption>
+                                        <span>Kabin Altı (Paraşüt ve Makaralar)</span>
+                                        <a class="fancybox" rel="group" href="@Url.Content("~/Resimler/"+Model.Rows[0]["Cevap6"])"></a>
+                                    </figcaption>
+                                </figure>
+                            </li>
+                        </ul>
+                        <ul class="grid cs-style-1" style="float:left;margin-right:3px;">
+                            <li>
+                                <figure>
+                                    <img src="@Url.Content("~/Resimler/"+Model.Rows[0]["Cevap7"])" alt="" style="height:300px;">
+                                    <figcaption>
+                                        <span>Katları dolaşıp seviye ve buton kontrolü</span>
+                                        <a class="fancybox" rel="group" href="@Url.Content("~/Resimler/"+Model.Rows[0]["Cevap7"])"></a>
+                                    </figcaption>
+                                </figure>
+                            </li>
+                        </ul>
+                        <ul class="grid cs-style-1" style="float:left;margin-right:3px;">
+                            <li>
+                                <figure>
+                                    <img src="@Url.Content("~/Resimler/"+Model.Rows[0]["Cevap8"])" alt="" style="height:300px;">
+                                    <figcaption>
+                                        <span>LDU (Bakım defteri, kuyu ışığı)</span>
+                                        <a class="fancybox" rel="group" href="@Url.Content("~/Resimler/"+Model.Rows[0]["Cevap8"])"></a>
+                                    </figcaption>
+                                </figure>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>İmza</td>
+            <td>
+                <div id='prev'></div>
+            </td>
+        </tr>
+    </table>
+
+
+
+</section>
+
+
+
+
+
+@section scripts {
+
+    <script>
+        $(function () {
+            // Initalize Örnek İmza Gösterimi
+
+            $('#signature').signature();
+            $('#prev').signature({ disabled: true });
+
+            function ImzayiGoster() {
+                var imza = '@Html.Raw(Convert.ToString(Model.Rows[0]["Imza"]))';
+                $('#prev').signature('draw', imza);
+            }
+            window.setTimeout(ImzayiGoster, 500);
+            /**/
+        });
+        $(function () {
+            //    fancybox
+            jQuery(".fancybox").fancybox();
+        });
+    </script>
+    <script type="text/javascript" src="@Url.Content("~/Content/js/jquery.pulsate.min.js")"></script>
+    <script src="@Url.Content("~/Content/js/pulstate.js")" type="text/javascript"></script>
+
+
+
+}
+
+
+
+

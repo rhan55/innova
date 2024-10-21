@@ -1,0 +1,54 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Cari Cihaz Detayları";
+    DataTable dtKayit = ViewBag.dtKayit as DataTable;
+}
+
+@if (false)
+{
+<form action="@(System.Configuration.ConfigurationManager.AppSettings["IISIcIsim"])/YKMakine/CariCihazEkle" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" id="id" value="@ViewBag.id" />
+    <input type="hidden" name="CariID" id="CariID" value="@ViewBag.CariID" />
+    <h3>Detay #@ViewBag.id  @Request.QueryString["CariAdi"]</h3>
+    <table style="font-size:12px;" border="1" class="table responsive">
+        <tr>
+            <td style="padding:3px;"><label>Şube</label><input type="text" name="Sube" id="Sube" value="@(dtKayit.Rows.Count > 0 ? dtKayit.Rows[0]["Sube"] : "")" style="" class="form-control" required /></td>
+            <td style="padding:3px;"><label>Bölüm</label><input type="text" name="Bolum" id="Bolum" value="@(dtKayit.Rows.Count > 0 ? dtKayit.Rows[0]["Bolum"] : "")" style="" class="form-control" required /></td>
+            <td style="padding:3px;"><label>Marka</label><input type="text" name="Marka" id="Marka" value="@(dtKayit.Rows.Count > 0 ? dtKayit.Rows[0]["Marka"] : "")" style="" class="form-control" required /></td>
+            <td style="padding:3px;"><label>Model</label><input type="text" name="Model" id="Model" value="@(dtKayit.Rows.Count > 0 ? dtKayit.Rows[0]["Model"] : "")" style="" class="form-control" required /></td>
+            <td style="padding:3px;"><label>İsim</label><input type="text" name="Isim" id="Isim" value="@(dtKayit.Rows.Count > 0 ? dtKayit.Rows[0]["Isim"] : "")" style="" class="form-control" required /></td>
+            <td style="padding:3px;"><label>Seri</label><input type="text" name="Seri" id="Seri" value="@(dtKayit.Rows.Count > 0 ? dtKayit.Rows[0]["Seri"] : "")" style="" class="form-control" required /></td>
+            <td style="padding:3px;">.<br /><input type="submit" name="name" value="Kaydet" class="btn btn-success" style="" /></td>
+        </tr>
+    </table>
+    <br />
+
+</form>
+}
+<table border="1">
+    <thead>
+        <tr>
+            <th style="padding: 2px; text-align: left;">Stok Kodu</th>
+            <th style="padding: 2px; text-align: left;">Stok Adı</th>
+            <th style="padding: 2px; text-align: left;">Seri</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (DataRow satir in Model.Rows)
+            {
+                string renk = "";
+                <tr style="@(renk)">
+                    <td style="padding: 2px; text-align: left;">@satir["STOK_KODU"]</td>
+                    <td style="padding: 2px; text-align: left;">@satir["StokAdi"]</td>
+                    <td style="padding: 2px; text-align: left;">@satir["SeriNo"]</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@section scripts {
+
+}

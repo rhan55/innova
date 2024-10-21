@@ -1,0 +1,111 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Soru Detayı";
+    DataTable dtKategoriler = ViewBag.dtKategoriler as DataTable;
+}
+
+<form action="@(System.Configuration.ConfigurationManager.AppSettings["IISIcIsim"])/YKMakine/Soru" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" id="id" value="@ViewBag.id" />
+    <h3>Detay #@ViewBag.id</h3>
+    <table style="font-size:12px;" border="1" class="table responsive">
+        <tr>
+            <td style="width:100px;">Modül</td>
+            <td style="width:3px;">:</td>
+            <td>
+                <select name="Modul" id="Modul" class="form-control">
+                    <option value="Bakım" selected>Bakım</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Soru Sırası</td>
+            <td>:</td>
+            <td><input type="number" name="SoruSirasi" id="SoruSirasi" value="@(Model.Rows.Count > 0 ? Model.Rows[0]["SoruSirasi"] : "")" placeholder="sıra" class="form-control" style="width:100px;" /></td>
+        </tr>
+        <tr>
+            <td>Kategori</td>
+            <td>:</td>
+            <td>
+                <select name="KategoriID" id="KategoriID" class="form-control">
+                    @foreach (DataRow satir in dtKategoriler.Rows)
+                    {
+                        <option value="@satir["ID"]" @(Model.Rows.Count > 0 ? (Convert.ToInt32(Model.Rows[0]["KategoriID"]) == Convert.ToInt32(satir["ID"]) ? "selected" : "") : "")>@satir["Deger"]</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Soru</td>
+            <td>:</td>
+            <td><input type="text" name="Soru" id="Soru" value="@(Model.Rows.Count > 0 ? Model.Rows[0]["Soru"] : "")" style="width:100%;" placeholder="soru" class="form-control"  /></td>
+        </tr>
+        <tr>
+            <td>Dosya</td>
+            <td>:</td>
+            <td><input type="checkbox" name="Dosya" id="Dosya" value="1" @(Model.Rows.Count > 0 ? (Convert.ToBoolean(Model.Rows[0]["Dosya"]) == true ? "checked" : "") : "") /></td>
+        </tr>
+        <tr>
+            <td>Görsel Kontrol</td>
+            <td>:</td>
+            <td><input type="checkbox" name="TestTipi1" id="TestTipi1" value="1" @(Model.Rows.Count > 0 ? (Convert.ToBoolean(Model.Rows[0]["TestTipi1"]) == true ? "checked" : "") : "") /></td>
+        </tr>
+        <tr>
+            <td>İşlev Kontrol</td>
+            <td>:</td>
+            <td><input type="checkbox" name="TestTipi2" id="TestTipi2" value="1" @(Model.Rows.Count > 0 ? (Convert.ToBoolean(Model.Rows[0]["TestTipi2"]) == true ? "checked" : "") : "")/></td>
+        </tr>
+        <tr>
+            <td>Ölçüm</td>
+            <td>:</td>
+            <td><input type="checkbox" name="TestTipi3" id="TestTipi3" value="1" @(Model.Rows.Count > 0 ? (Convert.ToBoolean(Model.Rows[0]["TestTipi3"]) == true ? "checked" : "") : "")/></td>
+        </tr>
+        <tr>
+            <td>Temizlik</td>
+            <td>:</td>
+            <td><input type="checkbox" name="TestTipi4" id="TestTipi4" value="1" @(Model.Rows.Count > 0 ? (Convert.ToBoolean(Model.Rows[0]["TestTipi4"]) == true ? "checked" : "") : "")/></td>
+        </tr>
+        <tr>
+            <td>Yağlama</td>
+            <td>:</td>
+            <td><input type="checkbox" name="TestTipi5" id="TestTipi5" value="1" @(Model.Rows.Count > 0 ? (Convert.ToBoolean(Model.Rows[0]["TestTipi5"]) == true ? "checked" : "") : "") /></td>
+        </tr>
+        <tr>
+            <td>Geçerli Değil</td>
+            <td>:</td>
+            <td><input type="checkbox" name="TestSonucu1" id="TestSonucu1" value="1" @(Model.Rows.Count > 0 ? (Convert.ToBoolean(Model.Rows[0]["TestSonucu1"]) == true ? "checked" : "") : "")/></td>
+        </tr>
+        <tr>
+            <td>Geçildi</td>
+            <td>:</td>
+            <td><input type="checkbox" name="TestSonucu2" id="TestSonucu2" value="1" @(Model.Rows.Count > 0 ? (Convert.ToBoolean(Model.Rows[0]["TestSonucu2"]) == true ? "checked" : "") : "")/></td>
+        </tr>
+        <tr>
+            <td>Başarısız</td>
+            <td>:</td>
+            <td><input type="checkbox" name="TestSonucu3" id="TestSonucu3" value="1" @(Model.Rows.Count > 0 ? (Convert.ToBoolean(Model.Rows[0]["TestSonucu3"]) == true ? "checked" : "") : "")/></td>
+        </tr>
+        <tr style="display:none;">
+            <td></td>
+            <td>:</td>
+            <td><input type="checkbox" name="TestSonucu4" id="TestSonucu4" value="1" @(Model.Rows.Count > 0 ? (Convert.ToBoolean(Model.Rows[0]["TestSonucu4"]) == true ? "checked" : "") : "")/></td>
+        </tr>
+        <tr style="display:none;">
+            <td></td>
+            <td>:</td>
+            <td><input type="checkbox" name="TestSonucu5" id="TestSonucu5" value="1" @(Model.Rows.Count > 0 ? (Convert.ToBoolean(Model.Rows[0]["TestSonucu5"]) == true ? "checked" : "") : "")/></td>
+        </tr>
+    </table>
+
+    <input type="submit" name="name" value="Kaydet" class="btn btn-success" style="" />
+      
+    <br />
+</form>
+
+@section scripts {
+
+    <script type="text/javascript">
+
+
+    </script>
+}

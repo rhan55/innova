@@ -1,0 +1,341 @@
+﻿@using System.Data
+@model System.Data.DataSet
+@{
+    ViewBag.Title = "Kayıt Detayı - " + Model.Tables[0].Rows[0]["ID"];
+
+    DataTable dtTeknisyenler = ViewBag.Teknisyenler as DataTable;
+    DataTable dtYedekParcalar = ViewBag.YedekParcalar as DataTable;
+    int sira = 0;
+
+    string degisenparcalar = "";
+    foreach (DataRow yedekparca in Model.Tables[1].Rows)
+    {
+        degisenparcalar += "'" + yedekparca["StokKodu"] + "',";
+    }
+}
+
+
+
+<style>
+
+    #prev {
+        width: 300px;
+        height: 200px;
+    }
+</style>
+<section class="card">
+    <header class="card-header">
+
+
+        <style>
+            .kbw-signature {
+                width: 300px;
+                height: 200px;
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script>
+        </script>
+
+
+    </header>
+
+
+    <form action="@Url.Content("~/YKMakine/ArizaGuncelle/"+Model.Tables[0].Rows[0]["ID"])" method="post" id="myForm" name="myForm" enctype="multipart/form-data">
+        <table class="table table-striped table-advance table-hover">
+            <tr>
+                <td style="width:150px;"><strong>Belge Numarası</strong></td>
+                <td>@Model.Tables[0].Rows[0]["ID"]</td>
+            </tr>
+            <tr>
+                <td><strong>Kayıt Tarihi</strong></td>
+                <td>@Convert.ToDateTime(Model.Tables[0].Rows[0]["Tarih"]).ToString("dd-MM-yyyy")</td>
+            </tr>
+            <tr>
+                <td><strong>Durumu</strong></td>
+                <td style="color:dodgerblue;"><strong>@Model.Tables[0].Rows[0]["Durum"]</strong></td>
+            </tr>
+            <tr>
+                <td><strong>Cari</strong></td>
+                <td>@Model.Tables[0].Rows[0]["CariKodu"]
+                    <input type="hidden" name="CariKodu" id="CariKdou" value="@Model.Tables[0].Rows[0]["CariKodu"]" />
+                    </td>
+            </tr>
+            <tr>
+                <td><strong>Arizayı Bildiren</strong></td>
+                <td>@Model.Tables[0].Rows[0]["ArizayiBildiren"]</td>
+            </tr>
+            <tr>
+                <td><strong>Telefon</strong></td>
+                <td>@Model.Tables[0].Rows[0]["ArizayiBildirenTelefon"]</td>
+            </tr>
+            <tr>
+                <td><strong>Stok Adı</strong></td>
+                <td>@Model.Tables[0].Rows[0]["StokAdi"]</td>
+            </tr>
+            <tr>
+                <td><strong>Seri No</strong></td>
+                <td style="color:red;">
+                    <input type="text" name="SeriNo" id="SeriNo" value="@Model.Tables[0].Rows[0]["SeriNo"]" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+
+                    <main>
+                        <div id="reader"></div>
+                    </main>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Arıza / Şikayet</strong></td>
+                <td>@Model.Tables[0].Rows[0]["Sikayet"]</td>
+            </tr>
+
+        </table>
+        <table class="table table-striped table-advance table-hover">
+            <tr>
+                <td>
+                    Durumu
+                    <select class="form-control" id="Durum" name="Durum">
+                        <option value="Beklemede" @(Convert.ToString(Model.Tables[0].Rows[0]["Durum"]) == "Beklemede" ? "selected" : "" )>Beklemede</option>
+                        <option value="Yapılıyor" @(Convert.ToString(Model.Tables[0].Rows[0]["Durum"]) == "Yapılıyor" ? "selected" : "" )>Yapılıyor</option>
+                        <option value="Parça Bekleniyor" @(Convert.ToString(Model.Tables[0].Rows[0]["Durum"]) == "Parça Bekleniyor" ? "selected" : "" )>Parça Bekleniyor</option>
+                        <option value="Arıza Yapıldı" @(Convert.ToString(Model.Tables[0].Rows[0]["Durum"]) == "Arıza Yapıldı" ? "selected" : "" )>Arıza Yapıldı</option>
+                        <option value="Bakım Yapıldı" @(Convert.ToString(Model.Tables[0].Rows[0]["Durum"]) == "Bakım Yapıldı" ? "selected" : "" )>Bakım Yapıldı</option>
+                        <option value="Teslim Edildi" @(Convert.ToString(Model.Tables[0].Rows[0]["Durum"]) == "Teslim Edildi" ? "selected" : "" )>Teslim Edildi</option>
+                        <option value="İade Alındı" @(Convert.ToString(Model.Tables[0].Rows[0]["Durum"]) == "İade Alındı" ? "selected" : "" )>İade Alındı</option>
+                        <option value="İptal" @(Convert.ToString(Model.Tables[0].Rows[0]["Durum"]) == "İptal" ? "selected" : "" )>İptal</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Teknisyen
+                    <select class="form-control" id="Teknisyen" name="Teknisyen">
+                        <option value="">Lütfen Teknisyen Seçiniz...</option>
+                        @foreach (DataRow teknisyen in dtTeknisyenler.Rows)
+                        {
+                            <option value="@teknisyen["ID"]" @(Convert.ToString(teknisyen["ID"]) == Convert.ToString(Model.Tables[0].Rows[0]["Teknisyen"]) ? "selected" : "")>@teknisyen["Isim"]</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Açıklama<br />
+                    <input type="text" name="Aciklama" id="Aciklama" value="@Model.Tables[0].Rows[0]["Aciklama"]" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Değişen Parçalar
+                    <select data-placeholder="Değişen parçaları arama yaparak seçebilirsiniz..." style="width:100%;" class="chosen-select" multiple tabindex="6" name="DegisenParcalarEkran" id="DegisenParcalarEkran">
+                        <option value></option>
+                        <optgroup label="Yedek Parçalar">
+                            @foreach (DataRow yedekparca in dtYedekParcalar.Rows)
+                            {
+                                <option value="@yedekparca["StokKodu"]">@yedekparca["StokAdi"]</option>
+                            }
+                            <optgroup>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Bulunduğu Yer<br />
+                    <input type="text" name="BulunduguYer" id="BulunduguYer" value="@Model.Tables[0].Rows[0]["BulunduguYer"]" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Arızayı Bildiren Kişi<br />
+                    <input type="text" name="ArizayiBildiren" id="ArizayiBildiren" value="@Model.Tables[0].Rows[0]["ArizayiBildiren"]" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Arızayı Bildiren Telefon<br />
+                    <input type="text" name="ArizayiBildirenTelefon" id="ArizayiBildirenTelefon" value="@Model.Tables[0].Rows[0]["ArizayiBildirenTelefon"]" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    E-Mail Adresi<br />
+                    <input type="text" name="EMail" id="EMail" value="@Model.Tables[0].Rows[0]["EMail"]" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="exampleInputFile">Arıza Resmi 1</label>
+                    <input type="file" id="ArizaResmi" name="ArizaResmi" accept="image/*" Capture=""><br />
+                    <label for="exampleInputFile">Arıza Resmi 2</label>
+                    <input type="file" id="ArizaResmi2" name="ArizaResmi2" accept="image/*" Capture=""><br />
+                    <label for="exampleInputFile">Arıza Resmi 3</label>
+                    <input type="file" id="ArizaResmi3" name="ArizaResmi3" accept="image/*" Capture=""><br />
+                    <label for="exampleInputFile">Arıza Resmi 4</label>
+                    <input type="file" id="ArizaResmi4" name="ArizaResmi4" accept="image/*" Capture=""><br />
+                    <label for="exampleInputFile">Arıza Resmi 5</label>
+                    <input type="file" id="ArizaResmi5" name="ArizaResmi5" accept="image/*" Capture="">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @if (Convert.ToString(Model.Tables[0].Rows[0]["Dosya"]).Trim().Length > 0)
+                    {
+                        <img src="@Url.Content("~/Resimler/" + Model.Tables[0].Rows[0]["Dosya"])" alt="" style="height:250px;" />
+                    }
+                    @if (Convert.ToString(Model.Tables[0].Rows[0]["Dosya2"]).Trim().Length > 0)
+                    {
+                        <img src="@Url.Content("~/Resimler/"+Model.Tables[0].Rows[0]["Dosya2"])" alt="" style="height:250px;" />
+                    }
+                    @if (Convert.ToString(Model.Tables[0].Rows[0]["Dosya3"]).Trim().Length > 0)
+                    {
+                        <img src="@Url.Content("~/Resimler/"+Model.Tables[0].Rows[0]["Dosya3"])" alt="" style="height:250px;" />
+                    }
+                    @if (Convert.ToString(Model.Tables[0].Rows[0]["Dosya4"]).Trim().Length > 0)
+                    {
+                        <img src="@Url.Content("~/Resimler/"+Model.Tables[0].Rows[0]["Dosya4"])" alt="" style="height:250px;" />
+                    }
+                    @if (Convert.ToString(Model.Tables[0].Rows[0]["Dosya5"]).Trim().Length > 0)
+                    {
+                        <img src="@Url.Content("~/Resimler/" + Model.Tables[0].Rows[0]["Dosya5"])" alt="" style="height:250px;" />
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">İmza</label><br />
+                        <div id="sigAriza" name="sigAriza"></div>
+                    </div>
+                    @if (Convert.ToString(Model.Tables[0].Rows[0]["Imza"]).Length > 20)
+                    {
+
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id='prev' name="prev"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="hidden" name="Imza" id="Imza" value="" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @if (Convert.ToString(Model.Tables[0].Rows[0]["Durum"]).EndsWith("Yapıldı"))
+                    {
+                        <span style="color:red;"><strong>Tamamlanmış Kayıt Düzeltilemez!</strong></span>
+                    }
+                    else
+                    {
+                        <input type="hidden" name="DegisenParcalar" id="DegisenParcalar" value="" /><input type="button" name="name" value="Kaydet" class="btn btn-primary" onclick="Kontrol();" />
+                    }
+                </td>
+            </tr>
+        </table>
+    </form>
+</section>
+
+
+
+
+
+@section scripts {
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
+    <script>
+
+        (function ($) {
+
+            "use strict";
+
+            $(function () {
+                $('.chosen-select').chosen();
+                $('.chosen-select-deselect').chosen({ allow_single_deselect: true });
+            });
+
+
+        })(jQuery);
+
+
+
+        $('#DegisenParcalarEkran').val([@(Html.Raw(degisenparcalar))]).trigger('chosen:updated');;
+
+
+        /////var imza = '@Html.Raw(Convert.ToString(Model.Tables[0].Rows[0]["Imza"]))';
+        /////
+        /////var sig = $('#prev').signature({ disabled: true });
+        /////if (imza.length > 20) {
+        /////    var prevSig = $('#prev').signature('enable').signature('draw', imza).signature('disable');
+        /////}
+
+        //var sig = $('#sig').signature();
+        /////var sigAriza = $('#sigAriza').signature();
+      
+
+        //var sigAriza = $('#sigAriza').signature({ syncField: '#Imza' });
+        //var sigAriza = $('#sigAriza').signature().signature('option', 'syncFormat', "JPEG");
+        function Kontrol() {
+
+            var myValues = $('#DegisenParcalarEkran').chosen().val();
+            $("#DegisenParcalar").val(myValues);
+            //////$("#Imza").val(sigAriza.signature('toJSON'));
+
+            document.getElementById("myForm").submit();
+
+        }
+
+
+
+
+    </script>
+
+    <!--
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.4/html5-qrcode.min.js" integrity="sha512-k/KAe4Yff9EUdYI5/IAHlwUswqeipP+Cp5qnrsUjTPCgl51La2/JhyyjNciztD7mWNKLSXci48m7cctATKfLlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+     <style>
+         main {
+             display: flex;
+             justify-content: center;
+             align-items: center;
+         }
+
+         #reader {
+             width: 350px;
+         }
+
+         #result {
+             text-align: center;
+             font-size: 1.5rem;
+         }
+     </style>
+     <script>
+         const scanner = new Html5QrcodeScanner('reader', {
+             qrbox: {
+                 width: 250,
+                 height: 250,
+             },
+             fps: 20,
+         });
+         scanner.render(success, error);
+         function success(result) {
+             var today = new Date();
+             document.getElementById('SeriNo').val(`${result}`);
+             scanner.clear();
+             document.getElementById('reader').remove();
+         }
+         function error(err) {
+             console.error(err);
+         }
+     </script>
+     -->
+}
+
+
+
+

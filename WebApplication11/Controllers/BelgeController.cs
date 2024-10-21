@@ -18,7 +18,6 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Giris");
 
 
-
             if (Tip == "")
             {
                 return Redirect("~/");
@@ -157,6 +156,7 @@ namespace YKPortal.Controllers
                 cmdDepolar.Parameters.AddWithValue("@AranacakKelime", "");
                 ViewBag.Depolar = (DataTable)IDVeritabani.Sorgula(cmdDepolar, SorgulaTuru.Tablo);
             }
+
 
             {
                 SqlCommand cmdKayit = new SqlCommand();

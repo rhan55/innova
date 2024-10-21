@@ -1,0 +1,407 @@
+﻿@model System.Data.DataTable
+@using System.Data.SqlClient
+@using System.Data
+@using YKWebPortal.Controllers
+@{
+    ViewBag.Title = "Bakım Listesi";
+    int sira = 0;
+}
+
+@if (true)
+{
+    <section class="card">
+        <!-- Preview -->
+        <div style="text-align:center;">
+            <strong>
+                Bekleyen Ziyaretler
+                <br /><span style="color:blue;">Bekleyen : @(Model.Select(" Tip <> 'Gecikme' ").Count())</span>
+                |<spanl style="color:red;">Geçikmiş : @(Model.Select(" Tip = 'Gecikme' ").Count())</spanl>
+                <br /> <span style="color:black;">Seçilen Tarih : @Convert.ToDateTime(ViewBag.Tarih).ToString("dd-MM-yyyy")</span>
+            </strong>
+
+            <form action="@Url.Content("~/YKMakine/BakimListem/?")" method="get">
+                <label><a class="btn btn-danger" style="padding-left:15px;padding-right:15px;color:white;" href="@Url.Content("~/YKMakine/BakimListem/?Tarih="+Convert.ToDateTime(ViewBag.Tarih).AddDays(-1).ToString("yyyy-MM-dd"))">Önceki Gün</a></label>
+                <label><a class="btn btn-success" style="padding-left:15px;padding-right:15px;color:white;" href="@Url.Content("~/YKMakine/BakimListem/?Tarih="+DateTime.Today.ToString("yyyy-MM-dd"))">Bugün</a></label>
+
+                <label><a class="btn btn-info" style="padding-left: 15px; padding-right: 15px; color: white;" href="@Url.Content("~/YKMakine/BakimListem/?Tarih="+Convert.ToDateTime(ViewBag.Tarih).AddDays(1).ToString("yyyy-MM-dd"))">Sonraki Gün</a></label>
+            </form>
+            <form action="@Url.Content("~/YKMakine/BakimListem/?")" method="get">
+                <input type="text" name="Barkod" id="Barkod" value="@ViewBag.Barkod" placeholder="aranacak kelime" style="text-align:center;" />
+                <input type="button" value="Barkod Oku" onclick="BarkodOku();" />
+                <input type="submit" value="Ara" id="Ara" name="Ara" />
+
+
+
+
+
+                <p id="code"></p>
+                <script src="/exif.min.js"></script>
+                <script src="/BarcodeScanner.min.js"></script>
+                <script src="/app.js"></script>
+                <script type="module" src="/index.ts"></script>
+                <script>
+                    function BarkodOku() {
+                        var resultElement = document.getElementById('code');
+                        setupLiveReader(resultElement);
+                    }
+
+                </script>
+
+            </form>
+        </div>
+
+        <table class="table table-striped table-advance table-hover">
+            <thead>
+                <tr>
+                    <td>Sıra</td>
+                    <td>Müşteri</td>
+                    <td>İşlem</td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (System.Data.DataRow item in Model.Rows)
+                    {
+                        sira++;
+                        <tr style="font-size:10px;">
+                            <td>@(sira).</td>
+                            <td>
+                                <strong>Müşteri: </strong>@item["CariAdi"]<br />
+                                <strong>Adres: </strong>@item["Adres"]<br />
+                                <strong>Telefon: </strong>@item["Telefon"]<br />
+                                <strong>Seri: </strong>@item["SeriNo"]<br />
+                                @if (Convert.ToInt32(item["TipID"]) == 2)
+                                {
+                                    <span style="color:red;"><strong>Şikayet: </strong>@item["Sikayet"]</span>
+                                }
+                            </td>
+                            <td>
+                                @if (Convert.ToString(item["Tip"]) == "Gecikme")
+                                {
+                                    <a href="#" style="@(Convert.ToString(item["Tip"]) == "Gecikme" ? "background-color:red;color:white;" : "")">
+
+                                        <a href="@Url.Action("BakimYap","YKMakine",new { id = item["ID"] })" class="btn btn-sm" style="color:white;font-size:10px;background-color:red;color:white;">
+                                            Bakım Tamamla<br /><span style="font-size:6px;"><strong>@Convert.ToDateTime(item["Tarih"]).ToString("dd-MM-yyyy")</strong></span>
+                                        </a>
+                                    </a>
+                                }
+                                else if (Convert.ToString(item["Durum"]) == "Bakım Yapıldı" && Convert.ToInt32(item["TipID"]) == 1)
+                                {
+                                    <a href="@Url.Action("BakimYap","YKMakine",new { id = item["ID"] })">
+                                        <span style="color:green;">BAKIM YAPILDI<br />DETAYA GİT</span>
+                                    </a>
+                                }
+                                else if (Convert.ToString(item["Durum"]) == "Bakım Yapıldı" && Convert.ToInt32(item["TipID"]) == 2)
+                                {
+                                    <a href="@Url.Action("BakimYap","YKMakine",new { id = item["ID"] })">
+                                        <span style="color:green;">ARIZA YAPILDI<br />DETAYA GİT</span>
+                                    </a>
+                                }
+                                else if (Convert.ToInt32(item["TipID"]) == 1)
+                                {
+                                    <a href="#">
+                                        <a href="@Url.Action("BakimYap","YKMakine",new { id = item["ID"] })" class="btn btn-sm" style="color:white;font-size:10px;background-color:blue;color:white;">
+                                            Bakım Tamamla<br /><span style="font-size:6px;"><strong>@Convert.ToDateTime(item["Tarih"]).ToString("dd-MM-yyyy")</strong></span>
+                                        </a>
+                                    </a>
+
+                                }
+                                else if (Convert.ToInt32(item["TipID"]) == 2)
+                                {
+                                    <a href="#">
+                                        <a href="@Url.Action("BakimYap","YKMakine",new { id = item["ID"] })" class="btn btn-sm" style="color:white;font-size:10px;background-color:orange;color:white;">
+                                            Arıza Tamamla<br /><span style="font-size:6px;"><strong>@Convert.ToDateTime(item["Tarih"]).ToString("dd-MM-yyyy")</strong></span>
+                                        </a>
+                                    </a>
+                                }
+
+                                @if (Convert.ToInt32(item["TipID"]) == 1)
+                                {
+
+                                    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal_id_@item["ID"]" class="modal fade">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Bakımı Tamamla</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form role="form" name="Form_@item["ID"]" id="Form_@item["ID"]" action="@Url.Action("BakimKapat", "YKMakine", null)" method="post" enctype="multipart/form-data">
+                                                        <input type="hidden" name="id_@(item["ID"])" id="id_@(item["ID"])" value="@(item["ID"])" />
+                                                        <div class="form-group">
+                                                            <label for="exampleInputFile">İşlem Tipleri <strong>( Şu anki durum: @item["Tip"] )</strong></label>
+                                                            <select class="form-control" name="Durum_@(item["ID"])" id="Durum_@(item["ID"])" required>
+                                                                @foreach (System.Data.DataRow item2 in ((System.Data.DataTable)ViewBag.IslemTipleri).Rows)
+                                                                {
+                                                                    <option value="@item2["Kod"]" @(Convert.ToString(item2["Kod"]) == "Bakım Yapıldı" ? "selected" : "")>@item2["Kod"]</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                        <div><input type="hidden" name="SeriNo_@(item["ID"])" id="SeriNo_@(item["ID"])" value="" /></div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputFile">LDU Kontrol (Manuel Otomatik Kurtarma)</label>
+                                                            <input type="file" id="Cevap1_@(item["ID"])" name="Cevap1_@(item["ID"])" accept="image/*" Capture="">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputFile">Motor Mekan ve Regulatör</label>
+                                                            <input type="file" id="Cevap2_@(item["ID"])" name="Cevap2_@(item["ID"])" accept="image/*" Capture="">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputFile">Kat Kapıları</label>
+                                                            <input type="file" id="Cevap3_@(item["ID"])" name="Cevap3_@(item["ID"])" accept="image/*" Capture="">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputFile">Karşı Ağırlık</label>
+                                                            <input type="file" id="Cevap4_@(item["ID"])" name="Cevap4_@(item["ID"])" accept="image/*" Capture="">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputFile">Kuyu Dibi (Regülatör ve Tamponlar</label>
+                                                            <input type="file" id="Cevap5_@(item["ID"])" name="Cevap5_@(item["ID"])" accept="image/*" Capture="">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputFile">Kabin Altı (Paraşüt ve Makaralar)</label>
+                                                            <input type="file" id="Cevap6_@(item["ID"])" name="Cevap6_@(item["ID"])" accept="image/*" Capture="">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputFile">Katları Donaşıp Seviye ve Buton Kontrolü</label>
+                                                            <input type="file" id="Cevap7_@(item["ID"])" name="Cevap7_@(item["ID"])" accept="image/*" Capture="">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputFile">LDU (Bakım Defteri, Kuyu Işığı)</label>
+                                                            <input type="file" id="Cevap8_@(item["ID"])" name="Cevap8_@(item["ID"])" accept="image/*" Capture="">
+                                                        </div>
+
+                                                        <hr />
+                                                        <div class="form-group">
+                                                            <label for="exampleInputPassword1">Şikayet</label>
+                                                            <textarea rows="5" class="form-control" id="Sikayet_@(item["ID"])" name="Sikayet_@(item["ID"])"></textarea>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputPassword1">Yapılan İşlem</label>
+                                                            <textarea rows="5" class="form-control" id="Aciklama_@(item["ID"])" name="Aciklama_@(item["ID"])"></textarea>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputPassword1">Yetkili İsim</label>
+                                                            <textarea rows="1" class="form-control" id="YetkiliIsim_@(item["ID"])" name="YetkiliIsim_@(item["ID"])"></textarea>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputPassword1">İmza</label><br />
+                                                            <div id="sig_@item["ID"]" name="sig_@item["ID"]"></div>
+                                                        </div>
+                                                        <input type="hidden" name="Imza_@item["ID"]" id="Imza_@item["ID"]" value="" />
+                                                        <hr />
+                                                        <button type="button" class="btn btn-danger" onclick="FormGonder@(item["ID"])();">Kaydet</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else if (Convert.ToInt32(item["TipID"]) == 2)
+                                {
+                                    SqlCommand cmd = new SqlCommand();
+                                    cmd.CommandText = "select * from w_CariStokListesi Where SaticiKodu = @CariKodu";
+                                    cmd.CommandType = System.Data.CommandType.Text;
+                                    cmd.Parameters.AddWithValue("@CariKodu", item["CariKodu"]);
+
+                                    DataTable dtAsansorler = (DataTable)YKWebPortal.Models.ID.Sorgula(cmd, YKWebPortal.Models.SorgulaTuru.Tablo, "");
+
+                                    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal_id_@item["ID"]" class="modal fade">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Arıza Tamamla</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form role="form" name="Form_@item["ID"]" id="Form_@item["ID"]" action="@Url.Action("BakimKapat", "YKMakine", null)" method="post" enctype="multipart/form-data">
+                                                        <input type="hidden" name="id_@(item["ID"])" id="id_@(item["ID"])" value="@(item["ID"])" />
+                                                        <div class="form-group" style="display:none;">
+                                                            <label for="exampleInputFile">İşlem Tipleri <strong>( Şu anki durum: @item["Tip"] )</strong></label>
+                                                            <select class="form-control" name="Durum_@(item["ID"])" id="Durum_@(item["ID"])" required>
+                                                                @foreach (System.Data.DataRow item2 in ((System.Data.DataTable)ViewBag.IslemTipleri).Rows)
+                                                                {
+                                                                    <option value="@item2["Kod"]" @(Convert.ToString(item2["Kod"]) == "Bakım Yapıldı" ? "selected" : "")>@item2["Kod"]</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputFile">Seri No</label>
+                                                            <select class="form-control" name="SeriNo_@(item["ID"])" id="SeriNo_@(item["ID"])" required>
+                                                                <option value=""></option>
+                                                                @foreach (System.Data.DataRow item2 in dtAsansorler.Rows)
+                                                                {
+                                                                    <option value="@item2["StokKodu"]">@item2["StokKodu"] - @item2["StokAdi"]</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputFile">Arıza Resmi</label>
+                                                            <input type="file" id="Cevap1_@(item["ID"])" name="Cevap1_@(item["ID"])" accept="image/*" Capture="">
+                                                        </div>
+                                                        <div class="form-group" style="display:none;">
+                                                            <label for="exampleInputFile">Motor Mekan ve Regulatör</label>
+                                                            <input type="file" id="Cevap2_@(item["ID"])" name="Cevap2_@(item["ID"])" accept="image/*" Capture="">
+                                                        </div>
+                                                        <div class="form-group" style="display:none;">
+                                                            <label for="exampleInputFile">Kat Kapıları</label>
+                                                            <input type="file" id="Cevap3_@(item["ID"])" name="Cevap3_@(item["ID"])" accept="image/*" Capture="">
+                                                        </div>
+                                                        <div class="form-group" style="display:none;">
+                                                            <label for="exampleInputFile">Karşı Ağırlık</label>
+                                                            <input type="file" id="Cevap4_@(item["ID"])" name="Cevap4_@(item["ID"])" accept="image/*" Capture="">
+                                                        </div>
+                                                        <div class="form-group" style="display:none;">
+                                                            <label for="exampleInputFile">Kuyu Dibi (Regülatör ve Tamponlar</label>
+                                                            <input type="file" id="Cevap5_@(item["ID"])" name="Cevap5_@(item["ID"])" accept="image/*" Capture="">
+                                                        </div>
+                                                        <div class="form-group" style="display:none;">
+                                                            <label for="exampleInputFile">Kabin Altı (Paraşüt ve Makaralar)</label>
+                                                            <input type="file" id="Cevap6_@(item["ID"])" name="Cevap6_@(item["ID"])" accept="image/*" Capture="">
+                                                        </div>
+                                                        <div class="form-group" style="display:none;">
+                                                            <label for="exampleInputFile">Katları Donaşıp Seviye ve Buton Kontrolü</label>
+                                                            <input type="file" id="Cevap7_@(item["ID"])" name="Cevap7_@(item["ID"])" accept="image/*" Capture="">
+                                                        </div>
+                                                        <div class="form-group" style="display:none;">
+                                                            <label for="exampleInputFile">LDU (Bakım Defteri, Kuyu Işığı)</label>
+                                                            <input type="file" id="Cevap8_@(item["ID"])" name="Cevap8_@(item["ID"])" accept="image/*" Capture="">
+                                                        </div>
+
+                                                        <hr />
+                                                        <div class="form-group" style="display:none;">
+                                                            <label for="exampleInputPassword1">Şikayet</label>
+                                                            <textarea rows="5" class="form-control" id="Sikayet_@(item["ID"])" name="Sikayet_@(item["ID"])"></textarea>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputPassword1">Yapılan İşlem</label>
+                                                            <textarea rows="5" class="form-control" id="Aciklama_@(item["ID"])" name="Aciklama_@(item["ID"])"></textarea>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputPassword1">Yetkili İsim</label>
+                                                            <textarea rows="1" class="form-control" id="YetkiliIsim_@(item["ID"])" name="YetkiliIsim_@(item["ID"])"></textarea>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputPassword1">İmza</label><br />
+                                                            <div id="sig_@item["ID"]" name="sig_@item["ID"]"></div>
+                                                        </div>
+                                                        <input type="hidden" name="Imza_@item["ID"]" id="Imza_@item["ID"]" value="" />
+                                                        <hr />
+                                                        <button type="button" class="btn btn-danger" onclick="FormGonder@(item["ID"])();">Kaydet</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+
+                    }
+                }
+            </tbody>
+        </table>
+
+    </section>
+
+
+
+
+
+    @section scripts {
+
+
+        <script>
+            $(function () {
+                // Initalize Örnek İmza Gösterimi
+                /*
+                $('#signature').signature();
+                $('#prev').signature({ disabled: true });
+
+                function ImzayiGoster() {
+                    $('#prev').signature('draw', "{\"lines\":[[[162.9,79.2],[162.9,78.2],[151.9,70.2],[135.9,59.2],[121.9,49.2],[114.9,47.2],[110.9,46.2],[102.9,46.2],[85.9,46.2],[68.9,46.2],[54.9,47.2],[54.9,47.2],[57.9,47.2],[70.9,47.2],[85.9,44.2],[104.9,40.2],[126.9,35.2],[145.9,30.2],[165.9,24.2],[183.9,20.2],[202.9,17.2],[210.9,17.2],[210.9,20.2],[210.9,27.2],[204.9,35.2],[199.9,43.2],[199.9,45.2],[202.9,47.2],[207.9,50.2],[214.9,54.2],[214.9,55.2],[213.9,55.2],[210.9,57.2],[204.9,58.2],[187.9,62.2],[150.9,73.2],[122.9,80.2],[98.9,87.2],[86.9,91.2],[89.9,93.2],[97.9,95.2],[101.9,96.2],[106.9,100.2],[109.9,103.2],[111.9,104.2],[113.9,106.2],[114.9,110.2],[114.9,113.2],[111.9,118.2],[106.9,121.2],[100.9,125.2]],[[49.9,94.2],[48.9,92.2],[44.9,90.2],[42.9,87.2],[38.9,81.2],[35.9,73.2],[34.9,68.2],[33.9,61.2],[31.9,52.2],[31.9,45.2],[31.9,43.2],[33.9,43.2],[43.9,43.2],[58.9,43.2],[69.9,43.2],[80.9,42.2],[90.9,39.2],[101.9,38.2],[114.9,34.2],[127.9,33.2],[143.9,33.2],[162.9,33.2],[179.9,33.2],[197.9,36.2],[204.9,39.2],[209.9,39.2],[210.9,39.2],[214.9,41.2],[221.9,42.2],[226.9,44.2],[227.9,44.2],[227.9,45.2],[228.9,47.2],[233.9,52.2],[241.9,66.2],[245.9,73.2],[248.9,79.2],[250.9,86.2],[251.9,93.2],[250.9,103.2],[248.9,111.2],[246.9,116.2],[246.9,118.2],[246.9,119.2],[244.9,124.2],[242.9,131.2],[238.9,136.2],[238.9,138.2],[239.9,138.2],[236.9,138.2],[231.9,135.2],[224.9,133.2],[209.9,127.2],[188.9,123.2],[170.9,122.2],[152.9,122.2],[141.9,122.2],[142.9,120.2],[144.9,119.2],[147.9,118.2],[150.9,115.2],[158.9,111.2],[165.9,107.2],[170.9,104.2],[171.9,103.2],[171.9,102.2],[170.9,102.2],[167.9,102.2],[166.9,102.2],[152.9,105.2]]]}");
+                }
+
+                window.setTimeout(ImzayiGoster, 500);
+                */
+            });
+        </script>
+
+        <script type="text/javascript">
+        @if (Model != null )
+        {
+            foreach (System.Data.DataRow item in Model.Rows)
+            {
+                @Html.Raw(@"var sig_" + item["ID"] + " = $('#sig_" + item["ID"] + "').signature();")
+                @Html.Raw("function FormGonder"+item["ID"]+ "() { ")
+                @Html.Raw("$(\"#Imza_" + item["ID"] + "\").val(sig_"+item["ID"]+ ".signature('toJSON')); ")
+
+                if (Convert.ToInt32(item["TipID"]) == 1)
+                {
+                    @Html.Raw("if ($(\"#Sikayet_" + item["ID"] + "\").val() == \"\") { alert('Lütfen şikayet yazınız.');  } ")
+                    @Html.Raw("else if ($(\"#Aciklama_" + item["ID"] + "\").val() == \"\") { alert('Lütfen açıklama yazınız.');  } ")
+                    @Html.Raw("else if ($(\"#YetkiliIsim_" + item["ID"] + "\").val() == \"\") { alert('Lütfen yetkili yazınız.');  } ")
+
+                    @Html.Raw("else if ($(\"#Cevap1_" + item["ID"] + "\")[0].files.length == 0) { alert('Lütfen resim seçiniz.');  } ")
+                    @Html.Raw("else if ($(\"#Cevap2_" + item["ID"] + "\")[0].files.length == 0) { alert('Lütfen resim seçiniz.');  } ")
+                    @Html.Raw("else if ($(\"#Cevap3_" + item["ID"] + "\")[0].files.length == 0) { alert('Lütfen resim seçiniz.');  } ")
+                    @Html.Raw("else if ($(\"#Cevap4_" + item["ID"] + "\")[0].files.length == 0) { alert('Lütfen resim seçiniz.');  } ")
+                    @Html.Raw("else if ($(\"#Cevap5_" + item["ID"] + "\")[0].files.length == 0) { alert('Lütfen resim seçiniz.');  } ")
+                    @Html.Raw("else if ($(\"#Cevap6_" + item["ID"] + "\")[0].files.length == 0) { alert('Lütfen resim seçiniz.');  } ")
+                    @Html.Raw("else if ($(\"#Cevap7_" + item["ID"] + "\")[0].files.length == 0) { alert('Lütfen resim seçiniz.');  } ")
+                    @Html.Raw("else if ($(\"#Cevap8_" + item["ID"] + "\")[0].files.length == 0) { alert('Lütfen resim seçiniz.');  } ")
+
+                }
+                else if (Convert.ToInt32(item["TipID"]) == 2)
+                {
+                    @Html.Raw("if ($(\"#SeriNo_" + item["ID"] + "\").val() == \"\") { alert('Lütfen seri seçimi yapınız.');  } ")
+                    @Html.Raw("else if ($(\"#Aciklama_" + item["ID"] + "\").val() == \"\") { alert('Lütfen açıklama yazınız.');  } ")
+                    @Html.Raw("else if ($(\"#YetkiliIsim_" + item["ID"] + "\").val() == \"\") { alert('Lütfen yetkili yazınız.');  } ")
+
+                    @Html.Raw("else if ($(\"#Cevap1_" + item["ID"] + "\")[0].files.length == 0) { alert('Lütfen resim seçiniz.');  } ")
+                }
+
+                @Html.Raw("else { ")
+                @Html.Raw("document.getElementById(\"id_" + item["ID"] + "\").setAttribute(\"name\", \"id\"); ")
+                @Html.Raw("document.getElementById(\"Durum_" + item["ID"] + "\").setAttribute(\"name\", \"Durum\"); ")
+                @Html.Raw("document.getElementById(\"SeriNo_" + item["ID"] + "\").setAttribute(\"name\", \"SeriNo\"); ")
+                @Html.Raw("document.getElementById(\"Cevap1_" + item["ID"] + "\").setAttribute(\"name\", \"Cevap1\"); ")
+                @Html.Raw("document.getElementById(\"Cevap2_" + item["ID"] + "\").setAttribute(\"name\", \"Cevap2\"); ")
+                @Html.Raw("document.getElementById(\"Cevap3_" + item["ID"] + "\").setAttribute(\"name\", \"Cevap3\"); ")
+                @Html.Raw("document.getElementById(\"Cevap4_" + item["ID"] + "\").setAttribute(\"name\", \"Cevap4\"); ")
+                @Html.Raw("document.getElementById(\"Cevap5_" + item["ID"] + "\").setAttribute(\"name\", \"Cevap5\"); ")
+                @Html.Raw("document.getElementById(\"Cevap6_" + item["ID"] + "\").setAttribute(\"name\", \"Cevap6\"); ")
+                @Html.Raw("document.getElementById(\"Cevap7_" + item["ID"] + "\").setAttribute(\"name\", \"Cevap7\"); ")
+                @Html.Raw("document.getElementById(\"Cevap8_" + item["ID"] + "\").setAttribute(\"name\", \"Cevap8\"); ")
+                @Html.Raw("document.getElementById(\"Sikayet_" + item["ID"] + "\").setAttribute(\"name\", \"Sikayet\"); ")
+                @Html.Raw("document.getElementById(\"Aciklama_" + item["ID"] + "\").setAttribute(\"name\", \"Aciklama\"); ")
+                @Html.Raw("document.getElementById(\"YetkiliIsim_" + item["ID"] + "\").setAttribute(\"name\", \"YetkiliIsim\"); ")
+                @Html.Raw("document.getElementById(\"Imza_" + item["ID"] + "\").setAttribute(\"name\", \"Imza\");")
+                @Html.Raw("document.getElementById(\"Form_" + item["ID"] + "\").submit();")
+                @Html.Raw("")
+                @Html.Raw(@" }
+                }
+               ")
+            }
+                }
+
+
+        </script>
+
+
+
+    }
+
+
+
+
+}
+else
+{
+
+}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -6,6 +7,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Web;
 
 namespace YKPortal.Models.YKClasses
@@ -145,6 +148,100 @@ values
 
 
         }
+
+        private static readonly object balanceLock = new object();
+        public static void MailGonder(string Baslik, string Icerik, string GonderilecekMailAdresleri, string dosya, ArrayList eklenecekDosyalar, string tip = "Teklif")
+        {
+            ServicePointManager.ServerCertificateValidationCallback = delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+            {
+                return true;
+            };
+            lock (balanceLock)
+            {
+                try
+                {
+                    // Hata Maili Gönderimi
+                    #region 
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandText = "SELECT ID, Server, MailAdresi, MailAdresi2, Parola, Port, Tip, Aktif, IsletmeID, OrjinalMailAdresi FROM ID_MailTanimlamalari WITH(NOLOCK) Where Aktif = 1 and Tip = '" + tip + "'";
+                    DataTable dtMailBilgileri = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                    MailMessage ePosta = new MailMessage();
+                    ePosta.From = new MailAddress(
+                        Convert.ToString(dtMailBilgileri.Rows[0]["OrjinalMailAdresi"]),
+                        Convert.ToString(dtMailBilgileri.Rows[0]["OrjinalMailAdresi"]));
+
+                    if (dosya.Trim().Length > 0)
+                    {
+                        ePosta.Attachments.Add(new Attachment(dosya));
+                    }
+                    if (eklenecekDosyalar != null)
+                    {
+                        foreach (string item in eklenecekDosyalar)
+                        {
+                            ePosta.Attachments.Add(new Attachment(item));
+                        }
+                    }
+
+                    if (ConfigurationManager.AppSettings["TestMail"] != "1")
+                    {
+                        foreach (var item in GonderilecekMailAdresleri.Split(';'))
+                        {
+                            if (item.Trim().Length > 0)
+                            {
+                                ePosta.To.Add(new MailAddress(item.Trim(), item.Trim()));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var item in ConfigurationManager.AppSettings["TestMailAdresi"].Split(';'))
+                        {
+                            if (item.Trim().Length > 0)
+                            {
+                                ePosta.To.Add(new MailAddress(item.Trim(), item.Trim()));
+                            }
+                        }
+                    }
+
+                    foreach (var item in ConfigurationManager.AppSettings["MailCC"].Split(';'))
+                    {
+                        if (item.Trim().Length > 0)
+                        {
+                            ePosta.To.Add(new MailAddress(item.Trim(), item.Trim()));
+                        }
+                    }
+                    ePosta.Subject = Baslik;
+                    ePosta.Body = Icerik;
+                    ePosta.IsBodyHtml = true;
+
+                    SmtpClient smtp = new SmtpClient();
+                    smtp.Credentials = new System.Net.NetworkCredential(
+                        Convert.ToString(dtMailBilgileri.Rows[0]["MailAdresi"]),
+                        Convert.ToString(dtMailBilgileri.Rows[0]["Parola"]));
+                    smtp.Port = Convert.ToInt32(dtMailBilgileri.Rows[0]["Port"]);
+                    smtp.Host = Convert.ToString(dtMailBilgileri.Rows[0]["Server"]);
+                    smtp.EnableSsl = Convert.ToString(dtMailBilgileri.Rows[0]["MailAdresi2"]) == "0" ? false : true;
+                    smtp.Send(ePosta);
+
+                    #endregion
+
+                }
+                catch (Exception err)
+                {
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = "Insert Into Loglar (Sayfa,Parametre1,Parametre2,Parametre3,Parametre4,CDate) values (@Sayfa,@Parametre1,@Parametre2,@Parametre3,@Parametre4,GETDATE())";
+                    cmd.Parameters.AddWithValue("@Sayfa", "Teklif Mail Gönderim");
+                    cmd.Parameters.AddWithValue("@Parametre1", err.Message);
+                    cmd.Parameters.AddWithValue("@Parametre2", "");
+                    cmd.Parameters.AddWithValue("@Parametre3", "");
+                    cmd.Parameters.AddWithValue("@Parametre4", "");
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                }
+            }
+        }
+
 
     }
 }

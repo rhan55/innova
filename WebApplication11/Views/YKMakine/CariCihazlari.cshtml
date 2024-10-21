@@ -1,0 +1,45 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Cari Cihazları";
+}
+
+<div style="width:100%;">
+    <form action="@Url.Action("Caricihazlari","YKMakine",null)" method="get">
+        <table style="width:100%;">
+            <tr>
+                <td><input type="text" name="Isim" id="Isim" value="" placeholder="aracak kelime..." class="form-control" /></td>
+                <td><input type="submit" name="name" value="Getir" class="form-control" /></td>
+            </tr>
+        </table>
+    </form>
+    <table id="TableCariSiralamasi" name="TableCariSiralamasi" style="width:100%;">
+        <thead>
+            <tr>
+                <th>Cari (@(Model.Rows.Count) kayıt mevcut.)</th>
+                <th>Stok Kodu</th>
+                <th>Stok Adı</th>
+                <th>Miktar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow satir in Model.Rows)
+            {
+                <tr>
+                    <td>@satir["DepoAdi"]</td>
+                    <td>@satir["StokKodu"]</td>
+                    <td>@satir["StokAdi"]</td>
+                    <td><a href="/YKMakine/CariCihazlariDetay/?Isim=@(satir["DepoAdi"])&Stok=@(satir["StokKodu"])">@satir["Miktar"]</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+  </div>
+
+@section scripts {
+
+    <script type="text/javascript">
+      
+
+    </script>
+}

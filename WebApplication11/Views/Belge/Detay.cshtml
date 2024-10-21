@@ -49,13 +49,13 @@
                     </div>
                 </div>
                 <div class="row @(Tip == "AI" ? "hidden" : "")">
-                    <div class="col-12 col-lg-4">
+                    <div class="col-12 col-lg-3">
                         <label for="Tarih" class="form-label fs-6 fw-bold text-gray-600 mb-3">Tarih</label>
                         <div class="mb-4">
                             <input type="date" name="Tarih" id="Tarih" value="@(Convert.ToDateTime(Model.Tarih).ToString("yyyy-MM-dd"))" class="form-control  p-2 rounded-1" placeholder="" />
                         </div>
                     </div>
-                    <div class="col-12 col-lg-4">
+                    <div class="col-12 col-lg-3">
                         <label for="DepoCikisID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Çıkış Depo</label>
                         <div class="mb-4">
                             <select class="form-select form-select-solid p-2 rounded-1" name="DepoCikisID" id="DepoCikisID"
@@ -68,7 +68,7 @@
                         </div>
                     </div>
 
-                    <div class="col-12 col-lg-4">
+                    <div class="col-12 col-lg-3">
                         <label for="DepoCikisID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Giriş Depo</label>
                         <div class="mb-4">
                             <select class="form-select form-select-solid p-2 rounded-1" name="DepoGirisID" id="DepoGirisID"
@@ -77,6 +77,16 @@
                                 {
                                     <option value="@drDepo["ID"]" @("16" == Convert.ToString(drDepo["ID"]) || Model.DepoGirisID == drDepo["ID"].ToString() || Request.QueryString["GirisDepo"] == drDepo["ID"].ToString() ? "selected" : "")>@drDepo["Isim"]</option>
                                 }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-3">
+                        <label for="DepoCikisID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Proje Kodu</label>
+                        <div class="mb-4">
+                            <select class="form-select form-select-solid p-2 rounded-1" name="ProjeKodu" id="ProjeKodu"
+                                    aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                               
                             </select>
                         </div>
                     </div>
@@ -610,6 +620,7 @@
         $(function () {
 
             const CariIDSelect = $('#CariID').select2(select2Options("/Cari/SelectListe"));
+
         });
 
         function StokAramaOlustur(stokid) {

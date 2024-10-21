@@ -1,0 +1,8 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Bilgilendirme";
+    DataTable dtKayit = ViewBag.dtKayit as DataTable;
+}
+
+<h3>@ViewBag.Mesaj</h3>

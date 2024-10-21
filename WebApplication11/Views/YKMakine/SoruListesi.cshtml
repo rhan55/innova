@@ -1,0 +1,78 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Soru Listesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int sayi = 0;
+    foreach (DataRow satir in Model.Rows)
+    {
+        sayi++;
+    }
+
+}
+
+
+    <table>
+        <tr>
+            <td style="padding:3px;"><h3>Soru Listesi</h3></td>
+            <td style="padding: 3px; text-align: right;"><a href="@Url.Action("Soru","YKMakine",new { id = 0 })" class="btn btn-success" style="color:white;">Yeni</a></td>
+        </tr>
+    </table>
+<div style="clear:both;"></div>
+<table border="1">
+    <thead>
+        <tr>
+            <th style="padding: 2px; text-align: center;">No</th>
+            <th style="padding: 2px; text-align: left;">Sıra</th>
+            <th style="padding: 2px; text-align: left;">Kategori</th>
+            <th style="padding: 2px; text-align: left;">Soru (@sayi kayıt mevcut.)</th>
+
+            <th style="padding: 2px; text-align: left;">Görsel Kontrol</th>
+            <th style="padding: 2px; text-align: left;">İşlev Kontrolü</th>
+            <th style="padding: 2px; text-align: left;">Ölçüm</th>
+            <th style="padding: 2px; text-align: left;">Temizlik</th>
+            <th style="padding: 2px; text-align: left;">Yağlama</th>
+            <th style="padding: 2px; text-align: left;">Geçerli Değil</th>
+            <th style="padding: 2px; text-align: left;">Geçildi</th>
+            <th style="padding: 2px; text-align: left;">Başarısız</th>
+            <th style="padding: 2px; text-align: left; display: none;"></th>
+            <th style="padding: 2px; text-align: left; display:none;"></th>
+            <th style="padding: 2px; text-align: center;">İşlem</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (DataRow satir in Model.Rows)
+            {
+                string renk = "";
+        <tr style="@(renk)">
+            <td style="padding:2px;text-align:center;">@satir["ID"]</td>
+            <td style="padding: 2px; text-align: left;">@satir["SoruSirasi"]</td>
+            <td style="padding: 2px; text-align: left;">@satir["Kategori"]</td>
+            <td style="padding: 2px; text-align: left;">@satir["Soru"]</td>
+            <td style="padding: 2px; text-align: left;">@(Convert.ToBoolean(satir["TestTipi1"]) == true ? "Evet" : "")</td>
+            <td style="padding: 2px; text-align: left;">@(Convert.ToBoolean(satir["TestTipi2"]) == true ? "Evet" : "")</td>
+            <td style="padding: 2px; text-align: left;">@(Convert.ToBoolean(satir["TestTipi3"]) == true ? "Evet" : "")</td>
+            <td style="padding: 2px; text-align: left;">@(Convert.ToBoolean(satir["TestTipi4"]) == true ? "Evet" : "")</td>
+            <td style="padding: 2px; text-align: left;">@(Convert.ToBoolean(satir["TestTipi5"]) == true ? "Evet" : "")</td>
+            <td style="padding: 2px; text-align: left;">@(Convert.ToBoolean(satir["TestSonucu1"]) == true ? "Evet" : "")</td>
+            <td style="padding: 2px; text-align: left;">@(Convert.ToBoolean(satir["TestSonucu2"]) == true ? "Evet" : "")</td>
+            <td style="padding: 2px; text-align: left;">@(Convert.ToBoolean(satir["TestSonucu3"]) == true ? "Evet" : "")</td>
+            <td style="padding: 2px; text-align: left; display: none;">@(Convert.ToBoolean(satir["TestSonucu4"]) == true ? "Evet" : "")</td>
+            <td style="padding: 2px; text-align: left; display: none;">@(Convert.ToBoolean(satir["TestSonucu5"]) == true ? "Evet" : "")</td>
+            <td style="padding:2px;text-align:center;">
+                <a href="@Url.Action("Soru", "YKMakine", new { id = satir["ID"] })">Detay</a> |
+                <a href="@Url.Action("SoruSil", "YKMakine", new { id = satir["ID"] })" onclick="return confirm('Silmek istediğinizden emin misiniz?')">Sil</a>
+            </td>
+        </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@section scripts {
+
+}
+

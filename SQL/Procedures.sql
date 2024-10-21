@@ -2917,6 +2917,12 @@ Insert Into Yetkiler
 (UyelikID,KullaniciID,MenuID,Gor,Duzenle,Sil,KayitTarihi,KayitYapanKullanici)
 select @UyelikID,@ID,ID,1,1,1,GETDATE(),@ID from Menuler WITH(NOLOCK) Where @Ilk = 1
 
+Insert Into Parametreler (UyelikID,Modul,Isim,Deger) values (@ID,'AnaSayfaAktifStok','Aktif Stok Gözüksün',1)
+Insert Into Parametreler (UyelikID,Modul,Isim,Deger) values (@ID,'AnaSayfaAktifCari','Aktif Cari Gözüksün',1)
+Insert Into Parametreler (UyelikID,Modul,Isim,Deger) values (@ID,'AnaSayfaBekleyenGorevSayisi','Bekleyen Görev Sayısı Gözüksün',1)
+Insert Into Parametreler (UyelikID,Modul,Isim,Deger) values (@ID,'AnaSayfaTakvim','Takvim Gözüksün',1)
+Insert Into Parametreler (UyelikID,Modul,Isim,Deger) values (@ID,'AnaSayfaSonAktiviteler','Son Aktiviteler Gözüksün',1)
+Insert Into Parametreler (UyelikID,Modul,Isim,Deger) values (@ID,'AnaSayfaAktifSiparis','Aktif Sipariş Gözüksün',1)
 
 declare @Baslik nvarchar(max) = 'YK YAZILIM - Aktivasyon'
 declare @Icerik nvarchar(max) = ''
@@ -2927,13 +2933,13 @@ set @Icerik += 'Hesabınızı doğrulamak için <a href="http://app.ykyazilim.co
 set @Icerik += ''
 set @Icerik += ''
 set @Icerik += ''
-/*
+
 EXEC msdb.dbo.sp_send_dbmail @profile_name = 'YKMail',
                     @recipients = @KullaniciAdi,
                     @subject = @Baslik, 
 					@body_format = 'HTML',
                     @body = @Icerik;
-*/
+
 END
 ELSE
 BEGIN

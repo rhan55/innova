@@ -326,6 +326,7 @@
     <Compile Include="Controllers\TanimlamalarController.cs" />
     <Compile Include="Controllers\YKController.cs" />
     <Compile Include="Controllers\AyarlarController.cs" />
+    <Compile Include="Controllers\YKMakineController.cs" />
     <Compile Include="Controllers\ZiyaretController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -2807,6 +2808,9 @@
     <Content Include="Tema\plugins\custom\leaflet\leaflet.bundle.js" />
     <Content Include="Tema\plugins\custom\prismjs\prismjs.bundle.css" />
     <Content Include="Tema\plugins\custom\prismjs\prismjs.bundle.js" />
+    <Content Include="Tema\plugins\custom\signature\jquery.signature.js" />
+    <Content Include="Tema\plugins\custom\signature\jquery.signature.min.js" />
+    <Content Include="Tema\plugins\custom\signature\jquery.ui.touch-punch.js" />
     <Content Include="Tema\plugins\custom\tinymce\icons\default\icons.min.js" />
     <Content Include="Tema\plugins\custom\tinymce\models\dom\model.min.js" />
     <Content Include="Tema\plugins\custom\tinymce\plugins\accordion\plugin.min.js" />
@@ -3185,6 +3189,23 @@
     <Content Include="Views\Shared\Components\_BelgeListeComponent.cshtml" />
     <Content Include="Views\Stok\HizliStokTanimlama.cshtml" />
     <Content Include="Tema\fonts\open-sans.ttf" />
+    <Content Include="Views\YKMakine\ArizaDetay.cshtml" />
+    <Content Include="Views\YKMakine\Arizalar.cshtml" />
+    <Content Include="Views\YKMakine\BakimDetay.cshtml" />
+    <Content Include="Views\YKMakine\BakimListem.cshtml" />
+    <Content Include="Views\YKMakine\BakimYap.cshtml" />
+    <Content Include="Views\YKMakine\Bilgilendirme.cshtml" />
+    <Content Include="Views\YKMakine\CariCihazlari.cshtml" />
+    <Content Include="Views\YKMakine\CariCihazlariDetay.cshtml" />
+    <Content Include="Views\YKMakine\CariSiralama.cshtml" />
+    <Content Include="Views\YKMakine\IzinGunleri.cshtml" />
+    <Content Include="Views\YKMakine\Kategoriler.cshtml" />
+    <Content Include="Views\YKMakine\Sayim.cshtml" />
+    <Content Include="Views\YKMakine\Soru.cshtml" />
+    <Content Include="Views\YKMakine\SoruListesi.cshtml" />
+    <Content Include="Views\YKMakine\TatilGunleri.cshtml" />
+    <Content Include="Tema\plugins\custom\signature\jquery.signature.js.bak" />
+    <Content Include="Tema\plugins\custom\signature\jquery.signature.min.map" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>

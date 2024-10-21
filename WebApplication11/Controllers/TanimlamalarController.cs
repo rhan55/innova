@@ -13,6 +13,38 @@ namespace YKPortal.Controllers
 {
     public class TanimlamalarController : Controller
     {
+
+
+        public JsonResult SelectGrupKodu(string grupKodu, string aranacakKelime = "")
+        {
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_GrupKoduListesi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+            cmd.Parameters.AddWithValue("@Kod", grupKodu);
+            cmd.Parameters.AddWithValue("@AranacakKelime", aranacakKelime);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            var liste = new List<StokDto>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                liste.Add(new StokDto
+                {
+                    ID = Convert.ToString(dt.Rows[i]["ID"]),
+                    Isim = Convert.ToString(dt.Rows[i]["Isim"]),
+                    Aciklama = Convert.ToString(dt.Rows[i]["Aciklama"]),
+                    Kod = Convert.ToString(dt.Rows[i]["Kod"]),
+                });
+            }
+
+            return Json(liste, JsonRequestBehavior.AllowGet);
+
+        }
+
+
         [HttpGet]
         public ActionResult GrupKodu(string grupKodu, string aranacakKelime="")
         {
