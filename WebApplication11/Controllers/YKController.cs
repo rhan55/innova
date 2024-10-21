@@ -148,11 +148,15 @@ namespace YKPortal.Controllers
             {
                 string ID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
                 return Json(new { Success = true, Message = "Record saved successfully.", ID = ID }, JsonRequestBehavior.AllowGet);
+                // Başarılı kayıttan sonra Durum seçeneğini ViewBag'e ekle
+                ViewBag.SeciliDurum = anasayfaTakvimKaydetDto.Durumu;
             }
             catch (Exception ex)
             {
                 return Json(new { Success = false, Message = ex.Message }, JsonRequestBehavior.AllowGet);
+
             }
+
         }
 
 
