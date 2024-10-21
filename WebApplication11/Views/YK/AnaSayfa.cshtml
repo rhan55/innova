@@ -239,17 +239,18 @@
                         <div class="col-lg-12">
                             <div class="form-group d-flex flex-column">
                                 <label for="TakvimDurumu" class="form-label">Durumu</label>
-                                <select class="form-control form-control-solid p-2 rounded-1"  name="Durumu" id="TakvimDurumu">
+                                <select class="form-control form-control-solid p-2 rounded-1" name="Durumu" id="TakvimDurumu">
                                     <option value="">Lütfen Seçim Yapınız</option>
                                     @foreach (var takvimDurumu in ViewBag.TakvimDurumlari)
                                     {
-                                        <option value="@takvimDurumu.Deger">@takvimDurumu.Deger</option>
+                                        <option value="@takvimDurumu.Deger" @(takvimDurumu.Deger == ViewBag.SeciliDurum ? "selected" : "")>
+                                            @takvimDurumu.Deger
+                                        </option>
                                     }
-
                                 </select>
                                 <div data-error="TakvimDurumu"></div>
-
                             </div>
+
                         </div>
                     </div>
 
@@ -318,9 +319,9 @@
                         nowIndicator: true,
                         now: TODAY + 'T09:25:00',
                         views: {
-                            dayGridMonth: { buttonText: 'Ay' }, // Türkçe dilinde ay görünümü
-                            timeGridWeek: { buttonText: 'Hafta' }, // Hafta görünümü
-                            timeGridDay: { buttonText: 'Gün' } // Gün görünümü
+                            dayGridMonth: { buttonText: 'Ay' }, 
+                            timeGridWeek: { buttonText: 'Hafta' },
+                            timeGridDay: { buttonText: 'Gün' } 
                         },
                         initialView: 'dayGridMonth',
                         initialDate: TODAY,
@@ -350,13 +351,8 @@
                             //$('#eventModalDescription').text(info.event.extendedProps.description);  // Açıklamayı modal içeriğine koyuyoruz
                             $('button.EtkinlikSil').show()
                             $('#TakvimEtkinlikModal').modal('show');  // Modalı açıyoruz
-                            $("#TakvimDurumu option").each(function () {
-                                if ($(this).val() == info.event.extendedProps.customStatus) {
-                                    $(this).attr('selected', true);
-                                } else {
-                                    $(this).attr('selected', false);
-                                }
-                            })
+                            // Durum bilgisini seçili yapmak için
+                            $("#TakvimDurumu").val(info.event.extendedProps.customStatus);
                             $('#TakvimID').val(info.event.id);
                             $('#TakvimBaslik').val(info.event.title);
                             $('#TakvimAciklama').val(info.event.extendedProps.description);
@@ -434,13 +430,13 @@
                             $('button.EtkinlikSil').hide();
                         }
 
-                        console.log(_data); // Verileri kontrol etme
+                        console.log(_data); 
 
                         // AJAX isteği ile verileri gönderme
                         $.ajax({
                             url: '/YK/TakvimKaydet',
                             type: 'POST',
-                            data: JSON.stringify(_data),  // JSON formatına dönüştürülmüş veri
+                            data: JSON.stringify(_data),  
                             contentType: "application/json",
                             dataType: "json",
                             success: function (response) {
@@ -506,8 +502,21 @@
             });
 
             $('button[data-bs-target="#TakvimEtkinlikModal"]').on('click', function () {
+                // Modal başlığını 'Ekle' olarak ayarla
                 $('[data-takvimModalBaslik]').html('Etkinlik Ekle');
-            })
+
+                // Formu temizle
+                $('#takvimKaydetForm').trigger('reset'); // Tüm input alanlarını temizler
+                $('#TakvimID').val('');  // ID alanını da boş yap
+                $('button.EtkinlikSil').hide(); // Sil butonunu gizle
+
+                // Durum seçimini sıfırla
+                $("#TakvimDurumu").val('');
+
+                // Tarih alanını güncelle (örneğin, şu anki tarih ile)
+                setDateTimeInput('#TakvimTarih', new Date());  // Tarih alanını sıfırla veya şu anki tarih ile güncelle
+            });
+
 
         });
     </script>

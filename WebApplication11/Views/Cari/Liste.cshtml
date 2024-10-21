@@ -243,15 +243,6 @@
                                                         }
                                                         <!--end::Menu item-->
                                                         <!--begin::Menu item-->
-
-                                                        @if (Model.Sil)
-                                                        {
-                                                            <div class="menu-item p-0">
-                                                                <button type="button" data-id="@(Convert.ToString(Model.Cari.Rows[i]["ID"]))" class="btn btn-sm rounded-0 w-100 menu-link py-0  px-2 btn-sil cari-silme" data-bs-toggle="modal" data-bs-target="#Cari-silme">
-                                                                    Sil
-                                                                </button>
-                                                            </div>
-                                                        }
                                                         
                                                         <!--end::Menu item-->
                                                         <!--begin::Menu item-->
@@ -295,33 +286,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="Cari-silme" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Cari Silme İşlemi</h3>
 
-                <!--begin::Close-->
-                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
-                </div>
-                <!--end::Close-->
-            </div>
-
-            <div class="modal-body">
-                <p>Cariyi silmek istediğinize emin misiniz?</p>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-light btn-sm fw-bold" data-bs-dismiss="modal">Vazgeç</button>
-                <form method="post" id="silme-formu" action="@Url.Action("Sil","Cari",null)">
-                    <input type="hidden" name="id" value="" />
-                    <button type="submit" class="btn btn-danger btn-sm fw-bold">Sil</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="modal fade" id="Cari-toplu-silme" tabindex="-1">
     <div class="modal-dialog">
@@ -387,11 +352,7 @@
                 cariDatatable.saveDataTableColumnSettingsToCookie(cariDatatable.datatable, column, state)
             }); 
 
-            document.querySelectorAll('.btn-sil').forEach(silButonu => {
-                silButonu.addEventListener('click', function () {
-                    document.querySelector('form#silme-formu input[name="id"]').value = silButonu.dataset.id;
-                });
-            });
+            
 
             const filtreleriTemizle = document.querySelector("#filtreleriTemizle");
 

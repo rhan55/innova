@@ -155,7 +155,7 @@ namespace YKPortal.Controllers
 
             ViewBag.AnaCari = anaCari;
             ViewBag.TeslimCari = teslimCari;
-
+            ViewBag.Sil = YetkiKontrolu("/Cari/Liste", "Sil");
 
             return View(dt);
 
