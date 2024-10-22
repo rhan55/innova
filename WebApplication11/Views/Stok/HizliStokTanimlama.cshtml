@@ -9,15 +9,16 @@
     DataTable dtGrupKodu1 = ViewBag.dtGrupKodu1 as DataTable;
     DataTable dtGrupKodu2 = ViewBag.dtGrupKodu2 as DataTable;
 }
-<div class="container-fluid d-flex" id="kt_content"  style="width:90%;padding:3px;">
-    <div class="row"  style="width:100%;">
-        
+<div class="container-fluid d-flex" id="kt_content" style="width:90%;padding:3px;">
+    <div class="row" style="width:100%;">
+
 
         <table style="width:100%;">
             <tr>
                 <td style="width:100%;">
                     <lable>Stok Ara</lable>
                     <select name="StokAra" id="StokAra" class="form-control">
+                        <option value="">Seçim yapınız...</option>
                     </select>
                 </td>
             </tr>
@@ -28,7 +29,7 @@
                         <option value="">Seçim yapınız...</option>
                         @foreach (DataRow item in dtGrupKodu1.Rows)
                         {
-                        <option value="@item["ID"]">@item["Deger"]</option>
+                            <option value="@item["ID"]">@item["Deger"]</option>
                         }
                     </select>
                 </td>
@@ -40,7 +41,7 @@
                         <option value="">Seçim yapınız...</option>
                         @foreach (DataRow item in dtGrupKodu2.Rows)
                         {
-                        <option value="@item["ID"]">@item["Deger"]</option>
+                            <option value="@item["ID"]">@item["Deger"]</option>
                         }
                     </select>
                 </td>
@@ -84,7 +85,7 @@
             <tr>
                 <td colspan="2">
                     <label for="Barkod3">Fotoğraf</label>
-                    <input type="file" name="Resim" id="Resim" value=""  class="form-control"/>
+                    <input type="file" name="Resim" id="Resim" value="" class="form-control" />
                 </td>
             </tr>
             <tr>
@@ -115,272 +116,268 @@
     <script>
         $(function () {
 
-
-
             const StokIDSelect = $('#StokAra').select2(select2Options("/Stok/SelectListe"));
 
-
-
-        function StokKoduOlustur() {
-            /*
-            $.ajax({
-                async: false,
-                cache: false,
-                type: "GET",
-                url: "/Stok/StokKoduOlustur",
-                data: { "Firma": $("#Firma").val() },
-                success: function (data2) {
-                    $('#Depo').empty();
-                    //$('#Depo')
-                    //    .append($("<option></option>")
-                    //        .attr("value", "")
-                    //        .text("Depo Seçimi"));
-                    $.each(data2, function (data3, key, value) {
-                        $('#Depo')
-                            .append($("<option></option>")
-                                .attr("value", key.ID)
-                                .text(key.Isim));
-                    }); Listele();
-                },
-                error: function (data) {
-                }
-            });
-            */
-        }
-
-        function StokSec() {
-
-            $.ajax({
-                async: false,
-                cache: false,
-                type: "GET",
-                url: "/Stok/SelectStok",
-                data: { "search": $("#StokAra").val() },
-                success: function (data2) {
-                    if (data2.length > 0) {
-                        console.log(data2);
-                        $("#Kod1").val(data2[0].GrupKodu1ID);
-                        $("#Kod2").val(data2[0].GrupKodu2ID);
-                        $("#StokKodu").val(data2[0].ID);
-                        $("#StokAdi").val(data2[0].Isim);
-                        $("#OlcuBirimi").val(data2[0].OlcuBirimi);
-                        $("#Barkod1").val(data2[0].Barkod);
-                        $("#Barkod2").val(data2[0].Barkod2);
-                        $("#Barkod3").val(data2[0].Barkod3);
-                        $("#Dosya").attr("src", "data:image/jpg;base64, " + data2[0].Dosya);
+            function StokKoduOlustur() {
+                /*
+                $.ajax({
+                    async: false,
+                    cache: false,
+                    type: "GET",
+                    url: "/Stok/StokKoduOlustur",
+                    data: { "Firma": $("#Firma").val() },
+                    success: function (data2) {
+                        $('#Depo').empty();
+                        //$('#Depo')
+                        //    .append($("<option></option>")
+                        //        .attr("value", "")
+                        //        .text("Depo Seçimi"));
+                        $.each(data2, function (data3, key, value) {
+                            $('#Depo')
+                                .append($("<option></option>")
+                                    .attr("value", key.ID)
+                                    .text(key.Isim));
+                        }); Listele();
+                    },
+                    error: function (data) {
                     }
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            });
-        }
-
-        function StokAra() {
-            if ($("#StokAra").val() == "") {
-                $('#Stoklar').find('option')
-                    .remove()
-                    .end();
-                $("#TRStoklar").hide();
-                return;
-            }
-            $.ajax({
-                async: false,
-                cache: false,
-                type: "GET",
-                url: "/Stok/SelectListe",
-                data: { "search": $("#StokAra").val() },
-                success: function (data2) {
-                    $('#Stoklar').find('option')
-                                 .remove()
-                        .end();
-                    for (var i = 0; i < data2.length; i++) {
-                        $('#Stoklar')
-                            .append($("<option></option>")
-                                .attr("value", data2[i]["ID"])
-                                .text(data2[i]["Isim"]));
-                    }
-
-                    if (data2.length > 0) {
-                        $("#TRStoklar").show();
-                    } else {
-                        $("#TRStoklar").hide();
-                    }
-
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            });
-        }
-
-        
-
-        function KaydetBarkod() {
-            if (event.keyCode == 13) {
-                Kaydet();
-            }
-        }
-
-        function Kaydet() {
-            if ($("#Kod1").val() == "") {
-                Swal.fire({
-                    position: "center",
-                    icon: "error",
-                    title: "Kod 1 seçilmelidir.",
-                    showConfirmButton: true,
-                    //timer: 3000
                 });
-                return;
-            }
-            if ($("#Kod2").val() == "") {
-                Swal.fire({
-                    position: "center",
-                    icon: "error",
-                    title: "Kod 2 seçilmelidir.",
-                    showConfirmButton: true,
-                    //timer: 3000
-                });
-                return;
-            }
-            if ($("#StokAdi").val() == "") {
-                Swal.fire({
-                    position: "center",
-                    icon: "error",
-                    title: "Stok Adı girilmelidir.",
-                    showConfirmButton: true,
-                    //timer: 3000
-                });
-                return;
+                */
             }
 
-            var data_ = new FormData();
-            data_.append("Kod1", $("#Kod1").val());
-            data_.append("Kod2", $("#Kod2").val());
-            data_.append("StokKodu", $("#StokKodu").val());
-            data_.append("StokAdi", $("#StokAdi").val());
-            data_.append("OlcuBirimi", $("#OlcuBirimi").val());
-            data_.append("Barkod1", $("#Barkod1").val());
-            data_.append("Barkod2", $("#Barkod2").val());
-            data_.append("Barkod3", $("#Barkod3").val());
-            data_.append('Resim', $('#Resim')[0].files[0]);
+            function StokSec() {
 
-            $.ajax({
-                type: "POST",
-                url: "/Stok/HizliStokKaydet",
-                data: data_,
-                dataType: "json",
-                enctype: 'multipart/form-data',
-                async: false,
-                contentType: false,
-                processData: false,
-                success: function (data) {
-                    alert(data);
-                    window.location.reload();
-                },
-                error: function (data) {
-
-                    Swal.fire({
-                        title: "HATA!",
-                        text: data,
-                        icon: "error"
-                    });
-                }
-            });
-
-        }
-
-        function Listele() {
-
-            var data_ = {
-                "Tarih": $("#Tarih").val(),
-                "Firma": $("#Firma").val(),
-                "Sube": $("#Sube").val(),
-                "Depo": $("#Depo").val()
-            };
-
-
-            $.ajax({
-                async: false,
-                cache: false,
-                type: "GET",
-                url: '/Stok/SayimListesi',
-                data: data_,
-                success: function (data) {
-                    // waitingDialog.hide();
-                    $('#TabloDetay tbody tr').remove();
-                    var deger = "";
-                    for (var i = 0; i < data.length; i++) {
-                        deger += "<tr>";
-                        deger += "<td style='padding:1px;'>" + data[i].StokKodu + "</td>";
-                        deger += "<td style='padding:1px;'>" + data[i].StokAdi + "</td>";
-                        deger += "<td style='text-align:right;padding:1px;'>" + data[i].Miktar + "</td>";
-                        deger += "<td style='text-align:center;padding:1px;'><input type='button' value='Sil' class='btn btn-primary' onclick='Sil(\"" + data[i].ID + "\",\"" + data[i].StokAdi + "\");' /></td>";
-                        deger += "</tr>";
-                    }
-                    $('#TabloDetay tbody').append(deger);
-                },
-                error: function (msg) {
-
-                    Swal.fire({
-                        title: "HATA!",
-                        text: msg,
-                        icon: "error"
-                    });
-                }
-            });
-        }
-
-        function Sil(id, stokadi) {
-
-            Swal.fire({
-                title: stokadi + " adlı ürünün sayımını silmek istediğinizden emin misiniz?",
-                showDenyButton: true,
-                showCancelButton: true,
-                confirmButtonText: "Sil",
-                denyButtonText: `Vazgeç`
-            }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-
-
-                    var data_ = {
-                        "id": id
-                    };
-
-                    $.ajax({
-                        async: false,
-                        cache: false,
-                        type: "GET",
-                        url: "/Stok/SayimSil",
-                        data: data_,
-                        success: function (data) {
-                            $("#Barkod").val("");
-                            $("#Stok").val("");
-                            $("#Miktar").val("1");
-                            if (data == "ok") {
-                                Listele();
-                            } else {
-                                alert(data);
-                                Swal.fire({
-                                    title: "HATA!",
-                                    text: data,
-                                    icon: "error"
-                                });
-                            }
-                            $("#Barkod").focus();
-                        },
-                        error: function (data) {
-
-                            $("#EnjeksiyonKullaniciBarkoduOkut").val("");
+                $.ajax({
+                    async: false,
+                    cache: false,
+                    type: "GET",
+                    url: "/Stok/SelectStok",
+                    data: { "search": $("#StokAra").val() },
+                    success: function (data2) {
+                        if (data2.length > 0) {
+                            console.log(data2);
+                            $("#Kod1").val(data2[0].GrupKodu1ID);
+                            $("#Kod2").val(data2[0].GrupKodu2ID);
+                            $("#StokKodu").val(data2[0].ID);
+                            $("#StokAdi").val(data2[0].Isim);
+                            $("#OlcuBirimi").val(data2[0].OlcuBirimi);
+                            $("#Barkod1").val(data2[0].Barkod);
+                            $("#Barkod2").val(data2[0].Barkod2);
+                            $("#Barkod3").val(data2[0].Barkod3);
+                            $("#Dosya").attr("src", "data:image/jpg;base64, " + data2[0].Dosya);
                         }
-                    });
-                } else if (result.isDenied) {
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            }
 
+            function StokAra() {
+                if ($("#StokAra").val() == "") {
+                    $('#Stoklar').find('option')
+                        .remove()
+                        .end();
+                    $("#TRStoklar").hide();
+                    return;
                 }
-            });
+                $.ajax({
+                    async: false,
+                    cache: false,
+                    type: "GET",
+                    url: "/Stok/SelectListe",
+                    data: { "search": $("#StokAra").val() },
+                    success: function (data2) {
+                        $('#Stoklar').find('option')
+                            .remove()
+                            .end();
+                        for (var i = 0; i < data2.length; i++) {
+                            $('#Stoklar')
+                                .append($("<option></option>")
+                                    .attr("value", data2[i]["ID"])
+                                    .text(data2[i]["Isim"]));
+                        }
 
-        }
+                        if (data2.length > 0) {
+                            $("#TRStoklar").show();
+                        } else {
+                            $("#TRStoklar").hide();
+                        }
 
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            }
+
+
+
+            function KaydetBarkod() {
+                if (event.keyCode == 13) {
+                    Kaydet();
+                }
+            }
+
+            function Kaydet() {
+                if ($("#Kod1").val() == "") {
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "Kod 1 seçilmelidir.",
+                        showConfirmButton: true,
+                        //timer: 3000
+                    });
+                    return;
+                }
+                if ($("#Kod2").val() == "") {
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "Kod 2 seçilmelidir.",
+                        showConfirmButton: true,
+                        //timer: 3000
+                    });
+                    return;
+                }
+                if ($("#StokAdi").val() == "") {
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: "Stok Adı girilmelidir.",
+                        showConfirmButton: true,
+                        //timer: 3000
+                    });
+                    return;
+                }
+
+                var data_ = new FormData();
+                data_.append("Kod1", $("#Kod1").val());
+                data_.append("Kod2", $("#Kod2").val());
+                data_.append("StokKodu", $("#StokKodu").val());
+                data_.append("StokAdi", $("#StokAdi").val());
+                data_.append("OlcuBirimi", $("#OlcuBirimi").val());
+                data_.append("Barkod1", $("#Barkod1").val());
+                data_.append("Barkod2", $("#Barkod2").val());
+                data_.append("Barkod3", $("#Barkod3").val());
+                data_.append('Resim', $('#Resim')[0].files[0]);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Stok/HizliStokKaydet",
+                    data: data_,
+                    dataType: "json",
+                    enctype: 'multipart/form-data',
+                    async: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        alert(data);
+                        window.location.reload();
+                    },
+                    error: function (data) {
+
+                        Swal.fire({
+                            title: "HATA!",
+                            text: data,
+                            icon: "error"
+                        });
+                    }
+                });
+
+            }
+
+            function Listele() {
+
+                var data_ = {
+                    "Tarih": $("#Tarih").val(),
+                    "Firma": $("#Firma").val(),
+                    "Sube": $("#Sube").val(),
+                    "Depo": $("#Depo").val()
+                };
+
+
+                $.ajax({
+                    async: false,
+                    cache: false,
+                    type: "GET",
+                    url: '/Stok/SayimListesi',
+                    data: data_,
+                    success: function (data) {
+                        // waitingDialog.hide();
+                        $('#TabloDetay tbody tr').remove();
+                        var deger = "";
+                        for (var i = 0; i < data.length; i++) {
+                            deger += "<tr>";
+                            deger += "<td style='padding:1px;'>" + data[i].StokKodu + "</td>";
+                            deger += "<td style='padding:1px;'>" + data[i].StokAdi + "</td>";
+                            deger += "<td style='text-align:right;padding:1px;'>" + data[i].Miktar + "</td>";
+                            deger += "<td style='text-align:center;padding:1px;'><input type='button' value='Sil' class='btn btn-primary' onclick='Sil(\"" + data[i].ID + "\",\"" + data[i].StokAdi + "\");' /></td>";
+                            deger += "</tr>";
+                        }
+                        $('#TabloDetay tbody').append(deger);
+                    },
+                    error: function (msg) {
+
+                        Swal.fire({
+                            title: "HATA!",
+                            text: msg,
+                            icon: "error"
+                        });
+                    }
+                });
+            }
+
+            function Sil(id, stokadi) {
+
+                Swal.fire({
+                    title: stokadi + " adlı ürünün sayımını silmek istediğinizden emin misiniz?",
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "Sil",
+                    denyButtonText: `Vazgeç`
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+
+
+                        var data_ = {
+                            "id": id
+                        };
+
+                        $.ajax({
+                            async: false,
+                            cache: false,
+                            type: "GET",
+                            url: "/Stok/SayimSil",
+                            data: data_,
+                            success: function (data) {
+                                $("#Barkod").val("");
+                                $("#Stok").val("");
+                                $("#Miktar").val("1");
+                                if (data == "ok") {
+                                    Listele();
+                                } else {
+                                    alert(data);
+                                    Swal.fire({
+                                        title: "HATA!",
+                                        text: data,
+                                        icon: "error"
+                                    });
+                                }
+                                $("#Barkod").focus();
+                            },
+                            error: function (data) {
+
+                                $("#EnjeksiyonKullaniciBarkoduOkut").val("");
+                            }
+                        });
+                    } else if (result.isDenied) {
+
+                    }
+                });
+
+            }
+        });
     </script>
 }
