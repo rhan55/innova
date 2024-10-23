@@ -20,14 +20,16 @@
                         <select name="CariKodu" id="CariKodu" class="js-example-basic-single" onChange="SerileriGetir();" style="width:450px;">
                             @foreach (DataRow satir in dtCariler.Rows)
                             {
-                                <option value="@satir["Depo"]">@satir["Depo"]</option>
+                                <option value="@satir["CariKodu"]">@satir["CariAdi"]</option>
                             }
                         </select>
                     </td>
-                    <td>Seri</td>
+                    <td>Ürün</td>
                     <td>:</td>
                     <td>
-                        <input type="text" name="SeriNo" id="SeriNo" class="form-control" value="" />
+                        <select name="SeriNo" id="SeriNo" class="js-example-basic-single" style="width:450px;">
+                            
+                        </select> 
                     </td>
                 </tr>
                 <tr>
@@ -73,6 +75,8 @@
                         <option value="">Hepsi</option>
                         <option value="Beklemede" @(Convert.ToString(ViewBag.Durum) == "Beklemede" ? "selected" : "")> Beklemede</option>
                         <option value="Yapılıyor" @(Convert.ToString(ViewBag.Durum) == "Yapılıyor" ? "selected" : "")> Yapılıyor</option>
+                        <option value="Toplama" @(Convert.ToString(ViewBag.Durum) == "Toplama" ? "selected" : "" )>Toplama</option>
+                        <option value="Tanımlama" @(Convert.ToString(ViewBag.Durum) == "Tanımlama" ? "selected" : "" )>Tanımlama</option>
                         <option value="Parça Bekleniyor" @(Convert.ToString(ViewBag.Durum) == "Parça Bekleniyor" ? "selected" : "")> Parça Bekleniyor</option>
                         <option value="Arıza Yapıldı" @(Convert.ToString(ViewBag.Durum) == "Arıza Yapıldı" ? "selected" : "")> Arıza Yapıldı</option>
                         <option value="Bakım Yapıldı" @(Convert.ToString(ViewBag.Durum) == "Bakım Yapıldı" ? "selected" : "")> Bakım Yapıldı</option>
@@ -100,7 +104,7 @@
                         <option value="">Hepsi</option>
                         @foreach (DataRow satir in dtCariler.Rows)
                         {
-                            <option value="@satir["Depo"]" @(Convert.ToString(satir["Depo"]) == ViewBag.Cari ? "selected" : "")>@satir["Depo"]</option>
+                            <option value="@satir["CariKodu"]" @(Convert.ToString(satir["CariKodu"]) == ViewBag.Cari ? "selected" : "")>@satir["CariAdi"]</option>
                         }
                     </select>
                 </td>

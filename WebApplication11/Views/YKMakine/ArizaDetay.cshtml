@@ -99,6 +99,8 @@
                     Durumu
                     <select class="form-control" id="Durum" name="Durum">
                         <option value="Beklemede" @(Convert.ToString(Model.Tables[0].Rows[0]["Durum"]) == "Beklemede" ? "selected" : "" )>Beklemede</option>
+                        <option value="Toplama" @(Convert.ToString(Model.Tables[0].Rows[0]["Durum"]) == "Toplama" ? "selected" : "" )>Toplama</option>
+                        <option value="Tanımlama" @(Convert.ToString(Model.Tables[0].Rows[0]["Durum"]) == "Tanımlama" ? "selected" : "" )>Tanımlama</option>
                         <option value="Yapılıyor" @(Convert.ToString(Model.Tables[0].Rows[0]["Durum"]) == "Yapılıyor" ? "selected" : "" )>Yapılıyor</option>
                         <option value="Parça Bekleniyor" @(Convert.ToString(Model.Tables[0].Rows[0]["Durum"]) == "Parça Bekleniyor" ? "selected" : "" )>Parça Bekleniyor</option>
                         <option value="Arıza Yapıldı" @(Convert.ToString(Model.Tables[0].Rows[0]["Durum"]) == "Arıza Yapıldı" ? "selected" : "" )>Arıza Yapıldı</option>

@@ -170,7 +170,7 @@ namespace YKPortal.Controllers
             DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
 
             SqlCommand cmd2 = new SqlCommand();
-            cmd2.CommandText = "select * from w_CariStokBakiyeleri ";
+            cmd2.CommandText = "select CariKodu,CariAdi from w_CariStokBakiyeleri Group by CariKodu,CariAdi order by CariAdi";
             cmd2.CommandType = System.Data.CommandType.Text;
             ViewBag.dtCariler = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
 
@@ -195,7 +195,8 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KullaniciAdi", GetCookie("KullaniciAdi"));
             cmd.Parameters.AddWithValue("@PlasiyerKodu", "");
             cmd.Parameters.AddWithValue("@CariKodu", CariKodu);
-            cmd.Parameters.AddWithValue("@SeriNo", Convert.ToString(SeriNo));
+            cmd.Parameters.AddWithValue("@StokKodu", Convert.ToString(SeriNo));
+            cmd.Parameters.AddWithValue("@SeriNo", "");
             cmd.Parameters.AddWithValue("@Aciklama", Sikayet);
             string SonID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
 
