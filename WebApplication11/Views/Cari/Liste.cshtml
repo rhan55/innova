@@ -4,7 +4,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+<input type="hidden" name="YetkiSil" value="0" />
+<input type="hidden" name="YetkiDuzenle" value="0" />
 <div class="container-fluid p-0">
     <div class="row p-0 m-0">
         <div class="col-lg-12 p-0">
@@ -178,12 +179,13 @@
                                     max-width: 360px !important;
                                 }
                             </style>
-                          
+
 
                             <div style="overflow: scroll; height: calc(100% - 80px);">
-                                <table class="table p-2 align-middle border rounded table-row-dashed fs-6 display nowrap w-100" id="Cari-datatable">
+                                <table class="table p-2 align-middle border rounded table-row-dashed fs-6 display w-100" id="Cari-datatable">
                                     <thead>
                                         <tr class="text-start" style="font-size:15px;">
+                                            <th id="select" class="min-w-40px max-w-40 no-export"></th>
                                             <th class="min-w-125px"><strong>Cari Kodu</strong></th>
                                             <th class="min-w-125px max-w-360"><strong>Cari İsmi</strong></th>
                                             <th class="min-w-125px max-w-360 no-export"><strong>Ünvan</strong></th>
@@ -210,7 +212,33 @@
     </div>
 </div>
 
+<div class="modal fade" id="Cari-silme" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Cari Silme İşlemi</h3>
 
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body">
+                <p>Cari'yi silmek istediğinize emin misiniz?</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Vazgeç</button>
+                <form method="post" id="silme-formu" >
+                    <input type="hidden" name="id" value="" />
+                    <button type="submit" class="btn btn-danger btn-sm">Sil</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="Cari-toplu-silme" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -239,7 +267,7 @@
 }
 @section Scripts {
     <script>
-     
+
 
         function setCookie(name, value, days) {
             let expires = "";
@@ -264,47 +292,20 @@
 
         var select = document.querySelectorAll("#select")
 
-      
 
-        
-        document.addEventListener('DOMContentLoaded', function () {
-           
+
+
+        $(function () {
+
             const cariDatatable = KTDatatablesExample.init();
 
             cariDatatable.loadDataTableSettingsFromCookie(cariDatatable.datatable);
 
             cariDatatable.datatable.on('column-visibility.dt', function (e, settings, column, state) {
                 cariDatatable.saveDataTableColumnSettingsToCookie(cariDatatable.datatable, column, state)
-            }); 
-         
-           
+            });
 
-            $('#topluSilOnay').on('click', function () {
-                topluSil();
-            })
 
-            function topluSil() {
-                var idListesi = [];
-                $('#Cari-datatable tr.selected .btn-sil.cari-silme').each(function (event) {
-                    var id = $(this).attr('data-id');
-                    idListesi.push(id);
-
-                })
-                $.ajax({
-                    url: "/Cari/TopluSil",
-                    method: "POST",
-                    data: { idListesi: idListesi },
-                    success: function (response) {
-                        console.log("Success:", response);
-                        window.location.reload();
-                    },
-                    error: function (xhr, status, error) {
-
-                        console.log("Error:", xhr.responseText);
-                    }
-                })
-
-            }
 
         });
 
@@ -323,7 +324,7 @@
             realtime: false
         }
 
-       
+
 
         // Class definition
         var KTDatatablesExample = function () {
@@ -339,6 +340,7 @@
 
                 // Init datatable --- more info on datatables: https://datatables.net/manual/
                 var options = {
+                    autoWidth: false,
                     ajax: {
                         url: '/Cari/Liste', // POST isteği yaparak sunucudaki Liste metoduna gidiyoruz
                         type: 'POST',
@@ -356,6 +358,8 @@
                         dataSrc: function (json) {
                             if (json.success) {
                                 // Başarılı olduğunda JSON'dan gelen 'data' kısmını al ve tabloya yerleştir
+                                $('input[name="YetkiSil"]').val(json.data.Sil ? "1" : "0");
+                                $('input[name="YetkiDuzenle"]').val(json.data.Duzenle ? "1" : "0");
                                 return json.data.CariListesi;
                             } else {
                                 // Başarısız olduğunda bir hata mesajı göster
@@ -365,6 +369,7 @@
                         }
                     },
                     columns: [
+                        {},
                         { data: 'Kod' },
                         { data: 'Isim' },
                         { data: 'Unvan' },
@@ -376,21 +381,41 @@
                         {
                             data: null, // Silme ve düzenleme butonları için
                             render: function (data, type, row) {
-                                var buttons = '';
-                                //if (json.data.Sil) {
-                                //    buttons += `<button class="btn btn-danger btn-sm" onclick="sil(${row.ID})">Sil</button>`;
-                                //}
-                                //if (json.data.Duzenle) {
-                                //    buttons += `<a class="btn btn-primary btn-sm" href="/Cari/Duzenle/${row.ID}">Düzenle</a>`;
-                                //}
+
+                                var buttons = `
+                                                                      <div class="dropdown">
+                                                                          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton${row.ID}" data-bs-toggle="dropdown" aria-expanded="false"> İşlemler </button>
+                                                                            <ul class="dropdown-menu py-0" aria-labelledby="dropdownMenuButton${row.ID}">`;
+
+                                // Eğer silme yetkisi varsa
+                                if ($('input[name="YetkiSil"]').val() == "1") {
+                                    buttons += `
+                                                                     <li><button class="dropdown-item btn-sil Cari-toplu-silme" data-bs-toggle="modal" data-bs-target="#Cari-silme" data-id="${row.ID}">Sil</button></li>
+                                                                    `;
+                                }
+
+                                // Eğer düzenleme yetkisi varsa
+                                if ($('input[name="YetkiDuzenle"]').val() == "1") {
+                                    buttons += `
+                                                                   <li><a class="dropdown-item" href="/Cari/Duzenle/${row.ID}">Düzenle</a></li>
+                                                                `;
+                                }
+
+                                buttons += `
+                                                             </ul>
+                                                             </div>
+                                                                `;
+
                                 return buttons;
+
                             }
-                        }
+                        },
+                        { data: 'ID' },
                     ],
                     scrollCollopse: true,
                     colResize: true,
                     colReorder: colReorder_options,
-                    autoWidth: true,
+
                     caching: true,
                     select: {
                         style: "multi",
@@ -409,8 +434,11 @@
 
                     columnDefs: [
                         {
-                            targets: [8],// Sütunu seç
-
+                            targets: [2, 3],
+                            width: "250px",
+                        },
+                        {
+                            targets: [10],// Sütunu seç
                             "visible": false, // Sütunu gizle
                             "searchable": false // Aranabilirlik özelliğini kapat (isteğe bağlı)
                         },
@@ -423,7 +451,7 @@
                             searchable: false,
                         },
                         {
-                            targets: [0, 3, 8],
+                            targets: [0, 10],
                             className: 'noVis'
                         },
                     ],
@@ -449,76 +477,7 @@
                         }
                     },
                 };
-                var oldOptions = {
-                    /* "info": false,*/
-                    //scrollY: true,
-                    //scrollX: "100%",
-                    //scrollY: true,
-                    scrollCollopse: true,
-                    colResize: true,
-                    colReorder: colReorder_options,
-                    autoWidth: true,
-                    caching: true,
-                    select: {
-                        style: "multi",
-                        style: 'bootstrap',
-                        selector: 'td:first-child'
-                    },
-                    order: [
-                        [2, "asc"],
-                    ],
-                    ordering: true,
-                    paging: true,
-                    pageLength: 10,
 
-
-                    language: { url: '/Tema/plugins/custom/datatables/languages/tr.json', },
-
-                    columnDefs: [
-                        {
-                            targets: [8],// Sütunu seç
-
-                            "visible": false, // Sütunu gizle
-                            "searchable": false // Aranabilirlik özelliğini kapat (isteğe bağlı)
-                        },
-                        {
-                            render: DataTable.render.select(),
-                            targets: 0,
-                            width: "40px",
-                            visible: true,
-                            orderable: false,
-                            searchable: false,
-                        },
-                        {
-                            targets: [0, 3, 8],
-                            className: 'noVis'
-                        },
-                    ],
-
-                    order: [[1, 'asc']],
-                    layout: {
-                        topStart: {
-                            buttons: [
-                                {
-                                    extend: 'colvis',
-                                    columns: ':not(.noVis)',
-                                    popoverTitle: 'Görünecek Kolonları Seçiniz'
-                                }
-
-                            ],
-                        },
-                        topEnd: {
-                            pageLength: {
-                                menu: [
-                                    [10, 20, 50, 100, -1],
-                                    ['10 Adet', '20 Adet', '50 Adet', '100 Adet', "Tümü"]
-                                ]
-                            }
-                        }
-                    },
-
-
-                };
 
                 datatable = $(table).DataTable(options);
 
@@ -527,6 +486,76 @@
                     event.preventDefault();
                     datatable.ajax.reload();
                 });
+
+
+
+
+                $('#topluSilOnay').on('click', function (event) {
+                    event.preventDefault();
+                    topluSil();
+                })
+
+                $(document).on('click', '.btn-sil', function () {
+                    $('form#silme-formu input[name="id"]').val($(this).attr('data-id'));
+                });
+
+                $('[id="silme-formu"]').on('submit', function (event) {
+                    event.preventDefault();
+                    var id = $(this).find('input[name="id"]').val();
+                    console.log(id);
+                    loader().show();
+                    $.ajax({
+                        url: "/Cari/Sil",
+                        method: "POST",
+                        data: { ID: id },
+                        success: function (response) {
+                            console.log("Success:", response);
+                            if (response.success) {
+                                datatable.ajax.reload();
+                                $('[id="Cari-silme"]').modal('hide')
+                            }
+                            loader().hide();
+
+                        },
+                        error: function (xhr, status, error) {
+                            loader().hide();
+                            console.log("Error:", xhr.responseText);
+                        }
+                    })
+                });
+
+                
+
+     
+
+                function topluSil() {
+                    var idListesi = [];
+                    $('#Cari-datatable tr.selected .btn-sil.Cari-toplu-silme').each(function (event) {
+                        var id = $(this).attr('data-id');
+                        idListesi.push(id);
+
+                    })
+                    loader().show();
+                    $.ajax({
+                        url: "/Cari/TopluSil",
+                        method: "POST",
+                        data: { idListesi: idListesi },
+                        success: function (response) {
+                            console.log("Success:", response);
+                            if (response.success) {
+                                $('[id="Cari-toplu-silme"]').modal('hide');
+                                datatable.ajax.reload();
+                            }
+                            loader().hide();
+
+                        },
+                        error: function (xhr, status, error) {
+                            loader().hide();
+                            console.log("Error:", xhr.responseText);
+                        }
+                    })
+
+                }
 
                 const filtreleriTemizle = document.querySelector("#filtreleriTemizle");
 
