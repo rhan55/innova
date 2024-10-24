@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Web;
 using System.Data.OleDb;
 using System.Collections;
+using System.Web.Http.Results;
 
 namespace YKPortal.Controllers
 {
@@ -234,26 +235,22 @@ namespace YKPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult Sil(string id)
+        public JsonResult Sil(CariDto cariDto)
         {
-            if (!AutoGirisKontrol())
-                return Redirect("~/YK/Giris");
-
-            if (!YetkiKontrolu("/Cari/Liste", "Sil"))
-                return Redirect("~/YK/Anasayfa");
-
-
+         
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariSil";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@ID", cariDto.ID);
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            return RedirectToAction("Liste");
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
+
+    
         [HttpPost]
         public ActionResult ExcelIceAktar(string tip, HttpPostedFileBase file) // parametreyi öylesine verdik,
         //get ve post metodunun ikiside parametresi olamaz hata veri o yüzden
@@ -769,17 +766,12 @@ namespace YKPortal.Controllers
   
 
         [HttpPost]
-        public ActionResult TopluSil(List<string> idListesi)
+        public JsonResult TopluSil(List<string> idListesi)
         {
-            if (!AutoGirisKontrol())
-                return Redirect("~/YK/Giris");
-
-            if (!YetkiKontrolu("/Cari/Liste", "Sil"))
-                return Redirect("~/YK/Anasayfa");
-
+            
             if (idListesi == null)
             {
-                return RedirectToAction("Liste");
+                return Json(new { success = false, message = "ID Listesi Boş" }, JsonRequestBehavior.AllowGet);
             }
 
             foreach (string id in idListesi)
@@ -793,7 +785,7 @@ namespace YKPortal.Controllers
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             }
 
-            return RedirectToAction("Liste");
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

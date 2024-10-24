@@ -9,7 +9,9 @@ namespace YKPortal.Models.Dto
 {
     public class CariDto
     {
-        private string _ID; 
+        private bool _Sil;
+        private bool _Duzenle;
+        private string _ID;
         private string _UyelikID;
         private bool _Aktif;
         private string _KayitTarihi;
@@ -27,7 +29,7 @@ namespace YKPortal.Models.Dto
         private string _PostaKodu;
         private bool _Alici;
         private bool _Satici;
-        private bool _Personel;  
+        private bool _Personel;
         private string _Telefon1;
         private string _Telefon2;
         private string _EMail;
@@ -67,7 +69,8 @@ namespace YKPortal.Models.Dto
         private string _KullaniciID;
 
 
-
+        public bool Sil { get { return _Sil == null ? false : _Sil; } set { _Sil = value; } }
+        public bool Duzenle { get { return _Duzenle == null ? false : _Duzenle; } set { _Duzenle = value; } }
         public string ID { get { return _ID ?? ""; } set { _ID = value; } }
         public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; } }
         public bool Aktif { get { return _Aktif == null ? false : _Aktif; } set { _Aktif = value; } }

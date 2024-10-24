@@ -10,5 +10,10 @@ namespace YKPortal.Models.Dto
         public List<CariDto> CariListesi { get; set; } = new List<CariDto>();
         public bool Sil { get; set; }
         public bool Duzenle { get; set; }
+
+        public CariListeJsonModel()
+        {
+            CariListesi = new List<CariDto>();
+        }
     }
 }
