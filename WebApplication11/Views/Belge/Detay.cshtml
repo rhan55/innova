@@ -7,6 +7,8 @@
     string Tip = Request.QueryString["Tip"];
 
     DataTable dtDepolar = ViewBag.Depolar as DataTable;
+    DataTable dtProjeler = ViewBag.Projeler as DataTable;
+    
     bool YKIsMobileDevice = Request.Browser.IsMobileDevice;
     //YKIsMobileDevice = true;
     bool DepoDepoTransferiAciklamaGizle = Convert.ToBoolean(ViewBag.DepoDepoTransferiAciklamaGizle);
@@ -39,7 +41,6 @@
                         <div class="mb-4 ">
                             <select class="form-select form-select-solid p-2 rounded-1" name="CariID" id="CariID"
                                     aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-
                                 @if (Model.CariID != "")
                                 {
                                     <option value="@Model.CariID" selected>@Model.CariAdi</option>
@@ -82,11 +83,15 @@
                     </div>
 
                     <div class="col-12 col-lg-3">
-                        <label for="DepoCikisID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Proje Kodu</label>
+                        <label for="ProjeKodu" class="form-label fs-6 fw-bold text-gray-600 mb-3">Proje Kodu</label>
                         <div class="mb-4">
                             <select class="form-select form-select-solid p-2 rounded-1" name="ProjeKodu" id="ProjeKodu"
                                     aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                               
+                                <option value="">Seçim Yapınız...</option>
+                                @foreach (DataRow drProje in dtProjeler.Rows)
+                                {
+                                    <option value="@drProje["ID"]" @("16" == Convert.ToString(drProje["ID"]) || Model.ProjeID == drProje["ID"].ToString() || Request.QueryString["ProjeKodu"] == drProje["ID"].ToString() ? "selected" : "")>@drProje["Deger"]</option>
+                                }
                             </select>
                         </div>
                     </div>
@@ -137,7 +142,7 @@
                                     else
                                     {
                                         <td class="me-4 text-gray-600"><strong>ÜRÜN</strong></td>
-                                        <td class="me-4 text-gray-600" style='display:none;'><strong>SERİ</strong></td>
+                                        <td class="me-4 text-gray-600"><strong>SERİ</strong></td>
                                         <td class="me-4 text-gray-600"><strong>BİRİM</strong></td>
                                         <td class="me-4 text-gray-600"><strong>MİKTAR</strong></td>
                                         <td class="me-4 text-gray-600" style="@(DepoDepoTransferiFiyatGizle == true ? "display:none;" : "")"><strong>FİYAT</strong></td>
@@ -221,7 +226,6 @@
                                                         aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
                                                     <option value="@satir.StokID" selected>@satir.StokAdi</option>
                                                 </select>
-
                                             </td>
                                             <td class="ps-0">
                                                 @if (Tip == "AI")
@@ -360,8 +364,10 @@
                     console.log("Stok Miktarı : " + data.length);
                     if (data.length > 0) {
                         console.log("Stok ID : " + data[0]["ID"]);
+                        console.log("StokKodu : " + data[0]["Kod"]);
+                        console.log("StokAdi : " + data[0]["Aciklama"]);
                         $("#StokKodu").val(data[0]["Kod"]);
-                        $("#StokAdi").val(data[0]["Isim2"]);
+                        $("#StokAdi").val(data[0]["Aciklama"]);
                         $.ajax({
                             url: '/Stok/SelectStokSeriListe',
                             data: "{ StokID: '" + data[0]["ID"] + "' }",
@@ -534,7 +540,9 @@
             newSelect.select2();
 
             StokAramaOlustur("StokID_" + YeniID + "");
-            $("#Bilgilendirme").text(eklenecekStokKodu + "-" + eklenecekStokAdi + "  Eklendi.");
+            if (eklenecekStokKodu != null) {
+                $("#Bilgilendirme").text(eklenecekStokKodu + "-" + eklenecekStokAdi + "  Eklendi.");
+            }
         }
 
         function Kaydet() {
@@ -587,6 +595,7 @@
                 CariID: $("#CariID").val(),
                 DepoCikisID: $("#DepoCikisID").val(),
                 DepoGirisID: $("#DepoGirisID").val(),
+                ProjeKodu: $("#ProjeKodu").val(),
                 Aciklama: $("#Aciklama").val(),
                 Kalemler: kalemler // Kalemler dizisi burada atanmıştır
             };

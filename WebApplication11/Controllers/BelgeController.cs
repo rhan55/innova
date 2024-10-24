@@ -157,7 +157,15 @@ namespace YKPortal.Controllers
                 ViewBag.Depolar = (DataTable)IDVeritabani.Sorgula(cmdDepolar, SorgulaTuru.Tablo);
             }
 
-
+            {
+                SqlCommand cmdProjeler = new SqlCommand();
+                cmdProjeler.CommandType = System.Data.CommandType.StoredProcedure;
+                cmdProjeler.CommandText = "p_ProjeListesi";
+                cmdProjeler.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmdProjeler.Parameters.AddWithValue("@AranacakKelime", "");
+                ViewBag.Projeler = (DataTable)IDVeritabani.Sorgula(cmdProjeler, SorgulaTuru.Tablo);
+            }
+            
             {
                 SqlCommand cmdKayit = new SqlCommand();
                 cmdKayit.CommandType = System.Data.CommandType.Text;
@@ -186,7 +194,7 @@ namespace YKPortal.Controllers
 
         [HttpPost]
         public ActionResult Kaydet(string Tip = "",string ID="", string BelgeNo="", string Tarih = "", string CariID = "", 
-            string DepoCikisID="", string DepoGirisID="",
+            string DepoCikisID="", string DepoGirisID="", string ProjeKodu="",
             string Aciklama = "", List<BelgeKalemDto> Kalemler = null)
         {
           
@@ -206,6 +214,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@CariID", CariID);
             cmd.Parameters.AddWithValue("@DepoCikisID", DepoCikisID);
             cmd.Parameters.AddWithValue("@DepoGirisID", DepoGirisID);
+            cmd.Parameters.AddWithValue("@ProjeID", ProjeKodu);
             cmd.Parameters.AddWithValue("@Aciklama1", Aciklama);
             cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
             ID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
