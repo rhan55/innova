@@ -457,8 +457,8 @@ namespace YKPortal.Controllers
             return RedirectToAction("Liste");
         }
 
-    
-        public ActionResult Liste(CariDto cariDto)
+        [HttpGet]
+        public ActionResult Liste()
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
@@ -466,8 +466,26 @@ namespace YKPortal.Controllers
             {
                 return Redirect("~/YK/Anasayfa");
             }
-          
-            
+
+            var model = new CariListeViewModel
+            {
+                Sil = YetkiKontrolu("/Cari/Liste", "Sil"),
+                Duzenle = YetkiKontrolu("/Cari/Liste", "Duzenle")
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public JsonResult Liste(CariDto cariDto)
+        {
+            if (!AutoGirisKontrol())
+                return Json(new { success = false, message = "Unauthorized" }, JsonRequestBehavior.AllowGet);
+            if (!YetkiKontrolu("/Cari/Liste", "Gor"))
+            {
+                return Json(new { success = false, message = "Permission Denied" }, JsonRequestBehavior.AllowGet);
+            }
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -478,21 +496,34 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@TCKimlikNo", cariDto.TCKimlikNo);
             cmd.Parameters.AddWithValue("@VergiNumarasi", cariDto.VergiNumarasi);
             cmd.Parameters.AddWithValue("@CepTelefonu", cariDto.CepTelefonu);
-            
-            ViewBag.Filters = cariDto;
-            ViewBag.CariID = cariDto.AnaCariID;
-            ViewBag.Isim = cariDto.Isim;
+
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            var model = new CariListeViewModel
+            var result = new CariListeJsonModel()
             {
-                Cari = dt,
                 Sil = YetkiKontrolu("/Cari/Liste", "Sil"),
                 Duzenle = YetkiKontrolu("/Cari/Liste", "Duzenle")
-
             };
 
-            return View(model);
+            foreach (DataRow row in dt.Rows)
+            {
+                result.CariListesi.Add(new CariDto
+                {
+                    Kod = Convert.ToString(row["Kod"]),
+                    Isim = Convert.ToString(row["Isim"]),
+                    Unvan = Convert.ToString(row["Unvan"]),
+                    TCKimlikNo = Convert.ToString(row["TCKimlikNo"]),
+                    VergiNumarasi = Convert.ToString(row["VergiNumarasi"]),
+                    CepTelefonu = Convert.ToString(row["CepTelefonu"]),
+                    GrupKodu1ID = Convert.ToString(row["GrupKodu1ID"]),
+                    GrupKodu2ID = Convert.ToString(row["GrupKodu2ID"]),
+                    ID = Convert.ToString(row["ID"]),
+                    // Yetki kontrolü ile ilgili bilgileri ekliyoruz
+                
+                });
+            }
+
+            return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

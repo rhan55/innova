@@ -9,9 +9,9 @@
     DataTable dtGrupKodu1 = ViewBag.dtGrupKodu1 as DataTable;
     DataTable dtGrupKodu2 = ViewBag.dtGrupKodu2 as DataTable;
 }
-<div class="container-fluid d-flex" id="kt_content"  style="width:90%;padding:3px;">
-    <div class="row"  style="width:100%;">
-        
+<div class="container-fluid d-flex" id="kt_content" style="width:90%;padding:3px;">
+    <div class="row" style="width:100%;">
+
 
         <table style="width:100%;">
             <tr>
@@ -28,7 +28,7 @@
                         <option value="">Seçim yapınız...</option>
                         @foreach (DataRow item in dtGrupKodu1.Rows)
                         {
-                        <option value="@item["ID"]">@item["Deger"]</option>
+                            <option value="@item["ID"]">@item["Deger"]</option>
                         }
                     </select>
                 </td>
@@ -40,7 +40,7 @@
                         <option value="">Seçim yapınız...</option>
                         @foreach (DataRow item in dtGrupKodu2.Rows)
                         {
-                        <option value="@item["ID"]">@item["Deger"]</option>
+                            <option value="@item["ID"]">@item["Deger"]</option>
                         }
                     </select>
                 </td>
@@ -84,7 +84,7 @@
             <tr>
                 <td colspan="2">
                     <label for="Barkod3">Fotoğraf</label>
-                    <input type="file" name="Resim" id="Resim" value=""  class="form-control"/>
+                    <input type="file" name="Resim" id="Resim" value="" class="form-control" />
                 </td>
             </tr>
             <tr>
@@ -111,43 +111,68 @@
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
+    
     <script>
         $(function () {
-
-
 
             const StokIDSelect = $('#StokAra').select2(select2Options("/Stok/SelectListe"));
 
 
 
-            function StokKoduOlustur() {
-                /*
-                $.ajax({
-                    async: false,
-                    cache: false,
-                    type: "GET",
-                    url: "/Stok/StokKoduOlustur",
-                    data: { "Firma": $("#Firma").val() },
-                    success: function (data2) {
-                        $('#Depo').empty();
-                        //$('#Depo')
-                        //    .append($("<option></option>")
-                        //        .attr("value", "")
-                        //        .text("Depo Seçimi"));
-                        $.each(data2, function (data3, key, value) {
-                            $('#Depo')
-                                .append($("<option></option>")
-                                    .attr("value", key.ID)
-                                    .text(key.Isim));
-                        }); Listele();
-                    },
-                    error: function (data) {
-                    }
-                });
-                */
-            }
+        function StokKoduOlustur() {
+            /*
+            $.ajax({
+                async: false,
+                cache: false,
+                type: "GET",
+                url: "/Stok/StokKoduOlustur",
+                data: { "Firma": $("#Firma").val() },
+                success: function (data2) {
+                    $('#Depo').empty();
+                    //$('#Depo')
+                    //    .append($("<option></option>")
+                    //        .attr("value", "")
+                    //        .text("Depo Seçimi"));
+                    $.each(data2, function (data3, key, value) {
+                        $('#Depo')
+                            .append($("<option></option>")
+                                .attr("value", key.ID)
+                                .text(key.Isim));
+                    }); Listele();
+                },
+                error: function (data) {
+                }
+            });
+            */
+        }
 
+        function StokSec() {
+
+            $.ajax({
+                async: false,
+                cache: false,
+                type: "GET",
+                url: "/Stok/SelectStok",
+                data: { "search": $("#StokAra").val() },
+                success: function (data2) {
+                    if (data2.length > 0) {
+                        console.log(data2);
+                        $("#Kod1").val(data2[0].GrupKodu1ID);
+                        $("#Kod2").val(data2[0].GrupKodu2ID);
+                        $("#StokKodu").val(data2[0].ID);
+                        $("#StokAdi").val(data2[0].Isim);
+                        $("#OlcuBirimi").val(data2[0].OlcuBirimi);
+                        $("#Barkod1").val(data2[0].Barkod);
+                        $("#Barkod2").val(data2[0].Barkod2);
+                        $("#Barkod3").val(data2[0].Barkod3);
+                        $("#Dosya").attr("src", "data:image/jpg;base64, " + data2[0].Dosya);
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
 
             function StokAra() {
                 if ($("#StokAra").val() == "") {
@@ -187,11 +212,13 @@
                 });
             }
 
-            function KaydetBarkod() {
-                if (event.keyCode == 13) {
-                    Kaydet();
-                }
+        
+
+        function KaydetBarkod() {
+            if (event.keyCode == 13) {
+                Kaydet();
             }
+        }
 
             function Kaydet() {
                 if ($("#Kod1").val() == "") {
@@ -351,36 +378,7 @@
                     }
                 });
 
-            }
-
-        });
-
-        function StokSec() {
-
-            $.ajax({
-                async: false,
-                cache: false,
-                type: "GET",
-                url: "/Stok/SelectStok",
-                data: { "search": $("#StokAra").val() },
-                success: function (data2) {
-                    if (data2.length > 0) {
-                        console.log(data2);
-                        $("#Kod1").val(data2[0].GrupKodu1ID);
-                        $("#Kod2").val(data2[0].GrupKodu2ID);
-                        $("#StokKodu").val(data2[0].ID);
-                        $("#StokAdi").val(data2[0].Isim);
-                        $("#OlcuBirimi").val(data2[0].OlcuBirimi);
-                        $("#Barkod1").val(data2[0].Barkod);
-                        $("#Barkod2").val(data2[0].Barkod2);
-                        $("#Barkod3").val(data2[0].Barkod3);
-                        $("#Dosya").attr("src", "data:image/jpg;base64, " + data2[0].Dosya);
-                    }
-                },
-                error: function (data) {
-                    console.log(data);
-                }
-            });
         }
+
     </script>
 }

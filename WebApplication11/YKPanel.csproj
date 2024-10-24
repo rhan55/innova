@@ -343,6 +343,7 @@
     <Compile Include="Models\Dto\Belge.cs" />
     <Compile Include="Models\Dto\BelgeDto.cs" />
     <Compile Include="Models\Dto\BelgeKalemDto.cs" />
+    <Compile Include="Models\Dto\CariListeJsonModel.cs" />
     <Compile Include="Models\Dto\CariNotListeViewModel.cs" />
     <Compile Include="Models\Dto\CariKisiListeViewModel.cs" />
     <Compile Include="Models\Dto\DovizBirimiDto.cs" />
