@@ -333,6 +333,7 @@
     </Compile>
     <Compile Include="Hubs\BildirimHub.cs" />
     <Compile Include="Hubs\MesajHub.cs" />
+    <Compile Include="Kutuphane\EFatura\Reference.cs" />
     <Compile Include="Models\ComponentDto\BelgeEkleComponent.cs" />
     <Compile Include="Models\ComponentDto\BelgeListeComponent.cs" />
     <Compile Include="Models\Dto\AnaSayfaDto.cs" />
@@ -568,6 +569,7 @@
     <Content Include="Areas\Crm2\Views\Crm2\Cariler2.cshtml" />
     <Content Include="Areas\Depo\Views\Depo\BarkodKontrol.cshtml" />
     <Content Include="Areas\Depo\Views\Depo\GirisCikisIslemleri.cshtml" />
+    <Content Include="Kutuphane\EFatura\ConnectedService.json" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

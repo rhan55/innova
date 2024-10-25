@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="YKPortal_YKPARAMPOS_TurkPos_x0020_WS_x0020_TEST" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">https://test-dmz.param.com.tr/turkpos.ws/service_turkpos_test.asmx</Value>
+      <Value Profile="(Default)">https://posws.param.com.tr/turkpos.ws/service_turkpos_prod.asmx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -12,7 +12,7 @@ namespace YKPortal.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.7.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.11.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -26,7 +26,7 @@ namespace YKPortal.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://test-dmz.param.com.tr/turkpos.ws/service_turkpos_test.asmx")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://posws.param.com.tr/turkpos.ws/service_turkpos_prod.asmx")]
         public string YKPortal_YKPARAMPOS_TurkPos_x0020_WS_x0020_TEST {
             get {
                 return ((string)(this["YKPortal_YKPARAMPOS_TurkPos_x0020_WS_x0020_TEST"]));

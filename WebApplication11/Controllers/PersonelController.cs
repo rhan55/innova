@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using YKPortal.Models;
 using YKPortal.Models.Dto;
+using EFatura;
 
 namespace YKPortal.Controllers
 {
@@ -15,6 +16,7 @@ namespace YKPortal.Controllers
         [HttpGet]
         public ActionResult Liste(string aranacakKelime = null)
         {
+         
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
