@@ -1517,7 +1517,91 @@ Select @ID as ID
 
         #endregion
 
+        #region Pirelli Web Api
+
+        [HttpPost]
+        public List<PirelliResponseDto> STOCKCHECK([FromBody] JObject data)
+        {
+            List<PirelliResponseDto> result1 = new List<PirelliResponseDto>();
+            try
+            {
+                if (data["Product"] == null)
+                {
+                    //result.SonucKodu = 0;
+                    //result.Hata = "UYARI! Product bilgisi boş olamaz.";
+                    //return result;
+                }
+                if (data["City"] == null)
+                {
+                    //result.SonucKodu = 0;
+                    //result.Hata = "UYARI! City bilgisi boş olamaz.";
+                    //return result;
+                }
+
+                string City = Convert.ToString(data["City"]);
+                List<PirelliDto> products = data["Product"].ToObject<List<PirelliDto>>();
+
+                int sira = 0;
+                foreach (PirelliDto entity in products)
+                {
+                    sira++;
+
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "p_PirelliStockCheck";
+                    cmd.Parameters.AddWithValue("@StokKodu", entity.ProductCode);
+                    DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                    if (dt.Rows.Count > 0)
+                    {
+                        PirelliResponseDto et = new PirelliResponseDto();
+                        et.DeliveryDatetime = Convert.ToDateTime(dt.Rows[0]["TeslimTarihi"]);
+                        et.Manufacturer = Convert.ToString(dt.Rows[0]["Uretici"]);
+                        et.ProductCode = Convert.ToString(dt.Rows[0]["StokKodu"]);
+                        et.ProductDescription = Convert.ToString(dt.Rows[0]["StokAdi"]);
+                        et.ProductionDate = Convert.ToInt32(dt.Rows[0]["UretimYili"]);
+                        et.Quantity = Convert.ToDecimal(dt.Rows[0]["Miktar"]);
+                        result1.Add(et);
+                    }
+                }
+
+                
+
+                return result1;
+            }
+            catch (Exception err)
+            {
+                //result.SonucKodu = -1;
+                //result.Sonuc = "HATA!";
+                //result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result1;
+        }
+        #endregion
+
     }
+
+    #region Pirelli Class
+
+    public class PirelliDto
+    {
+        public string ProductCode { get; set; }
+    }
+    public class PirelliResponseDto
+    {
+        public string Manufacturer { get; set; }
+        public string ProductCode { get; set; }
+        public string ProductDescription { get; set; }
+        public decimal Quantity { get; set; }
+        public DateTime DeliveryDatetime { get; set; }
+        public int ProductionDate { get; set; }
+    }
+
+    #endregion
+
     public class IDJsonResult
     {
         public object Data { get; set; }

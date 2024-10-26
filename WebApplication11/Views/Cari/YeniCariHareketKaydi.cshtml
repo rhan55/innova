@@ -56,7 +56,6 @@
                                 <label for="HareketTipi" class="fw-semibold fs-6 mb-2">Hareket Tipi/Türü</label>
                                 <select class="form-control p-2 rounded-1" data-control="select2" name="HareketTipi" id="HareketTipi"
                                         aria-label="Floating label select example">
-
                                     @foreach (GrupKoduDto cariGrupKodlari5 in ViewBag.CariHareketTipleri)
                                     {
                                         <option value="@cariGrupKodlari5.Deger">@cariGrupKodlari5.Deger</option>
