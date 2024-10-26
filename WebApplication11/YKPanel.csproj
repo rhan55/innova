@@ -357,6 +357,7 @@
     <Compile Include="Models\Dto\PersonelListeViewModel.cs" />
     <Compile Include="Models\Dto\SeoAyarlariDto.cs" />
     <Compile Include="Models\Dto\SmsAyarlariDto.cs" />
+    <Compile Include="Models\Dto\StokListeJsonModel.cs" />
     <Compile Include="Models\Dto\StokListeViewModel.cs" />
     <Compile Include="Models\Dto\CariZiyaretListeViewModel.cs" />
     <Compile Include="Models\Dto\KullaniciListeViewModel.cs" />

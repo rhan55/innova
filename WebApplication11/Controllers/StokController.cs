@@ -325,36 +325,22 @@ namespace YKPortal.Controllers
             return RedirectToAction("Liste");
         }
 
-        public ActionResult Sil(string id)
+        public JsonResult Sil(StokDto stokDto)
         {
-            if (!AutoGirisKontrol())
-                return Redirect("~/YK/Giris");
-            if (!YetkiKontrolu("/Stok/Liste", "Sil"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
-
+           
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_StokSil";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@ID", stokDto.ID);
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            return RedirectToAction("Liste");
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
         public ActionResult TopluSil(List<string> idListesi)
         {
-            if (!AutoGirisKontrol())
-                return Redirect("~/YK/Giris");
-
-            if (!YetkiKontrolu("/Stok/Liste", "Sil"))
-            {
-                return Redirect("~/YK/Anasayfa");
-            }
-
-
+       
             if (idListesi == null)
             {
                 return RedirectToAction("Liste");
@@ -371,19 +357,28 @@ namespace YKPortal.Controllers
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             }
 
-            return RedirectToAction("Liste");
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Liste(StokDto stokDto)
+        [HttpGet]
+        public ActionResult Liste()
         {
-            if (!AutoGirisKontrol())
-                return Redirect("~/YK/Giris");
-
-            if (!YetkiKontrolu("/Stok/Liste", "Gor"))
+          
+            var model = new StokListeViewModel
             {
-                return Redirect("~/YK/Anasayfa");
-            }
+                Sil = YetkiKontrolu("/Stok/Liste", "Sil"),
+                Duzenle = YetkiKontrolu("/Stok/Liste", "Duzenle")
+            };
+            StokGrupKod1ListesiniOlustur();
+            StokGrupKod2ListesiniOlustur();
 
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public JsonResult Liste(StokDto stokDto)
+        { 
             var cmd = new SqlCommand();
             cmd.CommandText = "p_StokListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -393,11 +388,15 @@ namespace YKPortal.Controllers
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            var stokListesi = new List<StokDto>();
+            var result = new StokListeJsonModel()
+            {
+                Sil = YetkiKontrolu("/Stok/Liste", "Sil"),
+                Duzenle = YetkiKontrolu("/Stok/Liste", "Duzenle")
+            };
 
             foreach (DataRow dr in dt.Rows)
             {
-                stokListesi.Add(new StokDto
+                result.StokListesi.Add(new StokDto
                 {
                     ID = Convert.ToString(dr["ID"]),
                     Isim = Convert.ToString(dr["Isim"]),
@@ -406,25 +405,11 @@ namespace YKPortal.Controllers
 
                 });
             }
-            ViewBag.Isim = stokDto.Isim;
-            ViewBag.StokID = stokDto.StokID;
-            ViewBag.KayitYapanKullaniciID = stokDto.KayitYapanKullaniciID;
-
-            ViewBag.StokListesi = stokListesi;
-            ViewBag.Filters = stokDto;
-
+          
             StokGrupKod1ListesiniOlustur();
             StokGrupKod2ListesiniOlustur();
 
-            var model = new StokListeViewModel
-            {
-                Stoklar = dt,
-                Sil = YetkiKontrolu("/Stok/Liste", "Sil"),
-                Duzenle = YetkiKontrolu("/Stok/Liste", "Duzenle")
-
-            };
-
-            return View(model);
+            return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

@@ -9,6 +9,8 @@ namespace YKPortal.Models.Dto
 {
     public class StokDto
     {
+        private bool _Sil;
+        private bool _Duzenle;
         private string _ID;
         private string _StokID;
         private string _UyelikID;
@@ -54,6 +56,8 @@ namespace YKPortal.Models.Dto
         private decimal _Bakiye;
         public string Dosya { get; set; }
 
+        public bool Sil { get { return _Sil == null ? false : _Sil; } set { _Sil = value; } }
+        public bool Duzenle { get { return _Duzenle == null ? false : _Duzenle; } set { _Duzenle = value; } }
         public string ID { get { return _ID ?? ""; } set { _ID = value; } }
         public string StokID { get { return _StokID ?? ""; } set { _StokID = value; } }
         public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; } }
