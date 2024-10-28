@@ -50,9 +50,21 @@ namespace YKPortal.Controllers
 
             var sonuc = client.Login(new LoginRequest
             {
-                USER_NAME = "",
-                PASSWORD = "",
-                SECRET_KEY = ""
+                USER_NAME = "ykyazilim",
+                PASSWORD = "1234567Edm",
+                SECRET_KEY = "",
+                REQUEST_HEADER = new REQUEST_HEADERType
+                {
+                    SESSION_ID = "0",
+                    ACTION_DATE = DateTime.Now,
+                    ACTION_DATESpecified = true,
+                    APPLICATION_NAME = "YK PORTAL v1.0",
+                    CHANNEL_NAME = "TEST",
+                    COMPRESSED = "N",
+                    HOSTNAME = "YK PORTAL",
+                    REASON = "E-fatura/E-Arşiv gönder-al testleri için",
+                    CLIENT_TXN_ID = Guid.NewGuid().ToString()
+                }
             });
 
             //if (sonuc.REQUEST_RETURN.RETURN_CODE == 0)
