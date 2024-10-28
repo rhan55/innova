@@ -482,3 +482,6 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+/WebApplication11/Areas/Depo/Controllers/NetsisDepoController.cs
+/WebApplication11/Areas/Depo/DepoAreaRegistration.cs
+/WebApplication11/YKPanel.csproj
