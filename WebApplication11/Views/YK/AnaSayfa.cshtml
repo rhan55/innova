@@ -2,12 +2,10 @@
 
 @{
     ViewBag.Title = "Ana Sayfa";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutTab.cshtml";
 }
 
-
-
-<div class="container-fluid">
+<div id="content-anasayfa-tab" class="container-fluid">
     <div class="row">
         <div class="col-sm-8">
             <div class="d-flex ">
@@ -205,7 +203,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="TakvimEtkinlikModal" tabindex="-1" aria-hidden="true" data-bs-focus="false">
     <div class="modal-dialog modal-dialog-centered mw-650px">
         <div class="modal-content">
@@ -290,9 +287,6 @@
 
     <script>
 
-      
-
-
         $(document).ready(function () {
             $('#TakvimEtkinlikModal').on('hidden.bs.modal', function () {
                 $('button.EtkinlikSil').hide();
@@ -319,9 +313,9 @@
                         nowIndicator: true,
                         now: TODAY + 'T09:25:00',
                         views: {
-                            dayGridMonth: { buttonText: 'Ay' }, 
+                            dayGridMonth: { buttonText: 'Ay' },
                             timeGridWeek: { buttonText: 'Hafta' },
-                            timeGridDay: { buttonText: 'Gün' } 
+                            timeGridDay: { buttonText: 'Gün' }
                         },
                         initialView: 'dayGridMonth',
                         initialDate: TODAY,
@@ -333,8 +327,8 @@
                                 url: '/YK/Takvim',
                                 dataType: 'json',
                                 data: {
-                                    start: dateRange.startStr, 
-                                    end: dateRange.endStr, 
+                                    start: dateRange.startStr,
+                                    end: dateRange.endStr,
                                 },
                                 success: function (response) {
                                     callback(response);
@@ -357,7 +351,7 @@
                             $('#TakvimBaslik').val(info.event.title);
                             $('#TakvimAciklama').val(info.event.extendedProps.description);
                             setDateTimeInput('#TakvimTarih', info.event.start)
-                      
+
                             //$('#EventID').val(info.event.id);
                         },
 
@@ -430,13 +424,13 @@
                             $('button.EtkinlikSil').hide();
                         }
 
-                        console.log(_data); 
+                        console.log(_data);
 
                         // AJAX isteği ile verileri gönderme
                         $.ajax({
                             url: '/YK/TakvimKaydet',
                             type: 'POST',
-                            data: JSON.stringify(_data),  
+                            data: JSON.stringify(_data),
                             contentType: "application/json",
                             dataType: "json",
                             success: function (response) {

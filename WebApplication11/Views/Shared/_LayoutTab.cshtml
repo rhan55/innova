@@ -1,0 +1,533 @@
+﻿
+@using YKPortal.Models.Dto
+@using System.Data
+@using System.Data.SqlClient
+@using YKPortal.Models
+
+@{
+    string UyelikIsim = "";
+    string KullaniciAdi = "";
+    string Isim = "";
+    string Resim = "";
+    string Logo = "";
+    string KullaniciID = "";
+    string UyelikID = "";
+    string UyelikBitisTarihi = "";
+
+    try
+    {
+        UyelikIsim = HttpUtility.UrlDecode(Request.Cookies["UyelikIsim"].Value);
+        KullaniciAdi = HttpUtility.UrlDecode(Request.Cookies["KullaniciAdi"].Value);
+        Isim = HttpUtility.UrlDecode(Request.Cookies["Isim"].Value);
+        Resim = HttpUtility.UrlDecode(Request.Cookies["Resim"].Value);
+        KullaniciID = HttpUtility.UrlDecode(Request.Cookies["KullaniciID"].Value);
+        UyelikID = HttpUtility.UrlDecode(Request.Cookies["UyelikID"].Value);
+        UyelikBitisTarihi = HttpUtility.UrlDecode(Request.Cookies["UyelikBitisTarihi"].Value);
+        Logo = HttpUtility.UrlDecode(Request.Cookies["Logo"].Value);
+    }
+    catch
+    {
+    }
+    SqlCommand cmd = new SqlCommand();
+    cmd.CommandText = "p_KullaniciYetkileri";
+    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+    cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
+    cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
+    DataTable dtYetkikler = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+    List<YetkilerDto> yetkiler = new List<YetkilerDto>();
+
+    foreach (DataRow row in dtYetkikler.Rows)
+    {
+        if (Convert.ToBoolean(row["Gor"]) == true)
+        {
+            yetkiler.Add(new YetkilerDto()
+            {
+                MenuID = Convert.ToString(row["MenuID"]),
+                KullaniciID = Convert.ToString(row["KullaniciID"]),
+                UyelikID = Convert.ToString(row["UyelikID"]),
+                Menu = Convert.ToString(row["Menu"]),
+                UstID = Convert.ToString(row["UstID"]),
+                url = Convert.ToString(row["url"]),
+                icon = Convert.ToString(row["icon"]),
+            });
+        }
+    }
+
+
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<!--begin::Head-->
+
+<head>
+    <title>@ViewBag.Title - @System.Configuration.ConfigurationManager.AppSettings["FirmaAdi"]</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="@(System.Configuration.ConfigurationManager.AppSettings["SeoDescription"])" />
+    <meta name="keywords" content="@(System.Configuration.ConfigurationManager.AppSettings["SeoKeywords"])" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="YK YAZILIM" />
+    <meta property="og:url" content="https://keenthemes.com/metronic" />
+    <meta property="og:site_name" content="YK YAZILIM" />
+    <link rel="canonical" href="http://index.html" />
+    <link rel="canonical" href="http://authentication/layouts/corporate/sign-in.html" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/Tema/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/Tema/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/Tema/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/Tema/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/Tema/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/Tema/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/Tema/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/Tema/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/Tema/favicons/apple-icon-180x180.png">
+    @*<link rel="icon" type="image/png" sizes="192x192" href="/Tema/favicons/android-icon-192x192.png">*@
+    <link rel="icon" type="image/png" sizes="32x32" href="/Tema/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/Tema/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/Tema/favicons/favicon-16x16.png">
+    @*<link rel="manifest" href="/Tema/favicons/manifest.json">*@
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/Tema/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!--begin::Fonts(mandatory for all pages)-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
+    <!--end::Fonts-->
+    <!--begin::Vendor Stylesheets(used for this page only)-->
+    <link href="~/Tema/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="~/Tema/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
+    <!--end::Vendor Stylesheets-->
+    <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
+    <link href="~/Tema/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="~/Tema/css/style.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="~/Tema/css/override.css" rel="stylesheet" />
+    <script type="text/javascript">
+
+        function IDGuidOlustur() {
+            return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+                (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+            );
+        }
+
+        function TutarKontroluYap(entity) {
+            $(entity).val(entity.value.replace(",", "."));
+        }
+
+    </script>
+    @RenderSection("Styles", required: false)
+    <!--end::Global Stylesheets Bundle-->
+    <script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
+</head>
+<!--end::Head-->
+<!--begin::Body-->
+
+<body id="kt_app_body" data-kt-app-layout="light-sidebar" data-kt-app-header-fixed="true"
+      data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true"
+      data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true"
+      data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" class="app-default">
+    <!--begin::Theme mode setup on page load-->
+    <script>var defaultThemeMode = "light"; var themeMode; if (document.documentElement) { if (document.documentElement.hasAttribute("data-bs-theme-mode")) { themeMode = document.documentElement.getAttribute("data-bs-theme-mode"); } else { if (localStorage.getItem("data-bs-theme") !== null) { themeMode = localStorage.getItem("data-bs-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-bs-theme", themeMode); }</script>
+    <!--end::Theme mode setup on page load-->
+    <!--begin::Page loading(append to body)-->
+    <div class="custom-page-loader">
+        <span class="spinner-border text-primary" role="status"></span>
+        <span class="text-muted fs-6 fw-semibold mt-5">Sayfa Yükleniyor...</span>
+    </div>
+    <!--end::Page loading-->
+    <!--begin::App-->
+    @RenderBody()
+    <!--end::App-->
+    <!--begin::Drawers-->
+    <!--end::Modal - Invite Friend-->
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 105">
+        <div id="kt_docs_toast_toggle" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <i class="ki-duotone ki-abstract-19 fs-2 text-danger me-3"><span class="path1"></span><span class="path2"></span></i>
+                <strong class="me-auto" data-element="toast-title"></strong>
+
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" data-element="toast-description">
+
+            </div>
+        </div>
+    </div>
+    <!--end::Modals-->
+    <!--begin::Javascript-->
+    <script>var hostUrl = "~/Tema/";</script>
+    <!--begin::Global Javascript Bundle(mandatory for all pages)-->
+    <script src="~/Tema/plugins/global/plugins.bundle.js"></script>
+    <script src="~/Tema/plugins/custom/datatables/datatables.min.js"></script>
+    <script src="~/Tema/js/scripts.bundle.js"></script>
+    <script src="~/Tema/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
+    <script src="~/Tema/plugins/custom/vis-timeline/vis-timeline.bundle.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="~/Tema/plugins/custom/currency-formatter/currency-formatter.js"></script>
+    <script src="~/SignalR/Hubs"></script>
+    <!--end::Global Javascript Bundle-->
+    <!--begin::Vendors Javascript(used for this page only)-->
+    <script src="~/Tema/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
+
+    <!--end::Vendors Javascript-->
+    <!--begin::Custom Javascript(used for this page only)-->
+    <!--
+    <script src="~/Tema/plugins/custom/signature/jquery.signature.js"></script>
+    <script src="~/Tema/plugins/custom/signature/jquery.ui.touch-punch.js"></script>
+    -->
+    <script>
+
+
+        // Sekme yapısı başlangıcı
+
+
+        // Sekme yapısı bitişi
+        //SELECT2 fONKSİYONU
+        function select2Options(url) {
+            return {
+                ajax: {
+                    url: url,
+                    data: function (params) {
+                        var query = {
+                            search: params.term,
+                        }
+
+                        // Query parameters will be ?search=[term]&type=public
+                        return query;
+                    },
+                    processResults: function (data) {
+                        var results = [];
+                        if (data && data.length > 0) {
+                            data.forEach(function (item) {
+                                results.push({ id: item.ID, text: item.Isim })
+                            });
+                        }
+
+                        return {
+                            results: results
+                        };
+                    },
+                },
+                delay: 250,
+                minimumInputLength: 1,
+                language: {
+                    placeholder: function () {
+                        return "Arama yapmak için en az 1 karakter girin";
+                    },
+                    inputTooShort: function () {
+                        return "Lütfen en az 1 karakter girin";
+                    }
+                }
+            }
+        }
+    function toastr(title = "", description = "") {
+        const toastElement = document.getElementById('kt_docs_toast_toggle');
+        $(toastElement).find('[data-element="toast-title"]').html(title);
+        $(toastElement).find('[data-element="toast-description"]').html(description);
+
+        const toast = bootstrap.Toast.getOrCreateInstance(toastElement);
+
+        toast.show();
+    }
+
+     function loader() {
+         var toggle = () => {
+             document.querySelector('.custom-page-loader').classList.toggle('hidden');
+         }
+
+         var hide = () => {
+             document.querySelector('.custom-page-loader').classList.add('hidden');
+         }
+
+         var show = () => {
+             document.querySelector('.custom-page-loader').classList.remove('hidden');
+         }
+
+         return {
+             toggle, hide, show
+         }
+     }
+
+     const anaSayfaBilgileri = {
+         Cari: 0,
+         Stok: 0,
+         Belge: 0,
+         YeniOkunmamisMesaj: 0
+     }
+
+     function AnaSayfaBilgileriGetir() {
+         $.ajax({
+             url: "/YK/AnaSayfaBilgileriGetir",
+             method: 'POST',
+             data: JSON.stringify({}),
+             success: (response) => {
+                 if (response.Data) {
+                     anaSayfaBilgileri.Belge = response.Data.Belge;
+                     anaSayfaBilgileri.Cari = response.Data.Cari;
+                     anaSayfaBilgileri.Stok = response.Data.Stok;
+                     anaSayfaBilgileri.YeniOkunmamisMesaj = response.Data.YeniOkunmamisMesaj;
+                     YeniOkunmamisMesajEkle();
+                 }
+             },
+             error: (err) => {
+                 console.log(err)
+             }
+         })
+     }
+
+     function YeniOkunmamisMesajEkle(ekle = null) {
+         if (ekle == null) {
+             if (anaSayfaBilgileri.YeniOkunmamisMesaj > 0) {
+                 $('[data-id="YeniOkunmamisMesaj"]').html(anaSayfaBilgileri.YeniOkunmamisMesaj);
+                 $('[data-id="YeniOkunmamisMesaj"]').removeClass('hidden');
+             } else {
+                 $('[data-id="YeniOkunmamisMesaj"]').addClass('hidden');
+             }
+         } else if (ekle === "") {
+             var suAnkiMesajSayisi = Number($('[data-id="YeniOkunmamisMesaj"]').html());
+
+             $('[data-id="YeniOkunmamisMesaj"]').html(suAnkiMesajSayisi + 1);
+             $('[data-id="YeniOkunmamisMesaj"]').removeClass('hidden');
+         }
+
+     }
+
+     function bildirimHubBaglantisi() {
+         var bildirimHub = $.connection.bildirimHub;
+
+         bildirimHub.client.receiveNotification = function (bosIcerik) {
+
+             YeniOkunmamisMesajEkle("");
+         };
+
+         $.connection.hub.start({ transport: ['webSockets', 'longPolling'], connectionTimeout: 20000 }).done(function () {
+             console.log('Connected to SignalR hub');
+         }).fail(function (error) {
+             console.log('Could not connect: ' + error);
+         })
+        }
+
+        function setDateTimeInput(input, date = null) {
+            var now = date ? new Date(date) : new Date();
+            var year = now.getFullYear();
+            var month = ('0' + (now.getMonth() + 1)).slice(-2); // Ayı 2 haneli formatla
+            var day = ('0' + now.getDate()).slice(-2); // Günü 2 haneli formatla
+            var hours = ('0' + now.getHours()).slice(-2); // Saati 2 haneli formatla
+            var minutes = ('0' + now.getMinutes()).slice(-2); // Dakikayı 2 haneli formatla
+
+            var formattedDateTime = year + '-' + month + '-' + day + 'T' + hours + ':' + minutes;
+
+            // input alanına set et
+            $(input).val(formattedDateTime);
+        }
+
+     $(document).ready(function () {
+
+
+         loader().hide();
+
+         let menuIdListesi = [];
+
+         const loadingEl = document.createElement("div");
+         document.body.prepend(loadingEl);
+         loadingEl.classList.add("page-loader");
+         loadingEl.classList.add("flex-column");
+         loadingEl.innerHTML = `
+                   <span class="spinner-border text-primary" role="status"></span>
+                   <span class="text-muted fs-6 fw-semibold mt-5">Loading...</span>
+               `;
+
+         // Show page loading
+         KTApp.showPageLoading();
+
+         // Hide after 3 seconds
+         setTimeout(function () {
+             KTApp.hidePageLoading();
+             loadingEl.remove();
+         }, 0);
+
+
+         const navigations = [
+
+              @foreach (YetkilerDto yetki in yetkiler)
+              {
+                  if (yetki.UstID == "")
+                  {
+                      @Html.Raw("{")
+                      @Html.Raw("   title: '"+yetki.Menu+"',")
+                      @Html.Raw("   icon: '"+yetki.icon+"',")
+                      @Html.Raw("   isOpen: false,")
+                      @Html.Raw("   items: [")
+
+
+
+                      foreach (YetkilerDto altyetki in yetkiler)
+                      {
+                          if (altyetki.UstID == yetki.MenuID)
+                          {
+                              if (altyetki.url.Trim().Length > 0)
+                              {
+                                    @Html.Raw("    {");
+                                       @Html.Raw("    title: '"+ altyetki.Menu+"',");
+                                       @Html.Raw("       url: '"+ Url.Content(altyetki.url)+"'");
+                                       @Html.Raw("   },");
+
+                              }
+                              else
+                              {
+                                    @Html.Raw("    {");
+                                   @Html.Raw("       title: '"+altyetki.Menu+"',");
+                                   @Html.Raw("      isMenu: true,");
+                                   @Html.Raw("      icon: '"+altyetki.icon+"',");
+                                   @Html.Raw("      items: [");
+
+
+                                    foreach (YetkilerDto alt2yetki in yetkiler)
+                                    {
+                                        if (alt2yetki.UstID == altyetki.MenuID)
+                                        {
+
+                                              @Html.Raw("    {");
+                                              @Html.Raw("    title: '"+alt2yetki.Menu+"',");
+                                              @Html.Raw("       url: '"+Url.Content(alt2yetki.url)+"'");
+                                              @Html.Raw("   },");
+
+
+                                        }
+                                    }
+
+                                   @Html.Raw("      ]");
+                                   @Html.Raw("  },");
+                              }
+
+                                  }
+                              }
+
+                      @Html.Raw("   ]")
+                      @Html.Raw(" },")
+                          }
+                      }
+
+
+
+
+         ];
+
+                      const navigationContainer = document.querySelector("#navigation");
+
+                      const searchInNavigation = document.querySelector("#searchInNavigation");
+
+                      let navigationData = buildNavigation(navigations);
+
+                      navigationContainer.innerHTML = navigationData.join("")
+
+         function createLink(item) {
+
+             return `
+        <div class="menu-item">
+            <a onclick="openTab('${item.title}', '${item.url}')" class="menu-link hover py-1" href="#">
+                <span class="menu-bullet ps-1">
+                    <span class="bullet bullet-dot"></span>
+                </span>
+                <span class="menu-title">${item.title}</span>
+            </a>
+        </div>
+    `;
+
+
+         }
+         function createMenu(navigationMenu, links) {
+             return `
+                                                       <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                                                           <span class="menu-link hover ps-4 py-1">
+                                                               <span class="menu-icon">
+                                                                   <i class="${navigationMenu.icon}"></i>
+                                                               </span>
+                                                               <span class="menu-title">${navigationMenu.title}</span>
+                                                               <span class="menu-arrow"></span>
+                                                           </span>
+
+                                                           <div class="menu-sub menu-sub-accordion">${links.join('')}</div>
+                                                       </div>
+
+                                                        `;
+         }
+         function createNavigation(navigation, menus) {
+             return ` <div data-kt-menu-trigger="click" class="menu-item ${navigation.isOpen ? 'show' : ''} menu-accordion">
+                                                       <span class="menu-link hover ps-2">
+                                                           <span class="menu-icon">
+                                                               <i class="${navigation.icon}">
+                                                                    <span class="path1"></span>
+                                                        <span class="path2"></span>
+                                                        <span class="path3"></span>
+                                                        <span class="path4"></span>
+                                                               </i>
+                                                           </span>
+                                                           <span class="menu-title">${navigation.title}</span>
+                                                           <span class="menu-arrow"></span>
+                                                       </span>
+                                                       <div class="menu-sub menu-sub-accordion">
+                                                           ${menus.join('')}
+                                                       </div>
+                                                   </div>`
+         }
+
+         function buildNavigation(navigationList) {
+             return navigationList.map(navigation => {
+                 let menus = navigation.items.map(navigationMenu => {
+                     if (navigationMenu.isMenu) {
+                         var links = navigationMenu.items.map(link => {
+                             return createLink(link);
+                         })
+
+                         return createMenu(navigationMenu, links);
+                     } else {
+                         return createLink(navigationMenu);
+                     }
+                 })
+
+                 return createNavigation(navigation, menus);
+             })
+         }
+
+         searchInNavigation.addEventListener("input", function (event) {
+             let filteredNavigation = [];
+             if (event.target.value == "") {
+                 filteredNavigation = buildNavigation(navigations);
+             } else {
+                 navigations.forEach(navigation => {
+                     navigation.items.forEach(menu => {
+                         if (menu.isMenu) {
+                             menu.items.forEach(link => {
+                                 if (link.title.toLocaleUpperCase("tr-TR").includes(event.target.value.toLocaleUpperCase("tr-TR"))) {
+                                     filteredNavigation.push(createLink(link));
+                                 }
+                             })
+                         } else {
+                             if (menu.title.toLocaleUpperCase("tr-TR").includes(event.target.value.toLocaleUpperCase("tr-TR"))) {
+                                 filteredNavigation.push(createLink(menu));
+                             }
+                         }
+                     })
+                 })
+             }
+
+             navigationContainer.innerHTML = filteredNavigation.join("")
+         });
+
+     });
+
+     $(document).ready(function () {
+         AnaSayfaBilgileriGetir();
+         bildirimHubBaglantisi();
+
+     })
+
+    </script>
+    @RenderSection("Scripts", required: false)
+    <!--end::Custom Javascript-->
+    <!--end::Javascript-->
+</body>
+<!--end::Body-->
+
+</html>
