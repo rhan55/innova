@@ -6,6 +6,7 @@
 
 <input type="hidden" name="YetkiSil" value="0" />
 <input type="hidden" name="YetkiDuzenle" value="0" />
+<input type="hidden" name="EFaturaMukellefKontrolu" value="0" />
 <div class="container-fluid p-0">
     <div class="row p-0 m-0">
         <div class="col-lg-12 p-0">
@@ -212,6 +213,70 @@
     </div>
 </div>
 
+<!-- Trigger Button -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EFaturaBilgiGuncelle">
+    Pop-up Aç
+</button>
+
+<!-- Modal Yapısı -->
+<div class="modal fade animate__animated animate__fadeIn" id="EFaturaBilgiGuncelle"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Başlık</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bu bir Metronic pop-up örneğidir.
+
+
+
+                <div class="form-group">
+                    <label for="EFaturaKayitTarihi" class="form-label">EFaturaKayitTarihi</label>
+                    <input type="text" id="EFaturaKayitTarihi" name="EFaturaKayitTarihi" class="form-control p-2 rounded-1" placeholder="" readonly/>
+                </div>
+                <div class="form-group">
+                    <label for="EFaturaPKAdresi" class="form-label">EFaturaPKAdresi</label>
+                    <input type="text" id="EFaturaPKAdresi" name="EFaturaPKAdresi" class="form-control p-2 rounded-1" placeholder="" readonly/>
+                </div>
+                <div class="form-group">
+                    <label for="EIrsaliyePKAdresi" class="form-label">EIrsaliyePKAdresi</label>
+                    <input type="text" id="EIrsaliyePKAdresi" name="EIrsaliyePKAdresi" class="form-control p-2 rounded-1" placeholder="" readonly/>
+                </div>
+                <div class="form-group">
+                    <label for="EFatura" class="form-label">EFatura</label>
+                    <input type="text" id="EFatura" name="EFatura" class="form-control p-2 rounded-1" placeholder="" readonly/>
+                </div>
+                <div class="form-group">
+                    <label for="EIrsaliye" class="form-label">EIrsaliye</label>
+                    <input type="text" id="EIrsaliye" name="EIrsaliye" class="form-control p-2 rounded-1" placeholder="" readonly/>
+                </div>
+                <div class="form-group">
+                    <label for="EFaturaSenaryo" class="form-label">EFaturaSenaryo</label>
+                    <input type="text" id="EFaturaSenaryo" name="EFaturaSenaryo" class="form-control p-2 rounded-1" placeholder="" readonly/>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" name="EFaturaAktiflik" type="checkbox" value="" id="EFaturaAktiflik" checked readonly/>
+                    <label class="form-check-label user-select-none cursor-pointer" for="EFaturaAktiflik">
+                        EFaturaAktiflik
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" name="EIrsaliyeAktiflik" type="checkbox" value="" id="EIrsaliyeAktiflik" checked readonly/>
+                    <label class="form-check-label user-select-none cursor-pointer" for="EIrsaliyeAktiflik">
+                        EIrsaliyeAktiflik
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="modal fade" id="Cari-silme" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -231,7 +296,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Vazgeç</button>
-                <form method="post" id="silme-formu" >
+                <form method="post" id="silme-formu">
                     <input type="hidden" name="id" value="" />
                     <button type="submit" class="btn btn-danger btn-sm">Sil</button>
                 </form>
@@ -292,7 +357,22 @@
 
         var select = document.querySelectorAll("#select")
 
+        var EFaturaBilgiGuncelleModal = new bootstrap.Modal(document.getElementById('EFaturaBilgiGuncelle'));
+        EFaturaBilgiGuncelleModal.show();
 
+        $('.EFatura-Bilgi-Guncelle-Modal-Ac').click(function (e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+           
+            $.ajax({
+                url: '/Cari/CariEFaturaBilgiGuncelle', 
+                data: { id: id },
+                success: function (data) {
+                    $('#modalContent').html(data); 
+                    $('#EFaturaBilgiGuncelleModal').modal('show'); 
+                }
+            });
+        });
 
 
         $(function () {
@@ -383,28 +463,34 @@
                             render: function (data, type, row) {
 
                                 var buttons = `
-                                                                      <div class="dropdown">
-                                                                          <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton${row.ID}" data-bs-toggle="dropdown" aria-expanded="false"> İşlemler </button>
-                                                                            <ul class="dropdown-menu py-0" aria-labelledby="dropdownMenuButton${row.ID}">`;
+                                                                          <div class="dropdown">
+                                                                              <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton${row.ID}" data-bs-toggle="dropdown" aria-expanded="false"> İşlemler </button>
+                                                                                <ul class="dropdown-menu py-0" aria-labelledby="dropdownMenuButton${row.ID}">`;
 
                                 // Eğer silme yetkisi varsa
                                 if ($('input[name="YetkiSil"]').val() == "1") {
                                     buttons += `
-                                                                     <li><button class="dropdown-item btn-sil Cari-toplu-silme" data-bs-toggle="modal" data-bs-target="#Cari-silme" data-id="${row.ID}">Sil</button></li>
-                                                                    `;
+                                                                         <li><button class="dropdown-item btn-sil Cari-toplu-silme" data-bs-toggle="modal" data-bs-target="#Cari-silme" data-id="${row.ID}">Sil</button></li>
+                                                                        `;
                                 }
 
                                 // Eğer düzenleme yetkisi varsa
                                 if ($('input[name="YetkiDuzenle"]').val() == "1") {
                                     buttons += `
-                                                                   <li><a class="dropdown-item" href="/Cari/Duzenle/${row.ID}">Düzenle</a></li>
-                                                                `;
+                                                                       <li><a class="dropdown-item" href="/Cari/Duzenle/${row.ID}">Düzenle</a></li>
+                                                                    `;
+                                }
+                                // Eğer düzenleme yetkisi varsa
+                                if ($('input[name="YetkiDuzenle"]').val() == "1") {
+                                    buttons += `
+                                        <li><button class="dropdown-item EFatura-Bilgi-Guncelle-Modal-Ac" data-id="123"  data-bs-toggle="modal" data-bs-target="#EFaturaBilgiGuncelle" href="/Cari/EFaturaMukellefKontrolu/${row.ID}">Düzenle</button></li>
+                                     `;
                                 }
 
                                 buttons += `
-                                                             </ul>
-                                                             </div>
-                                                                `;
+                                                                 </ul>
+                                                                 </div>
+                                                                    `;
 
                                 return buttons;
 
@@ -524,9 +610,9 @@
                     })
                 });
 
-                
 
-     
+
+
 
                 function topluSil() {
                     var idListesi = [];
