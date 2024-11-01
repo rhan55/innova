@@ -705,6 +705,7 @@
                 }
             }
         }
+
     function toastr(title = "", description = "") {
         const toastElement = document.getElementById('kt_docs_toast_toggle');
         $(toastElement).find('[data-element="toast-title"]').html(title);
@@ -908,6 +909,16 @@
 
          function createLink(item) {
 
+             return `
+        <div class="menu-item">
+            <a href="${item.url}" class="menu-link hover py-1" href="#">
+                <span class="menu-bullet ps-1">
+                    <span class="bullet bullet-dot"></span>
+                </span>
+                <span class="menu-title">${item.title}</span>
+            </a>
+        </div>
+    `;
              return `
         <div class="menu-item">
             <a onclick="openTab('${item.title}', '${item.url}')" class="menu-link hover py-1" href="#">
