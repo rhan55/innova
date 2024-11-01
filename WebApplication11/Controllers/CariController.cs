@@ -1232,7 +1232,7 @@ namespace YKPortal.Controllers
             {
                 Console.WriteLine(JsonSerializer.Serialize(ex));
             }
-
+            
             //SqlCommand cmd = new SqlCommand();
             //cmd.CommandText = "p_CariEFaturaBilgiGuncelle";
             //cmd.CommandType = System.Data.CommandType.StoredProcedure;
