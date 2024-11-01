@@ -663,6 +663,12 @@ namespace YKPortal.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult TabBaslangic()
+        {
+            return View();
+        }
+
 
 
         #region Cookie İşlemleri

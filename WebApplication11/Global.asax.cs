@@ -20,7 +20,6 @@ namespace YKPortal
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
         }
     }
 }

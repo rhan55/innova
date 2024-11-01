@@ -761,8 +761,6 @@ namespace YKPortal.Controllers
             return RedirectToAction("ZiyaretListe", new { CariID = ziyaretDto.CariID });
 
         }
-
-
   
 
         [HttpPost]
@@ -1197,6 +1195,29 @@ namespace YKPortal.Controllers
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
             return RedirectToAction("HareketListesi", new { CariID = CariID });
+        }
+
+        [HttpPost]
+        public JsonResult CariEFaturaBilgiGuncelle(CariEFaturaBilgiGuncelleDto cariEFaturaBilgiGuncelleDto)
+        {
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_CariEFaturaBilgiGuncelle";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CariID", cariEFaturaBilgiGuncelleDto.CariID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@EFaturaKayitTarihi", cariEFaturaBilgiGuncelleDto.EFaturaKayitTarihi);
+            cmd.Parameters.AddWithValue("@EFaturaPKAdresi", cariEFaturaBilgiGuncelleDto.EFaturaPKAdresi);
+            cmd.Parameters.AddWithValue("EIrsaliyePKAdresi", cariEFaturaBilgiGuncelleDto.EIrsaliyePKAdresi);
+            cmd.Parameters.AddWithValue("@EFatura", cariEFaturaBilgiGuncelleDto.EFatura);
+            cmd.Parameters.AddWithValue("@EIrsaliye", cariEFaturaBilgiGuncelleDto.EIrsaliye);
+            cmd.Parameters.AddWithValue("@EFaturaSenaryo", cariEFaturaBilgiGuncelleDto.EFaturaSenaryo);
+            cmd.Parameters.AddWithValue("@EFaturaAktiflik", cariEFaturaBilgiGuncelleDto.EFaturaAktiflik);
+            cmd.Parameters.AddWithValue("@EIrsaliyeAktiflik", cariEFaturaBilgiGuncelleDto.EIrsaliyeAktiflik);
+           
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
 

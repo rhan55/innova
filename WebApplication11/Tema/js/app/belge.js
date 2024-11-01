@@ -6,6 +6,8 @@ function kaydet(controllerName, tip) {
         return;
     }
 
+    loader().show();
+
     // Kalemler verisinin toplanması
     var kalemler = [];
     $('#TabloKalemler .tablo-satir').each(function () {
