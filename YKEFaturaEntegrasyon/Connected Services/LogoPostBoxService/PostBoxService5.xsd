@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="NAF.Diagnostics" elementFormDefault="qualified" targetNamespace="NAF.Diagnostics" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://pb-g.elogo.com.tr/PostBoxService.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="DiagnosticParameter">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="results" nillable="true" type="tns:ArrayOfDiagnosticResult" />
+      <xs:element minOccurs="0" name="state" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DiagnosticParameter" nillable="true" type="tns:DiagnosticParameter" />
+  <xs:complexType name="ArrayOfDiagnosticResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DiagnosticResult" nillable="true" type="tns:DiagnosticResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDiagnosticResult" nillable="true" type="tns:ArrayOfDiagnosticResult" />
+  <xs:complexType name="DiagnosticResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="exception" nillable="true" type="tns:DiagnosticException" />
+      <xs:element minOccurs="0" name="must" type="xs:boolean" />
+      <xs:element minOccurs="0" name="name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="parameters" nillable="true" type="tns:ArrayOfDiagnosticParameter" />
+      <xs:element minOccurs="0" name="state" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DiagnosticResult" nillable="true" type="tns:DiagnosticResult" />
+  <xs:complexType name="DiagnosticException">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="message" nillable="true" type="xs:string" />
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="stack" nillable="true" type="q1:ArrayOfstring" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DiagnosticException" nillable="true" type="tns:DiagnosticException" />
+  <xs:complexType name="ArrayOfDiagnosticParameter">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DiagnosticParameter" nillable="true" type="tns:DiagnosticParameter" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDiagnosticParameter" nillable="true" type="tns:ArrayOfDiagnosticParameter" />
+</xs:schema>

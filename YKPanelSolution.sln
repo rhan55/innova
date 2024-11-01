@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YKEntegrasyonIslemleri", "Y
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YKPanel", "WebApplication11\YKPanel.csproj", "{DB4DBF2C-4023-46E5-8912-3F5D20C47244}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YKEFaturaEntegrasyon", "YKEFaturaEntegrasyon\YKEFaturaEntegrasyon.csproj", "{F133A1FC-8137-4679-A47F-2B0C22359596}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{DB4DBF2C-4023-46E5-8912-3F5D20C47244}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB4DBF2C-4023-46E5-8912-3F5D20C47244}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB4DBF2C-4023-46E5-8912-3F5D20C47244}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F133A1FC-8137-4679-A47F-2B0C22359596}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F133A1FC-8137-4679-A47F-2B0C22359596}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F133A1FC-8137-4679-A47F-2B0C22359596}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F133A1FC-8137-4679-A47F-2B0C22359596}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

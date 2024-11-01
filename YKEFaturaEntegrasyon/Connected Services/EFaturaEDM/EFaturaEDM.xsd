@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.i2i.com/ei/common" elementFormDefault="qualified" targetNamespace="http://schemas.i2i.com/ei/common" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="CHANGE_INFOType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="CDATE" type="xs:date" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="CPOSITION_ID" type="xs:long" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="CUSER_ID" type="xs:long" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="UDATE" type="xs:date" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="UPOSITION_ID" type="xs:long" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="UUSER_ID" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ATTRIBUTESTYPE">
+    <xs:attribute name="NAME" type="xs:token" />
+  </xs:complexType>
+</xs:schema>

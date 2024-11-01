@@ -3,7 +3,7 @@
 @model DataSet
 @{
     ViewBag.Title = "Görev Listesi";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutTab.cshtml";
 
     DataTable dtKullanicilar = ViewBag.Kullanicilar as DataTable;
     string KullaniciID = Request.Cookies["KullaniciID"].Value;

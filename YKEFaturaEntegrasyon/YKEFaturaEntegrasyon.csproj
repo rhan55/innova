@@ -1,0 +1,520 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F133A1FC-8137-4679-A47F-2B0C22359596}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>YKEFaturaEntegrasyon</RootNamespace>
+    <AssemblyName>YKEFaturaEntegrasyon</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Connected Services\EFaturaEDM\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\LogoPostBoxService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\EFaturaEDM\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\configuration.svcinfo" />
+    <None Include="Connected Services\EFaturaEDM\configuration91.svcinfo" />
+    <None Include="Connected Services\EFaturaEDM\EFaturaEDM.wsdl" />
+    <None Include="Connected Services\EFaturaEDM\EFaturaEDM.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\EFaturaEDM1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\EFaturaEDM2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\EFaturaEDM3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\EFaturaEDM4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\EFaturaEDM5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\EFaturaEDM6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.ArchiveInvoiceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.base64Binary.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.CancelInvoiceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.CheckCounterResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.DeCancelInvoiceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_ArchiveInvoiceResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_CancelInvoiceResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_CheckCounterResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_CheckUserResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_DeCancelInvoiceResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_EmailInvoiceResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_GetCompanyBasicResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_GetEDefterResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_GetEnvelopeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_GetEnvelopeStatusResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_GetErpResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_GetInvoiceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_GetInvoiceResponseDateResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_GetInvoiceSerialResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_GetInvoiceStatusResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_GetSessionInfoResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_GetStokResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_GetTurmobResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_GetUserListBinaryResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_GetUserListResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_LoadExpenseSlipResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_LoadInvoiceModelResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_LoadInvoiceResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_LoginResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_LogoutResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_MaliMusavirListResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_MarkEnvelopeResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_MarkInvoiceResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_ObjectionInvoiceResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_PrepareInvoiceResponseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_SendInvoiceResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_SendInvoiceResponseResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_SendInvoiceResponseWithServerSignResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_SetArchiveInvoiceResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_SetInvoiceStatusResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EDM_VerifityInvoiceResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.EmailInvoiceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.ENVELOPE.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.getApplicationResponseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.getAppRespResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.GetCompanyBasicResponseList.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.GetEDefterResponseList.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.GetErpResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.GetInvoiceResponseDateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.GetInvoiceSerialResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.GetInvoiceStatusResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.GetSessionInfoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.GetStokResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.GetTurmobResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.GetUserListBinaryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.GetUserListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.GIBUSER.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.INVOICE.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.LoadExpenseSlipResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.LoadInvoiceModelResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.LoadInvoiceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.LoginResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.LogoutResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.MaliMusavirListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.MarkEnvelopeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.MarkInvoiceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.ObjectionInvoiceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.orderServiceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.PostEventResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.SendInvoiceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.SendInvoiceResponseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.SendInvoiceResponseWithServerSignResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.SetArchiveInvoiceResponseList.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.SetInvoiceStatusResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.updateServiceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.VerifityInvoiceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.vfExtendedHeader.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.VF_eventResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.VF_oRDERResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\EFaturaEDM\YKEFaturaEntegrasyon.EFaturaEDM.VF_updateResponseMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\configuration.svcinfo" />
+    <None Include="Connected Services\LogoPostBoxService\configuration91.svcinfo" />
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.ActivateVUK507ServicesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.AppRespStatus.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.CheckGibUserResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.DiagnosticParameter.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.Document.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.DocumentStatusBatchType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.DocumentStatusType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.DocumentType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.eFaturaWebServiceResultType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.ElementType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.getApplicationResponseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.getAppRespStatusResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.getApprovalFlowListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.getApprovalFlowResResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.GetDocumentDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.GetDocumentListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.GetDocumentListWithDepartmentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.GetDocumentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.GetDocumentStatusBatchResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.getDocumentStatusExResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.getDocumentStatusResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.GetDocumentStatusResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.getEArchiveInvoicePdfDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.getEArchiveXsltResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.getInvoiceResponseDataResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.getInvoiceStatusResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.GetMailStatusResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.GetPrefixLastNumberListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.GetReceiverInfoFromTurmobResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.GetReportListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.GetUserAccountServicesByVknTcknResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.GibUserType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.InvoiceStatus.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.LoginResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.MailStatusResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.PrefixLastNumber.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.receiveApplicationResponseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.receiveDocumentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.receiveInvoiceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.Report.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.SendDocumentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.SendDraftDocumentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.ServiceActivationResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.ServiceVersionResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.TurmobResponseModel.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\YKEFaturaEntegrasyon.LogoPostBoxService.UserAccountServiceList.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Connected Services\LogoPostBoxService\PostBoxService.wsdl" />
+    <None Include="Connected Services\LogoPostBoxService\PostBoxService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\PostBoxService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\PostBoxService10.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\PostBoxService11.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\PostBoxService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\PostBoxService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\PostBoxService4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\PostBoxService5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\PostBoxService6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\PostBoxService7.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\PostBoxService8.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LogoPostBoxService\PostBoxService9.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\EFaturaEDM\" />
+    <WCFMetadataStorage Include="Connected Services\LogoPostBoxService\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

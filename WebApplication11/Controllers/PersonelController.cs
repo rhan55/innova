@@ -7,7 +7,6 @@ using System.Web;
 using System.Web.Mvc;
 using YKPortal.Models;
 using YKPortal.Models.Dto;
-using EFatura;
 
 namespace YKPortal.Controllers
 {

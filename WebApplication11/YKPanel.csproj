@@ -321,7 +321,6 @@
     </Compile>
     <Compile Include="Hubs\BildirimHub.cs" />
     <Compile Include="Hubs\MesajHub.cs" />
-    <Compile Include="Kutuphane\EFatura\Reference.cs" />
     <Compile Include="Models\ComponentDto\BelgeEkleComponent.cs" />
     <Compile Include="Models\ComponentDto\BelgeListeComponent.cs" />
     <Compile Include="Models\Dto\AnaSayfaDto.cs" />
@@ -385,7 +384,6 @@
     <Compile Include="Models\YKClasses\YKModelSatinalma.cs" />
     <Compile Include="Models\YKClasses\YKUtils.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
-   
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\YKWebApiController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
@@ -5600,7 +5598,6 @@
     <Content Include="Areas\Depo\Views\NetsisDepo\Innova_Uretim_Okutma.cshtml" />
     <Content Include="Areas\Depo\Views\NetsisDepo\Innova_Uretim_Takimlastirma.cshtml" />
     <Content Include="Areas\Entegrasyon\Views\FordAktarim\AnaSayfa.cshtml" />
-    <Content Include="Kutuphane\EFatura\ConnectedService.json" />
     <Content Include="obj\Release\DesignTimeResolveAssemblyReferencesInput.cache" />
     <Content Include="obj\Release\Package\PackageTmp\App_Browsers\qt.browser" />
     <Content Include="obj\Release\Package\PackageTmp\Areas\B2BLogo\Views\B2BLogo\AnaSayfa.cshtml" />
@@ -8995,6 +8992,12 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>YKPortal_YKPARAMPOS_TurkPos_x0020_WS_x0020_TEST</CachedSettingsPropName>
     </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\YKEFaturaEntegrasyon\YKEFaturaEntegrasyon.csproj">
+      <Project>{f133a1fc-8137-4679-a47f-2b0c22359596}</Project>
+      <Name>YKEFaturaEntegrasyon</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

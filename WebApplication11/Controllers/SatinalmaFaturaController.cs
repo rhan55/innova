@@ -12,7 +12,7 @@ using iText.Html2pdf;
 using System.IO;
 using System.Web.Razor.Parser.SyntaxTree;
 using iText.Layout.Font;
-using EFatura;
+using YKEFaturaEntegrasyon.EFaturaEDM;
 
 namespace YKPortal.Controllers
 {
@@ -46,7 +46,7 @@ namespace YKPortal.Controllers
 
         public ActionResult Liste(BelgeDto belgeDto, string Tip = "", string AranacakKelime = "")
         {
-            var client = new EFaturaEDMPortClient(EFaturaEDMPortClient.EndpointConfiguration.EFaturaEDMPort, "https://test.edmbilisim.com.tr/EFaturaEDM21ea/EFaturaEDM.svc");
+            var client = new EFaturaEDMPortClient("https://test.edmbilisim.com.tr/EFaturaEDM21ea/EFaturaEDM.svc");
 
             var sonuc = client.Login(new LoginRequest
             {

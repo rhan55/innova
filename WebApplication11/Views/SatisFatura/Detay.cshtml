@@ -4,7 +4,7 @@
 @model BelgeDto
 @{
     ViewBag.Title = "Satış Fatura Detayı";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutTab.cshtml";
     string Tip = Request.QueryString["Tip"];
 
     DataTable dtDepolar = ViewBag.Depolar as DataTable;

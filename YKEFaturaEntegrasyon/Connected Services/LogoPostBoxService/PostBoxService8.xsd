@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/eLogo.eFatura.Common.Enums" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/eLogo.eFatura.Common.Enums" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://pb-g.elogo.com.tr/PostBoxService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:simpleType name="PostBoxDateType">
+    <xs:annotation>
+      <xs:appinfo>
+        <ActualType Name="unsignedByte" Namespace="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/2003/10/Serialization/" />
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="byCREATED" />
+      <xs:enumeration value="byENVELOPEDATE" />
+      <xs:enumeration value="byCURRENTDATE" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="PostBoxDateType" nillable="true" type="tns:PostBoxDateType" />
+  <xs:simpleType name="UserListType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="GBLIST" />
+      <xs:enumeration value="PKLIST" />
+      <xs:enumeration value="LIST4760">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="LIST5015">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="UserListType" nillable="true" type="tns:UserListType" />
+  <xs:simpleType name="EArchiveInvoiceStatusForRecon">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SUCCESS">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="FAULT">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">-1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="QUEUE">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="EArchiveInvoiceStatusForRecon" nillable="true" type="tns:EArchiveInvoiceStatusForRecon" />
+</xs:schema>
