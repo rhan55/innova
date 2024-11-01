@@ -385,7 +385,6 @@
     <Compile Include="Models\YKClasses\YKModelSatinalma.cs" />
     <Compile Include="Models\YKClasses\YKUtils.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
-   
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\YKWebApiController.cs" />
     <Compile Include="Controllers\SharedController.cs" />
@@ -8089,6 +8088,10 @@
     <Content Include="Views\Stok\Sayim.cshtml" />
     <Content Include="Views\Mesaj\Chat.cshtml" />
     <Content Include="Views\Ayarlar\B2BAyarlari.cshtml" />
+    <Content Include="Views\Shared\_LayoutTab.cshtml" />
+    <Content Include="Views\Shared\Components\_BelgeEkleComponent.cshtml" />
+    <Content Include="Views\Shared\Components\_BelgeListeComponent.cshtml" />
+    <Content Include="Views\Shared\_TestLayout.cshtml" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>
