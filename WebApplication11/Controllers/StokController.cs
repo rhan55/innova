@@ -179,7 +179,7 @@ namespace YKPortal.Controllers
             return Json(bilgi, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult SayimKaydet(DateTime Tarih, string Firma, string Sube, string Depo, string Barkod, string Stok, int Miktar)
+        public JsonResult SayimKaydet(DateTime Tarih, string Firma, string Sube, string Depo, string Barkod, string Stok, decimal Miktar)
         {
             if (Barkod.Contains("*"))
             {

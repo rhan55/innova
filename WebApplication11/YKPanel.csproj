@@ -242,6 +242,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Depo\Controllers\NetsisDepoController.cs" />
+    <Compile Include="Areas\Depo\DepoAreaRegistration.cs" />
     <Compile Include="Areas\Entegrasyon\Controllers\FordAktarim.cs" />
     <Compile Include="Areas\Ziyaret\ZiyaretAreaRegistration.cs" />
     <Compile Include="Areas\Ziyaret\Controllers\ZiyaretController.cs" />
@@ -312,11 +314,16 @@
     <Compile Include="Controllers\TanimlamalarController.cs" />
     <Compile Include="Controllers\YKController.cs" />
     <Compile Include="Controllers\AyarlarController.cs" />
+    <Compile Include="Controllers\YKMakineController.cs" />
     <Compile Include="Controllers\ZiyaretController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\BildirimHub.cs" />
     <Compile Include="Hubs\MesajHub.cs" />
+    <Compile Include="Kutuphane\EFatura\Reference.cs" />
+    <Compile Include="Models\ComponentDto\BelgeEkleComponent.cs" />
+    <Compile Include="Models\ComponentDto\BelgeListeComponent.cs" />
     <Compile Include="Models\Dto\AnaSayfaDto.cs" />
     <Compile Include="Models\Dto\AnaSayfaTakvimKaydetDto.cs" />
     <Compile Include="Models\Dto\B2BAyarlariDto.cs" />
@@ -325,6 +332,7 @@
     <Compile Include="Models\Dto\Belge.cs" />
     <Compile Include="Models\Dto\BelgeDto.cs" />
     <Compile Include="Models\Dto\BelgeKalemDto.cs" />
+    <Compile Include="Models\Dto\CariListeJsonModel.cs" />
     <Compile Include="Models\Dto\CariNotListeViewModel.cs" />
     <Compile Include="Models\Dto\CariKisiListeViewModel.cs" />
     <Compile Include="Models\Dto\DovizBirimiDto.cs" />
@@ -335,6 +343,9 @@
     <Compile Include="Models\Dto\MesajlasmaDto.cs" />
     <Compile Include="Models\Dto\PersonelDto.cs" />
     <Compile Include="Models\Dto\PersonelListeViewModel.cs" />
+    <Compile Include="Models\Dto\SeoAyarlariDto.cs" />
+    <Compile Include="Models\Dto\SmsAyarlariDto.cs" />
+    <Compile Include="Models\Dto\StokListeJsonModel.cs" />
     <Compile Include="Models\Dto\StokListeViewModel.cs" />
     <Compile Include="Models\Dto\CariZiyaretListeViewModel.cs" />
     <Compile Include="Models\Dto\KullaniciListeViewModel.cs" />
@@ -542,6 +553,7 @@
     <Content Include="Areas\Depo\Views\NetsisDepo\Innova_Uretim_Okutma.cshtml" />
     <Content Include="Areas\Depo\Views\NetsisDepo\Innova_Uretim_Takimlastirma.cshtml" />
     <Content Include="Areas\Entegrasyon\Views\FordAktarim\AnaSayfa.cshtml" />
+    <Content Include="Kutuphane\EFatura\ConnectedService.json" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -3030,6 +3042,27 @@
     <Content Include="Views\Stok\Sayim.cshtml" />
     <Content Include="Views\Mesaj\Chat.cshtml" />
     <Content Include="Views\Ayarlar\B2BAyarlari.cshtml" />
+    <Content Include="Views\YKMakine\ArizaDetay.cshtml" />
+    <Content Include="Views\YKMakine\Arizalar.cshtml" />
+    <Content Include="Views\YKMakine\BakimDetay.cshtml" />
+    <Content Include="Views\YKMakine\BakimListem.cshtml" />
+    <Content Include="Views\YKMakine\BakimYap.cshtml" />
+    <Content Include="Views\YKMakine\Bilgilendirme.cshtml" />
+    <Content Include="Views\YKMakine\CariCihazlari.cshtml" />
+    <Content Include="Views\YKMakine\CariCihazlariDetay.cshtml" />
+    <Content Include="Views\YKMakine\CariSiralama.cshtml" />
+    <Content Include="Views\YKMakine\IzinGunleri.cshtml" />
+    <Content Include="Views\YKMakine\Kategoriler.cshtml" />
+    <Content Include="Views\YKMakine\Sayim.cshtml" />
+    <Content Include="Views\YKMakine\Soru.cshtml" />
+    <Content Include="Views\YKMakine\SoruListesi.cshtml" />
+    <Content Include="Views\YKMakine\TatilGunleri.cshtml" />
+    <Content Include="Views\Stok\HizliStokTanimlama.cshtml" />
+    <Content Include="Views\Shared\Components\_BelgeEkleComponent.cshtml" />
+    <Content Include="Views\Shared\Components\_BelgeListeComponent.cshtml" />
+    <Content Include="Views\Shared\_TestLayout.cshtml" />
+    <Content Include="Views\Kullanici\UretimYetkiler.cshtml" />
+    <Content Include="Views\Ayarlar\Config.cshtml" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>
