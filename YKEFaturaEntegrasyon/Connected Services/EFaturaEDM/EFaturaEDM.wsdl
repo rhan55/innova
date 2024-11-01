@@ -1,0 +1,1137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="EFaturaEDM" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="EFaturaEDMPort_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <sp:HttpsToken RequireClientCertificate="false" />
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="https://test.edmbilisim.com.tr/EFaturaEDM21ea/EFaturaEDM.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="https://test.edmbilisim.com.tr/EFaturaEDM21ea/EFaturaEDM.svc?xsd=xsd1" namespace="http://schemas.i2i.com/ei/common" />
+      <xsd:import schemaLocation="https://test.edmbilisim.com.tr/EFaturaEDM21ea/EFaturaEDM.svc?xsd=xsd2" namespace="http://www.w3.org/2005/05/xmlmime" />
+      <xsd:import schemaLocation="https://test.edmbilisim.com.tr/EFaturaEDM21ea/EFaturaEDM.svc?xsd=xsd3" namespace="urn:un:unece:uncefact:codelist:specification:54217:2001" />
+      <xsd:import schemaLocation="https://test.edmbilisim.com.tr/EFaturaEDM21ea/EFaturaEDM.svc?xsd=xsd4" namespace="urn:un:unece:uncefact:data:specification:CoreComponentTypeSchemaModule:2" />
+      <xsd:import schemaLocation="https://test.edmbilisim.com.tr/EFaturaEDM21ea/EFaturaEDM.svc?xsd=xsd5" namespace="urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2" />
+      <xsd:import schemaLocation="https://test.edmbilisim.com.tr/EFaturaEDM21ea/EFaturaEDM.svc?xsd=xsd6" namespace="http://gib.gov.tr/vedop3/eFatura" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="EDM_LoginRequestMessage">
+    <wsdl:part name="LoginRequest" element="tns:LoginRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_LoginResponseMessage">
+    <wsdl:part name="LoginResponse" element="tns:LoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_Login_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_LogoutRequestMessage">
+    <wsdl:part name="LogoutRequest" element="tns:LogoutRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_LogoutResponseMessage">
+    <wsdl:part name="LogoutResponse" element="tns:LogoutResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_Logout_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_LoadInvoiceRequestMessage">
+    <wsdl:part name="LoadInvoiceRequest" element="tns:LoadInvoiceRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_LoadInvoiceResponseMessage">
+    <wsdl:part name="LoadInvoiceResponse" element="tns:LoadInvoiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_LoadInvoice_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_LoadInvoiceModelRequestMessage">
+    <wsdl:part name="LoadInvoiceModelRequest" element="tns:LoadInvoiceModelRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_LoadInvoiceModelResponseMessage">
+    <wsdl:part name="LoadInvoiceModelResponse" element="tns:LoadInvoiceModelResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_LoadInvoiceModel_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_SendInvoiceRequestMessage">
+    <wsdl:part name="SendInvoiceRequest" element="tns:SendInvoiceRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_SendInvoiceResponseMessage">
+    <wsdl:part name="SendInvoiceResponse" element="tns:SendInvoiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_SendInvoice_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetInvoiceRequestMessage">
+    <wsdl:part name="GetInvoiceRequest" element="tns:GetInvoiceRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetInvoiceResponse">
+    <wsdl:part name="GetInvoiceResponse" element="tns:GetInvoiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_GetInvoice_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_MarkInvoiceRequestMessage">
+    <wsdl:part name="MarkInvoiceRequest" element="tns:MarkInvoiceRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_MarkInvoiceResponseMessage">
+    <wsdl:part name="MarkInvoiceResponse" element="tns:MarkInvoiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_MarkInvoice_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetUserListRequestMessage">
+    <wsdl:part name="GetUserListRequest" element="tns:GetUserListRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetUserListResponseMessage">
+    <wsdl:part name="GetUserListResponse" element="tns:GetUserListResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_GetUserList_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetUserListBinaryRequestMessage">
+    <wsdl:part name="GetUserListBinaryRequest" element="tns:GetUserListBinaryRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetUserListBinaryResponseMessage">
+    <wsdl:part name="GetUserListBinaryResponse" element="tns:GetUserListBinaryResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_GetUserListBinary_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_CheckUserRequestMessage">
+    <wsdl:part name="CheckUserRequest" element="tns:CheckUserRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_CheckUserResponse">
+    <wsdl:part name="CheckUserResponse" element="tns:CheckUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_CheckUser_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetInvoiceStatusRequestMessage">
+    <wsdl:part name="GetInvoiceStatusRequest" element="tns:GetInvoiceStatusRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetInvoiceStatusResponseMessage">
+    <wsdl:part name="GetInvoiceStatusResponse" element="tns:GetInvoiceStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_GetInvoiceStatus_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_SetInvoiceStatusRequestMessage">
+    <wsdl:part name="SetInvoiceStatusRequest" element="tns:SetInvoiceStatusRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_SetInvoiceStatusResponseMessage">
+    <wsdl:part name="SetInvoiceStatusResponse" element="tns:SetInvoiceStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_SetInvoiceStatus_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_PrepareInvoiceResponseRequestMessage">
+    <wsdl:part name="PrepareInvoiceResponseRequest" element="tns:PrepareInvoiceResponseRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_PrepareInvoiceResponseResponse">
+    <wsdl:part name="PrepareInvoiceResponseResponse" element="tns:PrepareInvoiceResponseResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_PrepareInvoiceResponse_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_SendInvoiceResponseRequestMessage">
+    <wsdl:part name="SendInvoiceResponseRequest" element="tns:SendInvoiceResponseRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_SendInvoiceResponseResponseMessage">
+    <wsdl:part name="SendInvoiceResponseResponse" element="tns:SendInvoiceResponseResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_SendInvoiceResponse_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_SendInvoiceResponseWithServerSignRequestMessage">
+    <wsdl:part name="SendInvoiceResponseWithServerSignRequest" element="tns:SendInvoiceResponseWithServerSignRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_SendInvoiceResponseWithServerSignResponseMessage">
+    <wsdl:part name="SendInvoiceResponseWithServerSignResponse" element="tns:SendInvoiceResponseWithServerSignResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_SendInvoiceResponseWithServerSign_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetEnvelopeRequestMessage">
+    <wsdl:part name="GetEnvelopeRequest" element="tns:GetEnvelopeRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetEnvelopeResponse">
+    <wsdl:part name="GetEnvelopeResponse" element="tns:GetEnvelopeResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_GetEnvelope_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_MarkEnvelopeRequestMessage">
+    <wsdl:part name="MarkEnvelopeRequest" element="tns:MarkEnvelopeRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_MarkEnvelopeResponseMessage">
+    <wsdl:part name="MarkEnvelopeResponse" element="tns:MarkEnvelopeResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_MarkEnvelope_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetEnvelopeStatusRequestMessage">
+    <wsdl:part name="GetEnvelopeStatusRequest" element="tns:GetEnvelopeStatusRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetEnvelopeStatusResponse">
+    <wsdl:part name="GetEnvelopeStatusResponse" element="tns:GetEnvelopeStatusResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_GetEnvelopeStatus_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="getApplicationResponseRequest">
+    <wsdl:part xmlns:q1="http://gib.gov.tr/vedop3/eFatura" name="getAppRespRequest" element="q1:getAppRespRequest" />
+  </wsdl:message>
+  <wsdl:message name="getApplicationResponseResponse">
+    <wsdl:part xmlns:q2="http://gib.gov.tr/vedop3/eFatura" name="getAppRespResponse" element="q2:getAppRespResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_getApplicationResponse_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_CancelInvoiceRequestMessage">
+    <wsdl:part name="CancelInvoiceRequest" element="tns:CancelInvoiceRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_CancelInvoiceResponseMessage">
+    <wsdl:part name="CancelInvoiceResponse" element="tns:CancelInvoiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_CancelInvoice_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_DeCancelInvoiceRequestMessage">
+    <wsdl:part name="DeCancelInvoiceRequest" element="tns:DeCancelInvoiceRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_DeCancelInvoiceResponseMessage">
+    <wsdl:part name="DeCancelInvoiceResponse" element="tns:DeCancelInvoiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_DeCanceArchivelInvoice_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_ObjectionInvoiceRequestMessage">
+    <wsdl:part name="ObjectionInvoiceRequest" element="tns:ObjectionInvoiceRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_ObjectionInvoiceResponseMessage">
+    <wsdl:part name="ObjectionInvoiceResponse" element="tns:ObjectionInvoiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_ObjectionInvoice_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetSessionInfoRequestMessage">
+    <wsdl:part name="GetSessionInfoRequest" element="tns:GetSessionInfoRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetSessionInfoResponseMessage">
+    <wsdl:part name="GetSessionInfoResponse" element="tns:GetSessionInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_GetSessionInfo_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_EmailInvoiceRequestMessage">
+    <wsdl:part name="EmailInvoiceRequest" element="tns:EmailInvoiceRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_EmailInvoiceResponseMessage">
+    <wsdl:part name="EmailInvoiceResponse" element="tns:EmailInvoiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_EmailInvoice_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_ArchiveInvoiceRequestMessage">
+    <wsdl:part name="ArchiveInvoiceRequest" element="tns:ArchiveInvoiceRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_ArchiveInvoiceResponseMessage">
+    <wsdl:part name="ArchiveInvoiceResponse" element="tns:ArchiveInvoiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_ArchiveInvoice_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_SetArchiveInvoiceRequestMessage">
+    <wsdl:part name="SetArchiveInvoiceRequest" element="tns:SetArchiveInvoiceRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_SetArchiveInvoiceResponseMessage">
+    <wsdl:part name="SetArchiveInvoiceResponse" element="tns:SetArchiveInvoiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_SetArchiveInvoice_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_CheckCounterRequestMessage">
+    <wsdl:part name="CheckCounterRequest" element="tns:CheckCounterRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_CheckCounterResponse">
+    <wsdl:part name="CheckCounterResponse" element="tns:CheckCounterResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_CheckCounter_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetInvoiceSerialRequestMessage">
+    <wsdl:part name="GetInvoiceSerialRequest" element="tns:GetInvoiceSerialRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetInvoiceSerialResponseMessage">
+    <wsdl:part name="GetInvoiceSerialResponse" element="tns:GetInvoiceSerialResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_GetInvoiceSerial_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetInvoiceResponseDateRequestMessage">
+    <wsdl:part name="GetInvoiceResponseDateRequest" element="tns:GetInvoiceResponseDateRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetInvoiceResponseDateResponseMessage">
+    <wsdl:part name="GetInvoiceResponseDateResponse" element="tns:GetInvoiceResponseDateResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_GetInvoiceResponseDate_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetStokRequestMessage">
+    <wsdl:part name="GetStokRequest" element="tns:GetStokRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetStokResponseMessage">
+    <wsdl:part name="GetStokResponse" element="tns:GetStokResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_GetStok_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetTurmobRequestMessage">
+    <wsdl:part name="GetTurmobRequest" element="tns:GetTurmobRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetTurmobResponseMessage">
+    <wsdl:part name="GetTurmobResponse" element="tns:GetTurmobResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_GetTurmob_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetErpRequestMessage">
+    <wsdl:part name="GetErpRequest" element="tns:GetErpRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetErpResponseMessage">
+    <wsdl:part name="GetErpResponse" element="tns:GetErpResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_GetErpsInv_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="VF_oRDERRequestMessage">
+    <wsdl:part name="orderService" element="tns:orderService" />
+  </wsdl:message>
+  <wsdl:message name="VF_oRDERRequestMessage_Headers">
+    <wsdl:part name="vfExtendedHeader" element="tns:vfExtendedHeader" />
+  </wsdl:message>
+  <wsdl:message name="VF_oRDERResponseMessage">
+    <wsdl:part name="orderServiceResponse" element="tns:orderServiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="VF_oRDERResponseMessage_Headers">
+    <wsdl:part name="vfExtendedHeader" element="tns:vfExtendedHeader" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_orderService_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="VF_updateRequestMessage">
+    <wsdl:part name="updateService" element="tns:updateService" />
+  </wsdl:message>
+  <wsdl:message name="VF_updateRequestMessage_Headers">
+    <wsdl:part name="vfExtendedHeader" element="tns:vfExtendedHeader" />
+  </wsdl:message>
+  <wsdl:message name="VF_updateResponseMessage">
+    <wsdl:part name="updateServiceResponse" element="tns:updateServiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="VF_updateResponseMessage_Headers">
+    <wsdl:part name="vfExtendedHeader" element="tns:vfExtendedHeader" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_updateService_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="VF_eventRequestMessage">
+    <wsdl:part name="PostEventRequest" element="tns:PostEventRequest" />
+  </wsdl:message>
+  <wsdl:message name="VF_eventRequestMessage_Headers">
+    <wsdl:part name="vfHeader" element="tns:vfHeader" />
+  </wsdl:message>
+  <wsdl:message name="VF_eventResponseMessage">
+    <wsdl:part name="PostEventResponse" element="tns:PostEventResponse" />
+  </wsdl:message>
+  <wsdl:message name="VF_eventResponseMessage_Headers">
+    <wsdl:part name="vfExtendedHeader" element="tns:vfExtendedHeader" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_postEvent_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_MaliMusavirListRequestMessage">
+    <wsdl:part name="MaliMusavirListRequest" element="tns:MaliMusavirListRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_MaliMusavirListResponseMessage">
+    <wsdl:part name="MaliMusavirListResponse" element="tns:MaliMusavirListResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_MaliMusavirList_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_MaliMusavirInfoRequestMessage">
+    <wsdl:part name="MaliMusavirInfoRequest" element="tns:MaliMusavirInfoRequest" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_MaliMusavirInfo_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetCompanyRequestMessage">
+    <wsdl:part name="GetCompanyRequest" element="tns:GetCompanyRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetCompanyBasicResponseMessage">
+    <wsdl:part name="GetCompanyBasicResponse" element="tns:GetCompanyBasicResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_GetCompanyBasic_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetEDefterRequestMessage">
+    <wsdl:part name="GetEDefterRequest" element="tns:GetEDefterRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_GetEDefterResponseMessage">
+    <wsdl:part name="GetEDefterBasicResponse" element="tns:GetEDefterBasicResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_GetEDefter_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_LoadExpenseSlipRequestMessage">
+    <wsdl:part name="LoadExpenseSlipRequest" element="tns:LoadExpenseSlipRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_LoadExpenseSlipResponseMessage">
+    <wsdl:part name="LoadExpenseSlipResponse" element="tns:LoadExpenseSlipResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_LoadExpenseSlip_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:message name="EDM_VerifityInvoiceRequestMessage">
+    <wsdl:part name="VerifityInvoiceRequest" element="tns:VerifityInvoiceRequest" />
+  </wsdl:message>
+  <wsdl:message name="EDM_VerifityInvoiceResponseMessage">
+    <wsdl:part name="VerifityInvoiceResponse" element="tns:VerifityInvoiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="EFaturaEDMPort_VerifityInvoice_RequestFault_FaultMessage">
+    <wsdl:part name="detail" element="tns:RequestFault" />
+  </wsdl:message>
+  <wsdl:portType name="EFaturaEDMPort">
+    <wsdl:operation name="Login">
+      <wsdl:input wsaw:Action="LoginRequest" name="EDM_LoginRequestMessage" message="tns:EDM_LoginRequestMessage" />
+      <wsdl:output wsaw:Action="LoginResponse" name="EDM_LoginResponseMessage" message="tns:EDM_LoginResponseMessage" />
+      <wsdl:fault wsaw:Action="LoginRequest" name="RequestFault" message="tns:EFaturaEDMPort_Login_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Logout">
+      <wsdl:input wsaw:Action="LogoutRequest" name="EDM_LogoutRequestMessage" message="tns:EDM_LogoutRequestMessage" />
+      <wsdl:output wsaw:Action="LogoutResponse" name="EDM_LogoutResponseMessage" message="tns:EDM_LogoutResponseMessage" />
+      <wsdl:fault wsaw:Action="LogoutRequest" name="RequestFault" message="tns:EFaturaEDMPort_Logout_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadInvoice">
+      <wsdl:input wsaw:Action="LoadInvoiceRequest" name="EDM_LoadInvoiceRequestMessage" message="tns:EDM_LoadInvoiceRequestMessage" />
+      <wsdl:output wsaw:Action="LoadInvoiceResponse" name="EDM_LoadInvoiceResponseMessage" message="tns:EDM_LoadInvoiceResponseMessage" />
+      <wsdl:fault wsaw:Action="LoadInvoiceRequest" name="RequestFault" message="tns:EFaturaEDMPort_LoadInvoice_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadInvoiceModel">
+      <wsdl:input wsaw:Action="LoadInvoiceModelRequest" name="EDM_LoadInvoiceModelRequestMessage" message="tns:EDM_LoadInvoiceModelRequestMessage" />
+      <wsdl:output wsaw:Action="LoadInvoiceModelResponse" name="EDM_LoadInvoiceModelResponseMessage" message="tns:EDM_LoadInvoiceModelResponseMessage" />
+      <wsdl:fault wsaw:Action="LoadInvoiceModelRequest" name="RequestFault" message="tns:EFaturaEDMPort_LoadInvoiceModel_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendInvoice">
+      <wsdl:input wsaw:Action="SendInvoiceRequest" name="EDM_SendInvoiceRequestMessage" message="tns:EDM_SendInvoiceRequestMessage" />
+      <wsdl:output wsaw:Action="SendInvoiceResponse" name="EDM_SendInvoiceResponseMessage" message="tns:EDM_SendInvoiceResponseMessage" />
+      <wsdl:fault wsaw:Action="SendInvoiceRequest" name="RequestFault" message="tns:EFaturaEDMPort_SendInvoice_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetInvoice">
+      <wsdl:input wsaw:Action="GetInvoiceRequest" name="EDM_GetInvoiceRequestMessage" message="tns:EDM_GetInvoiceRequestMessage" />
+      <wsdl:output wsaw:Action="GetInvoiceResponse" name="EDM_GetInvoiceResponse" message="tns:EDM_GetInvoiceResponse" />
+      <wsdl:fault wsaw:Action="GetInvoiceRequest" name="RequestFault" message="tns:EFaturaEDMPort_GetInvoice_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MarkInvoice">
+      <wsdl:input wsaw:Action="MarkInvoiceRequest" name="EDM_MarkInvoiceRequestMessage" message="tns:EDM_MarkInvoiceRequestMessage" />
+      <wsdl:output wsaw:Action="MarkInvoiceResponse" name="EDM_MarkInvoiceResponseMessage" message="tns:EDM_MarkInvoiceResponseMessage" />
+      <wsdl:fault wsaw:Action="MarkInvoiceRequest" name="RequestFault" message="tns:EFaturaEDMPort_MarkInvoice_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserList">
+      <wsdl:input wsaw:Action="GetUserListRequest" name="EDM_GetUserListRequestMessage" message="tns:EDM_GetUserListRequestMessage" />
+      <wsdl:output wsaw:Action="GetUserListResponse" name="EDM_GetUserListResponseMessage" message="tns:EDM_GetUserListResponseMessage" />
+      <wsdl:fault wsaw:Action="GetUserListRequest" name="RequestFault" message="tns:EFaturaEDMPort_GetUserList_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserListBinary">
+      <wsdl:input wsaw:Action="GetUserListBinaryRequest" name="EDM_GetUserListBinaryRequestMessage" message="tns:EDM_GetUserListBinaryRequestMessage" />
+      <wsdl:output wsaw:Action="GetUserListBinaryResponse" name="EDM_GetUserListBinaryResponseMessage" message="tns:EDM_GetUserListBinaryResponseMessage" />
+      <wsdl:fault wsaw:Action="GetUserListBinaryRequest" name="RequestFault" message="tns:EFaturaEDMPort_GetUserListBinary_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckUser">
+      <wsdl:input wsaw:Action="CheckUserRequest" name="EDM_CheckUserRequestMessage" message="tns:EDM_CheckUserRequestMessage" />
+      <wsdl:output wsaw:Action="CheckUserResponse" name="EDM_CheckUserResponse" message="tns:EDM_CheckUserResponse" />
+      <wsdl:fault wsaw:Action="CheckUserRequest" name="RequestFault" message="tns:EFaturaEDMPort_CheckUser_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetInvoiceStatus">
+      <wsdl:input wsaw:Action="GetInvoiceStatusRequest" name="EDM_GetInvoiceStatusRequestMessage" message="tns:EDM_GetInvoiceStatusRequestMessage" />
+      <wsdl:output wsaw:Action="GetInvoiceStatusResponse" name="EDM_GetInvoiceStatusResponseMessage" message="tns:EDM_GetInvoiceStatusResponseMessage" />
+      <wsdl:fault wsaw:Action="GetInvoiceStatusRequest" name="RequestFault" message="tns:EFaturaEDMPort_GetInvoiceStatus_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetInvoiceStatus">
+      <wsdl:input wsaw:Action="SetInvoiceStatusRequest" name="EDM_SetInvoiceStatusRequestMessage" message="tns:EDM_SetInvoiceStatusRequestMessage" />
+      <wsdl:output wsaw:Action="SetInvoiceStatusResponse" name="EDM_SetInvoiceStatusResponseMessage" message="tns:EDM_SetInvoiceStatusResponseMessage" />
+      <wsdl:fault wsaw:Action="SetInvoiceStatusRequest" name="RequestFault" message="tns:EFaturaEDMPort_SetInvoiceStatus_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PrepareInvoiceResponse">
+      <wsdl:input wsaw:Action="PrepareInvoiceResponseRequest" name="EDM_PrepareInvoiceResponseRequestMessage" message="tns:EDM_PrepareInvoiceResponseRequestMessage" />
+      <wsdl:output wsaw:Action="PrepareInvoiceResponseResponse" name="EDM_PrepareInvoiceResponseResponse" message="tns:EDM_PrepareInvoiceResponseResponse" />
+      <wsdl:fault wsaw:Action="PrepareInvoiceResponseRequest" name="RequestFault" message="tns:EFaturaEDMPort_PrepareInvoiceResponse_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendInvoiceResponse">
+      <wsdl:input wsaw:Action="SendInvoiceResponseRequest" name="EDM_SendInvoiceResponseRequestMessage" message="tns:EDM_SendInvoiceResponseRequestMessage" />
+      <wsdl:output wsaw:Action="SendInvoiceResponseResponse" name="EDM_SendInvoiceResponseResponseMessage" message="tns:EDM_SendInvoiceResponseResponseMessage" />
+      <wsdl:fault wsaw:Action="SendInvoiceResponseRequest" name="RequestFault" message="tns:EFaturaEDMPort_SendInvoiceResponse_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendInvoiceResponseWithServerSign">
+      <wsdl:input wsaw:Action="SendInvoiceResponseWithServerSignRequest" name="EDM_SendInvoiceResponseWithServerSignRequestMessage" message="tns:EDM_SendInvoiceResponseWithServerSignRequestMessage" />
+      <wsdl:output wsaw:Action="SendInvoiceResponseWithServerSignResponse" name="EDM_SendInvoiceResponseWithServerSignResponseMessage" message="tns:EDM_SendInvoiceResponseWithServerSignResponseMessage" />
+      <wsdl:fault wsaw:Action="SendInvoiceResponseWithServerSignRequest" name="RequestFault" message="tns:EFaturaEDMPort_SendInvoiceResponseWithServerSign_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEnvelope">
+      <wsdl:input wsaw:Action="GetEnvelopeRequest" name="EDM_GetEnvelopeRequestMessage" message="tns:EDM_GetEnvelopeRequestMessage" />
+      <wsdl:output wsaw:Action="GetEnvelopeResponse" name="EDM_GetEnvelopeResponse" message="tns:EDM_GetEnvelopeResponse" />
+      <wsdl:fault wsaw:Action="GetEnvelopeRequest" name="RequestFault" message="tns:EFaturaEDMPort_GetEnvelope_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MarkEnvelope">
+      <wsdl:input wsaw:Action="MarkEnvelopeRequest" name="EDM_MarkEnvelopeRequestMessage" message="tns:EDM_MarkEnvelopeRequestMessage" />
+      <wsdl:output wsaw:Action="MarkEnvelopeResponse" name="EDM_MarkEnvelopeResponseMessage" message="tns:EDM_MarkEnvelopeResponseMessage" />
+      <wsdl:fault wsaw:Action="MarkEnvelopeRequest" name="RequestFault" message="tns:EFaturaEDMPort_MarkEnvelope_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEnvelopeStatus">
+      <wsdl:input wsaw:Action="GetEnvelopeStatusRequest" name="EDM_GetEnvelopeStatusRequestMessage" message="tns:EDM_GetEnvelopeStatusRequestMessage" />
+      <wsdl:output wsaw:Action="GetEnvelopeStatusResponse" name="EDM_GetEnvelopeStatusResponse" message="tns:EDM_GetEnvelopeStatusResponse" />
+      <wsdl:fault wsaw:Action="GetEnvelopeStatusRequest" name="RequestFault" message="tns:EFaturaEDMPort_GetEnvelopeStatus_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getApplicationResponse">
+      <wsdl:input wsaw:Action="getApplicationResponseRequest" name="getApplicationResponseRequest" message="tns:getApplicationResponseRequest" />
+      <wsdl:output wsaw:Action="getApplicationResponseResponse" name="getApplicationResponseResponse" message="tns:getApplicationResponseResponse" />
+      <wsdl:fault wsaw:Action="getApplicationResponseRequest" name="RequestFault" message="tns:EFaturaEDMPort_getApplicationResponse_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CancelInvoice">
+      <wsdl:input wsaw:Action="CancelInvoiceRequest" name="EDM_CancelInvoiceRequestMessage" message="tns:EDM_CancelInvoiceRequestMessage" />
+      <wsdl:output wsaw:Action="CancelInvoiceResponse" name="EDM_CancelInvoiceResponseMessage" message="tns:EDM_CancelInvoiceResponseMessage" />
+      <wsdl:fault wsaw:Action="CancelInvoiceRequest" name="RequestFault" message="tns:EFaturaEDMPort_CancelInvoice_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeCanceArchivelInvoice">
+      <wsdl:input wsaw:Action="DeCancelArchiveInvoiceRequest" name="EDM_DeCancelInvoiceRequestMessage" message="tns:EDM_DeCancelInvoiceRequestMessage" />
+      <wsdl:output wsaw:Action="DeCancelArchiveInvoiceResponse" name="EDM_DeCancelInvoiceResponseMessage" message="tns:EDM_DeCancelInvoiceResponseMessage" />
+      <wsdl:fault wsaw:Action="DeCancelArchiveInvoiceRequest" name="RequestFault" message="tns:EFaturaEDMPort_DeCanceArchivelInvoice_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObjectionInvoice">
+      <wsdl:input wsaw:Action="ObjectionInvoiceRequest" name="EDM_ObjectionInvoiceRequestMessage" message="tns:EDM_ObjectionInvoiceRequestMessage" />
+      <wsdl:output wsaw:Action="ObjectionInvoiceResponse" name="EDM_ObjectionInvoiceResponseMessage" message="tns:EDM_ObjectionInvoiceResponseMessage" />
+      <wsdl:fault wsaw:Action="ObjectionInvoiceRequest" name="RequestFault" message="tns:EFaturaEDMPort_ObjectionInvoice_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSessionInfo">
+      <wsdl:input wsaw:Action="GetSessionInfoRequest" name="EDM_GetSessionInfoRequestMessage" message="tns:EDM_GetSessionInfoRequestMessage" />
+      <wsdl:output wsaw:Action="GetSessionInfoResponse" name="EDM_GetSessionInfoResponseMessage" message="tns:EDM_GetSessionInfoResponseMessage" />
+      <wsdl:fault wsaw:Action="GetSessionInfoRequest" name="RequestFault" message="tns:EFaturaEDMPort_GetSessionInfo_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="EmailInvoice">
+      <wsdl:input wsaw:Action="EmailInvoiceRequest" name="EDM_EmailInvoiceRequestMessage" message="tns:EDM_EmailInvoiceRequestMessage" />
+      <wsdl:output wsaw:Action="EmailInvoiceResponse" name="EDM_EmailInvoiceResponseMessage" message="tns:EDM_EmailInvoiceResponseMessage" />
+      <wsdl:fault wsaw:Action="EmailInvoiceRequest" name="RequestFault" message="tns:EFaturaEDMPort_EmailInvoice_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveInvoice">
+      <wsdl:input wsaw:Action="ArchiveInvoiceRequest" name="EDM_ArchiveInvoiceRequestMessage" message="tns:EDM_ArchiveInvoiceRequestMessage" />
+      <wsdl:output wsaw:Action="ArchiveInvoiceResponse" name="EDM_ArchiveInvoiceResponseMessage" message="tns:EDM_ArchiveInvoiceResponseMessage" />
+      <wsdl:fault wsaw:Action="ArchiveInvoiceRequest" name="RequestFault" message="tns:EFaturaEDMPort_ArchiveInvoice_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetArchiveInvoice">
+      <wsdl:input wsaw:Action="SetArchiveInvoiceRequest" name="EDM_SetArchiveInvoiceRequestMessage" message="tns:EDM_SetArchiveInvoiceRequestMessage" />
+      <wsdl:output wsaw:Action="SetArchiveInvoiceResponse" name="EDM_SetArchiveInvoiceResponseMessage" message="tns:EDM_SetArchiveInvoiceResponseMessage" />
+      <wsdl:fault wsaw:Action="SetArchiveInvoiceRequest" name="RequestFault" message="tns:EFaturaEDMPort_SetArchiveInvoice_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckCounter">
+      <wsdl:input wsaw:Action="CheckCounterRequest" name="EDM_CheckCounterRequestMessage" message="tns:EDM_CheckCounterRequestMessage" />
+      <wsdl:output wsaw:Action="CheckCounterResponse" name="EDM_CheckCounterResponse" message="tns:EDM_CheckCounterResponse" />
+      <wsdl:fault wsaw:Action="CheckCounterRequest" name="RequestFault" message="tns:EFaturaEDMPort_CheckCounter_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetInvoiceSerial">
+      <wsdl:input wsaw:Action="GetInvoiceSerialRequest" name="EDM_GetInvoiceSerialRequestMessage" message="tns:EDM_GetInvoiceSerialRequestMessage" />
+      <wsdl:output wsaw:Action="GetInvoiceSerialResponse" name="EDM_GetInvoiceSerialResponseMessage" message="tns:EDM_GetInvoiceSerialResponseMessage" />
+      <wsdl:fault wsaw:Action="GetInvoiceSerialRequest" name="RequestFault" message="tns:EFaturaEDMPort_GetInvoiceSerial_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetInvoiceResponseDate">
+      <wsdl:input wsaw:Action="GetInvoiceResponseDateRequest" name="EDM_GetInvoiceResponseDateRequestMessage" message="tns:EDM_GetInvoiceResponseDateRequestMessage" />
+      <wsdl:output wsaw:Action="GetInvoiceResponseDateResponse" name="EDM_GetInvoiceResponseDateResponseMessage" message="tns:EDM_GetInvoiceResponseDateResponseMessage" />
+      <wsdl:fault wsaw:Action="GetInvoiceResponseDateRequest" name="RequestFault" message="tns:EFaturaEDMPort_GetInvoiceResponseDate_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStok">
+      <wsdl:input wsaw:Action="GetStokRequest" name="EDM_GetStokRequestMessage" message="tns:EDM_GetStokRequestMessage" />
+      <wsdl:output wsaw:Action="GetStokResponse" name="EDM_GetStokResponseMessage" message="tns:EDM_GetStokResponseMessage" />
+      <wsdl:fault wsaw:Action="GetStokRequest" name="RequestFault" message="tns:EFaturaEDMPort_GetStok_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTurmob">
+      <wsdl:input wsaw:Action="GetTurmobRequest" name="EDM_GetTurmobRequestMessage" message="tns:EDM_GetTurmobRequestMessage" />
+      <wsdl:output wsaw:Action="GetTurmobResponse" name="EDM_GetTurmobResponseMessage" message="tns:EDM_GetTurmobResponseMessage" />
+      <wsdl:fault wsaw:Action="GetTurmobRequest" name="RequestFault" message="tns:EFaturaEDMPort_GetTurmob_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetErpsInv">
+      <wsdl:input wsaw:Action="GetErpRequest" name="EDM_GetErpRequestMessage" message="tns:EDM_GetErpRequestMessage" />
+      <wsdl:output wsaw:Action="GetErpResponse" name="EDM_GetErpResponseMessage" message="tns:EDM_GetErpResponseMessage" />
+      <wsdl:fault wsaw:Action="GetErpRequest" name="RequestFault" message="tns:EFaturaEDMPort_GetErpsInv_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="orderService">
+      <wsdl:input wsaw:Action="http://tempuri.org/EFaturaEDMPort/orderService" name="VF_oRDERRequestMessage" message="tns:VF_oRDERRequestMessage" />
+      <wsdl:output wsaw:Action="VF_oRDERResponseMessage" name="VF_oRDERResponseMessage" message="tns:VF_oRDERResponseMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/EFaturaEDMPort/orderServiceRequestFault" name="RequestFault" message="tns:EFaturaEDMPort_orderService_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="updateService">
+      <wsdl:input wsaw:Action="http://tempuri.org/EFaturaEDMPort/updateService" name="VF_updateRequestMessage" message="tns:VF_updateRequestMessage" />
+      <wsdl:output wsaw:Action="VF_updateResponseMessage" name="VF_updateResponseMessage" message="tns:VF_updateResponseMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/EFaturaEDMPort/updateServiceRequestFault" name="RequestFault" message="tns:EFaturaEDMPort_updateService_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="postEvent">
+      <wsdl:input wsaw:Action="http://tempuri.org/EFaturaEDMPort/postEvent" name="VF_eventRequestMessage" message="tns:VF_eventRequestMessage" />
+      <wsdl:output wsaw:Action="VF_eventResponseMessage" name="VF_eventResponseMessage" message="tns:VF_eventResponseMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/EFaturaEDMPort/postEventRequestFault" name="RequestFault" message="tns:EFaturaEDMPort_postEvent_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MaliMusavirList">
+      <wsdl:input wsaw:Action="MaliMusavirListRequest" name="EDM_MaliMusavirListRequestMessage" message="tns:EDM_MaliMusavirListRequestMessage" />
+      <wsdl:output wsaw:Action="MaliMusavirListResponse" name="EDM_MaliMusavirListResponseMessage" message="tns:EDM_MaliMusavirListResponseMessage" />
+      <wsdl:fault wsaw:Action="MaliMusavirListRequest" name="RequestFault" message="tns:EFaturaEDMPort_MaliMusavirList_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MaliMusavirInfo">
+      <wsdl:input wsaw:Action="MaliMusavirInfoRequest" name="EDM_MaliMusavirInfoRequestMessage" message="tns:EDM_MaliMusavirInfoRequestMessage" />
+      <wsdl:output wsaw:Action="MaliMusavirInfoResponse" name="EDM_MaliMusavirListResponseMessage" message="tns:EDM_MaliMusavirListResponseMessage" />
+      <wsdl:fault wsaw:Action="MaliMusavirInfoRequest" name="RequestFault" message="tns:EFaturaEDMPort_MaliMusavirInfo_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCompanyBasic">
+      <wsdl:input wsaw:Action="GetCompanyRequest" name="EDM_GetCompanyRequestMessage" message="tns:EDM_GetCompanyRequestMessage" />
+      <wsdl:output wsaw:Action="GetCompanyBasicResponseMessage" name="EDM_GetCompanyBasicResponseMessage" message="tns:EDM_GetCompanyBasicResponseMessage" />
+      <wsdl:fault wsaw:Action="GetCompanyRequest" name="RequestFault" message="tns:EFaturaEDMPort_GetCompanyBasic_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetEDefter">
+      <wsdl:input wsaw:Action="GetEDefterRequest" name="EDM_GetEDefterRequestMessage" message="tns:EDM_GetEDefterRequestMessage" />
+      <wsdl:output wsaw:Action="GetEDefterResponseMessage" name="EDM_GetEDefterResponseMessage" message="tns:EDM_GetEDefterResponseMessage" />
+      <wsdl:fault wsaw:Action="GetEDefterRequest" name="RequestFault" message="tns:EFaturaEDMPort_GetEDefter_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LoadExpenseSlip">
+      <wsdl:input wsaw:Action="LoadExpenseSlipRequest" name="EDM_LoadExpenseSlipRequestMessage" message="tns:EDM_LoadExpenseSlipRequestMessage" />
+      <wsdl:output wsaw:Action="LoadExpenseSlipResponseMessage" name="EDM_LoadExpenseSlipResponseMessage" message="tns:EDM_LoadExpenseSlipResponseMessage" />
+      <wsdl:fault wsaw:Action="LoadExpenseSlipRequest" name="RequestFault" message="tns:EFaturaEDMPort_LoadExpenseSlip_RequestFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="VerifityInvoice">
+      <wsdl:input wsaw:Action="VerifityInvoiceRequest" name="EDM_VerifityInvoiceRequestMessage" message="tns:EDM_VerifityInvoiceRequestMessage" />
+      <wsdl:output wsaw:Action="VerifityInvoiceResponseMessage" name="EDM_VerifityInvoiceResponseMessage" message="tns:EDM_VerifityInvoiceResponseMessage" />
+      <wsdl:fault wsaw:Action="VerifityInvoiceRequest" name="RequestFault" message="tns:EFaturaEDMPort_VerifityInvoice_RequestFault_FaultMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="EFaturaEDMPort" type="tns:EFaturaEDMPort">
+    <wsp:PolicyReference URI="#EFaturaEDMPort_policy" />
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Login">
+      <soap:operation soapAction="LoginRequest" style="document" />
+      <wsdl:input name="EDM_LoginRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_LoginResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="Logout">
+      <soap:operation soapAction="LogoutRequest" style="document" />
+      <wsdl:input name="EDM_LogoutRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_LogoutResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="LoadInvoice">
+      <soap:operation soapAction="LoadInvoiceRequest" style="document" />
+      <wsdl:input name="EDM_LoadInvoiceRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_LoadInvoiceResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="LoadInvoiceModel">
+      <soap:operation soapAction="LoadInvoiceModelRequest" style="document" />
+      <wsdl:input name="EDM_LoadInvoiceModelRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_LoadInvoiceModelResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="SendInvoice">
+      <soap:operation soapAction="SendInvoiceRequest" style="document" />
+      <wsdl:input name="EDM_SendInvoiceRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_SendInvoiceResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetInvoice">
+      <soap:operation soapAction="GetInvoiceRequest" style="document" />
+      <wsdl:input name="EDM_GetInvoiceRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_GetInvoiceResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="MarkInvoice">
+      <soap:operation soapAction="MarkInvoiceRequest" style="document" />
+      <wsdl:input name="EDM_MarkInvoiceRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_MarkInvoiceResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserList">
+      <soap:operation soapAction="GetUserListRequest" style="document" />
+      <wsdl:input name="EDM_GetUserListRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_GetUserListResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserListBinary">
+      <soap:operation soapAction="GetUserListBinaryRequest" style="document" />
+      <wsdl:input name="EDM_GetUserListBinaryRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_GetUserListBinaryResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="CheckUser">
+      <soap:operation soapAction="CheckUserRequest" style="document" />
+      <wsdl:input name="EDM_CheckUserRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_CheckUserResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetInvoiceStatus">
+      <soap:operation soapAction="GetInvoiceStatusRequest" style="document" />
+      <wsdl:input name="EDM_GetInvoiceStatusRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_GetInvoiceStatusResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="SetInvoiceStatus">
+      <soap:operation soapAction="SetInvoiceStatusRequest" style="document" />
+      <wsdl:input name="EDM_SetInvoiceStatusRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_SetInvoiceStatusResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="PrepareInvoiceResponse">
+      <soap:operation soapAction="PrepareInvoiceResponseRequest" style="document" />
+      <wsdl:input name="EDM_PrepareInvoiceResponseRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_PrepareInvoiceResponseResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="SendInvoiceResponse">
+      <soap:operation soapAction="SendInvoiceResponseRequest" style="document" />
+      <wsdl:input name="EDM_SendInvoiceResponseRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_SendInvoiceResponseResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="SendInvoiceResponseWithServerSign">
+      <soap:operation soapAction="SendInvoiceResponseWithServerSignRequest" style="document" />
+      <wsdl:input name="EDM_SendInvoiceResponseWithServerSignRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_SendInvoiceResponseWithServerSignResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetEnvelope">
+      <soap:operation soapAction="GetEnvelopeRequest" style="document" />
+      <wsdl:input name="EDM_GetEnvelopeRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_GetEnvelopeResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="MarkEnvelope">
+      <soap:operation soapAction="MarkEnvelopeRequest" style="document" />
+      <wsdl:input name="EDM_MarkEnvelopeRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_MarkEnvelopeResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetEnvelopeStatus">
+      <soap:operation soapAction="GetEnvelopeStatusRequest" style="document" />
+      <wsdl:input name="EDM_GetEnvelopeStatusRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_GetEnvelopeStatusResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getApplicationResponse">
+      <soap:operation soapAction="getApplicationResponseRequest" style="document" />
+      <wsdl:input name="getApplicationResponseRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getApplicationResponseResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="CancelInvoice">
+      <soap:operation soapAction="CancelInvoiceRequest" style="document" />
+      <wsdl:input name="EDM_CancelInvoiceRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_CancelInvoiceResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DeCanceArchivelInvoice">
+      <soap:operation soapAction="DeCancelArchiveInvoiceRequest" style="document" />
+      <wsdl:input name="EDM_DeCancelInvoiceRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_DeCancelInvoiceResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ObjectionInvoice">
+      <soap:operation soapAction="ObjectionInvoiceRequest" style="document" />
+      <wsdl:input name="EDM_ObjectionInvoiceRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_ObjectionInvoiceResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetSessionInfo">
+      <soap:operation soapAction="GetSessionInfoRequest" style="document" />
+      <wsdl:input name="EDM_GetSessionInfoRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_GetSessionInfoResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="EmailInvoice">
+      <soap:operation soapAction="EmailInvoiceRequest" style="document" />
+      <wsdl:input name="EDM_EmailInvoiceRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_EmailInvoiceResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ArchiveInvoice">
+      <soap:operation soapAction="ArchiveInvoiceRequest" style="document" />
+      <wsdl:input name="EDM_ArchiveInvoiceRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_ArchiveInvoiceResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="SetArchiveInvoice">
+      <soap:operation soapAction="SetArchiveInvoiceRequest" style="document" />
+      <wsdl:input name="EDM_SetArchiveInvoiceRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_SetArchiveInvoiceResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="CheckCounter">
+      <soap:operation soapAction="CheckCounterRequest" style="document" />
+      <wsdl:input name="EDM_CheckCounterRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_CheckCounterResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetInvoiceSerial">
+      <soap:operation soapAction="GetInvoiceSerialRequest" style="document" />
+      <wsdl:input name="EDM_GetInvoiceSerialRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_GetInvoiceSerialResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetInvoiceResponseDate">
+      <soap:operation soapAction="GetInvoiceResponseDateRequest" style="document" />
+      <wsdl:input name="EDM_GetInvoiceResponseDateRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_GetInvoiceResponseDateResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetStok">
+      <soap:operation soapAction="GetStokRequest" style="document" />
+      <wsdl:input name="EDM_GetStokRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_GetStokResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetTurmob">
+      <soap:operation soapAction="GetTurmobRequest" style="document" />
+      <wsdl:input name="EDM_GetTurmobRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_GetTurmobResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetErpsInv">
+      <soap:operation soapAction="GetErpRequest" style="document" />
+      <wsdl:input name="EDM_GetErpRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_GetErpResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="orderService">
+      <soap:operation soapAction="http://tempuri.org/EFaturaEDMPort/orderService" style="document" />
+      <wsdl:input name="VF_oRDERRequestMessage">
+        <soap:header message="tns:VF_oRDERRequestMessage_Headers" part="vfExtendedHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="VF_oRDERResponseMessage">
+        <soap:header message="tns:VF_oRDERResponseMessage_Headers" part="vfExtendedHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateService">
+      <soap:operation soapAction="http://tempuri.org/EFaturaEDMPort/updateService" style="document" />
+      <wsdl:input name="VF_updateRequestMessage">
+        <soap:header message="tns:VF_updateRequestMessage_Headers" part="vfExtendedHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="VF_updateResponseMessage">
+        <soap:header message="tns:VF_updateResponseMessage_Headers" part="vfExtendedHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="postEvent">
+      <soap:operation soapAction="http://tempuri.org/EFaturaEDMPort/postEvent" style="document" />
+      <wsdl:input name="VF_eventRequestMessage">
+        <soap:header message="tns:VF_eventRequestMessage_Headers" part="vfHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="VF_eventResponseMessage">
+        <soap:header message="tns:VF_eventResponseMessage_Headers" part="vfExtendedHeader" use="literal" />
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="MaliMusavirList">
+      <soap:operation soapAction="MaliMusavirListRequest" style="document" />
+      <wsdl:input name="EDM_MaliMusavirListRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_MaliMusavirListResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="MaliMusavirInfo">
+      <soap:operation soapAction="MaliMusavirInfoRequest" style="document" />
+      <wsdl:input name="EDM_MaliMusavirInfoRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_MaliMusavirListResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetCompanyBasic">
+      <soap:operation soapAction="GetCompanyRequest" style="document" />
+      <wsdl:input name="EDM_GetCompanyRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_GetCompanyBasicResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetEDefter">
+      <soap:operation soapAction="GetEDefterRequest" style="document" />
+      <wsdl:input name="EDM_GetEDefterRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_GetEDefterResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="LoadExpenseSlip">
+      <soap:operation soapAction="LoadExpenseSlipRequest" style="document" />
+      <wsdl:input name="EDM_LoadExpenseSlipRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_LoadExpenseSlipResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="VerifityInvoice">
+      <soap:operation soapAction="VerifityInvoiceRequest" style="document" />
+      <wsdl:input name="EDM_VerifityInvoiceRequestMessage">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EDM_VerifityInvoiceResponseMessage">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RequestFault">
+        <soap:fault use="literal" name="RequestFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="EFaturaEDM">
+    <wsdl:port name="EFaturaEDMPort" binding="tns:EFaturaEDMPort">
+      <soap:address location="https://test.edmbilisim.com.tr/EFaturaEDM21ea/EFaturaEDM.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

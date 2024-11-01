@@ -1,7 +1,7 @@
 ﻿@model YKPortal.Models.Dto.CariListeViewModel
 @{
     ViewBag.Title = "Cari Listesi";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutTab.cshtml";
 }
 
 <input type="hidden" name="YetkiSil" value="0" />
@@ -214,12 +214,12 @@
 </div>
 
 <!-- Trigger Button -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EFaturaBilgiGuncelle">
+<button type="button" class="btn btn-primary EFatura-Bilgi-Guncelle-Modal-Ac" data-id="123" data-bs-toggle="modal" data-bs-target="#EFaturaBilgiGuncelle">
     Pop-up Aç
 </button>
 
 <!-- Modal Yapısı -->
-<div class="modal fade animate__animated animate__fadeIn" id="EFaturaBilgiGuncelle"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade animate__animated animate__fadeIn" id="EFaturaBilgiGuncelle" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -233,36 +233,36 @@
 
                 <div class="form-group">
                     <label for="EFaturaKayitTarihi" class="form-label">EFaturaKayitTarihi</label>
-                    <input type="text" id="EFaturaKayitTarihi" name="EFaturaKayitTarihi" class="form-control p-2 rounded-1" placeholder="" readonly/>
+                    <input type="text" id="EFaturaKayitTarihi" name="EFaturaKayitTarihi" class="form-control p-2 rounded-1" placeholder="" readonly />
                 </div>
                 <div class="form-group">
                     <label for="EFaturaPKAdresi" class="form-label">EFaturaPKAdresi</label>
-                    <input type="text" id="EFaturaPKAdresi" name="EFaturaPKAdresi" class="form-control p-2 rounded-1" placeholder="" readonly/>
+                    <input type="text" id="EFaturaPKAdresi" name="EFaturaPKAdresi" class="form-control p-2 rounded-1" placeholder="" readonly />
                 </div>
                 <div class="form-group">
                     <label for="EIrsaliyePKAdresi" class="form-label">EIrsaliyePKAdresi</label>
-                    <input type="text" id="EIrsaliyePKAdresi" name="EIrsaliyePKAdresi" class="form-control p-2 rounded-1" placeholder="" readonly/>
+                    <input type="text" id="EIrsaliyePKAdresi" name="EIrsaliyePKAdresi" class="form-control p-2 rounded-1" placeholder="" readonly />
                 </div>
                 <div class="form-group">
                     <label for="EFatura" class="form-label">EFatura</label>
-                    <input type="text" id="EFatura" name="EFatura" class="form-control p-2 rounded-1" placeholder="" readonly/>
+                    <input type="text" id="EFatura" name="EFatura" class="form-control p-2 rounded-1" placeholder="" readonly />
                 </div>
                 <div class="form-group">
                     <label for="EIrsaliye" class="form-label">EIrsaliye</label>
-                    <input type="text" id="EIrsaliye" name="EIrsaliye" class="form-control p-2 rounded-1" placeholder="" readonly/>
+                    <input type="text" id="EIrsaliye" name="EIrsaliye" class="form-control p-2 rounded-1" placeholder="" readonly />
                 </div>
                 <div class="form-group">
                     <label for="EFaturaSenaryo" class="form-label">EFaturaSenaryo</label>
-                    <input type="text" id="EFaturaSenaryo" name="EFaturaSenaryo" class="form-control p-2 rounded-1" placeholder="" readonly/>
+                    <input type="text" id="EFaturaSenaryo" name="EFaturaSenaryo" class="form-control p-2 rounded-1" placeholder="" readonly />
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" name="EFaturaAktiflik" type="checkbox" value="" id="EFaturaAktiflik" checked readonly/>
+                    <input class="form-check-input" name="EFaturaAktiflik" type="checkbox" value="" id="EFaturaAktiflik" checked readonly />
                     <label class="form-check-label user-select-none cursor-pointer" for="EFaturaAktiflik">
                         EFaturaAktiflik
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" name="EIrsaliyeAktiflik" type="checkbox" value="" id="EIrsaliyeAktiflik" checked readonly/>
+                    <input class="form-check-input" name="EIrsaliyeAktiflik" type="checkbox" value="" id="EIrsaliyeAktiflik" checked readonly />
                     <label class="form-check-label user-select-none cursor-pointer" for="EIrsaliyeAktiflik">
                         EIrsaliyeAktiflik
                     </label>
@@ -360,18 +360,37 @@
         var EFaturaBilgiGuncelleModal = new bootstrap.Modal(document.getElementById('EFaturaBilgiGuncelle'));
         EFaturaBilgiGuncelleModal.show();
 
-        $('.EFatura-Bilgi-Guncelle-Modal-Ac').click(function (e) {
+        $(document).on('click', '.EFatura-Bilgi-Guncelle-Modal-Ac', function (e) {
             e.preventDefault();
-            var id = $(this).data('id');
-           
+            
+            var cariId = $(this).data('id'); // Butona eklenmiş 'data-id' bilgisini al
+            console.log(cariId);
             $.ajax({
-                url: '/Cari/CariEFaturaBilgiGuncelle', 
-                data: { id: id },
-                success: function (data) {
-                    $('#modalContent').html(data); 
-                    $('#EFaturaBilgiGuncelleModal').modal('show'); 
+                url: '/Cari/CariEFaturaBilgiGuncelle',
+                type: 'POST',
+                data: { CariID: cariId },
+                success: function (response) {
+                    console.log(response); // Gelen yanıtı kontrol edin
+                    if (response.success) {
+                        $('#EFaturaKayitTarihi').val(response.data.EFaturaKayitTarihi);
+                        $('#EFaturaPKAdresi').val(response.data.EFaturaPKAdresi);
+                        $('#EIrsaliyePKAdresi').val(response.data.EIrsaliyePKAdresi);
+                        $('#EFatura').val(response.data.EFatura);
+                        $('#EIrsaliye').val(response.data.EIrsaliye);
+                        $('#EFaturaSenaryo').val(response.data.EFaturaSenaryo);
+                        $('#EFaturaAktiflik').prop('checked', response.data.EFaturaAktiflik);
+                        $('#EIrsaliyeAktiflik').prop('checked', response.data.EIrsaliyeAktiflik);
+                        $('#EFaturaBilgiGuncelle').modal('show');
+                    } else {
+                        alert("Veri alınamadı");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log("Hata: " + error);
+                    alert("Bir hata oluştu");
                 }
             });
+
         });
 
 
@@ -424,6 +443,7 @@
                     ajax: {
                         url: '/Cari/Liste', // POST isteği yaparak sunucudaki Liste metoduna gidiyoruz
                         type: 'POST',
+
                         data: function (d) {
                             // Form alanlarındaki filtre verilerini POST isteğine ekliyoruz
                             return {
@@ -463,34 +483,34 @@
                             render: function (data, type, row) {
 
                                 var buttons = `
-                                                                          <div class="dropdown">
-                                                                              <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton${row.ID}" data-bs-toggle="dropdown" aria-expanded="false"> İşlemler </button>
-                                                                                <ul class="dropdown-menu py-0" aria-labelledby="dropdownMenuButton${row.ID}">`;
+                                                                              <div class="dropdown">
+                                                                                  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton${row.ID}" data-bs-toggle="dropdown" aria-expanded="false"> İşlemler </button>
+                                                                                    <ul class="dropdown-menu py-0" aria-labelledby="dropdownMenuButton${row.ID}">`;
 
                                 // Eğer silme yetkisi varsa
                                 if ($('input[name="YetkiSil"]').val() == "1") {
                                     buttons += `
-                                                                         <li><button class="dropdown-item btn-sil Cari-toplu-silme" data-bs-toggle="modal" data-bs-target="#Cari-silme" data-id="${row.ID}">Sil</button></li>
-                                                                        `;
+                                                                             <li><button class="dropdown-item btn-sil Cari-toplu-silme" data-bs-toggle="modal" data-bs-target="#Cari-silme" data-id="${row.ID}">Sil</button></li>
+                                                                            `;
                                 }
 
                                 // Eğer düzenleme yetkisi varsa
                                 if ($('input[name="YetkiDuzenle"]').val() == "1") {
                                     buttons += `
-                                                                       <li><a class="dropdown-item" href="/Cari/Duzenle/${row.ID}">Düzenle</a></li>
-                                                                    `;
+                                                                           <li><a class="dropdown-item" href="/Cari/Duzenle/${row.ID}">Düzenle</a></li>
+                                                                        `;
                                 }
                                 // Eğer düzenleme yetkisi varsa
                                 if ($('input[name="YetkiDuzenle"]').val() == "1") {
                                     buttons += `
-                                        <li><button class="dropdown-item EFatura-Bilgi-Guncelle-Modal-Ac" data-id="123"  data-bs-toggle="modal" data-bs-target="#EFaturaBilgiGuncelle" href="/Cari/EFaturaMukellefKontrolu/${row.ID}">Düzenle</button></li>
-                                     `;
+                                            <li><button class="dropdown-item EFatura-Bilgi-Guncelle-Modal-Ac" data-id="${row.ID}"  data-bs-toggle="modal" data-bs-target="#EFaturaBilgiGuncelle" >E-Fatura Mükellef Kontrolü</button></li>
+                                         `;
                                 }
 
                                 buttons += `
-                                                                 </ul>
-                                                                 </div>
-                                                                    `;
+                                                                     </ul>
+                                                                     </div>
+                                                                        `;
 
                                 return buttons;
 

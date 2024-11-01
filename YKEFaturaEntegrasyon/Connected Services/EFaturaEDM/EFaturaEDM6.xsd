@@ -1,0 +1,2975 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://test.edmbilisim.com.tr/EFaturaEDM21ea/EFaturaEDM.svc?xsd=xsd1" namespace="http://schemas.i2i.com/ei/common" />
+  <xs:import schemaLocation="https://test.edmbilisim.com.tr/EFaturaEDM21ea/EFaturaEDM.svc?xsd=xsd2" namespace="http://www.w3.org/2005/05/xmlmime" />
+  <xs:import schemaLocation="https://test.edmbilisim.com.tr/EFaturaEDM21ea/EFaturaEDM.svc?xsd=xsd3" namespace="urn:un:unece:uncefact:codelist:specification:54217:2001" />
+  <xs:import schemaLocation="https://test.edmbilisim.com.tr/EFaturaEDM21ea/EFaturaEDM.svc?xsd=xsd4" namespace="urn:un:unece:uncefact:data:specification:CoreComponentTypeSchemaModule:2" />
+  <xs:import schemaLocation="https://test.edmbilisim.com.tr/EFaturaEDM21ea/EFaturaEDM.svc?xsd=xsd5" namespace="urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2" />
+  <xs:element name="LoginRequest" type="tns:LoginRequest" />
+  <xs:complexType name="LoginRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="USER_NAME" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PASSWORD" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SECRET_KEY" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="REQUEST">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REQUEST_HEADER" type="tns:REQUEST_HEADERType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="REQUEST_HEADERType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SESSION_ID" type="xs:token" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CLIENT_TXN_ID" type="xs:token" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INTL_TXN_ID" type="xs:long" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INTL_PARENT_TXN_ID" type="xs:long" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ACTION_DATE" type="xs:dateTime" />
+      <xs:element xmlns:q1="http://schemas.i2i.com/ei/common" minOccurs="0" maxOccurs="1" form="unqualified" name="CHANGE_INFO" type="q1:CHANGE_INFOType" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REASON" type="xs:token" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="APPLICATION_NAME" type="xs:token" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="HOSTNAME" type="xs:token" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CHANNEL_NAME" type="xs:token" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SIMULATION_FLAG" type="xs:token" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="COMPRESSED" type="xs:token" />
+      <xs:element xmlns:q2="http://schemas.i2i.com/ei/common" minOccurs="0" maxOccurs="unbounded" form="unqualified" name="ATTRIBUTES" type="q2:ATTRIBUTESTYPE" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetErpRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="ID" type="xs:int" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="DISTCODE" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="STARTDATE" type="xs:dateTime" />
+          <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="ENDDATE" type="xs:dateTime" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INVTYPE" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="GetStokRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="GetInvoiceSerialRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INVOICESERIALCODE" type="xs:token" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INVOICESENDTYPE" type="xs:token" />
+          <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="YEAR" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="CheckCounterRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="GetCompanyRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="USER_NAME" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PASSWORD" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="TAXNUMBER" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="SETCOMPANYMM" type="xs:boolean" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="LogoutRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="UserRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="USERCONTENT" type="tns:USERCONTENT" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="USERCONTENT">
+    <xs:simpleContent>
+      <xs:extension xmlns:q3="http://www.w3.org/2005/05/xmlmime" base="q3:base64Binary">
+        <xs:attribute name="USERID" type="xs:string" />
+        <xs:attribute default="USER" name="USERTYPE" type="tns:USERTYPE" />
+        <xs:attribute name="SIGNTYPE" type="tns:SIGNTYPE" />
+        <xs:attribute name="TYPE" type="tns:USERCONTENTTYPE" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:simpleType name="USERTYPE">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="USER" />
+      <xs:enumeration value="ARCHIVE" />
+      <xs:enumeration value="EARCHIVE" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="SIGNTYPE">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="HSM_CUSTOMER" />
+      <xs:enumeration value="HSM_ENTEGRATOR" />
+      <xs:enumeration value="HSM_CLIENT_SIGNED" />
+      <xs:enumeration value="TOKEN_CUSTOMER" />
+      <xs:enumeration value="TOKEN_ENTEGRATOR" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="USERCONTENTTYPE">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PROCESSUSER" />
+      <xs:enumeration value="CANCELUSER" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="SendInvoiceRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SENDER">
+            <xs:complexType>
+              <xs:attribute name="vkn" type="xs:string" />
+              <xs:attribute name="alias" type="xs:string" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="RECEIVER">
+            <xs:complexType>
+              <xs:attribute name="vkn" type="xs:string" />
+              <xs:attribute name="alias" type="xs:string" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="INVOICE" type="tns:INVOICE" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="INVOICE">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="HEADER">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SENDER" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="RECEIVER" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SUPPLIER" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CUSTOMER" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ISSUE_DATE" type="xs:date" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PAYABLE_AMOUNT" type="tns:AmountType" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="FROM" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="TO" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PROFILEID" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="STATUS" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="STATUS_DESCRIPTION" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="GIB_STATUS_CODE" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="GIB_STATUS_DESCRIPTION" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="RESPONSE_CODE" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="RESPONSE_DESCRIPTION" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="FILENAME" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="HASH" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CDATE" type="xs:dateTime" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ENVELOPE_IDENTIFIER" type="xs:token" />
+            <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="INTERNETSALES" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="EARCHIVE" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INTERNETSALESDETAILS">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="1" name="webAdresi" type="xs:string" />
+                  <xs:element minOccurs="0" maxOccurs="1" name="odemeSekli" type="xs:string" />
+                  <xs:element minOccurs="0" maxOccurs="1" name="odemeAracisiAdi" type="xs:string" />
+                  <xs:element minOccurs="0" maxOccurs="1" name="odemeTarihi" type="xs:date" />
+                  <xs:element minOccurs="0" maxOccurs="1" name="gonderiBilgileri">
+                    <xs:complexType>
+                      <xs:sequence>
+                        <xs:element minOccurs="1" maxOccurs="1" name="gonderimTarihi" type="xs:date" />
+                        <xs:element minOccurs="0" maxOccurs="1" name="gonderiTasiyan">
+                          <xs:complexType>
+                            <xs:sequence>
+                              <xs:element minOccurs="0" maxOccurs="1" name="tuzelKisi">
+                                <xs:complexType>
+                                  <xs:sequence>
+                                    <xs:element minOccurs="0" maxOccurs="1" name="vkn" type="xs:string" />
+                                    <xs:element minOccurs="0" maxOccurs="1" name="unvan" type="xs:string" />
+                                  </xs:sequence>
+                                </xs:complexType>
+                              </xs:element>
+                              <xs:element minOccurs="0" maxOccurs="1" name="gercekKisi">
+                                <xs:complexType>
+                                  <xs:sequence>
+                                    <xs:element minOccurs="0" maxOccurs="1" name="tckn" type="xs:string" />
+                                    <xs:element minOccurs="0" maxOccurs="1" name="adiSoyadi" type="xs:string" />
+                                  </xs:sequence>
+                                </xs:complexType>
+                              </xs:element>
+                            </xs:sequence>
+                          </xs:complexType>
+                        </xs:element>
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INVOICESERIAL_REQUESTED" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="EXPORT_GTB_REFNO" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="EXPORT_GTB_GCB_TESCILNO" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="EXPORT_GTB_FIILI_IHRACAT_TARIHI" type="xs:date" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INVOICE_TYPE" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INVOICE_SEND_TYPE" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="EARCHIVE_REPORT_UUID" type="xs:token" />
+            <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="EARCHIVE_REPORT_SENDDATE" type="xs:date" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="EARCHIVE_REPORT_STATUS" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="EARCHIVE_REPORT_STATUSDESC" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CANCEL_EARCHIVE_REPORT_UUID" type="xs:token" />
+            <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="CANCEL_EARCHIVE_REPORT_SENDDATE" type="xs:date" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CANCEL_EARCHIVE_REPORT_STATUSDESC" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CANCEL_EARCHIVE_REPORT_STATUS" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ERP_REFERENCE" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="DIRECTION" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ISACTIVE" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="MOBILE" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="MARKED" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="TAX_TOTAL" type="tns:TaxTotalType" />
+            <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="WITHHOLDING_TAX_TOTAL" type="tns:TaxTotalType" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ERP_STATUS" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REASON_MESSAGE" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q4="http://www.w3.org/2005/05/xmlmime" minOccurs="0" maxOccurs="1" form="unqualified" name="CONTENT" type="q4:base64Binary" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="INVOICELINE">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ID" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="Note" type="tns:NoteType" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="InvoicedQuantity" type="tns:InvoicedQuantityType" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="LineExtensionAmount" type="tns:LineExtensionAmountType" />
+            <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="OrderLineReference" type="tns:OrderLineReferenceType" />
+            <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="DespatchLineReference" type="tns:LineReferenceType" />
+            <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="ReceiptLineReference" type="tns:LineReferenceType" />
+            <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="Delivery" type="tns:DeliveryType" />
+            <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="AllowanceCharge" type="tns:AllowanceChargeType" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="TaxTotal" type="tns:TaxTotalType" />
+            <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="WithholdingTaxTotal" type="tns:TaxTotalType" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Item" type="tns:ItemType" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Price" type="tns:PriceType" />
+            <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="SubInvoiceLine" type="tns:InvoiceLineType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="TRXID" type="xs:long" use="required" />
+    <xs:attribute name="UUID" type="xs:token" />
+    <xs:attribute name="ID" type="xs:token" />
+  </xs:complexType>
+  <xs:complexType name="AmountType">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute xmlns:q5="urn:un:unece:uncefact:codelist:specification:54217:2001" name="currencyID" type="q5:CurrencyCodeContentType" use="required" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="PriceAmountType">
+    <xs:simpleContent>
+      <xs:extension base="tns:AmountType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="BaseAmountType">
+    <xs:simpleContent>
+      <xs:extension base="tns:AmountType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ValueAmountType">
+    <xs:simpleContent>
+      <xs:extension base="tns:AmountType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="FreeOnBoardValueAmountType">
+    <xs:simpleContent>
+      <xs:extension base="tns:AmountType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="DeclaredStatisticsValueAmountType">
+    <xs:simpleContent>
+      <xs:extension base="tns:AmountType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="DeclaredForCarriageValueAmountType">
+    <xs:simpleContent>
+      <xs:extension base="tns:AmountType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="DeclaredCustomsValueAmountType">
+    <xs:simpleContent>
+      <xs:extension base="tns:AmountType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="InsuranceValueAmountType">
+    <xs:simpleContent>
+      <xs:extension base="tns:AmountType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="CorporateStockAmountType">
+    <xs:simpleContent>
+      <xs:extension base="tns:AmountType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="LineExtensionAmountType">
+    <xs:simpleContent>
+      <xs:extension base="tns:AmountType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="PerUnitAmountType">
+    <xs:simpleContent>
+      <xs:extension base="tns:AmountType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TransactionCurrencyTaxAmountType">
+    <xs:simpleContent>
+      <xs:extension base="tns:AmountType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TaxableAmountType">
+    <xs:simpleContent>
+      <xs:extension base="tns:AmountType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TaxAmountType">
+    <xs:simpleContent>
+      <xs:extension base="tns:AmountType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TaxTotalType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="TaxAmount" type="tns:TaxAmountType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TaxSubTotal" type="tns:TaxSubtotalType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TaxSubtotalType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="TaxableAmount" type="tns:TaxableAmountType" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="TaxAmount" type="tns:TaxAmountType" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CalculationSequenceNumeric" type="tns:CalculationSequenceNumericType" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="TransactionCurrencyTaxAmount" type="tns:TransactionCurrencyTaxAmountType" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Percent" type="tns:PercentType" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="BaseUnitMeasure" type="tns:BaseUnitMeasureType" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PerUnitAmount" type="tns:PerUnitAmountType" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="TaxCategory" type="tns:TaxCategoryType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CalculationSequenceNumericType">
+    <xs:simpleContent>
+      <xs:extension base="tns:NumericType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="NumericType">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute name="Format" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="SequenceNumericType">
+    <xs:simpleContent>
+      <xs:extension base="tns:NumericType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="MultiplierFactorNumericType">
+    <xs:simpleContent>
+      <xs:extension base="tns:NumericType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="PercentType">
+    <xs:simpleContent>
+      <xs:extension base="tns:NumericType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="BaseUnitMeasureType">
+    <xs:simpleContent>
+      <xs:extension base="tns:MeasureType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="MeasureType">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute name="UnitCode" type="xs:string" />
+        <xs:attribute name="UnitCodeListVersionID" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="NetTonnageMeasureType">
+    <xs:simpleContent>
+      <xs:extension base="tns:MeasureType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="GrossTonnageMeasureType">
+    <xs:simpleContent>
+      <xs:extension base="tns:MeasureType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="MaximumMeasureType">
+    <xs:simpleContent>
+      <xs:extension base="tns:MeasureType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="MinimumMeasureType">
+    <xs:simpleContent>
+      <xs:extension base="tns:MeasureType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ChargeableWeightMeasureType">
+    <xs:simpleContent>
+      <xs:extension base="tns:MeasureType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="NetVolumeMeasureType">
+    <xs:simpleContent>
+      <xs:extension base="tns:MeasureType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="GrossVolumeMeasureType">
+    <xs:simpleContent>
+      <xs:extension base="tns:MeasureType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="NetWeightMeasureType">
+    <xs:simpleContent>
+      <xs:extension base="tns:MeasureType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="GrossWeightMeasureType">
+    <xs:simpleContent>
+      <xs:extension base="tns:MeasureType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="DurationMeasureType">
+    <xs:simpleContent>
+      <xs:extension base="tns:MeasureType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TaxCategoryType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Name" type="tns:NameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TaxExemptionReasonCode" type="tns:TaxExemptionReasonCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TaxExemptionReason" type="tns:TaxExemptionReasonType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TaxScheme" type="tns:TaxSchemeType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NameType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TextType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="LanguageId" type="xs:string" />
+        <xs:attribute name="LanguageLocaleID" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="PackingMaterialType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="DamageRemarksType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ShipsRequirementsType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="RegistrationNationalityType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="AllowanceChargeReasonType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="MaximumValueType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="MinimumValueType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ListValueType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ValueQualifierType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TestMethodType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="KeywordType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="SpecialInstructionsType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="HandlingInstructionsType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="SpecialTermsType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="InstructionsType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="PaymentNoteType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="NameSuffixType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TitleType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ValueType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ChannelType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ElectronicMailType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TelefaxType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TelephoneType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="DistrictType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="RegionType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="PostalZoneType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="BuildingNumberType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="RoomType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="PostboxType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="DescriptionType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="DocumentDescriptionType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="DocumentTypeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="NoteType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TaxExemptionReasonType">
+    <xs:simpleContent>
+      <xs:extension base="tns:TextType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="VesselNameType">
+    <xs:simpleContent>
+      <xs:extension base="tns:NameType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ModelNameType">
+    <xs:simpleContent>
+      <xs:extension base="tns:NameType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="BrandNameType">
+    <xs:simpleContent>
+      <xs:extension base="tns:NameType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="MiddleNameType">
+    <xs:simpleContent>
+      <xs:extension base="tns:NameType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="FamilyNameType">
+    <xs:simpleContent>
+      <xs:extension base="tns:NameType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="FirstNameType">
+    <xs:simpleContent>
+      <xs:extension base="tns:NameType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="RegistrationNameType">
+    <xs:simpleContent>
+      <xs:extension base="tns:NameType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="CityNameType">
+    <xs:simpleContent>
+      <xs:extension base="tns:NameType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="CitySubdivisionNameType">
+    <xs:simpleContent>
+      <xs:extension base="tns:NameType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="BuildingNameType">
+    <xs:simpleContent>
+      <xs:extension base="tns:NameType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="BlockNameType">
+    <xs:simpleContent>
+      <xs:extension base="tns:NameType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="StreetNameType">
+    <xs:simpleContent>
+      <xs:extension base="tns:NameType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TaxExemptionReasonCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="CodeType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="ListId" type="xs:string" />
+        <xs:attribute name="ListAgencyId" type="xs:string" />
+        <xs:attribute name="ListAgencyName" type="xs:string" />
+        <xs:attribute name="ListName" type="xs:string" />
+        <xs:attribute name="ListVersionID" type="xs:string" />
+        <xs:attribute name="Name" type="xs:string" />
+        <xs:attribute name="LanguageId" type="xs:string" />
+        <xs:attribute name="ListURI" type="xs:string" />
+        <xs:attribute name="ListSchemeURI" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TransportAuthorizationCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="InhalationToxicityZoneCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="HazardousRegulationCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="PackingCriteriaCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TransportEmergencyCardCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TransportEquipmentTypeCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="PackagingTypeCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="PackageLevelCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TransportHandlingUnitTypeCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TradeServiceCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="DirectionCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TransitDirectionCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TransportMeansTypeCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TransportModeCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ImportanceCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="NameCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ItemClassificationCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="CustomsStatusCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="HandlingCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="CurrencyCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ChannelCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="CorporateRegistrationTypeCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="IdentificationCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="IndustryClassificationCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="DocumentTypeCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="OrderTypeCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="LineStatusCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TaxTypeCodeType">
+    <xs:simpleContent>
+      <xs:extension base="tns:CodeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TaxSchemeType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Id" type="tns:IDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Name" type="tns:NameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TaxTypeCode" type="tns:TaxTypeCodeType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="IDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="IdentifierType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SchemeId" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SchemeName" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SchemeAgencyId" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SchemeAgencyName" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SchemeVersionId" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SchemeDataURI" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SchemeURI" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Value" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RadioCallSignIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="VesselIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RailCarIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TrainIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="LicensePlateIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="LocationIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RegistrationNationalityIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="JourneyIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="LotNumberIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AttributeIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SerialIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RegistrationIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ProductTraceIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TraceIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RequiredCustomsIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="TrackingIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="NationalityIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="CompanyIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="EndpointIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="WebsiteURIType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="URIType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SalesOrderIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="UUIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SalesOrderLineIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="LineIDType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IdentifierType" />
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="InvoicedQuantityType">
+    <xs:simpleContent>
+      <xs:extension base="tns:QuantityType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="QuantityType">
+    <xs:simpleContent>
+      <xs:extension base="xs:decimal">
+        <xs:attribute name="unitCode" type="xs:normalizedString" />
+        <xs:attribute name="unitCodeListID" type="xs:normalizedString" />
+        <xs:attribute name="unitCodeListAgencyID" type="xs:normalizedString" />
+        <xs:attribute name="unitCodeListAgencyName" type="xs:string" />
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TotalPackageQuantityType">
+    <xs:simpleContent>
+      <xs:extension base="tns:QuantityType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ValueQuantityType">
+    <xs:simpleContent>
+      <xs:extension base="tns:QuantityType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ReturnableQuantityType">
+    <xs:simpleContent>
+      <xs:extension base="tns:QuantityType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ChargeableQuantityType">
+    <xs:simpleContent>
+      <xs:extension base="tns:QuantityType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="CustomsTariffQuantityType">
+    <xs:simpleContent>
+      <xs:extension base="tns:QuantityType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TotalTransportHandlingUnitQuantityType">
+    <xs:simpleContent>
+      <xs:extension base="tns:QuantityType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="TotalGoodsItemQuantityType">
+    <xs:simpleContent>
+      <xs:extension base="tns:QuantityType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="OrderLineReferenceType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="LineID" type="tns:LineIDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="SalesOrderLineID" type="tns:SalesOrderLineIDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="UUID" type="tns:UUIDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="LineStatusCode" type="tns:LineStatusCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="OrderReference" type="tns:OrderReferenceType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="OrderReferenceType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="SalesOrderID" type="tns:SalesOrderIDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="IssueDate" type="tns:IssueDateType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="OrderTypeCode" type="tns:OrderTypeCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DocumentReference" type="tns:DocumentReferenceType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="IssueDateType">
+    <xs:simpleContent>
+      <xs:extension base="tns:DateType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="DateType">
+    <xs:simpleContent>
+      <xs:extension base="xs:date" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ExpiryDateType">
+    <xs:simpleContent>
+      <xs:extension base="tns:DateType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="BestBeforeDateType">
+    <xs:simpleContent>
+      <xs:extension base="tns:DateType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ManufactureDateType">
+    <xs:simpleContent>
+      <xs:extension base="tns:DateType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ActualDespatchDateType">
+    <xs:simpleContent>
+      <xs:extension base="tns:DateType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="LatestDeliveryDateType">
+    <xs:simpleContent>
+      <xs:extension base="tns:DateType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ActualDeliveryDateType">
+    <xs:simpleContent>
+      <xs:extension base="tns:DateType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="RegistrationDateType">
+    <xs:simpleContent>
+      <xs:extension base="tns:DateType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="EndDateType">
+    <xs:simpleContent>
+      <xs:extension base="tns:DateType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="StartDateType">
+    <xs:simpleContent>
+      <xs:extension base="tns:DateType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="DocumentReferenceType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="IssueDate" type="tns:IssueDateType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DocumentTypeCode" type="tns:DocumentTypeCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DocumentType" type="tns:DocumentTypeType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DocumentDescription" type="tns:DocumentDescriptionType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Attachment" type="tns:AttachmentType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ValidityPeriod" type="tns:PeriodType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="IssuerParty" type="tns:PartyType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AttachmentType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="EmbeddedDocumentBinaryObject" type="tns:EmbeddedDocumentBinaryObjectType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ExternalReference" type="tns:ExternalReferenceType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="EmbeddedDocumentBinaryObjectType">
+    <xs:simpleContent>
+      <xs:extension xmlns:q6="urn:un:unece:uncefact:data:specification:CoreComponentTypeSchemaModule:2" base="q6:BinaryObjectType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ExternalReferenceType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="URI" type="tns:URIType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PeriodType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="StartDate" type="tns:StartDateType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="StartTime" type="tns:StartTimeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="EndDate" type="tns:EndDateType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="EndTime" type="tns:EndTimeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DurationMeasure" type="tns:DurationMeasureType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Description" type="tns:DescriptionType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StartTimeType">
+    <xs:simpleContent>
+      <xs:extension xmlns:q7="urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2" base="q7:TimeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ManufactureTimeType">
+    <xs:simpleContent>
+      <xs:extension xmlns:q8="urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2" base="q8:TimeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ActualDespatchTimeType">
+    <xs:simpleContent>
+      <xs:extension xmlns:q9="urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2" base="q9:TimeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="LatestDeliveryTimeType">
+    <xs:simpleContent>
+      <xs:extension xmlns:q10="urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2" base="q10:TimeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ActualDeliveryTimeType">
+    <xs:simpleContent>
+      <xs:extension xmlns:q11="urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2" base="q11:TimeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="EndTimeType">
+    <xs:simpleContent>
+      <xs:extension xmlns:q12="urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2" base="q12:TimeType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="PartyType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="WebsiteURI" type="tns:WebsiteURIType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="EndpointID" type="tns:EndpointIDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="IndustryClassificationCode" type="tns:IndustryClassificationCodeType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PartyIdentification" type="tns:PartyIdentificationType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="PartyName" type="tns:PartyNameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="PostalAddress" type="tns:AddressType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="PhysicalLocation" type="tns:LocationType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="PartyTaxScheme" type="tns:PartyTaxSchemeType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PartyLegalEntity" type="tns:PartyLegalEntityType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Contact" type="tns:ContactType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Person" type="tns:PersonType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="AgentParty" type="tns:PartyType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PartyIdentificationType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PartyNameType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Name" type="tns:NameType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AddressType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Postbox" type="tns:PostboxType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Room" type="tns:RoomType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="StreetName" type="tns:StreetNameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="BlockName" type="tns:BlockNameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="BuildingName" type="tns:BuildingNameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="BuildingNumber" type="tns:BuildingNumberType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CitySubdivisionName" type="tns:CitySubdivisionNameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CityName" type="tns:CityNameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="PostalZone" type="tns:PostalZoneType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Region" type="tns:RegionType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="District" type="tns:DistrictType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Country" type="tns:CountryType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CountryType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="IdentificationCode" type="tns:IdentificationCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Name" type="tns:NameType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="LocationType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Address" type="tns:AddressType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PartyTaxSchemeType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="RegistrationName" type="tns:RegistrationNameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="tns:CompanyIDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TaxScheme" type="tns:TaxSchemeType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PartyLegalEntityType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="RegistrationName" type="tns:RegistrationNameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CompanyID" type="tns:CompanyIDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="RegistrationDate" type="tns:RegistrationDateType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="SoleProprietorshipIndicator" type="tns:SoleProprietorshipIndicatorType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CorporateStockAmount" type="tns:CorporateStockAmountType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="FullyPaidSharesIndicator" type="tns:FullyPaidSharesIndicatorType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CorporateRegistrationScheme" type="tns:CorporateRegistrationSchemeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="HeadOfficeParty" type="tns:PartyType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SoleProprietorshipIndicatorType">
+    <xs:simpleContent>
+      <xs:extension xmlns:q13="urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2" base="q13:IndicatorType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ReturnableMaterialIndicatorType">
+    <xs:simpleContent>
+      <xs:extension xmlns:q14="urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2" base="q14:IndicatorType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="ChargeIndicatorType">
+    <xs:simpleContent>
+      <xs:extension xmlns:q15="urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2" base="q15:IndicatorType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="CustomsImportClassifiedIndicatorType">
+    <xs:simpleContent>
+      <xs:extension xmlns:q16="urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2" base="q16:IndicatorType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="HazardousRiskIndicatorType">
+    <xs:simpleContent>
+      <xs:extension xmlns:q17="urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2" base="q17:IndicatorType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="FullyPaidSharesIndicatorType">
+    <xs:simpleContent>
+      <xs:extension xmlns:q18="urn:oasis:names:specification:ubl:schema:xsd:UnqualifiedDataTypes-2" base="q18:IndicatorType" />
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="CorporateRegistrationSchemeType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Name" type="tns:NameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CorporateRegistrationTypeCode" type="tns:CorporateRegistrationTypeCodeType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="JurisdictionRegionAddress" type="tns:AddressType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ContactType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Name" type="tns:NameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Telephone" type="tns:TelephoneType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Telefax" type="tns:TelefaxType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ElectronicMail" type="tns:ElectronicMailType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Note" type="tns:NoteType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="OtherCommunication" type="tns:CommunicationType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CommunicationType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ChannelCode" type="tns:ChannelCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Channel" type="tns:ChannelType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Value" type="tns:ValueType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PersonType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="FirstName" type="tns:FirstNameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="FamilyName" type="tns:FamilyNameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Title" type="tns:TitleType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="MiddleName" type="tns:MiddleNameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="NameSuffix" type="tns:NameSuffixType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="NationalityID" type="tns:NationalityIDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="FinancialAccount" type="tns:FinancialAccountType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="IdentityDocumentReference" type="tns:DocumentReferenceType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="FinancialAccountType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CurrencyCode" type="tns:CurrencyCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="PaymentNote" type="tns:PaymentNoteType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="FinancialInstitutionBranch" type="tns:BranchType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BranchType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Name" type="tns:NameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="FinancialInstitution" type="tns:FinancialInstitutionType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="FinancialInstitutionType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Name" type="tns:NameType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="LineReferenceType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="LineID" type="tns:LineIDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="LineStatusCode" type="tns:LineStatusCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DocumentReference" type="tns:DocumentReferenceType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DeliveryType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Quantity" type="tns:QuantityType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ActualDeliveryDate" type="tns:ActualDeliveryDateType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ActualDeliveryTime" type="tns:ActualDeliveryTimeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="LatestDeliveryDate" type="tns:LatestDeliveryDateType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="LatestDeliveryTime" type="tns:LatestDeliveryTimeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TrackingID" type="tns:TrackingIDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DeliveryAddress" type="tns:AddressType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="AlternativeDeliveryLocation" type="tns:LocationType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="EstimatedDeliveryPeriod" type="tns:PeriodType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CarrierParty" type="tns:PartyType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DeliveryParty" type="tns:PartyType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Despatch" type="tns:DespatchType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DeliveryTerms" type="tns:DeliveryTermsType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Shipment" type="tns:ShipmentType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DespatchType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ActualDespatchDate" type="tns:ActualDespatchDateType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ActualDespatchTime" type="tns:ActualDespatchTimeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Instructions" type="tns:InstructionsType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DespatchAddress" type="tns:AddressType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DespatchParty" type="tns:PartyType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Contact" type="tns:ContactType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="EstimatedDespatchPeriod" type="tns:PeriodType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DeliveryTermsType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="SpecialTerms" type="tns:SpecialTermsType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Amount" type="tns:AmountType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ShipmentType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="HandlingCode" type="tns:HandlingCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="HandlingInstructions" type="tns:HandlingInstructionsType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="GrossWeightMeasure" type="tns:GrossWeightMeasureType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="NetWeightMeasure" type="tns:NetWeightMeasureType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="GrossVolumeMeasure" type="tns:GrossVolumeMeasureType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="NetVolumeMeasure" type="tns:NetVolumeMeasureType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TotalGoodsItemQuantity" type="tns:TotalGoodsItemQuantityType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TotalTransportHandlingUnitQuantity" type="tns:TotalTransportHandlingUnitQuantityType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="InsuranceValueAmount" type="tns:InsuranceValueAmountType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DeclaredCustomsValueAmount" type="tns:DeclaredCustomsValueAmountType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DeclaredForCarriageValueAmount" type="tns:DeclaredForCarriageValueAmountType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DeclaredStatisticsValueAmount" type="tns:DeclaredStatisticsValueAmountType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="FreeOnBoardValueAmount" type="tns:FreeOnBoardValueAmountType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SpecialInstructions" type="tns:SpecialInstructionsType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="GoodsItem" type="tns:GoodsItemType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ShipmentStage" type="tns:ShipmentStageType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Delivery" type="tns:DeliveryType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TransportHandlingUnit" type="tns:TransportHandlingUnitType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ReturnAddress" type="tns:AddressType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="FirstArrivalPortLocation" type="tns:LocationType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="LastExitPortLocation" type="tns:LocationType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GoodsItemType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Description" type="tns:DescriptionType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="HazardousRiskIndicator" type="tns:HazardousRiskIndicatorType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DeclaredCustomsValueAmount" type="tns:DeclaredCustomsValueAmountType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DeclaredForCarriageValueAmount" type="tns:DeclaredForCarriageValueAmountType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DeclaredStatisticsValueAmount" type="tns:DeclaredStatisticsValueAmountType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="FreeOnBoardValueAmount" type="tns:FreeOnBoardValueAmountType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="InsuranceValueAmount" type="tns:InsuranceValueAmountType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ValueAmount" type="tns:ValueAmountType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="GrossWeightMeasure" type="tns:GrossWeightMeasureType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="NetWeightMeasure" type="tns:NetWeightMeasureType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ChargeableWeightMeasure" type="tns:ChargeableWeightMeasureType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="GrossVolumeMeasure" type="tns:GrossVolumeMeasureType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="NetVolumeMeasure" type="tns:NetVolumeMeasureType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Quantity" type="tns:QuantityType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="RequiredCustomsID" type="tns:RequiredCustomsIDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CustomsStatusCode" type="tns:CustomsStatusCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CustomsTariffQuantity" type="tns:CustomsTariffQuantityType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="CustomsImportClassifiedIndicator" type="tns:CustomsImportClassifiedIndicatorType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ChargeableQuantity" type="tns:ChargeableQuantityType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ReturnableQuantity" type="tns:ReturnableQuantityType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TraceID" type="tns:TraceIDType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Item" type="tns:ItemType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FreightAllowanceCharge" type="tns:AllowanceChargeType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="InvoiceLine" type="tns:InvoiceLineType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Temperature" type="tns:TemperatureType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="OriginAddress" type="tns:AddressType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MeasurementDimension" type="tns:DimensionType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ItemType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Description" type="tns:DescriptionType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Name" type="tns:NameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Keyword" type="tns:KeywordType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="BrandName" type="tns:BrandNameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ModelName" type="tns:ModelNameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="BuyersItemIdentification" type="tns:ItemIdentificationType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="SellersItemIdentification" type="tns:ItemIdentificationType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ManufacturersItemIdentification" type="tns:ItemIdentificationType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AdditionalItemIdentification" type="tns:ItemIdentificationType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="OriginCountry" type="tns:CountryType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CommodityClassification" type="tns:CommodityClassificationType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ItemInstance" type="tns:ItemInstanceType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ItemIdentificationType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CommodityClassificationType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ItemClassificationCode" type="tns:ItemClassificationCodeType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ItemInstanceType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ProductTraceID" type="tns:ProductTraceIDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ManufactureDate" type="tns:ManufactureDateType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ManufactureTime" type="tns:ManufactureTimeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="BestBeforeDate" type="tns:BestBeforeDateType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="RegistrationID" type="tns:RegistrationIDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="SerialID" type="tns:SerialIDType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AdditionalItemProperty" type="tns:ItemPropertyType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="LotIdentification" type="tns:LotIdentificationType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ItemPropertyType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Name" type="tns:NameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="NameCode" type="tns:NameCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TestMethod" type="tns:TestMethodType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Value" type="tns:ValueType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ValueQuantity" type="tns:ValueQuantityType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ValueQualifier" type="tns:ValueQualifierType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ImportanceCode" type="tns:ImportanceCodeType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ListValue" type="tns:ListValueType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="UsabilityPeriod" type="tns:PeriodType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ItemPropertyGroup" type="tns:ItemPropertyGroupType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="RangeDimension" type="tns:DimensionType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ItemPropertyRange" type="tns:ItemPropertyRangeType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ItemPropertyGroupType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Name" type="tns:NameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ImportanceCode" type="tns:ImportanceCodeType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="DimensionType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="AttributeID" type="tns:AttributeIDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Measure" type="tns:MeasureType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Description" type="tns:DescriptionType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="MinimumMeasure" type="tns:MinimumMeasureType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="MaximumMeasure" type="tns:MaximumMeasureType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ItemPropertyRangeType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="MinimumValue" type="tns:MinimumValueType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="MaximumValue" type="tns:MaximumValueType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="LotIdentificationType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="LotNumberID" type="tns:LotNumberIDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ExpiryDate" type="tns:ExpiryDateType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AdditionalItemProperty" type="tns:ItemPropertyType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AllowanceChargeType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ChargeIndicator" type="tns:ChargeIndicatorType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="AllowanceChargeReason" type="tns:AllowanceChargeReasonType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="MultiplierFactorNumeric" type="tns:MultiplierFactorNumericType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="SequenceNumeric" type="tns:SequenceNumericType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Amount" type="tns:AmountType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="BaseAmount" type="tns:BaseAmountType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="PerUnitAmount" type="tns:PerUnitAmountType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="InvoiceLineType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Note" type="tns:NoteType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="InvoicedQuantity" type="tns:InvoicedQuantityType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="LineExtensionAmount" type="tns:LineExtensionAmountType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="OrderLineReference" type="tns:OrderLineReferenceType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DespatchLineReference" type="tns:LineReferenceType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ReceiptLineReference" type="tns:LineReferenceType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Delivery" type="tns:DeliveryType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AllowanceCharge" type="tns:AllowanceChargeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TaxTotal" type="tns:TaxTotalType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="WithholdingTaxTotal" type="tns:TaxTotalType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Item" type="tns:ItemType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Price" type="tns:PriceType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SubInvoiceLine" type="tns:InvoiceLineType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PriceType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="PriceAmount" type="tns:PriceAmountType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TemperatureType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="AttributeID" type="tns:AttributeIDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Measure" type="tns:MeasureType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Description" type="tns:DescriptionType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ShipmentStageType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TransportModeCode" type="tns:TransportModeCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TransportMeansTypeCode" type="tns:TransportMeansTypeCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TransitDirectionCode" type="tns:TransitDirectionCodeType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Instructions" type="tns:InstructionsType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TransitPeriod" type="tns:PeriodType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TransportMeans" type="tns:TransportMeansType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DriverPerson" type="tns:PersonType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TransportMeansType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="JourneyID" type="tns:JourneyIDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="RegistrationNationalityID" type="tns:RegistrationNationalityIDType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="RegistrationNationality" type="tns:RegistrationNationalityType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DirectionCode" type="tns:DirectionCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TransportMeansTypeCode" type="tns:TransportMeansTypeCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TradeServiceCode" type="tns:TradeServiceCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Stowage" type="tns:StowageType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="AirTransport" type="tns:AirTransportType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="RoadTransport" type="tns:RoadTransportType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="RailTransport" type="tns:RailTransportType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="MaritimeTransport" type="tns:MaritimeTransportType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="OwnerParty" type="tns:PartyType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MeasurementDimension" type="tns:DimensionType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StowageType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="LocationID" type="tns:LocationIDType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Location" type="tns:LocationType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MeasurementDimension" type="tns:DimensionType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AirTransportType" />
+  <xs:complexType name="RoadTransportType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="LicensePlateID" type="tns:LicensePlateIDType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RailTransportType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="TrainID" type="tns:TrainIDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="RailCarID" type="tns:RailCarIDType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MaritimeTransportType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="VesselID" type="tns:VesselIDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="VesselName" type="tns:VesselNameType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="RadioCallSignID" type="tns:RadioCallSignIDType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ShipsRequirements" type="tns:ShipsRequirementsType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="GrossTonnageMeasure" type="tns:GrossTonnageMeasureType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="NetTonnageMeasure" type="tns:NetTonnageMeasureType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="RegistryCertificateDocumentReference" type="tns:DocumentReferenceType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="RegistryPortLocation" type="tns:LocationType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TransportHandlingUnitType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TransportHandlingUnitTypeCode" type="tns:TransportHandlingUnitTypeCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="HandlingCode" type="tns:HandlingCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="HandlingInstructions" type="tns:HandlingInstructionsType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="HazardousRiskIndicator" type="tns:HazardousRiskIndicatorType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TotalGoodsItemQuantity" type="tns:TotalGoodsItemQuantityType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TotalPackageQuantity" type="tns:TotalPackageQuantityType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DamageRemarks" type="tns:DamageRemarksType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TraceID" type="tns:TraceIDType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ActualPackage" type="tns:PackageType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TransportEquipment" type="tns:TransportEquipmentType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TransportMeans" type="tns:TransportMeansType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="HazardousGoodsTransit" type="tns:HazardousGoodsTransitType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MeasurementDimension" type="tns:DimensionType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="MinimumTemperature" type="tns:TemperatureType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="MaximumTemperature" type="tns:TemperatureType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="FloorSpaceMeasurementDimension" type="tns:DimensionType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="PalletSpaceMeasurementDimension" type="tns:DimensionType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ShipmentDocumentReference" type="tns:DocumentReferenceType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CustomsDeclaration" type="tns:CustomsDeclarationType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PackageType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Quantity" type="tns:QuantityType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ReturnableMaterialIndicator" type="tns:ReturnableMaterialIndicatorType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="PackageLevelCode" type="tns:PackageLevelCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="PackagingTypeCode" type="tns:PackagingTypeCodeType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PackingMaterial" type="tns:PackingMaterialType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ContainedPackage" type="tns:PackageType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="GoodsItem" type="tns:GoodsItemType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MeasurementDimension" type="tns:DimensionType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TransportEquipmentType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TransportEquipmentTypeCode" type="tns:TransportEquipmentTypeCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Description" type="tns:DescriptionType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="HazardousGoodsTransitType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="TransportEmergencyCardCode" type="tns:TransportEmergencyCardCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="PackingCriteriaCode" type="tns:PackingCriteriaCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="HazardousRegulationCode" type="tns:HazardousRegulationCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="InhalationToxicityZoneCode" type="tns:InhalationToxicityZoneCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TransportAuthorizationCode" type="tns:TransportAuthorizationCodeType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="MaximumTemperature" type="tns:TemperatureType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="MinimumTemperature" type="tns:TemperatureType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CustomsDeclarationType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="ID" type="tns:IDType" />
+      <xs:element minOccurs="0" maxOccurs="1" name="IssuerParty" type="tns:PartyType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetInvoiceRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INVOICE_SEARCH_KEY">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="LIMIT" type="xs:int" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ID" type="xs:normalizedString" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="UUID" type="xs:normalizedString" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="FROM" type="xs:token" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="TO" type="xs:token" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="START_DATE" type="xs:date" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="END_DATE" type="xs:date" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="READ_INCLUDED" type="xs:boolean" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="DIRECTION" type="xs:token" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SENDER" type="xs:token" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="RECEIVER" type="xs:token" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CR_START_DATE" type="xs:dateTime" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CR_END_DATE" type="xs:dateTime" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CONNECTORSTATUSDESCRIPTION" type="xs:normalizedString" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ISARCHIVED" type="xs:boolean" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ERP_STATUS" type="xs:string" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PAYABLE_AMOUNT" type="tns:AmountType" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="LASTPAYMENT_START_DATE" type="xs:dateTime" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="LASTPAYMENT_END_DATE" type="xs:dateTime" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SUBSCRIBER" type="xs:token" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ERP_REFERENCE" type="xs:normalizedString" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="OFFSET" type="xs:int" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ISOBJECTION" type="xs:boolean" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ISACTIVE" type="xs:boolean" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="DRAFTCHOICE" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="OZELALAN" type="xs:normalizedString" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="USERID" type="xs:normalizedString" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" default="N" form="unqualified" name="HEADER_ONLY" type="xs:token" />
+          <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="INVOICE_CONTENT_TYPE" type="tns:INVOICE_CONTENT_TYPE" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="GENERATE_ENTITY" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="INVOICE_CONTENT_TYPE">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="XML" />
+      <xs:enumeration value="PDF" />
+      <xs:enumeration value="HTML" />
+      <xs:enumeration value="ALL" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="MarkInvoiceRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="MARK">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="INVOICE" type="tns:INVOICE" />
+              </xs:sequence>
+              <xs:attribute name="value">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="READ" />
+                    <xs:enumeration value="UNREAD" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:attribute>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="PrepareInvoiceResponseRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="STATUS" type="xs:token" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="INVOICE" type="tns:INVOICE" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="DESCRIPTION" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SendInvoiceResponseRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element xmlns:q19="http://www.w3.org/2005/05/xmlmime" minOccurs="0" maxOccurs="unbounded" form="unqualified" name="APPRESPONSE" type="q19:base64Binary" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SendInvoiceResponseWithServerSignRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="STATUS" type="xs:token" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="INVOICE" type="tns:INVOICE" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="DESCRIPTION" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="CREATERETURNINVOICE" type="xs:boolean" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="GetUserListRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REGISTER_TIME_START" type="xs:dateTime" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REMOVED_TIME_START" type="xs:dateTime" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REMOVED_ONLY" type="xs:boolean" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="DOCUMENTTYPE" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="UNIT" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REGISTER_TIME_END" type="xs:dateTime" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="GetUserListBinaryRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" default="XML" form="unqualified" name="TYPE">
+            <xs:simpleType>
+              <xs:restriction base="xs:string">
+                <xs:enumeration value="ZIP" />
+                <xs:enumeration value="XML" />
+              </xs:restriction>
+            </xs:simpleType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="UNIT" type="xs:token" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="CheckUserRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="USER" type="tns:GIBUSER" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="GIBUSER">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="IDENTIFIER" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ALIAS" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="TITLE" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="TYPE" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REGISTER_TIME" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="UNIT" type="xs:token" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ALIAS_CREATION_TIME" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ALIAS_REMOVAL_TIME" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="DOCUMENTTYPE" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetInvoiceStatusRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INVOICE" type="tns:INVOICE" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="START_DATE" type="xs:date" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="END_DATE" type="xs:date" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CR_START_DATE" type="xs:date" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CR_END_DATE" type="xs:date" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="GetInvoiceStatusAllRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="UUID" type="xs:token" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="LoadInvoiceRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="INVOICE" type="tns:INVOICE" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SENDER">
+            <xs:complexType>
+              <xs:attribute name="vkn" type="xs:string" />
+              <xs:attribute name="alias" type="xs:string" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="RECEIVER">
+            <xs:complexType>
+              <xs:attribute name="vkn" type="xs:string" />
+              <xs:attribute name="alias" type="xs:string" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="GENERATEINVOICEIDONLOAD" type="xs:boolean" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="GetEnvelopeRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ENVELOPE_SEARCH_KEY">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="LIMIT" type="xs:int" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="IDENTIFIER" type="xs:normalizedString" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="FROM" type="xs:token" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="TO" type="xs:token" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="START_DATE" type="xs:date" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="END_DATE" type="xs:date" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="READ_INCLUDED" type="xs:boolean" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="DIRECTION" type="xs:token" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SENDER" type="xs:token" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="RECEIVER" type="xs:token" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="TYPE" type="xs:token" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ELEMENT">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="TYPE" type="xs:token" />
+                      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="UUID" type="xs:token" />
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" maxOccurs="1" default="N" form="unqualified" name="HEADER_ONLY" type="xs:token" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="MarkEnvelopeRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="MARK">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="ENVELOPE">
+                  <xs:complexType>
+                    <xs:attribute name="INSTANCEIDENTIFIER" type="xs:token" />
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+              <xs:attribute name="value">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="READ" />
+                    <xs:enumeration value="UNREAD" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:attribute>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="GetEnvelopeStatusRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="ENVELOPE">
+            <xs:complexType>
+              <xs:attribute name="INSTANCEIDENTIFIER" type="xs:token" />
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="REQUEST_ERRORType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="INTL_TXN_ID" type="xs:long" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CLIENT_TXN_ID" type="xs:token" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="ERROR_CODE" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ERROR_SHORT_DES" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ERROR_LONG_DES" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="STACKTRACE" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ERROR_ELEMENT_INDEX" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="LoginResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REQUEST_RETURN" type="tns:REQUEST_RETURNType" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SESSION_ID" type="xs:token" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="REQUEST_RETURNType">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="INTL_TXN_ID" type="xs:long" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CLIENT_TXN_ID" type="xs:token" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="RETURN_CODE" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="WARNINGS" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LoginResponse" type="tns:LoginResponse" />
+  <xs:element name="RequestFault" type="tns:REQUEST_ERRORType" />
+  <xs:element name="LogoutRequest" type="tns:LogoutRequest" />
+  <xs:complexType name="LogoutResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REQUEST_RETURN" type="tns:REQUEST_RETURNType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LogoutResponse" type="tns:LogoutResponse" />
+  <xs:element name="LoadInvoiceRequest" type="tns:LoadInvoiceRequest" />
+  <xs:complexType name="LoadInvoiceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REQUEST_RETURN" type="tns:REQUEST_RETURNType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="INVOICE" type="tns:INVOICE" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LoadInvoiceResponse" type="tns:LoadInvoiceResponse" />
+  <xs:element name="LoadInvoiceModelRequest" type="tns:LoadInvoiceRequestModel" />
+  <xs:complexType name="LoadInvoiceRequestModel">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INVOICE" type="tns:INVOICEMODEL" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="INVOICEMODEL">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INVOICEHEADER">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="PROFILEID" type="tns:GibInvoiceProfileType" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ID" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="UUID" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="ISSUEDATE" type="xs:dateTime" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ISSUETIME" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="INVOICETYPE" type="tns:GibInvoiceType" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="NOTE" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CURRENCY" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CUSTOMERPARTY">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="VKN" type="xs:string" />
+                  <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PK" type="xs:string" />
+                  <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CITY" type="xs:string" />
+                  <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="COUNTY" type="xs:string" />
+                  <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ADRESS" type="xs:string" />
+                  <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ADSOYAD" type="xs:string" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="ISACCOMODATION" type="xs:boolean" />
+            <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="ISDESPATCH" type="xs:boolean" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CARRIERPARTY">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="NAME" type="xs:string" />
+                  <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="IDENTITY" type="xs:string" />
+                  <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PLATENUMBER" type="xs:string" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="INVOICELINE">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="QUANTITY" type="xs:double" />
+            <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="PRICE" type="xs:double" />
+            <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="PERCENT" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="NAME" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="UNITCODE" type="xs:string" />
+            <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="ACCOMODATIONTAX" type="xs:boolean" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INVOICETOTAL">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="TOTAL" type="xs:decimal" />
+            <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="TOTALKDV" type="xs:decimal" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="GibInvoiceProfileType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Kagit" />
+      <xs:enumeration value="TemelFatura" />
+      <xs:enumeration value="TicariFatura" />
+      <xs:enumeration value="Ihracat" />
+      <xs:enumeration value="YolcuBeraberFatura" />
+      <xs:enumeration value="OzelFatura" />
+      <xs:enumeration value="Kamu" />
+      <xs:enumeration value="Hks" />
+      <xs:enumeration value="Enerji" />
+      <xs:enumeration value="OzelEarsivFatura" />
+      <xs:enumeration value="InteraktifFatura" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="GibInvoiceType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Kagit" />
+      <xs:enumeration value="Satis" />
+      <xs:enumeration value="Iade" />
+      <xs:enumeration value="Tevkifat" />
+      <xs:enumeration value="Istisna" />
+      <xs:enumeration value="OzelMatrah" />
+      <xs:enumeration value="IhracKayitli" />
+      <xs:enumeration value="Sgk" />
+      <xs:enumeration value="Komisyoncu" />
+      <xs:enumeration value="HksSatis" />
+      <xs:enumeration value="HksKomisyoncu" />
+      <xs:enumeration value="Tevkifatiade" />
+      <xs:enumeration value="konaklamavergisi" />
+      <xs:enumeration value="sarj" />
+      <xs:enumeration value="sarjanlık" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="LoadInvoiceModelResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INVOICE" type="tns:INVOICE" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="SONUC" type="xs:boolean" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ERROR" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="OPERATION" type="tns:DataOperation" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="DataOperation">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Added" />
+      <xs:enumeration value="Updated" />
+      <xs:enumeration value="Deleted" />
+      <xs:enumeration value="Undeleted" />
+      <xs:enumeration value="Cancel" />
+      <xs:enumeration value="Objection" />
+      <xs:enumeration value="Fail" />
+      <xs:enumeration value="EMailFail" />
+      <xs:enumeration value="AlreadyExist" />
+      <xs:enumeration value="NotFound" />
+      <xs:enumeration value="Workaround" />
+      <xs:enumeration value="NoUserRight" />
+      <xs:enumeration value="Completed" />
+      <xs:enumeration value="NoDataSpecified" />
+      <xs:enumeration value="ResponsedAlready" />
+      <xs:enumeration value="AcceptedAlready" />
+      <xs:enumeration value="AcceptedSinceTimeout" />
+      <xs:enumeration value="RejectedAlready" />
+      <xs:enumeration value="ResponseTimeOut" />
+      <xs:enumeration value="StatusError" />
+      <xs:enumeration value="AlreadyCancelled" />
+      <xs:enumeration value="AlreadyArchived" />
+      <xs:enumeration value="CertificateNotFound" />
+      <xs:enumeration value="ReturnedAlready" />
+      <xs:enumeration value="CloseWindowOnly" />
+      <xs:enumeration value="NoDatatoDelaer" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="LoadInvoiceModelResponse" type="tns:LoadInvoiceModelResponse" />
+  <xs:element name="SendInvoiceRequest" type="tns:SendInvoiceRequest" />
+  <xs:complexType name="SendInvoiceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REQUEST_RETURN" type="tns:REQUEST_RETURNType" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="INVOICE" type="tns:INVOICE" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SendInvoiceResponse" type="tns:SendInvoiceResponse" />
+  <xs:element name="GetInvoiceRequest" type="tns:GetInvoiceRequest" />
+  <xs:complexType name="ArrayOfINVOICE">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="INVOICE" type="tns:INVOICE" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetInvoiceResponse" type="tns:ArrayOfINVOICE" />
+  <xs:element name="MarkInvoiceRequest" type="tns:MarkInvoiceRequest" />
+  <xs:complexType name="MarkInvoiceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REQUEST_RETURN" type="tns:REQUEST_RETURNType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MarkInvoiceResponse" type="tns:MarkInvoiceResponse" />
+  <xs:element name="GetUserListRequest" type="tns:GetUserListRequest" />
+  <xs:complexType name="GetUserListResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Items" type="tns:GetUserListResponseX" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetUserListResponseX">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="Items" type="tns:GIBUSER" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetUserListResponse" type="tns:GetUserListResponse" />
+  <xs:element name="GetUserListBinaryRequest" type="tns:GetUserListBinaryRequest" />
+  <xs:complexType name="GetUserListBinaryResponse">
+    <xs:sequence>
+      <xs:element xmlns:q20="http://www.w3.org/2005/05/xmlmime" minOccurs="0" maxOccurs="1" form="unqualified" name="Item" type="q20:base64Binary" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="xml" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetUserListBinaryResponse" type="tns:GetUserListBinaryResponse" />
+  <xs:element name="CheckUserRequest" type="tns:CheckUserRequest" />
+  <xs:complexType name="ArrayOfGIBUSER">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="USER" type="tns:GIBUSER" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CheckUserResponse" type="tns:ArrayOfGIBUSER" />
+  <xs:element name="GetInvoiceStatusRequest" type="tns:GetInvoiceStatusRequest" />
+  <xs:complexType name="GetInvoiceStatusResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INVOICE_STATUS">
+        <xs:complexType>
+          <xs:complexContent mixed="false">
+            <xs:extension base="tns:INVOICE">
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="STATUS" type="xs:string" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="STATUS_DESCRIPTION" type="xs:string" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="GIB_STATUS_CODE" type="xs:int" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="GIB_STATUS_DESCRIPTION" type="xs:string" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="RESPONSE_CODE" type="xs:string" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="RESPONSE_DESCRIPTION" type="xs:string" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CDATE" type="xs:dateTime" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ENVELOPE_IDENTIFIER" type="xs:token" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="EARCHIVE_REPORT_STATUS" type="xs:token" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="EARCHIVE_CANCEL_REPORT_STATUS" type="xs:token" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="EARCHIVE_REPORT_STATUS_DESC" type="xs:token" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="EARCHIVE_CANCEL_REPORT_STATUS_DESC" type="xs:token" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="DIRECTION" type="xs:token" />
+              </xs:sequence>
+            </xs:extension>
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetInvoiceStatusResponse" type="tns:GetInvoiceStatusResponse" />
+  <xs:element name="SetInvoiceStatusRequest" type="tns:SetInvoiceStatusRequest" />
+  <xs:complexType name="SetInvoiceStatusRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INVOICE" type="tns:INVOICE" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SetInvoiceStatusResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INVOICE_STATUS">
+        <xs:complexType>
+          <xs:complexContent mixed="false">
+            <xs:extension base="tns:INVOICE" />
+          </xs:complexContent>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SetInvoiceStatusResponse" type="tns:SetInvoiceStatusResponse" />
+  <xs:element name="PrepareInvoiceResponseRequest" type="tns:PrepareInvoiceResponseRequest" />
+  <xs:complexType name="ArrayOfBase64Binary">
+    <xs:sequence>
+      <xs:element xmlns:q21="http://www.w3.org/2005/05/xmlmime" minOccurs="0" maxOccurs="unbounded" form="unqualified" name="APPRESPONSE" type="q21:base64Binary" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PrepareInvoiceResponseResponse" type="tns:ArrayOfBase64Binary" />
+  <xs:element name="SendInvoiceResponseRequest" type="tns:SendInvoiceResponseRequest" />
+  <xs:complexType name="SendInvoiceResponseResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REQUEST_RETURN" type="tns:REQUEST_RETURNType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SendInvoiceResponseResponse" type="tns:SendInvoiceResponseResponse" />
+  <xs:element name="SendInvoiceResponseWithServerSignRequest" type="tns:SendInvoiceResponseWithServerSignRequest" />
+  <xs:complexType name="SendInvoiceResponseWithServerSignResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REQUEST_RETURN" type="tns:REQUEST_RETURNType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SendInvoiceResponseWithServerSignResponse" type="tns:SendInvoiceResponseWithServerSignResponse" />
+  <xs:element name="GetEnvelopeRequest" type="tns:GetEnvelopeRequest" />
+  <xs:complexType name="ENVELOPE">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="HEADER">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SENDER" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="RECEIVER" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="FROM" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="TO" type="xs:token" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="DATE" type="xs:date" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="STATUS" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="STATUS_DESCRIPTION" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="GIB_STATUS_CODE" type="xs:int" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="GIB_STATUS_DESCRIPTION" type="xs:string" />
+            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="TYPE" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element xmlns:q22="http://www.w3.org/2005/05/xmlmime" minOccurs="0" maxOccurs="1" form="unqualified" name="CONTENT" type="q22:base64Binary" />
+    </xs:sequence>
+    <xs:attribute name="INSTANCEIDENTIFIER" type="xs:token" />
+  </xs:complexType>
+  <xs:complexType name="ArrayOfENVELOPE">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="ENVELOPE" type="tns:ENVELOPE" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetEnvelopeResponse" type="tns:ArrayOfENVELOPE" />
+  <xs:element name="MarkEnvelopeRequest" type="tns:MarkEnvelopeRequest" />
+  <xs:complexType name="MarkEnvelopeResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REQUEST_RETURN" type="tns:REQUEST_RETURNType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MarkEnvelopeResponse" type="tns:MarkEnvelopeResponse" />
+  <xs:element name="GetEnvelopeStatusRequest" type="tns:GetEnvelopeStatusRequest" />
+  <xs:element name="GetEnvelopeStatusResponse" type="tns:ArrayOfENVELOPE" />
+  <xs:element name="CancelInvoiceRequest" type="tns:CancelInvoiceRequest" />
+  <xs:complexType name="CancelInvoiceRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="INVOICE" type="tns:INVOICE" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="CancelInvoiceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REQUEST_RETURN" type="tns:REQUEST_RETURNType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CancelInvoiceResponse" type="tns:CancelInvoiceResponse" />
+  <xs:element name="DeCancelInvoiceRequest" type="tns:DeCancelInvoiceRequest" />
+  <xs:complexType name="DeCancelInvoiceRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="INVOICE" type="tns:INVOICE" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DeCancelInvoiceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REQUEST_RETURN" type="tns:REQUEST_RETURNType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DeCancelInvoiceResponse" type="tns:DeCancelInvoiceResponse" />
+  <xs:element name="ObjectionInvoiceRequest" type="tns:ObjectionInvoiceRequest" />
+  <xs:complexType name="ObjectionInvoiceRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INVOICE" type="tns:INVOICE" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="OBJECTION_DOCUMENT_NO" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="OBJECTION_DOCUMENT_DATE" nillable="true" type="xs:dateTime" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="OBJECTION_METHOD" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="OBJECTION_DESCRIPTION" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ObjectionInvoiceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REQUEST_RETURN" type="tns:REQUEST_RETURNType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ObjectionInvoiceResponse" type="tns:ObjectionInvoiceResponse" />
+  <xs:element name="GetSessionInfoRequest" type="tns:GetSessionInfoRequest" />
+  <xs:complexType name="GetSessionInfoRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SESION_ID" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="GetSessionInfoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REQUEST_RETURN" type="tns:REQUEST_RETURNType" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="ISVALID" type="xs:boolean" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="EXISTFROM" nillable="true" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetSessionInfoResponse" type="tns:GetSessionInfoResponse" />
+  <xs:element name="EmailInvoiceRequest" type="tns:EmailInvoiceRequest" />
+  <xs:complexType name="EmailInvoiceRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="INVOICE" type="tns:INVOICE" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="EMAILS" type="xs:token" />
+          <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="INVOICE_CONTENT_TYPE" type="tns:INVOICE_CONTENT_TYPE" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="EmailInvoiceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REQUEST_RETURN" type="tns:REQUEST_RETURNType" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REMARK" type="xs:token" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="EmailInvoiceResponse" type="tns:EmailInvoiceResponse" />
+  <xs:element name="ArchiveInvoiceRequest" type="tns:ArchiveInvoiceRequest" />
+  <xs:complexType name="ArchiveInvoiceRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ARCHIVE">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="INVOICE" type="tns:INVOICE" />
+              </xs:sequence>
+              <xs:attribute name="value">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="ARCHIVE" />
+                    <xs:enumeration value="DEARCHIVE" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:attribute>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ArchiveInvoiceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REQUEST_RETURN" type="tns:REQUEST_RETURNType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArchiveInvoiceResponse" type="tns:ArchiveInvoiceResponse" />
+  <xs:element name="SetArchiveInvoiceRequest" type="tns:SetArchiveInvoiceRequest" />
+  <xs:complexType name="SetArchiveInvoiceRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="INVOICE" type="tns:INVOICE" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SetArchiveInvoiceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="REQUEST_RETURN" type="tns:SetArchiveInvoiceResponseList" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SetArchiveInvoiceResponseList">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="RESULT" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="SUCCES" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SetArchiveInvoiceResponse" type="tns:SetArchiveInvoiceResponse" />
+  <xs:element name="CheckCounterRequest" type="tns:CheckCounterRequest" />
+  <xs:complexType name="CheckCounterResponse">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="COUNTER_LEFT" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CheckCounterResponse" type="tns:CheckCounterResponse" />
+  <xs:element name="GetInvoiceSerialRequest" type="tns:GetInvoiceSerialRequest" />
+  <xs:complexType name="GetInvoiceSerialResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Items" type="tns:GetInvoiceSerialResponseX" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetInvoiceSerialResponseX">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="Items" type="tns:INVOICESERIALLIST" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="INVOICESERIALLIST">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INVOICESERIALCODE" type="xs:token" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="YEAR" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SOURCESYSTEMNAME" type="xs:token" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="COMPANYNAME" type="xs:token" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="COMPANYID" nillable="true" type="xs:int" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="LASTINVOICEDATEUSED" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="LASTSERIALUSED" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INVOİCESENDTYPE" type="xs:token" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetInvoiceSerialResponse" type="tns:GetInvoiceSerialResponse" />
+  <xs:element name="GetInvoiceResponseDateRequest" type="tns:GetInvoiceResponseDateRequest" />
+  <xs:complexType name="GetInvoiceResponseDateRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INVOICERESPONSEDATE_SEARCH_KEY">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="INVOICERESPONSESTARTDATE" type="xs:dateTime" />
+                <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="INVOICERESPONSEENDDATE" type="xs:dateTime" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INVOICENUMBER" type="xs:token" />
+                <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="COMPANYTAXNUMBER" type="xs:token" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="GetInvoiceResponseDateResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Items" type="tns:GetInvoiceResponseDateResponseX" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetInvoiceResponseDateResponseX">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="Items" type="tns:INVOICERESPONSEDATELIST" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="INVOICERESPONSEDATELIST">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="INVOICERESPONSEDATE" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="INVOICENUMBER" type="xs:token" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SUPPLIERTAXNUMBER" type="xs:token" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SUPPIİERNAME" type="xs:token" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="STATUSCODE" type="xs:token" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="STATUSDESC" type="xs:token" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetInvoiceResponseDateResponse" type="tns:GetInvoiceResponseDateResponse" />
+  <xs:element name="GetStokRequest" type="tns:GetStokRequest" />
+  <xs:complexType name="GetStokResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Items" type="tns:GetStokResponseX" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetStokResponseX">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="Items" type="tns:STOKLIST" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="STOKLIST">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ErpStockRef" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ErpStockCode" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ErpStockName" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="InvoiceCodes" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ErpCardType" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="UnitCode" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ISACTİVE" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetStokResponse" type="tns:GetStokResponse" />
+  <xs:element name="GetTurmobRequest" type="tns:GetTurmobRequest" />
+  <xs:complexType name="GetTurmobRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="VKN" type="xs:token" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="GetTurmobResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="MUKELLEF" type="tns:Mukellef" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Mukellef">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="durum" type="tns:Durum" />
+      <xs:element minOccurs="0" maxOccurs="1" name="vkn" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="tckn" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ad" />
+      <xs:element minOccurs="0" maxOccurs="1" name="soyad" />
+      <xs:element minOccurs="0" maxOccurs="1" name="babaAdi" />
+      <xs:element minOccurs="0" maxOccurs="1" name="vergiDairesiAdi" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="vergiDairesiKodu" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="sirketinTuru" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="faalTerkDurumu" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="nACEFaaliyetKoduveTanimi" type="tns:ArrayOfNACEFaaliyetKoduveTanimi" />
+      <xs:element minOccurs="0" maxOccurs="1" name="adresBilgileri" type="tns:ArrayOfAdresBilgileri" />
+      <xs:element minOccurs="0" maxOccurs="1" name="iseBaslamaTarihi" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="isiBirakmaTarihi" />
+      <xs:element minOccurs="0" maxOccurs="1" name="kimlikUnvani" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="unvan" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="kurulusTarihi" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="tamDarMukellefiyet" />
+      <xs:element minOccurs="0" maxOccurs="1" name="kimlikPotansiyel" />
+      <xs:element minOccurs="0" maxOccurs="1" name="dogumYeri" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Durum">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="durumKodu" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="durumKodAciklamasi" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="hataDetayBilgisi" />
+      <xs:element minOccurs="1" maxOccurs="1" name="sonuc" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfNACEFaaliyetKoduveTanimi">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="NACEFaaliyetKoduveTanimi" nillable="true" type="tns:NACEFaaliyetKoduveTanimi" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NACEFaaliyetKoduveTanimi">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="faaliyetAdi" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="faaliyetKodu" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="sira" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfAdresBilgileri">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AdresBilgileri" nillable="true" type="tns:AdresBilgileri" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AdresBilgileri">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="adresTipi" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="adresTipiAciklamasi" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="mahalleSemt" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="koy" />
+      <xs:element minOccurs="0" maxOccurs="1" name="caddeSokak" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="disKapiNo" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="icKapiNo" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="beldeBucak" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ilceAdi" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ilAdi" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ilKodu" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ilceKodu" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetTurmobResponse" type="tns:GetTurmobResponse" />
+  <xs:element name="GetErpRequest" type="tns:GetErpRequest" />
+  <xs:complexType name="GetErpResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Items" type="tns:GetErpResponseX" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetErpResponseX">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Items" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetErpResponse" type="tns:GetErpResponse" />
+  <xs:element name="orderService" type="tns:orderService" />
+  <xs:complexType name="orderService">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="partnerId" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="opcoId" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="opcoCustomerId" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="requestId" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="opcoSubscriptionId" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="accountData" type="tns:accountData" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="accountData">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="companyName" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="email" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="orderServiceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="resultCode" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="vfExtendedHeader">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="traceIdentifier" type="tns:traceIdentifiervf" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="customerId" type="tns:customerIdvf" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="traceIdentifiervf">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="applicationId" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="serviceId" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="serviceInterfaceVersion" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="timestamp" type="xs:dateTime" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="referenceId" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="identityId" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="customerIdvf">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="type" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="identifier" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="vfExtendedHeader" type="tns:vfExtendedHeader" />
+  <xs:element name="orderServiceResponse" type="tns:orderServiceResponse" />
+  <xs:element name="updateService" type="tns:updateService" />
+  <xs:complexType name="updateService">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="partnerId" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="opcoId" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="opcoCustomerId" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="requestId" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="opcoSubscriptionId" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="subscriptionUpdateAction" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="accountData" type="tns:accountData" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="updateServiceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="resultCode" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="updateServiceResponse" type="tns:updateServiceResponse" />
+  <xs:element name="PostEventRequest" type="tns:PostEventRequest" />
+  <xs:complexType name="PostEventRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="customerId" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="eventTimestamp" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="accountEvent" type="tns:accountEvent" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="changeEvent" type="tns:changeEvent" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="accountEvent">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="accountActivityAction" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="lostOrStolenFlag" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="changeEvent">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="tariffChange" type="tns:tariffChange" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="tariffChange">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="newTariff" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PostEventResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="resultCode" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="vfHeader">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="traceIdentifier" type="tns:traceIdentifiervf" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="vfHeader" type="tns:vfHeader" />
+  <xs:element name="PostEventResponse" type="tns:PostEventResponse" />
+  <xs:element name="MaliMusavirListRequest" type="tns:MaliMusavirListRequest" />
+  <xs:complexType name="MaliMusavirListRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Token" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="MM_Username" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="MM_Pass" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="MM_Name" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="MM_Tel" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="MM_Mail" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="MM_InsertVerificationCode" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MaliMusavirListResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="COMPANY" type="tns:MaliMusavirList" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="SUCCES" type="xs:boolean" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="MESSAGE" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MaliMusavirList">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="COMPANYID" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="COMPANYNAME" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="VKN" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="GIBALIAS" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MaliMusavirListResponse" type="tns:MaliMusavirListResponse" />
+  <xs:element name="MaliMusavirInfoRequest" type="tns:MaliMusavirInfoRequest" />
+  <xs:complexType name="MaliMusavirInfoRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="USERNAME" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PASS" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="MM_VKN" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="MM_GIBCODE" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="MM_GIBPASS" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetCompanyRequest" type="tns:GetCompanyRequest" />
+  <xs:complexType name="GetCompanyBasicResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="GetCompanyBasicList" type="tns:GetCompanyBasicResponseList" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetCompanyBasicResponseList">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="ID" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="VERGINO" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="UNVAN" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PK" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="DEALERID" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REPRESANT" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REPRESANT_TEL" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="REPRESANT_MAIL" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="DEALER" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="DEALER_MAIL" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="DEALER_TEL" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="FATURA" type="xs:int" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="SMM" type="xs:int" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="ONMUHASEBE" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetCompanyBasicResponse" type="tns:GetCompanyBasicResponse" />
+  <xs:element name="GetEDefterRequest" type="tns:GetEDefterRequest" />
+  <xs:complexType name="GetEDefterRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="USER_NAME" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PASSWORD" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="TAXNUMBER" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="GetEDefterBasicResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="GetEDefterList" type="tns:GetEDefterResponseList" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="GetEDefterResponseList">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="ID" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="VERGINO" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="UNVAN" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="DOSYAADI" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="DOSYATIP" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="AY" type="xs:int" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="YIL" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="DURUM" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="OLUSTURMA_TARIH" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="ISLEM_TARIH" nillable="true" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GetEDefterBasicResponse" type="tns:GetEDefterBasicResponse" />
+  <xs:element name="LoadExpenseSlipRequest" type="tns:LoadExpenseSlipRequest" />
+  <xs:complexType name="LoadExpenseSlipRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ExpenseSlip" type="tns:GiderPusulasi" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="GiderPusulasi" mixed="true">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseEntity">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="Seri" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="SiraNo" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Tarih" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Sehir" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Gonderici" type="tns:Gonderici" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Alici" type="tns:Alici" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Satir" type="tns:Satir" />
+          <xs:element minOccurs="0" maxOccurs="1" name="Toplam" type="tns:Total" />
+        </xs:sequence>
+        <xs:attribute name="xsi" type="xs:string" />
+        <xs:attribute name="xsd" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="BaseEntity">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:IEntity">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="Id" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="IEntity" />
+  <xs:complexType name="Gonderici">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="VKNorTCKN" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="UnvanorAdSoyad" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Adres" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Mail" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="VergiDairesi" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Alici">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="AdSoyad" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="TCKN" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Adres" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="PlakaNo" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Satir">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SatirBilgi" type="tns:SatirBilgi" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SatirBilgi">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Mahiyet" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Cinsi" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Adet" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Fiyat" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="Tutar" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Total">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="1" name="Toplam" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="GelirVergisiOran" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="GelirVergisiTutar" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="DigerKesintiler" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="KesintiToplami" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="KDV" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="ToolamOdenecekTutar" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="LoadExpenseSlipResponse">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="SUCCES" type="xs:boolean" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="MESSAGE" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="LoadExpenseSlipResponse" type="tns:LoadExpenseSlipResponse" />
+  <xs:element name="VerifityInvoiceRequest" type="tns:VerifityInvoiceRequest" />
+  <xs:complexType name="VerifityInvoiceRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:REQUEST">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="INVOICE" type="tns:INVOICE" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="VerifityInvoiceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="SUCCES" type="xs:boolean" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="MESSAGE" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="UUID" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfVerifityInvoiceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="VerifityInvoiceResponse" nillable="true" type="tns:VerifityInvoiceResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="VerifityInvoiceResponse" type="tns:ArrayOfVerifityInvoiceResponse" />
+</xs:schema>

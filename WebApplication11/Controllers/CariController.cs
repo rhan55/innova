@@ -10,6 +10,8 @@ using System.Web;
 using System.Data.OleDb;
 using System.Collections;
 using System.Web.Http.Results;
+using YKEFaturaEntegrasyon.LogoPostBoxService;
+using System.Text.Json;
 
 namespace YKPortal.Controllers
 {
@@ -1200,22 +1202,63 @@ namespace YKPortal.Controllers
         [HttpPost]
         public JsonResult CariEFaturaBilgiGuncelle(CariEFaturaBilgiGuncelleDto cariEFaturaBilgiGuncelleDto)
         {
+            var cari = Getir(cariEFaturaBilgiGuncelleDto.CariID);
 
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "p_CariEFaturaBilgiGuncelle";
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@CariID", cariEFaturaBilgiGuncelleDto.CariID);
-            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-            cmd.Parameters.AddWithValue("@EFaturaKayitTarihi", cariEFaturaBilgiGuncelleDto.EFaturaKayitTarihi);
-            cmd.Parameters.AddWithValue("@EFaturaPKAdresi", cariEFaturaBilgiGuncelleDto.EFaturaPKAdresi);
-            cmd.Parameters.AddWithValue("EIrsaliyePKAdresi", cariEFaturaBilgiGuncelleDto.EIrsaliyePKAdresi);
-            cmd.Parameters.AddWithValue("@EFatura", cariEFaturaBilgiGuncelleDto.EFatura);
-            cmd.Parameters.AddWithValue("@EIrsaliye", cariEFaturaBilgiGuncelleDto.EIrsaliye);
-            cmd.Parameters.AddWithValue("@EFaturaSenaryo", cariEFaturaBilgiGuncelleDto.EFaturaSenaryo);
-            cmd.Parameters.AddWithValue("@EFaturaAktiflik", cariEFaturaBilgiGuncelleDto.EFaturaAktiflik);
-            cmd.Parameters.AddWithValue("@EIrsaliyeAktiflik", cariEFaturaBilgiGuncelleDto.EIrsaliyeAktiflik);
-           
-            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            try
+            {
+                using (PostBoxServiceClient svc = new PostBoxServiceClient("https://pb-g.elogo.com.tr/PostBoxService.svc"))
+                {
+                    string sessionId = "";
+
+                    if (svc.Login(new LoginType { userName = "9811613622", passWord = "1986*1986rY" }, out sessionId))
+                    {
+                        GibUserType[] userTypes = null;
+
+                        var result = svc.CheckGibUser(sessionId, new string[1] { cari.VergiNumarasi + cari.TCKimlikNo }, out userTypes);
+
+                        if (userTypes != null && userTypes.Length > 0)
+                        {
+                            if (userTypes[0].InvoiceGbList.Length > 0)
+                            {
+                                foreach (var item in userTypes[0].InvoiceGbList)
+                                {
+                                    Console.WriteLine(JsonSerializer.Serialize(item));
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (Exception ex)
+            {
+                Console.WriteLine(JsonSerializer.Serialize(ex));
+            }
+            
+            //SqlCommand cmd = new SqlCommand();
+            //cmd.CommandText = "p_CariEFaturaBilgiGuncelle";
+            //cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //cmd.Parameters.AddWithValue("@CariID", cariEFaturaBilgiGuncelleDto.CariID);
+            //cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            //cmd.Parameters.AddWithValue("@EFaturaKayitTarihi", cariEFaturaBilgiGuncelleDto.EFaturaKayitTarihi);
+            //cmd.Parameters.AddWithValue("@EFaturaPKAdresi", cariEFaturaBilgiGuncelleDto.EFaturaPKAdresi);
+            //cmd.Parameters.AddWithValue("EIrsaliyePKAdresi", cariEFaturaBilgiGuncelleDto.EIrsaliyePKAdresi);
+            //cmd.Parameters.AddWithValue("@EFatura", cariEFaturaBilgiGuncelleDto.EFatura);
+            //cmd.Parameters.AddWithValue("@EIrsaliye", cariEFaturaBilgiGuncelleDto.EIrsaliye);
+            //cmd.Parameters.AddWithValue("@EFaturaSenaryo", cariEFaturaBilgiGuncelleDto.EFaturaSenaryo);
+            //cmd.Parameters.AddWithValue("@EFaturaAktiflik", cariEFaturaBilgiGuncelleDto.EFaturaAktiflik);
+            //cmd.Parameters.AddWithValue("@EIrsaliyeAktiflik", cariEFaturaBilgiGuncelleDto.EIrsaliyeAktiflik);
+
+            //DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            //var data = new
+            //{
+            //    EFaturaKayitTarihi = "Tarih",
+            //    EFaturaPKAdresi = "Adres",
+            //    EIrsaliyePKAdresi = "Irsaliye Adresi",
+            //    EFatura = "Fatura",
+            //    EIrsaliye = "Irsaliye",
+            //    EFaturaSenaryo = "Senaryo",
+            //    EFaturaAktiflik = true,
+            //    EIrsaliyeAktiflik = false
+            //};
 
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
@@ -1272,7 +1315,9 @@ namespace YKPortal.Controllers
                 return new CariDto
                 {
                     ID = Convert.ToString(dt.Rows[0]["ID"]),
-                    Isim = Convert.ToString(dt.Rows[0]["Isim"])
+                    Isim = Convert.ToString(dt.Rows[0]["Isim"]),
+                    VergiNumarasi = Convert.ToString(dt.Rows[0]["VergiNumarasi"]),
+                    TCKimlikNo = Convert.ToString(dt.Rows[0]["TCKimlikNo"]),
                 };
             }
             return new CariDto { };

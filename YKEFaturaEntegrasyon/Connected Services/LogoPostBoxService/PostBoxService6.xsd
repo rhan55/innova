@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/CommonLib.Model" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/CommonLib.Model" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfDocumentStatusBatchType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DocumentStatusBatchType" nillable="true" type="tns:DocumentStatusBatchType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDocumentStatusBatchType" nillable="true" type="tns:ArrayOfDocumentStatusBatchType" />
+  <xs:complexType name="DocumentStatusBatchType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="alias" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="code" type="xs:int" />
+      <xs:element minOccurs="0" name="currentDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="envelopeId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="isCancel" type="xs:boolean" />
+      <xs:element minOccurs="0" name="status" type="xs:int" />
+      <xs:element minOccurs="0" name="statusDetail" nillable="true" type="tns:StatusDetail" />
+      <xs:element minOccurs="0" name="uuid" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DocumentStatusBatchType" nillable="true" type="tns:DocumentStatusBatchType" />
+  <xs:complexType name="StatusDetail">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ElementId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RespCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RespDescription" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="StatusDetail" nillable="true" type="tns:StatusDetail" />
+  <xs:complexType name="ArrayOfTax">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Tax" nillable="true" type="tns:Tax" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTax" nillable="true" type="tns:ArrayOfTax" />
+  <xs:complexType name="Tax">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="TaxRate" type="xs:double" />
+      <xs:element minOccurs="0" name="TaxValue" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Tax" nillable="true" type="tns:Tax" />
+  <xs:complexType name="ArrayOfMailStatusResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MailStatusResult" nillable="true" type="tns:MailStatusResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMailStatusResult" nillable="true" type="tns:ArrayOfMailStatusResult" />
+  <xs:complexType name="MailStatusResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MailStatusDetailList" nillable="true" type="tns:ArrayOfMailStatusDetail" />
+      <xs:element minOccurs="0" name="Uuid" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MailStatusResult" nillable="true" type="tns:MailStatusResult" />
+  <xs:complexType name="ArrayOfMailStatusDetail">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MailStatusDetail" nillable="true" type="tns:MailStatusDetail" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMailStatusDetail" nillable="true" type="tns:ArrayOfMailStatusDetail" />
+  <xs:complexType name="MailStatusDetail">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EMail" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Status" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MailStatusDetail" nillable="true" type="tns:MailStatusDetail" />
+  <xs:complexType name="ArrayOfPrefixLastNumber">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PrefixLastNumber" nillable="true" type="tns:PrefixLastNumber" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPrefixLastNumber" nillable="true" type="tns:ArrayOfPrefixLastNumber" />
+  <xs:complexType name="PrefixLastNumber">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Counter" type="xs:int" />
+      <xs:element minOccurs="0" name="InvoicePrefix" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Type" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PrefixLastNumber" nillable="true" type="tns:PrefixLastNumber" />
+  <xs:complexType name="TurmobResponseModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Data" nillable="true" type="tns:TurmobDataModel" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="tns:ArrayOfTurmobMessageModel" />
+      <xs:element minOccurs="0" name="Success" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TurmobResponseModel" nillable="true" type="tns:TurmobResponseModel" />
+  <xs:complexType name="TurmobDataModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ad" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="adresBilgileri" nillable="true" type="tns:ArrayOfTurmobAddressInfo" />
+      <xs:element minOccurs="0" name="babaAdi" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="dogumYeri" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="durum" nillable="true" type="tns:TurmobStatus" />
+      <xs:element minOccurs="0" name="faalTerkDurumu" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="iseBaslamaTarihi" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="isiBirakmaTarihi" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="kimlikPotansiyel" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="kimlikUnvani" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="kurulusTarihi" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="nACEFaaliyetKoduveTanimi" nillable="true" type="tns:ArrayOfTurmobAceActivityInfo" />
+      <xs:element minOccurs="0" name="sirketinTuru" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="soyad" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="tamDarMukellefiyet" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="tckn" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="unvan" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="vergiDairesiAdi" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="vergiDairesiKodu" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="vkn" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TurmobDataModel" nillable="true" type="tns:TurmobDataModel" />
+  <xs:complexType name="ArrayOfTurmobAddressInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TurmobAddressInfo" nillable="true" type="tns:TurmobAddressInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTurmobAddressInfo" nillable="true" type="tns:ArrayOfTurmobAddressInfo" />
+  <xs:complexType name="TurmobAddressInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="adresTipi" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="adresTipiAciklamasi" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="beldeBucak" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="caddeSokak" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="disKapiNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="icKapiNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ilAdi" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ilKodu" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ilceAdi" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ilceKodu" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="koy" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="mahalleSemt" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TurmobAddressInfo" nillable="true" type="tns:TurmobAddressInfo" />
+  <xs:complexType name="TurmobStatus">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="durumKodAciklamasi" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="durumKodu" type="xs:int" />
+      <xs:element minOccurs="0" name="hataDetayBilgisi" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sonuc" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TurmobStatus" nillable="true" type="tns:TurmobStatus" />
+  <xs:complexType name="ArrayOfTurmobAceActivityInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TurmobAceActivityInfo" nillable="true" type="tns:TurmobAceActivityInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTurmobAceActivityInfo" nillable="true" type="tns:ArrayOfTurmobAceActivityInfo" />
+  <xs:complexType name="TurmobAceActivityInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="faaliyetAdi" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="faaliyetKodu" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="sira" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TurmobAceActivityInfo" nillable="true" type="tns:TurmobAceActivityInfo" />
+  <xs:complexType name="ArrayOfTurmobMessageModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TurmobMessageModel" nillable="true" type="tns:TurmobMessageModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTurmobMessageModel" nillable="true" type="tns:ArrayOfTurmobMessageModel" />
+  <xs:complexType name="TurmobMessageModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Type" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UId" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TurmobMessageModel" nillable="true" type="tns:TurmobMessageModel" />
+</xs:schema>

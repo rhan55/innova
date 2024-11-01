@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="83077829-8238-4266-97c8-91fa554e5057" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="https://pb-g.elogo.com.tr/PostBoxService.svc?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="PostBoxService.xsd" MetadataType="Schema" ID="e20d614d-9d95-4f56-9a68-bb9f72c4bc6c" SourceId="1" SourceUrl="https://pb-g.elogo.com.tr/PostBoxService.svc?xsd=xsd6" />
+    <MetadataFile FileName="PostBoxService1.xsd" MetadataType="Schema" ID="a69fa5f7-e980-426f-af08-7fc8da4a4389" SourceId="1" SourceUrl="https://pb-g.elogo.com.tr/PostBoxService.svc?xsd=xsd7" />
+    <MetadataFile FileName="PostBoxService2.xsd" MetadataType="Schema" ID="3d6a0219-3ae1-4b1c-912c-31427d9e515e" SourceId="1" SourceUrl="https://pb-g.elogo.com.tr/PostBoxService.svc?xsd=xsd0" />
+    <MetadataFile FileName="PostBoxService3.xsd" MetadataType="Schema" ID="2f676f80-6d0d-49ae-a4d1-222f12fdaca8" SourceId="1" SourceUrl="https://pb-g.elogo.com.tr/PostBoxService.svc?xsd=xsd1" />
+    <MetadataFile FileName="PostBoxService4.xsd" MetadataType="Schema" ID="dac02e76-5031-4e35-8c80-9af39db80673" SourceId="1" SourceUrl="https://pb-g.elogo.com.tr/PostBoxService.svc?xsd=xsd2" />
+    <MetadataFile FileName="PostBoxService5.xsd" MetadataType="Schema" ID="64eed23f-fed6-47c9-a1df-b98213720884" SourceId="1" SourceUrl="https://pb-g.elogo.com.tr/PostBoxService.svc?xsd=xsd3" />
+    <MetadataFile FileName="PostBoxService.wsdl" MetadataType="Wsdl" ID="31cfd466-01e0-4151-ae32-23c422661fe7" SourceId="1" SourceUrl="https://pb-g.elogo.com.tr/PostBoxService.svc?wsdl" />
+    <MetadataFile FileName="PostBoxService6.xsd" MetadataType="Schema" ID="3f009819-0987-4a21-b426-89c9868df3ae" SourceId="1" SourceUrl="https://pb-g.elogo.com.tr/PostBoxService.svc?xsd=xsd10" />
+    <MetadataFile FileName="PostBoxService7.xsd" MetadataType="Schema" ID="e0c456d7-87d0-49f3-9d1b-113fcad22535" SourceId="1" SourceUrl="https://pb-g.elogo.com.tr/PostBoxService.svc?xsd=xsd8" />
+    <MetadataFile FileName="PostBoxService8.xsd" MetadataType="Schema" ID="8a3ade18-e249-4b59-be45-5b17465ccb2e" SourceId="1" SourceUrl="https://pb-g.elogo.com.tr/PostBoxService.svc?xsd=xsd9" />
+    <MetadataFile FileName="PostBoxService9.xsd" MetadataType="Schema" ID="3f0f8700-2075-426c-8e1d-f47f19d6333e" SourceId="1" SourceUrl="https://pb-g.elogo.com.tr/PostBoxService.svc?xsd=xsd11" />
+    <MetadataFile FileName="PostBoxService10.xsd" MetadataType="Schema" ID="50ecc6a8-49a4-4696-83ab-ad60e262e031" SourceId="1" SourceUrl="https://pb-g.elogo.com.tr/PostBoxService.svc?xsd=xsd4" />
+    <MetadataFile FileName="PostBoxService11.xsd" MetadataType="Schema" ID="c608932f-35c3-4727-a85c-a491683cecaf" SourceId="1" SourceUrl="https://pb-g.elogo.com.tr/PostBoxService.svc?xsd=xsd5" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

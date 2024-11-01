@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/eFaturaWebService.Model" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/eFaturaWebService.Model" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfUserAccountServiceList">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="UserAccountServiceList" nillable="true" type="tns:UserAccountServiceList" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUserAccountServiceList" nillable="true" type="tns:ArrayOfUserAccountServiceList" />
+  <xs:complexType name="UserAccountServiceList">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AccountName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FormattedName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Services" nillable="true" type="tns:ArrayOfUserAccountServiceInfo" />
+      <xs:element minOccurs="0" name="VknTckn" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UserAccountServiceList" nillable="true" type="tns:UserAccountServiceList" />
+  <xs:complexType name="ArrayOfUserAccountServiceInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="UserAccountServiceInfo" nillable="true" type="tns:UserAccountServiceInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUserAccountServiceInfo" nillable="true" type="tns:ArrayOfUserAccountServiceInfo" />
+  <xs:complexType name="UserAccountServiceInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ActivateDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ServiceCode" type="xs:int" />
+      <xs:element minOccurs="0" name="ServiceName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ServiceStatus" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StatusDescription" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UserAccountServiceInfo" nillable="true" type="tns:UserAccountServiceInfo" />
+  <xs:complexType name="ArrayOfServiceActivationResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ServiceActivationResult" nillable="true" type="tns:ServiceActivationResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfServiceActivationResult" nillable="true" type="tns:ArrayOfServiceActivationResult" />
+  <xs:complexType name="ServiceActivationResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ServiceCode" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ServiceActivationResult" nillable="true" type="tns:ServiceActivationResult" />
+</xs:schema>

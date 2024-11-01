@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Duzenle";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutTab.cshtml";
 }
 <div class="container">
     <form id="kt_modal_add_user_form" class="form container" action="@Url.Action("Duzenle","Depo",new { UyelikID = Convert.ToString(Model.Rows[0]["UyelikID"]), ID = Convert.ToString(Model.Rows[0]["ID"]) } )" method="post">

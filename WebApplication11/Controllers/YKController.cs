@@ -666,6 +666,9 @@ namespace YKPortal.Controllers
         [HttpGet]
         public ActionResult TabBaslangic()
         {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
             return View();
         }
 
@@ -693,13 +696,7 @@ namespace YKPortal.Controllers
                 cmd.Parameters.AddWithValue("@KullaniciAdi", KullaniciAdi);
                 cmd.Parameters.AddWithValue("@Parola", Parola);
 
-                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
-
-                // HttpCookie bitisGunuCookie = new HttpCookie("BitisGunuCookie");
-                //bitisGunuCookie.Value = BitisGunu.ToString(); // bitisGunu DateTime tipinde olmalı
-                //bitisGunuCookie.Expires = DateTime.Now.AddDays(30); // Örnek olarak cookie'nin 30 gün geçerli olmasını sağlar
-                //Response.Cookies.Add(bitisGunuCookie);
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);               
 
 
                 if (dt.Rows.Count > 0)
