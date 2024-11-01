@@ -18,8 +18,6 @@ namespace YKPortal.Areas.Depo.Controllers
 {
     public class NetsisDepoController : Controller
     {
-
-
         [HttpGet]
         public ActionResult NetsisStokEkbilgiDuzenle(string Belge_Barkod = "")
         {
