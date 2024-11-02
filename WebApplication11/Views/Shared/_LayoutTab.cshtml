@@ -135,7 +135,12 @@
         <span class="text-muted fs-6 fw-semibold mt-5">Sayfa Yükleniyor...</span>
     </div>
     <!--end::Page loading-->
-    <!--begin::App-->
+    <div id="tabContainer" style="padding-bottom: 5px;">
+        <ul id="tabs" style="list-style: none; display: flex; gap: 5px; padding: 0; margin: 0;">
+        </ul>
+        <div id="tabContents">
+        </div>
+    </div>
     @RenderBody()
     <!--end::App-->
     <!--begin::Drawers-->
@@ -220,91 +225,91 @@
                 }
             }
         }
-    function toastr(title = "", description = "") {
-        const toastElement = document.getElementById('kt_docs_toast_toggle');
-        $(toastElement).find('[data-element="toast-title"]').html(title);
-        $(toastElement).find('[data-element="toast-description"]').html(description);
+        function toastr(title = "", description = "") {
+            const toastElement = document.getElementById('kt_docs_toast_toggle');
+            $(toastElement).find('[data-element="toast-title"]').html(title);
+            $(toastElement).find('[data-element="toast-description"]').html(description);
 
-        const toast = bootstrap.Toast.getOrCreateInstance(toastElement);
+            const toast = bootstrap.Toast.getOrCreateInstance(toastElement);
 
-        toast.show();
-    }
+            toast.show();
+        }
 
-     function loader() {
-         var toggle = () => {
-             document.querySelector('.custom-page-loader').classList.toggle('hidden');
-         }
+        function loader() {
+            var toggle = () => {
+                document.querySelector('.custom-page-loader').classList.toggle('hidden');
+            }
 
-         var hide = () => {
-             document.querySelector('.custom-page-loader').classList.add('hidden');
-         }
+            var hide = () => {
+                document.querySelector('.custom-page-loader').classList.add('hidden');
+            }
 
-         var show = () => {
-             document.querySelector('.custom-page-loader').classList.remove('hidden');
-         }
+            var show = () => {
+                document.querySelector('.custom-page-loader').classList.remove('hidden');
+            }
 
-         return {
-             toggle, hide, show
-         }
-     }
+            return {
+                toggle, hide, show
+            }
+        }
 
-     const anaSayfaBilgileri = {
-         Cari: 0,
-         Stok: 0,
-         Belge: 0,
-         YeniOkunmamisMesaj: 0
-     }
+        const anaSayfaBilgileri = {
+            Cari: 0,
+            Stok: 0,
+            Belge: 0,
+            YeniOkunmamisMesaj: 0
+        }
 
-     function AnaSayfaBilgileriGetir() {
-         $.ajax({
-             url: "/YK/AnaSayfaBilgileriGetir",
-             method: 'POST',
-             data: JSON.stringify({}),
-             success: (response) => {
-                 if (response.Data) {
-                     anaSayfaBilgileri.Belge = response.Data.Belge;
-                     anaSayfaBilgileri.Cari = response.Data.Cari;
-                     anaSayfaBilgileri.Stok = response.Data.Stok;
-                     anaSayfaBilgileri.YeniOkunmamisMesaj = response.Data.YeniOkunmamisMesaj;
-                     YeniOkunmamisMesajEkle();
-                 }
-             },
-             error: (err) => {
-                 console.log(err)
-             }
-         })
-     }
+        function AnaSayfaBilgileriGetir() {
+            $.ajax({
+                url: "/YK/AnaSayfaBilgileriGetir",
+                method: 'POST',
+                data: JSON.stringify({}),
+                success: (response) => {
+                    if (response.Data) {
+                        anaSayfaBilgileri.Belge = response.Data.Belge;
+                        anaSayfaBilgileri.Cari = response.Data.Cari;
+                        anaSayfaBilgileri.Stok = response.Data.Stok;
+                        anaSayfaBilgileri.YeniOkunmamisMesaj = response.Data.YeniOkunmamisMesaj;
+                        YeniOkunmamisMesajEkle();
+                    }
+                },
+                error: (err) => {
+                    console.log(err)
+                }
+            })
+        }
 
-     function YeniOkunmamisMesajEkle(ekle = null) {
-         if (ekle == null) {
-             if (anaSayfaBilgileri.YeniOkunmamisMesaj > 0) {
-                 $('[data-id="YeniOkunmamisMesaj"]').html(anaSayfaBilgileri.YeniOkunmamisMesaj);
-                 $('[data-id="YeniOkunmamisMesaj"]').removeClass('hidden');
-             } else {
-                 $('[data-id="YeniOkunmamisMesaj"]').addClass('hidden');
-             }
-         } else if (ekle === "") {
-             var suAnkiMesajSayisi = Number($('[data-id="YeniOkunmamisMesaj"]').html());
+        function YeniOkunmamisMesajEkle(ekle = null) {
+            if (ekle == null) {
+                if (anaSayfaBilgileri.YeniOkunmamisMesaj > 0) {
+                    $('[data-id="YeniOkunmamisMesaj"]').html(anaSayfaBilgileri.YeniOkunmamisMesaj);
+                    $('[data-id="YeniOkunmamisMesaj"]').removeClass('hidden');
+                } else {
+                    $('[data-id="YeniOkunmamisMesaj"]').addClass('hidden');
+                }
+            } else if (ekle === "") {
+                var suAnkiMesajSayisi = Number($('[data-id="YeniOkunmamisMesaj"]').html());
 
-             $('[data-id="YeniOkunmamisMesaj"]').html(suAnkiMesajSayisi + 1);
-             $('[data-id="YeniOkunmamisMesaj"]').removeClass('hidden');
-         }
+                $('[data-id="YeniOkunmamisMesaj"]').html(suAnkiMesajSayisi + 1);
+                $('[data-id="YeniOkunmamisMesaj"]').removeClass('hidden');
+            }
 
-     }
+        }
 
-     function bildirimHubBaglantisi() {
-         var bildirimHub = $.connection.bildirimHub;
+        function bildirimHubBaglantisi() {
+            var bildirimHub = $.connection.bildirimHub;
 
-         bildirimHub.client.receiveNotification = function (bosIcerik) {
+            bildirimHub.client.receiveNotification = function (bosIcerik) {
 
-             YeniOkunmamisMesajEkle("");
-         };
+                YeniOkunmamisMesajEkle("");
+            };
 
-         $.connection.hub.start({ transport: ['webSockets', 'longPolling'], connectionTimeout: 20000 }).done(function () {
-             console.log('Connected to SignalR hub');
-         }).fail(function (error) {
-             console.log('Could not connect: ' + error);
-         })
+            $.connection.hub.start({ transport: ['webSockets', 'longPolling'], connectionTimeout: 20000 }).done(function () {
+                console.log('Connected to SignalR hub');
+            }).fail(function (error) {
+                console.log('Could not connect: ' + error);
+            })
         }
 
         function setDateTimeInput(input, date = null) {
@@ -321,41 +326,41 @@
             $(input).val(formattedDateTime);
         }
 
-     $(document).ready(function () {
+        $(document).ready(function () {
 
 
-         loader().hide();
+            loader().hide();
 
-         let menuIdListesi = [];
+            let menuIdListesi = [];
 
-         const loadingEl = document.createElement("div");
-         document.body.prepend(loadingEl);
-         loadingEl.classList.add("page-loader");
-         loadingEl.classList.add("flex-column");
-         loadingEl.innerHTML = `
-                   <span class="spinner-border text-primary" role="status"></span>
-                   <span class="text-muted fs-6 fw-semibold mt-5">Loading...</span>
-               `;
+            const loadingEl = document.createElement("div");
+            document.body.prepend(loadingEl);
+            loadingEl.classList.add("page-loader");
+            loadingEl.classList.add("flex-column");
+            loadingEl.innerHTML = `
+                           <span class="spinner-border text-primary" role="status"></span>
+                           <span class="text-muted fs-6 fw-semibold mt-5">Loading...</span>
+                       `;
 
-         // Show page loading
-         KTApp.showPageLoading();
+            // Show page loading
+            KTApp.showPageLoading();
 
-         // Hide after 3 seconds
-         setTimeout(function () {
-             KTApp.hidePageLoading();
-             loadingEl.remove();
-         }, 0);
+            // Hide after 3 seconds
+            setTimeout(function () {
+                KTApp.hidePageLoading();
+                loadingEl.remove();
+            }, 0);
 
 
-        
 
-     });
 
-     $(document).ready(function () {
-         AnaSayfaBilgileriGetir();
-         bildirimHubBaglantisi();
+        });
 
-     })
+        $(document).ready(function () {
+            AnaSayfaBilgileriGetir();
+            bildirimHubBaglantisi();
+
+        })
 
     </script>
     @RenderSection("Scripts", required: false)
