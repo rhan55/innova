@@ -325,6 +325,7 @@
     <Compile Include="Models\ComponentDto\BelgeListeComponent.cs" />
     <Compile Include="Models\Dto\AnaSayfaDto.cs" />
     <Compile Include="Models\Dto\AnaSayfaTakvimKaydetDto.cs" />
+    <Compile Include="Models\Dto\EFaturaLogoPostBoxServiceDto.cs" />
     <Compile Include="Models\Dto\B2BAyarlariDto.cs" />
     <Compile Include="Models\Dto\BankaTanimlamalariDto.cs" />
     <Compile Include="Models\Dto\BankaTanimlamalariListeViewModel.cs" />
@@ -8764,6 +8765,27 @@
     <Content Include="Views\Stok\Sayim.cshtml" />
     <Content Include="Views\Mesaj\Chat.cshtml" />
     <Content Include="Views\Ayarlar\B2BAyarlari.cshtml" />
+    <Content Include="Views\Shared\Components\_BelgeEkleComponent.cshtml" />
+    <Content Include="Views\Shared\Components\_BelgeListeComponent.cshtml" />
+    <Content Include="Temp\Cari Listesi.xls" />
+    <Content Include="Temp\Cari-Kisi-Listesi-31-05-2024 %282%29.xlsx" />
+    <Content Include="Temp\Cari-Listesi-24-05-2024 %281%29 %282%29.xlsx" />
+    <Content Include="Temp\Cari-Listesi-24-05-2024 %281%29 %283%29.xlsx" />
+    <Content Include="Temp\Cari-Listesi-24-05-2024 %281%29.xlsx" />
+    <Content Include="Temp\Cari-Listesi-26-07-2024.xlsx" />
+    <Content Include="Temp\Cari-Listesi-28-05-2024 %281%29.xlsx" />
+    <Content Include="Temp\ornek-cari-liste %282%29.xls" />
+    <Content Include="Temp\ornek-cari-listesi %284%29.xlsx" />
+    <Content Include="Temp\ornek-cari-listesi %287%29.xlsx" />
+    <Content Include="Temp\ornek-cari-listesi %289%29.xlsx" />
+    <Content Include="Temp\ornek-cari-listesi.xls" />
+    <Content Include="Temp\ornek-cari-listesi.xlsx" />
+    <Content Include="Temp\ornek-stok-listesi %281%29.xlsx" />
+    <Content Include="Temp\ornek-stok-listesi %282%29.xlsx" />
+    <Content Include="Temp\ornek-stok-listesi %283%29.xlsx" />
+    <Content Include="Temp\ornek-stok-listesi.xlsx" />
+    <Content Include="Temp\Stok-Listesi-08-06-2024.xlsx" />
+    <Content Include="Temp\Stok-Listesi-11-06-2024.xlsx" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>

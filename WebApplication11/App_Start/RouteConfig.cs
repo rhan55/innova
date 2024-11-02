@@ -16,7 +16,7 @@ namespace YKPortal
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "YK", action = "TabBaslangic", id = UrlParameter.Optional }
+                defaults: new { controller = "YK", action = "Anasayfa", id = UrlParameter.Optional }
             );
 
             routes.MapMvcAttributeRoutes();

@@ -12,6 +12,7 @@ using System.Collections;
 using System.Web.Http.Results;
 using YKEFaturaEntegrasyon.LogoPostBoxService;
 using System.Text.Json;
+using YKEFaturaEntegrasyon;
 
 namespace YKPortal.Controllers
 {
@@ -1204,34 +1205,12 @@ namespace YKPortal.Controllers
         {
             var cari = Getir(cariEFaturaBilgiGuncelleDto.CariID);
 
-            try
-            {
-                using (PostBoxServiceClient svc = new PostBoxServiceClient("https://pb-g.elogo.com.tr/PostBoxService.svc"))
-                {
-                    string sessionId = "";
 
-                    if (svc.Login(new LoginType { userName = "9811613622", passWord = "1986*1986rY" }, out sessionId))
-                    {
-                        GibUserType[] userTypes = null;
+            var eFaturaLogoAyarlari = EFaturaLogoPostBoxServiceAyarlariGetir();
 
-                        var result = svc.CheckGibUser(sessionId, new string[1] { cari.VergiNumarasi + cari.TCKimlikNo }, out userTypes);
+            var logoEntegrasyon = new LogoEntegrasyon(eFaturaLogoAyarlari.EFaturaLogoPostBoxServiceUrl, eFaturaLogoAyarlari.EFaturaLogoPostBoxServiceKullaniciAdi, eFaturaLogoAyarlari.EFaturaLogoPostBoxServiceSifre);
 
-                        if (userTypes != null && userTypes.Length > 0)
-                        {
-                            if (userTypes[0].InvoiceGbList.Length > 0)
-                            {
-                                foreach (var item in userTypes[0].InvoiceGbList)
-                                {
-                                    Console.WriteLine(JsonSerializer.Serialize(item));
-                                }
-                            }
-                        }
-                    }
-                }
-            } catch (Exception ex)
-            {
-                Console.WriteLine(JsonSerializer.Serialize(ex));
-            }
+            logoEntegrasyon.CariMukellefKontrolu(cari.VergiNumarasi + cari.TCKimlikNo);
             
             //SqlCommand cmd = new SqlCommand();
             //cmd.CommandText = "p_CariEFaturaBilgiGuncelle";
@@ -1240,7 +1219,7 @@ namespace YKPortal.Controllers
             //cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             //cmd.Parameters.AddWithValue("@EFaturaKayitTarihi", cariEFaturaBilgiGuncelleDto.EFaturaKayitTarihi);
             //cmd.Parameters.AddWithValue("@EFaturaPKAdresi", cariEFaturaBilgiGuncelleDto.EFaturaPKAdresi);
-            //cmd.Parameters.AddWithValue("EIrsaliyePKAdresi", cariEFaturaBilgiGuncelleDto.EIrsaliyePKAdresi);
+            //cmd.Parameters.AddWithValue("@EIrsaliyePKAdresi", cariEFaturaBilgiGuncelleDto.EIrsaliyePKAdresi);
             //cmd.Parameters.AddWithValue("@EFatura", cariEFaturaBilgiGuncelleDto.EFatura);
             //cmd.Parameters.AddWithValue("@EIrsaliye", cariEFaturaBilgiGuncelleDto.EIrsaliye);
             //cmd.Parameters.AddWithValue("@EFaturaSenaryo", cariEFaturaBilgiGuncelleDto.EFaturaSenaryo);
@@ -1792,6 +1771,18 @@ namespace YKPortal.Controllers
             {
                 return false;
             }
+        }
+
+        private EFaturaLogoPostBoxServiceDto EFaturaLogoPostBoxServiceAyarlariGetir()
+        {
+            var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+
+            return new EFaturaLogoPostBoxServiceDto()
+            {
+                EFaturaLogoPostBoxServiceUrl = config.AppSettings.Settings["EFaturaLogoPostBoxServiceUrl"].Value,
+                EFaturaLogoPostBoxServiceKullaniciAdi = config.AppSettings.Settings["EFaturaLogoPostBoxServiceKullaniciAdi"].Value,
+                EFaturaLogoPostBoxServiceSifre = config.AppSettings.Settings["EFaturaLogoPostBoxServiceSifre"].Value,
+            };
         }
     }
 }
