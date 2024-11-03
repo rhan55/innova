@@ -10,30 +10,27 @@ namespace YKEFaturaEntegrasyon
 {
     public class LogoEntegrasyon
     {
-        private string PostBoxServiceClientUrl { get; set; }
         private string Username { get; set; }
         private string Password { get; set; }
 
-        public LogoEntegrasyon(string url, string username, string password)
+        public LogoEntegrasyon(string username, string password)
         {
-            PostBoxServiceClientUrl = url;
-            Username = username;
-            Password = password;
+            this.Username = username;
+            this.Password = password;
         }
 
-        public void CariMukellefKontrolu(string vknTckn) {
+        public void CariMukellefKontrolu(string vknTckn) 
+        {
             try
             {
-                using (PostBoxServiceClient svc = new PostBoxServiceClient(PostBoxServiceClientUrl))
+                //PostBoxServiceEndpoint bu bilgi sabit text olarak veriyoruz değiştirmeyelim.
+                using (PostBoxServiceClient svc = new PostBoxServiceClient("PostBoxServiceEndpoint"))
                 {
                     string sessionId = "";
-
                     if (svc.Login(new LoginType { userName = Username, passWord = Password }, out sessionId))
                     {
                         GibUserType[] userTypes = null;
-
                         var result = svc.CheckGibUser(sessionId, new string[1] { vknTckn }, out userTypes);
-
                         if (userTypes != null && userTypes.Length > 0)
                         {
                             if (userTypes[0].InvoiceGbList.Length > 0)

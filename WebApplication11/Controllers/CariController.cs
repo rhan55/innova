@@ -1,4 +1,4 @@
-﻿ using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 using System.Data;
 using System.Web.Mvc;
 using YKPortal.Models;
@@ -10,8 +10,8 @@ using System.Web;
 using System.Data.OleDb;
 using System.Collections;
 using System.Web.Http.Results;
-using YKEFaturaEntegrasyon.LogoPostBoxService;
 using System.Text.Json;
+using YKEFaturaEntegrasyon.Dto;
 using YKEFaturaEntegrasyon;
 
 namespace YKPortal.Controllers
@@ -27,7 +27,7 @@ namespace YKPortal.Controllers
             if (!YetkiKontrolu("/Cari/Ekle", "Gor"))
                 return Redirect("~/YK/Anasayfa");
 
-            
+
             IlListesiniOlustur();
             UlkeListesiniOlustur();
             PlasiyerIDListesiniOlustur();
@@ -240,7 +240,7 @@ namespace YKPortal.Controllers
         [HttpPost]
         public JsonResult Sil(CariDto cariDto)
         {
-         
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariSil";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -253,7 +253,7 @@ namespace YKPortal.Controllers
         }
 
 
-    
+
         [HttpPost]
         public ActionResult ExcelIceAktar(string tip, HttpPostedFileBase file) // parametreyi öylesine verdik,
         //get ve post metodunun ikiside parametresi olamaz hata veri o yüzden
@@ -519,7 +519,7 @@ namespace YKPortal.Controllers
                     GrupKodu2ID = Convert.ToString(row["GrupKodu2ID"]),
                     ID = Convert.ToString(row["ID"]),
                     // Yetki kontrolü ile ilgili bilgileri ekliyoruz
-                
+
                 });
             }
 
@@ -578,7 +578,7 @@ namespace YKPortal.Controllers
             ViewBag.Ziyaretler = ziyaretler;
             ViewBag.CariID = CariID;
 
-         return View(dt);
+            return View(dt);
         }
 
         [HttpGet]
@@ -692,7 +692,7 @@ namespace YKPortal.Controllers
 
         [HttpPost]
         public ActionResult ZiyaretDuzenle(ZiyaretDto ziyaretDto)
-         {
+        {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
@@ -722,7 +722,7 @@ namespace YKPortal.Controllers
         [HttpGet]
         public ActionResult ZiyaretiKapat(string CariID, string ID)
         {
-           
+
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
@@ -764,12 +764,12 @@ namespace YKPortal.Controllers
             return RedirectToAction("ZiyaretListe", new { CariID = ziyaretDto.CariID });
 
         }
-  
+
 
         [HttpPost]
         public JsonResult TopluSil(List<string> idListesi)
         {
-            
+
             if (idListesi == null)
             {
                 return Json(new { success = false, message = "ID Listesi Boş" }, JsonRequestBehavior.AllowGet);
@@ -929,7 +929,7 @@ namespace YKPortal.Controllers
         [HttpGet]
         public ActionResult NotEkle(string CariID)
         {
-          
+
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
@@ -940,7 +940,7 @@ namespace YKPortal.Controllers
             return View();
         }
 
- 
+
         [ValidateInput(false)]
         [HttpPost]
         public ActionResult NotEkle(CariNotDto cariNotDto)
@@ -1054,7 +1054,7 @@ namespace YKPortal.Controllers
         [HttpGet]
         public ActionResult YeniCariHareketKaydi(string CariID, string KayitID)
         {
-          
+
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
@@ -1203,42 +1203,50 @@ namespace YKPortal.Controllers
         [HttpPost]
         public JsonResult CariEFaturaBilgiGuncelle(CariEFaturaBilgiGuncelleDto cariEFaturaBilgiGuncelleDto)
         {
-            var cari = Getir(cariEFaturaBilgiGuncelleDto.CariID);
+            try
+            {
+                CariDto cari = Getir(cariEFaturaBilgiGuncelleDto.CariID);
+                EFaturaIslemleri entity = new EFaturaIslemleri();
+                //EFaturaLogoPostBoxServiceDto eFaturaLogoAyarlari = YKEFaturaEntegrasyon.EFaturaIslemleri.EFaturaLogoPostBoxServiceAyarlariGetir();
 
+                //var logoEntegrasyon = new LogoEntegrasyon(
+                //        eFaturaLogoAyarlari.EFaturaLogoPostBoxServiceKullaniciAdi, 
+                //        eFaturaLogoAyarlari.EFaturaLogoPostBoxServiceSifre
+                //    );
+                //
+                //logoEntegrasyon.CariMukellefKontrolu(cari.VergiNumarasi + cari.TCKimlikNo);
 
-            var eFaturaLogoAyarlari = EFaturaLogoPostBoxServiceAyarlariGetir();
+                //SqlCommand cmd = new SqlCommand();
+                //cmd.CommandText = "p_CariEFaturaBilgiGuncelle";
+                //cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                //cmd.Parameters.AddWithValue("@CariID", cariEFaturaBilgiGuncelleDto.CariID);
+                //cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                //cmd.Parameters.AddWithValue("@EFaturaKayitTarihi", cariEFaturaBilgiGuncelleDto.EFaturaKayitTarihi);
+                //cmd.Parameters.AddWithValue("@EFaturaPKAdresi", cariEFaturaBilgiGuncelleDto.EFaturaPKAdresi);
+                //cmd.Parameters.AddWithValue("@EIrsaliyePKAdresi", cariEFaturaBilgiGuncelleDto.EIrsaliyePKAdresi);
+                //cmd.Parameters.AddWithValue("@EFatura", cariEFaturaBilgiGuncelleDto.EFatura);
+                //cmd.Parameters.AddWithValue("@EIrsaliye", cariEFaturaBilgiGuncelleDto.EIrsaliye);
+                //cmd.Parameters.AddWithValue("@EFaturaSenaryo", cariEFaturaBilgiGuncelleDto.EFaturaSenaryo);
+                //cmd.Parameters.AddWithValue("@EFaturaAktiflik", cariEFaturaBilgiGuncelleDto.EFaturaAktiflik);
+                //cmd.Parameters.AddWithValue("@EIrsaliyeAktiflik", cariEFaturaBilgiGuncelleDto.EIrsaliyeAktiflik);
 
-            var logoEntegrasyon = new LogoEntegrasyon(eFaturaLogoAyarlari.EFaturaLogoPostBoxServiceUrl, eFaturaLogoAyarlari.EFaturaLogoPostBoxServiceKullaniciAdi, eFaturaLogoAyarlari.EFaturaLogoPostBoxServiceSifre);
+                //DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                //var data = new
+                //{
+                //    EFaturaKayitTarihi = "Tarih",
+                //    EFaturaPKAdresi = "Adres",
+                //    EIrsaliyePKAdresi = "Irsaliye Adresi",
+                //    EFatura = "Fatura",
+                //    EIrsaliye = "Irsaliye",
+                //    EFaturaSenaryo = "Senaryo",
+                //    EFaturaAktiflik = true,
+                //    EIrsaliyeAktiflik = false
+                //};
+            }
+            catch(Exception err)
+            {
 
-            logoEntegrasyon.CariMukellefKontrolu(cari.VergiNumarasi + cari.TCKimlikNo);
-            
-            //SqlCommand cmd = new SqlCommand();
-            //cmd.CommandText = "p_CariEFaturaBilgiGuncelle";
-            //cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            //cmd.Parameters.AddWithValue("@CariID", cariEFaturaBilgiGuncelleDto.CariID);
-            //cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-            //cmd.Parameters.AddWithValue("@EFaturaKayitTarihi", cariEFaturaBilgiGuncelleDto.EFaturaKayitTarihi);
-            //cmd.Parameters.AddWithValue("@EFaturaPKAdresi", cariEFaturaBilgiGuncelleDto.EFaturaPKAdresi);
-            //cmd.Parameters.AddWithValue("@EIrsaliyePKAdresi", cariEFaturaBilgiGuncelleDto.EIrsaliyePKAdresi);
-            //cmd.Parameters.AddWithValue("@EFatura", cariEFaturaBilgiGuncelleDto.EFatura);
-            //cmd.Parameters.AddWithValue("@EIrsaliye", cariEFaturaBilgiGuncelleDto.EIrsaliye);
-            //cmd.Parameters.AddWithValue("@EFaturaSenaryo", cariEFaturaBilgiGuncelleDto.EFaturaSenaryo);
-            //cmd.Parameters.AddWithValue("@EFaturaAktiflik", cariEFaturaBilgiGuncelleDto.EFaturaAktiflik);
-            //cmd.Parameters.AddWithValue("@EIrsaliyeAktiflik", cariEFaturaBilgiGuncelleDto.EIrsaliyeAktiflik);
-
-            //DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-            //var data = new
-            //{
-            //    EFaturaKayitTarihi = "Tarih",
-            //    EFaturaPKAdresi = "Adres",
-            //    EIrsaliyePKAdresi = "Irsaliye Adresi",
-            //    EFatura = "Fatura",
-            //    EIrsaliye = "Irsaliye",
-            //    EFaturaSenaryo = "Senaryo",
-            //    EFaturaAktiflik = true,
-            //    EIrsaliyeAktiflik = false
-            //};
-
+            }
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
@@ -1733,7 +1741,7 @@ namespace YKPortal.Controllers
             cmd.CommandText = "p_KullaniciYetkileri";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-            cmd.Parameters.AddWithValue("@KullaniciID",GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
             List<YetkilerDto> yetkiler = new List<YetkilerDto>();
@@ -1759,31 +1767,24 @@ namespace YKPortal.Controllers
                 if (Tip == "Gor")
                 {
                     return yetki.Gor;
-                } else if (Tip == "Duzenle")
+                }
+                else if (Tip == "Duzenle")
                 {
                     return yetki.Duzenle;
-                } else if (Tip == "Sil")
+                }
+                else if (Tip == "Sil")
                 {
                     return yetki.Sil;
                 }
                 return false;
-            } else
+            }
+            else
             {
                 return false;
             }
         }
 
-        private EFaturaLogoPostBoxServiceDto EFaturaLogoPostBoxServiceAyarlariGetir()
-        {
-            var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
 
-            return new EFaturaLogoPostBoxServiceDto()
-            {
-                EFaturaLogoPostBoxServiceUrl = config.AppSettings.Settings["EFaturaLogoPostBoxServiceUrl"].Value,
-                EFaturaLogoPostBoxServiceKullaniciAdi = config.AppSettings.Settings["EFaturaLogoPostBoxServiceKullaniciAdi"].Value,
-                EFaturaLogoPostBoxServiceSifre = config.AppSettings.Settings["EFaturaLogoPostBoxServiceSifre"].Value,
-            };
-        }
     }
 }
 

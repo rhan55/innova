@@ -81,6 +81,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="EFaturaIslemleri.cs" />
+    <Compile Include="Dto\EFaturaLogoPostBoxServiceDto.cs" />
     <Compile Include="LogoEntegrasyon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

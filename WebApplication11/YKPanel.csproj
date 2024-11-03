@@ -325,7 +325,6 @@
     <Compile Include="Models\ComponentDto\BelgeListeComponent.cs" />
     <Compile Include="Models\Dto\AnaSayfaDto.cs" />
     <Compile Include="Models\Dto\AnaSayfaTakvimKaydetDto.cs" />
-    <Compile Include="Models\Dto\EFaturaLogoPostBoxServiceDto.cs" />
     <Compile Include="Models\Dto\B2BAyarlariDto.cs" />
     <Compile Include="Models\Dto\BankaTanimlamalariDto.cs" />
     <Compile Include="Models\Dto\BankaTanimlamalariListeViewModel.cs" />
