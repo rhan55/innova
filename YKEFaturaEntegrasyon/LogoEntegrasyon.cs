@@ -19,36 +19,34 @@ namespace YKEFaturaEntegrasyon
             this.Password = password;
         }
 
-        public void CariMukellefKontrolu(string vknTckn) 
+        public GibUserInfoType[] CariMukellefKontrolu(string vknTckn)
         {
-            try
+            GibUserInfoType[] results = null;
+
+            //PostBoxServiceEndpoint bu bilgi sabit text olarak veriyoruz değiştirmeyelim.
+            using (PostBoxServiceClient svc = new PostBoxServiceClient("PostBoxServiceEndpoint"))
             {
-                //PostBoxServiceEndpoint bu bilgi sabit text olarak veriyoruz değiştirmeyelim.
-                using (PostBoxServiceClient svc = new PostBoxServiceClient("PostBoxServiceEndpoint"))
+                string sessionId = "";
+                if (svc.Login(new LoginType { userName = Username, passWord = Password }, out sessionId))
                 {
-                    string sessionId = "";
-                    if (svc.Login(new LoginType { userName = Username, passWord = Password }, out sessionId))
+                    GibUserType[] userTypes = null;
+                    var result = svc.CheckGibUser(sessionId, new string[1] { vknTckn }, out userTypes);
+                    
+                    if (userTypes != null && userTypes.Length > 0)
                     {
-                        GibUserType[] userTypes = null;
-                        var result = svc.CheckGibUser(sessionId, new string[1] { vknTckn }, out userTypes);
-                        if (userTypes != null && userTypes.Length > 0)
+                        if (userTypes[0].InvoiceGbList.Length > 0)
                         {
-                            if (userTypes[0].InvoiceGbList.Length > 0)
-                            {
-                                foreach (var item in userTypes[0].InvoiceGbList)
-                                {
-                                    Console.WriteLine(JsonSerializer.Serialize(item));
-                                    // Bilgileri donusturup Cari EFatura bilgilerine ekleyecegim.
-                                }
-                            }
+                            results = userTypes[0].InvoiceGbList;
+                            //foreach (var item in userTypes[0].InvoiceGbList)
+                            //{
+                            //    //Console.WriteLine(JsonSerializer.Serialize(item));
+                            //    // Bilgileri donusturup Cari EFatura bilgilerine ekleyecegim.
+                            //}
                         }
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(JsonSerializer.Serialize(ex));
-            }
+            return results;
         }
     }
 }

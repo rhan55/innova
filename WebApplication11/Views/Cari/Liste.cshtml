@@ -372,14 +372,19 @@
                 success: function (response) {
                     console.log(response); // Gelen yanıtı kontrol edin
                     if (response.success) {
-                        $('#EFaturaKayitTarihi').val(response.data.EFaturaKayitTarihi);
-                        $('#EFaturaPKAdresi').val(response.data.EFaturaPKAdresi);
-                        $('#EIrsaliyePKAdresi').val(response.data.EIrsaliyePKAdresi);
-                        $('#EFatura').val(response.data.EFatura);
-                        $('#EIrsaliye').val(response.data.EIrsaliye);
-                        $('#EFaturaSenaryo').val(response.data.EFaturaSenaryo);
-                        $('#EFaturaAktiflik').prop('checked', response.data.EFaturaAktiflik);
-                        $('#EIrsaliyeAktiflik').prop('checked', response.data.EIrsaliyeAktiflik);
+
+
+                        $('#EFaturaKayitTarihi').val(response.Data.AliasRegisterTime.Value);
+                        $('#EFatura').val(response.Data.eFatura);
+
+
+
+                        $('#EFaturaPKAdresi').val(response.Data.EFaturaPKAdresi);
+                        $('#EIrsaliyePKAdresi').val(response.Data.EIrsaliyePKAdresi);
+                        $('#EIrsaliye').val(response.Data.EIrsaliye);
+                        $('#EFaturaSenaryo').val(response.Data.EFaturaSenaryo);
+                        $('#EFaturaAktiflik').prop('checked', response.Data.EFaturaAktiflik);
+                        $('#EIrsaliyeAktiflik').prop('checked', response.Data.EIrsaliyeAktiflik);
                         $('#EFaturaBilgiGuncelle').modal('show');
                     } else {
                         alert("Veri alınamadı");

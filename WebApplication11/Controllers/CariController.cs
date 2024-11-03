@@ -13,6 +13,7 @@ using System.Web.Http.Results;
 using System.Text.Json;
 using YKEFaturaEntegrasyon.Dto;
 using YKEFaturaEntegrasyon;
+using YKEFaturaEntegrasyon.LogoPostBoxService;
 
 namespace YKPortal.Controllers
 {
@@ -1200,54 +1201,63 @@ namespace YKPortal.Controllers
             return RedirectToAction("HareketListesi", new { CariID = CariID });
         }
 
-        [HttpPost]
-        public JsonResult CariEFaturaBilgiGuncelle(CariEFaturaBilgiGuncelleDto cariEFaturaBilgiGuncelleDto)
+        public JsonResult CariEFaturaBilgiGuncelle(string CariID)
         {
-            try
+
+            CariDto cari = Getir(CariID);
+
+            EFaturaLogoPostBoxServiceDto eFaturaLogoAyarlari = YKEFaturaEntegrasyon.EFaturaIslemleri.EFaturaLogoPostBoxServiceAyarlariGetir();
+
+            var logoEntegrasyon = new LogoEntegrasyon(
+                    eFaturaLogoAyarlari.EFaturaLogoPostBoxServiceKullaniciAdi,
+                    eFaturaLogoAyarlari.EFaturaLogoPostBoxServiceSifre
+                );
+
+            //Aşağıdaki kısımları kendine göre ayarlarsın artık.
+            GibUserInfoType[] result = logoEntegrasyon.CariMukellefKontrolu(cari.VergiNumarasi + cari.TCKimlikNo);
+            bool EFatura = false;
+            if (result != null)
             {
-                CariDto cari = Getir(cariEFaturaBilgiGuncelleDto.CariID);
-                EFaturaIslemleri entity = new EFaturaIslemleri();
-                //EFaturaLogoPostBoxServiceDto eFaturaLogoAyarlari = YKEFaturaEntegrasyon.EFaturaIslemleri.EFaturaLogoPostBoxServiceAyarlariGetir();
+                foreach (GibUserInfoType item in result)
+                {
+                    EFatura = true;
 
-                //var logoEntegrasyon = new LogoEntegrasyon(
-                //        eFaturaLogoAyarlari.EFaturaLogoPostBoxServiceKullaniciAdi, 
-                //        eFaturaLogoAyarlari.EFaturaLogoPostBoxServiceSifre
-                //    );
-                //
-                //logoEntegrasyon.CariMukellefKontrolu(cari.VergiNumarasi + cari.TCKimlikNo);
-
-                //SqlCommand cmd = new SqlCommand();
-                //cmd.CommandText = "p_CariEFaturaBilgiGuncelle";
-                //cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                //cmd.Parameters.AddWithValue("@CariID", cariEFaturaBilgiGuncelleDto.CariID);
-                //cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-                //cmd.Parameters.AddWithValue("@EFaturaKayitTarihi", cariEFaturaBilgiGuncelleDto.EFaturaKayitTarihi);
-                //cmd.Parameters.AddWithValue("@EFaturaPKAdresi", cariEFaturaBilgiGuncelleDto.EFaturaPKAdresi);
-                //cmd.Parameters.AddWithValue("@EIrsaliyePKAdresi", cariEFaturaBilgiGuncelleDto.EIrsaliyePKAdresi);
-                //cmd.Parameters.AddWithValue("@EFatura", cariEFaturaBilgiGuncelleDto.EFatura);
-                //cmd.Parameters.AddWithValue("@EIrsaliye", cariEFaturaBilgiGuncelleDto.EIrsaliye);
-                //cmd.Parameters.AddWithValue("@EFaturaSenaryo", cariEFaturaBilgiGuncelleDto.EFaturaSenaryo);
-                //cmd.Parameters.AddWithValue("@EFaturaAktiflik", cariEFaturaBilgiGuncelleDto.EFaturaAktiflik);
-                //cmd.Parameters.AddWithValue("@EIrsaliyeAktiflik", cariEFaturaBilgiGuncelleDto.EIrsaliyeAktiflik);
-
-                //DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-                //var data = new
-                //{
-                //    EFaturaKayitTarihi = "Tarih",
-                //    EFaturaPKAdresi = "Adres",
-                //    EIrsaliyePKAdresi = "Irsaliye Adresi",
-                //    EFatura = "Fatura",
-                //    EIrsaliye = "Irsaliye",
-                //    EFaturaSenaryo = "Senaryo",
-                //    EFaturaAktiflik = true,
-                //    EIrsaliyeAktiflik = false
-                //};
+                    string EFaturaAdresi = item.Alias;
+                    DateTime EFaturaGecisTarihi = item.AliasRegisterTime.Value;
+                    string Unvan = item.Title;
+                }
             }
-            catch(Exception err)
-            {
 
-            }
-            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+
+            //SqlCommand cmd = new SqlCommand();
+            //cmd.CommandText = "p_CariEFaturaBilgiGuncelle";
+            //cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //cmd.Parameters.AddWithValue("@CariID", cariEFaturaBilgiGuncelleDto.CariID);
+            //cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            //cmd.Parameters.AddWithValue("@EFaturaKayitTarihi", cariEFaturaBilgiGuncelleDto.EFaturaKayitTarihi);
+            //cmd.Parameters.AddWithValue("@EFaturaPKAdresi", cariEFaturaBilgiGuncelleDto.EFaturaPKAdresi);
+            //cmd.Parameters.AddWithValue("@EIrsaliyePKAdresi", cariEFaturaBilgiGuncelleDto.EIrsaliyePKAdresi);
+            //cmd.Parameters.AddWithValue("@EFatura", cariEFaturaBilgiGuncelleDto.EFatura);
+            //cmd.Parameters.AddWithValue("@EIrsaliye", cariEFaturaBilgiGuncelleDto.EIrsaliye);
+            //cmd.Parameters.AddWithValue("@EFaturaSenaryo", cariEFaturaBilgiGuncelleDto.EFaturaSenaryo);
+            //cmd.Parameters.AddWithValue("@EFaturaAktiflik", cariEFaturaBilgiGuncelleDto.EFaturaAktiflik);
+            //cmd.Parameters.AddWithValue("@EIrsaliyeAktiflik", cariEFaturaBilgiGuncelleDto.EIrsaliyeAktiflik);
+
+            //DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            //var data = new
+            //{
+            //    EFaturaKayitTarihi = "Tarih",
+            //    EFaturaPKAdresi = "Adres",
+            //    EIrsaliyePKAdresi = "Irsaliye Adresi",
+            //    EFatura = "Fatura",
+            //    EIrsaliye = "Irsaliye",
+            //    EFaturaSenaryo = "Senaryo",
+            //    EFaturaAktiflik = true,
+            //    EIrsaliyeAktiflik = false
+            //};
+
+
+            return Json(new { success = true, Data = result, eFatura = EFatura }, JsonRequestBehavior.AllowGet);
         }
 
 
