@@ -248,8 +248,16 @@
 
             //ekleme işlemi yapıldıktan sonraki işlemleri
             myDropzone.on("queuecomplete", function () {
-                //alert verme işlemi
-                alert("Dosyalar Kaydedildi");
+                Swal.fire({
+                    text: "Dosyalar Kaydedildi",
+                    icon: "success",
+                    buttonsStyling: false,
+                    confirmButtonText: "Anladım!",
+                    customClass: {
+                        confirmButton: "btn btn-primary"
+                    }
+                });
+              
                 //Sayfayı yenileme işlemi
                 window.location.reload()
             })

@@ -509,8 +509,16 @@
         $('#Cari-datatable').on('click', 'thead th', function () {
 
             var index = table.column(this).index();
-
-            alert(index);
+            Swal.fire({
+                text: index,
+                icon: "succsess",
+                buttonsStyling: false,
+                confirmButtonText: "Anladım!",
+                customClass: {
+                    confirmButton: "btn btn-primary"
+                }
+            });
+           
 
         });
 

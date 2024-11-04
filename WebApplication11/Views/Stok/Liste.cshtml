@@ -348,7 +348,16 @@
                                 return json.data.StokListesi;
                             } else {
                                 // Başarısız olduğunda bir hata mesajı göster
-                                alert(json.message);
+                                Swal.fire({
+                                    text: json.message,
+                                    icon: "succsess",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Anladım!",
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    }
+                                });
+                               
                                 return [];
                             }
                         }
@@ -696,7 +705,15 @@
 
             var index = table.column(this).index();
 
-            alert(index);
+            Swal.fire({
+                text: index,
+                icon: "succsess",
+                buttonsStyling: false,
+                confirmButtonText: "Anladım!",
+                customClass: {
+                    confirmButton: "btn btn-primary"
+                }
+            });
 
         });
 

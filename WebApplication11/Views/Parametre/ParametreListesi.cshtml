@@ -152,7 +152,16 @@
                 //contentType: "application/json; charset=utf-8",
                 dataFilter: function (data) { return data; },
                 success: function (data) {
-                    alert("Kaydedildi!");
+                    Swal.fire({
+                        text: "Kaydedildi!",
+                        icon: "succsess",
+                        buttonsStyling: false,
+                        confirmButtonText: "Anladım!",
+                        customClass: {
+                            confirmButton: "btn btn-primary"
+                        }
+                    });
+                   
                 },
                 error: function (msg) {
                     console.log(msg);

@@ -402,15 +402,40 @@
                             if (response.SonucKodu === 200) {
                                 // Mesaj başarılı bir şekilde silindiyse, mesajı sayfadan kaldır
                                 mesajAlani.remove();
-                                alert('Mesaj başarıyla silindi.');
+                                Swal.fire({
+                                    text: "Mesaj başarıyla silindi.",
+                                    icon: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Anladım!",
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    }
+                                });
+                             
                             } else {
-                                // Silme işlemi başarısız olduysa kullanıcıya bildirim yap
-                                alert('Mesaj silinemedi. Lütfen tekrar deneyin.');
+                                Swal.fire({
+                                    text: "Mesaj silinemedi. Lütfen tekrar deneyin.",
+                                    icon: "error",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Anladım!",
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    }
+                                });
+                               
                             }
                         },
                         error: function () {
-                            // Hata durumunda kullanıcıya bir mesaj göster
-                            alert('Bir hata oluştu, mesaj silinemedi.');
+                            Swal.fire({
+                                text: "Bir hata oluştu, mesaj silinemedi.",
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Anladım!",
+                                customClass: {
+                                    confirmButton: "btn btn-primary"
+                                }
+                            });
+                           
                         }
                     });
                 }

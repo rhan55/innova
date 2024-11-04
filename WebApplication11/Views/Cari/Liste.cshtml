@@ -214,63 +214,61 @@
 </div>
 
 <!-- Trigger Button -->
-<button type="button" class="btn btn-primary EFatura-Bilgi-Guncelle-Modal-Ac" data-id="123" data-bs-toggle="modal" data-bs-target="#EFaturaBilgiGuncelle">
-    Pop-up Aç
-</button>
+
 
 <!-- Modal Yapısı -->
 <div class="modal fade animate__animated animate__fadeIn" id="EFaturaBilgiGuncelle" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Başlık</h5>
+                <h4 class="modal-title text-gray-700" id="exampleModalLabel">E Fatura Mükellef Kontrolü</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Bu bir Metronic pop-up örneğidir.
-
-
-
-                <div class="form-group">
-                    <label for="EFaturaKayitTarihi" class="form-label">EFaturaKayitTarihi</label>
+              
+                <div class="form-group mb-5">
+                    <label for="EFaturaKayitTarihi" class="form-label text-gray-700 fs-6 fw-bold">E Fatura Kayıt Tarihi</label>
                     <input type="text" id="EFaturaKayitTarihi" name="EFaturaKayitTarihi" class="form-control p-2 rounded-1" placeholder="" readonly />
                 </div>
-                <div class="form-group">
-                    <label for="EFaturaPKAdresi" class="form-label">EFaturaPKAdresi</label>
+                <div class="form-group mb-5">
+                    <label for="EFaturaPKAdresi" class="form-label text-gray-700 fs-6 fw-bold">E Fatura PK Adresi</label>
                     <input type="text" id="EFaturaPKAdresi" name="EFaturaPKAdresi" class="form-control p-2 rounded-1" placeholder="" readonly />
                 </div>
-                <div class="form-group">
-                    <label for="EIrsaliyePKAdresi" class="form-label">EIrsaliyePKAdresi</label>
+                <div class="form-group mb-5">
+                    <label for="EIrsaliyePKAdresi" class="form-label text-gray-700 fs-6 fw-bold">E İrsaliye PK Adresi</label>
                     <input type="text" id="EIrsaliyePKAdresi" name="EIrsaliyePKAdresi" class="form-control p-2 rounded-1" placeholder="" readonly />
                 </div>
-                <div class="form-group">
-                    <label for="EFatura" class="form-label">EFatura</label>
+                <div class="form-group mb-5">
+                    <label for="EFatura" class="form-label text-gray-700 fs-6fw-bold ">E Fatura</label>
                     <input type="text" id="EFatura" name="EFatura" class="form-control p-2 rounded-1" placeholder="" readonly />
                 </div>
-                <div class="form-group">
-                    <label for="EIrsaliye" class="form-label">EIrsaliye</label>
+                <div class="form-group mb-5">
+                    <label for="EIrsaliye" class="form-label text-gray-700 fs-6 fw-bold">E İrsaliye</label>
                     <input type="text" id="EIrsaliye" name="EIrsaliye" class="form-control p-2 rounded-1" placeholder="" readonly />
                 </div>
-                <div class="form-group">
-                    <label for="EFaturaSenaryo" class="form-label">EFaturaSenaryo</label>
+                <div class="form-group mb-6">
+                    <label for="EFaturaSenaryo" class="form-label text-gray-700 fs-6 fw-bold">E Fatura Senaryo</label>
                     <input type="text" id="EFaturaSenaryo" name="EFaturaSenaryo" class="form-control p-2 rounded-1" placeholder="" readonly />
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" name="EFaturaAktiflik" type="checkbox" value="" id="EFaturaAktiflik" checked readonly />
-                    <label class="form-check-label user-select-none cursor-pointer" for="EFaturaAktiflik">
-                        EFaturaAktiflik
-                    </label>
+                <div class="d-flex">
+                    <div class="form-check mb-5">
+                        <input class="form-check-input" name="EFaturaAktiflik" type="checkbox" value="" id="EFaturaAktiflik" checked readonly />
+                        <label class="form-check-label user-select-none cursor-pointer text-gray-700 fs-6 fw-bold" for="EFaturaAktiflik">
+                            E Fatura Aktiflik
+                        </label>
+                    </div>
+                    <div class="form-check ms-6 mb-5">
+                        <input class="form-check-input" name="EIrsaliyeAktiflik" type="checkbox" value="" id="EIrsaliyeAktiflik" checked readonly />
+                        <label class="form-check-label user-select-none cursor-pointer text-gray-700 fs-6 fw-bold" for="EIrsaliyeAktiflik">
+                            E İrsaliye Aktiflik
+                        </label>
+                    </div>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" name="EIrsaliyeAktiflik" type="checkbox" value="" id="EIrsaliyeAktiflik" checked readonly />
-                    <label class="form-check-label user-select-none cursor-pointer" for="EIrsaliyeAktiflik">
-                        EIrsaliyeAktiflik
-                    </label>
-                </div>
+          
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-                <button type="button" class="btn btn-primary">Kaydet</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary btn-sm">Kaydet</button>
             </div>
         </div>
     </div>
@@ -387,12 +385,30 @@
                         $('#EIrsaliyeAktiflik').prop('checked', response.Data.EIrsaliyeAktiflik);
                         $('#EFaturaBilgiGuncelle').modal('show');
                     } else {
-                        alert("Veri alınamadı");
+                        Swal.fire({
+                            text: "Veri alınamadı!",
+                            icon: "error",
+                            buttonsStyling: false,
+                            confirmButtonText: "Anladım!",
+                            customClass: {
+                                confirmButton: "btn btn-primary"
+                            }
+                        });
+                       
                     }
                 },
                 error: function (xhr, status, error) {
                     console.log("Hata: " + error);
-                    alert("Bir hata oluştu");
+
+                    Swal.fire({
+                        text: "Bir hata oluştu!",
+                        icon: "error",
+                        buttonsStyling: false,
+                        confirmButtonText: "Anladım!",
+                        customClass: {
+                            confirmButton: "btn btn-primary"
+                        }
+                    });
                 }
             });
 
@@ -468,7 +484,16 @@
                                 return json.data.CariListesi;
                             } else {
                                 // Başarısız olduğunda bir hata mesajı göster
-                                alert(json.message);
+                               
+                                Swal.fire({
+                                    text: json.message,
+                                    icon: "error",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Anladım!",
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    }
+                                });
                                 return [];
                             }
                         }
@@ -826,8 +851,16 @@
         $('#Cari-datatable').on('click', 'thead th', function () {
 
             var index = table.column(this).index();
-
-            alert(index);
+            Swal.fire({
+                text: index,
+                icon: "success",
+                buttonsStyling: false,
+                confirmButtonText: "Anladım!",
+                customClass: {
+                    confirmButton: "btn btn-primary"
+                }
+            });
+           
 
         });
 

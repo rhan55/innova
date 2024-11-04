@@ -137,10 +137,28 @@
 
     function Kaydet() {
         if ($("#GorevTipiID").val() == "") {
-            alert('Kategori seçiniz!');
+            Swal.fire({
+                text: "Kategori seçiniz!",
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Anladım!",
+                customClass: {
+                    confirmButton: "btn btn-primary"
+                }
+            });
+         
             return;
         }
         if ($("#Aciklama").val() == "") {
+            Swal.fire({
+                text: "StokKodu boş olamaz!",
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Anladım!",
+                customClass: {
+                    confirmButton: "btn btn-primary"
+                }
+            });
             alert('Açıklama yazın!');
             return;
         }

@@ -367,7 +367,8 @@
 </div>
 
 <script>
- const belgeEkleCompenentValue = @Html.Raw(personJson);
+    const belgeEkleCompenentValue = @Html.Raw(personJson);
+    const duzenleSayfasiMi = @(ViewBag.IsDuzenleSayfasi ? "true" : "false"); 
  console.log(belgeEkleCompenentValue);
 
 </script>

@@ -473,17 +473,44 @@
                             if (response.SonucKodu === 200) {
                                 // Başarılı olduğunda, ilgili etkinliği DOM'dan kaldırıyoruz
                                 $('#etkinlik-' + etkinlikID).remove();
-                                alert('Etkinlik başarıyla silindi.');
+                                Swal.fire({
+                                    text: "Etkinlik başarıyla silindi.",
+                                    icon: "succsess",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Anladım!",
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    }
+                                });
+                               
                                 TakvimModulu.refetchEvents();
                                 $('button.EtkinlikSil').hide();
                             } else {
                                 // Eğer silme işlemi başarısız olursa
-                                alert('Etkinlik silinemedi. Lütfen tekrar deneyin.');
+                                Swal.fire({
+                                    text: "Etkinlik silinemedi. Lütfen tekrar deneyin.";
+                                    icon: "error",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Anladım!",
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    }
+                                });
+                               
                             }
                         },
                         error: function () {
                             // AJAX isteğinde bir hata oluştuğunda
-                            alert('Bir hata oluştu, etkinlik silinemedi.');
+                            Swal.fire({
+                                text: "Bir hata oluştu, etkinlik silinemedi.",
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Anladım!",
+                                customClass: {
+                                    confirmButton: "btn btn-primary"
+                                }
+                            });
+                           
                         }
                     });
                 }

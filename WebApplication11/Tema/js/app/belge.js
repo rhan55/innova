@@ -2,11 +2,20 @@
 function kaydet(controllerName, tip) {
     // Belge numarası ve cari seçimi kontrolleri
     if ($("#BelgeNo").val() === "" && tip === "AI") {
-        alert("Lütfen belge numarası yazınız.");
+        Swal.fire({
+            text: "Lütfen belge numarası yazınız.",
+            icon: "error",
+            buttonsStyling: false,
+            confirmButtonText: "Anladım!",
+            customClass: {
+                confirmButton: "btn btn-primary"
+            }
+        });
+       
         return;
     }
 
-    loader().show();
+
 
     // Kalemler verisinin toplanması
     var kalemler = [];
@@ -18,19 +27,31 @@ function kaydet(controllerName, tip) {
                 ID: kalemId,
                 StokID: $("#StokID_" + satirID).val(),
                 Seri: $("#Seri_" + satirID).val(),
-                Miktar: $("#Miktar_" + satirID).val(),
-                Fiyat: $("#Fiyat_" + satirID).val(),
-                KdvOrani: $('#KdvOrani_' + satirID).val(),
-                IskontoOrani1: $('#IskontoOrani1_' + satirID).val()
+                Miktar: $("#Miktar_" + satirID).val().replace(/\./g, ''),
+                Fiyat: $("#Fiyat_" + satirID).val().replace(/\./g, ''),
+                KdvOrani: $('#KdvOrani_' + satirID).val().replace(/\./g, ''),
+                IskontoOrani1: $('#IskontoOrani1_' + satirID).val().replace(/\./g, '')
             });
         }
     });
 
+    console.log(kalemler);
+
     // Kalemler boşsa uyarı ver
     if (kalemler.length === 0) {
-        alert("Lütfen kalem giriniz.");
+        Swal.fire({
+            text: "Lütfen Kalem Giriniz",
+            icon: "error",
+            buttonsStyling: false,
+            confirmButtonText: "Anladım!",
+            customClass: {
+                confirmButton: "btn btn-primary"
+            }
+        });
         return;
     }
+
+    loader().show();
 
     // AJAX isteği için veri hazırlığı
     var _data = {
@@ -67,10 +88,22 @@ function kaydet(controllerName, tip) {
         dataType: "json",
         type: "POST",
         success: function (data) {
-            alert("Belge Kaydedildi!");
-            window.location.href = `/${controllerName}/Duzenle?id=` + data.Data + "&Tip=" + tip; // Aynı sekmede yönlendirme
+            loader().hide();
+            Swal.fire({
+                text: "Belge Kaydedildi",
+                icon: "success",
+                buttonsStyling: false,
+                confirmButtonText: "Anladım!",
+                customClass: {
+                    confirmButton: "btn btn-primary"
+                }
+            });
+            if (!duzenleSayfasiMi) {
+                window.location.href = `/${controllerName}/Duzenle?id=` + data.Data + "&Tip=" + tip; // Aynı sekmede yönlendirme
+            }
         },
         error: function (msg) {
+            loader().hide();
             console.log(msg);
         }
     });
