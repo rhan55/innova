@@ -159,7 +159,16 @@
                     confirmButton: "btn btn-primary"
                 }
             });
-            alert('Açıklama yazın!');
+            Swal.fire({
+                text: "Açıklama yazın!",
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Anladım!",
+                customClass: {
+                    confirmButton: "btn btn-primary"
+                }
+            });
+           
             return;
         }
         $("#btnKaydet").attr("disabled","disabled");

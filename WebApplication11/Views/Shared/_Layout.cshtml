@@ -730,7 +730,19 @@
          return {
              toggle, hide, show
          }
-     }
+        }
+
+        function sweetalert(message = "", type = "success") {
+            Swal.fire({
+                text: message,
+                icon: type,
+                buttonsStyling: false,
+                confirmButtonText: "Anladım!",
+                customClass: {
+                    confirmButton: "btn btn-primary"
+                }
+            });
+        }
 
      const anaSayfaBilgileri = {
          Cari: 0,

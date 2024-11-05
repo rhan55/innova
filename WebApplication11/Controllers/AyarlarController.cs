@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using YKPortal.Models.Dto;
 using YKPortal.Models;
 using System.Configuration;
+using YKEFaturaEntegrasyon.Dto;
 
 namespace YKPortal.Controllers
 {
@@ -61,6 +62,25 @@ namespace YKPortal.Controllers
             return View();
         }
 
+        public ActionResult EFaturaAyarlari()
+        {
+          
+         
+            var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+
+            // B2B Ayarlari
+            var eFaturaLogoPostBoxServiceDto = new EFaturaLogoPostBoxServiceDto();
+
+           
+            eFaturaLogoPostBoxServiceDto.EFaturaLogoPostBoxServiceKullaniciAdi = config.AppSettings.Settings["B2BLogoSirket"].Value;
+            eFaturaLogoPostBoxServiceDto.EFaturaLogoPostBoxServiceSifre = config.AppSettings.Settings["B2BLogoParola"].Value;
+
+          
+         
+            ViewBag.Efatura = eFaturaLogoPostBoxServiceDto;
+
+            return View();
+        }
         [HttpPost]
         public JsonResult B2bAyarlari(B2BAyarlariDto b2bAyarlariDto)
         {
@@ -135,7 +155,27 @@ namespace YKPortal.Controllers
             }
         }
 
+        public JsonResult EFaturaAyarlari(SmsAyarlariDto smsAyarlariDto)
+        {
+            try
+            {
+                var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
 
+
+                config.AppSettings.Settings["SmsKullaniciAdi"].Value = smsAyarlariDto.SmsKullaniciAdi;
+                config.AppSettings.Settings["SmsParola"].Value = smsAyarlariDto.SmsParola;
+                config.AppSettings.Settings["SmsIsim"].Value = smsAyarlariDto.SmsIsim;
+
+                config.Save();
+
+
+                return Json(new { success = true, message = "SMS ayarları başarıyla kaydedildi." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Bir hata oluştu: " + ex.Message });
+            }
+        }
         private bool BoolKontrolu(string key)
         {
             return key == "True";

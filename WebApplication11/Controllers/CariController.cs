@@ -14,6 +14,7 @@ using System.Text.Json;
 using YKEFaturaEntegrasyon.Dto;
 using YKEFaturaEntegrasyon;
 using YKEFaturaEntegrasyon.LogoPostBoxService;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace YKPortal.Controllers
 {
@@ -508,6 +509,7 @@ namespace YKPortal.Controllers
 
             foreach (DataRow row in dt.Rows)
             {
+
                 result.CariListesi.Add(new CariDto
                 {
                     Kod = Convert.ToString(row["Kod"]),

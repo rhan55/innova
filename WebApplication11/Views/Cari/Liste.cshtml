@@ -214,8 +214,6 @@
 </div>
 
 <!-- Trigger Button -->
-
-
 <!-- Modal Yapısı -->
 <div class="modal fade animate__animated animate__fadeIn" id="EFaturaBilgiGuncelle" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -225,7 +223,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              
+
                 <div class="form-group mb-5">
                     <label for="EFaturaKayitTarihi" class="form-label text-gray-700 fs-6 fw-bold">E Fatura Kayıt Tarihi</label>
                     <input type="text" id="EFaturaKayitTarihi" name="EFaturaKayitTarihi" class="form-control p-2 rounded-1" placeholder="" readonly />
@@ -238,17 +236,36 @@
                     <label for="EIrsaliyePKAdresi" class="form-label text-gray-700 fs-6 fw-bold">E İrsaliye PK Adresi</label>
                     <input type="text" id="EIrsaliyePKAdresi" name="EIrsaliyePKAdresi" class="form-control p-2 rounded-1" placeholder="" readonly />
                 </div>
-                <div class="form-group mb-5">
-                    <label for="EFatura" class="form-label text-gray-700 fs-6fw-bold ">E Fatura</label>
-                    <input type="text" id="EFatura" name="EFatura" class="form-control p-2 rounded-1" placeholder="" readonly />
-                </div>
-                <div class="form-group mb-5">
-                    <label for="EIrsaliye" class="form-label text-gray-700 fs-6 fw-bold">E İrsaliye</label>
-                    <input type="text" id="EIrsaliye" name="EIrsaliye" class="form-control p-2 rounded-1" placeholder="" readonly />
+
+
+                <div class="flex">
+                    <label class="form-label flex items-center gap-2.5 text-nowrap me-4">
+                        <input class="form-check-input" name="EFaturaSenaryo" type="radio" value="TICARI" checked />
+                        Ticari
+                    </label>
+                    <label class="form-label flex items-center gap-2.5 text-nowrap">
+                        <input class="form-check-input " name="EFaturaSenaryo" type="radio" value="TEMEL" />
+                        Temel
+                    </label>
                 </div>
                 <div class="form-group mb-6">
                     <label for="EFaturaSenaryo" class="form-label text-gray-700 fs-6 fw-bold">E Fatura Senaryo</label>
                     <input type="text" id="EFaturaSenaryo" name="EFaturaSenaryo" class="form-control p-2 rounded-1" placeholder="" readonly />
+                </div>
+
+                <div class="d-flex">
+                    <div class="form-group mb-5">
+                        <input id="EFatura" type="checkbox" value="" name="EFatura" class="form-control p-2 rounded-1" placeholder="" readonly />
+                        <label class="form-check-label user-select-none cursor-pointer text-gray-700 fs-6 fw-bold" for="EFatura">
+                            E Fatura
+                        </label>
+                    </div>
+                    <div class="form-group mb-5">
+                        <input id="EIrsaliye" type="checkbox" value="" name="EIrsaliye" class="form-control p-2 rounded-1" placeholder="" readonly />
+                        <label class="form-check-label user-select-none cursor-pointer text-gray-700 fs-6 fw-bold" for="EIrsaliye">
+                            E İrsaliye
+                        </label>
+                    </div>
                 </div>
                 <div class="d-flex">
                     <div class="form-check mb-5">
@@ -264,7 +281,7 @@
                         </label>
                     </div>
                 </div>
-          
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Kapat</button>
@@ -360,7 +377,7 @@
 
         $(document).on('click', '.EFatura-Bilgi-Guncelle-Modal-Ac', function (e) {
             e.preventDefault();
-            
+
             var cariId = $(this).data('id'); // Butona eklenmiş 'data-id' bilgisini al
             console.log(cariId);
             $.ajax({
@@ -394,7 +411,7 @@
                                 confirmButton: "btn btn-primary"
                             }
                         });
-                       
+
                     }
                 },
                 error: function (xhr, status, error) {
@@ -484,7 +501,7 @@
                                 return json.data.CariListesi;
                             } else {
                                 // Başarısız olduğunda bir hata mesajı göster
-                               
+
                                 Swal.fire({
                                     text: json.message,
                                     icon: "error",
@@ -513,34 +530,34 @@
                             render: function (data, type, row) {
 
                                 var buttons = `
-                                                                              <div class="dropdown">
-                                                                                  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton${row.ID}" data-bs-toggle="dropdown" aria-expanded="false"> İşlemler </button>
-                                                                                    <ul class="dropdown-menu py-0" aria-labelledby="dropdownMenuButton${row.ID}">`;
+                                                                                  <div class="dropdown">
+                                                                                      <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton${row.ID}" data-bs-toggle="dropdown" aria-expanded="false"> İşlemler </button>
+                                                                                        <ul class="dropdown-menu py-0" aria-labelledby="dropdownMenuButton${row.ID}">`;
 
                                 // Eğer silme yetkisi varsa
                                 if ($('input[name="YetkiSil"]').val() == "1") {
                                     buttons += `
-                                                                             <li><button class="dropdown-item btn-sil Cari-toplu-silme" data-bs-toggle="modal" data-bs-target="#Cari-silme" data-id="${row.ID}">Sil</button></li>
-                                                                            `;
+                                                                                 <li><button class="dropdown-item btn-sil Cari-toplu-silme" data-bs-toggle="modal" data-bs-target="#Cari-silme" data-id="${row.ID}">Sil</button></li>
+                                                                                `;
                                 }
 
                                 // Eğer düzenleme yetkisi varsa
                                 if ($('input[name="YetkiDuzenle"]').val() == "1") {
                                     buttons += `
-                                                                           <li><a class="dropdown-item" href="/Cari/Duzenle/${row.ID}">Düzenle</a></li>
-                                                                        `;
+                                                                               <li><a class="dropdown-item" href="/Cari/Duzenle/${row.ID}">Düzenle</a></li>
+                                                                            `;
                                 }
                                 // Eğer düzenleme yetkisi varsa
                                 if ($('input[name="YetkiDuzenle"]').val() == "1") {
                                     buttons += `
-                                            <li><button class="dropdown-item EFatura-Bilgi-Guncelle-Modal-Ac" data-id="${row.ID}"  data-bs-toggle="modal" data-bs-target="#EFaturaBilgiGuncelle" >E-Fatura Mükellef Kontrolü</button></li>
-                                         `;
+                                                <li><button class="dropdown-item EFatura-Bilgi-Guncelle-Modal-Ac" data-id="${row.ID}"  data-bs-toggle="modal" data-bs-target="#EFaturaBilgiGuncelle" >E-Fatura Mükellef Kontrolü</button></li>
+                                             `;
                                 }
 
                                 buttons += `
-                                                                     </ul>
-                                                                     </div>
-                                                                        `;
+                                                                         </ul>
+                                                                         </div>
+                                                                            `;
 
                                 return buttons;
 
@@ -860,7 +877,7 @@
                     confirmButton: "btn btn-primary"
                 }
             });
-           
+
 
         });
 

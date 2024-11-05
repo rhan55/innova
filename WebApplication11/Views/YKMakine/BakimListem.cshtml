@@ -347,26 +347,26 @@
                     @Html.Raw("else if ($(\"#Aciklama_" + item["ID"] + "\").val() == \"\") { alert('Lütfen açıklama yazınız.');  } ")
                     @Html.Raw("else if ($(\"#YetkiliIsim_" + item["ID"] + "\").val() == \"\") { alert('Lütfen yetkili yazınız.');  } ")
 
-                    @Html.Raw("else if ($(\"#Cevap1_" + item["ID"] + "\")[0].files.length == 0) { alert('Lütfen resim seçiniz.');  } ")
-                    @Html.Raw("else if ($(\"#Cevap2_" + item["ID"] + "\")[0].files.length == 0) { alert('Lütfen resim seçiniz.');  } ")
-                    @Html.Raw("else if ($(\"#Cevap3_" + item["ID"] + "\")[0].files.length == 0) { alert('Lütfen resim seçiniz.');  } ")
-                    @Html.Raw("else if ($(\"#Cevap4_" + item["ID"] + "\")[0].files.length == 0) { alert('Lütfen resim seçiniz.');  } ")
-                    @Html.Raw("else if ($(\"#Cevap5_" + item["ID"] + "\")[0].files.length == 0) { alert('Lütfen resim seçiniz.');  } ")
-                    @Html.Raw("else if ($(\"#Cevap6_" + item["ID"] + "\")[0].files.length == 0) { alert('Lütfen resim seçiniz.');  } ")
-                    @Html.Raw("else if ($(\"#Cevap7_" + item["ID"] + "\")[0].files.length == 0) { alert('Lütfen resim seçiniz.');  } ")
-                    @Html.Raw("else if ($(\"#Cevap8_" + item["ID"] + "\")[0].files.length == 0) { alert('Lütfen resim seçiniz.');  } ")
+                    @Html.Raw("else if ($(\"#Cevap1_" + item["ID"] + "\")[0].files.length == 0) { sweetalert('Lütfen resim seçiniz.', 'error');  } ")
+                    @Html.Raw("else if ($(\"#Cevap2_" + item["ID"] + "\")[0].files.length == 0) { sweetalert('Lütfen resim seçiniz.', 'error');  } ")
+                    @Html.Raw("else if ($(\"#Cevap3_" + item["ID"] + "\")[0].files.length == 0) { sweetalert('Lütfen resim seçiniz.', 'error');  } ")
+                    @Html.Raw("else if ($(\"#Cevap4_" + item["ID"] + "\")[0].files.length == 0) { sweetalert('Lütfen resim seçiniz.', 'error');  } ")
+                    @Html.Raw("else if ($(\"#Cevap5_" + item["ID"] + "\")[0].files.length == 0) { sweetalert('Lütfen resim seçiniz.', 'error');  } ")
+                    @Html.Raw("else if ($(\"#Cevap6_" + item["ID"] + "\")[0].files.length == 0) { sweetalert('Lütfen resim seçiniz.', 'error'); } ")
+                    @Html.Raw("else if ($(\"#Cevap7_" + item["ID"] + "\")[0].files.length == 0) { sweetalert('Lütfen resim seçiniz.', 'error');  } ")
+                    @Html.Raw("else if ($(\"#Cevap8_" + item["ID"] + "\")[0].files.length == 0) { sweetalert('Lütfen resim seçiniz.', 'error');  } ")
 
                 }
                 else if (Convert.ToInt32(item["TipID"]) == 2)
                 {
-                    @Html.Raw("if ($(\"#SeriNo_" + item["ID"] + "\").val() == \"\") { alert('Lütfen seri seçimi yapınız.');  } ")
-                    @Html.Raw("else if ($(\"#Aciklama_" + item["ID"] + "\").val() == \"\") { alert('Lütfen açıklama yazınız.');  } ")
-                    @Html.Raw("else if ($(\"#YetkiliIsim_" + item["ID"] + "\").val() == \"\") { alert('Lütfen yetkili yazınız.');  } ")
+                    @Html.Raw("if ($(\"#SeriNo_" + item["ID"] + "\").val() == \"\") {sweetalert('Lütfen seri seçimi yapınız.', 'error'); } ")
+                    @Html.Raw("else if ($(\"#Aciklama_" + item["ID"] + "\").val() == \"\") {sweetalert('Lütfen açıklama yazınız.', 'error');} ")
+                    @Html.Raw("else if ($(\"#YetkiliIsim_" + item["ID"] + "\").val() == \"\") { sweetalert('Lütfen yetkili yazınız', 'error'); } ")
 
-                    @Html.Raw("else if ($(\"#Cevap1_" + item["ID"] + "\")[0].files.length == 0) { alert('Lütfen resim seçiniz.');  } ")
+                    @Html.Raw("else if ($(\"#Cevap1_" + item["ID"] + "\")[0].files.length == 0) {sweetalert('Lütfen resim seçiniz.', 'error');  } ")
                 }
 
-                @Html.Raw("else { ")
+                @Html.Raw("else { ") 
                 @Html.Raw("document.getElementById(\"id_" + item["ID"] + "\").setAttribute(\"name\", \"id\"); ")
                 @Html.Raw("document.getElementById(\"Durum_" + item["ID"] + "\").setAttribute(\"name\", \"Durum\"); ")
                 @Html.Raw("document.getElementById(\"SeriNo_" + item["ID"] + "\").setAttribute(\"name\", \"SeriNo\"); ")
