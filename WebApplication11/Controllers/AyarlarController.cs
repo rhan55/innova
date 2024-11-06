@@ -17,7 +17,7 @@ namespace YKPortal.Controllers
     {
 
         [HttpGet]
-        public ActionResult Config()
+        public ActionResult ConfigAyarlari()
         {
             var kullanici = KullaniciGetir(GetCookie("KullaniciID"));
 
@@ -62,25 +62,7 @@ namespace YKPortal.Controllers
             return View();
         }
 
-        public ActionResult EFaturaAyarlari()
-        {
-          
-         
-            var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
-
-            // B2B Ayarlari
-            var eFaturaLogoPostBoxServiceDto = new EFaturaLogoPostBoxServiceDto();
-
-           
-            eFaturaLogoPostBoxServiceDto.EFaturaLogoPostBoxServiceKullaniciAdi = config.AppSettings.Settings["B2BLogoSirket"].Value;
-            eFaturaLogoPostBoxServiceDto.EFaturaLogoPostBoxServiceSifre = config.AppSettings.Settings["B2BLogoParola"].Value;
-
-          
-         
-            ViewBag.Efatura = eFaturaLogoPostBoxServiceDto;
-
-            return View();
-        }
+      
         [HttpPost]
         public JsonResult B2bAyarlari(B2BAyarlariDto b2bAyarlariDto)
         {
@@ -155,32 +137,96 @@ namespace YKPortal.Controllers
             }
         }
 
-        public JsonResult EFaturaAyarlari(SmsAyarlariDto smsAyarlariDto)
+
+        [HttpGet]
+        public ActionResult Entegrasyonlar()
+        {
+            Entegratorler();
+            var kullanici = KullaniciGetir(GetCookie("KullaniciID"));
+
+            if (kullanici == null || !kullanici.KullaniciAdi.Contains("@ykyazilim.com.tr"))
+            {
+                return Redirect("~/YK/AnaSayfa");
+            }
+
+            var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+
+            // Logo Ayarlari
+            var eFaturaLogoPostBoxServiceDto = new EFaturaLogoPostBoxServiceDto();
+
+            eFaturaLogoPostBoxServiceDto.EFaturaLogoPostBoxServiceUrl = config.AppSettings.Settings["EFaturaLogoPostBoxServiceUrl"].Value;
+            eFaturaLogoPostBoxServiceDto.EFaturaLogoPostBoxServiceKullaniciAdi = config.AppSettings.Settings["EFaturaLogoPostBoxServiceKullaniciAdi"].Value;
+            eFaturaLogoPostBoxServiceDto.EFaturaLogoPostBoxServiceSifre = config.AppSettings.Settings["EFaturaLogoPostBoxServiceSifre"].Value;
+
+
+
+            ViewBag.Efatura = eFaturaLogoPostBoxServiceDto;
+            
+
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult EFaturaAyarlari(EFaturaLogoPostBoxServiceDto eFaturaLogoPostBoxServiceDto)
         {
             try
             {
                 var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
 
-
-                config.AppSettings.Settings["SmsKullaniciAdi"].Value = smsAyarlariDto.SmsKullaniciAdi;
-                config.AppSettings.Settings["SmsParola"].Value = smsAyarlariDto.SmsParola;
-                config.AppSettings.Settings["SmsIsim"].Value = smsAyarlariDto.SmsIsim;
+                
+                config.AppSettings.Settings["EFaturaLogoPostBoxServiceUrl"].Value = eFaturaLogoPostBoxServiceDto.EFaturaLogoPostBoxServiceUrl;
+                config.AppSettings.Settings["EFaturaLogoPostBoxServiceKullaniciAdi"].Value = eFaturaLogoPostBoxServiceDto.EFaturaLogoPostBoxServiceKullaniciAdi;
+                config.AppSettings.Settings["EFaturaLogoPostBoxServiceSifre"].Value = eFaturaLogoPostBoxServiceDto.EFaturaLogoPostBoxServiceSifre;
+            
 
                 config.Save();
 
 
-                return Json(new { success = true, message = "SMS ayarları başarıyla kaydedildi." });
+                return Json(new { success = true, message = "EFatura ayarları başarıyla kaydedildi." });
             }
             catch (Exception ex)
             {
                 return Json(new { success = false, message = "Bir hata oluştu: " + ex.Message });
             }
         }
+
+        [HttpGet]
+        public ActionResult Seriler()
+        {
+            return View();
+        }
         private bool BoolKontrolu(string key)
         {
             return key == "True";
         }
 
+
+
+        private  void Entegratorler()
+        {
+            // GrupKodu1 Listesi oluşturma 
+            SqlCommand entegratorCommand = new SqlCommand();
+            entegratorCommand.CommandText = "p_GrupKoduListesi";
+            entegratorCommand.CommandType = System.Data.CommandType.StoredProcedure;
+            entegratorCommand.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+            entegratorCommand.Parameters.AddWithValue("@Kod", "EFaturaEntegrator");
+            entegratorCommand.Parameters.AddWithValue("@AranacakKelime", "");
+
+
+            DataTable entegratorDataTable = (DataTable)IDVeritabani.Sorgula(entegratorCommand, SorgulaTuru.Tablo);
+
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
+
+            for (int i = 0; i < entegratorDataTable.Rows.Count; i++)
+            {
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(entegratorDataTable.Rows[i]["ID"]);
+                entity.Deger = Convert.ToString(entegratorDataTable.Rows[i]["Deger"]);
+                entities.Add(entity);
+            }
+            ViewBag.Entegratorler = entities;
+        }
         private KullaniciEkleDto KullaniciGetir(string ID)
         {
             SqlCommand cmd = new SqlCommand();

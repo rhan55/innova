@@ -3100,6 +3100,9 @@
     <Content Include="Views\Stok\HizliStokTanimlama.cshtml" />
     <Content Include="Views\Kullanici\UretimYetkiler.cshtml" />
     <Content Include="Views\Ayarlar\EFaturaAyarlari.cshtml" />
+    <Content Include="Views\Ayarlar\Config.cshtml" />
+    <Content Include="Views\Ayarlar\Entegrasyonlar.cshtml" />
+    <Content Include="Views\Ayarlar\Seriler.cshtml" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>
