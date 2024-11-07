@@ -217,7 +217,16 @@
                                 if (data == "ok") {
                                     Listele();
                                 } else {
-                                    alert(data);
+                                    Swal.fire({
+                                        text: data,
+                                        icon: "succsess",
+                                        buttonsStyling: false,
+                                        confirmButtonText: "Anladım!",
+                                        customClass: {
+                                            confirmButton: "btn btn-primary"
+                                        }
+                                    });
+                                  
                                     Swal.fire({
                                         title: "HATA!",
                                         text: data,
@@ -299,7 +308,15 @@
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    alert(data);
+                    Swal.fire({
+                        text: data,
+                        icon: "succsess",
+                        buttonsStyling: false,
+                        confirmButtonText: "Anladım!",
+                        customClass: {
+                            confirmButton: "btn btn-primary"
+                        }
+                    });
                     window.location.reload();
                 },
                 error: function (data) {

@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using YKPortal.Models.Dto;
 using YKPortal.Models;
 using System.Configuration;
+using YKEFaturaEntegrasyon.Dto;
 
 namespace YKPortal.Controllers
 {
@@ -16,7 +17,7 @@ namespace YKPortal.Controllers
     {
 
         [HttpGet]
-        public ActionResult Config()
+        public ActionResult ConfigAyarlari()
         {
             var kullanici = KullaniciGetir(GetCookie("KullaniciID"));
 
@@ -61,6 +62,7 @@ namespace YKPortal.Controllers
             return View();
         }
 
+      
         [HttpPost]
         public JsonResult B2bAyarlari(B2BAyarlariDto b2bAyarlariDto)
         {
@@ -136,11 +138,147 @@ namespace YKPortal.Controllers
         }
 
 
+        [HttpGet]
+        public ActionResult Entegrasyonlar()
+        {
+            Entegratorler();
+            var kullanici = KullaniciGetir(GetCookie("KullaniciID"));
+
+            if (kullanici == null || !kullanici.KullaniciAdi.Contains("@ykyazilim.com.tr"))
+            {
+                return Redirect("~/YK/AnaSayfa");
+            }
+
+            var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+
+            // Logo Ayarlari
+            var eFaturaLogoPostBoxServiceDto = new EFaturaAyarlariDto();
+
+            eFaturaLogoPostBoxServiceDto.ServiceUrl = config.AppSettings.Settings["EFaturaLogoPostBoxServiceUrl"].Value;
+            eFaturaLogoPostBoxServiceDto.KullaniciAdi = config.AppSettings.Settings["EFaturaLogoPostBoxServiceKullaniciAdi"].Value;
+            eFaturaLogoPostBoxServiceDto.Sifre = config.AppSettings.Settings["EFaturaLogoPostBoxServiceSifre"].Value;
+            eFaturaLogoPostBoxServiceDto.GrupKodu = "Logo";
+
+            var eFaturaEdmDto = new EFaturaAyarlariDto();
+
+            //eFaturaEdmDto.ServiceUrl = config.AppSettings.Settings["EFaturaEdmServiceUrl"].Value;
+            //eFaturaEdmDto.KullaniciAdi = config.AppSettings.Settings["EFaturaEdmKullaniciAdi"].Value;
+            //eFaturaEdmDto.Sifre = config.AppSettings.Settings["EFaturaEdmSifre"].Value;
+            eFaturaEdmDto.GrupKodu = "EDM";
+
+            var eFaturaVbtDto = new EFaturaAyarlariDto();
+
+            //eFaturaVbtDto.ServiceUrl = config.AppSettings.Settings["EFaturaVbtServiceUrl"].Value;
+            //eFaturaVbtDto.KullaniciAdi = config.AppSettings.Settings["EFaturaVbtKullaniciAdi"].Value;
+            //eFaturaVbtDto.Sifre = config.AppSettings.Settings["EFaturaVbtSifre"].Value;
+            eFaturaVbtDto.GrupKodu = "VBT";
+
+            ViewBag.EFaturaEntegratorler = new List<EFaturaAyarlariDto> {
+                eFaturaLogoPostBoxServiceDto,
+                eFaturaEdmDto,
+                eFaturaVbtDto
+            };
+            
+
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult EFaturaAyarlari(EFaturaAyarlariDto eFaturaAyarlariDto)
+        {
+            if (string.IsNullOrWhiteSpace(eFaturaAyarlariDto.GrupKodu))
+            {
+                return Json(new { success = false, message = "Grup Kodu Gönderilmeli"});
+
+            }
+
+            var kullanici = KullaniciGetir(GetCookie("KullaniciID"));
+
+            if (kullanici == null || !kullanici.KullaniciAdi.Contains("@ykyazilim.com.tr"))
+            {
+                return Json(new { success = true, redirectUrl = Url.Action("AnaSayfa", "YK") });
+
+            }
+
+            var entegratorler = Entegratorler();
+
+            if (!entegratorler.Any(m => m.Deger == eFaturaAyarlariDto.GrupKodu))
+            {
+                return Json(new { success = false, message = "Grup Kodu Hatalı" });
+            }
+
+            try
+            {
+                
+                var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
+
+                switch(eFaturaAyarlariDto.GrupKodu)
+                {
+                    case "EDM":
+                    
+                        break;
+                    case "Logo":
+                        config.AppSettings.Settings["EFaturaLogoPostBoxServiceUrl"].Value = eFaturaAyarlariDto.ServiceUrl;
+                        config.AppSettings.Settings["EFaturaLogoPostBoxServiceKullaniciAdi"].Value = eFaturaAyarlariDto.KullaniciAdi;
+                        config.AppSettings.Settings["EFaturaLogoPostBoxServiceSifre"].Value = eFaturaAyarlariDto.Sifre;
+                        break;
+
+                    case "VBT":
+
+                        break;
+                }
+
+
+                config.Save();
+
+
+                return Json(new { success = true, message = "EFatura ayarları başarıyla kaydedildi." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Bir hata oluştu: " + ex.Message });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Seriler()
+        {
+            return View();
+        }
         private bool BoolKontrolu(string key)
         {
             return key == "True";
         }
 
+
+
+        private  List<GrupKoduDto> Entegratorler()
+        {
+            // GrupKodu1 Listesi oluşturma 
+            SqlCommand entegratorCommand = new SqlCommand();
+            entegratorCommand.CommandText = "p_GrupKoduListesi";
+            entegratorCommand.CommandType = System.Data.CommandType.StoredProcedure;
+            entegratorCommand.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+            entegratorCommand.Parameters.AddWithValue("@Kod", "EFaturaEntegrator");
+            entegratorCommand.Parameters.AddWithValue("@AranacakKelime", "");
+
+
+            DataTable entegratorDataTable = (DataTable)IDVeritabani.Sorgula(entegratorCommand, SorgulaTuru.Tablo);
+
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
+
+            for (int i = 0; i < entegratorDataTable.Rows.Count; i++)
+            {
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(entegratorDataTable.Rows[i]["ID"]);
+                entity.Deger = Convert.ToString(entegratorDataTable.Rows[i]["Deger"]);
+                entities.Add(entity);
+            }
+            ViewBag.Entegratorler = entities;
+
+            return entities;
+        }
         private KullaniciEkleDto KullaniciGetir(string ID)
         {
             SqlCommand cmd = new SqlCommand();

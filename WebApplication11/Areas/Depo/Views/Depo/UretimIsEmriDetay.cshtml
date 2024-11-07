@@ -130,7 +130,16 @@
 
 
             if ($("#StokKodu").val() == "") {
-                alert("StokKodu boş olamaz!");
+                Swal.fire({
+                    text: "StokKodu boş olamaz!",
+                    icon: "error",
+                    buttonsStyling: false,
+                    confirmButtonText: "Anladım!",
+                    customClass: {
+                        confirmButton: "btn btn-primary"
+                    }
+                });
+               
                 return;
             }
 
@@ -147,16 +156,43 @@
     }
 }];
             if (stokkodlari.indexOf($("#StokKodu").val()) == -1) {
-                alert("Ürün eşleşmedi!");
+                Swal.fire({
+                    text: "Ürün eşleşmedi!",
+                    icon: "error",
+                    buttonsStyling: false,
+                    confirmButtonText: "Anladım!",
+                    customClass: {
+                        confirmButton: "btn btn-primary"
+                    }
+                });
+              
                 return;
             }
             if (parseFloat($("#Miktar").val()) > parseFloat(stokkodlariMiktarli[stokkodlari.indexOf($("#StokKodu").val())])) {
-                alert("Miktar fazla olamaz!");
+                Swal.fire({
+                    text: "Miktar fazla olamaz!",
+                    icon: "error",
+                    buttonsStyling: false,
+                    confirmButtonText: "Anladım!",
+                    customClass: {
+                        confirmButton: "btn btn-primary"
+                    }
+                });
+               
                 return;
             }
 
             if ($("#Seri").val() == "") {
-                alert("Seri No seçilmelidir!");
+                Swal.fire({
+                    text: "Seri No seçilmelidir!",
+                    icon: "error",
+                    buttonsStyling: false,
+                    confirmButtonText: "Anladım!",
+                    customClass: {
+                        confirmButton: "btn btn-primary"
+                    }
+                });
+              
                 return;
             }
 

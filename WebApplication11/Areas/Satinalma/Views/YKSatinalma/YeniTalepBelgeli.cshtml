@@ -427,7 +427,16 @@
 
             // En az bir kalem girilmiş mi kontrolü
             if (kalemler.length === 0) {
-                alert("Lütfen kalem giriniz.");
+                Swal.fire({
+                    text: "Lütfen kalem giriniz!",
+                    icon: "error",
+                    buttonsStyling: false,
+                    confirmButtonText: "Anladım!",
+                    customClass: {
+                        confirmButton: "btn btn-primary"
+                    }
+                });
+              
                 return;
             }
 
@@ -456,7 +465,9 @@
                 type: "POST",
                 success: function (data) {
                     $("#Kaydet").text("Kaydet");
-                    alert("Belge Kaydedildi!");
+
+                    sweetalert("Belge Kaydedildi!", "success");
+                  
                     // Detay sayfasını aç
                     //window.open("/Belge/Detay/" + data.Data + "?Tip=@(Request.QueryString["Tip"])","_parent");
                     window.open("/Satinalma/YKSatinalma/YeniTalepBelgeliListe?Tip=@(Request.QueryString["Tip"])", "_parent");

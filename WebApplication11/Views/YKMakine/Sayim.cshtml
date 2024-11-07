@@ -185,7 +185,16 @@
                     }
                 },
                 error: function (data) {
-                    alert(data.m);
+                    Swal.fire({
+                        text: data.m,
+                        icon: "succsess",
+                        buttonsStyling: false,
+                        confirmButtonText: "Anladım!",
+                        customClass: {
+                            confirmButton: "btn btn-primary"
+                        }
+                    });
+                  
                 }
             });
 

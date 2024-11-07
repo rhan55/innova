@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "EFaturaAyarlari";
+    Layout = "EFaturaAyarlari";
+}
+
+<h2>EFaturaAyarlari</h2>
+
+
+<div class="container mt-10">
+    <form action="/Ayarlar/EFaturaAyarlari" method="post">
+
+        <div class="row mb-12">
+            <!--begin::Input group-->
+            <div class="col-lg-6">
+                <!--begin::Label-->
+                <label for="EFaturaLogoPostBoxServiceKullaniciAdi" class="fw-bold text-gray-700 fs-6 mb-2">EFaturaLogoPostBoxServiceKullaniciAdi</label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input type="text" id="EFaturaLogoPostBoxServiceKullaniciAdi" name="EFaturaLogoPostBoxServiceKullaniciAdi" class="form-control p-2" value="@Model.EFaturaLogoPostBoxServiceKullaniciAdi">
+                <!--end::Input-->
+            </div>
+            <!--begin::Input group-->
+
+
+            <div class="col-lg-6">
+                <!--begin::Label-->
+                <label for="EFaturaLogoPostBoxServiceSifre" class="fw-bold text-gray-700 fs-6 mb-2"></label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input type="text" id="EFaturaLogoPostBoxServiceSifre" name="EFaturaLogoPostBoxServiceSifre" class="form-control p-2" value="@Model.EFaturaLogoPostBoxServiceSifre">
+                <!--end::Input-->
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <!--begin::Label-->
+                <label for="" class="fw-bold text-gray-700 fs-6 mb-2"></label>
+                <!--end::Label-->
+                <!--begin::Input-->
+                <input type="text" id="" name="" class="form-control p-2" value="">
+                <!--end::Input-->
+            </div>
+
+        </div>
+
+        <div class="pt-10">
+            <a onclick="history.back()" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
+            <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Kaydet">
+                <span class="indicator-label">Kaydet</span>
+
+            </button>
+        </div>
+
+
+    </form>
+</div>

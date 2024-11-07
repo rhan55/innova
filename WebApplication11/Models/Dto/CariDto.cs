@@ -68,6 +68,8 @@ namespace YKPortal.Models.Dto
         private string _TeslimCariID;
         private string _KullaniciID;
 
+        private CariEFaturaBilgiGuncelleDto _EFaturaBilgileri;
+
 
         public bool Sil { get { return _Sil == null ? false : _Sil; } set { _Sil = value; } }
         public bool Duzenle { get { return _Duzenle == null ? false : _Duzenle; } set { _Duzenle = value; } }
@@ -127,6 +129,7 @@ namespace YKPortal.Models.Dto
         public string AnaCariID { get { return _AnaCariID ?? ""; } set { _AnaCariID = value; } }
         public string TeslimCariID { get { return _TeslimCariID ?? ""; } set { _TeslimCariID = value; } }
         public string KullaniciID { get { return _KullaniciID ?? ""; } set { _KullaniciID = value; } }
+        public CariEFaturaBilgiGuncelleDto EFaturaBilgileri { get { return _EFaturaBilgileri ?? new CariEFaturaBilgiGuncelleDto { }; } set { _EFaturaBilgileri = value; } }
 
     }
 }

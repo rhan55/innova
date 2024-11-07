@@ -1246,10 +1246,27 @@
                             }))
                         },
                         error: function (response) {
-                            alert(response.responseText);
+                            Swal.fire({
+                                text: response.responseText,
+                                icon: "success",
+                                buttonsStyling: false,
+                                confirmButtonText: "Anladım!",
+                                customClass: {
+                                    confirmButton: "btn btn-primary"
+                                }
+                            });
+                           
                         },
                         failure: function (response) {
-                            alert(response.responseText);
+                            Swal.fire({
+                                text: response.responseText,
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Anladım!",
+                                customClass: {
+                                    confirmButton: "btn btn-primary"
+                                }
+                            });
                         }
                     });
                 },
@@ -1272,10 +1289,26 @@
                             }))
                         },
                         error: function (response) {
-                            alert(response.responseText);
+                            Swal.fire({
+                                text: response.responseText,
+                                icon: "success",
+                                buttonsStyling: false,
+                                confirmButtonText: "Anladım!",
+                                customClass: {
+                                    confirmButton: "btn btn-primary"
+                                }
+                            });
                         },
                         failure: function (response) {
-                            alert(response.responseText);
+                            Swal.fire({
+                                text: response.responseText,
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Anladım!",
+                                customClass: {
+                                    confirmButton: "btn btn-primary"
+                                }
+                            });
                         }
                     });
                 },

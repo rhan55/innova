@@ -1,0 +1,178 @@
+﻿@using YKPortal.Models.Dto
+@{
+    ViewBag.Title = "Entegrasyonlar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    
+}
+
+
+<div class="container mt-10">
+
+    <div class="row  mt-lg-0">
+        <div class="form-group">
+            <label for="EFaturaEntagrator" class="fw-bold text-gray-700 fs-6 mb-2">EFatura Entagratör</label>
+            <select class="form-control p-2 rounded-1" name="EFaturaEntagrator" data-control="select2" id="EFaturaEntagrator"
+                    aria-label="Floating label select example">
+                <option value="">Lütfen Seçim Yapınız</option>
+                @foreach (GrupKoduDto EFaturaEntagrator in ViewBag.Entegratorler)
+                {
+                    <option value="@EFaturaEntagrator.Deger">@EFaturaEntagrator.Deger</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    @foreach(GrupKoduDto EFaturaEntegrator in ViewBag.Entegratorler)
+    {
+        <div class="hidden entegrasyon-ayarlari mt-10" id="Content@(EFaturaEntegrator.Deger)">
+            <form action="/" method="post" data-grupKodu="@EFaturaEntegrator.Deger">
+
+                <input type="hidden" name="GrupKodu" value="@EFaturaEntegrator.Deger" />
+                @foreach (YKEFaturaEntegrasyon.Dto.EFaturaAyarlariDto eFaturaAyarlariDto in ViewBag.EFaturaEntegratorler)
+                {
+                    if (eFaturaAyarlariDto.GrupKodu == EFaturaEntegrator.Deger)
+                    {
+                        <div class="row">
+                            <div class="col-lg-6 mb-6">
+                                <!-- Service URL Label and Input -->
+                                <label for="ServiceUrl" class="fw-bold text-gray-700 fs-6 mb-2">
+                                    EFatura Service Url
+                                </label>
+                                <input type="text" id=""
+                                       name="ServiceUrl"
+                                       class="form-control p-2" value="@(eFaturaAyarlariDto.ServiceUrl)">
+
+                            </div>
+                            <div class="col-lg-6">
+                                <!-- Service URL Label and Input -->
+                                <label for="KullaniciAdi" class="fw-bold text-gray-700 fs-6 mb-2">
+                                    EFatura Kullanıcı Adı
+                                </label>
+
+                                <input type="text" id=""
+                                       name="KullaniciAdi"
+                                       class="form-control p-2" value="@(eFaturaAyarlariDto.KullaniciAdi)">
+                            </div>
+                           
+
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <!-- Service URL Label and Input -->
+                                <label for="KullaniciAdi" class="fw-bold text-gray-700 fs-6 mb-2">
+                                    EFatura Şifre
+                                </label>
+
+                                <input type="text" id=""
+                                       name="Sifre"
+                                       class="form-control p-2" value="@(eFaturaAyarlariDto.Sifre)">
+                            </div>
+                        </div>
+                            } else
+                            {
+                            continue;
+                            }
+
+                            }
+                            <div class="row">
+                                <div class="col-lg-6 offset-lg-6 d-flex justify-content-end">
+                                    <button class="btn btn-primary btn-sm" type="submit">Kaydet</button>
+                                </div>
+                            </div>
+                    </form>
+        </div>
+    }
+
+
+
+    @*<div class="">
+
+        <div class="tab-pane fade" id="tab_EArsiv">
+
+            <div class="container mt-14">
+                <form id="EArsivForm">
+
+
+                    <div class="row">
+                        AAAAAAAAAAAAA
+                    </div>
+                    <div class="pt-10">
+                        <a onclick="history.back()" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
+                        <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Kaydet">
+                            <span class="indicator-label">Kaydet</span>
+
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>*@
+</div>
+
+
+
+
+@section Scripts {
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            const eFaturaEntagratorSelect = $('#EFaturaEntagrator').select2(select2Options("/Ayarlar/Entegratorler"));
+
+            // Select2'yi başlatma
+            $('#EFaturaEntagrator').select2();
+
+            // Seçim değiştiğinde ilgili alanı gösterip diğerlerini gizleme
+            $('#EFaturaEntagrator').on('change', function () {
+                var selectedValue = $(this).val();
+
+                $('.entegrasyon-ayarlari').addClass('hidden');
+
+                $('.entegrasyon-ayarlari#Content' + selectedValue).removeClass('hidden');
+            });
+
+
+            // B2B formunu submit ettiğimizde
+            $('form').on('submit', function (e) {
+                e.preventDefault(); // Formun normal submit olmasını engelle
+
+                // Form verilerini topla
+                var formData = {
+                    GrupKodu: $(this).find('input[name="GrupKodu"]').val(),
+                    ServiceUrl: $(this).find('input[name="ServiceUrl"]').val(),
+                    KullaniciAdi: $(this).find('input[name="KullaniciAdi"]').val(),
+                    Sifre: $(this).find('input[name="Sifre"]').val(),
+                };
+
+                $.ajax({
+                    url: '/Ayarlar/EFaturaAyarlari', // Metodun adresi
+                    type: 'POST',
+                    data: formData, // Gönderilecek veri,
+                  
+                    success: function (response) {
+                        // Başarılı olduğunda yapılacaklar
+                        console.log(response);
+                        sweetalert("EFatura Ayarları başarıyla kaydedildi.", "success")
+
+                    },
+                    error: function (xhr, status, error) {
+                        // Hata durumunda yapılacaklar
+                        console.log(error);
+                        sweetalert("Bir hata oluştu", "error")
+
+                    }
+                });
+            });
+
+        });
+
+    </script>
+
+
+}

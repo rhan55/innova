@@ -413,7 +413,17 @@
                             }
                         });
                     } else {
-                        alert("Barkod bulunamadı!");
+
+                       
+                        Swal.fire({
+                            text: "Barkod bulunamadı!!",
+                            icon: "error",
+                            buttonsStyling: false,
+                            confirmButtonText: "Anladım!",
+                            customClass: {
+                                confirmButton: "btn btn-primary"
+                            }
+                        });
                         $("#Barkod").val("");
                         $("#Barkod").focus();
                     }
@@ -548,12 +558,30 @@
         function Kaydet() {
             $("#Kaydet").text("Lütfen bekleyin....");
             if ($("#BelgeNo").val() == "" && Tip == "AI") {
-                alert("Lütfen belge numarası yazınız.");
+               
+                Swal.fire({
+                    text: "Lütfen belge numarası yazınız!",
+                    icon: "error",
+                    buttonsStyling: false,
+                    confirmButtonText: "Anladım!",
+                    customClass: {
+                        confirmButton: "btn btn-primary"
+                    }
+                });
                 $("#Kaydet").text("Kaydet");
                 return;
             }
             if (($("#CariID").val() == "" || $("#CariID").val() == null) && Tip == "AI") {
-                alert("Lütfen cari seçiniz.");
+              
+                Swal.fire({
+                    text: "Lütfen cari seçiniz!",
+                    icon: "error",
+                    buttonsStyling: false,
+                    confirmButtonText: "Anladım!",
+                    customClass: {
+                        confirmButton: "btn btn-primary"
+                    }
+                });
                 $("#Kaydet").text("Kaydet");
                 return;
             }
@@ -582,7 +610,16 @@
 
             // En az bir kalem girilmiş mi kontrolü
             if (kalemler.length === 0) {
-                alert("Lütfen kalem giriniz.");
+              
+                Swal.fire({
+                    text: "Lütfen kalem giriniz!",
+                    icon: "error",
+                    buttonsStyling: false,
+                    confirmButtonText: "Anladım!",
+                    customClass: {
+                        confirmButton: "btn btn-primary"
+                    }
+                });
                 return;
             }
 
@@ -611,7 +648,16 @@
                 type: "POST",
                 success: function (data) {
                     $("#Kaydet").text("Kaydet");
-                    alert("Belge Kaydedildi!");
+                   
+                    Swal.fire({
+                        text: "Belge Kaydedildi!",
+                        icon: "success",
+                        buttonsStyling: false,
+                        confirmButtonText: "Anladım!",
+                        customClass: {
+                            confirmButton: "btn btn-primary"
+                        }
+                    });
                     // Detay sayfasını aç
                     //window.open("/Belge/Detay/" + data.Data + "?Tip=@(Request.QueryString["Tip"])","_parent");
                     window.open("/Belge/Liste?Tip=@(Request.QueryString["Tip"])", "_parent");
