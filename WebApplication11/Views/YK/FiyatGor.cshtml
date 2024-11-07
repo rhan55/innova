@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "FiyatGor";
+    Layout = null;
+}
+<html>
+<head>
+    <title>Fiyat Gör</title>
+    <link href="~/Tema/css/style.bundle.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+    <div style="text-align:center;margin-top:50px;">
+        <img src="~/Content/logo.png" alt="" />
+        <br /><br />
+        <input type="text" name="txtBarkod" id="txtBarkod" inputmode="none" value="" autofocus class="form-control" style="margin-left:auto;margin-right:auto;font-size:35px;text-align:center;width:500px;" placeholder="BARKOD OKUTUNUZ" onkeydown="BarkodOku()" />
+        <br /><br />
+        <span style="font-size: 35px;margin-left:auto;margin-right: auto;color:green;" id="StokAdi" name="StokAdi"></span><br />
+        <span style="font-size: 35px; margin-left: auto; margin-right: auto; color: green; " id="Fiyat" name="Fiyat"></span>
+    </div>
+
+    <audio controls id="HataSesi" style="display:none;">
+        <source src="/content/Hata.mp3" type="audio/mpeg">
+    </audio>
+    <script src="~/Tema/plugins/global/plugins.bundle.js"></script>
+    <script src="~/Tema/js/scripts.bundle.js"></script>
+    <script type="text/javascript">
+
+        var elem = document.documentElement;
+        function openFullscreen() {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) { /* Safari */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE11 */
+                elem.msRequestFullscreen();
+            }
+        }
+
+        function closeFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) { /* Safari */
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) { /* IE11 */
+                document.msExitFullscreen();
+            }
+        }
+        openFullscreen();
+        function BarkodOku() {
+            if (event.keyCode == 13) {
+
+                var Barkod = $("#txtBarkod").val();
+                $("#txtBarkod").val("");
+                //Kullanıcı barkot okuma
+                $.ajax({
+                    async: false,
+                    cache: false,
+                    type: "GET",
+                    url: "/YK/FiyatGorGetir",
+                    data: { "Barkod": Barkod },
+                    success: function (data) {
+                        console.log(data);
+                        $("#StokAdi").text(data.Kod);
+                        $("#Fiyat").text(data.Isim);
+                        setTimeout(() => $("#StokAdi").text(""), 4000);
+                        setTimeout(() => $("#Fiyat").text(""), 4001);
+
+                        document.getElementById('StokAdi').style.color = "green";
+                        if (data.Kod.startsWith("ÜRÜN BULUNAMADI!")) {
+
+                            let vid = document.getElementById("HataSesi");
+                            vid.play();
+
+                            Swal.fire({
+                                position: "center",
+                                icon: "error",
+                                title: data.Aciklama,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+
+                            //document.getElementById('GenelCerceve').style.backgroundColor = "red";
+                            document.getElementById('StokAdi').style.color = "red";
+
+                        }
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+
+            }
+        }
+
+
+    </script>
+
+</body>
+</html>

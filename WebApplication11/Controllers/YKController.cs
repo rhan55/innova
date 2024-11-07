@@ -673,6 +673,34 @@ namespace YKPortal.Controllers
         }
 
 
+        [HttpGet]
+        public ActionResult FiyatGor()
+        {
+            return View();
+        }
+
+        public JsonResult FiyatGorGetir(string Barkod)
+        {
+            StokDto entity = new StokDto();
+
+            SqlCommand cmd2 = new SqlCommand();
+            cmd2.CommandText = "p_StokFiyatGor";
+            cmd2.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd2.Parameters.AddWithValue("@Barkod", Barkod);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
+            if (dt.Rows.Count > 0)
+            {
+                entity.Kod = Convert.ToString(dt.Rows[0]["Isim"]);
+                entity.Isim = String.Format("{0:N2} TL", Convert.ToDecimal(dt.Rows[0]["Fiyat"]));
+            }
+            else
+            {
+                entity.Kod = "ÜRÜN BULUNAMADI!";
+            }
+
+            return Json(entity, JsonRequestBehavior.AllowGet);
+        }
+
 
         #region Cookie İşlemleri
 
@@ -883,5 +911,9 @@ namespace YKPortal.Controllers
                 return false;
             }
         }
+
+
+
+
     }
 }

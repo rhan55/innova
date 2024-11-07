@@ -16,7 +16,7 @@
     bool tamamlandi = true;
     foreach (DataRow dr in dtKayitlar.Rows)
     {
-        if (Convert.ToDecimal(dr["ToplananMiktar"]) == 0)
+        if (Convert.ToString(dr["StokKodu"]).Trim().Length > 0 && Convert.ToDecimal(dr["ToplananMiktar"]) == 0)
         {
             tamamlandi = false;
         }
@@ -187,7 +187,7 @@
         });
 
         function BarkodOku() {
-            const myArray = $("#Barkod").val().split("#");
+            const myArray = $("#Barkod").val().split("+");
             let stok = myArray[0];
             let seri = "";
             if (myArray.length > 1) {
@@ -195,7 +195,7 @@
             }
             let miktar = "1";
             if (myArray.length > 2) {
-                miktar = myArray[3];
+                miktar = myArray[2];
                 $("#Miktar").val(miktar);
             } else {
                 $("#Miktar").val("1");

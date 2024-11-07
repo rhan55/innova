@@ -25,7 +25,7 @@
                 <a href="@Url.Action("UretimIsEmriDetay","Depo",new { Area = "Depo", IsEmriNo = dr["IsEmriNo"] })" class="tum-kenar-oval" style="width:49%;margin:1px;padding:0px;height:150px;font-size:14px;float:left;text-align:center;vertical-align:middle; ">
                     <br>
                     <span style="font-size:12px;"><strong>@dr["StokAdi"]</strong></span><br />
-                    <span style="font-size:14px;color:green;">@String.Format("Miktar : {0:N0}", Convert.ToDecimal(dr["Miktar"]))</span><br />
+                    <span style="font-size:14px;color:green;">@String.Format("Miktar : {0:N2}", Convert.ToDecimal(dr["Miktar"]))</span><br />
                     <span style="font-size: 10px; color: darkgreen;"><strong>@dr["IsEmriNo"]</strong></span><br />
                     <span style="font-size: 8px; color: darkgreen;">@dr["Konum"]</span><br />
                 </a>
