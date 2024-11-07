@@ -152,32 +152,82 @@ namespace YKPortal.Controllers
             var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
 
             // Logo Ayarlari
-            var eFaturaLogoPostBoxServiceDto = new EFaturaLogoPostBoxServiceDto();
+            var eFaturaLogoPostBoxServiceDto = new EFaturaAyarlariDto();
 
-            eFaturaLogoPostBoxServiceDto.EFaturaLogoPostBoxServiceUrl = config.AppSettings.Settings["EFaturaLogoPostBoxServiceUrl"].Value;
-            eFaturaLogoPostBoxServiceDto.EFaturaLogoPostBoxServiceKullaniciAdi = config.AppSettings.Settings["EFaturaLogoPostBoxServiceKullaniciAdi"].Value;
-            eFaturaLogoPostBoxServiceDto.EFaturaLogoPostBoxServiceSifre = config.AppSettings.Settings["EFaturaLogoPostBoxServiceSifre"].Value;
+            eFaturaLogoPostBoxServiceDto.ServiceUrl = config.AppSettings.Settings["EFaturaLogoPostBoxServiceUrl"].Value;
+            eFaturaLogoPostBoxServiceDto.KullaniciAdi = config.AppSettings.Settings["EFaturaLogoPostBoxServiceKullaniciAdi"].Value;
+            eFaturaLogoPostBoxServiceDto.Sifre = config.AppSettings.Settings["EFaturaLogoPostBoxServiceSifre"].Value;
+            eFaturaLogoPostBoxServiceDto.GrupKodu = "Logo";
 
+            var eFaturaEdmDto = new EFaturaAyarlariDto();
 
+            //eFaturaEdmDto.ServiceUrl = config.AppSettings.Settings["EFaturaEdmServiceUrl"].Value;
+            //eFaturaEdmDto.KullaniciAdi = config.AppSettings.Settings["EFaturaEdmKullaniciAdi"].Value;
+            //eFaturaEdmDto.Sifre = config.AppSettings.Settings["EFaturaEdmSifre"].Value;
+            eFaturaEdmDto.GrupKodu = "EDM";
 
-            ViewBag.Efatura = eFaturaLogoPostBoxServiceDto;
+            var eFaturaVbtDto = new EFaturaAyarlariDto();
+
+            //eFaturaVbtDto.ServiceUrl = config.AppSettings.Settings["EFaturaVbtServiceUrl"].Value;
+            //eFaturaVbtDto.KullaniciAdi = config.AppSettings.Settings["EFaturaVbtKullaniciAdi"].Value;
+            //eFaturaVbtDto.Sifre = config.AppSettings.Settings["EFaturaVbtSifre"].Value;
+            eFaturaVbtDto.GrupKodu = "VBT";
+
+            ViewBag.EFaturaEntegratorler = new List<EFaturaAyarlariDto> {
+                eFaturaLogoPostBoxServiceDto,
+                eFaturaEdmDto,
+                eFaturaVbtDto
+            };
             
 
             return View();
         }
 
         [HttpPost]
-        public JsonResult EFaturaAyarlari(EFaturaLogoPostBoxServiceDto eFaturaLogoPostBoxServiceDto)
+        public JsonResult EFaturaAyarlari(EFaturaAyarlariDto eFaturaAyarlariDto)
         {
+            if (string.IsNullOrWhiteSpace(eFaturaAyarlariDto.GrupKodu))
+            {
+                return Json(new { success = false, message = "Grup Kodu Gönderilmeli"});
+
+            }
+
+            var kullanici = KullaniciGetir(GetCookie("KullaniciID"));
+
+            if (kullanici == null || !kullanici.KullaniciAdi.Contains("@ykyazilim.com.tr"))
+            {
+                return Json(new { success = true, redirectUrl = Url.Action("AnaSayfa", "YK") });
+
+            }
+
+            var entegratorler = Entegratorler();
+
+            if (!entegratorler.Any(m => m.Deger == eFaturaAyarlariDto.GrupKodu))
+            {
+                return Json(new { success = false, message = "Grup Kodu Hatalı" });
+            }
+
             try
             {
+                
                 var config = System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration("~");
 
-                
-                config.AppSettings.Settings["EFaturaLogoPostBoxServiceUrl"].Value = eFaturaLogoPostBoxServiceDto.EFaturaLogoPostBoxServiceUrl;
-                config.AppSettings.Settings["EFaturaLogoPostBoxServiceKullaniciAdi"].Value = eFaturaLogoPostBoxServiceDto.EFaturaLogoPostBoxServiceKullaniciAdi;
-                config.AppSettings.Settings["EFaturaLogoPostBoxServiceSifre"].Value = eFaturaLogoPostBoxServiceDto.EFaturaLogoPostBoxServiceSifre;
-            
+                switch(eFaturaAyarlariDto.GrupKodu)
+                {
+                    case "EDM":
+                    
+                        break;
+                    case "Logo":
+                        config.AppSettings.Settings["EFaturaLogoPostBoxServiceUrl"].Value = eFaturaAyarlariDto.ServiceUrl;
+                        config.AppSettings.Settings["EFaturaLogoPostBoxServiceKullaniciAdi"].Value = eFaturaAyarlariDto.KullaniciAdi;
+                        config.AppSettings.Settings["EFaturaLogoPostBoxServiceSifre"].Value = eFaturaAyarlariDto.Sifre;
+                        break;
+
+                    case "VBT":
+
+                        break;
+                }
+
 
                 config.Save();
 
@@ -202,7 +252,7 @@ namespace YKPortal.Controllers
 
 
 
-        private  void Entegratorler()
+        private  List<GrupKoduDto> Entegratorler()
         {
             // GrupKodu1 Listesi oluşturma 
             SqlCommand entegratorCommand = new SqlCommand();
@@ -226,6 +276,8 @@ namespace YKPortal.Controllers
                 entities.Add(entity);
             }
             ViewBag.Entegratorler = entities;
+
+            return entities;
         }
         private KullaniciEkleDto KullaniciGetir(string ID)
         {

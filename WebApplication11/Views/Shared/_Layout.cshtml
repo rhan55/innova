@@ -396,12 +396,12 @@
 
 
                                 <!--begin::Menu item-->
-                                <div class="menu-item">
+                                <div class="menu-item p-0">
                                     <a href="@Url.Action("Profil", "Kullanici", new { Area = "" })" class="menu-link px-4">Profilime Git</a>
                                 </div>
                                 <!--end::Menu item-->
                                 <!--begin::Menu item-->
-                                <div class="menu-item">
+                                <div class="menu-item p-0">
                                     <a href="/YK/Cikis" class="menu-link px-4">Çıkış Yap</a>
                                 </div>
                                 <!--end::Menu item-->
@@ -667,7 +667,7 @@
     //    }
     //    // Sekme yapısı bitişi
         //SELECT2 fONKSİYONU
-        function select2Options(url) {
+    function select2Options(url) {
             return {
                 ajax: {
                     url: url,
@@ -704,6 +704,8 @@
                 }
             }
         }
+
+
     function toastr(title = "", description = "") {
         const toastElement = document.getElementById('kt_docs_toast_toggle');
         $(toastElement).find('[data-element="toast-title"]').html(title);

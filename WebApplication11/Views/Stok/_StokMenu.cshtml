@@ -16,118 +16,88 @@
     Isim = Convert.ToString(dt.Rows[0]["Isim"]);
 
 }
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container">
 
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link rounded-0  py-2 px-8" href="/Stok/Duzenle/@ViewData["StokID"]" aria-current="page">
+                    <span class="menu-icon">
+                        <i class="ki-duotone ki-home fs-3">
+                            <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span>
+                        </i>
+                    </span>                  
+                    <span class="menu-title fw-semibold text-gray-700 ps-2">Genel Bilgiler</span>
+                </a>
+                <a class="nav-link rounded-0 py-2 px-8" href="/Stok/NotListe?StokID=@ViewData["StokID"]">
+                    <span class="menu-icon">
+                        <i class="ki-duotone ki-notepad-bookmark fs-3">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                            <span class="path3"></span>
+                            <span class="path4"></span>
+                            <span class="path5"></span>
+                            <span class="path6"></span>
+                        </i>
+                    </span>
+                    <span class="menu-title fw-semibold text-gray-700 ps-2">Notlar</span>
+                </a>
+                <a class="nav-link rounded-0 py-2 px-8" href="/Dosya/Liste?Modul=Stok&KayitID=@ViewData["StokID"]">
+                    <span class="menu-icon">
+                        <i class="ki-duotone ki-folder fs-3">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                    </span>
+                    <span class="menu-title fw-semibold text-gray-700 ps-2">Dosyalar</span>
+                </a>
+                <a class="nav-link rounded-0 py-2 px-8"href="/Stok/YeniStokHareketKaydi?StokID=@(ViewData["StokID"])&Isim=@(Isim)">
+                    <span class="menu-icon">
+                        <i class="ki-duotone ki-brush fs-3">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                            <span class="path3"></span>
+                            <span class="path4"></span>
+                        </i>
+                    </span>
+                    <span class="menu-title fw-semibold text-gray-700 ps-2">Yeni Stok Hareketi</span>
+                </a>
+                <a class="nav-link rounded-0 py-2 px-8" href="/Stok/HareketListesi?StokID=@ViewData["StokID"]">
+                    <span class="menu-icon">
+                        <i class="ki-duotone ki-book-square fs-3">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                            <span class="path3"></span>
+                            <span class="path4"></span>
+                        </i>
+                    </span>
+                    <span class="menu-title fw-semibold text-gray-700 ps-2">Stok Ekstre</span>
+                </a>
+                <a class="nav-link rounded-0 py-2 px-8" href="/Stok/FiyatEkle?StokID=@ViewData["StokID"]">
+                    <span class="menu-icon">
+                        <i class="ki-duotone ki-book-square fs-3">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                            <span class="path3"></span>
+                            <span class="path4"></span>
+                        </i>
+                    </span>
+                    <span class="menu-title fw-semibold text-gray-700 ps-2">Fiyat Ekle</span>
+                </a>
+               
+                <a class="nav-link rounded-0 py-2 px-8" href="/Stok/Liste">
+                    <span class="menu-icon">
+                        <i class="ki-duotone ki-black-left fs-3"></i>
+                    </span>
+                    <span class="menu-title fw-semibold text-gray-700 ps-2">Stok Listesine Dön</span>
+                </a>
+            </div>
 
-<div class="col-lg-2">
-    <!--begin::Menu-->
-    <div class="menu menu-rounded menu-column menu-title-gray-700 menu-icon-gray-500 menu-arrow-gray-500 menu-bullet-gray-500 menu-arrow-gray-500 menu-state-bg fw-semibold"
-         data-kt-menu="true">
-
-        <div class="menu-item pt-2">
-            <a href="/Stok/Duzenle/@ViewData["StokID"]" class="menu-link py-2 px-0">
-                <span class="menu-icon">
-                    <i class="ki-duotone ki-home fs-3">
-                        <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span>
-                    </i>
-                </span>
-                <span class="menu-title">Genel Bilgiler</span>
-            </a>
         </div>
-        <div class="menu-item">
-            <a href="/Stok/NotListe?StokID=@ViewData["StokID"]" class="menu-link py-2 px-0">
-                <span class="menu-icon">
-                    <i class="ki-duotone ki-notepad-bookmark fs-3">
-                        <span class="path1"></span>
-                        <span class="path2"></span>
-                        <span class="path3"></span>
-                        <span class="path4"></span>
-                        <span class="path5"></span>
-                        <span class="path6"></span>
-                    </i>
-                </span>
-                <span class="menu-title">Notlar</span>
-            </a>
-        </div>
-        <!--begin::Menu item-->
-        <div class="menu-item">
-            <a href="/Dosya/Liste?Modul=Stok&KayitID=@ViewData["StokID"]" class="menu-link py-2 px-0">
-                <span class="menu-icon">
-                    <i class="ki-duotone ki-folder fs-3">
-                        <span class="path1"></span>
-                        <span class="path2"></span>
-                    </i>
-                </span>
-                <span class="menu-title">Dosyalar</span>
-            </a>
-        </div>
-        <!--end::Menu item-->
-        <!--begin::Menu item-->
-        <div class="menu-item p-0">
-            <a href="/Stok/YeniStokHareketKaydi?StokID=@(ViewData["StokID"])&Isim=@(Isim)" class="menu-link py-2 rounded-0 px-0">
-                <span class="menu-icon">
-                    <i class="ki-duotone ki-brush fs-3">
-                        <span class="path1"></span>
-                        <span class="path2"></span>
-                        <span class="path3"></span>
-                        <span class="path4"></span>
-                    </i>
-                </span>
-                <span class="menu-title">Yeni Stok Hareket</span>
-            </a>
-        </div>
-        <!--end::Menu item-->
-        <!--begin::Menu item-->
-        <div class="menu-item p-0">
-            <a href="/Stok/HareketListesi?StokID=@ViewData["StokID"]" class="menu-link py-2 rounded-0 px-0">
-                <span class="menu-icon">
-                    <i class="ki-duotone ki-book-square fs-3">
-                        <span class="path1"></span>
-                        <span class="path2"></span>
-                        <span class="path3"></span>
-                        <span class="path4"></span>
-                    </i>
-                </span>
-                <span class="menu-title">Stok Ekstre</span>
-            </a>
-        </div>
-        <div class="menu-item p-0">
-            <a href="/Stok/FiyatEkle?StokID=@ViewData["StokID"]" class="menu-link rounded-0 py-2 px-0">
-                <span class="menu-icon">
-                    <i class="ki-duotone ki-book-square fs-3">
-                        <span class="path1"></span>
-                        <span class="path2"></span>
-                        <span class="path3"></span>
-                        <span class="path4"></span>
-                    </i>
-                </span>
-                <span class="menu-title">Fiyat Ekle</span>
-            </a>
-        </div>
-        <div class="menu-item p-0">
-            <a href="/Stok/FiyatListesi?StokID=@ViewData["StokID"]" class="menu-link rounded-0 py-2 px-0">
-                <span class="menu-icon">
-                    <i class="ki-duotone ki-book-square fs-3">
-                        <span class="path1"></span>
-                        <span class="path2"></span>
-                        <span class="path3"></span>
-                        <span class="path4"></span>
-                    </i>
-                </span>
-                <span class="menu-title">Fiyat Listesi</span>
-            </a>
-        </div>
-        <!--end::Menu item-->
-        <!--begin::Menu item-->
-        <div class="menu-item">
-            <a href="/Stok/Liste" class="menu-link py-2 px-0">
-                <span class="menu-icon">
-                    <i class="ki-duotone ki-black-left fs-3"></i>
-                </span>
-                <span class="menu-title">Stok Listesine Dön</span>
-            </a>
-        </div>
-        <!--end::Menu item-->
     </div>
-    <!--end::Menu-->
-</div>
+
+</nav>
+
+
+
 

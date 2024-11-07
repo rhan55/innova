@@ -1208,11 +1208,11 @@ namespace YKPortal.Controllers
 
             CariDto cari = Getir(CariID);
 
-            EFaturaLogoPostBoxServiceDto eFaturaLogoAyarlari = YKEFaturaEntegrasyon.EFaturaIslemleri.EFaturaLogoPostBoxServiceAyarlariGetir();
+            EFaturaAyarlariDto eFaturaLogoAyarlari = YKEFaturaEntegrasyon.EFaturaIslemleri.EFaturaLogoPostBoxServiceAyarlariGetir();
 
             var logoEntegrasyon = new LogoEntegrasyon(
-                    eFaturaLogoAyarlari.EFaturaLogoPostBoxServiceKullaniciAdi,
-                    eFaturaLogoAyarlari.EFaturaLogoPostBoxServiceSifre
+                    eFaturaLogoAyarlari.KullaniciAdi,
+                    eFaturaLogoAyarlari.Sifre
                 );
 
             //Aşağıdaki kısımları kendine göre ayarlarsın artık.

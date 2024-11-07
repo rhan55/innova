@@ -402,30 +402,14 @@
                         $('#EIrsaliyeAktiflik').prop('checked', response.Data.EIrsaliyeAktiflik);
                         $('#EFaturaBilgiGuncelle').modal('show');
                     } else {
-                        Swal.fire({
-                            text: "Veri alınamadı!",
-                            icon: "error",
-                            buttonsStyling: false,
-                            confirmButtonText: "Anladım!",
-                            customClass: {
-                                confirmButton: "btn btn-primary"
-                            }
-                        });
-
+                        sweetalert("Veri alınamadı!", "error");
+                       
                     }
                 },
                 error: function (xhr, status, error) {
                     console.log("Hata: " + error);
-
-                    Swal.fire({
-                        text: "Bir hata oluştu!",
-                        icon: "error",
-                        buttonsStyling: false,
-                        confirmButtonText: "Anladım!",
-                        customClass: {
-                            confirmButton: "btn btn-primary"
-                        }
-                    });
+                    sweetalert("Bir hata oluştu!", "error");
+                   
                 }
             });
 
@@ -501,16 +485,8 @@
                                 return json.data.CariListesi;
                             } else {
                                 // Başarısız olduğunda bir hata mesajı göster
-
-                                Swal.fire({
-                                    text: json.message,
-                                    icon: "error",
-                                    buttonsStyling: false,
-                                    confirmButtonText: "Anladım!",
-                                    customClass: {
-                                        confirmButton: "btn btn-primary"
-                                    }
-                                });
+                                sweetalert(json.message, "error");
+                               
                                 return [];
                             }
                         }
@@ -868,17 +844,7 @@
         $('#Cari-datatable').on('click', 'thead th', function () {
 
             var index = table.column(this).index();
-            Swal.fire({
-                text: index,
-                icon: "success",
-                buttonsStyling: false,
-                confirmButtonText: "Anladım!",
-                customClass: {
-                    confirmButton: "btn btn-primary"
-                }
-            });
-
-
+            sweetalert(index,"success")
         });
 
 

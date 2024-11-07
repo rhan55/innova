@@ -9,14 +9,14 @@ namespace YKEFaturaEntegrasyon
 {
     public class EFaturaIslemleri
     { 
-        public static EFaturaLogoPostBoxServiceDto EFaturaLogoPostBoxServiceAyarlariGetir()
+        public static EFaturaAyarlariDto EFaturaLogoPostBoxServiceAyarlariGetir()
         {
             //Bu bilgiler veritabanından UyelikID'si ile getirilecek.
 
-            EFaturaLogoPostBoxServiceDto entity = new EFaturaLogoPostBoxServiceDto()
+            EFaturaAyarlariDto entity = new EFaturaAyarlariDto()
             {
-                EFaturaLogoPostBoxServiceKullaniciAdi = "9811613622",
-                EFaturaLogoPostBoxServiceSifre = "1986*1986rY",
+                KullaniciAdi = "9811613622",
+                Sifre = "1986*1986rY",
             };
             return entity;
         }

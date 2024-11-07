@@ -93,7 +93,7 @@
       <DependentUpon>Deneme.cs</DependentUpon>
     </Compile>
     <Compile Include="EFaturaIslemleri.cs" />
-    <Compile Include="Dto\EFaturaLogoPostBoxServiceDto.cs" />
+    <Compile Include="Dto\EFaturaAyarlariDto.cs" />
     <Compile Include="LogoEntegrasyon.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
