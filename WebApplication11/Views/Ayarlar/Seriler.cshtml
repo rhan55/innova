@@ -8,7 +8,7 @@
 
 
 <div class="container">
-
+    
 
     <div class="row mt-10">
         <div class="card-body">
@@ -45,44 +45,83 @@
             <div class="tab-content">
                 <div class="tab-pane fade  show active" id="tab_EFaturaSerisi" style="margin:10px;">
                     <div class="container mt-10">
-                        <form id="EFaturaForm">
+                        <div class="row mb-10">
 
-                            <div class="row mb-10">
+                            <form action="/Ayarlar/SeriKaydet" method="post">
+                                <input type="hidden" id="seriId" name="ID" value="" /> <!-- Güncelleme işlemi için ID; yeni kayıtlarda boş -->
+                             
+                                <div class="row mb-5">
 
-                                EFATURA SERİSİ
-                            </div>
+                                    <div class="col-lg-6">
+                                        <label class="fw-semibold fs-6 mb-2" for="Kod">Kod:</label>
+                                        <input type="text" class="form-control p-2 mb-3 mb-lg-0" name="Kod" value="EFatura" readonly />
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label class="fw-semibold fs-6 mb-2" for="Deger">Deger:</label>
+                                        <input type="text" class="form-control p-2 mb-3 mb-lg-0" name="Deger" value="" maxlength="3"  />
+                                    </div>
+                                </div>
 
+                                <div class="row">
+                                    <div class="col-lg-2 d-flex align-items-center ">
+                                        <div class="form-check">
+                                            <input class="form-check-input" name="Aktif" type="checkbox" value="true" id="Aktif" checked />
+                                            <label class="form-check-label user-select-none cursor-pointer" for="Aktif">
+                                                Aktif
+                                            </label>
+                                        </div>
+                                    </div>
 
-                            <div class="pt-10">
-                                <a onclick="history.back()" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
-                                <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Kaydet">
-                                    <span class="indicator-label">Kaydet</span>
+                                </div>
 
-                                </button>
-                            </div>
+                                <div class="pt-10">
+                                    <a onclick="history.back()" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
+                                    <button onclick="SeriKaydet()" type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Kaydet">
+                                        <span class="indicator-label">Kaydet</span>
 
-
-                        </form>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="tab_EArsivSerisi">
 
                     <div class="container mt-14">
-                        <form id="EArsivForm">
-
-
-                            <div class="row">
-                                EARSİVSERİSİ
+                        <form action="/Ayarlar/SeriKaydet" method="post">
+                            <input type="hidden" id="seriId" value="" /> <!-- Güncelleme işlemi için ID; yeni kayıtlarda boş -->
+                            <div class="row mb-5">
+                                <div class="col-lg-6">
+                                    <label class="fw-semibold fs-6 mb-2" for="Kod">Kod:</label>
+                                    <input type="text" class="form-control p-2 mb-3 mb-lg-0" name="Kod" value="EArsiv" readonly />
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="fw-semibold fs-6 mb-2" for="Deger">Deger:</label>
+                                    <input type="text" class="form-control p-2 mb-3 mb-lg-0" name="Deger" value="" maxlength="3"  />
+                                </div>
                             </div>
+                            <div class="row">
+
+                                <div class="col-lg-2 d-flex align-items-center ">
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="Aktif" type="checkbox" value="true" id="Aktif" checked />
+                                        <label class="form-check-label user-select-none cursor-pointer" for="Aktif">
+                                            Aktif
+                                        </label>
+                                    </div>
+                                </div>
+
+                            </div>                          
+
                             <div class="pt-10">
                                 <a onclick="history.back()" class="btn btn-light btn-sm me-3" data-kt-users-modal-action="cancel">Geri</a>
-                                <button type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Kaydet">
+                                <button onclick="SeriKaydet()" type="submit" class="btn btn-primary btn-sm" data-kt-users-modal-action="Kaydet">
                                     <span class="indicator-label">Kaydet</span>
 
                                 </button>
                             </div>
                         </form>
-                    </div>
+                </div>
                 </div>
 
             </div>
@@ -96,6 +135,45 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     <script>
+        function SeriKaydet() {
+            // Girdileri JavaScript üzerinden alın
+            $('form').on('submit', function (e) {
+                e.preventDefault();
+
+                var seriDto = {
+                    ID: $(this).find('[name="ID"]').val() || "", // Eğer ID boşsa yeni kayıt olarak kabul edilir
+                    Kod: $(this).find('[name="Kod"]').val() || "", // Eğer ID boşsa yeni kayıt olarak kabul edilir
+                    Deger: $(this).find('[name="Deger"]').val() || "", // Eğer ID boşsa yeni kayıt olarak kabul edilir
+                    Aktif: $(this).find('[name="Aktif"]').is(":checked") || "", // Eğer ID boşsa yeni kayıt olarak kabul edilir
+                };
+
+                if (seriDto.Deger.length != 3) {
+                    sweetalert("Seri değeri 3 karakter olmalıdır.", "error");
+                    return;
+                }
+
+                loader().show();
+                $.ajax({
+                    url: '/Ayarlar/SeriKaydet',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(seriDto),
+                    success: function (response) {
+                        if (response.SonucKodu == "0") {
+                            sweetalert(response.Aciklama); // "Kayıt başarılı" mesajı
+                        } else {
+                            sweetalert(response.Aciklama, "error");
+                        }
+                        loader().hide();
+                    },
+                    error: function () {
+                        sweealert("Kayıt sırasında bir hata oluştu.", "error");
+                        loader().hide();
+                    }
+            })
+            
+            });
+        }
 
     </script>
     }

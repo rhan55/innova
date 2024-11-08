@@ -240,6 +240,37 @@ namespace YKPortal.Controllers
             }
         }
 
+        [HttpPost]
+        public JsonResult SeriKaydet (SeriDto seriDto)
+        {
+            if (seriDto.Deger.Length != 3)
+            {
+                return Json(new YKJsonResult { SonucKodu = "HATA", Aciklama = "Deger 3 karakter olmalıdır."});
+            }
+
+            SqlCommand cmd;
+            
+            if (string.IsNullOrWhiteSpace(seriDto.ID))
+            {
+                cmd = new SqlCommand("INSERT INTO Seriler(UyelikID, Kod, Deger, Aktif) VALUES(@UyelikID, @Kod, @Deger, @Aktif)");
+
+            } else
+            {
+                cmd = new SqlCommand("UPDATE Seriler SET UyelikID = @UyelikID, Kod = @Kod, Deger = @Deger, Aktif = @Aktif WHERE ID = @ID");
+                cmd.Parameters.AddWithValue("@ID", seriDto.ID);
+            }
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Kod", seriDto.Kod);
+            cmd.Parameters.AddWithValue("@Deger", seriDto.Deger);
+            cmd.Parameters.AddWithValue("@Aktif", seriDto.Aktif);
+
+            // DataTable aracılığıyla sorguyu çalıştırın
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+           
+            // İşlem tamamlandığında yönlendirme yapabilirsiniz
+            return Json(new YKJsonResult { SonucKodu = "0", Aciklama = "Kayıt başarılı" });
+        }
+
         [HttpGet]
         public ActionResult Seriler()
         {
