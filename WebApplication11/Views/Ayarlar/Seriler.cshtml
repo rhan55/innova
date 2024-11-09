@@ -4,9 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Seriler</h2>
-
-
 <div class="container">
     
 
@@ -141,10 +138,10 @@
                 e.preventDefault();
 
                 var seriDto = {
-                    ID: $(this).find('[name="ID"]').val() || "", // Eğer ID boşsa yeni kayıt olarak kabul edilir
-                    Kod: $(this).find('[name="Kod"]').val() || "", // Eğer ID boşsa yeni kayıt olarak kabul edilir
-                    Deger: $(this).find('[name="Deger"]').val() || "", // Eğer ID boşsa yeni kayıt olarak kabul edilir
-                    Aktif: $(this).find('[name="Aktif"]').is(":checked") || "", // Eğer ID boşsa yeni kayıt olarak kabul edilir
+                    ID: $(this).find('[name="ID"]').val() || "", 
+                    Kod: $(this).find('[name="Kod"]').val() || "", 
+                    Deger: $(this).find('[name="Deger"]').val() || "", 
+                    Aktif: $(this).find('[name="Aktif"]').is(":checked") || "", 
                 };
 
                 if (seriDto.Deger.length != 3) {
