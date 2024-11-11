@@ -10,6 +10,7 @@ using YKPortal.Models.Dto;
 using YKPortal.Models;
 using System.Configuration;
 using YKEFaturaEntegrasyon.Dto;
+using System.Diagnostics;
 
 namespace YKPortal.Controllers
 {
@@ -240,11 +241,121 @@ namespace YKPortal.Controllers
             }
         }
 
+        [HttpPost]
+        public JsonResult SeriKaydet (SeriDto seriDto)
+        {
+            if (seriDto.Deger.Length != 3)
+            {
+                return Json(new YKJsonResult { SonucKodu = "HATA", Aciklama = "Deger 3 karakter olmalıdır."});
+            }
+
+            SqlCommand cmd;
+            
+            if (string.IsNullOrWhiteSpace(seriDto.ID))
+            {
+                cmd = new SqlCommand("INSERT INTO Seriler(UyelikID, Kod, Deger, Aktif) VALUES(@UyelikID, @Kod, @Deger, @Aktif)");
+
+            } else
+            {
+                cmd = new SqlCommand("UPDATE Seriler SET UyelikID = @UyelikID, Kod = @Kod, Deger = @Deger, Aktif = @Aktif WHERE ID = @ID");
+                cmd.Parameters.AddWithValue("@ID", seriDto.ID);
+            }
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Kod", seriDto.Kod);
+            cmd.Parameters.AddWithValue("@Deger", seriDto.Deger);
+            cmd.Parameters.AddWithValue("@Aktif", seriDto.Aktif);
+
+            // DataTable aracılığıyla sorguyu çalıştırın
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+           
+            // İşlem tamamlandığında yönlendirme yapabilirsiniz
+            ViewBag.ID = seriDto.ID;
+            return Json(new YKJsonResult { SonucKodu = "0", Aciklama = "Kayıt başarılı" });
+        }
+
+        [HttpPost]
+        public JsonResult SeriSil(string id)
+        {
+            try
+            {
+                // Veritabanı bağlamını kullanarak ID'ye göre kaydı bulun ve silin
+                SqlCommand cmd = new SqlCommand("DELETE FROM Seriler WHERE ID = @ID AND UyelikID = @UyelikID");
+                cmd.Parameters.AddWithValue("@ID", id);
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                return Json(new YKJsonResult { SonucKodu = "0", Aciklama = "Seri Başarıyla Silindi" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new YKJsonResult { SonucKodu = "HATA", Aciklama = "Seri silinemedi  " });
+            }
+        }
+
         [HttpGet]
-        public ActionResult Seriler()
+        public ActionResult SeriEkle()
         {
             return View();
         }
+        [HttpGet]
+        public ActionResult SeriDuzenle(string ID)
+        {
+            if (string.IsNullOrWhiteSpace(ID))
+            {
+                return RedirectToAction("SeriListesi");
+            }
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Seriler WHERE ID = @ID AND UyelikID = @UyelikID");
+            cmd.Parameters.AddWithValue("@ID", ID);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            var entity = new SeriDto();
+            if (dt.Rows.Count > 0)
+            {
+                entity.ID = Convert.ToString(dt.Rows[0]["ID"]);
+                entity.Kod = Convert.ToString(dt.Rows[0]["Kod"]);
+                entity.Deger = Convert.ToString(dt.Rows[0]["Deger"]);
+                entity.Aktif = Convert.ToBoolean(dt.Rows[0]["Aktif"]);
+            }
+
+            return View(entity);
+        }
+
+        [HttpGet]
+        public ActionResult SeriListesi(string Kod)
+        {
+            if (string.IsNullOrWhiteSpace(Kod))
+            {
+                Kod = "EFatura";
+            }
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Seriler WHERE UyelikID = @UyelikID AND Kod = @Kod");
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Kod", Kod);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+
+            var entities = new List<SeriDto>();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                SeriDto entity = new SeriDto();
+                entity.ID = Convert.ToString(dt.Rows[i]["ID"]);
+                entity.Kod = Convert.ToString(dt.Rows[i]["Kod"]);
+                entity.Deger = Convert.ToString(dt.Rows[i]["Deger"]);
+                entity.Aktif = Convert.ToBoolean(dt.Rows[i]["Aktif"]);
+      
+                entities.Add(entity);
+            }
+
+            ViewBag.Kod = Kod;
+
+            return View(entities);
+        }
+
+
         private bool BoolKontrolu(string key)
         {
             return key == "True";
@@ -432,9 +543,8 @@ namespace YKPortal.Controllers
                 return false;
             }
         }
-        #endregion
+    #endregion
 
-    }
-
+}
 
 }

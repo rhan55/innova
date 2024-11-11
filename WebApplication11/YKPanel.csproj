@@ -344,6 +344,7 @@
     <Compile Include="Models\Dto\PersonelDto.cs" />
     <Compile Include="Models\Dto\PersonelListeViewModel.cs" />
     <Compile Include="Models\Dto\SeoAyarlariDto.cs" />
+    <Compile Include="Models\Dto\SeriDto.cs" />
     <Compile Include="Models\Dto\SmsAyarlariDto.cs" />
     <Compile Include="Models\Dto\StokListeJsonModel.cs" />
     <Compile Include="Models\Dto\StokListeViewModel.cs" />
@@ -3099,7 +3100,6 @@
     <Content Include="Views\Ayarlar\ConfigAyarlari.cshtml" />
     <Content Include="Views\Stok\HizliStokTanimlama.cshtml" />
     <Content Include="Views\Kullanici\UretimYetkiler.cshtml" />
-    <Content Include="Views\YK\FiyatGor.cshtml" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>

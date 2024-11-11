@@ -152,6 +152,7 @@ namespace YKPortal.Controllers
             ViewBag.Durumu = belgeDto.Durumu;
             ViewBag.ControllerName = "SatinalmaFatura"; // Sayfaya özel controller adı
             ViewBag.Tip = "AF"; // Sayfaya özel tip değeri
+            ViewBag.IsDuzenleSayfasi = false;
             return View(new BelgeDto());
         }
 

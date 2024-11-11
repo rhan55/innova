@@ -17,6 +17,7 @@ namespace YKPortal.Models.ComponentDto
         public bool DurumuVarMi { get; set; } = true;
         public string Tip { get; set; }
         public string Baslik { get; set; }
+        public bool IsDuzenle { get; set; } 
         public BelgeDto BelgeDto { get; set; }
         public BelgeEkleKalemComponent KalemBilgileri { get; set; } = new BelgeEkleKalemComponent();
         public DataTable Depolar { get; set; }

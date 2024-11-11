@@ -127,9 +127,9 @@
                                 <label for="Durumu" class="form-label fs-6 fw-bold text-gray-600 mb-3">Durumu</label>
                                 <!--begin::Input-->
                                 <div class="form-group">
-                                    <select class="px-2 py-1 rounded-1 form-control form-control-solid" data-control="select2" name="Durumu" id="Durumu"
+                                    <select class="px-2 py-1 rounded-1 form-control form-control-solid" data-control="select2"  name="Durumu" id="Durumu" data-placeholder="Lütfen Seçim Yapınız"
                                             aria-label="Floating label select example">
-                                        <option value="">Lütfen Seçim Yapınız</option>
+                                       <option></option>
                                         <option value="Öneri" @(Model.BelgeDto.Durumu == "Öneri" ? "selected" : "")>Öneri</option>
                                         <option value="Onaylandı" @(Model.BelgeDto.Durumu == "Onaylandı" ? "selected" : "")>Onaylandı</option>
                                         <option value="Reddedildi" @(Model.BelgeDto.Durumu == "Reddedildi" ? "selected" : "")>Reddedildi</option>
@@ -145,6 +145,7 @@
                                     <label for="DepoCikisID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Çıkış Depo</label>
                                     <select class="form-select form-select-solid p-2 rounded-1" name="DepoCikisID" id="DepoCikisID"
                                             aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                        <option></option>
                                         @foreach (System.Data.DataRow drDepo in Model.Depolar.Rows)
                                             {
                                                 if (Model.BelgeDto.DepoCikisID == drDepo["ID"].ToString())
