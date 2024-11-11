@@ -239,9 +239,9 @@
                          </div>`;
 
                 const aktifKullanici = $('[data-container="active-user"]').data('id');
-                console.log(aktifKullanici);
-                console.log(kimden);
-                console.log(tarih)
+                console.log("Aktif Kullanıcı : ",aktifKullanici);
+                console.log("Gönderen Kullanıcı : ",kimden);
+                console.log("Tarih : ",tarih)
                 if (kimden == aktifKullanici) {
                     $('#mesajListesi').append(template);
                     scrollToBottom('#mesajListesi');
@@ -249,7 +249,7 @@
 
 
                 $('.kullanici-sec').each(function (index, element) {
-                    console.log(element);
+                    console.log("Kullanıcı Seçildi...");
                     var kullaniciID = $(element).data('id');
 
                     if (kimden == kullaniciID) {
@@ -568,7 +568,7 @@
                             });
                         },
                         error: function (msg) {
-                            console.log(msg);
+                            console.log("HATA! ",msg);
                         }
                     });
                 }
@@ -702,7 +702,7 @@
                             scrollToBottom('#mesajListesi');
                         },
                         error: function (msg) {
-                            console.log(msg);
+                            console.log("HATA! ",msg);
                         }
                     });
 
