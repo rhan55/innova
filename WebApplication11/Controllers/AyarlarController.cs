@@ -289,12 +289,12 @@ namespace YKPortal.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new YKJsonResult { SonucKodu = "HATA", Aciklama = "Seri silinemedi" });
+                return Json(new YKJsonResult { SonucKodu = "HATA", Aciklama = "Seri silinemedi  " });
             }
         }
 
         [HttpGet]
-        public ActionResult Seriler()
+        public ActionResult SeriEkle()
         {
             return View();
         }

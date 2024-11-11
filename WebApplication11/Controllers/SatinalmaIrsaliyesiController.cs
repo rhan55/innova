@@ -117,6 +117,7 @@ namespace YKPortal.Controllers
             ViewBag.Personeller = SatisPersoneliGetir();
             ViewBag.Depolar = DepoListesiGetir();
             ViewBag.ControllerName = "SatinalmaIrsaliyesi"; // Sayfaya özel controller adı
+            ViewBag.IsDuzenleSayfasi = false;
             ViewBag.Tip = "AI"; // Sayfaya özel tip değeri
           
 

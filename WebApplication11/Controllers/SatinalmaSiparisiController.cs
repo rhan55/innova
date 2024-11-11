@@ -116,6 +116,7 @@ namespace YKPortal.Controllers
             ViewBag.Personeller = SatisPersoneliGetir();
             ViewBag.Depolar = DepoListesiGetir();
             ViewBag.ControllerName = "SatinalmaSiparisi"; // Sayfaya özel controller adı
+            ViewBag.IsDuzenleSayfasi = false;
             ViewBag.Tip = "AS"; // Sayfaya özel tip değeri
 
             return View(new BelgeDto());

@@ -122,6 +122,7 @@ namespace YKPortal.Controllers
             ViewBag.Depolar = DepoListesiGetir();
             ViewBag.ControllerName = "SatisTeklifi"; // Sayfaya özel controller adı
             ViewBag.Tip = "ST"; // Sayfaya özel tip değeri
+            ViewBag.IsDuzenleSayfasi = false;
             return View(new BelgeDto());
         }
 
