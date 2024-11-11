@@ -203,7 +203,7 @@ namespace YKPortal.Controllers
             return Redirect("~/YKMakine/ArizaDetay/" + SonID);
         }
 
-        public ActionResult ArizaGuncelle(int id, string CariKodu, string Teknisyen, string Durum, string Aciklama,
+        public ActionResult ArizaGuncelle(int id, DateTime Tarih, string CariKodu, string Teknisyen, string Durum, string Aciklama,
             string DegisenParcalar,
             string SeriNo,
             string ArizayiBildiren, string ArizayiBildirenTelefon, string EMail, string BulunduguYer,
@@ -215,6 +215,8 @@ namespace YKPortal.Controllers
             cmd.CommandText = "p_ArizaGuncelle";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@id", id);
+            cmd.Parameters.AddWithValue("@Tarih", Tarih);
+            cmd.Parameters.AddWithValue("@CariKodu", CariKodu);
             cmd.Parameters.AddWithValue("@Teknisyen", Teknisyen);
             cmd.Parameters.AddWithValue("@Durum", Durum);
             cmd.Parameters.AddWithValue("@Aciklama", Aciklama);
@@ -360,7 +362,7 @@ namespace YKPortal.Controllers
             if (Durum.EndsWith("Yapıldı"))
             {
                 #region Mail Gönderimi
-                string mail = EMail + ";cigdem@schillerturkiye.com;info@ykyazilim.com.tr";
+                string mail = EMail; //+ ";cigdem@schillerturkiye.com;info@ykyazilim.com.tr";
 
                 string Icerik = @"
 Değerli iş ortağımız,<br>
@@ -382,7 +384,7 @@ ArizayiBildirenTelefon : " + ArizayiBildirenTelefon + @" <br>
             else if (Durum.EndsWith("İade Alındı"))
             {
                 #region Mail Gönderimi
-                string mail = EMail + ";cigdem@schillerturkiye.com;info@ykyazilim.com.tr";
+                string mail = EMail;//+ ";cigdem@schillerturkiye.com;info@ykyazilim.com.tr";
 
                 string Icerik = @"
 Değerli iş ortağımız,<br>
@@ -404,6 +406,7 @@ ArizayiBildirenTelefon : " + ArizayiBildirenTelefon + @" <br>
 
             return Redirect("~/YKMakine/Arizalar");
         }
+
         public ActionResult ArizaDetay(int id)
         {
             if (!AutoGirisKontrol())
@@ -427,6 +430,10 @@ ArizayiBildirenTelefon : " + ArizayiBildirenTelefon + @" <br>
             cmd.CommandType = System.Data.CommandType.Text;
             ViewBag.YedekParcalar = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
+            cmd.Parameters.Clear();
+            cmd.CommandText = "select CariKodu,CariAdi from w_CariStokBakiyeleri Group by CariKodu,CariAdi order by CariAdi";
+            cmd.CommandType = System.Data.CommandType.Text;
+            ViewBag.dtCariler = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
             return View(ds);
         }

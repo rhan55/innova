@@ -31,8 +31,10 @@
                 {
                     if (Convert.ToString(Model.Rows[0]["AlanKullanici"]).Trim().Length > 0)
                     {
-
-                        <a href="@Url.Action("Sozlesme", "Crm2", new { Area = "Crm2", KayitID = Model.Rows[0]["ID"] })" class="btn btn-success" style="font-size:20px;" onclick="return confirm('Kaydı sözleşmeye göndermek istediğinizden emin misiniz?')">Sözleşmeye Gönder</a>
+                        if (Convert.ToString(Model.Rows[0]["AlanKullanici"]) == KullaniciID)
+                        {
+                            <a href="@Url.Action("Sozlesme", "Crm2", new { Area = "Crm2", KayitID = Model.Rows[0]["ID"] })" class="btn btn-success" style="font-size:20px;" onclick="return confirm('Kaydı sözleşmeye göndermek istediğinizden emin misiniz?')">Sözleşmeye Gönder</a>
+                        }
                         if (gunFarki > 90)
                         {
                             <a href="@Url.Action("Reddet", "Crm2", new { Area = "Crm2", KayitID = Model.Rows[0]["ID"] })" class="btn btn-danger" style="font-size:20px;" onclick="return confirm('Kaydı boş havuzuna göndermek istediğinizden emin misiniz?')">Boş Havuzuna Gönder</a>
