@@ -67,6 +67,9 @@ namespace YKPortal.Models.Dto
         private string _AnaCariID;
         private string _TeslimCariID;
         private string _KullaniciID;
+        private int _Draw;
+        private int _Start;
+        private int _Length;
 
         private CariEFaturaBilgiGuncelleDto _EFaturaBilgileri;
 
@@ -129,6 +132,9 @@ namespace YKPortal.Models.Dto
         public string AnaCariID { get { return _AnaCariID ?? ""; } set { _AnaCariID = value; } }
         public string TeslimCariID { get { return _TeslimCariID ?? ""; } set { _TeslimCariID = value; } }
         public string KullaniciID { get { return _KullaniciID ?? ""; } set { _KullaniciID = value; } }
+        public int Draw { get { return _Draw == null ? 0 : _Draw; } set { _Draw = value; } }
+        public int Start { get { return _Start == null ? 0 : _Start; } set { _Start = value; } }
+        public int Length { get { return _Length == null ? 0 : _Length; } set { _Length = value; } }
         public CariEFaturaBilgiGuncelleDto EFaturaBilgileri { get { return _EFaturaBilgileri ?? new CariEFaturaBilgiGuncelleDto { }; } set { _EFaturaBilgileri = value; } }
 
     }

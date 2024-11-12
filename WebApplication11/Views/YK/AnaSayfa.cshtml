@@ -473,43 +473,21 @@
                             if (response.SonucKodu === 200) {
                                 // Başarılı olduğunda, ilgili etkinliği DOM'dan kaldırıyoruz
                                 $('#etkinlik-' + etkinlikID).remove();
-                                Swal.fire({
-                                    text: "Etkinlik başarıyla silindi.",
-                                    icon: "succsess",
-                                    buttonsStyling: false,
-                                    confirmButtonText: "Anladım!",
-                                    customClass: {
-                                        confirmButton: "btn btn-primary"
-                                    }
-                                });
-                               
+                                sweetalert("Etkinlik başarıyla silindi.", "succsess");
+                                                             
                                 TakvimModulu.refetchEvents();
                                 $('button.EtkinlikSil').hide();
                             } else {
                                 // Eğer silme işlemi başarısız olursa
-                                Swal.fire({
-                                    text: "Etkinlik silinemedi. Lütfen tekrar deneyin.";
-                                    icon: "error",
-                                    buttonsStyling: false,
-                                    confirmButtonText: "Anladım!",
-                                    customClass: {
-                                        confirmButton: "btn btn-primary"
-                                    }
-                                });
+                                sweetalert("Etkinlik silinemedi. Lütfen tekrar deneyin.", "error");
+                               
                                
                             }
                         },
                         error: function () {
                             // AJAX isteğinde bir hata oluştuğunda
-                            Swal.fire({
-                                text: "Bir hata oluştu, etkinlik silinemedi.",
-                                icon: "error",
-                                buttonsStyling: false,
-                                confirmButtonText: "Anladım!",
-                                customClass: {
-                                    confirmButton: "btn btn-primary"
-                                }
-                            });
+                            sweetalert("Bir hata oluştu, etkinlik silinemedi.", "error");
+                           
                            
                         }
                     });

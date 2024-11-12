@@ -262,7 +262,10 @@
             }
 
 
-            $.connection.hub.start({ transport: ['webSockets', 'longPolling'], connectionTimeout: 20000 }).done(function () {
+           
+
+
+            $.connection.hub.start({ transport: ['webSockets', 'serverSentEvents', 'longPolling'], connectionTimeout: 20000 }).done(function () {
                 $('#btnSendMessage').click(function () {
                     var data = {
                         gonderenkullaniciID: $kullaniciID.val(),  // Mesajı gönderen kullanıcı
@@ -413,29 +416,14 @@
                                 });
                              
                             } else {
-                                Swal.fire({
-                                    text: "Mesaj silinemedi. Lütfen tekrar deneyin.",
-                                    icon: "error",
-                                    buttonsStyling: false,
-                                    confirmButtonText: "Anladım!",
-                                    customClass: {
-                                        confirmButton: "btn btn-primary"
-                                    }
-                                });
+                                sweetalert("Mesaj silinemedi. Lütfen tekrar deneyin.","error")
+                               
                                
                             }
                         },
                         error: function () {
-                            Swal.fire({
-                                text: "Bir hata oluştu, mesaj silinemedi.",
-                                icon: "error",
-                                buttonsStyling: false,
-                                confirmButtonText: "Anladım!",
-                                customClass: {
-                                    confirmButton: "btn btn-primary"
-                                }
-                            });
-                           
+                            sweetalert("Bir hata oluştu, mesaj silinemedi.", "error")
+                              
                         }
                     });
                 }

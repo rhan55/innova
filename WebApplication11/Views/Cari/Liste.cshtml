@@ -462,11 +462,17 @@
                 // Init datatable --- more info on datatables: https://datatables.net/manual/
                 var options = {
                     autoWidth: false,
+                    serverSide: true,
+                    processing: true,
                     ajax: {
                         url: '/Cari/Liste', // POST isteği yaparak sunucudaki Liste metoduna gidiyoruz
                         type: 'POST',
 
                         data: function (d) {
+                            // Sayfa numarasını hesapla ve `Sayfa` parametresi olarak ekle
+                            console.log(d);
+                            d.Sayfa = Math.floor(d.start / d.length) + 1;
+
                             // Form alanlarındaki filtre verilerini POST isteğine ekliyoruz
                             return {
                                 Kod: $('#Kod').val(),
@@ -474,15 +480,20 @@
                                 Unvan: $('#Unvan').val(),
                                 TCKimlikNo: $('#TCKimlikNo').val(),
                                 VergiNumarasi: $('#VergiNumarasi').val(),
-                                CepTelefonu: $('#CepTelefonu').val()
+                                CepTelefonu: $('#CepTelefonu').val(),
+                                Start: d.start,
+                                Draw: d.draw,
+                                Length: d.length
                             };
                         },
                         dataSrc: function (json) {
                             if (json.success) {
                                 // Başarılı olduğunda JSON'dan gelen 'data' kısmını al ve tabloya yerleştir
-                                $('input[name="YetkiSil"]').val(json.data.Sil ? "1" : "0");
-                                $('input[name="YetkiDuzenle"]').val(json.data.Duzenle ? "1" : "0");
-                                return json.data.CariListesi;
+                                $('input[name="YetkiSil"]').val(json.sil ? "1" : "0");
+                                $('input[name="YetkiDuzenle"]').val(json.duzenle ? "1" : "0");
+
+                                console.log(json);
+                                return json.data;
                             } else {
                                 // Başarısız olduğunda bir hata mesajı göster
                                 sweetalert(json.message, "error");
@@ -597,12 +608,7 @@
                             ],
                         },
                         topEnd: {
-                            pageLength: {
-                                menu: [
-                                    [10, 20, 50, 100, -1],
-                                    ['10 Adet', '20 Adet', '50 Adet', '100 Adet', "Tümü"]
-                                ]
-                            }
+                            
                         }
                     },
                 };

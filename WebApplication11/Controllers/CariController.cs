@@ -15,6 +15,8 @@ using YKEFaturaEntegrasyon.Dto;
 using YKEFaturaEntegrasyon;
 using YKEFaturaEntegrasyon.LogoPostBoxService;
 using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
+using Newtonsoft.Json.Linq;
+using Microsoft.Ajax.Utilities;
 
 namespace YKPortal.Controllers
 {
@@ -488,6 +490,8 @@ namespace YKPortal.Controllers
                 return Json(new { success = false, message = "Permission Denied" }, JsonRequestBehavior.AllowGet);
             }
 
+            int page = (cariDto.Start / cariDto.Length) + 1;
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -498,6 +502,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@TCKimlikNo", cariDto.TCKimlikNo);
             cmd.Parameters.AddWithValue("@VergiNumarasi", cariDto.VergiNumarasi);
             cmd.Parameters.AddWithValue("@CepTelefonu", cariDto.CepTelefonu);
+            cmd.Parameters.AddWithValue("@Sayfa", page);
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
@@ -519,14 +524,27 @@ namespace YKPortal.Controllers
                     VergiNumarasi = Convert.ToString(row["VergiNumarasi"]),
                     CepTelefonu = Convert.ToString(row["CepTelefonu"]),
                     GrupKodu1ID = Convert.ToString(row["GrupKodu1ID"]),
-                    GrupKodu2ID = Convert.ToString(row["GrupKodu2ID"]),
+                    GrupKodu2ID = Convert.ToString(row["GrupKodu2ID"]),                 
                     ID = Convert.ToString(row["ID"]),
                     // Yetki kontrolü ile ilgili bilgileri ekliyoruz
 
                 });
             }
 
-            return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
+            var cariSayisi = ToplamCariSayisiGetir(cariDto);
+
+            return Json(new
+            {
+                draw = cariDto.Draw,
+                start = cariDto.Start,
+                recordsTotal = cariSayisi,
+                recordsFiltered = cariSayisi,
+                data = result.CariListesi,
+                sil = result.Sil,
+                duzenle = result.Duzenle,
+                success = true,
+                message = "Başarılı"
+            }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -1323,6 +1341,56 @@ namespace YKPortal.Controllers
             }
             return new CariDto { };
         }
+
+        private int ToplamCariSayisiGetir(CariDto cariDto)
+        {
+            var query = "SELECT COUNT(*) AS ToplamCariSayisi FROM Cariler WHERE UyelikID = @UyelikID AND Silindi = 0";
+
+            if (!cariDto.Kod.IsNullOrWhiteSpace())
+            {
+                query += " AND Kod LIKE '%" + cariDto.Kod + "%'";
+            }
+
+            if (!cariDto.Isim.IsNullOrWhiteSpace())
+            {
+                query += " AND Isim LIKE '%" + cariDto.Isim + "%'";
+            }
+
+            if (!cariDto.Unvan.IsNullOrWhiteSpace())
+            {
+                query += " AND Unvan LIKE '%" + cariDto.Unvan + "%'";
+            }
+
+            if (!cariDto.VergiNumarasi.IsNullOrWhiteSpace())
+            {
+                query += " AND VergiNumarasi LIKE '%" + cariDto.VergiNumarasi + "%'";
+            }
+
+
+            if (!cariDto.TCKimlikNo.IsNullOrWhiteSpace())
+            {
+                query += " AND TCKimlikNo LIKE '%" + cariDto.TCKimlikNo + "%'";
+            }
+
+            if (!cariDto.CepTelefonu.IsNullOrWhiteSpace())
+            {
+                query += " AND CepTelefonu LIKE '%" + cariDto.CepTelefonu + "%'";
+            }
+
+            SqlCommand cmd = new SqlCommand(query);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            var entity = new SeriDto();
+            if (dt.Rows.Count > 0)
+            {
+                return Convert.ToInt32(dt.Rows[0]["ToplamCariSayisi"]);
+            }
+
+
+            return 0;
+        }
+
         public KullaniciEkleDto KullaniciGetir(string ID)
         {
             SqlCommand cmd = new SqlCommand();
