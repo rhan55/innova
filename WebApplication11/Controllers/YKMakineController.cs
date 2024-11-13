@@ -170,7 +170,7 @@ namespace YKPortal.Controllers
             DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
 
             SqlCommand cmd2 = new SqlCommand();
-            cmd2.CommandText = "select CariKodu,CariAdi from w_CariStokBakiyeleri Group by CariKodu,CariAdi order by CariAdi";
+            cmd2.CommandText = "select CariKodu,CariAdi from w_Cariler Group by CariKodu,CariAdi order by CariAdi";
             cmd2.CommandType = System.Data.CommandType.Text;
             ViewBag.dtCariler = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
 
@@ -203,7 +203,10 @@ namespace YKPortal.Controllers
             return Redirect("~/YKMakine/ArizaDetay/" + SonID);
         }
 
-        public ActionResult ArizaGuncelle(int id, DateTime Tarih, string CariKodu, string Teknisyen, string Durum, string Aciklama,
+        public ActionResult ArizaGuncelle(int id, 
+            string EvrakNo,
+            DateTime Tarih, string CariKodu, string Teknisyen, 
+            string Durum, string Aciklama,
             string DegisenParcalar,
             string SeriNo,
             string ArizayiBildiren, string ArizayiBildirenTelefon, string EMail, string BulunduguYer,
@@ -215,6 +218,7 @@ namespace YKPortal.Controllers
             cmd.CommandText = "p_ArizaGuncelle";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@id", id);
+            cmd.Parameters.AddWithValue("@EvrakNo", EvrakNo);
             cmd.Parameters.AddWithValue("@Tarih", Tarih);
             cmd.Parameters.AddWithValue("@CariKodu", CariKodu);
             cmd.Parameters.AddWithValue("@Teknisyen", Teknisyen);

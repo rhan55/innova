@@ -1554,12 +1554,12 @@ Select @ID as ID
                     if (dt.Rows.Count > 0)
                     {
                         PirelliResponseDto et = new PirelliResponseDto();
-                        et.DeliveryDatetime = Convert.ToDateTime(dt.Rows[0]["TeslimTarihi"]);
+                        et.DeliveryDatetime = Convert.ToDateTime(dt.Rows[0]["TeslimTarihi"]).ToString("yyyy-MM-dd")+"T03:00:00+03:00";
                         et.Manufacturer = Convert.ToString(dt.Rows[0]["Uretici"]);
                         et.ProductCode = Convert.ToString(dt.Rows[0]["StokKodu"]);
                         et.ProductDescription = Convert.ToString(dt.Rows[0]["StokAdi"]);
                         et.ProductionDate = Convert.ToInt32(dt.Rows[0]["UretimYili"]);
-                        et.Quantity = Convert.ToDecimal(dt.Rows[0]["Miktar"]);
+                        et.Quantity = Convert.ToInt32(dt.Rows[0]["Miktar"]);
                         result1.Add(et);
                     }
                 }
@@ -1595,8 +1595,8 @@ Select @ID as ID
         public string Manufacturer { get; set; }
         public string ProductCode { get; set; }
         public string ProductDescription { get; set; }
-        public decimal Quantity { get; set; }
-        public DateTime DeliveryDatetime { get; set; }
+        public int Quantity { get; set; }
+        public string DeliveryDatetime { get; set; }
         public int ProductionDate { get; set; }
     }
 

@@ -316,6 +316,7 @@
     <Compile Include="Controllers\AyarlarController.cs" />
     <Compile Include="Controllers\YKMakineController.cs" />
     <Compile Include="Controllers\ZiyaretController.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

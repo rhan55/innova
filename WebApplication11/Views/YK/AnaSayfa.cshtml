@@ -1,12 +1,32 @@
 ﻿@using YKPortal.Models.Dto
-
+@using YKPortal.Extensions
 @{
     ViewBag.Title = "Ana Sayfa";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    Tarayici tarayici = Html.TasayiciBilgisiGetir(Request.UserAgent);
+
+    switch (tarayici)
+    {
+        case Tarayici.Chrome:
+            break;
+        case Tarayici.Firefox:
+            break;
+        case Tarayici.Safari:
+            break;
+        case Tarayici.Edge:
+            break;
+        case Tarayici.Diger:
+            break;
+        default:
+            break;
+    }
 }
 
 <div id="content-anasayfa-tab" class="container-fluid">
     <div class="row">
+        <h1></h1>
         <div class="col-sm-8">
             <div class="d-flex ">
                 @if (ViewBag.AnaSayfaAktifCari == true)
@@ -474,21 +494,21 @@
                                 // Başarılı olduğunda, ilgili etkinliği DOM'dan kaldırıyoruz
                                 $('#etkinlik-' + etkinlikID).remove();
                                 sweetalert("Etkinlik başarıyla silindi.", "succsess");
-                                                             
+
                                 TakvimModulu.refetchEvents();
                                 $('button.EtkinlikSil').hide();
                             } else {
                                 // Eğer silme işlemi başarısız olursa
                                 sweetalert("Etkinlik silinemedi. Lütfen tekrar deneyin.", "error");
-                               
-                               
+
+
                             }
                         },
                         error: function () {
                             // AJAX isteğinde bir hata oluştuğunda
                             sweetalert("Bir hata oluştu, etkinlik silinemedi.", "error");
-                           
-                           
+
+
                         }
                     });
                 }
