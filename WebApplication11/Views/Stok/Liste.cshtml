@@ -326,37 +326,37 @@
 
                 var options = {
                     autoWidth: false,
+                    serverSide: true,
+                    processing: true,
                     ajax: {
                         url: '/Stok/Liste', // POST isteği yaparak sunucudaki Liste metoduna gidiyoruz
                         type: 'POST',
                         data: function (d) {
+                            // Sayfa numarasını hesapla ve `Sayfa` parametresi olarak ekle
+                            console.log(d);
+                            d.Sayfa = Math.floor(d.start / d.length) + 1;
                             // Form alanlarındaki filtre verilerini POST isteğine ekliyoruz
                             return {
                                 Kod: $('#Kod').val(),
                                 Isim: $('#Isim').val(),
-                                Unvan: $('#GrupKodu1ID').val(),
-                                TCKimlikNo: $('#GrupKodu2ID').val(),
-                                VergiNumarasi: $('#Aciklama').val(),
+                                Aciklama: $('#Aciklama').val(),
+                                GrupKodu1ID: $('#GrupKodu1ID').val(),
+                                GrupKodu2ID: $('#GrupKodu2ID').val(),                             
+                                Start: d.start,
+                                Draw: d.draw,
+                                Length: d.length
 
                             };
                         },
                         dataSrc: function (json) {
                             if (json.success) {
                                 // Başarılı olduğunda JSON'dan gelen 'data' kısmını al ve tabloya yerleştir
-                                $('input[name="YetkiSil"]').val(json.data.Sil ? "1" : "0");
-                                $('input[name="YetkiDuzenle"]').val(json.data.Duzenle ? "1" : "0");
-                                return json.data.StokListesi;
+                                $('input[name="YetkiSil"]').val(json.sil? "1" : "0");
+                                $('input[name="YetkiDuzenle"]').val(json.duzenle ? "1" : "0");
+                                return json.data;
                             } else {
                                 // Başarısız olduğunda bir hata mesajı göster
-                                Swal.fire({
-                                    text: json.message,
-                                    icon: "succsess",
-                                    buttonsStyling: false,
-                                    confirmButtonText: "Anladım!",
-                                    customClass: {
-                                        confirmButton: "btn btn-primary"
-                                    }
-                                });
+                                sweetalert(json.message, "error");
                                
                                 return [];
                             }
@@ -364,10 +364,9 @@
                     },
                     columns: [
                         {},
-                        { data: 'Isim' },
                         { data: 'Kod' },
+                        { data: 'Isim' },
                         { data: 'Aciklama' },
-
                         { data: 'GrupKodu1ID' },
                         { data: 'GrupKodu2ID' },
 
@@ -468,12 +467,7 @@
 
                         },
                         topEnd: {
-                            pageLength: {
-                                menu: [
-                                    [10, 20, 50, 100, -1],
-                                    ['10 Adet', '20 Adet', '50 Adet', '100 Adet', "Tümü"]
-                                ]
-                            }
+                            
                         }
                     },
 
@@ -500,7 +494,7 @@
                 $('[id="silme-formu"]').on('submit', function (event) {
                     event.preventDefault();
                     var id = $(this).find('input[name="id"]').val();
-                    console.log(id);
+                   
                     loader().show();
                     $.ajax({
                         url: "/Stok/Sil",
@@ -661,7 +655,7 @@
 
             function loadDataTableSettingsFromCookie(table) {
                 let settings = getCookie('Stok-datatable');
-
+                //console.log(table);
                 if (settings) {
                     settings = JSON.parse(settings);
                     settings.forEach(function (setting) {
@@ -669,11 +663,12 @@
                         column.visible(setting.visible);
                         // Burada başka kolon özelliklerini güncelleyebilirsiniz
                     });
-                    table.draw();
+                    table.columns.adjust().draw();
                 } else {
                     saveDataTableSettingsToCookie(table);
                 }
             }
+    
 
             // Public methods
             return {
@@ -705,15 +700,7 @@
 
             var index = table.column(this).index();
 
-            Swal.fire({
-                text: index,
-                icon: "succsess",
-                buttonsStyling: false,
-                confirmButtonText: "Anladım!",
-                customClass: {
-                    confirmButton: "btn btn-primary"
-                }
-            });
+            sweetalert(index, "success");
 
         });
 

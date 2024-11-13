@@ -490,7 +490,7 @@ namespace YKPortal.Controllers
                 return Json(new { success = false, message = "Permission Denied" }, JsonRequestBehavior.AllowGet);
             }
 
-            int page = (cariDto.Start / cariDto.Length) + 1;
+            int page = (cariDto.Start / cariDto.Length);
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_CariListesi";
@@ -1223,7 +1223,6 @@ namespace YKPortal.Controllers
 
         public JsonResult CariEFaturaBilgiGuncelle(string CariID)
         {
-
             CariDto cari = Getir(CariID);
 
             EFaturaAyarlariDto eFaturaLogoAyarlari = YKEFaturaEntegrasyon.EFaturaIslemleri.EFaturaLogoPostBoxServiceAyarlariGetir();
@@ -1246,38 +1245,23 @@ namespace YKPortal.Controllers
                     DateTime EFaturaGecisTarihi = item.AliasRegisterTime.Value;
                     string Unvan = item.Title;
 
-                    //SqlCommand cmd = new SqlCommand();
-                    //cmd.CommandText = "p_CariEFaturaBilgiGuncelle";
-                    //cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    //cmd.Parameters.AddWithValue("@CariID", CariID);
-                    //cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-                    //cmd.Parameters.AddWithValue("@EFaturaKayitTarihi", EFaturaGecisTarihi);
-                    //cmd.Parameters.AddWithValue("@EFaturaPKAdresi", EFaturaAdresi);
-                    //cmd.Parameters.AddWithValue("@EIrsaliyePKAdresi", cariEFaturaBilgiGuncelleDto.EIrsaliyePKAdresi);
-                    //cmd.Parameters.AddWithValue("@EFatura", cariEFaturaBilgiGuncelleDto.EFatura);
-                    //cmd.Parameters.AddWithValue("@EIrsaliye", cariEFaturaBilgiGuncelleDto.EIrsaliye);
-                    //cmd.Parameters.AddWithValue("@EFaturaSenaryo", cariEFaturaBilgiGuncelleDto.EFaturaSenaryo);
-                    //cmd.Parameters.AddWithValue("@EFaturaAktiflik", cariEFaturaBilgiGuncelleDto.EFaturaAktiflik);
-                    //cmd.Parameters.AddWithValue("@EIrsaliyeAktiflik", cariEFaturaBilgiGuncelleDto.EIrsaliyeAktiflik);
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandText = "p_CariEFaturaBilgiGuncelle";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@CariID", CariID);
+                    cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                    cmd.Parameters.AddWithValue("@EFaturaKayitTarihi", EFaturaGecisTarihi);
+                    cmd.Parameters.AddWithValue("@EFaturaPKAdresi", EFaturaAdresi);
+                    cmd.Parameters.AddWithValue("@EIrsaliyePKAdresi", "");
+                    cmd.Parameters.AddWithValue("@EFatura", EFatura);
+                    cmd.Parameters.AddWithValue("@EIrsaliye", "");
+                    cmd.Parameters.AddWithValue("@EFaturaSenaryo", "");
+                    cmd.Parameters.AddWithValue("@EFaturaAktiflik", EFatura);
+                    cmd.Parameters.AddWithValue("@EIrsaliyeAktiflik", "");
 
-                    //DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-                    //var data = new
-                    //{
-                    //    EFaturaKayitTarihi = "Tarih",
-                    //    EFaturaPKAdresi = "Adres",
-                    //    EIrsaliyePKAdresi = "Irsaliye Adresi",
-                    //    EFatura = "Fatura",
-                    //    EIrsaliye = "Irsaliye",
-                    //    EFaturaSenaryo = "Senaryo",
-                    //    EFaturaAktiflik = true,
-                    //    EIrsaliyeAktiflik = false
-                    //};
+                    DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                 }
             }
-
-
-            
-
 
             return Json(new { success = true, Data = result, eFatura = EFatura }, JsonRequestBehavior.AllowGet);
         }
@@ -1381,7 +1365,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-            var entity = new SeriDto();
+            var entity = new CariDto();
             if (dt.Rows.Count > 0)
             {
                 return Convert.ToInt32(dt.Rows[0]["ToplamCariSayisi"]);

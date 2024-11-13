@@ -10,6 +10,7 @@ using System.Web;
 using System.Data.OleDb;
 using System.Collections;
 using YKPortal.Models.YKClasses;
+using Microsoft.Ajax.Utilities;
 
 namespace YKPortal.Controllers
 {
@@ -378,13 +379,22 @@ namespace YKPortal.Controllers
 
         [HttpPost]
         public JsonResult Liste(StokDto stokDto)
-        { 
+        {
+            if (!AutoGirisKontrol())
+                return Json(new { success = false, message = "Unauthorized" }, JsonRequestBehavior.AllowGet);
+            if (!YetkiKontrolu("/Cari/Liste", "Gor"))
+            {
+                return Json(new { success = false, message = "Permission Denied" }, JsonRequestBehavior.AllowGet);
+            }
+
+            int page = (stokDto.Start / stokDto.Length);
             var cmd = new SqlCommand();
             cmd.CommandText = "p_StokListesi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@Kod", stokDto.Kod);
             cmd.Parameters.AddWithValue("@Isim", stokDto.Isim);
+            cmd.Parameters.AddWithValue("@Sayfa", page);
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
@@ -399,17 +409,33 @@ namespace YKPortal.Controllers
                 result.StokListesi.Add(new StokDto
                 {
                     ID = Convert.ToString(dr["ID"]),
-                    Isim = Convert.ToString(dr["Isim"]),
+                    Isim = Convert.ToString(dr["Isim"]),  
                     Kod = Convert.ToString(dr["Kod"]),
-                    Aciklama = Convert.ToString(dr["Aciklama"])
-
+                    Aciklama = Convert.ToString(dr["Aciklama"]),
+                    GrupKodu1ID = Convert.ToString(dr["GrupKodu1ID"]),
+                    GrupKodu2ID = Convert.ToString(dr["GrupKodu2ID"])
                 });
+                
             }
-          
+            var stokSayisi = ToplamStokSayisiGetir(stokDto);
+
+           
             StokGrupKod1ListesiniOlustur();
             StokGrupKod2ListesiniOlustur();
+            return Json(new
+            {
+                draw = stokDto.Draw,
+                start = stokDto.Start,
+                recordsTotal = stokSayisi,
+                recordsFiltered = stokSayisi,
+                data = result.StokListesi,
+                sil = result.Sil,
+                duzenle = result.Duzenle,
+                success = true,
+                message = "Başarılı"
+            }, JsonRequestBehavior.AllowGet);
 
-            return Json(new { success = true, data = result }, JsonRequestBehavior.AllowGet);
+
         }
 
         [HttpGet]
@@ -1315,7 +1341,48 @@ namespace YKPortal.Controllers
             return new StokDto { };
         }
 
+        private int ToplamStokSayisiGetir(StokDto stokDto)
+        {
+       
+            var query = "SELECT COUNT(*) AS ToplamStokSayisi FROM Stoklar WHERE UyelikID = @UyelikID AND Silindi = 0";
 
+            if (!stokDto.Kod.IsNullOrWhiteSpace())
+            {
+                query += " AND Kod LIKE '%" + stokDto.Kod + "%'";
+            }
+
+            if (!stokDto.Isim.IsNullOrWhiteSpace())
+            {
+                query += " AND Isim LIKE '%" + stokDto.Isim + "%'";
+            }
+
+            if (!stokDto.Aciklama.IsNullOrWhiteSpace())
+            {
+                query += " AND Aciklama LIKE '%" + stokDto.Aciklama + "%'";
+            }
+
+            if (!stokDto.GrupKodu1ID.IsNullOrWhiteSpace())
+            {
+                query += " AND GrupKodu1ID LIKE '%" + stokDto.GrupKodu1ID + "%'";
+            }
+
+            if (!stokDto.GrupKodu2ID.IsNullOrWhiteSpace())
+            {
+                query += " AND GrupKodu2ID LIKE '%" + stokDto.GrupKodu2ID + "%'";
+            }
+
+
+            SqlCommand cmd = new SqlCommand(query);
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            if (dt.Rows.Count > 0)
+            {
+                return Convert.ToInt32(dt.Rows[0]["ToplamStokSayisi"]);
+            }
+
+            return 0;
+        }
         public List<GrupKoduDto> StokGrupKodListesiniGetir(string kodAdi)
         {
             // GrupKodu1 Listesi oluşturma 

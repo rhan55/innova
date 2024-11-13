@@ -215,7 +215,7 @@
 
 <!-- Trigger Button -->
 <!-- Modal Yapısı -->
-<div class="modal fade animate__animated animate__fadeIn" id="EFaturaBilgiGuncelle" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="EFaturaBilgiGuncelle" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -373,7 +373,7 @@
         var select = document.querySelectorAll("#select")
 
         var EFaturaBilgiGuncelleModal = new bootstrap.Modal(document.getElementById('EFaturaBilgiGuncelle'));
-        EFaturaBilgiGuncelleModal.show();
+        
 
         $(document).on('click', '.EFatura-Bilgi-Guncelle-Modal-Ac', function (e) {
             e.preventDefault();
@@ -387,13 +387,8 @@
                 success: function (response) {
                     console.log(response); // Gelen yanıtı kontrol edin
                     if (response.success) {
-
-
                         $('#EFaturaKayitTarihi').val(response.Data.AliasRegisterTime.Value);
                         $('#EFatura').val(response.Data.eFatura);
-
-
-
                         $('#EFaturaPKAdresi').val(response.Data.EFaturaPKAdresi);
                         $('#EIrsaliyePKAdresi').val(response.Data.EIrsaliyePKAdresi);
                         $('#EIrsaliye').val(response.Data.EIrsaliye);
@@ -470,7 +465,7 @@
 
                         data: function (d) {
                             // Sayfa numarasını hesapla ve `Sayfa` parametresi olarak ekle
-                            console.log(d);
+                     
                             d.Sayfa = Math.floor(d.start / d.length) + 1;
 
                             // Form alanlarındaki filtre verilerini POST isteğine ekliyoruz
@@ -492,7 +487,7 @@
                                 $('input[name="YetkiSil"]').val(json.sil ? "1" : "0");
                                 $('input[name="YetkiDuzenle"]').val(json.duzenle ? "1" : "0");
 
-                                console.log(json);
+                              
                                 return json.data;
                             } else {
                                 // Başarısız olduğunda bir hata mesajı göster
@@ -519,7 +514,7 @@
                                 var buttons = `
                                                                                   <div class="dropdown">
                                                                                       <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton${row.ID}" data-bs-toggle="dropdown" aria-expanded="false"> İşlemler </button>
-                                                                                        <ul class="dropdown-menu py-0" aria-labelledby="dropdownMenuButton${row.ID}">`;
+                                      <ul class="dropdown-menu py-0" aria-labelledby="dropdownMenuButton${row.ID}">`;
 
                                 // Eğer silme yetkisi varsa
                                 if ($('input[name="YetkiSil"]').val() == "1") {
@@ -537,7 +532,7 @@
                                 // Eğer düzenleme yetkisi varsa
                                 if ($('input[name="YetkiDuzenle"]').val() == "1") {
                                     buttons += `
-                                                <li><button class="dropdown-item EFatura-Bilgi-Guncelle-Modal-Ac" data-id="${row.ID}"  data-bs-toggle="modal" data-bs-target="#EFaturaBilgiGuncelle" >E-Fatura Mükellef Kontrolü</button></li>
+                                                <li><button class="dropdown-item EFatura-Bilgi-Guncelle-Modal-Ac" data-id="${row.ID}">E-Fatura Mükellef Kontrolü</button></li>
                                              `;
                                 }
 
@@ -637,7 +632,7 @@
                 $('[id="silme-formu"]').on('submit', function (event) {
                     event.preventDefault();
                     var id = $(this).find('input[name="id"]').val();
-                    console.log(id);
+                    
                     loader().show();
                     $.ajax({
                         url: "/Cari/Sil",

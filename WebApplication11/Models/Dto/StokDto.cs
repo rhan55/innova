@@ -54,6 +54,9 @@ namespace YKPortal.Models.Dto
         private string _KayitYapanKullaniciID;
         private string _AnaStokID;
         private decimal _Bakiye;
+        private int _Draw;
+        private int _Start;
+        private int _Length;
         public string Dosya { get; set; }
 
         public bool Sil { get { return _Sil == null ? false : _Sil; } set { _Sil = value; } }
@@ -101,7 +104,10 @@ namespace YKPortal.Models.Dto
         public string KayitYapanKullaniciID { get { return _KayitYapanKullaniciID ?? ""; } set { _KayitYapanKullaniciID = value; } }
         public string AnaStokID { get { return _AnaStokID ?? ""; } set { _AnaStokID = value; } }
         public decimal Bakiye { get { return _Bakiye == null ? 0 : _Bakiye; } set { _Bakiye = value; } }
-        
+        public int Draw { get { return _Draw == null ? 0 : _Draw; } set { _Draw = value; } }
+        public int Start { get { return _Start == null ? 0 : _Start; } set { _Start = value; } }
+        public int Length { get { return _Length == null ? 0 : _Length; } set { _Length = value; } }
+
     }
 } 
 
