@@ -4,12 +4,16 @@
     ViewBag.Title = "Duzenle";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="container-fluid m-0 p-0">
+    <div class="row m-0 p-0">
 
+        @Html.Partial("~/Views/Cari/_CariMenu.cshtml", new ViewDataDictionary { { "CariID", Convert.ToString(ViewBag.CariID) } })
+
+    </div>
+</div>
 <div class="container-fluid px-10">
-   
 
     <div class="row d-flex">
-        @Html.Partial("~/Views/Cari/_CariMenu.cshtml", new ViewDataDictionary { { "CariID", Convert.ToString(ViewBag.CariID) } })
         <form method="post" id="cariDuzenleFormu" class="col-lg-12" action="@Url.Action("Duzenle","Cari",null)">
             <div class="container-fluid py-4">
                 <div class="row">

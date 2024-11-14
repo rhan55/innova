@@ -406,22 +406,23 @@ namespace YKPortal.Controllers
 
             foreach (DataRow dr in dt.Rows)
             {
-                result.StokListesi.Add(new StokDto
+
+                var stok = new StokDto
                 {
                     ID = Convert.ToString(dr["ID"]),
-                    Isim = Convert.ToString(dr["Isim"]),  
+                    Isim = Convert.ToString(dr["Isim"]),
                     Kod = Convert.ToString(dr["Kod"]),
                     Aciklama = Convert.ToString(dr["Aciklama"]),
                     GrupKodu1ID = Convert.ToString(dr["GrupKodu1ID"]),
-                    GrupKodu2ID = Convert.ToString(dr["GrupKodu2ID"])
-                });
-                
+                    GrupKodu2ID = Convert.ToString(dr["GrupKodu2ID"]),
+                    GrupKodu1Adi = StokGrupKodDegeriGetir(Convert.ToString(dr["GrupKodu1ID"]), "StokGrupKod1"),
+                    GrupKodu2Adi = StokGrupKodDegeriGetir(Convert.ToString(dr["GrupKodu2ID"]), "StokGrupKod2"),
+                };
+
+                result.StokListesi.Add(stok);
             }
             var stokSayisi = ToplamStokSayisiGetir(stokDto);
 
-           
-            StokGrupKod1ListesiniOlustur();
-            StokGrupKod2ListesiniOlustur();
             return Json(new
             {
                 draw = stokDto.Draw,
@@ -1383,7 +1384,7 @@ namespace YKPortal.Controllers
 
             return 0;
         }
-        public List<GrupKoduDto> StokGrupKodListesiniGetir(string kodAdi)
+        private List<GrupKoduDto> StokGrupKodListesiniGetir(string kodAdi)
         {
             // GrupKodu1 Listesi oluşturma 
             SqlCommand stokGrupKod1Command = new SqlCommand();
@@ -1479,6 +1480,22 @@ namespace YKPortal.Controllers
             }
             return null;
         }
+
+        private string StokGrupKodDegeriGetir(string grupKodID, string grupKodAdi)
+        {
+            if (!grupKodID.IsNullOrWhiteSpace())
+            {
+                var grupKodu = StokGrupKodListesiniGetir(grupKodAdi).FirstOrDefault(m => m.ID == grupKodID);
+
+                if (grupKodu != null)
+                {
+                    return grupKodu.Deger;
+                }
+            }
+
+            return string.Empty;
+        }
+
         public void StokGrupKod1ListesiniOlustur()
         {
             //GrupKodu1 Listesi oluşturma

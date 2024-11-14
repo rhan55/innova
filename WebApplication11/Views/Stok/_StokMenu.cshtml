@@ -17,16 +17,22 @@
 
 }
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <!-- Mobil cihazlar için bu düğmeyi ekleyin -->
+    <div class="ms-4 py-1">
+        <button class="navbar-toggler border-0 bg-gray-200 text-gray-600" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" style="outline: none;">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
     <div class="container">
 
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="collapse navbar-collapse mt-4 mb-4 justify-content-center" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-link rounded-0  py-2 px-8" href="/Stok/Duzenle/@ViewData["StokID"]" aria-current="page">
                     <span class="menu-icon">
                         <i class="ki-duotone ki-home fs-3">
                             <span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span>
                         </i>
-                    </span>                  
+                    </span>
                     <span class="menu-title fw-semibold text-gray-700 ps-2">Genel Bilgiler</span>
                 </a>
                 <a class="nav-link rounded-0 py-2 px-8" href="/Stok/NotListe?StokID=@ViewData["StokID"]">
@@ -51,7 +57,7 @@
                     </span>
                     <span class="menu-title fw-semibold text-gray-700 ps-2">Dosyalar</span>
                 </a>
-                <a class="nav-link rounded-0 py-2 px-8"href="/Stok/YeniStokHareketKaydi?StokID=@(ViewData["StokID"])&Isim=@(Isim)">
+                <a class="nav-link rounded-0 py-2 px-8" href="/Stok/YeniStokHareketKaydi?StokID=@(ViewData["StokID"])&Isim=@(Isim)">
                     <span class="menu-icon">
                         <i class="ki-duotone ki-brush fs-3">
                             <span class="path1"></span>
@@ -84,7 +90,7 @@
                     </span>
                     <span class="menu-title fw-semibold text-gray-700 ps-2">Fiyat Ekle</span>
                 </a>
-               
+
                 <a class="nav-link rounded-0 py-2 px-8" href="/Stok/Liste">
                     <span class="menu-icon">
                         <i class="ki-duotone ki-black-left fs-3"></i>

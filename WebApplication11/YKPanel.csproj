@@ -654,6 +654,8 @@
     <Content Include="Tema\media\Photo\bekleyen_gorev_sayisi.jpg" />
     <Content Include="Tema\media\Photo\Web sitesi_03.jpg" />
     <Content Include="Tema\media\slayts\1.png" />
+    <Content Include="Tema\plugins\custom\page-tab.js\page-tab.js" />
+    <Content Include="Tema\plugins\custom\currency-formatter\currency-formatter.js" />
     <Content Include="Tema\plugins\custom\datatables\datatables.css" />
     <Content Include="Tema\plugins\custom\datatables\datatables.min.css" />
     <Content Include="Tema\css\override.css" />

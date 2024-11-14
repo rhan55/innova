@@ -4,7 +4,6 @@
     ViewBag.Title = "Stok Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <input type="hidden" name="YetkiSil" value="0" />
 <input type="hidden" name="YetkiDuzenle" value="0" />
 <div class="container-fluid p-0">
@@ -341,7 +340,7 @@
                                 Isim: $('#Isim').val(),
                                 Aciklama: $('#Aciklama').val(),
                                 GrupKodu1ID: $('#GrupKodu1ID').val(),
-                                GrupKodu2ID: $('#GrupKodu2ID').val(),                             
+                                GrupKodu2ID: $('#GrupKodu2ID').val(),
                                 Start: d.start,
                                 Draw: d.draw,
                                 Length: d.length
@@ -351,13 +350,13 @@
                         dataSrc: function (json) {
                             if (json.success) {
                                 // Başarılı olduğunda JSON'dan gelen 'data' kısmını al ve tabloya yerleştir
-                                $('input[name="YetkiSil"]').val(json.sil? "1" : "0");
+                                $('input[name="YetkiSil"]').val(json.sil ? "1" : "0");
                                 $('input[name="YetkiDuzenle"]').val(json.duzenle ? "1" : "0");
                                 return json.data;
                             } else {
                                 // Başarısız olduğunda bir hata mesajı göster
                                 sweetalert(json.message, "error");
-                               
+
                                 return [];
                             }
                         }
@@ -367,36 +366,36 @@
                         { data: 'Kod' },
                         { data: 'Isim' },
                         { data: 'Aciklama' },
-                        { data: 'GrupKodu1ID' },
-                        { data: 'GrupKodu2ID' },
+                        { data: 'GrupKodu1Adi' },
+                        { data: 'GrupKodu2Adi' },
 
                         {
                             data: null, // Silme ve düzenleme butonları için
                             render: function (data, type, row) {
 
                                 var buttons = `
-                                                       <div class="dropdown">
-                                                           <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton${row.ID}" data-bs-toggle="dropdown" aria-expanded="false"> İşlemler </button>
-                                                             <ul class="dropdown-menu py-0" aria-labelledby="dropdownMenuButton${row.ID}">`;
+                                                           <div class="dropdown">
+                                                               <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton${row.ID}" data-bs-toggle="dropdown" aria-expanded="false"> İşlemler </button>
+                                                                 <ul class="dropdown-menu py-0" aria-labelledby="dropdownMenuButton${row.ID}">`;
 
                                 // Eğer silme yetkisi varsa
                                 if ($('input[name="YetkiSil"]').val() == "1") {
                                     buttons += `
-                                                      <li><button class="dropdown-item btn-sil Stok-toplu-silme" data-bs-toggle="modal" data-bs-target="#Stok-silme" data-id="${row.ID}">Sil</button></li>
-                                                     `;
+                                                          <li><button class="dropdown-item btn-sil Stok-toplu-silme" data-bs-toggle="modal" data-bs-target="#Stok-silme" data-id="${row.ID}">Sil</button></li>
+                                                         `;
                                 }
 
                                 // Eğer düzenleme yetkisi varsa
                                 if ($('input[name="YetkiDuzenle"]').val() == "1") {
                                     buttons += `
-                                                    <li><a class="dropdown-item" href="/Stok/Duzenle/${row.ID}">Düzenle</a></li>
-                                                 `;
+                                                        <li><a class="dropdown-item" href="/Stok/Duzenle/${row.ID}">Düzenle</a></li>
+                                                     `;
                                 }
 
                                 buttons += `
-                                              </ul>
-                                              </div>
-                                                 `;
+                                                  </ul>
+                                                  </div>
+                                                     `;
 
                                 return buttons;
 
@@ -467,7 +466,7 @@
 
                         },
                         topEnd: {
-                            
+
                         }
                     },
 
@@ -494,7 +493,7 @@
                 $('[id="silme-formu"]').on('submit', function (event) {
                     event.preventDefault();
                     var id = $(this).find('input[name="id"]').val();
-                   
+
                     loader().show();
                     $.ajax({
                         url: "/Stok/Sil",
@@ -668,7 +667,7 @@
                     saveDataTableSettingsToCookie(table);
                 }
             }
-    
+
 
             // Public methods
             return {
