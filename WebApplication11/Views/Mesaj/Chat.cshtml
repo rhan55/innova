@@ -1,6 +1,9 @@
-﻿@{
+﻿@using YKPortal.Extensions
+@{
     ViewBag.Title = "Mesajlaşma";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    Tarayici tarayici = Html.TasayiciBilgisiGetir(Request.UserAgent);
 }
 
 
@@ -221,27 +224,27 @@
 
 
             chat.client.receiveMessage = function (kimden, mesaj, tarih) {
-
+                console.log(kimden, mesaj, tarih);
                 const template = `
-                         <div class="d-flex justify-content-start mb-6">
-                          <div id="select" class="min-w-40px max-w-40"></div>
-                             <div class="d-flex flex-column align-items-start">
-                                 <div class="d-flex align-items-center mb-2">
-                                     <div class="me-3">
-                                         <span class="text-muted fs-7 mb-1">${tarih}</span>
+                             <div class="d-flex justify-content-start mb-6">
+                              <div id="select" class="min-w-40px max-w-40"></div>
+                                 <div class="d-flex flex-column align-items-start">
+                                     <div class="d-flex align-items-center mb-2">
+                                         <div class="me-3">
+                                             <span class="text-muted fs-7 mb-1">${tarih}</span>
+                                         </div>
+                                     </div>
+
+                                     <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
+                                        ${mesaj}
                                      </div>
                                  </div>
-
-                                 <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
-                                    ${mesaj}
-                                 </div>
-                             </div>
-                         </div>`;
+                             </div>`;
 
                 const aktifKullanici = $('[data-container="active-user"]').data('id');
-                console.log("Aktif Kullanıcı : ",aktifKullanici);
-                console.log("Gönderen Kullanıcı : ",kimden);
-                console.log("Tarih : ",tarih)
+                console.log("Aktif Kullanıcı : ", aktifKullanici);
+                console.log("Gönderen Kullanıcı : ", kimden);
+                console.log("Tarih : ", tarih)
                 if (kimden == aktifKullanici) {
                     $('#mesajListesi').append(template);
                     scrollToBottom('#mesajListesi');
@@ -262,10 +265,17 @@
             }
 
 
-           
+            const hubOptions = [];
+            
+            @if (tarayici == Tarayici.Firefox)
+            {
+                @Html.Raw("hubOptions.push('serverSentEvents', 'longPolling');");
+            } else
+            {
+                @Html.Raw("hubOptions.push('webSockets', 'serverSentEvents', 'longPolling');");
+            }
 
-
-            $.connection.hub.start({ transport: ['webSockets', 'serverSentEvents', 'longPolling'], connectionTimeout: 20000 }).done(function () {
+            $.connection.hub.start({ transport: hubOptions, connectionTimeout: 2000 }).done(function () {
                 $('#btnSendMessage').click(function () {
                     var data = {
                         gonderenkullaniciID: $kullaniciID.val(),  // Mesajı gönderen kullanıcı
@@ -285,6 +295,12 @@
 
             });
 
+            $.connection.hub.disconnected(function () {
+                setTimeout(function () {
+                    console.log("SignalR bağlantısı koparıldı, yeniden bağlanıyor...");
+                    $.connection.hub.start();
+                }, 2000); // 5 saniye bekleyip tekrar bağlanmayı dene.
+            });
 
 
             // Kullanıcı seçildiğinde mesajlaşma kısmını güncelle
@@ -359,18 +375,18 @@
 
                 const template = ` <div class="d-flex justify-content-end mb-10">
 
-                                            <div class="d-flex flex-column align-items-end">
-                                                <div class="d-flex align-items-center mb-2">
-                                                    <div class="me-3">
-                                                        <span class="text-muted fs-7 mb-1">Şimdi</span>
-                                                        <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">Sen</a>
+                                                <div class="d-flex flex-column align-items-end">
+                                                    <div class="d-flex align-items-center mb-2">
+                                                        <div class="me-3">
+                                                            <span class="text-muted fs-7 mb-1">Şimdi</span>
+                                                            <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">Sen</a>
+                                                        </div>
                                                     </div>
+                                                  <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
+                                                   ${$('#Mesaj').val()}
+                                               </div>
                                                 </div>
-                                              <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
-                                               ${$('#Mesaj').val()}
-                                           </div>
-                                            </div>
-                                        </div>`
+                                            </div>`
 
 
                 $.ajax({
@@ -414,16 +430,16 @@
                                         confirmButton: "btn btn-primary"
                                     }
                                 });
-                             
+
                             } else {
-                                sweetalert("Mesaj silinemedi. Lütfen tekrar deneyin.","error")
-                               
-                               
+                                sweetalert("Mesaj silinemedi. Lütfen tekrar deneyin.", "error")
+
+
                             }
                         },
                         error: function () {
                             sweetalert("Bir hata oluştu, mesaj silinemedi.", "error")
-                              
+
                         }
                     });
                 }
@@ -511,30 +527,30 @@
 
                 const kullaniciElementiOlustur = (kullanici) => {
                     return `
-                                        <div class="d-flex flex-stack py-4 kullanici-sec" data-id="${kullanici.ID}" data-ad="${kullanici.Ad} ${kullanici.Soyad}" data-resim="${kullanici.Resim}" style="">
-                                            <div class="d-flex align-items-center">
-                                                <!-- Kullanıcı Bilgileri -->
-                                                <div class="symbol symbol-45px symbol-circle">
-                                                    <span class="symbol-label bg-light text-danger fs-6 fw-bolder">
-                                                        <img style="height:40px;width:40px;border-radius:100%;object-fit:cover;" src="${kullanici.Resim}" />
-                                                    </span>
+                                            <div class="d-flex flex-stack py-4 kullanici-sec" data-id="${kullanici.ID}" data-ad="${kullanici.Ad} ${kullanici.Soyad}" data-resim="${kullanici.Resim}" style="">
+                                                <div class="d-flex align-items-center">
+                                                    <!-- Kullanıcı Bilgileri -->
+                                                    <div class="symbol symbol-45px symbol-circle">
+                                                        <span class="symbol-label bg-light text-danger fs-6 fw-bolder">
+                                                            <img style="height:40px;width:40px;border-radius:100%;object-fit:cover;" src="${kullanici.Resim}" />
+                                                        </span>
+                                                    </div>
+                                                    <div class="">
+                                                        <div data-id="1" class="kullanici-sec fs-5 fw-bold text-gray-900 text-hover-primary mb-1">${kullanici.Ad} ${kullanici.Soyad}</div>
+                                                        <div class="ps-2 fw-semibold text-muted">E-posta: ${kullanici.KullaniciAdi}</div>
+                                                         <div class=" ps-2 fw-semibold text-muted text-gray-600 son-mesaj-icerigi">${kullanici.SonMesajIcerigi}</div>
+                                                    </div>
                                                 </div>
-                                                <div class="">
-                                                    <div data-id="1" class="kullanici-sec fs-5 fw-bold text-gray-900 text-hover-primary mb-1">${kullanici.Ad} ${kullanici.Soyad}</div>
-                                                    <div class="ps-2 fw-semibold text-muted">E-posta: ${kullanici.KullaniciAdi}</div>
-                                                     <div class=" ps-2 fw-semibold text-muted text-gray-600 son-mesaj-icerigi">${kullanici.SonMesajIcerigi}</div>
-                                                </div>
-                                            </div>
-                                            <div style="width:90px;" class="d-flex flex-column align-items-end ms-2">
-                                                     <div class="text-muted fs-7 text-end pe-3">
-                                                          <p class="text-gray-600 fw-semibold" data-container="sonMesajTarihi">${kullanici.SonMesajTarihi}</p>
-                                                          <span class="text-muted fs-7 mb-1"></span>
-                                                          <span class="badge badge-sm badge-circle badge-light-success">${kullanici.YeniMesaj}</span>
-                                                     </div>
+                                                <div style="width:90px;" class="d-flex flex-column align-items-end ms-2">
+                                                         <div class="text-muted fs-7 text-end pe-3">
+                                                              <p class="text-gray-600 fw-semibold" data-container="sonMesajTarihi">${kullanici.SonMesajTarihi}</p>
+                                                              <span class="text-muted fs-7 mb-1"></span>
+                                                              <span class="badge badge-sm badge-circle badge-light-success">${kullanici.YeniMesaj}</span>
+                                                         </div>
 
+                                                </div>
                                             </div>
-                                        </div>
-                                    `;
+                                        `;
                 }
 
 
@@ -556,7 +572,7 @@
                             });
                         },
                         error: function (msg) {
-                            console.log("HATA! ",msg);
+                            console.log("HATA! ", msg);
                         }
                     });
                 }
@@ -618,10 +634,10 @@
 
                             // Dosya linkini oluştur
                             dosyaLinki = `
-             <div class="d-flex align-items-center mt-2">
-                 ${dosyaIkonu}
-                 <a href="/Uploads/Dosyalar/${mesaj.DosyaAdi}" target="_blank" class="ms-2">${mesaj.DosyaAdi}</a>
-             </div>`;
+                 <div class="d-flex align-items-center mt-2">
+                     ${dosyaIkonu}
+                     <a href="/Uploads/Dosyalar/${mesaj.DosyaAdi}" target="_blank" class="ms-2">${mesaj.DosyaAdi}</a>
+                 </div>`;
                         }
                     }
                     let generateLink = mesaj.Dosya ? `<a href="/Uploads/Dosyalar/${mesaj.Dosya}">${mesaj.Mesaj}</a>` : null;
@@ -629,48 +645,48 @@
                     // Karşı kullanıcıdan gelen mesaj
                     if (mesaj.KullaniciID == karsiKullaniciID && mesaj.KarsiKullaniciID == kullaniciID) {
                         return `
-                <div class="d-flex justify-content-start mb-6" data-id="${mesaj.ID}">
-                 <div id="select" class="min-w-40px max-w-40"></div>
-                    <div class="d-flex flex-column align-items-start">
-                        <div class="d-flex align-items-center mb-2">
-                            <div class="me-3">
-                                <span class="text-muted fs-7 mb-1">${mesaj.Tarih}</span>
-                                <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1"></a>
+                    <div class="d-flex justify-content-start mb-6" data-id="${mesaj.ID}">
+                     <div id="select" class="min-w-40px max-w-40"></div>
+                        <div class="d-flex flex-column align-items-start">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="me-3">
+                                    <span class="text-muted fs-7 mb-1">${mesaj.Tarih}</span>
+                                    <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1"></a>
+                                </div>
                             </div>
+
+                            <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
+
+                                ${generateLink ? generateLink : mesaj.Mesaj}
+                            </div>
+
                         </div>
-
-                        <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
-
-                            ${generateLink ? generateLink : mesaj.Mesaj}
-                        </div>
-
-                    </div>
-                </div>`;
+                    </div>`;
                     }
                     // Kullanıcıdan gelen mesaj
 
                     else if (mesaj.KullaniciID == kullaniciID && mesaj.KarsiKullaniciID == karsiKullaniciID) {
                         return `
-                <div data-container="mesaj-container" class="d-flex justify-content-end mb-6" data-id="${mesaj.ID}">
+                    <div data-container="mesaj-container" class="d-flex justify-content-end mb-6" data-id="${mesaj.ID}">
 
-                    <div class="d-flex flex-column align-items-end">
-                        <div class="d-flex align-items-center mb-2">
-                            <div class="me-3">
-                                <span class="text-muted fs-7 mb-1">${mesaj.Tarih}</span>
-                                <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">Sen</a>
+                        <div class="d-flex flex-column align-items-end">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="me-3">
+                                    <span class="text-muted fs-7 mb-1">${mesaj.Tarih}</span>
+                                    <a href="#" class="fs-5 fw-bold text-gray-900 text-hover-primary ms-1">Sen</a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="d-flex align-items-center Silme-Checkbox-Gizle">
-                            <div class="me-4 ">
-                                <input type="checkbox" class="mesajSec hidden" value="${mesaj.ID}" />
+                            <div class="d-flex align-items-center Silme-Checkbox-Gizle">
+                                <div class="me-4 ">
+                                    <input type="checkbox" class="mesajSec hidden" value="${mesaj.ID}" />
+                                </div>
+                                <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
+                                    ${generateLink ? generateLink : mesaj.Mesaj}
+                                </div>
                             </div>
-                            <div class="p-5 rounded bg-light-primary text-gray-900 fw-semibold mw-lg-400px text-end">
-                                ${generateLink ? generateLink : mesaj.Mesaj}
-                            </div>
-                        </div>
 
-                    </div>
-                </div>`;
+                        </div>
+                    </div>`;
                     }
                     return '';
                 };
@@ -690,7 +706,7 @@
                             scrollToBottom('#mesajListesi');
                         },
                         error: function (msg) {
-                            console.log("HATA! ",msg);
+                            console.log("HATA! ", msg);
                         }
                     });
 

@@ -470,12 +470,16 @@
 
                             // Form alanlarındaki filtre verilerini POST isteğine ekliyoruz
                             return {
+
+
                                 Kod: $('#Kod').val(),
                                 Isim: $('#Isim').val(),
                                 Unvan: $('#Unvan').val(),
                                 TCKimlikNo: $('#TCKimlikNo').val(),
                                 VergiNumarasi: $('#VergiNumarasi').val(),
                                 CepTelefonu: $('#CepTelefonu').val(),
+                                GrupKodu1ID: $('#GrupKodu1ID').val(),
+                                GrupKodu2ID: $('#GrupKodu2ID').val(),
                                 Start: d.start,
                                 Draw: d.draw,
                                 Length: d.length
@@ -505,8 +509,8 @@
                         { data: 'TCKimlikNo' },
                         { data: 'VergiNumarasi' },
                         { data: 'CepTelefonu' },
-                        { data: 'GrupKodu1ID' },
-                        { data: 'GrupKodu2ID' },
+                        { data: 'GrupKodu1Adi' },
+                        { data: 'GrupKodu2Adi' },
                         {
                             data: null, // Silme ve düzenleme butonları için
                             render: function (data, type, row) {

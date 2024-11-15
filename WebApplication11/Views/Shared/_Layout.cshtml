@@ -2,6 +2,7 @@
 @using System.Data
 @using System.Data.SqlClient
 @using YKPortal.Models
+@using YKPortal.Extensions
 
 @{
     string UyelikIsim = "";
@@ -53,7 +54,7 @@
         }
     }
 
-
+    Tarayici tarayici = Html.TasayiciBilgisiGetir(Request.UserAgent);
 }
 
 <!DOCTYPE html>
@@ -314,7 +315,7 @@
                     <!--end::Header wrapper-->
                 </div>
                 <!--end::Header container-->
-                
+
 
             </div>
             <!--end::Header-->
@@ -484,9 +485,9 @@
                             <!--end::Page title-->
 
                         </div>
-                     
+
                         <div id="kt_app_content" class="app-content flex-column-fluid">
-                            
+
                             <!--begin::Content container-->
                             @RenderBody()
 
@@ -554,7 +555,7 @@
     <script>
 
 
-    
+
         //SELECT2 fONKSİYONU
     function select2Options(url) {
             return {
@@ -687,7 +688,18 @@
              YeniOkunmamisMesajEkle("");
          };
 
-         $.connection.hub.start({ transport: ['webSockets', 'longPolling'], connectionTimeout: 20000 }).done(function () {
+         const hubOptions = [];
+
+         @if (tarayici == Tarayici.Firefox)
+         {
+            @Html.Raw("hubOptions.push('longPolling');");
+         } else
+         {
+            @Html.Raw("hubOptions.push('webSockets', 'longPolling');");
+         }
+
+
+         $.connection.hub.start({ transport: hubOptions, connectionTimeout: 20000 }).done(function () {
              console.log('Connected to SignalR hub');
          }).fail(function (error) {
              console.log('Could not connect: ' + error);
