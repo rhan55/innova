@@ -269,13 +269,14 @@
 
             @if (tarayici == Tarayici.Firefox)
             {
-                @Html.Raw("hubOptions.push('serverSentEvents');");
                 @Html.Raw("hubOptions.push('longPolling');");
+                @Html.Raw("hubOptions.push('serverSentEvents');");
+
 
             }
             else
             {
-                @Html.Raw("hubOptions.push('webSockets', 'serverSentEvents', 'longPolling');");
+                @Html.Raw("hubOptions.push('webSockets', 'longPolling', 'serverSentEvents', );");
             }
 
             $.connection.hub.start({ transport: hubOptions, connectionTimeout: 20000 }).done(function () {
