@@ -10,6 +10,8 @@ namespace YKPortal.Extensions
     {
         public static Tarayici TasayiciBilgisiGetir(this HtmlHelper htmlhelper, string tarayiciBilgisi)
         {
+
+
             if (tarayiciBilgisi.ToLower().Contains("edg"))
             {
                 return Tarayici.Edge;
@@ -18,13 +20,19 @@ namespace YKPortal.Extensions
             {
                 return Tarayici.Firefox;
             }
-            else if (tarayiciBilgisi.ToLower().Contains("safari"))
+            else if (tarayiciBilgisi.ToLower().Contains("safari") && !tarayiciBilgisi.ToLower().Contains("chrome"))
             {
                 return Tarayici.Safari;
             }
-            else if (tarayiciBilgisi.ToLower().Contains("chrome"))
+            else if (tarayiciBilgisi.ToLower().Contains("chrome") && !tarayiciBilgisi.ToLower().Contains("edg") && !tarayiciBilgisi.ToLower().Contains("opr"))
             {
                 return Tarayici.Chrome;
+            } else if (tarayiciBilgisi.ToLower().Contains("opr") || tarayiciBilgisi.ToLower().Contains("opera"))
+            {
+                return Tarayici.Opera;
+            } else if (tarayiciBilgisi.ToLower().Contains("Brave"))
+            {
+                return Tarayici.Brave;
             }
             else
             {
@@ -39,6 +47,8 @@ namespace YKPortal.Extensions
         Firefox,
         Safari,
         Edge,
+        Opera,
+        Brave,
         Diger
     }
 }

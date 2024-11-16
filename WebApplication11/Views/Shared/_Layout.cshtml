@@ -687,16 +687,17 @@
 
              YeniOkunmamisMesajEkle("");
          };
+ const hubOptions = [];
 
-         const hubOptions = [];
-
-         @if (tarayici == Tarayici.Firefox)
-         {
-            @Html.Raw("hubOptions.push('longPolling');");
-         } else
-         {
-            @Html.Raw("hubOptions.push('webSockets', 'longPolling');");
-         }
+    // Tarayıcı kontrolü yapılıyor
+    @if (tarayici == Tarayici.Firefox)
+    {
+        @Html.Raw("hubOptions.push('longPolling');");
+    }
+    else
+    {
+        @Html.Raw("hubOptions.push('webSockets', 'serverSentEvents', 'longPolling');");
+    }
 
 
          $.connection.hub.start({ transport: hubOptions, connectionTimeout: 20000 }).done(function () {

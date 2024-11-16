@@ -266,16 +266,19 @@
 
 
             const hubOptions = [];
-            
+
             @if (tarayici == Tarayici.Firefox)
             {
-                @Html.Raw("hubOptions.push('serverSentEvents', 'longPolling');");
-            } else
+                @Html.Raw("hubOptions.push('serverSentEvents');");
+                @Html.Raw("hubOptions.push('longPolling');");
+
+            }
+            else
             {
                 @Html.Raw("hubOptions.push('webSockets', 'serverSentEvents', 'longPolling');");
             }
 
-            $.connection.hub.start({ transport: hubOptions, connectionTimeout: 2000 }).done(function () {
+            $.connection.hub.start({ transport: hubOptions, connectionTimeout: 20000 }).done(function () {
                 $('#btnSendMessage').click(function () {
                     var data = {
                         gonderenkullaniciID: $kullaniciID.val(),  // Mesajı gönderen kullanıcı
