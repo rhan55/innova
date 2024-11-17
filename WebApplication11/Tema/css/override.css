@@ -43,19 +43,20 @@ tr.selected .menu-link {
 }
 
 
-.table.dataTable tr.selected > * {
-    background-color: #fff !important;
-    color: #79829d !important;
-    box-shadow: unset !important;
-}
+    .table.dataTable tr.selected > * {
+        background-color: #fff !important;
+        color: #79829d !important;
+        box-shadow: unset !important;
+    }
 
 .table .dt-select {
     cursor: pointer;
 }
 
-.table .dt-select:hover {
-    background-color: #eee;
-}
+    .table .dt-select:hover {
+        background-color: #eee;
+    }
+
 .patrial-menu {
     position: sticky !important;
     position: -webkit-sticky !important;
@@ -67,27 +68,29 @@ div.dt-container div.dt-info {
     display: flex;
     align-items: center;
     height: 100%;
-    
 }
 
 div.dt-container {
     padding-left: 16px;
     padding-right: 16px;
 }
+
 .cari {
     width: calc(100% - 360px) !important;
 }
-@media dosya-search-input  (max-width:500px){
-    body{
-        width:100% !important;
+
+@media dosya-search-input (max-width:500px) {
+    body {
+        width: 100% !important;
     }
 }
 
 .select2-container--default .select2-search--dropdown .select2-search__field {
     border: 1px solid var(--bs-gray-300) !important;
     background-color: var(--bs-body-bg) !important;
-    color: var(--bg-gray-700)!important;
+    color: var(--bg-gray-700) !important;
 }
+
 .select2-container--default .select2-selection--single {
     border: 1px solid var(--bs-gray-300) !important;
     background-color: var(--bs-body-bg) !important;
@@ -95,7 +98,7 @@ div.dt-container {
 }
 
 .select2-container .select2-selection--single {
-    height: 36.44px!important;
+    height: 36.44px !important;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
@@ -118,10 +121,11 @@ div.dt-container {
     padding-left: 5.8rem !important;
 }
 
-.auth-right-bg-image{
-    width:100% !important;
-    padding:0 !important;
+.auth-right-bg-image {
+    width: 100% !important;
+    padding: 0 !important;
 }
+
 .deleteBtn {
     background-color: #ff0000 !important;
     border: 0 !important;
@@ -132,9 +136,6 @@ div.dt-container {
     padding-right: 20px !important;
     border-radius: 5px !important;
     padding-top: 6px !important;
-  
-
-  
 }
 
 .form-control .kalemler-input {
@@ -146,7 +147,6 @@ div.dt-container {
 }
 
 .Cari-Bilgisi {
-
     background-image: url('../media/Photo/arkaplan texture.png') !important;
 }
 
@@ -167,13 +167,12 @@ div.dt-container {
 .kullanici-sec {
     cursor: pointer;
     user-select: none;
-    padding-left: 4px!important;
-
+    padding-left: 4px !important;
 }
 
-.kullanici-sec:hover {
-    background-color: #f9f9f9;
-}
+    .kullanici-sec:hover {
+        background-color: #f9f9f9;
+    }
 
 
 
@@ -189,5 +188,29 @@ div.dt-container {
 }
 
 .tox-statusbar__branding {
-    display: hidden!important;
+    display: hidden !important;
 }
+
+.navbar-toggler:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.navbar-nav .nav-link:hover > span,
+.navbar-nav .nav-link:hover > span.menu-icon i {
+    color: #0275d8 !important;
+}
+
+.menu-link:hover {
+    color: #0d6efd !important;
+    background-color: rgba(13, 110, 253, 0.1) !important;
+    border-radius: 4px !important;
+    transition: background-color 0.3s ease, color 0.3s ease !important;
+}
+    .menu-link:hover .menu-icon i {
+        color: #0d6efd !important;
+    }
+
+    .menu-link:hover > span {
+        color: #0d6efd !important;
+    }

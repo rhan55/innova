@@ -70,6 +70,8 @@ namespace YKPortal.Models.Dto
         private int _Draw;
         private int _Start;
         private int _Length;
+        private string _GrupKodu1Adi;
+        private string _GrupKodu2Adi;
 
         private CariEFaturaBilgiGuncelleDto _EFaturaBilgileri;
 
@@ -136,6 +138,8 @@ namespace YKPortal.Models.Dto
         public int Start { get { return _Start == null ? 0 : _Start; } set { _Start = value; } }
         public int Length { get { return _Length == null ? 0 : _Length; } set { _Length = value; } }
         public CariEFaturaBilgiGuncelleDto EFaturaBilgileri { get { return _EFaturaBilgileri ?? new CariEFaturaBilgiGuncelleDto { }; } set { _EFaturaBilgileri = value; } }
+        public string GrupKodu1Adi { get { return _GrupKodu1Adi ?? ""; } set { _GrupKodu1Adi = value; } }
+        public string GrupKodu2Adi { get { return _GrupKodu2Adi ?? ""; } set { _GrupKodu2Adi = value; } }
 
     }
 }
