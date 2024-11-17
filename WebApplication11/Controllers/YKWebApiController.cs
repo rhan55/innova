@@ -1554,7 +1554,7 @@ Select @ID as ID
                     if (dt.Rows.Count > 0)
                     {
                         PirelliResponseDto et = new PirelliResponseDto();
-                        et.DeliveryDatetime = Convert.ToDateTime(dt.Rows[0]["TeslimTarihi"]).ToString("yyyy-MM-dd")+"T03:00:00+03:00";
+                        et.DeliveryDatetime = Convert.ToDateTime(dt.Rows[0]["TeslimTarihi"]).ToString("yyyy-MM-dd") + "T03:00:00+03:00";
                         et.Manufacturer = Convert.ToString(dt.Rows[0]["Uretici"]);
                         et.ProductCode = Convert.ToString(dt.Rows[0]["StokKodu"]);
                         et.ProductDescription = Convert.ToString(dt.Rows[0]["StokAdi"]);
@@ -1564,7 +1564,7 @@ Select @ID as ID
                     }
                 }
 
-                
+
 
                 return result1;
             }
@@ -1582,6 +1582,361 @@ Select @ID as ID
         }
         #endregion
 
+        #region Whatsapp Api
+
+        public IDJsonResult WPMesajBilgisiOlustur([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Telefon"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Telefon bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Mesaj"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Mesaj bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["DosyaUrl"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! DosyaUrl bilgisi boş olamaz.";
+                    return result;
+                }
+                string Telefon = Convert.ToString(data["Telefon"]);
+                string Mesaj = Convert.ToString(data["Mesaj"]);
+                string DosyaUrl = Convert.ToString(data["DosyaUrl"]);
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = @"Insert Into WhatsAppMesajlari (Telefon,Mesaj,DosyaUrl) values (@Telefon,@Mesaj,@DosyaUrl)";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@Telefon", Telefon);
+                cmd.Parameters.AddWithValue("@Mesaj", Mesaj);
+                cmd.Parameters.AddWithValue("@DosyaUrl", DosyaUrl);
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                result.Data = "";
+                result.SonucKodu = 1;
+                result.Sonuc = "Mesaj kaydı oluşturuldu.";
+
+                return result;
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        public IDJsonResult WPMesajGonderildi([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["ID"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! ID bilgisi boş olamaz.";
+                    return result;
+                }
+                string ID = Convert.ToString(data["ID"]);
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = @"
+Update WhatsAppMesajlari Set Gonderildi = 1 Where ID = @ID
+
+";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@ID", ID);
+
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                
+                {
+                    result.Data = "";
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Mesaj gönderimi sağlandı.";
+                }
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        public IDJsonResult WPMesajBilgisi([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = @"
+declare @ID nvarchar(100) = (select top(1) ID from WhatsAppMesajlari WITH(NOLOCK) Where Iletildi = 0)
+Update WhatsAppMesajlari Set Iletildi = 1 Where ID = @ID
+select * from WhatsAppMesajlari WITH(NOLOCK) Where ID = @ID
+
+";
+                cmd.CommandType = System.Data.CommandType.Text;
+
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                if (dt.Rows.Count > 0)
+                {
+                    result.Data = new MesajlasmaDto()
+                    {
+                        ID = (Guid)(dt.Rows[0]["ID"]),
+                        Telefon = Convert.ToString(dt.Rows[0]["Telefon"]),
+                        Mesaj = Convert.ToString(dt.Rows[0]["Mesaj"]),
+                        Dosya = Convert.ToString(dt.Rows[0]["DosyaUrl"])
+                    };
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Mesaj detayı iletildi.";
+                }
+                else
+                {
+                    result.Data = "";
+                    result.SonucKodu = 0;
+                    result.Sonuc = "Gönderilecek mesaj bulunamadı.";
+                }
+                return result;
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        public IDJsonResult WPOturumBilgisiOlustur([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = @"
+
+if NOT EXISTS( select * from WhatsAppOturumlari WITH(NOLOCK) Where OturumIstegi = 0 and OturumKapatilsin = 0 )
+BEGIN
+    Insert Into WhatsAppOturumlari (KayitTarihi,OturumIstegi,OturumAcildi,OturumKapatilsin) values (GETDATE(),0,0,0)
+END
+
+";
+                cmd.CommandType = System.Data.CommandType.Text;
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                result.Data = "";
+                result.SonucKodu = 1;
+                result.Sonuc = "Oturum kaydı oluşturuldu.";
+
+                return result;
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        public IDJsonResult WPOturumBilgisi([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = @"
+
+if EXISTS( select * from WhatsAppOturumlari WITH(NOLOCK) Where OturumIstegi = 0 and OturumKapatilsin = 0 )
+BEGIN
+    declare @ID nvarchar(100)=(select top(1) ID from WhatsAppOturumlari WITH(NOLOCK) Where OturumIstegi = 0 and OturumKapatilsin = 0)
+    Update WhatsAppOturumlari Set
+        OturumIstegi=1
+    Where ID = @ID
+    select @ID
+END
+eLSE
+BEGIN
+	Select '' Where 1=2
+END
+
+";
+                cmd.CommandType = System.Data.CommandType.Text;
+
+                string SonID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+                if (SonID.Trim() != "")
+                {
+                    result.Data = SonID;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Oturum kaydı açıldı. ID:" + SonID;
+                }
+                else
+                {
+                    result.Data = "";
+                    result.SonucKodu = 0;
+                    result.Sonuc = "Sistemde bekleyen oturum mevcut.";
+                }
+                return result;
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        public IDJsonResult WPOturumBarkoduGonder([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["ID"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! ID bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Barkod"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Barkod bilgisi boş olamaz.";
+                    return result;
+                }
+                string ID = Convert.ToString(data["ID"]);
+                string Barkod = Convert.ToString(data["Barkod"]);
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = @"Update WhatsAppOturumlari set OturumIstegi=@OturumIstegi,OturumBarkodu=@OturumBarkodu Where ID = @ID";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@ID", ID);
+                cmd.Parameters.AddWithValue("@OturumIstegi", true);
+                cmd.Parameters.AddWithValue("@OturumBarkodu", Barkod);
+
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                {
+                    result.Data = "";
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Barkod bilgisi sisteme işlendi.";
+                }
+                return result;
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        public IDJsonResult WPOturumKapatilacakmi([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = @"Select ID From WhatsAppOturumlari WITH(NOLOCK) Where OturumKapatilsin = 1";
+                cmd.CommandType = System.Data.CommandType.Text;
+
+                string ID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+
+                if (ID.Trim() != "")
+                {
+                    result.Data = ID;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Oturum kapatılacak.";
+                }
+                else
+                {
+                    result.Data = "";
+                    result.SonucKodu = 0;
+                    result.Sonuc = "Oturum devam edecek.";
+                }
+                return result;
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        public IDJsonResult WPOturumKapat([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["ID"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! ID bilgisi boş olamaz.";
+                    return result;
+                }
+                string ID = Convert.ToString(data["ID"]);
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = @"Delete From  WhatsAppOturumlari Where ID = @ID";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@ID", ID);
+
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                {
+                    result.Data = "";
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Oturum başarıyla kapatıldı.";
+                }
+                return result;
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        #endregion
     }
 
     #region Pirelli Class

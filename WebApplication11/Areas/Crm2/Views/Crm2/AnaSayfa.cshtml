@@ -9,7 +9,7 @@
 
 <div style="margin-left:auto;margin-right:auto;text-align:center;">
 
-    <form action="@Url.Action("Cariler","Crm2",new { Area = "Crm2" })" style="margin-left:20px;margin-right:20px;">
+    <form action="@Url.Action("Cariler2","Crm2",new { Area = "Crm2" })" style="margin-left:20px;margin-right:20px;">
         <input type="hidden" name="Tur" value="Tumu" />
         <input type="text" name="aranacakKelime" value="" class="form-control" placeholder="aranacak Kelime" />
     </form>
@@ -34,7 +34,7 @@
         <div class="tum-kenar-oval"
              style="width: 150px; height: 100px; text-align: center; background-color: #9F1D20; color: white; padding: 0px; font-size: 20px; padding-top: 10px; ">
             <img src="@Url.Content("~/Tema/media/flags/Ara.png")" style="height:50px;" />
-            <br /> Havuz (@(ViewBag.Havuzum))
+            <br /> Havuz 
         </div>
     </a>
     @if (ViewBag.KullaniciAciklama2 == "admin")

@@ -679,6 +679,27 @@ namespace YKPortal.Controllers
             return View();
         }
 
+        public JsonResult FiyatGorGetirHTML(string Barkod)
+        {
+            StokDto entity = new StokDto();
+
+            SqlCommand cmd2 = new SqlCommand();
+            cmd2.CommandText = "p_StokFiyatGor";
+            cmd2.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd2.Parameters.AddWithValue("@Barkod", Barkod);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
+            if (dt.Rows.Count > 0)
+            {
+                entity.HTMLPrint = Encoding.Default.GetBytes(Convert.ToString(dt.Rows[0]["Aciklama"]));
+                entity.Aciklama = Convert.ToString(dt.Rows[0]["Aciklama"]);
+            }
+            else
+            {
+                entity.Kod = "ÜRÜN BULUNAMADI!";
+            }
+
+            return Json(entity, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult FiyatGorGetir(string Barkod)
         {
             StokDto entity = new StokDto();
@@ -692,6 +713,13 @@ namespace YKPortal.Controllers
             {
                 entity.Kod = Convert.ToString(dt.Rows[0]["Isim"]);
                 entity.Isim = String.Format("{0:N2} TL", Convert.ToDecimal(dt.Rows[0]["Fiyat"]));
+                entity.Fiyat = String.Format("{0:N2} TL", Convert.ToDecimal(dt.Rows[0]["Fiyat"]));
+
+                entity.Barkod = Convert.ToString(dt.Rows[0]["Barkod"]);
+                entity.OlcuBirimi = Convert.ToString(dt.Rows[0]["OlcuBirimi"]);
+                entity.Tarih = Convert.ToDateTime(dt.Rows[0]["KayitTarihi"]).ToString("dd-MM-yyyy");
+                entity.BirimFiyat = Convert.ToString(dt.Rows[0]["BirimFiyat"]);
+                entity.Mensei = Convert.ToString(dt.Rows[0]["Mensei"]);
             }
             else
             {

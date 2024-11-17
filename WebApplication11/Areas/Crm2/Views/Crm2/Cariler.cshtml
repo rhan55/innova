@@ -28,7 +28,7 @@
                             <span class="path1 text-gray-500"></span>
                             <span class="path2 text-gray-500"></span>
                         </i>
-                        <form action="@Url.Action("Cariler2","Crm2",new { Area = "Crm2" })" method="get">
+                        <form action="@Url.Action("Cariler","Crm2",new { Area = "Crm2" })" method="get">
                             <input type="hidden" name="Tur" id="Tur" value="@ViewBag.Tur" />
                            
                             <input type="text" id="aranacakKelime" name="aranacakKelime" value="@ViewBag.aranacakKelime" data-kt-filter="search" class="form-control  w-250px py-1 ps-14" placeholder="aranacak kelime" />
@@ -44,14 +44,12 @@
                     <!--begin::Hide default export buttons-->
                     <div id="kt_datatable_example_buttons" class="d-none"></div>
                     <!--end::Hide default export buttons-->
-
                 </div>
             </div>
             <!--begin::Card body-->
             <div class="card-body">
                 <!--begin::Table-->
                 <table class="table align-middle table-row-dashed fs-6" id="grup-kodu-datatable">
-
                     <tbody class="text-gray-600 fw-semibold">
                         @for (var i = 0; i < Model.Rows.Count; i++)
                         {
@@ -68,7 +66,7 @@
                             {
                                 renk = "background-color:white;";
                             }
-                            <tr style="@(renk)">
+                            <tr style="">
                                 <td class="" style="text-align:center;">
                                     <div href="" class="text-gray-800 text-hover-primary" style="font-size:20px;">@(Convert.ToString(Model.Rows[i]["Unvan"]))</div>
                                     <div href="" class="text-gray-800 text-hover-primary" style="font-size:15px;">@(Convert.ToString(Model.Rows[i]["ProjeAdi"]))</div>
@@ -76,19 +74,19 @@
                                     @(Convert.ToString(Model.Rows[i]["Ilce"])) / @(Convert.ToString(Model.Rows[i]["Mahalle"])) / @(Convert.ToString(Model.Rows[i]["Ada"])) / @(Convert.ToString(Model.Rows[i]["Parsel"]))
                                     <br />
 
-                                    <div style="margin-left:auto;margin-right:auto;width:300px;">
+                                    <div style="margin-left:auto;margin-right:auto;width:450px;">
                                         <a href="/Crm2/Crm2/CariDetay/?id=@(Convert.ToString(Model.Rows[i]["ID"]))" class="btn btn-primary" style="float:left;margin-left:5px;">Detay</a>
                                         @if (Convert.ToString(dtKullanici.Rows[0]["Aciklama2"]) == "admin")
                                         {
                                             <a href="/Crm2/Crm2/CariDuzenle/?id=@(Convert.ToString(Model.Rows[i]["ID"]))" class="btn btn-primary" style="float: left; margin-left: 5px;">Düzenle</a>
-
                                             <button type="button" data-id="@(Convert.ToString(Model.Rows[i]["ID"]))" class="btn-sil btn btn-primary" style="float: left; margin-left: 5px;" data-bs-toggle="modal" data-bs-target="#grup-kodu-silme">
                                                 Sil
                                             </button>
                                         }
+                                        <button type="button" style="float: left; margin-left: 5px;" class="btn btn-success"><strong>@Convert.ToString(Model.Rows[i]["KullaniciAdi"])</strong></button>
+
                                     </div>
                                     <br />
-                                    <hr />
                                 </td>
                             </tr>
                         }
@@ -123,7 +121,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="modal">Vazgeç</button>
-                <form method="post" id="silme-formu" action="@Url.Action("GrupKoduSil","Crm2",new { Area = "Crm2" })">
+                <form method="post" id="silme-formu" action="@Url.Action("CariSil","Crm2",new { Area = "Crm2" })">
                     <input type="hidden" name="id" value="" />
                     <input type="hidden" name="grupKodu" value="" />
                     <button type="submit" class="btn btn-danger btn-sm">Sil</button>
@@ -136,5 +134,8 @@
 @section Scripts {
     <script>
 
+        $(document).on('click', '.btn-sil', function () {
+            $('form#silme-formu input[name="id"]').val($(this).attr('data-id'));
+        });
     </script>
 }

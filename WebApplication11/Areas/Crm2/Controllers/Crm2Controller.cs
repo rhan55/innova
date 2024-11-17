@@ -73,7 +73,7 @@ namespace YKPortal.Areas.Crm2.Controllers
             }
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "select count(*) as Sayi1 from Crm2Kayitlar WITH(NOLOCK) Where Silindi = 0 and UyelikID = @UyelikID and AlanKullanici = @KullaniciID and Sozlesme = 1";
+                cmd.CommandText = "select count(*) as Sayi1 from Crm2Kayitlar WITH(NOLOCK) Where Silindi = 0 and UyelikID = @UyelikID  and Sozlesme = 1 --and AlanKullanici = @KullaniciID";
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
                 cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
@@ -160,6 +160,22 @@ namespace YKPortal.Areas.Crm2.Controllers
 
 
 
+        [HttpPost]
+        public ActionResult CariSil(string id)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "Update Crm2Kayitlar Set Silindi = 1, SilinenTarih=GETDATE(), SilenKullanici = @KullaniciID  Where ID = @ID";
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            return RedirectToAction("Cariler", new { Area = "Crm2"});
+        }
 
         [HttpGet]
         public ActionResult KabulEt(string KayitID)
@@ -737,7 +753,7 @@ Where Crm2Notlar.UyelikID = @UyelikID and Crm2Notlar.KayitID = @KayitID Order by
         }
 
         [HttpGet]
-        public ActionResult Cariler2(string Tur = "", string KullaniciID="", string aranacakKelime = "")
+        public ActionResult Cariler2(string Tur = "", string KullaniciID="", string aranacakKelime = "", bool Kullanici=false)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
@@ -748,7 +764,7 @@ Where Crm2Notlar.UyelikID = @UyelikID and Crm2Notlar.KayitID = @KayitID Order by
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
             cmd.Parameters.AddWithValue("@Tur", Tur);
-            cmd.Parameters.AddWithValue("@AranacakKelime", aranacakKelime);
+            cmd.Parameters.AddWithValue("@AranacakKelime", Kullanici == true ? "XXXXXXXXXXYKXXXXXXXXXX" : aranacakKelime);
             ViewBag.aranacakKelime = aranacakKelime;
             ViewBag.Tur = Tur;
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
@@ -772,6 +788,7 @@ from (
 	select 
 	Kullanicilar.ID,
 	Kullanicilar.Ad+' '+Kullanicilar.Soyad as Isim,
+    Kullanicilar.Resim,
 	(select COUNT(*) from Crm2Kayitlar WITH(NOLOCK) Where Crm2Kayitlar.Silindi = 0 and Crm2Kayitlar.Sozlesme = 0 and Crm2Kayitlar.AlanKullanici = Kullanicilar.ID) as Miktar from kullanicilar
 ) YK1 
 

@@ -58,6 +58,11 @@ namespace YKPortal.Models.Dto
         private int _Start;
         private int _Length;
         public string Dosya { get; set; }
+        public string Fiyat { get; set; }
+        public string Tarih { get; set; }
+        public string BirimFiyat { get; set; }
+        public string Mensei { get; set; }
+        public byte[] HTMLPrint { get; set; }
 
         public bool Sil { get { return _Sil == null ? false : _Sil; } set { _Sil = value; } }
         public bool Duzenle { get { return _Duzenle == null ? false : _Duzenle; } set { _Duzenle = value; } }

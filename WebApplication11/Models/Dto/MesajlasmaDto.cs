@@ -17,7 +17,7 @@ namespace YKPortal.Models.Dto
             ID = Guid.NewGuid();
         }
 
-
+        public string Telefon { get; set; }
         public Guid ID {get { return _ID; }set { _ID = value; }}
         public string KullaniciID { get { return _KullaniciID; } set { _KullaniciID = value; } }
         public string KarsiKullaniciID { get { return _KarsiKullaniciID; } set { _KarsiKullaniciID = value; } }
