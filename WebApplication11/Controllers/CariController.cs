@@ -1237,8 +1237,10 @@ namespace YKPortal.Controllers
             //Aşağıdaki kısımları kendine göre ayarlarsın artık.
             GibUserInfoType[] result = logoEntegrasyon.CariMukellefKontrolu(cari.VergiNumarasi + cari.TCKimlikNo);
             bool EFatura = false;
+            var liste = new List<EFaturaDto>();
             if (result != null)
             {
+
                 foreach (GibUserInfoType item in result)
                 {
                     EFatura = true;
@@ -1247,25 +1249,38 @@ namespace YKPortal.Controllers
                     DateTime EFaturaGecisTarihi = item.AliasRegisterTime.Value;
                     string Unvan = item.Title;
 
-                    SqlCommand cmd = new SqlCommand();
-                    cmd.CommandText = "p_CariEFaturaBilgiGuncelle";
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@CariID", CariID);
-                    cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-                    cmd.Parameters.AddWithValue("@EFaturaKayitTarihi", EFaturaGecisTarihi);
-                    cmd.Parameters.AddWithValue("@EFaturaPKAdresi", EFaturaAdresi);
-                    cmd.Parameters.AddWithValue("@EIrsaliyePKAdresi", "");
-                    cmd.Parameters.AddWithValue("@EFatura", EFatura);
-                    cmd.Parameters.AddWithValue("@EIrsaliye", "");
-                    cmd.Parameters.AddWithValue("@EFaturaSenaryo", "");
-                    cmd.Parameters.AddWithValue("@EFaturaAktiflik", EFatura);
-                    cmd.Parameters.AddWithValue("@EIrsaliyeAktiflik", "");
 
-                    DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                    liste.Add(new EFaturaDto
+                    {
+                        EFaturaPKAdresi = item.Alias,
+                        EFaturaGecisTarihi = item.AliasRegisterTime.Value,
+                        Unvan = item.Title,
+                        VergiNumarasi = item.Identifier,
+                        EFatura = EFatura,
+                        EFaturaAktiflik = EFatura,
+                        Tip = item.Type,
+                        CariID = CariID
+                    });
+
+                    //SqlCommand cmd = new SqlCommand();
+                    //cmd.CommandText = "p_CariEFaturaBilgiGuncelle";
+                    //cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    //cmd.Parameters.AddWithValue("@CariID", CariID);
+                    //cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                    //cmd.Parameters.AddWithValue("@EFaturaKayitTarihi", EFaturaGecisTarihi);
+                    //cmd.Parameters.AddWithValue("@EFaturaPKAdresi", EFaturaAdresi);
+                    //cmd.Parameters.AddWithValue("@EIrsaliyePKAdresi", "");
+                    //cmd.Parameters.AddWithValue("@EFatura", EFatura);
+                    //cmd.Parameters.AddWithValue("@EIrsaliye", "");
+                    //cmd.Parameters.AddWithValue("@EFaturaSenaryo", "");
+                    //cmd.Parameters.AddWithValue("@EFaturaAktiflik", EFatura);
+                    //cmd.Parameters.AddWithValue("@EIrsaliyeAktiflik", "");
+
+                    //DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                 }
             }
 
-            return Json(new { success = true, Data = result, eFatura = EFatura }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, Data = liste, eFatura = EFatura }, JsonRequestBehavior.AllowGet);
         }
 
         private string CariGrupKodDegeriGetir(string grupKodID, string grupKodAdi)
