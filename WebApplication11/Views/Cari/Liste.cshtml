@@ -386,15 +386,22 @@
                 data: { CariID: cariId },
                 success: function (response) {
                     console.log(response); // Gelen yanıtı kontrol edin
-                    if (response.success) {
-                        $('#EFaturaKayitTarihi').val(response.Data.AliasRegisterTime.Value);
-                        $('#EFatura').val(response.Data.eFatura);
-                        $('#EFaturaPKAdresi').val(response.Data.EFaturaPKAdresi);
-                        $('#EIrsaliyePKAdresi').val(response.Data.EIrsaliyePKAdresi);
-                        $('#EIrsaliye').val(response.Data.EIrsaliye);
-                        $('#EFaturaSenaryo').val(response.Data.EFaturaSenaryo);
-                        $('#EFaturaAktiflik').prop('checked', response.Data.EFaturaAktiflik);
-                        $('#EIrsaliyeAktiflik').prop('checked', response.Data.EIrsaliyeAktiflik);
+                    if (response.success && response.Data != null) {
+                        if (response.Data.length > 0) {
+                            var tarih = response.Data[0].EFaturaGecisTarihi;
+
+                            var aliasRegisterTime = new Date(parseInt(tarih.match(/\d+/)[0], 10));
+                            $('#EFaturaKayitTarihi').val(aliasRegisterTime.toLocaleString());
+                            $('#EFatura').val(response.Data[0].EFatura);
+                            $('#EFaturaPKAdresi').val(response.Data[0].EFaturaPKAdresi);
+                            $('#EIrsaliyePKAdresi').val(response.Data[0].EIrsaliyePKAdresi);
+                            $('#EIrsaliye').val(response.Data[0].EIrsaliye);
+                            $('#EFaturaSenaryo').val(response.Data[0].EFaturaSenaryo);
+                            $('#EFaturaAktiflik').prop('checked', response.Data[0].EFaturaAktiflik);
+                            $('#EIrsaliyeAktiflik').prop('checked', response.Data[0].EIrsaliyeAktiflik);
+                        }
+                      
+                      
                         $('#EFaturaBilgiGuncelle').modal('show');
                     } else {
                         sweetalert("Veri alınamadı!", "error");
