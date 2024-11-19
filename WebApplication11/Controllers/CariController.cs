@@ -1223,6 +1223,7 @@ namespace YKPortal.Controllers
             return RedirectToAction("HareketListesi", new { CariID = CariID });
         }
 
+
         public JsonResult CariEFaturaBilgiGuncelle(string CariID)
         {
             CariDto cari = Getir(CariID);

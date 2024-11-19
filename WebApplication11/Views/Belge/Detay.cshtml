@@ -368,6 +368,9 @@
                         console.log("StokAdi : " + data[0]["Aciklama"]);
                         $("#StokKodu").val(data[0]["Kod"]);
                         $("#StokAdi").val(data[0]["Aciklama"]);
+
+                        
+
                         $.ajax({
                             url: '/Stok/SelectStokSeriListe',
                             data: "{ StokID: '" + data[0]["ID"] + "' }",
@@ -407,6 +410,33 @@
                                 $("#StokKodu").val("");
                                 $("#StokAdi").val("");
                                 $("#Barkod").focus();
+                            },
+                            error: function (msg) {
+                                console.log("HATA!" + msg.m);
+                            }
+                        });
+
+
+                        $.ajax({
+                            url: '/Stok/SelectStokDepoBakiye',
+                            data: "{ StokID: '" + data[0]["ID"] + "' }",
+                            dataType: "json",
+                            type: "POST",
+                            contentType: "application/json; charset=utf-8",
+                            dataFilter: function (data2) { return data2; },
+                            success: function (data3) {
+                                $('#Bilgilendirme').html("");
+                                var deger = "";
+
+                                deger += "";
+                                var KayitCalisacak = false;
+                                for (var i = 0; i < data3.length; i++) {
+                                    deger += "" + data3[i].Depo + " : " + data3[i].Bakiye + "</br>";
+                                    if (seri == data3[i].SeriNo) {
+                                        KayitCalisacak = true;
+                                    }
+                                }
+                                $('#Bilgilendirme').html(deger);
                             },
                             error: function (msg) {
                                 console.log("HATA!" + msg.m);

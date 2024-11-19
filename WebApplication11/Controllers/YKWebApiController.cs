@@ -1580,6 +1580,41 @@ Select @ID as ID
             }
             return result1;
         }
+
+
+        [HttpPost]
+        public PirelliSiparisResponseDto CREATEORDER([FromBody] JObject data)
+        {
+            PirelliSiparisResponseDto result1 = new PirelliSiparisResponseDto();
+            try
+            {
+                PirelliHeader Header = data["Header"].ToObject<PirelliHeader>();
+                List<PirelliItems> Items = data["Items"].ToObject<List<PirelliItems>>();
+                int sira = 1;
+                foreach (var item in Items)
+                {
+                    item.ConfirmedQuantity = item.RequestedQuantity;
+                    item.ConfirmedDeliveryDatetime = item.RequestedDeliveryDatetime;
+                }
+                List<PirelliNotes> Notes = data["Notes"].ToObject<List<PirelliNotes>>();
+
+
+                result1.Header = Header;
+                result1.Items = Items;
+                result1.Notes = Notes;
+
+                return result1;
+            }
+            catch (Exception err)
+            {
+                //result1.Aciklama = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result1;
+        }
         #endregion
 
         #region Whatsapp Api
@@ -1940,6 +1975,62 @@ END
     }
 
     #region Pirelli Class
+    public class PirelliHeader
+    {
+        public string TrackingId { get; set; }
+        public string BuyerCode { get; set; }
+        public string PurchaseOrderNumber { get; set; }
+        public string RequestedDatetime { get; set; }
+        public PirelliHeaderCustomer Customer { get; set; }
+        public string SalesOrderNumber { get; set; }
+        
+
+    }
+    public class PirelliHeaderCustomer
+    {
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public PirelliHeaderCustomerAdres Address { get; set; }
+    }
+    public class PirelliHeaderCustomerAdres
+    {
+        public List<string> Street { get; set; }
+        public string City { get; set; }
+        public string District { get; set; }
+        public string PostalCode { get; set; }
+        public string CountryCode { get; set; }
+    }
+
+    public class PirelliNotes
+    {
+        public string Code { get; set; }
+        public string Type { get; set; }
+        public string Text { get; set; }
+    }
+    public class PirelliItems
+    {
+        public string LineId { get; set; }
+        public string ProductCode { get; set; }
+        public string RequestedDeliveryDatetime { get; set; }
+        public int RequestedQuantity { get; set; }
+        public string Price { get; set; }
+
+        public string ConfirmedDeliveryDatetime { get; set; }
+        public int ConfirmedQuantity { get; set; }
+    }
+    public class PirelliSiparisDto
+    {
+        public PirelliHeader Header { get; set; }
+        public List<PirelliItems> Items { get; set; }
+        public List<PirelliNotes> Notes { get; set; }
+    }
+
+    public class PirelliSiparisResponseDto
+    {
+        public PirelliHeader Header { get; set; }
+        public List<PirelliItems> Items { get; set; }
+        public List<PirelliNotes> Notes { get; set; }
+    }
 
     public class PirelliDto
     {

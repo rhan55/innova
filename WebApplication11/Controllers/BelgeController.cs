@@ -327,6 +327,33 @@ namespace YKPortal.Controllers
             result.Data = Convert.ToString(dt.Rows[0]["SeriliCikis"]);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult SelectStokDepoBakiye(string StokID)
+        {
+            JsonResult result = new JsonResult();
+            List<StokDto> entities = new List<StokDto>();
+            #region İşlemler
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_StokDepoBakiyeleri";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@StokID", StokID);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            foreach (DataRow satir in dt.Rows)
+            {
+                if (Convert.ToDecimal(satir["Bakiye"]) > 0)
+                {
+                    StokDto entity = new StokDto();
+                    entity.ID = Convert.ToString(satir["ID"]);
+                    entity.Depo = Convert.ToString(satir["Depo"]);
+                    entity.Bakiye = Convert.ToDecimal(satir["Bakiye"]);
+                    entities.Add(entity);
+                }
+            }
+            #endregion
+            result.Data = entities;
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult SelectStokSeriListe(string StokID, string DepoID)
         {
             JsonResult result = new JsonResult();
