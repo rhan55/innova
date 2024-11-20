@@ -1224,7 +1224,7 @@ namespace YKPortal.Controllers
         }
 
 
-        public JsonResult CariEFaturaBilgiGuncelle(string CariID)
+        public JsonResult CariEFaturaBilgiGuncelle(string CariID, string Tip = "eFatura")
         {
             CariDto cari = Getir(CariID);
 

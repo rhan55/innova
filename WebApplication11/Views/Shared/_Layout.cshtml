@@ -688,14 +688,16 @@
              YeniOkunmamisMesajEkle("");
          };
 
-   @if (tarayici == Tarayici.Firefox)
-{
-    @Html.Raw("hubOptions.push('webSockets', 'serverSentEvents');"); // Firefox için
-}
-else
-{
-    @Html.Raw("hubOptions.push('webSockets','serverSentEvents', 'longPolling');"); // Diğer tarayıcılar için
-}
+         const hubOptions = [];
+
+        @if (tarayici == Tarayici.Firefox)
+        {
+            @Html.Raw("hubOptions.push('webSockets', 'serverSentEvents');"); // Firefox için
+        }
+        else
+        {
+            @Html.Raw("hubOptions.push('webSockets','serverSentEvents', 'longPolling');"); // Diğer tarayıcılar için
+        }
 
 
 
