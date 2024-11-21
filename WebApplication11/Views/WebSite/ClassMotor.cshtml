@@ -1,0 +1,613 @@
+﻿
+@{
+    ViewBag.Title = "Ana Sayfa";
+    Layout = "~/Views/Shared/_LayoutClassMotor.cshtml";
+}
+
+@if (true)
+{
+
+
+<!--Time Bar-->
+<div id="progress-back" class="load-item">
+    <div id="progress-bar"></div>
+</div>
+
+<!--Control Bar-->
+<div id="controls-wrapper" class="load-item">
+    <div id="controls">
+
+        <ul id="slide-list"></ul>
+
+    </div>
+</div>
+
+
+<!--<div class="load-overlay" style=""></div>-->
+
+<div class="main-content ng-scope" style="overflow: auto;">
+
+
+
+    <!--<div class="bg-overlay">&nbsp;</div>-->
+    <div class="btn-pane" style="top:50px">
+        <a class="cls-btn" href="#" style="float: right;right: 50px; position:absolute; text-align:center;">
+            <img src="/Content/ClassMotor/close-circled.png" alt="Kapat">
+            <br>
+            <span>Kapat</span>
+        </a>
+        <a id="downloadLink" href="https://classmotor.com.tr/images/Welcome_Katalog_Files//1422022510_tr.pdf" style="float: left;left: 50px; position:absolute; text-align:center;" target="_blank"
+           type="application/octet-stream" download="https://classmotor.com.tr/images/Welcome_Katalog_Files//1422022510_tr.pdf">
+            <img src="/Content/ClassMotor/downloads.png" alt="KATALOĞU İNDİR"><br>
+            <span>Kataloğu İndir</span>
+        </a>
+    </div>
+    <div class="main-menu">
+
+        <a class="giris-logo" href="https://classmotor.com.tr">
+            <img style="width: 70%;" src="@Url.Content("~/Content/ClassMotor/logo.png")" class="logo-img" alt="">
+            <!-- <span class="slogan">1974'ten beri...</span> -->
+        </a>
+
+
+
+        <ul class="ls-none left-nav menu-real clearfix">
+            <li><a href="#" class="inline">KURUMSAL</a></li>
+            <!-- <li><a class="various" href="https://classmotor.com.tr/resman/uploads/ozenflash/index.html">KATALOG</a></li> -->
+            <!-- <li><a class="variousVideo" href="https://www.youtube.com/embed/7QFMla1XWgM?autoplay=1">VIDEO</a></li> -->
+            <!--<li><a href="#stores" id="storesinline">MAĞAZALAR</a></li>-->
+            <li><a id="bayilikBtn" href="#" class="inline">BAYİLİK TALEBİ</a></li>
+            <li><a href="#contact" id="iletisim">İLETİŞİM</a></li>
+
+            <!--<li class="last"><a href="https://classmotor.com.tr/Anasayfa" class="random-color">SİTEYE GİRİŞ</a></li>
+
+    <li class="last"><a href="https://classmotor.com.tr/Anasayfa" class="random-color">ENTER WEBSITE</a></li>-->
+
+        </ul>
+        <div class="clearfix"></div>
+
+
+        <div class="shop-now-pane">
+
+            <a href="https://classmotor.com.tr">
+                <span class="btn-pane2" style="color: black;">GİRİŞ</span>
+                <img src="/Content/ClassMotor/grsbtn2.png" width="80" />
+            </a>
+
+
+        </div>
+    </div>
+
+    <div class="langer">
+        <a href="javascript:;" class="selected disabled-anchor" onclick="if (!window.__cfRLUnblockHandlers) return false; ChangeLanguage(1);" data-cf-modified-cb479d662f8980dba335fe8f-="">TR</a> | <a href="javascript:;" onclick="if (!window.__cfRLUnblockHandlers) return false; ChangeLanguage(2);" data-cf-modified-cb479d662f8980dba335fe8f-="">EN</a>
+    </div>
+
+    <div class="socials_icon">
+
+        <a href="https://instagram.com/classmotor" target="_blank">
+            <img src="/Content/ClassMotor/insta.svg" alt="">
+        </a>
+
+        <a href="https://www.youtube.com/classmotor" target="_blank">
+            <img src="/Content/ClassMotor/youtube.svg" alt="">
+        </a>
+
+        <a href="https://www.facebook.com/classmotor" target="_blank">
+            <img src="/Content/ClassMotor/face.svg" alt="">
+        </a>
+
+        <a href="https://twitter.com/classmotor" target="_blank">
+            <img src="/Content/ClassMotor/twitter.svg" alt="">
+        </a>
+
+        <a href="mailto:info@cassmotor.com.tr">
+            <img src="/Content/ClassMotor/envelope.svg" alt="">
+        </a>
+
+
+    </div>
+
+    <div class="content-inner">
+        <div class="cata-wrapper">
+
+            <div style="display:none;">
+                <div id="kurumsal">
+
+                    <style>
+.ui-tabs-nav li{ display:inline-block; list-style:none; text-align:center; margin-bottom:20px;}
+.ui-tabs-nav li a {
+    display: block;
+	text-align:center;
+	outline:none;
+	padding:5px 15px;
+	color:#fff;
+	border:none;
+	text-decoration:none;
+}
+.ui-tabs-nav li a:hover {
+    cursor: pointer;
+}
+.ui-tabs-nav li.ui-tabs-active {
+    margin-bottom: 0.2em;
+    padding-bottom: 0;
+	background:#ddd;
+}
+.ui-tabs-nav li.ui-tabs-active a{color:#222;}
+.ui-tabs-nav li:last-child {
+    margin-bottom: 10px;
+}
+ .ui-tabs-panel {
+
+    border-radius: 0;
+}
+.shop-now-pane:hover {
+    filter: contrast(0.5);
+}
+ .ui-tabs-panel img{ margin-left:0px !important;}
+
+ .random-color{
+	color: #f35626;
+	background-image: -webkit-linear-gradient(92deg,#f35626,#feab3a);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	-webkit-animation: hue 20s infinite linear;
+	font-size: 18px !important;
+	text-shadow:none !important;
+	font-weight: bold !important;
+	border-top: 1px solid #fff;
+	margin-top: 20px;
+	padding-top: 20px!important;
+	max-width: 145px!important;
+	font-family: 'Francois One', sans-serif;
+}
+@@-webkit-keyframes hue {
+    from {
+      -webkit-filter: hue-rotate(0deg);
+    }
+
+    to {
+      -webkit-filter: hue-rotate(360deg);
+    }
+}
+
+                    </style>
+                    <script data-cfasync="false" src="@Url.Content("~/Content/ClassMotor/email-decode.min.js")"></script>
+                    <script src="//code.jquery.com/ui/1.9.1/jquery-ui.js" type="cb479d662f8980dba335fe8f-text/javascript"></script>
+                    <script type="cb479d662f8980dba335fe8f-text/javascript">
+                        $(document).ready(function() {$('#tabs').tabs()});
+                    </script>
+                    <div id="tabs">
+                        <ul>
+                            <li>
+                                <a href="#a">Hakkımızda</a>
+                            </li>
+                            <li>
+                                <a href="#b">Vizyonumuz</a>
+                            </li>
+                            <li>
+                                <a href="#c">Misyonumuz</a>
+                            </li>
+                            <li>
+                                <a href="#d">Değerlerimiz</a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                        <div id="a">
+                            <p>1974 yılından beri d&uuml;nyanın en &uuml;nl&uuml; ve en &ccedil;ok tercih edilen motosiklet aksesuarlarını T&uuml;rkiye'de motosiklet tutkunları ile buluşturan &Ouml;ZEN MOTOR;&nbsp;50 yıllık tecr&uuml;be ve hizmet kalitesi ile sekt&ouml;r&uuml;n &ouml;nc&uuml; firmasıdır.</p>
+                            <p>Motosiklet severlerin her t&uuml;rl&uuml; giyim, aksesuar gibi ihtiya&ccedil;larını ve taleplerini karşılamak i&ccedil;in sekt&ouml;rdeki yenilik ve gelişmeleri yakından takip eden &Ouml;zen Motor; satış ve satış sonrası hizmetlerde m&uuml;şteri memnuniyetini en &uuml;st seviyede tutmaktadır.</p>
+                            <p>Distrib&uuml;t&ouml;rl&uuml;ğ&uuml;n&uuml; yaptığı markaların yanısıra yeni markaları da &uuml;lkemize getirmeye ve &uuml;r&uuml;n &ccedil;eşidini artırmaya devam etmektedir. T&uuml;rkiye'ye getirilen her &uuml;r&uuml;n 50 yıllık &Ouml;zen Motor hizmet kalitesi ve g&uuml;vencesi ile satışa sunulmaktadır.</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p><img src="@Url.Content("~/Content/ClassMotor/yeni-mekan2.jpg")" alt="" width="1034" height="1395" /></p>
+                        </div>
+                        <div id="b">
+                            <p class="cvGsUA direction-ltr align-center para-style-body"><span class="OYPEnA text-decoration-none text-strikethrough-none">&Ouml;zen Motor Ailesi olarak, faaliyette bulunduğumuz sekt&ouml;rde m&uuml;şteri memnuniyeti odaklı, hizmet ve kaliteden &ouml;d&uuml;n vermeden &uuml;lkemiz motosiklet kullanıcılarına destek vererek daha bilin&ccedil;li bir toplum oluşmasına katkıda bulunmak.</span></p>
+                            <p class="cvGsUA direction-ltr align-center para-style-body">&nbsp;</p>
+                            <p class="cvGsUA direction-ltr align-center para-style-body"><span class="OYPEnA text-decoration-none text-strikethrough-none">Motosiklet sekt&ouml;r&uuml;nde m&uuml;şteri memnuniyetini &ouml;n planda tutan bir anlayışla faaliyet g&ouml;steriyoruz. Bu doğrultuda, hizmet ve kalite değerlerimizi her zaman y&uuml;kselterek, &uuml;lkemizdeki motosiklet kullanıcılarına en iyi şekilde destek olmayı hedefliyoruz.</span></p>
+                        </div>
+                        <div id="c">
+                            <p class="cvGsUA direction-ltr align-center para-style-body"><span class="OYPEnA text-decoration-none text-strikethrough-none">Faaliyette bulunduğumuz sekt&ouml;rde &ccedil;evreye, bireye ve topluma saygılı, hukuk, ekonomik ve ahlaki ilkelere bağlı beklentileri en &uuml;st seviyede karşılamak.</span></p>
+                            <p class="cvGsUA direction-ltr align-center para-style-body">&nbsp;</p>
+                            <p class="cvGsUA direction-ltr align-center para-style-body"><span class="OYPEnA text-decoration-none text-strikethrough-none">&Ccedil;evresel etkilerimizi en aza indirmek ve s&uuml;rd&uuml;r&uuml;lebilir iş uygulamaları benimsemek i&ccedil;in &ccedil;alışıyoruz. Bunu, enerji tasarrufu kullanarak, geri d&ouml;n&uuml;ş&uuml;m&uuml; teşvik ederek yapıyoruz.</span></p>
+                            <p class="cvGsUA direction-ltr align-center para-style-body">&nbsp;</p>
+                            <p class="cvGsUA direction-ltr align-center para-style-body"><span class="OYPEnA text-decoration-none text-strikethrough-none">M&uuml;şterilerimizin ihtiya&ccedil;larını ve beklentilerini anlamak ve bunlara en &uuml;st d&uuml;zeyde hizmet sunmak i&ccedil;in &ccedil;alışıyoruz. Bunu a&ccedil;ık ve şeffaf iletişim kurarak, geri bildirimlere değer vererek ve m&uuml;şteri memnuniyetini en &uuml;st d&uuml;zeye &ccedil;ıkarmak i&ccedil;in &ccedil;aba g&ouml;stererek yapıyoruz. M&uuml;şterilerimizin beklentilerini aşmak i&ccedil;in s&uuml;rekli olarak &ccedil;alışıyoruz. Bunu geri bildirimleri dinleyerek, &uuml;r&uuml;n ve hizmetlerimizi geliştirerek ve olağan&uuml;st&uuml; bir m&uuml;şteri deneyimi sunmaya odaklanarak yapıyoruz.</span></p>
+                            <p class="cvGsUA direction-ltr align-center para-style-body">&nbsp;</p>
+                            <p class="cvGsUA direction-ltr align-center para-style-body"><span class="OYPEnA text-decoration-none text-strikethrough-none">Faaliyetlerimizde y&uuml;ksek ahlaki standartlara bağlı kalmayı taahh&uuml;t ediyoruz. Bunu, d&uuml;r&uuml;stl&uuml;k ve b&uuml;t&uuml;nl&uuml;k ilkelerine bağlı kalarak, adil ve saygılı davranarak ve etik dışı davranışlardan ka&ccedil;ınarak yapıyoruz.</span></p>
+                            <p class="cvGsUA direction-ltr align-center para-style-body">&nbsp;</p>
+                            <p class="cvGsUA direction-ltr align-center para-style-body"><span class="OYPEnA text-decoration-none text-strikethrough-none">En y&uuml;ksek kalitede &uuml;r&uuml;n ve hizmetler sunmayı taahh&uuml;t ediyoruz. Bunu katı kalite standartları uygulayarak,</span> <span class="OYPEnA text-decoration-none text-strikethrough-none">s&uuml;rekli iyileştirmeye odaklanarak yapıyoruz.</span></p>
+                            <p class="cvGsUA direction-ltr align-center para-style-body">&nbsp;</p>
+                            <p class="cvGsUA direction-ltr align-center para-style-body"><span class="OYPEnA text-decoration-none text-strikethrough-none">Faaliyetlerimizi en verimli şekilde y&uuml;r&uuml;tmeyi taahh&uuml;t ediyoruz. Bunu kaynaklarımızı optimize ederek, israfı azaltarak ve yenilik&ccedil;i &ccedil;&ouml;z&uuml;mler geliştirerek yapıyoruz.</span></p>
+                        </div>
+                        <div id="d">
+                            <ul id="degerler">
+                                <li><img src="@Url.Content("~/Content/ClassMotor/1.png")" alt="" /><br /><span style="color: #fc0d1b; font-weight: bold; font-size: 18px;"><strong>BİZ</strong></span><br /><br />Katılalım,<br />Paylaşalım,<br />Keyif Alalım.<br /><br /><strong>Sahiplenelim!</strong></li>
+                                <li><img src="@Url.Content("~/Content/ClassMotor/2.png")" alt="" /><br /><span style="color: #0070f2; font-weight: bold; font-size: 18px;"><strong>SAMİMİYETLE</strong></span><br /><br />A&ccedil;ık Olalım,<br />Adil Olalım,<br />Saygılı Olalım,<br />M&uuml;tevazi Davranalım.<br /><br /><strong>Mert Olalım!</strong></li>
+                                <li><img src="@Url.Content("~/Content/ClassMotor/3.png")" alt="" /><br /><span style="color: #1aaf54; font-weight: bold; font-size: 18px;"><strong>&Ccedil;&Ouml;ZER</strong></span><br /><br />Hayal Edelim,<br />&Ccedil;evik Olalım,<br />Verimli Olalım,<br /><br /><strong>Yapalım!</strong></li>
+                                <li><img src="@Url.Content("~/Content/ClassMotor/4.png")" alt="" /><br /><span style="color: #fdbf2d; font-weight: bold; font-size: 18px;"><strong>UYGULAR</strong></span><br /><br />&Ouml;l&ccedil;&uuml;mleyelim,<br />Kıyaslayalım,<br />Takip Edelim,<br /><br /><strong>S&uuml;rekli Kılalım!</strong></li>
+                                <li><img src="@Url.Content("~/Content/ClassMotor/5.png")" alt="" /><br /><span style="color: #8fb5e1; font-weight: bold; font-size: 18px;"><strong>GELİŞTİRİRİZ</strong></span><br /><br />Merakla &Ouml;ğrenelim,<br />Heyecanla &Ouml;ğretelim,<br />Cesaretle Değişelim,<strong><br /><br />İlerleyelim!</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+
+
+
+                </div>
+            </div>
+
+
+
+            <!--Bayilik Talep Formu-->
+            <div style="display:none;">
+                <div id="bayilik" class="bayilik">
+
+
+
+
+
+
+
+                    <div class="page-title" lang="tr">
+                        Bayi Başvuru Formu
+                    </div>
+
+                    <div class="clear"></div>
+                    <form method="POST" action="" name="bayilik" id="bayilik2" enctype="multipart/form-data">
+                        <div class="formWrapper">
+                            <div class="page-subtitle">
+                                Kurumsal Bilgiler
+                            </div>
+                            <div class="row form-cont mrbt15">
+                                <div class="col-md-3">
+                                    <label for="dealar_form_firm_name">
+                                        <i class="fa fa-home icon"></i>
+                                        Firma Adı *
+                                    </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" name="dealar_form_firm_name" id="dealar_form_firm_name"
+                                           class="form-input" required>
+                                </div>
+                            </div>
+                            <div class="row form-cont mrbt15">
+                                <div class="col-md-3">
+                                    <label for="dealar_form_firm_owner_name_surname">
+                                        <i class="fa fa-user icon"></i>
+                                        Firma Sahibi
+                                        *
+                                    </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" name="dealar_form_firm_owner_name_surname"
+                                           id="dealar_form_firm_owner_name_surname" class="form-input" required>
+                                </div>
+                            </div>
+                            <div class="row form-cont mrbt15">
+                                <div class="col-md-3">
+                                    <label for="dealar_form_firm_partners">
+                                        <i class="fa fa-users icon"></i>
+                                        Firma Ortakları
+                                    </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" name="dealar_form_firm_partners"
+                                           id="dealar_form_firm_partners" class="form-input">
+                                </div>
+                            </div>
+                            <div class="page-subtitle">
+                                İletişim Bilgileri
+                            </div>
+                            <div class="row form-cont mrbt15">
+                                <div class="col-md-3">
+                                    <label for="dealar_form_phone">
+                                        <i class="fa fa-phone icon"></i>
+                                        Telefon *
+                                    </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" name="dealar_form_phone" id="dealar_form_phone"
+                                           class="form-input" required>
+                                </div>
+                            </div>
+                            <div class="row form-cont mrbt15">
+                                <div class="col-md-3">
+                                    <label for="dealar_form_mobile_phone">
+                                        <i class="fa fa-mobile icon"></i>
+                                        Cep Telefonu *
+                                    </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" name="dealar_form_mobile_phone"
+                                           id="dealar_form_mobile_phone" class="form-input" required>
+                                </div>
+                            </div>
+                            <div class="row form-cont mrbt15">
+
+                                <div class="col-md-7">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-5">
+                                            <label for="dealar_form_website">
+                                                <i class="fa fa-globe icon"></i>
+                                                Websitesi *
+                                            </label>
+                                        </div>
+                                        <div class="col-md-7 pl-22">
+                                            <input type="text" name="dealar_form_website"
+                                                   id="dealar_form_website" class="form-input" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-3 p-0">
+                                            <label for="dealar_form_email"><i class="fa fa-envelope icon"></i>   Email *</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input type="text" name="dealar_form_email" id="dealar_form_email"
+                                                   class="form-input" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row form-cont mrbt15">
+                                <div class="col-md-3">
+                                    <label for="dealar_form_city">
+                                        <i class="fa fa-map-marker icon"></i>  İl *
+                                    </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" name="dealar_form_city" id="dealar_form_city" class="form-input" required>
+                                </div>
+                            </div>
+
+                            <div class="row form-cont mrbt15">
+                                <div class="col-md-3">
+                                    <label for="dealar_form_town"><i class="fa fa-map-marker icon"></i> İlçe *</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" name="dealar_form_town" id="dealar_form_town" class="form-input" required>
+                                </div>
+                            </div>
+
+
+                            <div class="page-subtitle">
+                                Diğer Bilgiler
+                            </div>
+
+                            <div class="row form-cont mrbt15">
+                                <div class="col-md-3">
+                                    <label for="dealer_form_shopping_location"><i class="fa fa-map-marker icon"></i> Mağaza Lokasyonu *</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" name="dealer_form_shopping_location" id="dealer_form_shopping_location" class="form-input" required>
+                                </div>
+                            </div>
+
+                            <div class="row form-cont mrbt15">
+                                <div class="col-md-3">
+                                    <label for="dealer_form_shopping_store_size"><i class="fa fa-home icon"></i> Mağaza Metrekare *</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" name="dealer_form_shopping_store_size" id="dealer_form_shopping_store_size" class="form-input" required>
+                                </div>
+                            </div>
+
+                            <div class="row form-cont mrbt15">
+                                <div class="col-md-3">
+                                    <label for="dealer_form_shopping_number_worker"><i class="fa fa-user-o icon"></i> Çalışan Sayısı *</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" name="dealer_form_shopping_number_worker" id="dealer_form_shopping_number_worker" class="form-input" required>
+                                </div>
+                            </div>
+
+                            <div class="row form-cont mrbt15">
+                                <div class="col-md-3">
+                                    <label for="dealar_form_firm_activity"><i class="fa fa-list icon"></i> Faaliyet Alanlarınız *</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" name="dealar_form_firm_activity" id="dealar_form_firm_activity" class="form-input" required>
+                                </div>
+                            </div>
+
+                            <div class="row form-cont mrbt15">
+                                <div class="col-md-3">
+                                    <label for="dealar_form_firm_other_dealerships"><i class="fa fa-users icon"></i> Varsa Sahip Olduğunuz Diğer Bayilikler *</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" name="dealar_form_firm_other_dealerships" id="dealar_form_firm_other_dealerships" class="form-input"
+                                           required>
+                                </div>
+                            </div>
+
+
+                            <div class="row form-cont mrbt15">
+                                <div class="col-md-3">
+                                    <label for="dealar_form_firm_references"><i class="fa fa-handshake-o icon"></i> Referanslarınız *</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" name="dealar_form_firm_references" id="dealar_form_firm_references" class="form-input" required>
+                                </div>
+                            </div>
+
+                            <div class="row form-cont mrbt15">
+                                <div class="col-md-3">
+                                    <label for="dealar_form_firm_description"><i class="fa fa-comment-o icon"></i> Firmanızı Kısaca Tanıtır mısınız? *</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <textarea class="form-input" name="dealar_form_firm_description" id="dealar_form_firm_description"
+                                              style="height: 80px;" required></textarea>
+                                </div>
+                            </div>
+
+                            <div class="page-subtitle">
+                                Mağaza Fotoğrafları Yükleme Alanı
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="image-upload">
+                                        <p>* Mağazanızın farklı açılardan çekilmiş fotoğraflarını buradan yükleyebilirsiniz.</p>
+                                        <p>Kabul edilen dosya türleri: (jpg,png), Azami dosya boyutu: 10 MB.</p>
+                                        <div class="file-content">
+                                            <p>DOSYA SEÇ</p>
+                                            <input type="file" name="dealer_images[]" id="fileInput" style="display:none" multiple accept=".jpg, .jpeg, .png" required>
+                                            <a href="javascript:;" id="uploadIcon">
+                                                <img src="/Content/ClassMotor/upload-button.png" alt="">
+                                            </a>
+                                            <div id="fileNames"></div>
+                                        </div>
+                                        <p class="mrbt25">* Alanları doldurmanız gerekmektedir.</p>
+                                        <input type="submit" name="csend" id="formSubmit" class="submit btn btn-green btn-submit mrbt30" value="Gönder">
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" name="form_token" value="29d44adb57ebe929c6068fd34f7a8261">
+                            <div class="clear"></div>
+                        </div>
+                    </form>
+                    <div class="clear"></div>
+                </div>
+
+
+            </div>
+            <!--Bayilik Talep Formu-->
+            <style>
+                .contact-info li {
+                    margin: 0 !important;
+                }
+
+                    .contact-info li iframe {
+                        width: 850px !important;
+                        height: 500px !important;
+                    }
+
+                .giris-btn {
+                    position: absolute;
+                    left: 180px;
+                    top: 22px;
+                    font-size: 20px;
+                    color: #E0112E;
+                    /* text-shadow: 0 0 1px #9B0C21; */
+                    text-decoration: none;
+                    border-left: 1px solid #E0112E;
+                    padding-left: 30px;
+                    font-weight: bold;
+                }
+            </style>
+            <div style="display:none;">
+                <div id="contact" class="contact">
+                    <div class="contact-inner scroll">
+                        <ul class="contact-info">
+                            <li class="contact-info-li">
+                                <table style="width:100%; height:auto;">
+                                    <tbody>
+                                        <tr>
+                                            <td width="60" valign="top"><span class="icon-content"><i class="fa fa-map-marker icon"></i></span></td>
+                                            <td><strong>Saraylar, İzmir Blv. No:77, 20010 Denizli Merkez/Denizli</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                            <li class="contact-info-li">
+                                <table style="width:100%; height:auto;">
+                                    <tbody>
+                                        <tr>
+                                            <td width="60" valign="top"><span class="icon-content"><i class="fa fa-envelope icon"></i></span></td>
+                                            <td><strong><a href="mailto:info@classmotor.com.tr"><span class="__cf_email__" data-cfemail="cba2a5ada48ba4b1aea5a6a4bfa4b9e5a8a4a6">info@classmotor.com.tr</span></a></strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                            <li class="contact-info-li">
+                                <table style="width:100%; height:auto;">
+                                    <tbody>
+                                        <tr>
+                                            <td width="60" valign="top"><span class="icon-content"><i class="fa fa-phone icon"></i></span></td>
+                                            <td><strong>+90 (258) 263 37 04</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                            <li class="contact-info-li">
+                                <table style="width:100%; height:auto;">
+                                    <tbody>
+                                        <tr>
+                                            <td width="60" valign="top"><span class="icon-content"><i class="fa fa-clock-o icon"></i></span></td>
+                                            <td>
+                                                <p><strong>ÇALIŞMA SAATLERİMİZ;</strong></p>
+                                                <strong>Haftaiçi:&nbsp;08:30 - 18:00 arası,</strong><br>
+                                                <strong>Cumartesi :&nbsp;08:30 - 14:00 arası hizmet vermektedir.</strong>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                            <li>
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2890.30903457945!2d29.08449927555057!3d37.78853047198194!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14c73fc9fea822c3%3A0x11cbf874ac5837d1!2sCLASS%20MOTOR!5e1!3m2!1str!2str!4v1732136387503!5m2!1str!2str" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>-->
+<script type="cb479d662f8980dba335fe8f-text/javascript">
+    document.getElementById('uploadIcon').addEventListener('click', function() {
+        document.getElementById('fileInput').click();
+    });
+    document.getElementById('fileInput').addEventListener('change', function() {
+    var fileNames = '';
+    for (var i = 0; i < this.files.length; i++) {
+        fileNames += '<div>' + this.files[i].name + '</div>';
+    }
+    document.getElementById('fileNames').innerHTML = fileNames;
+    });
+
+    $(document).ready(function() {
+        $('#formSubmit').click(function(e){
+            e.preventDefault(); // Formun gönderimini engelle
+            var isValid = true;
+            $('#bayilik2').find('[required]').each(function() {
+                if (!$(this).val()) {
+                    isValid = false;
+                    return false; // Döngüyü sonlandır
+                }
+            });
+
+            if (!isValid) {
+                e.preventDefault(); // Formun gönderimini engelle
+                alert('Lütfen tüm zorunlu alanları doldurun.');
+                var firstEmptyInput = $('#bayilik2').find('input[required]').filter(function() {
+                    return $(this).val() === '';
+                }).first();
+                firstEmptyInput.focus();
+                return false;
+            }
+
+            var fileInput = $('#fileInput');
+            var files = fileInput[0].files; // Seçilen dosyaları al
+
+            if (files.length > 0) {
+                // En az bir dosya seçilmiş
+                console.log('Seçilen dosya sayısı: ' + files.length);
+                // Yükleme işlemini burada başlatabilirsiniz
+                $('#bayilik2').submit();
+            } else {
+                e.preventDefault();
+                // Hiç dosya seçilmemiş
+                alert('Lütfen en az bir resim dosyası seçin.');
+                $('#fileInput').focus();
+            }
+        });
+    });
+</script>
+
+<script src="@Url.Content("~/Content/ClassMotor/rocket-loader.min.js")" data-cf-settings="cb479d662f8980dba335fe8f-|49" defer></script>
+}

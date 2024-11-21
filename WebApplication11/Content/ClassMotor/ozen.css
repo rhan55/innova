@@ -1,0 +1,178 @@
+body { margin: 0 }
+
+@font-face {
+    font-family: 'goghextra_bold';
+    src: url('../fonts/gogh-extrabold-webfont.eot');
+    src: url('../fonts/gogh-extrabold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/gogh-extrabold-webfont.woff2') format('woff2'),
+         url('../fonts/gogh-extrabold-webfont.woff') format('woff'),
+         url('../fonts/gogh-extrabold-webfont.svg#goghextra_bold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+.load-overlay { overflow: hidden; width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 999998; background: #111; opacity: 1; display: block }
+.menu-real { list-style: none; margin: 38px 0 0 0; padding: 0; width: 100%; color: #76512f }
+.menu-real li { padding: 0px; margin: 0 }
+.menu-real li a { display: block; text-decoration: none; color: #999; padding: 5px 0; font-size: 11px; /*text-shadow: 2px 1px 4px rgba(100, 100, 100, 1)*/    font-family: 'goghextra_bold'; }
+.menu-real li a:hover { opacity: .8; filter: alpha(opacity=80) }
+.menu-real li a.active { color: #8B7057; font-weight: bold }
+.menu-real li.last { }
+.langer { position: fixed; bottom: 20px; color: #76512f; left: 20px; z-index: 2225 }
+.langer a { color: #FFF; font-size: 13px; text-decoration: none }
+.langer a.selected { color: #AA8868 }
+.bxslider { position: absolute; z-index: 99999999999; margin: 0; padding: 0 }
+.content-inner { position: fixed; top: 0; left: 150px; width: 100%; height: 100%; z-index: 2222 }
+.cata-wrapper { width: 100%; height: 100%; position: relative }
+.cata-inner { width: 980px; height: auto; position: absolute; top: 50%; left: 50%; margin-top: -312px; margin-left: 900px; display: none }
+.cata-inner.active { display: block }
+.catalogue { }
+.socials_icon { position: fixed; bottom: 20px; right: 20px; z-index: 2225 }
+.socials_icon img { width: 20px; margin-left: 10px; border: none }
+.backstage { height: auto; margin-top: -272px }
+.blurro { -webkit-filter: blur(20px) }
+.bg-wrapper { overflow: hidden; width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 0 }
+.bg-overlay { overflow: hidden; width: 100%; height: 100%; position: fixed; top: 0; left: 0; z-index: 0; background: #111; opacity: .8; display: none }
+.main-menu { background: transparent; position: absolute; margin-left: 70px; margin-top: -120px; top: 50%; left: 0px; z-index: 2225; width: 180px; transition: all 0.3s ease-in; -webkit-transition: all 0.3s ease-in }
+.giris-logo {position: relative;left: -20px;}
+.giris-logo .slogan {color: #999;position: absolute;top: 25px;right: 30px;font-size: 12px;text-decoration: none;font-weight: bold;}
+.logo { background-image: url(img/logo2.png); background-repeat: no-repeat; background-position: center center; width: 200px; height: 77px; margin: 20px; cursor: pointer }
+.logo-img { width: 150px; cursor: pointer !important }
+.stores { display: none; clear: both; color: #CCC; font-family: 'Helvetica'; font-size: 14px; line-height: 1.6em; font-weight: bold }
+.stores .active { color: #FFF; font-size: 1.2em }
+.country-list { list-style: none; display: inline-block; float:left; margin: 5px; padding: 15px; width: 20% }
+.country-list li { cursor: pointer; display: block; clear: both; list-style: none }
+.province-list { list-style: none; display: inline-block; display: none; float: left; margin: 5px; padding: 15px; width: 20% }
+.province-list li { cursor: pointer; display: block; clear: both; list-style: none }
+.stores-list { list-style: none; display: inline-block; display: none; float: left; margin: 5px; padding: 15px; color: #FFF; max-height: 550px; overflow: auto; width: 30%; padding-right: 25px }
+.stores-list li { display: block; display: block; clear: both; list-style: none; margin-top: 20px }
+.stores-list li:first-child { margin: 0 }
+.store-info { font-weight: normal }
+.contact { font-family: 'Helvetica'; font-size: 14px; line-height: 1.6em; font-weight: normal }
+.contact .contact-inner { width: 92%; margin: 0 auto }
+.contact h2 { font-size: 14px; padding: 0; margin: 1px 0; color: #FFF }
+.contact h3 { font-size: 13px; padding: 0; margin: 1px 0; font-weight: normal; color: #FFF }
+.contact a { text-decoration: none; color: #FFF; font-weight: normal; font-size: 12px; width: 100%; line-height: 24px }
+.contact .contact-info { display: inline-block; list-style: none; margin: 5px; padding: 0; font-size: 12px; float: left; width: 100%; text-align: center }
+.contact-title { color: #FFF; margin-top: 0; position:; display: block; background-color: #535250; padding: 10px; opacity: .9 }
+.contact .contact-info li { width: 400px; float: none; display: block; margin: 10px auto }
+.contact .contact-person { display: inline-block; list-style: none; max-height: 500px; overflow: auto; padding: 0; font-size: 12px; float: left; margin: 30px 0px 30px 10px; padding-right: 25px }
+.contact .contact-person li { margin-top: 10px }
+.contact .contact-person li:first-child { margin: 0px }
+.bg-slider-nav ul li { background: #AD927D; display: inline-block; float: left; margin: 0 2px; width: 12px; line-height: 12px; cursor: pointer; border-radius: 50% }
+.bg-slider-nav ul { margin: 0; position: fixed; right: 25px; top: 25px; z-index: 0; padding: 0; display: block; clear: both }
+.bg-slider-nav ul li.active { opacity: .5; filter: alpha(opacity=50) }
+.phillo .bx-viewport { padding: 50px 0; background: transparent !important; color: #FFF }
+.phillo-slide { display: block; overflow: auto }
+.phillo-slide li { height: auto; display: block; zoom: 1; margin: 0 10px }
+.phillo-slide li p { font-size: 14px; padding-right: 7px }
+.phillo-cont .phillo-right, .phillo-cont .phillo-left { width: 45%; margin: 2%; float: left }
+.phillo-cont .phillo-left img, .phillo-cont .phillo-right img { max-width: 100% }
+.phillo-right p { font-size: 15px }
+.shop-now-pane {position: relative;bottom: -25px;left: -60px;z-index: 2225;text-align: center;width: 175px;}
+.shop-now-pane a { text-decoration: none; border: none; display: block }
+.shop-now-pane img { -webkit-transition-duration: 0.3s; -moz-transition-duration: 0.3s; -o-transition-duration: 0.3s; transition-duration: 0.3s; -webkit-animation-name: spin; -webkit-animation-duration: 4000ms; -webkit-animation-iteration-count: infinite; -webkit-animation-timing-function: linear; -moz-animation-name: spin; -moz-animation-duration: 4000ms; -moz-animation-iteration-count: infinite; -moz-animation-timing-function: linear; -ms-animation-name: spin; -ms-animation-duration: 4000ms; -ms-animation-iteration-count: infinite; -ms-animation-timing-function: linear; animation-name: spin; animation-duration: 4000ms; animation-iteration-count: infinite; animation-timing-function: linear }
+.shop-now-pane img { border: none }
+@-ms-keyframes spin {
+    from { -ms-transform: rotate(0deg) }
+    to { -ms-transform: rotate(-360deg) }
+}
+@-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg) }
+    to { -moz-transform: rotate(-360deg) }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg) }
+    to { -webkit-transform: rotate(-360deg) }
+}
+@keyframes spin {
+    from { transform: rotate(0deg) }
+    to { transform: rotate(-360deg) }
+}
+*/
+.girisbtn { position: absolute; top: 51px; left: 59px; right: auto; color: #EB202C; font-size: 14px; text-decoration: none; z-index: 222; letter-spacing: 1px; font-weight: bold; font-family: 'Francois One', sans-serif; text-align: center }
+.shop-now-pane a:hover .girisbtn { color: #0DC83D !important }
+.shop-now-pane a:hover img { -webkit-animation-play-state: paused; -moz-animation-play-state: paused; -o-animation-play-state: paused; animation-play-state: paused }
+.shop-now-pane a:hover .girisbtn { color: #e2112e }
+.btn-pane2 {font-size: 12px;
+    position: absolute;
+    z-index: 9999999999999;
+    font-family: 'goghextra_bold';
+    width: 100%;
+    text-align: center;
+    top: 40%;
+    color: #FFF;
+    margin-left: -48px;
+    letter-spacing: 1px; }
+.btn-pane { font-size: 16px; position: absolute; z-index: 9999999999999; font-family: 'Helvetica'; width: 100%; text-align: center; top: 50px; color: #CCC; display: none }
+.btn-pane a { text-decoration: none; color: #CCC; position: relative; z-index: 9999999999 }
+.btn-pane a:hover { color: #FFF }
+.btn-pane.active { display: block }
+.btn-pane *[data-d=true] { display: none }
+.gohomepage { width: 24px; height: 24px; display: inline-block; margin-top: -4px }
+.contact_img { display: block }
+@media (min-width:200px) and (max-width:767px) {
+    .stores { margin-top: -300px !important }
+}
+#kurumsal { width: 70%; margin: 0 auto }
+#kurumsal img { margin: 0px 20px }
+#stores { width: 800px; min-height: 500px }
+#contact { width: 980px; height: 430px }
+@media (min-width:200px) and (max-width:767px) {
+    #kurumsal { width: 100% !important }
+    #kurumsal img { margin: 0px; display: block; width: 100% }
+    #stores { width: 980px; overflow: hidden }
+    .country-list { width: 5%; padding: 15px 0px !important }
+    .province-list { width: 7% }
+    .stores-list { width: 25% }
+    #contact { width: 100% !important }
+    .main-menu { top: 4% !important; margin-top: 0px !important; position: fixed }
+    .menu-real { margin-top: 10px !important }
+    .shop-now-pane { bottom: 0px !important }
+    .shop-now-pane a p { margin: 0px }
+    .contact .contact-info li { width: 87% !important }
+    .fancybox-close { top: 5px !important; right: 5px !important }
+    .fancybox-katalog { position: fixed; top: 5px !important; right: 70px !important }
+}
+
+.store-name { font-weight: bold; text-transform: uppercase; color: #da0000 }
+#bayilik { width: 40%; margin: 0 auto }
+#bayilik .cformline { display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 15px;align-items: center;}
+#bayilik .cformline:after { clear: both; content: ''; display: block }
+#bayilik .cformline label { float: left;  font-family: 'Helvetica'; width: 100%; }
+#bayilik .cformline .cformelement { width: 100%; display: flex; justify-content: start; }
+#bayilik .cformline .cformelement input { width: 100%; border: 1px solid #ddd; padding: 7px 10px }
+#bayilik .cformline .cformelement input:focus { border: 1px solid red; outline: none }
+#bayilik .cformline .cformelement input[type=submit] { cursor: pointer; padding: 10px; color: #EEEEF0; font-size: 14px; border: 1px solid #4C4D4F; background-color: #4C4D4F; width: 100%}
+.yoltarifi { cursor: pointer; padding: 10px; color: #fff; font-size: 16px; border: 1px solid #c1ab7e; background-color: #aa8d51; width: 110%; margin-top: 20px }
+#degerler { margin-bottom: 50px; overflow: hidden }
+#degerler li { text-align: center; display: inline; float: left; text-align: center; line-height: 20px; margin-left: 10px; margin-bottom: 20px; padding: 5px; color: #ffffff; height: 370px }
+#degerler li img { margin: 0 auto; margin-bottom: 20px }
+#degerler li span { font-size: 14px; font-weight: bold; color: #ffffff }
+/* 2023 */
+.bayilik-fb-cover{top: 8%!important; left: 0!important; }
+.bayilik-fb-cover .fancybox-inner{width: 100%!important;}
+.bayilik-fb-cover .fancybox-skin{width: 100%!important;}
+.bayilik-fb-cover .fancybox-skin .fancybox-inner{ width: auto!important; height: auto!important;}
+.bayilik-fb-cover .cformelement #cform_9 { width: 100%!important; height: auto; padding: 7px 10px;}
+.bayilik-fb-cover{width: 98%!important; height: auto; position: absolute;top: 0;left: 0; opacity: 1; overflow: visible;}
+.bayilik-fb-cover .cformline  .icon{    margin-right: 6px;}
+.fancybox-overlay{background-color: #00000042!important;}
+
+@media (min-width:992px) {
+    #bayilik { width: 70%; margin: 0 auto }
+ }
+@media screen and (max-width:767px) { 
+    #bayilik { width: 100%; margin: 0 auto;padding: 24px; }
+}
+@media (min-width:768px) and (max-width:991px) {
+    #kurumsal img { width: 100%; display: block; height: auto }
+}
+@media (min-width:991px) and (max-width:1100px) {
+    #kurumsal img { width: 100%; display: block; height: auto }
+}
+@media (min-width:430px) and (max-width:767px) {
+    
+ }

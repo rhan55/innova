@@ -1,0 +1,461 @@
+﻿@using YKPortal.Models.Dto
+@using System.Data
+@using System.Data.SqlClient
+@using YKPortal.Models
+
+@{
+    
+    
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<!--begin::Head-->
+<head>
+    <title>@ViewBag.Title - @System.Configuration.ConfigurationManager.AppSettings["FirmaAdi"]</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="@(System.Configuration.ConfigurationManager.AppSettings["SeoDescription"])" />
+    <meta name="keywords" content="@(System.Configuration.ConfigurationManager.AppSettings["SeoKeywords"])" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="YK YAZILIM" />
+    <meta property="og:url" content="https://ykyazilim.com.tr" />
+    <meta property="og:site_name" content="YK YAZILIM" />
+    
+    @RenderSection("Styles", required: false)
+    <link href="/Tema/css/override.css" rel="stylesheet" type="text/css" />
+    <!--end::Global Stylesheets Bundle-->
+
+    @if (true)
+    {
+        <script type="text/javascript">
+
+            function IDGuidOlustur() {
+                return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+                    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+                );
+            }
+
+            function TutarKontroluYap(entity) {
+                $(entity).val(entity.value.replace(",", "."));
+            }
+
+        </script>
+
+        <link rel="stylesheet" type="text/css" href='//fonts.googleapis.com/css?family=Slabo+27px|Francois+One|&subset=latin,latin-ext' />
+        <meta name="google-site-verification" content="4pydrBsmQVkz0B_SoB9ba6qjyfgRm3eQA3kLOfOKj9M" />
+        <meta name="google-site-verification" content="T0_1qCs0TIIhZ8slEOvKjmCuypyGN8f-9pecuI2P5Is" />
+
+        <link rel="stylesheet" type="text/css" href="/Content/ClassMotor/main.css?v=3">
+        <link rel="stylesheet" type="text/css" href="/Content/ClassMotor/ozen.css?v=11">
+        <link rel="stylesheet" type="text/css" href="/Content/ClassMotor/jquery.fancybox.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="/Content/ClassMotor/supersized.css?v=2" media="screen" />
+        <link rel="stylesheet" type="text/css" href="/Content/ClassMotor/supersized.shutter.css" media="screen" />
+        <script type="cb479d662f8980dba335fe8f-text/javascript" src="/Content/ClassMotor/jquery.js?v=1"></script>
+        <script type="cb479d662f8980dba335fe8f-text/javascript" src="/Content/ClassMotor/main.js"></script>
+        <script type="cb479d662f8980dba335fe8f-text/javascript" src="/Content/ClassMotor/jquery.fancybox.js"></script>
+        <script type="cb479d662f8980dba335fe8f-text/javascript" src="/Content/ClassMotor/supersized.3.2.7.min.js"></script>
+
+        <script type="cb479d662f8980dba335fe8f-text/javascript">
+            function ChangeLanguage(LanguageID){
+                $.ajax({
+                    url: "https://www.classmotor.com.tr/ajax/ChangeLanguage",
+                    type: "post",
+                    data: {LanguageID:LanguageID},
+                    dataType: "json",
+                    cache: false,
+                    success: function (response) {
+                        location.reload();
+                    }
+                });
+            }
+            $(document).keyup(function(e) {
+                if (e.keyCode == 27) {
+                    ECS.ozen.closeSection(false);
+                    $('.main-menu').css('z-index','2225');
+                }   // esc
+            });
+        </script>
+
+        <script type="cb479d662f8980dba335fe8f-text/javascript">
+            $(document).ready(function() {
+
+
+
+                $('#bayilik2').submit(function() {
+                    $(this).hide();
+                });
+
+                $("a.inline").fancybox({
+                    'overlayShow'	: false,
+                    'transitionIn'	: 'elastic',
+                    maxWidth	: 1120,
+                    maxHeight	: 600,
+                    fitToView	: true,
+                    width		: '100%',
+                    height		: '70%',
+                    autoSize	: true,
+                    closeClick	: false,
+                    'transitionOut'	: 'elastic',
+                    wrapCSS		: 'bayilik-fb-cover',
+                    tpl: {
+                        closeBtn: '<div title="Kapat aa" class="fancybox-item fancybox-close">Kapat</div>'
+                    }
+                });
+
+                $(".various").fancybox({
+                    maxWidth	: 940,
+                    maxHeight	: 600,
+                    fitToView	: true,
+                    width		: '100%',
+                    height		: '70%',
+                    autoSize	: true,
+                    closeClick	: false,
+                    type:'iframe',
+                    openEffect	: 'none',
+                    closeEffect	: 'none',
+                         afterLoad  :  function() {
+                             $('.fancybox-skin').append('<div  title="Kataloğu İndir" class="fancybox-item"><a id="downloadLink" href="https://www.ozenmotor.com.tr/images/Welcome_Katalog_Files/1422022510_tr.pdf"  target="_blank" class="fancybox-katalog" type="application/octet-stream" download="https://www.ozenmotor.com.tr/images/Welcome_Katalog_Files/1422022510_tr.pdf">Kataloğu İndir</a></div>');
+                    },
+                    tpl: {
+                        closeBtn: '<div title="Kapat" class="fancybox-item fancybox-close">Kapat</div>'
+                    }
+                });
+
+                $(".variousVideo").fancybox({
+                    maxWidth	: 800,
+                    maxHeight	: 600,
+                    fitToView	: true,
+                    width		: '70%',
+                    height		: '70%',
+                    autoSize	: true,
+                    closeClick	: false,
+                    type:'iframe',
+                    openEffect	: 'none',
+                    closeEffect	: 'none',
+                    tpl: {
+                        closeBtn: '<div title="Kapat" class="fancybox-item fancybox-close">Kapat</div>'
+                    }
+                });
+
+                $("#storesinline").fancybox({
+                    maxWidth	: 800,
+                    maxHeight	: 600,
+                    fitToView	: true,
+                    width		: '70%',
+                    height		: '70%',
+                    autoSize	: true,
+                    closeClick	: false,
+                    type:'inline',
+                    openEffect	: 'none',
+                    closeEffect	: 'none',
+                    tpl: {
+                        closeBtn: '<div title="Kapat" class="fancybox-item fancybox-close">Kapat</div>'
+                    }
+                });
+
+                $("#iletisim").fancybox({
+                    'overlayShow'	: false,
+                    'transitionIn'	: 'elastic',
+                    'transitionOut'	: 'elastic',
+                    tpl: {
+                        closeBtn: '<div title="Kapat" class="fancybox-item fancybox-close">Kapat</div>'
+                    }
+                });
+            });
+        </script>
+
+        <!-- FullScreen Background MUR -->
+
+        <script type="cb479d662f8980dba335fe8f-text/javascript">
+
+        jQuery(function($){
+
+            $.supersized({
+
+                // Functionality
+                slideshow               :   1,			// Slideshow on/off
+                autoplay				:	1,			// Slideshow starts playing automatically
+                start_slide             :   1,			// Start slide (0 is random)
+                stop_loop				:	0,			// Pauses slideshow on last slide
+                random					: 	0,			// Randomize slide order (Ignores start slide)
+                slide_interval          :   7000,		// Length between transitions
+                transition              :   6, 			// 0-None, 1-Fade, 2-Slide Top, 3-Slide Right, 4-Slide Bottom, 5-Slide Left, 6-Carousel Right, 7-Carousel Left
+                transition_speed		:	1000,		// Speed of transition
+                new_window				:	1,			// Image links open in new window/tab
+                pause_hover             :   0,			// Pause slideshow on hover
+                keyboard_nav            :   1,			// Keyboard navigation on/off
+                performance				:	2,			// 0-Normal, 1-Hybrid speed/quality, 2-Optimizes image quality, 3-Optimizes transition speed // (Only works for Firefox/IE, not Webkit)
+                image_protect			:	1,			// Disables image dragging and right click with Javascript
+
+                // Size & Position
+                min_width		        :   0,			// Min width allowed (in pixels)
+                min_height		        :   0,			// Min height allowed (in pixels)
+                vertical_center         :   1,			// Vertically center background
+                horizontal_center       :   1,			// Horizontally center background
+                fit_always				:	0,			// Image will never exceed browser width or height (Ignores min. dimensions)
+                fit_portrait         	:   1,			// Portrait images will not exceed browser height
+                fit_landscape			:   0,			// Landscape images will not exceed browser width
+
+                // Components
+                slide_links				:	'blank',	// Individual links for each slide (Options: false, 'num', 'name', 'blank')
+                thumb_links				:	1,
+                thumbnail_navigation    :   0,			// (bu satırdaki hata normal php ile atanıyor resimler)
+                slides 					:  	[
+                                                    {image: '@Url.Content("~/Content/ClassMotor/1724138176_1.jpeg")'},{image: '@Url.Content("~/Content/ClassMotor/1724139074_2.jpeg")'},{image: '@Url.Content("~/Content/ClassMotor/1724141607_1.jpeg")'},{image: '@Url.Content("~/Content/ClassMotor/1724140151_4.jpeg")'},{image: '@Url.Content("~/Content/ClassMotor/1724141244_5.jpeg")'}
+                                            ],
+
+                // Theme Options
+                progress_bar			:	0,			// Timer for each slide
+                mouse_scrub				:	0
+
+            });
+        });
+
+        </script>
+
+        <!-- FullScreen Background MUR -->
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" type="cb479d662f8980dba335fe8f-text/javascript"></script>
+        <script type="cb479d662f8980dba335fe8f-text/javascript">
+            (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-1543992833885796",
+              enable_page_level_ads: true
+            });
+        </script>
+
+        <style>
+            #progress-back {
+                display: none !important;
+            }
+
+            .fancybox-type-iframe .fancybox-inner {
+                margin-left: auto !important;
+                margin-top: auto !important;
+            }
+
+            .fancybox-type-iframe .fancybox-iframe {
+                width: 100% !important;
+                max-width: 100% !important;
+                height: 100% !important;
+                max-height: 100% !important;
+            }
+
+            body {
+                margin: 0px !important;
+                left: 0px !important;
+                top: 0px !important;
+            }
+        </style>
+
+
+
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-v4-grid-only@1.0.0/dist/bootstrap-grid.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <style>
+            @@media (min-width:768px) {
+                .pl-22 {
+                    padding-left: 22px;
+                }
+            }
+
+            .icon {
+                width: 20px;
+                font-size: 16px;
+                color: #fff;
+                text-indent: 0;
+                vertical-align: middle;
+            }
+
+                .icon.fa-mobile {
+                    font-size: 20px;
+                }
+
+            .footer .footerHolder ul li.socialLnks {
+                box-sizing: content-box;
+            }
+
+            .mrbt15 {
+                margin-bottom: 15px !important;
+            }
+
+            .page-title {
+                background: rgb(244 244 244 / 20%);
+                border: 1px solid rgb(206 206 206 / 20%);
+                padding: 15px 15px;
+                color: #fff;
+                text-transform: uppercase;
+                margin-bottom: 15px;
+            }
+
+            .page-subtitle {
+                background: rgb(244 244 244 / 20%);
+                border: 1px solid rgb(206 206 206 / 20%);
+                padding: 5px 15px;
+                color: #fff;
+                margin-bottom: 15px;
+            }
+
+            .form-wrapper {
+                border: 1px solid #666666;
+                padding: 5px;
+                margin-top: 25px !important;
+            }
+
+            .formWrapper .form-cont {
+                display: flex;
+                align-items: center;
+                padding: 0px 10px;
+                margin-left: -25px;
+                margin-right: -25px;
+            }
+
+                .formWrapper .form-cont label {
+                    color: #fff !important;
+                    float: none;
+                    line-height: 1.2;
+                    height: auto;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                }
+
+                .formWrapper .form-cont .form-input {
+                    width: 100% !important;
+                    float: none;
+                    height: 36px;
+                    background: #fff;
+                    border: 1px solid #ddd;
+                    padding: 0 10px;
+                    line-height: 36px;
+                    font-size: 14px;
+                }
+
+                    .formWrapper .form-cont .form-input:focus {
+                        border-color: rgba(82, 168, 236, .5);
+                        outline: 0;
+                        outline: dotted thin\9;
+                        -moz-box-shadow: 0 0 8px rgba(82, 168, 236, .5);
+                        box-shadow: 0 0 8px rgba(82, 168, 236, .5) !important;
+                        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .050);
+                        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+                        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+                    }
+
+                .formWrapper .form-cont .clear {
+                    display: none;
+                }
+
+            .image-upload {
+                text-align: center;
+                position: relative;
+            }
+
+                .image-upload p {
+                    color: #F4F4F4 !important;
+                }
+
+                .image-upload .file-content {
+                    padding: 15px;
+                    background: #F4F4F4;
+                    border: 1px solid #CECECE;
+                    margin: 25px auto;
+                    width: 300px;
+                }
+
+            .btn-submit {
+                background: url("/images/submit-button.png") no-repeat !important;
+                width: 200px;
+                background-size: cover !important;
+                height: 55px;
+                font-size: 0;
+                margin-bottom: 30px !important;
+                border: none;
+                display: inline-block;
+                padding: 0 19px;
+                cursor: pointer;
+            }
+            /*#fileInput {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+            }*/
+            #uploadIcon {
+                display: block;
+                margin: 20px;
+                text-align: center;
+            }
+
+                #uploadIcon img {
+                    width: 100px;
+                    height: auto;
+                    display: block;
+                    margin: 0 auto;
+                }
+
+            #fileNames {
+                font-size: 12.5px;
+                color: #5C5C5C !important;
+                line-height: 1.5;
+            }
+
+            .mrbt25 {
+                margin-bottom: 25px !important;
+            }
+
+
+            .icon-content {
+                width: 42px;
+                height: 42px;
+                background-color: #fff;
+                border-radius: 42px;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+                .icon-content .icon {
+                    color: #5C5C5C !important;
+                    font-size: 20px;
+                    width: auto;
+                }
+
+            .contact-info li.contact-info-li {
+                font-family: 'Slabo 27px', serif;
+                font-size: 16px;
+                font-weight: 700;
+                margin-bottom: 10px !important;
+                text-align: left;
+                width: 100% !important;
+                height: auto !important;
+                display: block !important;
+            }
+
+                .contact-info li.contact-info-li a {
+                    font-size: 16px;
+                    font-weight: 700;
+                }
+
+            .fancybox-close {
+                height: 38px;
+            }
+
+            .p-0 {
+                padding-right: 0;
+                text-align: right;
+            }
+        </style>
+
+    }
+</head>
+<body>
+
+
+    @RenderBody()
+
+</body>
+</html>
+

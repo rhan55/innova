@@ -312,6 +312,7 @@
     <Compile Include="Controllers\StokController.cs" />
     <Compile Include="Controllers\SubeController.cs" />
     <Compile Include="Controllers\TanimlamalarController.cs" />
+    <Compile Include="Controllers\WebSiteController.cs" />
     <Compile Include="Controllers\YKController.cs" />
     <Compile Include="Controllers\AyarlarController.cs" />
     <Compile Include="Controllers\YKMakineController.cs" />
@@ -3111,6 +3112,8 @@
     <Content Include="Views\Ayarlar\Entegrasyonlar.cshtml" />
     <Content Include="Views\Ayarlar\EFaturaAyarlari.cshtml" />
     <Content Include="Views\Ayarlar\Config.cshtml" />
+    <Content Include="Views\WebSite\ClassMotor.cshtml" />
+    <Content Include="Views\Shared\_LayoutClassMotor.cshtml" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>
