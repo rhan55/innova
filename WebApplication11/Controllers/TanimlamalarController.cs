@@ -459,6 +459,9 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
+            if (!YetkiKontrolu("/Tanimlamalar/BankaHesabiEkle", "Duzenle"))
+                return Redirect("~/YK/Anasayfa");
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_BankaHesaplariKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -481,6 +484,9 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            //if (!YetkiKontrolu("/Tanimlamalar/BankaHesabiListe", "Gor"))
+            //    return Redirect("~/YK/Anasayfa");
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_BankaHesaplariListesi";
@@ -508,6 +514,9 @@ namespace YKPortal.Controllers
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
+
+            //if (!YetkiKontrolu("/Tanimlamalar/Liste", "Duzenle"))
+            //    return Redirect("~/YK/Anasayfa");
 
             ViewBag.Duzenle = true;
 

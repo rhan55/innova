@@ -22,15 +22,15 @@
                         <!--begin::Input group-->
                         <div class="col-lg-8">
                             <!--begin::Label-->
-                            <label for="Aciklama" class="fw-semibold fs-6 mb-2">Açıklama</label>
+                            <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2">Açıklama</label>
                             <!--end::Label-->
                             <!--begin::texarea-->
                             <textarea type="text" id="Aciklama" name="Aciklama" class="form-control" placeholder=""></textarea>
                             <!--end::Input-->
                         </div>
                         <div class="col-lg-4">
-                            <label for="GorevTipiID" class="form-label">Görev Tipi</label>
-                            <select class="form-control" name="GorevTipiID" id="GorevTipiID" aria-label="Floating label select example" required>
+                            <label for="GorevTipiID" class="form-label fw-bold text-gray-600">Görev Tipi</label>
+                            <select class="form-control p-2" name="GorevTipiID" id="GorevTipiID" aria-label="Floating label select example" required>
                                 <option value="">Lütfen Seçim Yapınız</option>
                                 @foreach (GrupKoduDto gorevTipi in ViewBag.GorevTipleri)
                                 {
@@ -44,10 +44,10 @@
                         <!--begin::Input group-->
                         <div class="col-lg-2">
                             <!--begin::Label-->
-                            <label for="BaslangicTarihi" class=" fw-semibold fs-6 mb-2">Görev Tarihi</label>
+                            <label for="BaslangicTarihi" class=" fw-bold text-gray-600 fs-6 mb-2">Görev Tarihi</label>
                             <!--end::Label-->
                             <!--begin::Input-->
-                            <input type="datetime-local" name="BaslangicTarihi" id="BaslangicTarihi" class="form-control p-2 mb-3 mb-lg-0"
+                            <input type="datetime-local" name="BaslangicTarihi" id="BaslangicTarihi" class="form-control  p-2 mb-3 mb-lg-0"
                                    value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm")" />
                             <!--end::Input-->
                         </div>
@@ -56,26 +56,26 @@
                             <div class="d-flex justify-content-end align-items-center mt-10">
                                 <div class=" ms-16">
                                     <input class="form-check-input" type="radio" name="periyot" id="TekSeferlik" value="T" checked>
-                                    <label class="form-check-label" for="TekSeferlik">
+                                    <label class="form-check-label fw-bold text-gray-600" for="TekSeferlik">
                                         Tek
                                     </label>
                                 </div>
                                 <div class=" ms-16">
                                     <input class="form-check-input" type="radio" name="periyot" id="periyotGunluk" value="G">
-                                    <label class="form-check-label" for="periyotGunluk">
+                                    <label class="form-check-label fw-bold text-gray-600" for="periyotGunluk">
                                         Günlük
                                     </label>
                                 </div>
                                 <br />
                                 <div class=" ms-16">
                                     <input class="form-check-input" type="radio" name="periyot" id="periyotHaftalik" value="H">
-                                    <label class="form-check-label" for="periyotHaftalik">
+                                    <label class="form-check-label fw-bold text-gray-600" for="periyotHaftalik">
                                         Haftalık
                                     </label>
                                 </div>
                                 <div class=" ms-16">
                                     <input class="form-check-input" type="radio" name="periyot" id="periyotYillik" value="A">
-                                    <label class="form-check-label" for="periyotYillik">
+                                    <label class="form-check-label fw-bold text-gray-600" for="periyotYillik">
                                         Aylık
                                     </label>
                                 </div>
@@ -85,8 +85,8 @@
                             <br /><br />
                             <input type="file" name="file Gorev" id="file" value="" multiple />
                         </div>
-                        <div class="col-lg-12">
-                            <label for="Kullanicilar">Görev atanacak kullanıcılar</label>
+                        <div class="col-lg-12 mt-4">
+                            <label class="fw-bold text-gray-600 fs-6 mb-2" for="Kullanicilar">Görev Atanacak Kullanıcılar</label>
                             <select id="Kullanicilar" name="Kullanicilar" class="form-control" style="height:200px;" multiple>
                                 @foreach (DataRow drKullanici in dtKullanicilar.Rows)
                                 {

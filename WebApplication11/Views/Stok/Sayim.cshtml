@@ -8,19 +8,19 @@
 
     DataTable dtFirmalar = ViewBag.dtFirmalar as DataTable;
 }
-<div class="container-fluid d-flex" id="kt_content">
+<div class="container d-flex mt-10" id="kt_content">
     <div class="row">
         <table>
             <tr>
                 <td>
-                    <label for="Tarih">Tarih</label>
-                    <input type="date" name="Tarih" id="Tarih" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control" />
+                    <label class="fw-bold fs-6 mb-2 text-gray-600"  for="Tarih">Tarih</label>
+                    <input type="date" name="Tarih" id="Tarih" value="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control p-2" />
 
                 </td>
                 <td>
 
-                    <label for="Firma">Firma</label>
-                    <select name="Firma" id="Firma" class="form-control" onchange="SubeleriGetir();">
+                    <label class="fw-bold fs-6 mb-2 text-gray-600 " for="Firma">Firma</label>
+                    <select name="Firma" id="Firma" class="form-control p-2" onchange="SubeleriGetir();">
                         @foreach (DataRow item in dtFirmalar.Rows)
                         {
                             <option value="@item["Firma"]">@item["Firma"]</option>
@@ -30,13 +30,13 @@
             </tr>
             <tr>
                 <td>
-                    <label for="Sube">Sube</label>
-                    <select name="Sube" id="Sube" class="form-control" onchange="DepolariGetir();">
+                    <label class="fw-bold fs-6 mb-2 text-gray-600 mt-4" for="Sube">Sube</label>
+                    <select name="Sube" id="Sube" class="form-control p-2" onchange="DepolariGetir();">
                     </select>
                 </td>
                 <td>
-                    <label for="Depo">Depo</label>
-                    <select name="Depo" id="Depo" class="form-control" onchange="Listele();">
+                    <label class="fw-bold fs-6 mb-2 text-gray-600 mt-4" for="Depo">Depo</label>
+                    <select name="Depo" id="Depo" class="form-control p-2" onchange="Listele();">
                     </select>
                 </td>
 
@@ -44,33 +44,33 @@
             <tr>
 
                 <td colspan="2">
-                    <label for="Barkod">Barkod</label>
-                    <input type="text" name="Barkod" id="Barkod" value="" class="form-control" onkeydown="KaydetBarkod();" autofocus />
+                    <label class="fw-bold fs-6 mb-2 text-gray-600 mt-4" for="Barkod">Barkod</label>
+                    <input type="text" name="Barkod" id="Barkod" value="" class="form-control p-2" onkeydown="KaydetBarkod();" autofocus />
 
                 </td>
             </tr>
             <tr>
                 <td>
-                    <label for="Stok">Stok</label><br />
-                    <select name="Stok" id="Stok" class="form-control">
+                    <label class="fw-bold fs-6 mb-2 text-gray-600 mt-4" for="Stok">Stok</label><br />
+                    <select name="Stok" id="Stok" class="form-control p-2">
                     </select>
 
                 
 
                 </td>
                 <td>
-                    <label for="Miktar">Miktar</label><br />
-                    <input type="number" name="Miktar" id="Miktar" value="1" class="form-control" style="text-align: center; width: 100px;" />
+                    <label class="fw-bold fs-6 mb-2 text-gray-600 mt-4" for="Miktar">Miktar</label><br />
+                    <input type="number" name="Miktar" id="Miktar" value="1" class="form-control p-2" style="text-align: center; width: 100px;" />
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <input type="button" name="Kaydet" id="Kaydet" value="Kaydet" class="btn btn-primary" onclick="Kaydet();" style="width:75px;" />
+                    <input type="button" name="Kaydet" id="Kaydet" value="Kaydet" class="btn btn-primary mt-4 p-2" onclick="Kaydet();" style="width:100px;" />
                 </td>
             </tr>
         </table>
 
-        <table id="TabloDetay" name="TabloDetay">
+        <table id="TabloDetay" class="mt-10" name="TabloDetay">
             <thead>
                 <tr>
                     <th>Stok Kodu</th>
