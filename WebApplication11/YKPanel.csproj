@@ -244,6 +244,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Depo\Controllers\NetsisDepoController.cs" />
     <Compile Include="Areas\Depo\DepoAreaRegistration.cs" />
+    <Compile Include="Areas\E\EAreaRegistration.cs" />
+    <Compile Include="Areas\E\Controllers\SiteController.cs" />
     <Compile Include="Areas\Entegrasyon\Controllers\FordAktarim.cs" />
     <Compile Include="Areas\Ziyaret\ZiyaretAreaRegistration.cs" />
     <Compile Include="Areas\Ziyaret\Controllers\ZiyaretController.cs" />
@@ -571,6 +573,10 @@
     <Content Include="Areas\Crm2\Views\Crm2\GrupKoduDuzenle3.cshtml" />
     <Content Include="Areas\Crm2\Views\Crm2\GrupKoduEkle3.cshtml" />
     <Content Include="Areas\Crm2\Views\Crm2\GrupKoduEkle2.cshtml" />
+    <Content Include="Areas\E\Views\Site\AnaSayfa.cshtml" />
+    <Content Include="Areas\E\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\E\Views\Shared\Error.cshtml" />
+    <Content Include="Areas\E\Views\web.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -3199,6 +3205,7 @@
     <Folder Include="Areas\D\Data\" />
     <Folder Include="Areas\Entegrasyon\Data\" />
     <Folder Include="Areas\Entegrasyon\Views\Shared\" />
+    <Folder Include="Areas\E\Data\" />
     <Folder Include="Areas\Personel\Controllers\" />
     <Folder Include="Areas\Personel\Views\Puantaj\" />
     <Folder Include="Areas\Ziyaret\Data\" />
