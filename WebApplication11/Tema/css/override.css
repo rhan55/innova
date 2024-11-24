@@ -214,3 +214,8 @@ div.dt-container {
     .menu-link:hover > span {
         color: #0d6efd !important;
     }
+
+
+.select2-container {
+    z-index: 1050 !important; /* Modal z-index değeri */
+}

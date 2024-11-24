@@ -502,7 +502,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@Unvan", cariDto.Unvan);
             cmd.Parameters.AddWithValue("@TCKimlikNo", cariDto.TCKimlikNo);
             cmd.Parameters.AddWithValue("@VergiNumarasi", cariDto.VergiNumarasi);
-            cmd.Parameters.AddWithValue("@CepTelefonu", cariDto.CepTelefonu);         
+            cmd.Parameters.AddWithValue("@CepTelefonu", cariDto.CepTelefonu);
             cmd.Parameters.AddWithValue("@Sayfa", page);
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
@@ -517,7 +517,7 @@ namespace YKPortal.Controllers
             {
                 var cari = new CariDto
                 {
-                   
+
 
                     Kod = Convert.ToString(dr["Kod"]),
                     Isim = Convert.ToString(dr["Isim"]),
@@ -1224,7 +1224,7 @@ namespace YKPortal.Controllers
         }
 
 
-        public JsonResult CariEFaturaBilgiGuncelle(string CariID, string Tip = "eFatura")
+        public JsonResult CariEFaturaBilgiGetir(string CariID)
         {
             CariDto cari = Getir(CariID);
 
@@ -1263,26 +1263,44 @@ namespace YKPortal.Controllers
                         CariID = CariID
                     });
 
-                    //SqlCommand cmd = new SqlCommand();
-                    //cmd.CommandText = "p_CariEFaturaBilgiGuncelle";
-                    //cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    //cmd.Parameters.AddWithValue("@CariID", CariID);
-                    //cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-                    //cmd.Parameters.AddWithValue("@EFaturaKayitTarihi", EFaturaGecisTarihi);
-                    //cmd.Parameters.AddWithValue("@EFaturaPKAdresi", EFaturaAdresi);
-                    //cmd.Parameters.AddWithValue("@EIrsaliyePKAdresi", "");
-                    //cmd.Parameters.AddWithValue("@EFatura", EFatura);
-                    //cmd.Parameters.AddWithValue("@EIrsaliye", "");
-                    //cmd.Parameters.AddWithValue("@EFaturaSenaryo", "");
-                    //cmd.Parameters.AddWithValue("@EFaturaAktiflik", EFatura);
-                    //cmd.Parameters.AddWithValue("@EIrsaliyeAktiflik", "");
 
-                    //DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                 }
             }
 
             return Json(new { success = true, Data = liste, eFatura = EFatura }, JsonRequestBehavior.AllowGet);
         }
+
+
+        public JsonResult CariEFaturaBilgiGuncelle(EFaturaDto eFaturaDto)
+        {
+
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_CariEFaturaBilgiGuncelle";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CariID", eFaturaDto.CariID);
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+                cmd.Parameters.AddWithValue("@EFaturaKayitTarihi", eFaturaDto.EFaturaGecisTarihi);
+                cmd.Parameters.AddWithValue("@EFaturaPKAdresi", eFaturaDto.EFaturaPKAdresi);
+                cmd.Parameters.AddWithValue("@EIrsaliyePKAdresi", eFaturaDto.EIrsaliyePKAdresi ?? string.Empty);
+                cmd.Parameters.AddWithValue("@EFatura", eFaturaDto.EFatura);
+                cmd.Parameters.AddWithValue("@EIrsaliye", eFaturaDto.EIrsaliye);
+                cmd.Parameters.AddWithValue("@EFaturaSenaryo", eFaturaDto.EFaturaSenaryo);
+                cmd.Parameters.AddWithValue("@EFaturaAktiflik", eFaturaDto.EFatura);
+                cmd.Parameters.AddWithValue("@EIrsaliyeAktiflik", eFaturaDto.EIrsaliyeAktiflik);
+
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            }
+            catch (Exception ex)
+            {
+                return Json(new YKJsonResult { SonucKodu = "Hata", Aciklama = ex.Message });
+            }
+
+            return Json(new YKJsonResult { SonucKodu = "0", Aciklama = "Başarıyla Kaydedildi" }, JsonRequestBehavior.AllowGet);
+        }
+
+
 
         private string CariGrupKodDegeriGetir(string grupKodID, string grupKodAdi)
         {
@@ -1833,7 +1851,7 @@ namespace YKPortal.Controllers
             }
             ViewBag.DovizBirimleri = entities;
         }
-       
+
 
         #endregion
 

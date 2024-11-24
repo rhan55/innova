@@ -213,130 +213,74 @@
     </div>
 </div>
 
-
-<!-- Ana Modal -->
-<div class="modal fade mainModalAc" data-id="" id="mainModal" tabindex="-1" aria-labelledby="mainModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="mainModalLabel">Seçim Yapın</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
-            </div>
-            <div class="modal-body">
-                <div class="d-flex w-100 gap-4">
-                    <button class="btn btn-success" id="eFaturaModalAc" data-id="" data-bs-toggle="modal" data-bs-target="#eFaturaListeModal">EFatura</button>
-                    <button class="btn btn-warning" id="eIrsaliyeModalAc" data-id="" data-bs-toggle="modal" data-bs-target="#eIrsaliyeListeModal">Eİrsaliye</button>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade eFaturaListeModal" data-id="" onclick="eFaturaBilgileriniYukle('123')" " id="eFaturaListeModal" tabindex="-1" aria-labelledby="eFaturaListeModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="eFaturaListeModalLabel">EFatura Listesi</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
-            </div>
-            <div class="modal-body">
-                <!-- İçerik burada dinamik olarak yüklenecek -->
-                <div id="eFaturaListeIcerik" class="text-center">
-                    <p>Yükleniyor...</p>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade eIrsaliyeListeModal" data-id="" id="eIrsaliyeListeModal" tabindex="-1" aria-labelledby="eIrsaliyeListeModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="eIrsaliyeListeModalLabel">EIrsaliye Listesi</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
-            </div>
-            <div class="modal-body">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- E-Fatura Modal -->
-<div class="modal fade efatura-modal-trigger" data-id="" id="efaturaModal" tabindex="-1" aria-labelledby="efaturaModalLabel" aria-hidden="true">
-
+<!-- Trigger Button -->
+<!-- Modal Yapısı -->
+<div class="modal fade" id="EFaturaBilgiGuncelle" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title text-gray-700" id="exampleModalLabel">E Fatura Mükellef Kontrolü</h4>
-                <h5>E-Fatura Alanı</h5>
-                <input type="text" placeholder="E-Fatura Bilgisi" />
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <input type="hidden" name="CariID" value="" />
+                <div class="d-flex mb-5">
+                    <div class="form-check w-50">
+                        <input class="form-check-input" type="checkbox" value="" id="EFatura" name="EFatura" />
+                        <label class="form-check-label  text-gray-600 fs-6 fw-bold" for="EFatura">
+                            E Fatura
+                        </label>
+                    </div>
+                    <div class="form-check w-50">
+                        <input class="form-check-input" type="checkbox" value="" id="EIrsaliye" name="EIrsaliye" />
+                        <label class="form-check-label  text-gray-600 fs-6 fw-bold" for="EIrsaliye">
+                            E İrsaliye
+                        </label>
+                    </div>
 
+                </div>
                 <div class="form-group mb-5">
-                    <label for="EFaturaKayitTarihi" class="form-label text-gray-700 fs-6 fw-bold">E Fatura Kayıt Tarihi</label>
+                    <label for="EFaturaKayitTarihi" class="form-label text-gray-600 fs-6 fw-bold">E Fatura Kayıt Tarihi</label>
                     <input type="text" id="EFaturaKayitTarihi" name="EFaturaKayitTarihi" class="form-control p-2 rounded-1" placeholder="" readonly />
                 </div>
-                <div class="form-group mb-5">
-                    <label for="EFaturaPKAdresi" class="form-label text-gray-700 fs-6 fw-bold">E Fatura PK Adresi</label>
-                    <input type="text" id="EFaturaPKAdresi" name="EFaturaPKAdresi" class="form-control p-2 rounded-1" placeholder="" readonly />
+                <div class="form-group mb-5 d-flex flex-column">
+                    <label for="EFaturaPKAdresi" class="form-label text-gray-600 fs-6 fw-bold">E Fatura PK Adresi</label>
+                    <select type="text" id="EFaturaPKAdresi" name="EFaturaPKAdresi" data-control="select2" class="form-control p-2 rounded-1" multiple="multiple">
+                        <option value="">Lütfen bir EFatura Adresi Seçiniz</option>
+                    </select>
                 </div>
-                <div class="form-group mb-5">
-                    <label for="EIrsaliyePKAdresi" class="form-label text-gray-700 fs-6 fw-bold">E İrsaliye PK Adresi</label>
-                    <input type="text" id="EIrsaliyePKAdresi" name="EIrsaliyePKAdresi" class="form-control p-2 rounded-1" placeholder="" readonly />
+                <div class="form-group mb-5 d-flex flex-column">
+                    <label for="EIrsaliyePKAdresi" class="form-label text-gray-600 fs-6 fw-bold">E İrsaliye PK Adresi</label>
+                    <select type="text" id="EIrsaliyePKAdresi" name="EIrsaliyePKAdresi" data-control="select2" class="form-control p-2 rounded-1" multiple="multiple">
+                        <option value="">Lütfen bir EIrsaliye Adresi Seçiniz</option>
+                    </select>
                 </div>
+               
 
-                <div class="flex">
-                    <label class="form-label flex items-center gap-2.5 text-nowrap me-4">
+
+                <div class="d-flex mb-5">
+                    <label class="form-label flex items-center gap-2.5 text-gray-600 fs-6 fw-bold text-nowrap me-4 w-50">
                         <input class="form-check-input" name="EFaturaSenaryo" type="radio" value="TICARI" checked />
                         Ticari
                     </label>
-                    <label class="form-label flex items-center gap-2.5 text-nowrap">
+                    <label class="form-label flex items-center text-gray-600 fw-bold gap-2.5 text-nowrap w-50">
                         <input class="form-check-input " name="EFaturaSenaryo" type="radio" value="TEMEL" />
                         Temel
                     </label>
                 </div>
-                <div class="form-group mb-6">
-                    <label for="EFaturaSenaryo" class="form-label text-gray-700 fs-6 fw-bold">E Fatura Senaryo</label>
-                    <input type="text" id="EFaturaSenaryo" name="EFaturaSenaryo" class="form-control p-2 rounded-1" placeholder="" readonly />
-                </div>
+              
 
-                <div class="d-flex">
-                    <div class="form-group mb-5">
-                        <input id="EFatura" type="checkbox" value="" name="EFatura" class="form-control p-2 rounded-1" placeholder="" readonly />
-                        <label class="form-check-label user-select-none cursor-pointer text-gray-700 fs-6 fw-bold" for="EFatura">
-                            E Fatura
-                        </label>
-                    </div>
-                    <div class="form-group mb-5">
-                        <input id="EIrsaliye" type="checkbox" value="" name="EIrsaliye" class="form-control p-2 rounded-1" placeholder="" readonly />
-                        <label class="form-check-label user-select-none cursor-pointer text-gray-700 fs-6 fw-bold" for="EIrsaliye">
-                            E İrsaliye
-                        </label>
-                    </div>
-                </div>
-                <div class="d-flex">
-                    <div class="form-check mb-5">
+
+                <div class="d-flex mb-5">
+                    <div class="form-check  w-50">
                         <input class="form-check-input" name="EFaturaAktiflik" type="checkbox" value="" id="EFaturaAktiflik" checked readonly />
-                        <label class="form-check-label user-select-none cursor-pointer text-gray-700 fs-6 fw-bold" for="EFaturaAktiflik">
+                        <label class="form-check-label user-select-none cursor-pointer text-gray-600 fs-6 fw-bold" for="EFaturaAktiflik">
                             E Fatura Aktiflik
                         </label>
                     </div>
-                    <div class="form-check ms-6 mb-5">
+                    <div class="form-check ms-6 mb-5 w-50">
                         <input class="form-check-input" name="EIrsaliyeAktiflik" type="checkbox" value="" id="EIrsaliyeAktiflik" checked readonly />
-                        <label class="form-check-label user-select-none cursor-pointer text-gray-700 fs-6 fw-bold" for="EIrsaliyeAktiflik">
+                        <label class="form-check-label user-select-none cursor-pointer text-gray-600 fs-6 fw-bold" for="EIrsaliyeAktiflik">
                             E İrsaliye Aktiflik
                         </label>
                     </div>
@@ -345,93 +289,11 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Kapat</button>
-                <button type="button" class="btn btn-primary btn-sm">Kaydet</button>
+                <button type="button" class="btn btn-primary btn-sm" id="eFaturaGuncelle">Kaydet</button>
             </div>
         </div>
     </div>
 </div>
-
-
-<div class="modal fade eirsaliye-modal-trigger" data-id="" id="eirsaliyeModal" tabindex="-1" aria-labelledby="eirsaliyeModalLabel" aria-hidden="true">
-
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title text-gray-700" id="exampleModalLabel">E Fatura Mükellef Kontrolü</h4>
-                <h5>E-Fatura Alanı</h5>
-                <input type="text" placeholder="E-Fatura Bilgisi" />
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-
-                <div class="form-group mb-5">
-                    <label for="EFaturaKayitTarihi" class="form-label text-gray-700 fs-6 fw-bold">E Fatura Kayıt Tarihi</label>
-                    <input type="text" id="EFaturaKayitTarihi" name="EFaturaKayitTarihi" class="form-control p-2 rounded-1" placeholder="" readonly />
-                </div>
-                <div class="form-group mb-5">
-                    <label for="EFaturaPKAdresi" class="form-label text-gray-700 fs-6 fw-bold">E Fatura PK Adresi</label>
-                    <input type="text" id="EFaturaPKAdresi" name="EFaturaPKAdresi" class="form-control p-2 rounded-1" placeholder="" readonly />
-                </div>
-                <div class="form-group mb-5">
-                    <label for="EIrsaliyePKAdresi" class="form-label text-gray-700 fs-6 fw-bold">E İrsaliye PK Adresi</label>
-                    <input type="text" id="EIrsaliyePKAdresi" name="EIrsaliyePKAdresi" class="form-control p-2 rounded-1" placeholder="" readonly />
-                </div>
-
-
-                <div class="flex">
-                    <label class="form-label flex items-center gap-2.5 text-nowrap me-4">
-                        <input class="form-check-input" name="EFaturaSenaryo" type="radio" value="TICARI" checked />
-                        Ticari
-                    </label>
-                    <label class="form-label flex items-center gap-2.5 text-nowrap">
-                        <input class="form-check-input " name="EFaturaSenaryo" type="radio" value="TEMEL" />
-                        Temel
-                    </label>
-                </div>
-                <div class="form-group mb-6">
-                    <label for="EFaturaSenaryo" class="form-label text-gray-700 fs-6 fw-bold">E Fatura Senaryo</label>
-                    <input type="text" id="EFaturaSenaryo" name="EFaturaSenaryo" class="form-control p-2 rounded-1" placeholder="" readonly />
-                </div>
-
-                <div class="d-flex">
-                    <div class="form-group mb-5">
-                        <input id="EFatura" type="checkbox" value="" name="EFatura" class="form-control p-2 rounded-1" placeholder="" readonly />
-                        <label class="form-check-label user-select-none cursor-pointer text-gray-700 fs-6 fw-bold" for="EFatura">
-                            E Fatura
-                        </label>
-                    </div>
-                    <div class="form-group mb-5">
-                        <input id="EIrsaliye" type="checkbox" value="" name="EIrsaliye" class="form-control p-2 rounded-1" placeholder="" readonly />
-                        <label class="form-check-label user-select-none cursor-pointer text-gray-700 fs-6 fw-bold" for="EIrsaliye">
-                            E İrsaliye
-                        </label>
-                    </div>
-                </div>
-                <div class="d-flex">
-                    <div class="form-check mb-5">
-                        <input class="form-check-input" name="EFaturaAktiflik" type="checkbox" value="" id="EFaturaAktiflik" checked readonly />
-                        <label class="form-check-label user-select-none cursor-pointer text-gray-700 fs-6 fw-bold" for="EFaturaAktiflik">
-                            E Fatura Aktiflik
-                        </label>
-                    </div>
-                    <div class="form-check ms-6 mb-5">
-                        <input class="form-check-input" name="EIrsaliyeAktiflik" type="checkbox" value="" id="EIrsaliyeAktiflik" checked readonly />
-                        <label class="form-check-label user-select-none cursor-pointer text-gray-700 fs-6 fw-bold" for="EIrsaliyeAktiflik">
-                            E İrsaliye Aktiflik
-                        </label>
-                    </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Kapat</button>
-                <button type="button" class="btn btn-primary btn-sm">Kaydet</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 
 
 <div class="modal fade" id="Cari-silme" tabindex="-1">
@@ -488,9 +350,33 @@
 @section Styles {
 }
 @section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
+        function matchCustom(params, data) {
+            // If there are no search terms, return all of the data
+            if ($.trim(params.term) === '') {
+                return data;
+            }
 
+            // Do not display the item if there is no 'text' property
+            if (typeof data.text === 'undefined') {
+                return null;
+            }
 
+            // `params.term` should be the term that is used for searching
+            // `data.text` is the text that is displayed for the data object
+            if (data.text.indexOf(params.term) > -1) {
+                var modifiedData = $.extend({}, data, true);
+                modifiedData.text;
+
+                // You can return modified objects from here
+                // This includes matching the `children` how you want in nested data sets
+                return modifiedData;
+            }
+
+            // Return `null` if the term should not be displayed
+            return null;
+        }
 
         function setCookie(name, value, days) {
             let expires = "";
@@ -513,114 +399,48 @@
             return null;
         }
 
+        $(document).on('click', '.EFatura-Bilgi-Guncelle-Modal-Ac', function (e) {
+            e.preventDefault();
 
+            var cariId = $(this).data('id'); // Butona eklenmiş 'data-id' bilgisini al
+            console.log(cariId);
+            $.ajax({
+                url: '/Cari/CariEFaturaBilgiGetir',
+                type: 'POST',
+                data: { CariID: cariId },
+                success: function (response) {
+                    console.log(response); // Gelen yanıtı kontrol edin
+                    if (response.success && response.Data != null) {
 
-        $(function () {
+                        if (response.Data.length > 0) {
+                            var tarih = response.Data[0].EFaturaGecisTarihi;
 
-            $(document).on('click', '.mainModalAc', function () {
-                console.log($(this).attr('data-id'));
-                $('#eFaturaModalAc').attr('data-id', $(this).attr('data-id'));
-                $('#eIrsaliyeModalAc').attr('data-id', $(this).attr('data-id'));
-            });
+                            var aliasRegisterTime = new Date(parseInt(tarih.match(/\d+/)[0], 10));
+                            $('#EFaturaKayitTarihi').val(aliasRegisterTime.toLocaleString());
+                            $('#EFatura').prop('checked', response.eFatura);
+                            $('#EIrsaliye').prop('checked', response.Data[0].EIrsaliye);
+                            $('#EFaturaSenaryo').val(response.Data[0].EFaturaSenaryo);
+                            $('#EFaturaAktiflik').prop('checked', response.Data[0].EFaturaAktiflik);
+                            $('#EIrsaliyeAktiflik').prop('checked', response.Data[0].EIrsaliyeAktiflik);
+                            $('#EFaturaBilgiGuncelle input[name="CariID"]').val(response.Data[0].CariID);
 
-            $('#eFaturaModalAc').on('click', function () {
-                var cariId = $(this).data('id');
-                eFaturaBilgileriniYukle(cariId); // Yeni fonksiyonu çağır
-            });
+                            var eFaturaAdresListesi = [];
+                            response.Data.forEach(function (value) {
+                                eFaturaAdresListesi.push({ id: value.EFaturaPKAdresi, text: value.EFaturaPKAdresi });
+                            })
 
-            function eFaturaBilgileriniYukle(cariId) {
-                $('#eFaturaListeIcerik').html('<p>Yükleniyor...</p>');
-                $.ajax({
-                    url: '/Cari/CariEFaturaBilgiGuncelle',
-                    type: 'POST',
-                    data: { CariID: cariId },
-                    success: function (response) {
-                        if (response.success) {
-                            let listeHtml = '<ul class="list-group border-0">';
-                            response.Data.forEach(function (item) {
-                                listeHtml += `
-                                        <li class="list-group-item border-0">
-                                            <strong>Ünvan:</strong> ${item.Unvan} <br>
-                                            <strong>Vergi Numarası:</strong> ${item.VergiNumarasi} <br>
-                                            <strong>E-Fatura PK Adresi:</strong> ${item.EFaturaPKAdresi} <br>
-                                            <strong>E-Fatura Geçiş Tarihi:</strong> ${new Date(item.EFaturaGecisTarihi).toLocaleDateString()}
-                                        </li>`;
+                            $('#EFaturaPKAdresi').select2({
+                                data: eFaturaAdresListesi,
+                                dropdownParent: $('#EFaturaBilgiGuncelle'),
+                                matcher: matchCustom
                             });
-                            listeHtml += '</ul>';
-                            $('#eFaturaListeIcerik').html(listeHtml);
-                        } else {
-                            $('#eFaturaListeIcerik').html('<p>Bilgiler alınamadı.</p>');
-                        }
-                    },
-                    error: function () {
-                        $('#eFaturaListeIcerik').html('<p>Bir hata oluştu.</p>');
-                    },
-                });
-            }
-
-            $('#eIrsaliyeModalAc').on('click', function () {
-                var cariId = $(this).data('id');
-                $.ajax({
-                    url: '/Cari/CariEFaturaBilgiGuncelle',
-                    type: 'POST',
-                    data: { CariID: cariId, Tip: "eIrsaliye" },
-                    success: function (response) {
-                        console.log(response); // Gelen yanıtı kontrol edin
-                        if (response.success && response.Data != null) {
-                            if (response.Data.length > 0) {
-                                var tarih = response.Data[0].EFaturaGecisTarihi;
-
-                                var aliasRegisterTime = new Date(parseInt(tarih.match(/\d+/)[0], 10));
-
-                                // liste doldurulacak
-
-                                console.log(response);
-                            }
-
-                            /* $('#EFaturaBilgiGuncelle').modal('show');*/
-                        } else {
-                            sweetalert("Veri alınamadı!", "error");
-
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.log("Hata: " + error);
-                        sweetalert("Bir hata oluştu!", "error");
-
-                    }
-                });
-            });
-        })
-
-        var select = document.querySelectorAll("#select")
 
 
-
-
-        $(document).on('click', '#eirsaliyeModal', function (e) {
-            e.preventDefault();
-
-            var cariId = $(this).data('id'); // Butona eklenmiş 'data-id' bilgisini al
-            console.log(cariId);
-            $.ajax({
-                url: '/Cari/CariEFaturaBilgiGuncelle',
-                type: 'POST',
-                data: { CariID: cariId },
-                success: function (response) {
-                    console.log(response); // Gelen yanıtı kontrol edin
-                    if (response.success && response.Data != null) {
-                        if (response.Data.length > 0) {
-                            var tarih = response.Data[0].EFaturaGecisTarihi;
-
-                            var aliasRegisterTime = new Date(parseInt(tarih.match(/\d+/)[0], 10));
-                            $('#EFaturaKayitTarihi').val(aliasRegisterTime.toLocaleString());
-                            $('#EFatura').val(response.Data[0].EFatura);
-                            $('#EFaturaPKAdresi').val(response.Data[0].EFaturaPKAdresi);
-                            $('#EIrsaliyePKAdresi').val(response.Data[0].EIrsaliyePKAdresi);
-                            $('#EIrsaliye').val(response.Data[0].EIrsaliye);
-                            $('#EFaturaSenaryo').val(response.Data[0].EFaturaSenaryo);
-                            $('#EFaturaAktiflik').prop('checked', response.Data[0].EFaturaAktiflik);
-                            $('#EIrsaliyeAktiflik').prop('checked', response.Data[0].EIrsaliyeAktiflik);
+                            $('#EIrsaliyePKAdresi').select2({
+                                data: [],
+                                dropdownParent: $('#EFaturaBilgiGuncelle'),
+                                matcher: matchCustom
+                            });
                         }
 
 
@@ -636,53 +456,56 @@
 
                 }
             });
-
         });
-        var select = document.querySelectorAll("#select")
 
-        var EfaturaModal = new bootstrap.Modal(document.getElementById('efaturaModal'));
+        $('#eFaturaGuncelle').on('click', function () {
+            var cariId = $('#EFaturaBilgiGuncelle input[name="CariID"]').val();
+            var selectedEFaturaPKAdresListesi = [];
+            var selectedEFaturaPKAdresleri = $('#EFaturaPKAdresi').find('option:selected').each(function () {
+                selectedEFaturaPKAdresListesi.push($(this).val())
+            });
 
-        $(document).on('click', '#efaturaModal', function (e) {
-            e.preventDefault();
+            var selectedEIrsaliyePKAdresListesi = [];
+            var selectedEIrsaliyePKAdresleri = $('#EIrsaliyePKAdresi').find('option:selected').each(function () {
+                selectedEIrsaliyePKAdresListesi.push($(this).val())
+            });
 
-            var cariId = $(this).data('id'); // Butona eklenmiş 'data-id' bilgisini al
-            console.log(cariId);
+            console.log(selectedEIrsaliyePKAdresListesi);
+            var eFaturaDto = {
+                CariID: cariId,
+                EFaturaGecisTarihi: $('#EFaturaKayitTarihi').val(),
+                EFaturaPKAdresi: selectedEFaturaPKAdresListesi.join(',') ?? "",
+                EIrsaliyePKAdresi: selectedEIrsaliyePKAdresListesi.join(',') ?? "",
+                EFatura: $('#EFatura').is(':checked'),
+                EIrsaliye: $('#EIrsaliye').is(':checked'),
+                EFaturaSenaryo: $("input[name='EFaturaSenaryo']:checked").val(),
+                EFaturaAktiflik: $('#EFaturaAktiflik').is(":checked"),
+                EIrsaliyeAktiflik: $('#EIrsaliyeAktiflik').is(":checked"),
+            };
+
             $.ajax({
                 url: '/Cari/CariEFaturaBilgiGuncelle',
                 type: 'POST',
-                data: { CariID: cariId },
+                contentType: 'application/json',
+                data: JSON.stringify(eFaturaDto),
                 success: function (response) {
-                    console.log(response); // Gelen yanıtı kontrol edin
-                    if (response.success && response.Data != null) {
-                        if (response.Data.length > 0) {
-                            var tarih = response.Data[0].EFaturaGecisTarihi;
-
-                            var aliasRegisterTime = new Date(parseInt(tarih.match(/\d+/)[0], 10));
-                            $('#EFaturaKayitTarihi').val(aliasRegisterTime.toLocaleString());
-                            $('#EFatura').val(response.Data[0].EFatura);
-                            $('#EFaturaPKAdresi').val(response.Data[0].EFaturaPKAdresi);
-                            $('#EIrsaliyePKAdresi').val(response.Data[0].EIrsaliyePKAdresi);
-                            $('#EIrsaliye').val(response.Data[0].EIrsaliye);
-                            $('#EFaturaSenaryo').val(response.Data[0].EFaturaSenaryo);
-                            $('#EFaturaAktiflik').prop('checked', response.Data[0].EFaturaAktiflik);
-                            $('#EIrsaliyeAktiflik').prop('checked', response.Data[0].EIrsaliyeAktiflik);
-                        }
-
-
-                        $('#EFaturaBilgiGuncelle').modal('show');
+                    if (response.SonucKodu == "0") {
+                        sweetalert(response.Aciklama, "succsess");
                     } else {
-                        sweetalert("Veri alınamadı!", "error");
+
+                        sweetalert(response.Aciklama, "error");
 
                     }
                 },
                 error: function (xhr, status, error) {
-                    console.log("Hata: " + error);
-                    sweetalert("Bir hata oluştu!", "error");
-
+                    // AJAX hatası durumunda
+                    console.error('AJAX Error:', error);
+                    alert('E-Fatura bilgilerini güncellerken bir hata oluştu.');
                 }
             });
-
         });
+
+
         $(function () {
 
             const cariDatatable = KTDatatablesExample.init();
@@ -788,34 +611,34 @@
                             render: function (data, type, row) {
 
                                 var buttons = `
-                                                                                                                  <div class="dropdown">
-                                                                                                                      <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton${row.ID}" data-bs-toggle="dropdown" aria-expanded="false"> İşlemler </button>
-                                                                      <ul class="dropdown-menu py-0" aria-labelledby="dropdownMenuButton${row.ID}">`;
+                                                                                          <div class="dropdown">
+                                                                                              <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton${row.ID}" data-bs-toggle="dropdown" aria-expanded="false"> İşlemler </button>
+                                              <ul class="dropdown-menu py-0" aria-labelledby="dropdownMenuButton${row.ID}">`;
 
                                 // Eğer silme yetkisi varsa
                                 if ($('input[name="YetkiSil"]').val() == "1") {
                                     buttons += `
-                                                                                                                 <li><button class="dropdown-item btn-sil Cari-toplu-silme" data-bs-toggle="modal" data-bs-target="#Cari-silme" data-id="${row.ID}">Sil</button></li>
-                                                                                                                `;
+                                                                                         <li><button class="dropdown-item btn-sil Cari-toplu-silme" data-bs-toggle="modal" data-bs-target="#Cari-silme" data-id="${row.ID}">Sil</button></li>
+                                                                                        `;
                                 }
 
                                 // Eğer düzenleme yetkisi varsa
                                 if ($('input[name="YetkiDuzenle"]').val() == "1") {
                                     buttons += `
-                                                                                                               <li><a class="dropdown-item" href="/Cari/Duzenle/${row.ID}">Düzenle</a></li>
-                                                                                                            `;
+                                                                                       <li><a class="dropdown-item" href="/Cari/Duzenle/${row.ID}">Düzenle</a></li>
+                                                                                    `;
                                 }
                                 // Eğer düzenleme yetkisi varsa
                                 if ($('input[name="YetkiDuzenle"]').val() == "1") {
                                     buttons += `
-                                                                                <li><button class="dropdown-item mainModalAc" data-id="${row.ID}" data-bs-toggle="modal" data-bs-target="#mainModal">E-Fatura Mükellef Kontrolü</button></li>
-                                                                             `;
+                                                        <li><button class="dropdown-item EFatura-Bilgi-Guncelle-Modal-Ac" data-id="${row.ID}">E-Fatura Mükellef Kontrolü</button></li>
+                                                     `;
                                 }
 
                                 buttons += `
-                                                                                                         </ul>
-                                                                                                         </div>
-                                                                                                            `;
+                                                                                 </ul>
+                                                                                 </div>
+                                                                                    `;
 
                                 return buttons;
 

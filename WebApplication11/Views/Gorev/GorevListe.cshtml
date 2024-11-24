@@ -37,7 +37,7 @@
                             </div>
                             @if (Model.Tables[1].Rows.Count > 0)
                             {
-                                <div class="card-body px-4 scroll-x" align="center">
+                                <div class="card-body px-4 py-0 scroll-x" align="center">
                                     @foreach (DataRow satir in Model.Tables[1].Rows)
                                     {
                                         <div style="text-align:center;float:left;padding:5px;">
@@ -57,7 +57,7 @@
                                 </div>
                             }
                             <div class="card-header align-items-center py-5 gap-2 gap-md-5 px-4">
-                                <div class="d-flex align-items-center position-relative my-1 w-100">
+                                <div class="d-flex a py-0 lign-items-center position-relative my-1 w-100">
 
                                     <form action="@Url.Content("~/Gorev/GorevListe")" method="get" class="w-100" id="FormListe" name="FormListe" style="display: none;">
                                         <div class="row w-100">
@@ -145,16 +145,16 @@
 
                             </div>
 
-                            <div class="card-body px-4 scroll-x">
+                            <div class="card-body px-4 py-0 scroll-x">
                                 <table class="table align-middle rounded-0 table-row-dashed  fs-6 g-5" id="Gorev-datatable">
                                     <thead>
                                         <!--begin::Table row-->
                                         <tr class="text-start" style="font-size:15px;">
-                                            <th class="min-w-125px text-gray-700" style="text-align:center;">Kaydı Açan</th>
-                                            <th class="min-w-125px text-gray-700" style="text-align:center;">Atanan</th>
-                                            <th class="min-w-125px text-gray-700" style="text-align:center;">Tarih</th>
-                                            <th class="min-w-125px text-gray-700"><strong>Açıklama</strong></th>
-                                            <th class="text-end min-w-100px no-export text-gray-700"><strong>İşlemler</strong></th>
+                                            <th class="min-w-125px fw-bold text-gray-600 fs-6" style="text-align:center;">Kaydı Açan</th>
+                                            <th class="min-w-125px fw-bold text-gray-600 fs-6" style="text-align:center;">Atanan</th>
+                                            <th class="min-w-125px fw-bold text-gray-600 fs-6" style="text-align:center;">Tarih</th>
+                                            <th class="min-w-125px fw-bold text-gray-600 fs-6"><strong>Açıklama</strong></th>
+                                            <th class="text-end min-w-100px no-export fw-bold text-gray-600 fs-6"><strong>İşlemler</strong></th>
                                         </tr>
                                         <!--end::Table row-->
                                     </thead>
