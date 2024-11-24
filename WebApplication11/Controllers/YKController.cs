@@ -315,6 +315,10 @@ namespace YKPortal.Controllers
                 Response.Redirect(redirectUrl, false);
                 HttpContext.ApplicationInstance.CompleteRequest();
             }
+            if (ConfigurationManager.AppSettings["IlkAcilisSayfasi"] != "")
+            {
+                return Redirect(ConfigurationManager.AppSettings["IlkAcilisSayfasi"]);
+            }
 
             return View();
         }
