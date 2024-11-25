@@ -145,7 +145,7 @@ namespace YKPortal.Controllers
 
             if (Baslangic == "")
             {
-                Baslangic = DateTime.Today.AddDays(-10).ToString("yyyy-MM-dd");
+                Baslangic = ("2024-01-01");
             }
             if (Bitis == "")
             {
@@ -203,6 +203,33 @@ namespace YKPortal.Controllers
             return Redirect("~/YKMakine/ArizaDetay/" + SonID);
         }
 
+        public ActionResult EvrakNumaraOlustur()
+        {
+            JsonResult result = new JsonResult();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = @"
+declare @EvrakNo nvarchar(100) = (select top(1) 'MUH-'+Deger from Parametreler WITH(NOLOCK) Where Modul = 'Servis' and Isim = 'ArizaSayac')
+--Update Parametreler set Deger = CAST(Deger as int)+1 Where Modul = 'Servis' and Isim = 'ArizaSayac'
+Select @EvrakNo
+";
+            string sonNumara = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+
+            return Json(sonNumara, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Arizasil(string KayitID)
+        {
+            JsonResult result = new JsonResult();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = @"Update Servisler set Silindi = 1 Where ID = @ID";
+            cmd.Parameters.AddWithValue("@ID", KayitID);
+            IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+            return Redirect("~/YKMakine/Arizalar/?Bilgi=Kayıt başarıyla silindi.");
+        }
         public ActionResult ArizaGuncelle(int id, 
             string EvrakNo,
             DateTime Tarih, string CariKodu, string Teknisyen, 
@@ -311,7 +338,7 @@ namespace YKPortal.Controllers
                 cmd.Parameters.AddWithValue("@Dosya5", "");
 
 
-            IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+            string EvrakNumarasi = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos));
 
             cmd.Parameters.Clear();
             cmd.CommandText = "Delete From ServisDegisenParcalar Where ServisID = @ServisID";
@@ -408,7 +435,7 @@ ArizayiBildirenTelefon : " + ArizayiBildirenTelefon + @" <br>
                 #endregion
             }
 
-            return Redirect("~/YKMakine/Arizalar");
+            return Redirect("~/YKMakine/Arizalar/?Bilgi=Son güncellenen evrak numarası : "+ EvrakNumarasi);
         }
 
         public ActionResult ArizaDetay(int id)

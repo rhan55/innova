@@ -75,6 +75,7 @@
                         <option value="">Hepsi</option>
                         <option value="Beklemede" @(Convert.ToString(ViewBag.Durum) == "Beklemede" ? "selected" : "")> Beklemede</option>
                         <option value="Yapılıyor" @(Convert.ToString(ViewBag.Durum) == "Yapılıyor" ? "selected" : "")> Yapılıyor</option>
+                        <option value="Kurulum" @(Convert.ToString(ViewBag.Durum) == "Kurulum" ? "selected" : "")> Kurulum</option>
                         <option value="Toplama" @(Convert.ToString(ViewBag.Durum) == "Toplama" ? "selected" : "" )>Toplama</option>
                         <option value="Tanımlama" @(Convert.ToString(ViewBag.Durum) == "Tanımlama" ? "selected" : "" )>Tanımlama</option>
                         <option value="Parça Bekleniyor" @(Convert.ToString(ViewBag.Durum) == "Parça Bekleniyor" ? "selected" : "")> Parça Bekleniyor</option>
@@ -115,10 +116,13 @@
             </tr>
         </table>
     </form>
+
+    <p style="color:green;">@Request.QueryString["Bilgi"]</p>
     <table id="TableCariSiralamasi" name="TableCariSiralamasi" style="width:100%;">
         <thead>
             <tr>
                 <th>Tarih</th>
+                <th>Evrak No</th>
                 <th>Durum</th>
                 <th>Teknisyen</th>
                 <th>Cari Adı</th>
@@ -145,14 +149,16 @@
                 {
                     IDclass = "blinking-text";
                 }
-                <tr style="@(renk)" class="@(IDclass)">
-                    <td>@satir["Tarih"]</td>
-                    <td>@(Convert.ToString(satir["Durum"]) == "" ? "Beklemede" : satir["Durum"])</td>
-                    <td>@satir["TeknisyenAdi"]</td>
-                    <td>@satir["CariAdi"]</td>
-                    <td>@satir["SeriNo"]</td>
-                    <td><a href="@Url.Content("~/YKMakine/ArizaDetay/"+satir["ID"])">Detay'a Git</a></td>
-                </tr>
+            <tr style="@(renk)" class="@(IDclass)">
+
+                <td>@Convert.ToDateTime(satir["Tarih"]).ToString("dd-MM-yyyy HH:mm")</td>
+                <td>@satir["EvrakNo"]</td>
+                <td>@(Convert.ToString(satir["Durum"]) == "" ? "Beklemede" : satir["Durum"])</td>
+                <td>@satir["TeknisyenAdi"]</td>
+                <td>@satir["CariAdi"]</td>
+                <td>@satir["SeriNo"]</td>
+                <td><a href="@Url.Content("~/YKMakine/ArizaDetay/"+satir["ID"])">Detay'a Git</a></td>
+            </tr>
 
             }
         </tbody>
