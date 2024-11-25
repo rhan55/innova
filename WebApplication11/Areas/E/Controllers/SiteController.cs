@@ -24,6 +24,19 @@ namespace YKPortal.Areas.E.Controllers
             return View();
         }
 
+
+        public ActionResult Giris()
+        {
+
+
+            return View();
+        }
+        public ActionResult UyeOl()
+        {
+
+
+            return View();
+        }
         #region Cookie İşlemleri
 
 
