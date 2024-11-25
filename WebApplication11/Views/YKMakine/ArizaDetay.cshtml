@@ -51,6 +51,7 @@
                 <td><strong>Evrak Numarasi</strong></td>
                 <td>
                     <input type="text" name="EvrakNo" id="EvrakNo" value="@Model.Tables[0].Rows[0]["EvrakNo"]" />
+                    <input type="button" name="name" value="+" onclick="EvrakNoGetir();" />
                 </td>
             </tr>
             <tr>
@@ -114,6 +115,7 @@
                     <select class="form-control" id="Durum" name="Durum">
                         <option value="Beklemede" @(Convert.ToString(Model.Tables[0].Rows[0]["Durum"]) == "Beklemede" ? "selected" : "" )>Beklemede</option>
                         <option value="Toplama" @(Convert.ToString(Model.Tables[0].Rows[0]["Durum"]) == "Toplama" ? "selected" : "" )>Toplama</option>
+                        <option value="Kurulum" @(Convert.ToString(Model.Tables[0].Rows[0]["Durum"]) == "Kurulum" ? "selected" : "" )>Kurulum</option>
                         <option value="Tanımlama" @(Convert.ToString(Model.Tables[0].Rows[0]["Durum"]) == "Tanımlama" ? "selected" : "" )>Tanımlama</option>
                         <option value="Yapılıyor" @(Convert.ToString(Model.Tables[0].Rows[0]["Durum"]) == "Yapılıyor" ? "selected" : "" )>Yapılıyor</option>
                         <option value="Parça Bekleniyor" @(Convert.ToString(Model.Tables[0].Rows[0]["Durum"]) == "Parça Bekleniyor" ? "selected" : "" )>Parça Bekleniyor</option>
@@ -250,6 +252,7 @@
                     else
                     {
                         <input type="hidden" name="DegisenParcalar" id="DegisenParcalar" value="" /><input type="button" name="name" value="Kaydet" class="btn btn-primary" onclick="Kontrol();" />
+                        <a href="@Url.Action("ArizaSil","YKMakine",new { KayitID = Model.Tables[0].Rows[0]["ID"] })" onclick="return confirm('Silmek istediğinizden emin misiniz?')" class="btn btn-primary">Sil</a>
                     }
                 </td>
             </tr>
@@ -266,6 +269,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.js"></script>
     <script>
+
+
+        function EvrakNoGetir() {
+            $.ajax({
+                async: false,
+                cache: false,
+                type: "GET",
+                url: "/YKMakine/EvrakNumaraOlustur",
+                data: { },
+                success: function (data) {
+                    $("#EvrakNo").val(data);
+                },
+                error: function (data) {
+                }
+            });
+        }
+
 
         (function ($) {
 
