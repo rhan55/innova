@@ -821,16 +821,41 @@
     <a id="scroll-top" href="#top" title="Top" role="button"><i class="icon-angle-up"></i></a>
 
     <!-- Plugins JS File -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.8/jquery.inputmask.min.js"></script>
+
+
     <script src="~/Tema/ETicaret/assets/js/jquery.min.js"></script>
+    <script src="~/Tema/ETicaret/assets/js/jquery.plugin.min.js"></script>
+    <script src="~/Tema/ETicaret/assets/js/jquery.countdown.min.js"></script>
     <script src="~/Tema/ETicaret/assets/js/bootstrap.bundle.min.js"></script>
     <script src="~/Tema/ETicaret/assets/js/optional/isotope.pkgd.min.js"></script>
     <script src="~/Tema/ETicaret/assets/js/plugins.min.js"></script>
+    <script src="~/Tema/ETicaret/assets/js/plugins.js"></script>
     <script src="~/Tema/ETicaret/assets/js/jquery.appear.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- Main JS File -->
     <script src="~/Tema/ETicaret/assets/js/main.min.js"></script>
+    <script>
+        function sweetalert(message = "", type = "success") {
+            Swal.fire({
+                text: message,
+                icon: type,
+                buttonsStyling: false,
+                confirmButtonText: "Anladım!",
+                customClass: {
+                    confirmButton: "btn btn-primary"
+                }
+            });
+        }
+    </script>
+    <script>var hostUrl = "~/Tema/ETicaret";</script>
     @RenderSection("Scripts", required: false)
 
-    <script>var hostUrl = "~/Tema/ETicaret";</script>
+
 </body>
 
 </html>
