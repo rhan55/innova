@@ -245,6 +245,7 @@
     <Compile Include="Areas\Depo\Controllers\NetsisDepoController.cs" />
     <Compile Include="Areas\Depo\DepoAreaRegistration.cs" />
     <Compile Include="Areas\E\Controllers\HakkimizdaController.cs" />
+    <Compile Include="Areas\E\Controllers\SepetController.cs" />
     <Compile Include="Areas\E\EAreaRegistration.cs" />
     <Compile Include="Areas\E\Controllers\SiteController.cs" />
     <Compile Include="Areas\Entegrasyon\Controllers\FordAktarim.cs" />
@@ -581,6 +582,7 @@
     <Content Include="Areas\E\Views\Hakkimizda\Hakkimizda.cshtml" />
     <Content Include="Areas\E\Views\Site\Giris.cshtml" />
     <Content Include="Areas\E\Views\Site\UyeOl.cshtml" />
+    <Content Include="Areas\E\Views\Sepet\SepetBilgileri.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

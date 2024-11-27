@@ -73,7 +73,7 @@
                                     <li><a href="blog.html">Blog</a></li>
                                     <li><a href="wishlist.html">My Wishlist</a></li>
                                     <li><a href="cart.html">Cart</a></li>
-                                    <li><a href="login.html" class="login-link">Log In</a></li>
+                                    <li><a href="@Url.Action("Giris","Site",new { Area = "E" })" class="login-link">Log In</a></li>
                                 </ul>
                             </div>
                             <!-- End .header-menu -->
@@ -464,8 +464,10 @@
             <!-- End .header-bottom -->
         </header>
         <!-- End .header -->
+        <div class="container-fluid">
+            @RenderBody()
+        </div>
 
-        @RenderBody()
         <!-- End .main -->
 
         <footer class="footer bg-dark">
@@ -733,7 +735,7 @@
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="wishlist.html">My Wishlist</a></li>
                     <li><a href="cart.html">Cart</a></li>
-                    <li><a href="login.html" class="login-link">Log In</a></li>
+                    <li><a href="@Url.Action("Giris","Site",new { Area = "E" })" class="login-link">Log In</a></li>
                 </ul>
             </nav>
             <!-- End .mobile-nav -->
@@ -759,22 +761,62 @@
     <div class="sticky-navbar">
         <div class="sticky-info">
             <a href="demo4.html">
-                <i class="icon-home"></i>Home
+                <i class="icon-home"></i>Anasayfa
             </a>
         </div>
         <div class="sticky-info">
             <a href="category.html" class="">
-                <i class="icon-bars"></i>Categories
+                <i class="icon-bars"></i>Hakkımızda
             </a>
         </div>
         <div class="sticky-info">
             <a href="wishlist.html" class="">
-                <i class="icon-wishlist-2"></i>Wishlist
+                <i class="icon-wishlist-2"></i>İletişim
             </a>
         </div>
         <div class="sticky-info">
             <a href="login.html" class="">
-                <i class="icon-user-2"></i>Account
+                <i class="icon-user-2"></i>Misyonumuz
+            </a>~/Tema/ETicaret/assets
+        </div>
+        <div class="sticky-info">
+            <a href="login.html" class="">
+                <i class="icon-user-2"></i>Vizyonumuz
+            </a>~/Tema/ETicaret/assets
+        </div>
+        <div class="sticky-info">
+            <a href="login.html" class="">
+                <i class="icon-user-2"></i>Sözleşme
+            </a>~/Tema/ETicaret/assets
+        </div>
+        <div class="sticky-info">
+            <a href="login.html" class="">
+                <i class="icon-user-2"></i>Profil
+            </a>~/Tema/ETicaret/assets
+        </div>
+        <div class="sticky-info">
+            <a href="login.html" class="">
+                <i class="icon-user-2"></i>Arama
+            </a>~/Tema/ETicaret/assets
+        </div>
+        <div class="sticky-info">
+            <a href="login.html" class="">
+                <i class="icon-user-2"></i>Sepet
+            </a>~/Tema/ETicaret/assets
+        </div>
+        <div class="sticky-info">
+            <a href="login.html" class="">
+                <i class="icon-user-2"></i>Ödeme
+            </a>~/Tema/ETicaret/assets
+        </div>
+        <div class="sticky-info">
+            <a href="login.html" class="">
+                <i class="icon-user-2"></i>Sepet Sonuç Bilgisi
+            </a>~/Tema/ETicaret/assets
+        </div>
+        <div class="sticky-info">
+            <a href="login.html" class="">
+                <i class="icon-user-2"></i>Geçmiş Siparişler ve Detayı
             </a>~/Tema/ETicaret/assets
         </div>
         <div class="sticky-info">
@@ -822,8 +864,6 @@
 
     <!-- Plugins JS File -->
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.8/jquery.inputmask.min.js"></script>
 
 
     <script src="~/Tema/ETicaret/assets/js/jquery.min.js"></script>
@@ -832,13 +872,12 @@
     <script src="~/Tema/ETicaret/assets/js/bootstrap.bundle.min.js"></script>
     <script src="~/Tema/ETicaret/assets/js/optional/isotope.pkgd.min.js"></script>
     <script src="~/Tema/ETicaret/assets/js/plugins.min.js"></script>
-    <script src="~/Tema/ETicaret/assets/js/plugins.js"></script>
     <script src="~/Tema/ETicaret/assets/js/jquery.appear.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.8/jquery.inputmask.min.js"></script>
     <!-- Main JS File -->
-    <script src="~/Tema/ETicaret/assets/js/main.min.js"></script>
+    <script src="~/Tema/ETicaret/assets/js/main.js"></script>
     <script>
         function sweetalert(message = "", type = "success") {
             Swal.fire({

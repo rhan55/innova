@@ -25,6 +25,7 @@ namespace YKPortal.Areas.E.Controllers
 
             return View();
         }
+
         [HttpGet]
         public ActionResult UyeOl()
         {
@@ -33,16 +34,12 @@ namespace YKPortal.Areas.E.Controllers
 
             return View();
         }
-
-        [HttpGet]
-        public ActionResult Giris()
-        {
-            return View();
-        }
-
+      
         [HttpPost]  
         public ActionResult UyeOl(CariDto cariDto)
         {
+            IlListesiniOlustur();
+            UlkeListesiniOlustur();
             // 1. TCKimlikNoVergiNo Validasyonu
             if (string.IsNullOrEmpty(cariDto.TCKimlikNoVergiNo))
             {
@@ -68,9 +65,7 @@ namespace YKPortal.Areas.E.Controllers
             {
                 CommandText = "p_CariKaydet",
                 CommandType = CommandType.StoredProcedure
-            };
-
-             
+            };            
             cmd.Parameters.AddWithValue("@UyelikID", System.Configuration.ConfigurationManager.AppSettings["UyelikID"]);
             cmd.Parameters.AddWithValue("@ID", "");
             cmd.Parameters.AddWithValue("@KullaniciID", "");
@@ -152,7 +147,34 @@ namespace YKPortal.Areas.E.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult Giris()
+        {
+            string redirectUrl = Request.Url.ToString().Replace("http:", "https:");
+            if (!Request.IsLocal && !Request.IsSecureConnection && ConfigurationManager.AppSettings["SSLYonlendir"] == "1")
+            {
+                Response.Redirect(redirectUrl, false);
+                HttpContext.ApplicationInstance.CompleteRequest();
+            }
+            if (ConfigurationManager.AppSettings["IlkAcilisSayfasi"] != "")
+            {
+                return Redirect(ConfigurationManager.AppSettings["IlkAcilisSayfasi"]);
+            }
+            return View();
+        }
+      
+        [HttpPost]
+        public ActionResult Giris(string txtKullaniciAdi, string txtParola)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_ETicaret_KullaniciGirisi";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@KullaniciAdi", txtKullaniciAdi);
+            cmd.Parameters.AddWithValue("@Parola", txtParola);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
+            return View(dt);
+        }
         private void IlListesiniOlustur()
         {
             // GrupKodu1 Listesi oluşturma 
@@ -203,6 +225,7 @@ namespace YKPortal.Areas.E.Controllers
             }
             ViewBag.Ulkeler = entities;
         }
+
         #region Cookie İşlemleri
 
 

@@ -8,6 +8,11 @@
 <html>
 <head>
     <link rel="icon" type="image/x-icon" href="~/Tema/ETicaret/assets/images/icons/favicon.png">
+    <link href="~/Tema/ETicaret/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Tema/ETicaret/assets/css/animate.min.css" rel="stylesheet" />
+    <link href="~/Tema/ETicaret/assets/css/demo4-dark.min.css" rel="stylesheet" />
+    <link href="~/Tema/ETicaret/assets/css/demo4.min.css" rel="stylesheet" />
+    <link href="~/Tema/ETicaret/assets/css/style.min.css" rel="stylesheet" />
 
 
     <script>
@@ -34,57 +39,54 @@
     <title>Giris</title>
 </head>
 <body>
-    <div class="page-wrapper">
-        <div class="container mt-10">
-            <h2 class="title">Giriş</h2>
-            <form action="#" class="mb-0">
-                <div class="row">
-                    <div class="col-lg-4">
-                        <label for="login-email">
-                            Username or email address
-                            <span class="required">*</span>
-                        </label>
-                        <input type="email" class="form-input form-wide mb-2" id="login-email" required="">
-                    </div>
-                    <div class="col-lg-4">
-                        <label for="login-email">
-                            Parola
-                            <span class="required">*</span>
-                        </label>
-                        <input type="email" class="form-input form-wide mb-2" id="login-email" required="">
-                    </div>
-                    <div class="col-lg-4">
-                        <label for="login-email">
-                            label
-                            <span class="required">*</span>
-                        </label>
-                        <input type="email" class="form-input form-wide mb-2" id="login-email" required="">
-                    </div>
+    <div class="container mt-10 ">
+        <div class="page-wrapper ">
+            <div class=" h-100">
+                <div class="d-flex align-items-center justify-content-center">
+                   
+                    <form action="@Url.Action("UyeOl","Site",new { Area = "E" })" class="mb-0">
+                        <h2 class="title">Giriş</h2>
+                        <div class="">
+
+                            <label class="fs-1" for="KullaniciAdi">
+                                Kullanıcı Adı
+                                <span class="required">*</span>
+                            </label>
+                            <input type="email" class="form-input form-wide mb-2" name="KullaniciAdi" id="KullaniciAdi" required="">
+                        </div>
+                        <div class="">
+
+                            <label for="Parola">
+                                Parola
+                                <span class="required">*</span>
+                            </label>
+                            <input type="password" class="form-input form-wide mb-2" name="Parola" id="Parola" required="">
+
+                        </div>
+
+                        <div class="form-footer m-0">
+
+                            <div class="form-footer-right">
+                                <a href="#" class="link-color sifremi-unuttum">Şifremi Unuttum?</a>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-dark btn-block btn-md">
+                                Giriş Yap
+                            </button>
+
+                            <button type="submit" class="btn btn-regist bg-transparent text-transform-none p-0 mt-2" title="register button">
+                                Üye Ol!
+                            </button>
+                        </div>
+                    </form>
                 </div>
 
-
-                <div class="form-footer">
-                    <div class="custom-control custom-checkbox ml-0">
-                        <input type="checkbox" class="custom-control-input" id="lost-password">
-                        <label class="custom-control-label form-footer-right" for="lost-password">Remember me</label>
-                    </div>
-                    <div class="form-footer-right">
-                        <a href="#" class="forget-password">Şifremi Unuttum?</a>
-                    </div>
-                </div>
-
-                <div class="text-center">
-                    <button type="submit" class="btn btn-dark btn-block btn-md">
-                        Giriş Yap
-                    </button>
-
-                    <button type="submit" class="btn btn-regist bg-transparent text-transform-none p-0" title="register button">
-                        Register Now!
-                    </button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
+    
     
 
     <!-- Plugins JS File -->
