@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Web;
@@ -22,6 +23,10 @@ namespace YKPortal.Areas.E.Controllers
         public ActionResult AnaSayfa()
         {
 
+            if (!AutoGirisKontrol())
+            {
+                return RedirectToAction("Giris");
+            }
 
             return View();
         }
@@ -31,6 +36,7 @@ namespace YKPortal.Areas.E.Controllers
         {
             IlListesiniOlustur();
             UlkeListesiniOlustur();
+
 
             return View();
         }
@@ -137,7 +143,7 @@ namespace YKPortal.Areas.E.Controllers
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
             // 6. İşlem Başarısı Mesajı
-            if (dt.Rows.Count > 0 && Convert.ToString(dt.Rows[0]["ID"]).Length > 0)
+            if (dt.Rows.Count == 0)
             {
                 return RedirectToAction("Giris", new { returnCode = 2000 });
             }
@@ -156,10 +162,7 @@ namespace YKPortal.Areas.E.Controllers
                 Response.Redirect(redirectUrl, false);
                 HttpContext.ApplicationInstance.CompleteRequest();
             }
-            if (ConfigurationManager.AppSettings["IlkAcilisSayfasi"] != "")
-            {
-                return Redirect(ConfigurationManager.AppSettings["IlkAcilisSayfasi"]);
-            }
+      
             return View();
         }
       
@@ -172,6 +175,30 @@ namespace YKPortal.Areas.E.Controllers
             cmd.Parameters.AddWithValue("@KullaniciAdi", txtKullaniciAdi);
             cmd.Parameters.AddWithValue("@Parola", txtParola);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            if (dt.Rows.Count > 0)
+            {
+                string Bilgi = Convert.ToString(dt.Rows[0]["Bilgi"]);
+
+                if (!Bilgi.StartsWith("UYARI!"))
+                {
+                    #region Cookie İşlemleri
+                    CreateCookie("Isim", Convert.ToString(dt.Rows[0]["Ad"]) + " " + Convert.ToString(dt.Rows[0]["Soyad"]));
+                    CreateCookie("KullaniciID", Convert.ToString(dt.Rows[0]["ID"]));
+                    CreateCookie("UyelikIsim", Convert.ToString(dt.Rows[0]["UyelikIsim"]));
+                    CreateCookie("UyelikID", Convert.ToString(dt.Rows[0]["UyelikID"]));
+                    CreateCookie("KullaniciAdi", Convert.ToString(dt.Rows[0]["KullaniciAdi"]));
+                    CreateCookie("Parola", Convert.ToString(dt.Rows[0]["Parola"]));
+                    CreateCookie("Resim", Convert.ToString(dt.Rows[0]["Resim"]));
+                    CreateCookie("Logo", Convert.ToString(dt.Rows[0]["Logo"]));
+                    CreateCookie("UyelikBitisTarihi", Convert.ToString(dt.Rows[0]["UyelikBitisTarihi"]));
+                    CreateCookie("AcilisSayfasi", Convert.ToString(dt.Rows[0]["AcilisSayfasi"]));
+
+                    #endregion
+
+                    return RedirectToAction("AnaSayfa");
+                }
+            }
 
             return View(dt);
         }
@@ -259,6 +286,80 @@ namespace YKPortal.Areas.E.Controllers
         }
 
         #endregion
+
+        public bool AutoGirisKontrol()
+        {
+            bool GirisKontrol = false;
+
+            string KullaniciAdi = GetCookie("KullaniciAdi");
+            string Parola = GetCookie("Parola");
+
+
+            if (KullaniciAdi != null)
+            {
+
+                ViewBag.KullaniciAdi = KullaniciAdi;
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandText = "p_ETicaret_KullaniciGirisi";
+                cmd.Parameters.AddWithValue("@KullaniciAdi", KullaniciAdi);
+                cmd.Parameters.AddWithValue("@Parola", Parola);
+
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+
+                if (dt.Rows.Count > 0)
+                {
+                    string Bilgi = Convert.ToString(dt.Rows[0]["Bilgi"]);
+                    if (!Bilgi.StartsWith("UYARI!"))
+                    {
+                        #region Log Kaydı
+                        try
+                        {
+                            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+                            string postData = "{\r\n    \"ProgramAdi\":\"Portal\",\r\n    \"Sirket\":\"" + Convert.ToString(dt.Rows[0]["UyelikIsim"]) + " - " + Convert.ToString(dt.Rows[0]["Ad"]) + " " + Convert.ToString(dt.Rows[0]["Soyad"]) + "\",\r\n    \"KullaniciAdi\":\"" + KullaniciAdi + "\",\r\n    \"Parola\":\"" + Parola + "\", \"IP\":\"" + Request.UserHostAddress + "\"   \r\n}";
+                            var url = "https://app.ykyazilim.com.tr/api/YKWebApi/LogKaydet_KullaniciGirisi";
+                            byte[] data = Encoding.UTF8.GetBytes(postData.ToString());
+                            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                            request.KeepAlive = false;
+                            request.ProtocolVersion = HttpVersion.Version10;
+                            request.Method = "POST";
+                            byte[] postBytes = Encoding.UTF8.GetBytes(postData.ToString());
+                            request.ContentType = "application/json; charset=UTF-8";
+                            request.Accept = "application/json";
+                            request.ContentLength = postBytes.Length;
+                            Stream requestStream = request.GetRequestStream();
+                            requestStream.Write(postBytes, 0, postBytes.Length);
+                            requestStream.Close();
+                            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                            string result;
+                            using (StreamReader rdr = new StreamReader(response.GetResponseStream()))
+                            {
+                                result = rdr.ReadToEnd();
+                            }
+                        }
+                        catch
+                        {
+                            ;
+                        }
+                        #endregion
+
+                        GirisKontrol = true;
+                    }
+                    else
+                    {
+                        GirisKontrol = false;
+                    }
+                }
+                else
+                {
+                    GirisKontrol = false;
+                }
+            }
+
+            return GirisKontrol;
+        }
     }
 
 }
