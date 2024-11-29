@@ -1,0 +1,211 @@
+﻿@using YKPortal.Models.Dto
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Profil";
+    Layout = "~/Areas/E/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container mb-10">
+
+   
+
+    <div class="page-wrapper mt-5">
+        <h3 class="title mb-4 text-dark font-weight-bold mb-4 display-5">Profil</h3>
+        <form id="uyelikFormu" action="@Url.Action("Profil","Kullanici",new { Area = "E" })" class="mb-0" method="post">
+            <input type="hidden" name="ID" value="" />
+            <input type="hidden" name="KullaniciID" value="" />
+            <div class="row ">
+                <div class="col-lg-4">
+                    <label class="fs-1 text-dark display-6" for="KullaniciAdi">
+                        Kullanıcı Adı
+                        <span class="required">*</span>
+                    </label>
+                    <input type="email" class="form-input p-3 form-wide mb-2 rounded-2" name="KullaniciAdi" id="KullaniciAdi" value="@(Convert.ToString(Model.Rows[0]["KullaniciAdi"]))" required="">
+                </div>
+                <div class="col-lg-4">
+                    <label class="text-dark" for="Parola">
+                        Parola
+                        <span class="required">*</span>
+                    </label>
+                    <input type="password" class="form-input p-3 form-wide mb-2" name="Parola" id="Parola" value="@(Convert.ToString(Model.Rows[0]["Parola"]))" required="">
+                </div>
+                <div class="col-lg-4">
+                    <label class="text-dark" for="Isim">
+                        İsim
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" class="form-input p-3 form-wide mb-2" id="Isim" name="Isim" value="@(Convert.ToString(Model.Rows[0]["Isim"]))" required="">
+                </div>
+
+            </div>
+            <div class="row">
+
+                <div class="col-lg-6">
+                    <label class="text-dark" for="TCKimlikNoVergiNo">
+                        TCKimlik numarası veya Vergi Numarası
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" class="form-input form-wide p-3" name="TCKimlikNoVergiNo" id="TCKimlikNoVergiNo" value="@(Convert.ToString(Model.Rows[0]["TCKimlikNo"]) ?? Convert.ToString(Model.Rows[0]["VergiNumarasi"]))">
+                    <div data-error="TCKimlikNoVergiNo"></div>
+                </div>
+                <div class="col-lg-6">
+                    <label class="text-dark" for="Unvan">
+                        Unvan
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" class="form-input text-dark form-wide mb-2 p-3" id="Unvan" name="Unvan" value="@(Convert.ToString(Model.Rows[0]["Unvan"]))" required="">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <label class="text-dark" for="VergiDairesi">
+                        Vergi Dairesi
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" class="form-input form-wide mb-2 p-3" name="VergiDairesi" id="VergiDairesi" value="@(Convert.ToString(Model.Rows[0]["VergiDairesi"]))" required="">
+                </div>
+                <div class="col-lg-6">
+                    <label class="text-dark" for="CepTelefonu">
+                        CepTelefonu
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" class="form-input  form-wide mb-2 p-3" value="@(Convert.ToString(Model.Rows[0]["CepTelefonu"]))" id="CepTelefonu" name="CepTelefonu" placeholder="(___) ___-____">
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <label class="text-dark" for="Adres">
+                        Adres
+                        <span class="required">*</span>
+                    </label>
+
+                    <textarea class=" form-input form-wide mb-2 " name="Adres" id="Adres" rows="4" placeholder="Adresinizi girin...">@(Convert.ToString(Model.Rows[0]["Adres"]))</textarea>
+
+
+                </div>
+
+
+            </div>
+
+            <div class="row ">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="Ulke" class="form-label text-dark">Ülke</label>
+                        <span class="required">*</span>
+                        <select class="form-input form-wide p-3" data-control="select2" name="Ulke" id="Ulke" required
+                                aria-label="Floating label select example">
+                            <option value="">Lütfen Seçim Yapınız</option>
+                            @foreach (GrupKoduDto ulke in ViewBag.Ulkeler)
+                            {
+                                <option value="@ulke.ID" @(Convert.ToString(Model.Rows[0]["Ulke"]) == ulke.ID ? "selected" : "")>@ulke.Deger</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="Il" class=" form-label text-dark">İl</label>
+                        <span class="required">*</span>
+                        <select class="form-input form-wide p-3" name="Il" data-control="select2" id="Il" required
+                                aria-label="Floating label select example">
+                            <option value="">Lütfen Seçim Yapınız</option>
+                            @foreach (GrupKoduDto il in ViewBag.Iller)
+                            {
+                                <option value="@il.ID" @(Convert.ToString(Model.Rows[0]["Il"]) == il.ID ? "selected" : "")>@il.Deger</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-4 ">
+                    <label class="text-dark" for="PostaKodu">
+                        Posta Kodu
+                        <span class="required">*</span>
+                    </label>
+                    <input type="text" class="form-input form-wide mb-2 p-3" name="PostaKodu" id="PostaKodu" value="@(Convert.ToString(Model.Rows[0]["PostaKodu"]))" required="">
+                </div>
+            </div>
+
+
+
+
+        </form>
+        <div class="d-flex">
+            <div>
+                <button type="submit" class="btn  btn-lg btn-dark font-weight-bold py-2 btn-block">
+                    Düzenle
+                </button>
+            </div>
+            <div>
+                <button type="button" onclick="history.back()" class="btn  btn-lg btn-light font-weight-bold py-2 btn-block">
+                    Geri
+                </button>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+</div>
+
+<script>var hostUrl = "~/Tema/ETicaret";</script>
+
+
+
+<script>
+
+    $(document).ready(function () {
+
+        Inputmask({
+            "mask": "(999) 999-9999"
+        }).mask("#CepTelefonu");
+
+        const onlyNumbers = /^\d+$/; // REGEX - Düzenli İfadeler : Bu ifadeler ile bir string içerisinde specific arama ve kontrol yapabiliyoruz.
+
+
+        $('#UyeOlButonu').on('click', function (e) {
+            e.preventDefault();
+
+            let isValidated = true;
+            if (isValidated) {
+                $('#uyelikFormu').submit();
+            } else {
+                console.log("Validasyon hataları var.");
+            }
+            const message = {
+                TCKimlikNoVergiNo: [],
+            };
+
+            const TCKimlikNoVergiNo = $('#TCKimlikNoVergiNo').val();
+
+            if (!TCKimlikNoVergiNo) {
+                isValidated = false;
+                message.TCKimlikNoVergiNo.push("TC Kimlik numarası boş olamaz.")
+            }
+
+            if (TCKimlikNoVergiNo.length != 10 && TCKimlikNoVergiNo.length != 11) {
+                isValidated = false;
+                message.TCKimlikNoVergiNo.push("TC Kimlik numarası 11 Vergi Numarası 10 haneli olmalıdır.")
+            }
+
+            if (!(onlyNumbers.test(TCKimlikNoVergiNo))) {
+                isValidated = false;
+                message.TCKimlikNoVergiNo.push("TC Kimlik numarasında sadece rakamlar kullanılabilir.");
+            }
+
+            if (isValidated) {
+                $('#uyelikFormu').submit();
+            } else {
+                document.querySelector('[data-error="TCKimlikNoVergiNo"]').innerHTML = message.TCKimlikNoVergiNo.map(error => `<div class="text-danger">${error}</div>`).join("");
+            }
+        })
+    });
+
+</script>

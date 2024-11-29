@@ -34,6 +34,10 @@ namespace YKPortal.Areas.E.Controllers
         [HttpGet]
         public ActionResult UyeOl()
         {
+            if (!AutoGirisKontrol())
+            {
+                return RedirectToAction("Giris");
+            }
             IlListesiniOlustur();
             UlkeListesiniOlustur();
 
@@ -183,17 +187,12 @@ namespace YKPortal.Areas.E.Controllers
                 if (!Bilgi.StartsWith("UYARI!"))
                 {
                     #region Cookie İşlemleri
-                    CreateCookie("Isim", Convert.ToString(dt.Rows[0]["Ad"]) + " " + Convert.ToString(dt.Rows[0]["Soyad"]));
+                    CreateCookie("UyelikID", Convert.ToString(dt.Rows[0]["UyelikID"]));                   
                     CreateCookie("KullaniciID", Convert.ToString(dt.Rows[0]["ID"]));
-                    CreateCookie("UyelikIsim", Convert.ToString(dt.Rows[0]["UyelikIsim"]));
-                    CreateCookie("UyelikID", Convert.ToString(dt.Rows[0]["UyelikID"]));
                     CreateCookie("KullaniciAdi", Convert.ToString(dt.Rows[0]["KullaniciAdi"]));
                     CreateCookie("Parola", Convert.ToString(dt.Rows[0]["Parola"]));
-                    CreateCookie("Resim", Convert.ToString(dt.Rows[0]["Resim"]));
-                    CreateCookie("Logo", Convert.ToString(dt.Rows[0]["Logo"]));
-                    CreateCookie("UyelikBitisTarihi", Convert.ToString(dt.Rows[0]["UyelikBitisTarihi"]));
-                    CreateCookie("AcilisSayfasi", Convert.ToString(dt.Rows[0]["AcilisSayfasi"]));
-
+                    CreateCookie("Isim", Convert.ToString(dt.Rows[0]["Isim"]));
+                    CreateCookie("Unvan", Convert.ToString(dt.Rows[0]["Unvan"]));             
                     #endregion
 
                     return RedirectToAction("AnaSayfa");
@@ -202,6 +201,8 @@ namespace YKPortal.Areas.E.Controllers
 
             return View(dt);
         }
+
+
         private void IlListesiniOlustur()
         {
             // GrupKodu1 Listesi oluşturma 
