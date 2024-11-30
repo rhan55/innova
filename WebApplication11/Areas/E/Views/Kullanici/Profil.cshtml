@@ -8,20 +8,20 @@
 
 <div class="container mb-10">
 
-   
 
-    <div class="page-wrapper mt-5">
-        <h3 class="title mb-4 text-dark font-weight-bold mb-4 display-5">Profil</h3>
-        <form id="uyelikFormu" action="@Url.Action("Profil","Kullanici",new { Area = "E" })" class="mb-0" method="post">
+
+    <div class="page-wrapper mt-4">
+        <h3 class="title mb-2 text-dark font-weight-bold display-5">Profil</h3>
+        <form id="uyelikDuzenlemeFormu" action="@Url.Action("Profil","Kullanici",new { Area = "E" })" class="mb-1" method="post">
             <input type="hidden" name="ID" value="" />
             <input type="hidden" name="KullaniciID" value="" />
             <div class="row ">
                 <div class="col-lg-4">
-                    <label class="fs-1 text-dark display-6" for="KullaniciAdi">
+                    <label class="fs-1 text-dark text-xl-1" for="KullaniciAdi">
                         Kullanıcı Adı
                         <span class="required">*</span>
                     </label>
-                    <input type="email" class="form-input p-3 form-wide mb-2 rounded-2" name="KullaniciAdi" id="KullaniciAdi" value="@(Convert.ToString(Model.Rows[0]["KullaniciAdi"]))" required="">
+                    <input type="email" class=" border rounded form-input p-3 form-wide mb-2 " name="KullaniciAdi" id="KullaniciAdi" value="@(Convert.ToString(Model.Rows[0]["KullaniciAdi"]))" required="">
                 </div>
                 <div class="col-lg-4">
                     <label class="text-dark" for="Parola">
@@ -137,12 +137,12 @@
         </form>
         <div class="d-flex">
             <div>
-                <button type="submit" class="btn  btn-lg btn-dark font-weight-bold py-2 btn-block">
+                <button type="submit" id="DuzenleButonu" class="btn  btn-lg rounded btn-dark font-weight-bold py-2 btn-block">
                     Düzenle
                 </button>
             </div>
-            <div>
-                <button type="button" onclick="history.back()" class="btn  btn-lg btn-light font-weight-bold py-2 btn-block">
+            <div  class="pl-3">
+                <button type="button" onclick="history.back()" class="btn rounded btn-lg btn-light font-weight-bold py-2 btn-block">
                     Geri
                 </button>
             </div>
@@ -157,7 +157,16 @@
 
 <script>var hostUrl = "~/Tema/ETicaret";</script>
 
-
+<script src="~/Tema/ETicaret/assets/js/jquery.min.js"></script>
+<script src="~/Tema/ETicaret/assets/js/bootstrap.bundle.min.js"></script>
+<script src="~/Tema/ETicaret/assets/js/optional/isotope.pkgd.min.js"></script>
+<script src="~/Tema/ETicaret/assets/js/plugins.min.js"></script>
+<script src="~/Tema/ETicaret/assets/js/jquery.appear.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/jquery.inputmask.min.js" integrity="sha512-F5Ul1uuyFlGnIT1dk2c4kB4DBdi5wnBJjVhL7gQlGh46Xn0VhvD8kgxLtjdZ5YN83gybk/aASUAlpdoWUjRR3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- Main JS File -->
+<script src="~/Tema/ETicaret/assets/js/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
 
@@ -170,12 +179,12 @@
         const onlyNumbers = /^\d+$/; // REGEX - Düzenli İfadeler : Bu ifadeler ile bir string içerisinde specific arama ve kontrol yapabiliyoruz.
 
 
-        $('#UyeOlButonu').on('click', function (e) {
+        $('#DuzenleButonu').on('click', function (e) {
             e.preventDefault();
 
             let isValidated = true;
             if (isValidated) {
-                $('#uyelikFormu').submit();
+                $('#uyelikDuzenlemeFormu').submit();
             } else {
                 console.log("Validasyon hataları var.");
             }

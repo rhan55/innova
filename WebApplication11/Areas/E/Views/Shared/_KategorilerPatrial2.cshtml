@@ -1,0 +1,71 @@
+﻿@model List<YKPortal.Areas.E.Models.Dto.KategorilerDto>
+
+<div class="container">
+    <!-- Dropdown Kullanımı -->
+    <div class="header-search-wrapper">
+        <select id="cat" name="cat" class="form-control">
+            <option value="">All Categories</option>
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var kategori in Model)
+                {
+                    <option value="@kategori.Kategori1">@kategori.Kategori1</option>
+                    @if (!string.IsNullOrEmpty(kategori.Kategori2))
+                    {
+                        <option value="@kategori.Kategori2">- @kategori.Kategori2</option>
+                    }
+                    @if (!string.IsNullOrEmpty(kategori.Kategori3))
+                    {
+                        <option value="@kategori.Kategori3">-- @kategori.Kategori3</option>
+                    }
+                }
+            }
+            else
+            {
+                <option value="">No categories available</option>
+            }
+        </select>
+    </div>
+
+    <!-- MegaMenu Kullanımı -->
+    <nav class="main-nav w-100">
+        <ul class="menu">
+            <li>
+                <a href="#">Categories</a>
+                <div class="megamenu megamenu-fixed-width megamenu-3cols">
+                    <div class="row">
+                        @if (Model != null && Model.Any())
+                        {
+                            @foreach (var kategori in Model)
+                            {
+                                <div class="col-lg-4">
+                                    <a href="#" class="nolink">@kategori.Kategori1</a>
+                                    <ul class="submenu">
+                                        @if (!string.IsNullOrEmpty(kategori.Kategori2))
+                                        {
+                                            <li><a href="#">@kategori.Kategori2</a></li>
+                                        }
+                                        @if (!string.IsNullOrEmpty(kategori.Kategori3))
+                                        {
+                                            <li><a href="#">@kategori.Kategori3</a></li>
+                                        }
+                                        @if (!string.IsNullOrEmpty(kategori.Kategori4))
+                                        {
+                                            <li><a href="#">@kategori.Kategori4</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-12">
+                                <p>No categories available.</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </nav>
+</div>

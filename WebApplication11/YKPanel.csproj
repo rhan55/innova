@@ -244,7 +244,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Depo\Controllers\NetsisDepoController.cs" />
     <Compile Include="Areas\Depo\DepoAreaRegistration.cs" />
+    <Compile Include="Areas\E\Controllers\BaseController.cs" />
     <Compile Include="Areas\E\Controllers\BilgilerController.cs" />
+    <Compile Include="Areas\E\Controllers\KategoriController.cs" />
     <Compile Include="Areas\E\Controllers\KullaniciController.cs" />
     <Compile Include="Areas\E\Controllers\HakkimizdaController.cs" />
     <Compile Include="Areas\E\Controllers\SepetController.cs" />
@@ -252,6 +254,8 @@
     <Compile Include="Areas\E\EAreaRegistration.cs" />
     <Compile Include="Areas\E\Controllers\SiteController.cs" />
     <Compile Include="Areas\Entegrasyon\Controllers\FordAktarim.cs" />
+    <Compile Include="Areas\E\Models\Dto\KategorilerDto.cs" />
+    <Compile Include="Areas\E\Models\Dto\KategorilerViewModel.cs" />
     <Compile Include="Areas\Ziyaret\ZiyaretAreaRegistration.cs" />
     <Compile Include="Areas\Ziyaret\Controllers\ZiyaretController.cs" />
     <Compile Include="Areas\Crm2\Crm2AreaRegistration.cs" />
@@ -594,6 +598,8 @@
     <Content Include="Areas\E\Views\YasalBilgiler\Gizlilik.cshtml" />
     <Content Include="Areas\E\Views\Bilgiler\GenelBilgiler.cshtml" />
     <Content Include="Areas\E\Views\Kullanici\Profil.cshtml" />
+    <Content Include="Areas\E\Views\Shared\_KategorilerPartial.cshtml" />
+    <Content Include="Areas\E\Views\Shared\_KategorilerPatrial2.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -6591,6 +6597,8 @@
     <Folder Include="Areas\Entegrasyon\Data\" />
     <Folder Include="Areas\Entegrasyon\Views\Shared\" />
     <Folder Include="Areas\E\Data\" />
+    <Folder Include="Areas\E\Views\Base\" />
+    <Folder Include="Areas\E\Views\Kategori\" />
     <Folder Include="Areas\Personel\Controllers\" />
     <Folder Include="Areas\Personel\Views\Puantaj\" />
     <Folder Include="Areas\Ziyaret\Data\" />
