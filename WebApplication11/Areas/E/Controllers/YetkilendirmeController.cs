@@ -21,14 +21,8 @@ namespace YKPortal.Areas.E.Controllers
         [HttpGet]
         public ActionResult UyeOl()
         {
-            if (AutoGirisKontrol())
-            {
-                return Redirect("~/E/Site/AnaSayfa");
-            }
             IlListesiniOlustur();
             UlkeListesiniOlustur();
-
-
             return View();
         }
 

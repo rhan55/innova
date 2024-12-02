@@ -24,13 +24,13 @@ namespace YKPortal.Areas.E.Controllers
             // ViewBag ile Layout'a taşınacak veri
             if (filterContext.HttpContext.Request.HttpMethod == "GET")
             {
-                if (!AutoGirisKontrol())
-                {
-
-                    filterContext.Result = new RedirectResult("~/E/Yetkilendirme/Giris");
-                    base.OnActionExecuting(filterContext);
-                    return;
-                }
+                //if (!AutoGirisKontrol())
+                //{
+                //
+                //    filterContext.Result = new RedirectResult("~/E/Yetkilendirme/Giris");
+                //    base.OnActionExecuting(filterContext);
+                //    return;
+                //}
 
                 var kategoriler = KategorileriGetir();
                 ViewBag.Kategoriler = kategoriler;
