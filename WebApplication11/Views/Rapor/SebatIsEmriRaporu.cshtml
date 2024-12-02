@@ -1,0 +1,74 @@
+﻿@using System.Data
+
+@model DataTable
+
+@{
+    ViewBag.Title = "İş Emri Raporu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-fluid p-0">
+    <!--begin::Post-->
+    <!--begin::Container-->
+    <div>
+        <br />
+        <form action="/Rapor/SebatIsEmriRaporu" method="post">
+
+            <input type="date" class="form-control" style="float:left;width:200px;" name="Baslangic" id="Baslangic" value="@(Convert.ToDateTime(ViewBag.Baslangic).ToString("yyyy-MM-dd"))" />
+            <input type="date" class="form-control" style="float:left;width:200px;" name="Bitis" id="Bitis" value="@(Convert.ToDateTime(ViewBag.Bitis).ToString("yyyy-MM-dd"))" />
+            <label for="Excel">Excel</label>
+            <input type="checkbox" class="form-control" style="float:left;width:100px;" name="Excel" id="Excel" value="1" />
+            <input type="submit" class="form-control" style="float:left;width:200px;" name="name" value="Getir" />
+        </form>
+    </div>
+    <div style="clear:both;"></div>
+    <br />
+    <div class="my-4 scroll-x">
+        <table style="background-color:white;color:black;margin:10px;padding:10px;" border="1">
+
+            <thead>
+                <!--begin::Table row-->
+                <tr class="text-start" style="font-size:15px;">
+                    @foreach (DataColumn baslik in Model.Columns)
+                    {
+                        <th class="min-w-125px" style="padding: 5px;"><strong>@baslik.ColumnName</strong></th>
+                    }
+                </tr>
+                <!--end::Table row-->
+            </thead>
+            <tbody class="text-gray-600 fw-semibold">
+                @foreach (DataRow satir in Model.Rows)
+                {
+                <tr>
+                    @foreach (DataColumn baslik in Model.Columns)
+                    {
+                        if (satir[baslik].GetType() == typeof(DateTime))
+                        {
+                            <td class="pt-4 pb-4 nowrap"  style="padding: 5px; white-space: nowrap;">
+                                @Convert.ToDateTime(satir[baslik.ColumnName]).ToString("dd-MM-yyyy")
+                            </td>
+                        }
+                        else if (satir[baslik].GetType() == typeof(decimal))
+                        {
+                            <td class="pt-4 pb-4 nowrap" style="padding: 5px; white-space: nowrap; text-align: right;">
+                                @String.Format("{0:N4}", Convert.ToDecimal(satir[baslik.ColumnName]))
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="pt-4 pb-4 nowrap" style="padding: 5px; white-space: nowrap;">
+                                @satir[baslik.ColumnName]
+                            </td>
+                        }
+                    }
+                </tr>
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+
+</div>

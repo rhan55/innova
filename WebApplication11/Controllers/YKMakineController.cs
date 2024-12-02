@@ -235,6 +235,7 @@ Select @EvrakNo
             DateTime Tarih, string CariKodu, string Teknisyen, 
             string Durum, string Aciklama,
             string DegisenParcalar,
+            string StokKodu,
             string SeriNo,
             string ArizayiBildiren, string ArizayiBildirenTelefon, string EMail, string BulunduguYer,
             string Imza)
@@ -251,6 +252,7 @@ Select @EvrakNo
             cmd.Parameters.AddWithValue("@Teknisyen", Teknisyen);
             cmd.Parameters.AddWithValue("@Durum", Durum);
             cmd.Parameters.AddWithValue("@Aciklama", Aciklama);
+            cmd.Parameters.AddWithValue("@StokKodu", StokKodu);
             cmd.Parameters.AddWithValue("@SeriNo", SeriNo);
             cmd.Parameters.AddWithValue("@ArizayiBildiren", ArizayiBildiren);
             cmd.Parameters.AddWithValue("@ArizayiBildirenTelefon", ArizayiBildirenTelefon);
@@ -462,7 +464,12 @@ ArizayiBildirenTelefon : " + ArizayiBildirenTelefon + @" <br>
             ViewBag.YedekParcalar = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
             cmd.Parameters.Clear();
-            cmd.CommandText = "select CariKodu,CariAdi from w_CariStokBakiyeleri Group by CariKodu,CariAdi order by CariAdi";
+            cmd.CommandText = "select * from w_Stoklar order by StokKodu";
+            cmd.CommandType = System.Data.CommandType.Text;
+            ViewBag.dtStoklar = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            cmd.Parameters.Clear();
+            cmd.CommandText = "select CariKodu,CariAdi from w_Cariler Group by CariKodu,CariAdi order by CariAdi";
             cmd.CommandType = System.Data.CommandType.Text;
             ViewBag.dtCariler = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 

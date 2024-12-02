@@ -1564,8 +1564,6 @@ Select @ID as ID
                     }
                 }
 
-
-
                 return result1;
             }
             catch (Exception err)
@@ -1597,11 +1595,117 @@ Select @ID as ID
                     item.ConfirmedDeliveryDatetime = item.RequestedDeliveryDatetime;
                 }
                 List<PirelliNotes> Notes = data["Notes"].ToObject<List<PirelliNotes>>();
+                string aciklama1 = "";
+                if (Notes.Count >= 1)
+                {
+                    aciklama1 = Notes[0].Text;
+                }
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandText = "p_PirelliOrderSave";
+                cmd.Parameters.AddWithValue("@TrackingId", Header.TrackingId);
+                cmd.Parameters.AddWithValue("@BuyerCode", Header.BuyerCode);
+                cmd.Parameters.AddWithValue("@CariKodu", Header.Customer.Code);
+                cmd.Parameters.AddWithValue("@CariAdi", Header.Customer.Name);
+                cmd.Parameters.AddWithValue("@Adres", Header.Customer.Address.Street);
+                cmd.Parameters.AddWithValue("@Ilce", Header.Customer.Address.District);
+                cmd.Parameters.AddWithValue("@Il", Header.Customer.Address.City);
+                cmd.Parameters.AddWithValue("@SiparisNumarasi", ("0000000000000" + Header.SalesOrderNumber).Substring(0, 15));
+                cmd.Parameters.AddWithValue("@Tarih", Convert.ToDateTime(Header.RequestedDatetime));
+                cmd.Parameters.AddWithValue("@Aciklama1", aciklama1);
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                foreach (var item in Items)
+                {
+
+                    cmd.Parameters.Clear();
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "p_PirelliOrderLineSave";
+                    cmd.Parameters.AddWithValue("@LineId", item.LineId);
+                    cmd.Parameters.AddWithValue("@ProductCode", item.ProductCode);
+                    cmd.Parameters.AddWithValue("@RequestedDeliveryDatetime", Convert.ToDateTime(item.RequestedDeliveryDatetime));
+                    cmd.Parameters.AddWithValue("@RequestedQuantity", item.RequestedQuantity);
+                    cmd.Parameters.AddWithValue("@Price", Convert.ToDecimal(item.Price));
+                    cmd.Parameters.AddWithValue("@ConfirmedDeliveryDatetime", Convert.ToDateTime(item.ConfirmedDeliveryDatetime));
+                    cmd.Parameters.AddWithValue("@ConfirmedQuantity", item.ConfirmedQuantity);
+                    DataTable dt2 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                    item.ConfirmedDeliveryDatetime = DateTime.Now.ToString("yyyy-MM-dd") + "T03:00:00+03:00";
+                }
+
+                cmd.Parameters.Clear();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandText = "p_PirelliOrderComplate";
+                cmd.Parameters.AddWithValue("@CariKodu", Header.Customer.Code);
+                cmd.Parameters.AddWithValue("@SiparisNumarasi", ("0000000000000" + Header.SalesOrderNumber).Substring(0, 15));
+                DataTable dt3 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                #region Xml
+                string xmlIcerigi = "";
+
+                xmlIcerigi += "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+                xmlIcerigi += "<ew:desadv_list xmlns:ew=\"http://www.reifen.net\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">";
+                xmlIcerigi += "  <DocumentID>B2</DocumentID>";
+                xmlIcerigi += "  <Variant>2</Variant>";
+                xmlIcerigi += "  <ErrorHead>";
+                xmlIcerigi += "    <ErrorCode>0</ErrorCode>";
+                xmlIcerigi += "  </ErrorHead>";
+                xmlIcerigi += "  <NumberOfMessages>1</NumberOfMessages>";
+                xmlIcerigi += "  <desadv>";
+                xmlIcerigi += "    <IssueDate>" + DateTime.Now.ToString("yyyy-MM-dd") + "</IssueDate>";
+                xmlIcerigi += "    <DocumentNumber>" + ("0000000000000" + Header.SalesOrderNumber).Substring(0, 15) + "</DocumentNumber>";
+                xmlIcerigi += "    <DespatchDate>" + ("0000000000000" + Header.SalesOrderNumber).Substring(0, 15) + "</DespatchDate>";
+                xmlIcerigi += "    <ArrivalDate>" + ("0000000000000" + Header.SalesOrderNumber).Substring(0, 15) + "</ArrivalDate>";
+                xmlIcerigi += "    <BuyerParty>";
+                xmlIcerigi += "      <PartyID>2400001085</PartyID>";
+                xmlIcerigi += "      <AgencyCode>92</AgencyCode>";
+                xmlIcerigi += "    </BuyerParty>";
+                xmlIcerigi += "    <Consignee>";
+                xmlIcerigi += "      <PartyID>4003220</PartyID>";
+                xmlIcerigi += "      <AgencyCode>92</AgencyCode>";
+                xmlIcerigi += "    </Consignee>";
+                foreach (var item in Items)
+                {
+                    xmlIcerigi += "    <LineLevel>";
+                    xmlIcerigi += "      <LineID>1</LineID>";
+                    xmlIcerigi += "      <References>";
+                    xmlIcerigi += "        <SuppliersOrderReference>";
+                    xmlIcerigi += "          <DocumentID>128244</DocumentID>";
+                    xmlIcerigi += "          <LineID>000010</LineID>";
+                    xmlIcerigi += "        </SuppliersOrderReference>";
+                    xmlIcerigi += "        <BuyerOrderReference>";
+                    xmlIcerigi += "          <DocumentID>8481041767</DocumentID>";
+                    xmlIcerigi += "          <LineID>000010</LineID>";
+                    xmlIcerigi += "        </BuyerOrderReference>";
+                    xmlIcerigi += "      </References>";
+                    xmlIcerigi += "      <Article>";
+                    xmlIcerigi += "        <ArticleIdentification>";
+                    xmlIcerigi += "          <BuyersArticleID>2714200</BuyersArticleID>";
+                    xmlIcerigi += "        </ArticleIdentification>";
+                    xmlIcerigi += "        <ArticleDescription>";
+                    xmlIcerigi += "          <ArticleDescriptionText>DENEMEDİR</ArticleDescriptionText>";
+                    xmlIcerigi += "        </ArticleDescription>";
+                    xmlIcerigi += "        <DespatchedQuantity>";
+                    xmlIcerigi += "          <QuantityValue>"+item.RequestedQuantity.ToString()+"</QuantityValue>";
+                    xmlIcerigi += "          <MeasureUnitCode>PCE</MeasureUnitCode>";
+                    xmlIcerigi += "        </DespatchedQuantity>";
+                    xmlIcerigi += "      </Article>";
+                    xmlIcerigi += "    </LineLevel>";
+                }
+                xmlIcerigi += "  </desadv>";
+                xmlIcerigi += "</ew:desadv_list>";
 
 
+
+                #endregion
+
+
+                Header.SalesOrderNumber = ("0000000000000" + Header.SalesOrderNumber).Substring(0, 15);
+                Header.RequestedDatetime = DateTime.Now.ToString("yyyy-MM-dd") + "T03:00:00+03:00";
                 result1.Header = Header;
                 result1.Items = Items;
-                result1.Notes = Notes;
+                //result1.Notes = Notes;
 
                 return result1;
             }
@@ -1691,7 +1795,7 @@ Update WhatsAppMesajlari Set Gonderildi = 1 Where ID = @ID
                 cmd.Parameters.AddWithValue("@ID", ID);
 
                 IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
-                
+
                 {
                     result.Data = "";
                     result.SonucKodu = 1;
@@ -1810,7 +1914,7 @@ BEGIN
 END
 eLSE
 BEGIN
-	Select '' Where 1=2
+	Select top(1) ID From  WhatsAppOturumlari WITH(NOLOCK) Where OturumIstegi = 0 and OturumKapatilsin = 0
 END
 
 ";
@@ -1983,7 +2087,7 @@ END
         public string RequestedDatetime { get; set; }
         public PirelliHeaderCustomer Customer { get; set; }
         public string SalesOrderNumber { get; set; }
-        
+
 
     }
     public class PirelliHeaderCustomer

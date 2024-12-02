@@ -8,9 +8,11 @@
     string KullaniciID = Request.Cookies["KullaniciID"].Value;
     DataTable dtKayitlar = ViewBag.dtKayitlar as DataTable;
     string Durumu = "";
+    string Aciklama = "";
     if (dtKayitlar.Rows.Count > 0)
     {
         Durumu = Convert.ToString(dtKayitlar.Rows[0]["Durumu"]);
+        Aciklama = Convert.ToString(dtKayitlar.Rows[0]["URETIM_ACIKLAMALARI"]);
     }
 
     bool tamamlandi = true;
@@ -30,6 +32,7 @@
         {
             <a href="/Depo/Depo/UretimIsEmriDurumuDegistir/?IsEmriNo=@(Request.QueryString["IsEmriNo"])&Durumu=B" class="btn btn-success" style="width: 150px; float: left; padding: 5px;margin:5px;">Başla</a>
             <a href="/Depo/Depo/UretimIsEmriArizalar/?IsEmriNo=@(Request.QueryString["IsEmriNo"])" class="btn" style="background-color:red; color: white; width: 150px; float: left; padding: 5px; margin: 5px;">Arıza Kaydı</a>
+            <span>@Html.Raw(Aciklama)</span>
         }
         @if (Durumu == "D")
         {
@@ -41,7 +44,7 @@
             {
                 <button class="btn" style="background-color: red; color: white; width: 150px; float: left; padding: 5px; margin: 5px;" onclick="alert('Ürünler tamamlanmadı!');">Bitir</button>
             }
-
+            <span>@Html.Raw(Aciklama)</span>
             <a href="/Depo/Depo/UretimIsEmriArizalar/?IsEmriNo=@(Request.QueryString["IsEmriNo"])" class="btn" style="background-color:red; color: white; width: 150px; float: left; padding: 5px; margin: 5px;">Arıza Kaydı</a>
             <form action="/Depo/Depo/UretimIsEmriBarkodOku" method="get">
                 <input type="hidden" name="IsEmriNo" id="IsEmriNo" value="@(Request.QueryString["IsEmriNo"])" />
@@ -69,8 +72,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <td><strong>Kod</strong></td>
-                        <td><strong>İsim</strong></td>
+                        <td><strong>Kod / İsim</strong></td>
                         <td style="text-align:right;"><strong>Miktar</strong></td>
                         <td style="text-align:right;"><strong>Toplanan</strong></td>
 
@@ -89,9 +91,7 @@
                         }
                         <tr style="@(renk)">
                             <td>
-                                @dr["StokKodu"]
-                            </td>
-                            <td>
+                                @dr["StokKodu"] 
                                 @dr["StokAdi"]
                             </td>
                             <td style="text-align:right;">
@@ -139,7 +139,7 @@
                         confirmButton: "btn btn-primary"
                     }
                 });
-               
+
                 return;
             }
 
@@ -165,7 +165,7 @@
                         confirmButton: "btn btn-primary"
                     }
                 });
-              
+
                 return;
             }
             if (parseFloat($("#Miktar").val()) > parseFloat(stokkodlariMiktarli[stokkodlari.indexOf($("#StokKodu").val())])) {
@@ -178,7 +178,7 @@
                         confirmButton: "btn btn-primary"
                     }
                 });
-               
+
                 return;
             }
 
@@ -192,7 +192,7 @@
                         confirmButton: "btn btn-primary"
                     }
                 });
-              
+
                 return;
             }
 

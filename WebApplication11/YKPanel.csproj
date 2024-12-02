@@ -301,6 +301,7 @@
     <Compile Include="Controllers\ParametreController.cs" />
     <Compile Include="Controllers\PersonelController.cs" />
     <Compile Include="Controllers\POSAPIController.cs" />
+    <Compile Include="Controllers\RaporController.cs" />
     <Compile Include="Controllers\SatinalmaSiparisiController.cs" />
     <Compile Include="Controllers\SatinalmaIrsaliyesiController.cs" />
     <Compile Include="Controllers\SatisIrsaliyesiController.cs" />
@@ -6492,6 +6493,7 @@
     <Content Include="Tema\ETicaret\landing\vendor\fontawesome-free\webfonts\fa-solid-900.woff2" />
     <Content Include="Tema\ETicaret\landing\vendor\owl.carousel\LICENSE" />
     <Content Include="Tema\ETicaret\landing\vendor\owl.carousel\README.md" />
+    <Content Include="Views\Rapor\SebatIsEmriRaporu.cshtml" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>
@@ -6619,6 +6621,10 @@
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IDDizayn\IDDizayn.csproj">
+      <Project>{c873dfc7-77ec-457c-880e-330c9e76a28c}</Project>
+      <Name>IDDizayn</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YKEFaturaEntegrasyon\YKEFaturaEntegrasyon.csproj">
       <Project>{f133a1fc-8137-4679-a47f-2b0c22359596}</Project>
       <Name>YKEFaturaEntegrasyon</Name>

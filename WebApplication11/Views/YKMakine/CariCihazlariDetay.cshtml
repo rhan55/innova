@@ -29,6 +29,9 @@
 <table border="1" class="table">
     <thead>
         <tr>
+            <th style="padding: 2px; text-align: left;">Tarih</th>
+            <th style="padding: 2px; text-align: left;">Evrak No</th>
+            <th style="padding: 2px; text-align: left;">Cari</th>
             <th style="padding: 2px; text-align: left;">Stok Kodu</th>
             <th style="padding: 2px; text-align: left;">Stok Adı</th>
             <th style="padding: 2px; text-align: left;">Seri</th>
@@ -40,11 +43,14 @@
             foreach (DataRow satir in Model.Rows)
             {
                 string renk = "";
-                <tr style="@(renk)">
-                    <td style="padding: 2px; text-align: left;">@satir["STOK_KODU"]</td>
-                    <td style="padding: 2px; text-align: left;">@satir["StokAdi"]</td>
-                    <td style="padding: 2px; text-align: left;">@satir["SeriNo"]</td>
-                </tr>
+        <tr style="@(renk)">
+            <td style="padding: 2px; text-align: left;">@Convert.ToDateTime(satir["Tarih"]).ToString("dd-MM-yyyy")</td>
+            <td style="padding: 2px; text-align: left;"><a href="@Url.Action("ArizaDetay","YKMakine",new { id = satir["ID"] })">@satir["EvrakNo"]</a></td>
+            <td style="padding: 2px; text-align: left;">@satir["CariAdi"]</td>
+            <td style="padding: 2px; text-align: left;">@satir["STOK_KODU"]</td>
+            <td style="padding: 2px; text-align: left;">@satir["StokAdi"]</td>
+            <td style="padding: 2px; text-align: left;"><a href="@Url.Action("ArizaDetay","YKMakine",new { id = satir["ID"] })">@satir["SeriNo"]</a></td>
+        </tr>
             }
         }
     </tbody>

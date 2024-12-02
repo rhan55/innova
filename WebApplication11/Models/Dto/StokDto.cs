@@ -19,6 +19,7 @@ namespace YKPortal.Models.Dto
         private string _Isim;
         private string _SeriNo;
         private string _Aciklama;
+        private string _Aciklama2;
         private string _Barkod;
         private string _Barkod2;
         private string _Barkod3;
@@ -78,6 +79,7 @@ namespace YKPortal.Models.Dto
         public string Isim { get { return _Isim ?? ""; } set { _Isim = value; } }
         public string SeriNo { get { return _SeriNo ?? ""; } set { _SeriNo = value; } }
         public string Aciklama { get { return _Aciklama ?? ""; } set { _Aciklama = value; } }
+        public string Aciklama2 { get { return _Aciklama2 ?? ""; } set { _Aciklama2 = value; } }
         public string Barkod { get { return _Barkod ?? ""; } set { _Barkod = value; } }
         public string Barkod2 { get { return _Barkod2 ?? ""; } set { _Barkod2 = value; } }
         public string Barkod3 { get { return _Barkod3 ?? ""; } set { _Barkod3 = value; } }

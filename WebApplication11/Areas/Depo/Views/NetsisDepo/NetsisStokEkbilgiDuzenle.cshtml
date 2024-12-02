@@ -9,7 +9,7 @@
     DataTable dt = new DataTable();
     if (ViewBag.dtDetay != null)
     {
-       dt= ViewBag.dtDetay as DataTable;
+        dt = ViewBag.dtDetay as DataTable;
     }
 }
 
@@ -22,16 +22,16 @@
                     <label>Stok Kodu</label>
                 </td>
                 <td colspan="2">
-                    <input type="text" name="Belge_Barkod" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["STOK_KODU"]) : "")" class="form-control" style="font-size:10px;width:100%;" autofocus />
+                    <input type="text" name="Belge_Barkod" id="Belge_Barkod" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["STOK_KODU"]) : "")" class="form-control" style="font-size:10px;width:100%;" autofocus />
                 </td>
-            </tr>        
+            </tr>
         </table>
         <hr />
         <h4><span style="color:red;">@ViewBag.Uyarı</span></h4>
     </form>
     <form action="@Url.Content("~/Depo/NetsisDepo/NetsisStokEkBilgi_Guncelle")" method="post">
 
-        <input type="hidden" name="Stok_Kodu" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["STOK_KODU"]) : "")" class="form-control" style="font-size:10px;width:100%;" />
+        <input type="hidden" name="Stok_Kodu" id="Stok_Kodu" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["STOK_KODU"]) : "")" class="form-control" style="font-size:10px;width:100%;" />
         <table border="0" style="width:100%;">
             <tr>
                 <td>
@@ -70,11 +70,16 @@
                     <hr />
                 <td>
             </tr>
-            
+            <tr>
+                <td style="text-align:left;">
+
+                    <strong><span id="Bilgilendirme" name="Bilgilendirme"></span></strong>
+                </td>
+            </tr>
             <tr>
                 <td colspan="2">
                 </td>
-                <td >
+                <td>
                     <input type="submit" name="name" value="Kaydet" class="btn btn-block btn-default" />
                 </td>
             </tr>
@@ -82,6 +87,35 @@
 
     </form>
 
+    @section Scripts {
+        <script type="text/javascript">
+            function BakiyeGetir() {
 
+                $.ajax({
+                    url: '/Stok/SelectStokDepoBakiye',
+                    data: "{ StokID: '" + $("#Belge_Barkod").val() + "' }",
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataFilter: function (data2) { return data2; },
+                    success: function (data3) {
+                        console.log("Bakiyeler" + data3.Data.length);
+                        $('#Bilgilendirme').html("");
+                        var deger = "";
+                        var KayitCalisacak = false;
+                        for (var i = 0; i < data3.Data.length; i++) {
+                            deger += "" + data3.Data[i].Depo + " nolu depo bakiyesi : " + data3.Data[i].Bakiye + "</br>";
+                           
+                        }
+                        $('#Bilgilendirme').html(deger);
+                    },
+                    error: function (msg) {
+                        console.log("HATA!" + msg.m);
+                    }
+                });
+            }
+            BakiyeGetir();
+        </script>
 
+    }
 </div>

@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.11.35222.181
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33214.272
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YKPanel", "WebApplication11\YKPanel.csproj", "{DB4DBF2C-4023-46E5-8912-3F5D20C47244}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YKEFaturaEntegrasyon", "YKEFaturaEntegrasyon\YKEFaturaEntegrasyon.csproj", "{F133A1FC-8137-4679-A47F-2B0C22359596}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDDizayn", "IDDizayn\IDDizayn.csproj", "{C873DFC7-77EC-457C-880E-330C9E76A28C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{F133A1FC-8137-4679-A47F-2B0C22359596}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F133A1FC-8137-4679-A47F-2B0C22359596}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F133A1FC-8137-4679-A47F-2B0C22359596}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C873DFC7-77EC-457C-880E-330C9E76A28C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C873DFC7-77EC-457C-880E-330C9E76A28C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C873DFC7-77EC-457C-880E-330C9E76A28C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C873DFC7-77EC-457C-880E-330C9E76A28C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

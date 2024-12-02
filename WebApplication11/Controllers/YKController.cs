@@ -691,19 +691,21 @@ namespace YKPortal.Controllers
             cmd2.CommandText = "p_StokFiyatGor";
             cmd2.CommandType = System.Data.CommandType.StoredProcedure;
             cmd2.Parameters.AddWithValue("@Barkod", Barkod);
-            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
-            if (dt.Rows.Count > 0)
+            DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd2, SorgulaTuru.DataSet);
+            if (ds.Tables[0].Rows.Count > 0)
             {
-                entity.HTMLPrint = Encoding.Default.GetBytes(Convert.ToString(dt.Rows[0]["Aciklama"]));
-                entity.Aciklama = Convert.ToString(dt.Rows[0]["Aciklama"]);
+                entity.HTMLPrint = Encoding.Default.GetBytes(Convert.ToString(ds.Tables[0].Rows[0]["Aciklama"]));
+                entity.Aciklama = Convert.ToString(ds.Tables[0].Rows[0]["Aciklama"]);
+                string dosya = IDDizayn.DizaynIslemleri.DizaynKaydet(ds, ConfigurationManager.AppSettings["Klasor"]);
+                entity.Aciklama2 = ConfigurationManager.AppSettings["WebSiteUrl"]+"/Temp/"+dosya;
             }
             else
             {
                 entity.Kod = "ÜRÜN BULUNAMADI!";
             }
-
             return Json(entity, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult FiyatGorGetir(string Barkod)
         {
             StokDto entity = new StokDto();
@@ -944,6 +946,31 @@ namespace YKPortal.Controllers
             }
         }
 
+        public JsonResult LisansKontrol(
+                    string _bulunduguDizin,
+                    string _modul,
+                    string _dosyaOlusturmaTarihi, 
+                    string _bilgisayarAdi,
+                    string _icIp,
+                    string _disIp,
+                    string _BaglantiCumlesi,
+                    string _sirketKodu,
+                    string _sirketIsmi,
+                    string _lisansKodu)
+        {
+            string result =
+                 _bulunduguDizin+"|"+
+                 _modul + "|" +
+                 _dosyaOlusturmaTarihi + "|" +
+                 _bilgisayarAdi + "|" +
+                 _icIp + "|" +
+                 _disIp + "|" +
+                 _BaglantiCumlesi + "|" +
+                 _sirketKodu + "|" +
+                 _sirketIsmi + "|" +
+                 _lisansKodu;
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
 
 

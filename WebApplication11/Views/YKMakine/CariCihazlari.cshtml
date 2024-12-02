@@ -2,6 +2,12 @@
 @model System.Data.DataTable
 @{
     ViewBag.Title = "Cari Cihazları";
+
+    int toplam = 0;
+    foreach (DataRow satir in Model.Rows)
+    {
+        toplam += Convert.ToInt32(satir["Miktar"]);
+    }
 }
 
 <div style="width:100%;">
@@ -19,7 +25,13 @@
                 <th>Cari (@(Model.Rows.Count) kayıt mevcut.)</th>
                 <th>Stok Kodu</th>
                 <th>Stok Adı</th>
-                <th>Miktar</th>
+                <th>Miktar </th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th>TOPLAM</th>
+                <th>@toplam</th>
             </tr>
         </thead>
         <tbody>
