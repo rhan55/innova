@@ -1,0 +1,44 @@
+﻿@if (ViewBag.Kategoriler == null || !ViewBag.Kategoriler.Any())
+{
+    <p>No categories available.</p>
+}
+else
+{
+    <form action="#" method="get">
+        <div class="header-search-wrapper">
+            <input type="search" class="form-control" name="q" id="q" placeholder="Search..." required>
+            <div class="select-custom">
+                <select id="cat" name="cat" class="form-control">
+                    <option value="">All Categories</option>
+                    @foreach (var kategori in ViewBag.Kategoriler)
+                    {
+                        <option value="@kategori.Kategori1">@kategori.Kategori1</option>
+                        if (!string.IsNullOrEmpty(kategori.Kategori2))
+                        {
+                            <option value="@kategori.Kategori2">- @kategori.Kategori2</option>
+                        }
+                        if (!string.IsNullOrEmpty(kategori.Kategori3))
+                        {
+                            <option value="@kategori.Kategori3">-- @kategori.Kategori3</option>
+                        }
+                        if (!string.IsNullOrEmpty(kategori.Kategori4))
+                        {
+                            <option value="@kategori.Kategori4">--- @kategori.Kategori4</option>
+                        }
+                        if (!string.IsNullOrEmpty(kategori.Kategori5))
+                        {
+                            <option value="@kategori.Kategori5">---- @kategori.Kategori5</option>
+                        }
+                        if (!string.IsNullOrEmpty(kategori.Kategori6))
+                        {
+                            <option value="@kategori.Kategori6">----- @kategori.Kategori6</option>
+                        }
+                    }
+                </select>
+            </div>
+            <!-- End .select-custom -->
+            <button class="btn icon-magnifier p-0" title="Search" type="submit"></button>
+        </div>
+        <!-- End .header-search-wrapper -->
+    </form>
+}

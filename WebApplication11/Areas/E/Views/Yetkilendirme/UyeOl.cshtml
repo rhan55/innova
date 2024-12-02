@@ -17,7 +17,7 @@
 <html>
 <head>
     <link rel="icon" type="image/x-icon" href="~/Tema/ETicaret/assets/images/icons/favicon.png">
-
+    <link rel="stylesheet" href="~/Tema/ETicaret/assets/css/bootstrap.min.css">
 
     <script>
         WebFontConfig = {
@@ -39,90 +39,103 @@
     <!-- Main CSS File -->
     <link rel="stylesheet" href="~/Tema/ETicaret/assets/css/demo4.min.css">
     <link rel="stylesheet" type="text/css" href="~/Tema/ETicaret/assets/vendor/fontawesome-free/css/all.min.css">
+    <link href="~/Tema/ETicaret/assets/css/demo4.min.css" rel="stylesheet" />
     <meta name="viewport" content="width=device-width" />
+    <link href="~/Tema/ETicaret/assets/css/bootstrap.min.css" rel="stylesheet" />
+
     <title>Giris</title>
 </head>
 <body>
     <div class="container mt-10">
 
-        <h2 class="title">Üye Ol</h2>
+        <h1 class="title mb-4 text-dark font-weight-bold mb-4 display-5">Üye Ol</h1>
 
-        <div class="page-wrapper">
-            <form id="uyelikFormu" action="@Url.Action("UyeOl","Site",new { Area = "E" })" class="mb-0" method="post">
+        <div class="page-wrapper mt-5">
+            <form id="uyelikFormu" action="@Url.Action("UyeOl","Yetkilendirme",new { Area = "E" })" class="mb-0" method="post">
                 <input type="hidden" name="ID" value="" />
-                <div class="row">
-                    <div class="col-lg-4">
-                        <label for="EMail">
-                            E-Mail
+                <input type="hidden" name="KullaniciID" value="" />
+                <div class="row ">
+                    <div class="col-lg-4 mt-4">
+                        <label class="fs-1 text-dark display-6" for="KullaniciAdi">
+                            Kullanıcı Adı
                             <span class="required">*</span>
                         </label>
-                        <input type="email" class="form-input form-wide mb-2" name="EMail" id="EMail" value="@ViewBag.Form.EMail" required="">
+                        <input type="email" class="form-input p-3 form-wide mb-2 rounded-2" name="KullaniciAdi" id="KullaniciAdi" value="@ViewBag.Form.KullaniciAdi" required="">
                     </div>
-                    <div class="col-lg-4">
-                        <label for="Parola">
+                    <div class="col-lg-4 mt-4">
+                        <label class="text-dark" for="Parola">
                             Parola
                             <span class="required">*</span>
                         </label>
-                        <input type="password" class="form-input form-wide mb-2" name="Parola" id="Parola" value="@ViewBag.Form.Parola" required="">
+                        <input type="password" class="form-input p-3 form-wide mb-2" name="Parola" id="Parola" value="@ViewBag.Form.Parola" required="">
                     </div>
-                    <div class="col-lg-4">
-                        <label for="Isim">
+                    <div class="col-lg-4 mt-4">
+                        <label class="text-dark" for="Isim">
                             İsim
                             <span class="required">*</span>
                         </label>
-                        <input type="text" class="form-input form-wide mb-2" id="Isim" name="Isim" value="@ViewBag.Form.Isim" required="">
+                        <input type="text" class="form-input p-3 form-wide mb-2" id="Isim" name="Isim" value="@ViewBag.Form.Isim" required="">
                     </div>
 
                 </div>
                 <div class="row">
 
-                    <div class="col-lg-6">
-                        <label for="TCKimlikNoVergiNo">
+                    <div class="col-lg-6 mt-4 mb-2">
+                        <label class="text-dark" for="TCKimlikNoVergiNo">
                             TCKimlik numarası veya Vergi Numarası
                             <span class="required">*</span>
                         </label>
-                        <input type="text" class="form-input form-control form-wide mb-2" name="TCKimlikNoVergiNo" id="TCKimlikNoVergiNo" value="@ViewBag.Form.TCKimlikNoVergiNo">
+                        <input type="text" class="form-input form-wide p-3" name="TCKimlikNoVergiNo" id="TCKimlikNoVergiNo" value="@ViewBag.Form.TCKimlikNoVergiNo">
                         <div data-error="TCKimlikNoVergiNo"></div>
                     </div>
-                    <div class="col-lg-6">
-                        <label for="Unvan">
+                    <div class="col-lg-6 mt-4">
+                        <label class="text-dark" for="Unvan">
                             Unvan
                             <span class="required">*</span>
                         </label>
-                        <input type="text" class="form-input form-wide mb-2" id="Unvan" name="Unvan" value="@ViewBag.Form.Unvan" required="">
+                        <input type="text" class="form-input text-dark form-wide mb-2 p-3" id="Unvan" name="Unvan" value="@ViewBag.Form.Unvan" required="">
                     </div>
                 </div>
 
                 <div class="row">
-
-                    <div class="col-lg-4">
-                        <label for="CepTelefonu">
-                            CepTelefonu
-                            <span class="required">*</span>
-                        </label>
-                        <input type="text" class="form-input form-wide mb-2" value="@ViewBag.Form.CepTelefonu" id="CepTelefonu" name="CepTelefonu" placeholder="(___) ___-____">
-                    </div>
-                    <div class="col-lg-6">
-                        <label for="VergiDairesi">
+                    <div class="col-lg-6 mt-4">
+                        <label class="text-dark" for="VergiDairesi">
                             Vergi Dairesi
                             <span class="required">*</span>
                         </label>
-                        <input type="text" class="form-input form-wide mb-2" name="VergiDairesi" id="VergiDairesi" value="@ViewBag.Form.VergiDairesi" required="">
+                        <input type="text" class="form-input form-wide mb-2 p-3" name="VergiDairesi" id="VergiDairesi" value="@ViewBag.Form.VergiDairesi" required="">
                     </div>
+                    <div class="col-lg-6 mt-4">
+                        <label class="text-dark" for="CepTelefonu">
+                            CepTelefonu
+                            <span class="required">*</span>
+                        </label>
+                        <input type="text" class="form-input  form-wide mb-2 p-3" value="@ViewBag.Form.CepTelefonu" id="CepTelefonu" name="CepTelefonu" placeholder="(___) ___-____">
+                    </div>
+
                 </div>
 
                 <div class="row">
-                    <div class="col-lg-8">
-                        <label for="Adres">
+                    <div class="col-lg-12 mt-4">
+                        <label class="text-dark" for="Adres">
                             Adres
                             <span class="required">*</span>
                         </label>
-                        <input type="text" class="form-input form-wide mb-2" name="Adres" id="Adres" value="@ViewBag.Form.Adres" required="">
+
+                        <textarea class=" form-input form-wide mb-2 " name="Adres" id="Adres" rows="4" placeholder="Adresinizi girin...">@ViewBag.Form.Adres</textarea>
+
+
                     </div>
-                    <div class="col-lg-4">
+
+
+                </div>
+
+                <div class="row ">
+                    <div class="col-lg-4 mt-4 ">
                         <div class="form-group">
-                            <label for="Ulke" class=" form-label">Ülke</label>
-                            <select class="form-control  " data-control="select2" name="Ulke" value="@ViewBag.Form.Ulke" id="Ulke"
+                            <label for="Ulke" class="form-label text-dark">Ülke</label>
+                            <span class="required">*</span>
+                            <select class="form-input form-wide p-3" data-control="select2" name="Ulke" value="@ViewBag.Form.Ulke" id="Ulke" required
                                     aria-label="Floating label select example">
                                 <option value="">Lütfen Seçim Yapınız</option>
                                 @foreach (GrupKoduDto ulke in ViewBag.Ulkeler)
@@ -132,15 +145,11 @@
                             </select>
                         </div>
                     </div>
-
-                </div>
-
-                <div class="row">
-
-                    <div class="col-lg-3  mt-4 mt-lg-0">
+                    <div class="col-lg-4 mt-4">
                         <div class="form-group">
-                            <label for="Il" class=" form-label">İl</label>
-                            <select class="form-control " name="Il" data-control="select2" value="@ViewBag.Form.Il" id="Il"
+                            <label for="Il" class=" form-label text-dark">İl</label>
+                            <span class="required">*</span>
+                            <select class="form-input form-wide p-3" name="Il" data-control="select2" value="@ViewBag.Form.Il" id="Il" required
                                     aria-label="Floating label select example">
                                 <option value="">Lütfen Seçim Yapınız</option>
                                 @foreach (GrupKoduDto il in ViewBag.Iller)
@@ -151,22 +160,28 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-4">
-                        <label for="PostaKodu">
+
+                    <div class="col-lg-4 mt-4">
+                        <label class="text-dark" for="PostaKodu">
                             Posta Kodu
                             <span class="required">*</span>
                         </label>
-                        <input type="text" class="form-input form-wide mb-2" name="PostaKodu" id="PostaKodu" value="@ViewBag.Form.PostaKodu" required="">
+                        <input type="text" class="form-input form-wide mb-2 p-3" name="PostaKodu" id="PostaKodu" value="@ViewBag.Form.PostaKodu" required="">
                     </div>
                 </div>
 
 
                 <div class="text-center mt-5">
-                    <button type="button" id="UyeOlButonu" class="btn btn-dark btn-block btn-md">
+                    <button type="button" id="UyeOlButonu" class="btn rounded btn-lg btn-dark font-weight-bold py-2 btn-block" style="height:40px;" >
                         Üye Ol
                     </button>
 
 
+                </div>
+                <div class="text-center mt-3">
+                   <a href="@Url.Action("Giris","Yetkilendirme",new { Area = "E" })" class=" rounded btn-block btn-md" >
+                       <h4 class="">Giriş Yap</h4>
+                   </a>                  
                 </div>
             </form>
         </div>
@@ -204,7 +219,6 @@
         }
         $(document).ready(function () {
 
-
             Inputmask({
                 "mask": "(999) 999-9999"
             }).mask("#CepTelefonu");
@@ -214,10 +228,13 @@
 
             $('#UyeOlButonu').on('click', function (e) {
                 e.preventDefault();
-                console.log($('#TCKimlikNoVergiNo').val());
-
+              
                 let isValidated = true;
-
+                if (isValidated) {
+                    $('#uyelikFormu').submit();
+                } else {
+                    console.log("Validasyon hataları var.");
+                }
                 const message = {
                     TCKimlikNoVergiNo: [],
                 };

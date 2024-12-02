@@ -6,26 +6,22 @@ using System.Web.Mvc;
 
 namespace YKPortal.Areas.E.Controllers
 {
-    public class HakkimizdaController : BaseController
+    public class YasalBilgilerController : BaseController
     {
-        // GET: E/Hakkimizda
+        // GET: E/YasalBilgiler
+
         [HttpGet]
-        public ActionResult Hakkimizda()
+        public ActionResult MesafeliSatisSozlesmesi()
         {
             return View();
         }
         [HttpGet]
-        public ActionResult Misyonumuz()
+        public ActionResult KisiselVerilerinKorunmasi()
         {
             return View();
         }
         [HttpGet]
-        public ActionResult Vizyonumuz()
-        {
-            return View();
-        }
-        [HttpGet]
-        public ActionResult Iletisim()
+        public ActionResult Gizlilik()
         {
             return View();
         }

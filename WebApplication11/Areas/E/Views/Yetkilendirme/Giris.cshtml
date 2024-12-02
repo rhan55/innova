@@ -1,0 +1,137 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link rel="icon" type="image/x-icon" href="~/Tema/ETicaret/assets/images/icons/favicon.png">
+    <link href="~/Tema/ETicaret/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Tema/ETicaret/assets/css/animate.min.css" rel="stylesheet" />
+    <link href="~/Tema/ETicaret/assets/css/demo4-dark.min.css" rel="stylesheet" />
+    <link href="~/Tema/ETicaret/assets/css/demo4.min.css" rel="stylesheet" />
+    <link href="~/Tema/ETicaret/assets/css/style.min.css" rel="stylesheet" />
+
+
+    <script>
+        WebFontConfig = {
+            google: {
+                families: ['Open+Sans:300,400,600,700,800', 'Poppins:300,400,500,600,700,800', 'Oswald:300,400,500,600,700,800']
+            }
+        };
+        (function (d) {
+            var wf = d.createElement('script'),
+                s = d.scripts[0];
+            wf.src = '/Tema/ETicaret/assets/js/webfont.js';
+            wf.async = true;
+            s.parentNode.insertBefore(wf, s);
+        })(document);
+    </script>
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="~/Tema/ETicaret/assets/css/bootstrap.min.css">
+
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="~/Tema/ETicaret/assets/css/demo4.min.css">  
+    <link rel="stylesheet" type="text/css" href="~/Tema/ETicaret/assets/vendor/fontawesome-free/css/all.min.css">
+    <meta name="viewport" content="width=device-width" />
+    <title>Giris</title>
+</head>
+<body style="background-color: #efefef05;">
+    <div class="container d-flex justify-content-center align-items-center" style="height: 100dvh;width: 100dvw;">
+       
+
+        <div class="page-wrapper ">
+            <div class="">
+                <div class=" d-flex align-items-center justify-content-center" style="width: 400px;">
+
+                    <form action="@Url.Action("Giris","Yetkilendirme",new { Area = "E" })" method="post" class="mb-0 w-100">
+                        <h2 class="title">Giriş</h2>
+                        <div class="">
+
+                            <label class="fs-1" for="KullaniciAdi">
+                                Kullanıcı Adı
+                                <span class="required">*</span>
+                            </label>
+                            <input type="email" class="form-input form-wide mb-2" name="txtKullaniciAdi" id="txtKullaniciAdi"  required="" placeholder="name@example.com">
+                        </div>
+                        <div class="">
+
+                            <label for="Parola">
+                                Parola
+                                <span class="required">*</span>
+                            </label>
+                            <input type="password" class="form-input form-wide mb-2" name="txtParola" id="txtParola" required="">
+
+                        </div>
+
+                        <div class="form-footer m-0">
+
+                            <div class="form-footer-right">
+                                <a href="#" class="link-color sifremi-unuttum">Şifremi Unuttum?</a>
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-dark btn-block btn-md">
+                                Giriş Yap
+                            </button>
+
+                            <a href="@Url.Action("UyeOl","Yetkilendirme",new { Area = "E" })" class="btn btn-regist bg-transparent text-transform-none p-0 mt-2" title="register button">
+                                Üye Ol!
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+    
+
+    <!-- Plugins JS File -->
+    <script src="~/Tema/ETicaret/assets/js/jquery.min.js"></script>
+    <script src="~/Tema/ETicaret/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Tema/ETicaret/assets/js/optional/isotope.pkgd.min.js"></script>
+    <script src="~/Tema/ETicaret/assets/js/plugins.min.js"></script>
+    <script src="~/Tema/ETicaret/assets/js/jquery.appear.min.js"></script>
+    <!-- Main JS File -->
+    <script src="~/Tema/ETicaret/assets/js/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+    <script>var hostUrl = "~/Tema/ETicaret";</script>
+    <script>
+        function sweetalert(message = "", type = "success") {
+            Swal.fire({
+                text: message,
+                icon: type,
+                buttonsStyling: false,
+                confirmButtonText: "Anladım!",
+                customClass: {
+                    confirmButton: "btn btn-primary"
+                }
+            });
+        }
+
+        $(function () {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+
+           
+
+            urlParams.forEach((value, key) => {
+                if (key == "returnCode") {
+                    if (value == "2000") {
+                        sweetalert("Üye kayıt işlemi başarıyla gerçekleştirildi.", "success");
+                    }
+                }
+                console.log(`${key}: ${value}`);
+            });
+        });
+    </script>
+</body>
+</html>
