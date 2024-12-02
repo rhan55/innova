@@ -79,7 +79,12 @@
                                     <li><a href="blog.html">Blog</a></li>
                                     <li><a href="wishlist.html">My Wishlist</a></li>
                                     <li><a href="cart.html">Cart</a></li>
-                                    <li><a href="@Url.Action("Giris","Site",new { Area = "E" })" class="login-link">Log In</a></li>
+                                    <li><a href="@Url.Action("Giris","Yetkilendirme",new { Area = "E" })" class="login-link">Log In</a></li>
+                                    <li>
+                                        <form action="/E/Yetkilendirme/Cikis" method="POST">
+                                            <button type="submit" class="btn btn-link text-muted">Çıkış Yap</button>
+                                        </form>
+                                    </li>
                                 </ul>
                             </div>
                             <!-- End .header-menu -->
@@ -148,9 +153,12 @@
                                 <div class="header-search-wrapper">
                                     <input type="search" class="form-control" name="q" id="q" placeholder="Search..." required>
                                     <div class="select-custom">
-                                        @if (ViewBag.Kategoriler != null && ViewBag.Kategoriler.Any())
+                                        @if (ViewBag.Kategoriler != null && ViewBag.Kategoriler.Count > 0)
                                         {
                                             <select id="cat" name="cat" class="form-control">
+                                                <option value="">All Categories</option>
+                                                <option value="">All Categories</option>
+                                                <option value="">All Categories</option>
                                                 <option value="">All Categories</option>
                                                 @foreach (var kategori in ViewBag.Kategoriler)
                                                 {
@@ -164,7 +172,7 @@
                                         }
                                         else
                                         {
-                                            <p>No categories available</p>
+                                            <p>Kategori yok</p>
                                         }
 
                                     </div>
@@ -302,33 +310,13 @@
 
                 <div class="container">
                     <!-- Dropdown Kullanımı -->
-                    <div class="header-search-wrapper">
-                        @if (ViewBag.Kategoriler != null && ViewBag.Kategoriler.Any())
-                        {
-                            <select id="cat" name="cat" class="form-control">
-                                <option value="">All Categories</option>
-                                @foreach (var kategori in ViewBag.Kategoriler)
-                                {
-                                    <option value="@kategori.Kategori1">@kategori.Kategori1</option>
-                                    if (!string.IsNullOrEmpty(kategori.Kategori2))
-                                    {
-                                        <option value="@kategori.Kategori2">- @kategori.Kategori2</option>
-                                    }
-                                }
-                            </select>
-                        }
-                        else
-                        {
-                            <p>No categories available</p>
-                        }
-
-                    </div>
+                   
 
                     <!-- MegaMenu Kullanımı -->
                     <nav class="main-nav w-100">
                         <ul class="menu">
                             <li>
-                                <a href="category.html">Categories</a>
+                                <a href="#">Kategoriler</a>
                                 <div class="megamenu megamenu-fixed-width megamenu-3cols">
                                     <div class="row">
                                         @if (ViewBag.Kategoriler != null)
@@ -359,13 +347,10 @@
                                             }
                                             else
                                             {
-                                                <p>No categories available</p>
+                                                <p>Kategori Yok</p>
                                             }
                                         }
-                                        else
-                                        {
-                                            <p>No data available in ViewBag.Kategoriler</p>
-                                        }
+                                       
                                     </div>
 
                                 </div>
@@ -753,7 +738,7 @@
                 <ul class="mobile-menu">
                     <li><a href="demo4.html">Home</a></li>
                     <li>
-                        <a href="category.html">Categories</a>
+                        <a href="category.html">Kategoriler</a>
                         <ul>
                             <li><a href="category.html">Full Width Banner</a></li>
                             <li><a href="category-banner-boxed-slider.html">Boxed Slider Banner</a></li>
@@ -863,7 +848,10 @@
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="wishlist.html">My Wishlist</a></li>
                     <li><a href="cart.html">Cart</a></li>
-                    <li><a href="@Url.Action("Giris","Site",new { Area = "E" })" class="login-link">Log In</a></li>
+                    <li><a href="@Url.Action("Giris","Yetkilendirme",new { Area = "E" })" class="login-link">Log In</a></li>
+                    <li><form action="/E/Yetkilendirme/Cikis" method="post">
+                            <button class="login-link">Çıkış Yap</button>
+                        </form></li>
                 </ul>
             </nav>
             <!-- End .mobile-nav -->

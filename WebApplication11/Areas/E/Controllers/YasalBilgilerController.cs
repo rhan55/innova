@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace YKPortal.Areas.E.Controllers
 {
-    public class YasalBilgilerController : Controller
+    public class YasalBilgilerController : BaseController
     {
         // GET: E/YasalBilgiler
 

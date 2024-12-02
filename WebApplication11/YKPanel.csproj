@@ -251,6 +251,7 @@
     <Compile Include="Areas\E\Controllers\HakkimizdaController.cs" />
     <Compile Include="Areas\E\Controllers\SepetController.cs" />
     <Compile Include="Areas\E\Controllers\YasalBilgilerController.cs" />
+    <Compile Include="Areas\E\Controllers\YetkilendirmeController.cs" />
     <Compile Include="Areas\E\EAreaRegistration.cs" />
     <Compile Include="Areas\E\Controllers\SiteController.cs" />
     <Compile Include="Areas\Entegrasyon\Controllers\FordAktarim.cs" />
@@ -587,8 +588,6 @@
     <Content Include="Areas\E\Views\Shared\Error.cshtml" />
     <Content Include="Areas\E\Views\web.config" />
     <Content Include="Areas\E\Views\Hakkimizda\Hakkimizda.cshtml" />
-    <Content Include="Areas\E\Views\Site\Giris.cshtml" />
-    <Content Include="Areas\E\Views\Site\UyeOl.cshtml" />
     <Content Include="Areas\E\Views\Sepet\SepetBilgileri.cshtml" />
     <Content Include="Areas\E\Views\Hakkimizda\Misyonumuz.cshtml" />
     <Content Include="Areas\E\Views\Hakkimizda\Vizyonumuz.cshtml" />
@@ -600,6 +599,8 @@
     <Content Include="Areas\E\Views\Kullanici\Profil.cshtml" />
     <Content Include="Areas\E\Views\Shared\_KategorilerPartial.cshtml" />
     <Content Include="Areas\E\Views\Shared\_KategorilerPatrial2.cshtml" />
+    <Content Include="Areas\E\Views\Yetkilendirme\Giris.cshtml" />
+    <Content Include="Areas\E\Views\Yetkilendirme\UyeOl.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -6599,6 +6600,7 @@
     <Folder Include="Areas\E\Data\" />
     <Folder Include="Areas\E\Views\Base\" />
     <Folder Include="Areas\E\Views\Kategori\" />
+    <Folder Include="Areas\E\Views\NewFolder1\" />
     <Folder Include="Areas\Personel\Controllers\" />
     <Folder Include="Areas\Personel\Views\Puantaj\" />
     <Folder Include="Areas\Ziyaret\Data\" />

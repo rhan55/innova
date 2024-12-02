@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace YKPortal.Areas.E.Controllers
 {
-    public class SepetController : Controller
+    public class SepetController : BaseController
     {
         // GET: E/Sepet
         [HttpGet]

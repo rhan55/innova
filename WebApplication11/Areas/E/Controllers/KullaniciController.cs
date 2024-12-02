@@ -13,16 +13,13 @@ using YKPortal.Models.Dto;
 
 namespace YKPortal.Areas.E.Controllers
 {
-    public class KullaniciController : Controller
+    public class KullaniciController : BaseController
     {
 
 
         [HttpGet]
         public ActionResult Profil()
         {
-            if (!AutoGirisKontrol())
-                return Redirect("~/E/Site/Giris");
-            
             UlkeListesiniOlustur();
             IlListesiniOlustur();
 
@@ -44,7 +41,9 @@ namespace YKPortal.Areas.E.Controllers
         public ActionResult Profil(CariDto cariDto)
         {
             if (!AutoGirisKontrol())
-                return Redirect("~/E/Site/Giris");
+            {
+                return Redirect("E/Yetkilendirme/Giris");
+            }
 
             IlListesiniOlustur();
             UlkeListesiniOlustur();
@@ -128,87 +127,6 @@ namespace YKPortal.Areas.E.Controllers
 
             return RedirectToAction("Profil");
         }
-
-
-        private void IlListesiniOlustur()
-        {
-            // GrupKodu1 Listesi oluşturma 
-            SqlCommand ilCommand = new SqlCommand();
-            ilCommand.CommandText = "p_GrupKoduListesi";
-            ilCommand.CommandType = System.Data.CommandType.StoredProcedure;
-            ilCommand.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-
-            ilCommand.Parameters.AddWithValue("@Kod", "Il");
-            ilCommand.Parameters.AddWithValue("@AranacakKelime", "");
-
-
-            DataTable ilDataTable = (DataTable)IDVeritabani.Sorgula(ilCommand, SorgulaTuru.Tablo);
-            // Yeni bir Dto üretiyoruz class üzerindem 
-            List<GrupKoduDto> entities = new List<GrupKoduDto>();
-
-            for (int i = 0; i < ilDataTable.Rows.Count; i++)
-            {
-                GrupKoduDto entity = new GrupKoduDto();
-                entity.ID = Convert.ToString(ilDataTable.Rows[i]["ID"]);
-                entity.Deger = Convert.ToString(ilDataTable.Rows[i]["Deger"]);
-                entities.Add(entity);
-            }
-            ViewBag.Iller = entities;
-        }
-        private void UlkeListesiniOlustur()
-        {
-            // GrupKodu1 Listesi oluşturma 
-            SqlCommand ulkeCommand = new SqlCommand();
-            ulkeCommand.CommandText = "p_GrupKoduListesi";
-            ulkeCommand.CommandType = System.Data.CommandType.StoredProcedure;
-            ulkeCommand.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-
-            ulkeCommand.Parameters.AddWithValue("@Kod", "Ulke");
-            ulkeCommand.Parameters.AddWithValue("@AranacakKelime", "");
-
-
-            DataTable ulkeDataTable = (DataTable)IDVeritabani.Sorgula(ulkeCommand, SorgulaTuru.Tablo);
-
-            List<GrupKoduDto> entities = new List<GrupKoduDto>();
-
-            for (int i = 0; i < ulkeDataTable.Rows.Count; i++)
-            {
-                GrupKoduDto entity = new GrupKoduDto();
-                entity.ID = Convert.ToString(ulkeDataTable.Rows[i]["ID"]);
-                entity.Deger = Convert.ToString(ulkeDataTable.Rows[i]["Deger"]);
-                entities.Add(entity);
-            }
-            ViewBag.Ulkeler = entities;
-        }
-        private void CreateCookie(string name, string value)
-        {
-            HttpCookie cookieVisitor = new HttpCookie(name, Server.UrlEncode(value));
-            // cookieVisitor.Expires = DateTime.Now.AddDays(2);
-            Response.Cookies.Add(cookieVisitor);
-        }
-        private string GetCookie(string name)
-        {
-            //Böyle bir cookie mevcut mu kontrol ediyoruz
-            if (Request.Cookies.AllKeys.Contains(name))
-            {
-                //böyle bir cookie varsa bize geri değeri döndürsün
-                return Server.UrlDecode(Request.Cookies[name].Value);
-            }
-            return null;
-        }
-        private void DeleteCookie(string name)
-        {
-            //Böyle bir cookie var mı kontrol ediyoruz
-            if (GetCookie(name) != null)
-            {
-                //Varsa cookiemizi temizliyoruz
-                Response.Cookies.Remove(name);
-                //ya da 
-                Response.Cookies[name].Expires = DateTime.Now.AddDays(-1);
-            }
-        }
-
-
         private CariDto Getir(string id)
         {
             if (id != null && id.Length > 0)
@@ -287,79 +205,5 @@ namespace YKPortal.Areas.E.Controllers
             return new CariDto { };
         }
 
-
-        public bool AutoGirisKontrol()
-        {
-            bool GirisKontrol = false;
-
-            string KullaniciAdi = GetCookie("KullaniciAdi");
-            string Parola = GetCookie("Parola");
-
-
-            if (KullaniciAdi != null)
-            {
-
-                ViewBag.KullaniciAdi = KullaniciAdi;
-
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.CommandText = "p_ETicaret_KullaniciGirisi";
-                cmd.Parameters.AddWithValue("@KullaniciAdi", KullaniciAdi);
-                cmd.Parameters.AddWithValue("@Parola", Parola);
-
-                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
-
-                if (dt.Rows.Count > 0)
-                {
-                    string Bilgi = Convert.ToString(dt.Rows[0]["Bilgi"]);
-                    if (!Bilgi.StartsWith("UYARI!"))
-                    {
-                        #region Log Kaydı
-                        try
-                        {
-                            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-                            string postData = "{\r\n    \"ProgramAdi\":\"Portal\",\r\n    \"Sirket\":\"" + Convert.ToString(dt.Rows[0]["UyelikIsim"]) + " - " + Convert.ToString(dt.Rows[0]["Ad"]) + " " + Convert.ToString(dt.Rows[0]["Soyad"]) + "\",\r\n    \"KullaniciAdi\":\"" + KullaniciAdi + "\",\r\n    \"Parola\":\"" + Parola + "\", \"IP\":\"" + Request.UserHostAddress + "\"   \r\n}";
-                            var url = "https://app.ykyazilim.com.tr/api/YKWebApi/LogKaydet_KullaniciGirisi";
-                            byte[] data = Encoding.UTF8.GetBytes(postData.ToString());
-                            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                            request.KeepAlive = false;
-                            request.ProtocolVersion = HttpVersion.Version10;
-                            request.Method = "POST";
-                            byte[] postBytes = Encoding.UTF8.GetBytes(postData.ToString());
-                            request.ContentType = "application/json; charset=UTF-8";
-                            request.Accept = "application/json";
-                            request.ContentLength = postBytes.Length;
-                            Stream requestStream = request.GetRequestStream();
-                            requestStream.Write(postBytes, 0, postBytes.Length);
-                            requestStream.Close();
-                            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                            string result;
-                            using (StreamReader rdr = new StreamReader(response.GetResponseStream()))
-                            {
-                                result = rdr.ReadToEnd();
-                            }
-                        }
-                        catch
-                        {
-                            ;
-                        }
-                        #endregion
-
-                        GirisKontrol = true;
-                    }
-                    else
-                    {
-                        GirisKontrol = false;
-                    }
-                }
-                else
-                {
-                    GirisKontrol = false;
-                }
-            }
-
-            return GirisKontrol;
-        }
     }
 }
