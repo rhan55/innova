@@ -31,6 +31,8 @@ namespace YKPortal.Models.Dto
         private string _YeniMesaj;
         private string _SonMesajTarihi;
         private string _SonMesajIcerigi;
+        private string _Isim;
+        private string _Unvan;
 
         public string ID { get { return _ID ?? ""; } set { _ID = value; } }
         public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; }}
@@ -56,6 +58,8 @@ namespace YKPortal.Models.Dto
         public string YeniMesaj { get { return _YeniMesaj ?? ""; } set { _YeniMesaj = value; } }
         public string SonMesajTarihi { get { return _SonMesajTarihi ?? ""; } set { _SonMesajTarihi = value; } }
         public string SonMesajIcerigi { get { return _SonMesajIcerigi ?? ""; } set { _SonMesajIcerigi = value; } }
+        public string Isim { get { return _Isim ?? ""; } set { _Isim = value; } }
+        public string Unvan { get { return _Unvan ?? ""; } set { _Unvan = value; } }
 
     }
 }

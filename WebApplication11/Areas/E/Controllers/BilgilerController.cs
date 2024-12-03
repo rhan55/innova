@@ -15,12 +15,54 @@ namespace YKPortal.Areas.E.Controllers
 {
     public class BilgilerController : BaseController
     {
-        // GET: E/Bilgiler
-        [HttpGet]
         public ActionResult GenelBilgiler()
         {
-            return View();
+            var cmd = new SqlCommand("p_GrupKoduListesi");
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UyelikID", System.Configuration.ConfigurationManager.AppSettings["UyelikID"]);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            // Veriyi modele dönüştür:
+            var bilgiler = dt.AsEnumerable().Select(row => new GrupKoduDto
+            {
+                ID = Convert.ToString(row["ID"]),
+                UyelikID = System.Configuration.ConfigurationManager.AppSettings["UyelikID"],
+                Kod = row["Kod"].ToString(),
+                Deger = row["Deger"].ToString(),
+                Aktif = Convert.ToBoolean(row["Aktif"])
+            }).ToList();
+
+            return View(bilgiler);
         }
+
+        [HttpPost]
+        public ActionResult Kaydet(FormCollection form)
+        {
+            int uyelikID = int.Parse(GetCookie("UyelikID"));
+
+            var bilgiler = new Dictionary<string, string>
+            {
+                { "ETicaretTelefon", form["ETicaretTelefon"] },
+                { "ETicaretEmail", form["ETicaretEmail"] },
+                { "ETicaretLogo", form["ETicaretLogo"] },
+                { "ETicaretFirmaAdi", form["ETicaretFirmaAdi"] }
+            };
+
+            foreach (var bilgi in bilgiler)
+            {
+                var cmd = new SqlCommand("p_GrupKoduEkleVeyaGuncelle");
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UyelikID", uyelikID);
+                cmd.Parameters.AddWithValue("@GrupKodu", bilgi.Key);
+                cmd.Parameters.AddWithValue("@Deger", bilgi.Value);
+
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            }
+
+            return RedirectToAction("GenelBilgiler");
+        }
+
 
         [HttpPost]
         public ActionResult GenelBilgiler(GrupKoduDto grupKoduDto)

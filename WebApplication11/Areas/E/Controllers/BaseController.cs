@@ -11,6 +11,8 @@ using System.IO;
 using System.Net;
 using System.Text;
 using YKPortal.Models.Dto;
+using System.Security.Principal;
+using System.Web.Security;
 
 namespace YKPortal.Areas.E.Controllers
 {
@@ -18,26 +20,96 @@ namespace YKPortal.Areas.E.Controllers
     {
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            // Kategoriler için veri kaynağını burada doldurun
-            
+            if (HttpContext.User == null || !HttpContext.User.Identity.IsAuthenticated)
+            {
+                var authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                if (authCookie != null)
+                {
+                    var authTicket = FormsAuthentication.Decrypt(authCookie.Value);
+                    if (authTicket != null && !authTicket.Expired)
+                    {
+                        string[] roles = new string[] { "Profil" };
+                        var identity = new FormsIdentity(authTicket);
+          
+                        HttpContext.User = new System.Security.Principal.GenericPrincipal(identity, roles);
+                    }
+                }
+            }
 
-            // ViewBag ile Layout'a taşınacak veri
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewBag.KullaniciAdi = User.Identity.Name;
+                ViewBag.GirisYapildi = true;
+            }
+            else
+            {
+                ViewBag.KullaniciAdi = "Ziyaretçi";
+                ViewBag.GirisYapildi = false;
+            }
+
+            // Yönlendirme sadece yetki gerektiren sayfalarda yapılır
+            if (IsAuthorizationRequired(filterContext))
+            {
+                filterContext.Result = new RedirectResult("~/E/Yetkilendirme/Giris");
+                return;
+            }
+
+            // Genel kategoriler veya diğer veriler
             if (filterContext.HttpContext.Request.HttpMethod == "GET")
             {
-                //if (!AutoGirisKontrol())
-                //{
-                //
-                //    filterContext.Result = new RedirectResult("~/E/Yetkilendirme/Giris");
-                //    base.OnActionExecuting(filterContext);
-                //    return;
-                //}
-
                 var kategoriler = KategorileriGetir();
                 ViewBag.Kategoriler = kategoriler;
             }
 
             base.OnActionExecuting(filterContext);
         }
+
+        // Hangi sayfalar için yetkilendirme gerektiğini belirle
+        private bool IsAuthorizationRequired(ActionExecutingContext filterContext)
+        {
+            // Yetki gerektiren sayfalar listesi
+            var yetkiGerekenSayfalar = new[]
+            {
+                "Profil",
+                "GenelBilgiler"
+
+            };
+
+            var controller = filterContext.RouteData.Values["controller"]?.ToString();
+            var action = filterContext.RouteData.Values["action"]?.ToString();
+
+            // Yetki gerektiren bir sayfa mı?
+            return yetkiGerekenSayfalar.Contains(controller + "/" + action);
+        }
+
+
+
+
+
+
+
+        //protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        //{
+        //    // Kategoriler için veri kaynağını burada doldurun
+
+
+        //    // ViewBag ile Layout'a taşınacak veri
+        //    if (filterContext.HttpContext.Request.HttpMethod == "GET")
+        //    {
+        //        //if (!AutoGirisKontrol())
+        //        //{
+        //        //
+        //        //    filterContext.Result = new RedirectResult("~/E/Yetkilendirme/Giris");
+        //        //    base.OnActionExecuting(filterContext);
+        //        //    return;
+        //        //}
+
+        //        var kategoriler = KategorileriGetir();
+        //        ViewBag.Kategoriler = kategoriler;
+        //    }
+
+        //    base.OnActionExecuting(filterContext);
+        //}
 
         protected List<KategorilerDto> KategorileriGetir()
         {
