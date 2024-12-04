@@ -40,7 +40,7 @@ namespace YKPortal.Areas.Depo.Controllers
             {
 
                 cmd.Parameters.Clear();
-                string _srg = " SELECT ST.STOK_KODU, STOK_ADI ";
+                string _srg = " SELECT ST.STOK_KODU, STOK_ADI +'('+ ISNULL(EK.KULL1S,'') +' '+ ISNULL(EK.KULL2S,'') +' '+ ISNULL(EK.KULL3S,'')+')' as STOK_ADI ";
                 _srg += " , KULL1S, KULL2S, KULL3S ";
                 _srg += " FROM " + NetsisDatatable + "..TBLSTSABIT ST WITH (NOLOCK) ";
                 _srg += " INNER JOIN " + NetsisDatatable + "..TBLSTSABITEK EK WITH (NOLOCK) ON ST.STOK_KODU = EK.STOK_KODU ";

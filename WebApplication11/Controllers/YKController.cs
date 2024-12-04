@@ -676,7 +676,6 @@ namespace YKPortal.Controllers
             return View();
         }
 
-
         [HttpGet]
         public ActionResult FiyatGor()
         {
@@ -696,7 +695,7 @@ namespace YKPortal.Controllers
             {
                 entity.HTMLPrint = Encoding.Default.GetBytes(Convert.ToString(ds.Tables[0].Rows[0]["Aciklama"]));
                 entity.Aciklama = Convert.ToString(ds.Tables[0].Rows[0]["Aciklama"]);
-                string dosya = ""; //IDDizayn.DizaynIslemleri.DizaynKaydet(ds, ConfigurationManager.AppSettings["Klasor"]);
+                string dosya = "";// IDDizayn.DizaynIslemleri.DizaynKaydet(ds, ConfigurationManager.AppSettings["Klasor"]);
                 entity.Aciklama2 = ConfigurationManager.AppSettings["WebSiteUrl"]+"/Temp/"+dosya;
             }
             else
@@ -958,6 +957,32 @@ namespace YKPortal.Controllers
                     string _sirketIsmi,
                     string _lisansKodu)
         {
+
+
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "IDP_LisansKontrol";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@LisansKodu", _lisansKodu);
+                cmd.Parameters.AddWithValue("@SabitIP", _disIp);
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+            }
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "Insert Into IDLog (Dizin,[Version],ExeTarihi,BilgisayarAdi,LocalIP,DisIP,BaglantiCumlesi,SirketKodu,SirketIsmi,Tarih,LisansKodu) values (@Dizin,@Version,@ExeTarihi,@BilgisayarAdi,@LocalIP,@DisIP,@BaglantiCumlesi,@SirketKodu,@SirketIsmi,GETDATE(),@LisansKodu)";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@Dizin", _bulunduguDizin);
+                cmd.Parameters.AddWithValue("@Version", _modul);
+                cmd.Parameters.AddWithValue("@ExeTarihi", _dosyaOlusturmaTarihi);
+                cmd.Parameters.AddWithValue("@BilgisayarAdi", _bilgisayarAdi);
+                cmd.Parameters.AddWithValue("@LocalIP", _icIp);
+                cmd.Parameters.AddWithValue("@DisIP", _disIp);
+                cmd.Parameters.AddWithValue("@BaglantiCumlesi", _BaglantiCumlesi);
+                cmd.Parameters.AddWithValue("@SirketKodu", _sirketKodu);
+                cmd.Parameters.AddWithValue("@SirketIsmi", _sirketIsmi);
+                cmd.Parameters.AddWithValue("@LisansKodu", _lisansKodu);
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+            }
             string result =
                  _bulunduguDizin+"|"+
                  _modul + "|" +

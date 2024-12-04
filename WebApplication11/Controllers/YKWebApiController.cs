@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Renci.SshNet;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -1583,9 +1584,11 @@ Select @ID as ID
         [HttpPost]
         public PirelliSiparisResponseDto CREATEORDER([FromBody] JObject data)
         {
+            string _sira = "";
             PirelliSiparisResponseDto result1 = new PirelliSiparisResponseDto();
             try
             {
+                _sira = "0";
                 PirelliHeader Header = data["Header"].ToObject<PirelliHeader>();
                 List<PirelliItems> Items = data["Items"].ToObject<List<PirelliItems>>();
                 int sira = 1;
@@ -1594,16 +1597,20 @@ Select @ID as ID
                     item.ConfirmedQuantity = item.RequestedQuantity;
                     item.ConfirmedDeliveryDatetime = item.RequestedDeliveryDatetime;
                 }
+                _sira = "1";
                 List<PirelliNotes> Notes = data["Notes"].ToObject<List<PirelliNotes>>();
                 string aciklama1 = "";
                 if (Notes.Count >= 1)
                 {
                     aciklama1 = Notes[0].Text;
                 }
+                _sira = "2";
+
+
 
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.CommandText = "p_PirelliOrderSave";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@TrackingId", Header.TrackingId);
                 cmd.Parameters.AddWithValue("@BuyerCode", Header.BuyerCode);
                 cmd.Parameters.AddWithValue("@CariKodu", Header.Customer.Code);
@@ -1611,11 +1618,11 @@ Select @ID as ID
                 cmd.Parameters.AddWithValue("@Adres", Header.Customer.Address.Street);
                 cmd.Parameters.AddWithValue("@Ilce", Header.Customer.Address.District);
                 cmd.Parameters.AddWithValue("@Il", Header.Customer.Address.City);
-                cmd.Parameters.AddWithValue("@SiparisNumarasi", ("0000000000000" + Header.SalesOrderNumber).Substring(0, 15));
+                cmd.Parameters.AddWithValue("@SiparisNumarasi", ("0000000000000000" + Header.SalesOrderNumber).Substring(0, 15));
                 cmd.Parameters.AddWithValue("@Tarih", Convert.ToDateTime(Header.RequestedDatetime));
                 cmd.Parameters.AddWithValue("@Aciklama1", aciklama1);
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
+                _sira = "3";
                 foreach (var item in Items)
                 {
 
@@ -1633,85 +1640,137 @@ Select @ID as ID
 
                     item.ConfirmedDeliveryDatetime = DateTime.Now.ToString("yyyy-MM-dd") + "T03:00:00+03:00";
                 }
-
+                _sira = "4";
                 cmd.Parameters.Clear();
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.CommandText = "p_PirelliOrderComplate";
                 cmd.Parameters.AddWithValue("@CariKodu", Header.Customer.Code);
-                cmd.Parameters.AddWithValue("@SiparisNumarasi", ("0000000000000" + Header.SalesOrderNumber).Substring(0, 15));
+                cmd.Parameters.AddWithValue("@SiparisNumarasi", ("0000000000000000" + Header.SalesOrderNumber).Substring(0, 15));
                 DataTable dt3 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-                #region Xml
-                string xmlIcerigi = "";
-
-                xmlIcerigi += "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-                xmlIcerigi += "<ew:desadv_list xmlns:ew=\"http://www.reifen.net\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">";
-                xmlIcerigi += "  <DocumentID>B2</DocumentID>";
-                xmlIcerigi += "  <Variant>2</Variant>";
-                xmlIcerigi += "  <ErrorHead>";
-                xmlIcerigi += "    <ErrorCode>0</ErrorCode>";
-                xmlIcerigi += "  </ErrorHead>";
-                xmlIcerigi += "  <NumberOfMessages>1</NumberOfMessages>";
-                xmlIcerigi += "  <desadv>";
-                xmlIcerigi += "    <IssueDate>" + DateTime.Now.ToString("yyyy-MM-dd") + "</IssueDate>";
-                xmlIcerigi += "    <DocumentNumber>" + ("0000000000000" + Header.SalesOrderNumber).Substring(0, 15) + "</DocumentNumber>";
-                xmlIcerigi += "    <DespatchDate>" + ("0000000000000" + Header.SalesOrderNumber).Substring(0, 15) + "</DespatchDate>";
-                xmlIcerigi += "    <ArrivalDate>" + ("0000000000000" + Header.SalesOrderNumber).Substring(0, 15) + "</ArrivalDate>";
-                xmlIcerigi += "    <BuyerParty>";
-                xmlIcerigi += "      <PartyID>2400001085</PartyID>";
-                xmlIcerigi += "      <AgencyCode>92</AgencyCode>";
-                xmlIcerigi += "    </BuyerParty>";
-                xmlIcerigi += "    <Consignee>";
-                xmlIcerigi += "      <PartyID>4003220</PartyID>";
-                xmlIcerigi += "      <AgencyCode>92</AgencyCode>";
-                xmlIcerigi += "    </Consignee>";
-                foreach (var item in Items)
-                {
-                    xmlIcerigi += "    <LineLevel>";
-                    xmlIcerigi += "      <LineID>1</LineID>";
-                    xmlIcerigi += "      <References>";
-                    xmlIcerigi += "        <SuppliersOrderReference>";
-                    xmlIcerigi += "          <DocumentID>128244</DocumentID>";
-                    xmlIcerigi += "          <LineID>000010</LineID>";
-                    xmlIcerigi += "        </SuppliersOrderReference>";
-                    xmlIcerigi += "        <BuyerOrderReference>";
-                    xmlIcerigi += "          <DocumentID>8481041767</DocumentID>";
-                    xmlIcerigi += "          <LineID>000010</LineID>";
-                    xmlIcerigi += "        </BuyerOrderReference>";
-                    xmlIcerigi += "      </References>";
-                    xmlIcerigi += "      <Article>";
-                    xmlIcerigi += "        <ArticleIdentification>";
-                    xmlIcerigi += "          <BuyersArticleID>2714200</BuyersArticleID>";
-                    xmlIcerigi += "        </ArticleIdentification>";
-                    xmlIcerigi += "        <ArticleDescription>";
-                    xmlIcerigi += "          <ArticleDescriptionText>DENEMEDİR</ArticleDescriptionText>";
-                    xmlIcerigi += "        </ArticleDescription>";
-                    xmlIcerigi += "        <DespatchedQuantity>";
-                    xmlIcerigi += "          <QuantityValue>"+item.RequestedQuantity.ToString()+"</QuantityValue>";
-                    xmlIcerigi += "          <MeasureUnitCode>PCE</MeasureUnitCode>";
-                    xmlIcerigi += "        </DespatchedQuantity>";
-                    xmlIcerigi += "      </Article>";
-                    xmlIcerigi += "    </LineLevel>";
-                }
-                xmlIcerigi += "  </desadv>";
-                xmlIcerigi += "</ew:desadv_list>";
-
-
-
-                #endregion
-
-
-                Header.SalesOrderNumber = ("0000000000000" + Header.SalesOrderNumber).Substring(0, 15);
+                _sira = "5";
+                Header.SalesOrderNumber = ("0000000000000000" + Header.SalesOrderNumber).Substring(0, 15);
                 Header.RequestedDatetime = DateTime.Now.ToString("yyyy-MM-dd") + "T03:00:00+03:00";
                 result1.Header = Header;
                 result1.Items = Items;
                 //result1.Notes = Notes;
+                _sira = "6";
+
+
+                #region Xml
+                if (true)
+                {
+                    string dosyaadi = Guid.NewGuid().ToString() + ".xml";
+                    FileInfo info = new FileInfo(ConfigurationManager.AppSettings["Klasor"] + dosyaadi);
+                    _sira = "7";
+                    if (!info.Exists)
+                    {
+                        _sira = "7.1";
+                        using (StreamWriter writer = info.CreateText())
+                        {
+                            writer.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+                            writer.WriteLine("<ew:desadv_list xmlns:ew=\"http://www.reifen.net\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">");
+                            writer.WriteLine("  <DocumentID>B2</DocumentID>");
+                            writer.WriteLine("  <Variant>2</Variant>");
+                            writer.WriteLine("  <ErrorHead>");
+                            writer.WriteLine("    <ErrorCode>0</ErrorCode>");
+                            writer.WriteLine("  </ErrorHead>");
+                            writer.WriteLine("  <NumberOfMessages>1</NumberOfMessages>");
+                            writer.WriteLine("  <desadv>");
+                            _sira = "7.4";
+                            writer.WriteLine("    <IssueDate>" + DateTime.Now.ToString("yyyy-MM-dd") + "</IssueDate>");
+                            _sira = "7.4.1";
+                            writer.WriteLine("    <DocumentNumber>" + ("0000000000000000" + Header.SalesOrderNumber).Substring(0, 15) + "</DocumentNumber>");
+                            writer.WriteLine("    <DespatchDate>" + ("0000000000000000" + Header.SalesOrderNumber).Substring(0, 15) + "</DespatchDate>");
+                            writer.WriteLine("    <ArrivalDate>" + ("0000000000000000" + Header.SalesOrderNumber).Substring(0, 15) + "</ArrivalDate>");
+                            writer.WriteLine("    <BuyerParty>");
+                            writer.WriteLine("      <PartyID>2400001085</PartyID>");
+                            writer.WriteLine("      <AgencyCode>92</AgencyCode>");
+                            writer.WriteLine("    </BuyerParty>");
+                            writer.WriteLine("    <Consignee>");
+                            writer.WriteLine("      <PartyID>4003220</PartyID>");
+                            writer.WriteLine("      <AgencyCode>92</AgencyCode>");
+                            writer.WriteLine("    </Consignee>");
+                            _sira = "7.5";
+                            foreach (var item in Items)
+                            {
+                                writer.WriteLine("    <LineLevel>");
+                                writer.WriteLine("      <LineID>1</LineID>");
+                                writer.WriteLine("      <References>");
+                                writer.WriteLine("        <SuppliersOrderReference>");
+                                writer.WriteLine("          <DocumentID>128244</DocumentID>");
+                                writer.WriteLine("          <LineID>000010</LineID>");
+                                writer.WriteLine("        </SuppliersOrderReference>");
+                                writer.WriteLine("        <BuyerOrderReference>");
+                                writer.WriteLine("          <DocumentID>8481041767</DocumentID>");
+                                writer.WriteLine("          <LineID>000010</LineID>");
+                                writer.WriteLine("        </BuyerOrderReference>");
+                                writer.WriteLine("      </References>");
+                                writer.WriteLine("      <Article>");
+                                writer.WriteLine("        <ArticleIdentification>");
+                                writer.WriteLine("          <BuyersArticleID>2714200</BuyersArticleID>");
+                                writer.WriteLine("        </ArticleIdentification>");
+                                writer.WriteLine("        <ArticleDescription>");
+                                writer.WriteLine("          <ArticleDescriptionText>DENEMEDİR</ArticleDescriptionText>");
+                                writer.WriteLine("        </ArticleDescription>");
+                                writer.WriteLine("        <DespatchedQuantity>");
+                                _sira = "7.4";
+                                writer.WriteLine("          <QuantityValue>" + item.RequestedQuantity.ToString() + "</QuantityValue>");
+                                _sira = "7.5";
+                                writer.WriteLine("          <MeasureUnitCode>PCE</MeasureUnitCode>");
+                                writer.WriteLine("        </DespatchedQuantity>");
+                                writer.WriteLine("      </Article>");
+                                writer.WriteLine("    </LineLevel>");
+                            }
+                            _sira = "7.6";
+                            writer.WriteLine("  </desadv>");
+                            writer.WriteLine("</ew:desadv_list>");
+                            _sira = "7.7";
+
+                        }
+                    }
+                    _sira = "8";
+                    if (true) //sftp
+                    {
+                        _sira = "9";
+                        var client = new SftpClient("mfttest.pirelli.com", 22, "Sertglobal_test", "mA8CD5eZ5mth"); // You can aslo use a private key file
+                        _sira = "10";
+                        var fileStream = new FileStream(ConfigurationManager.AppSettings["Klasor"] + dosyaadi, FileMode.Open);
+                        _sira = "10.1";
+                        client.Connect();
+                        _sira = "10.2";
+                        client.UploadFile(fileStream, "/" + dosyaadi);
+                        _sira = "11";
+                        //client.DownloadFile("/documents/document2.docx", stream);
+                        _sira = "12";
+                        //client.Delete("/documents/document1.docx");
+                        _sira = "13";
+                        client.Disconnect();
+                        _sira = "14";
+                        client.Dispose();
+                        _sira = "15";
+                    }
+                    else
+                    {
+                        WebClient client = new WebClient();
+                        _sira = "9";
+                        client.Credentials = new NetworkCredential("Sertglobal_test", "mA8CD5eZ5mth");
+                        _sira = "10";
+                        var url = "ftp://mfttest.pirelli.com/" + dosyaadi;
+                        _sira = "11 ";
+                        client.UploadFile(url, ConfigurationManager.AppSettings["Klasor"] + dosyaadi);
+                        _sira = "12";
+                    }
+
+                }
+                #endregion
 
                 return result1;
             }
             catch (Exception err)
             {
-                //result1.Aciklama = err.Message;
+                result1.Notes = new List<PirelliNotes>();
+                result1.Notes.Add(new PirelliNotes() { Text = _sira+" - "+err.Message });
             }
             finally
             {
