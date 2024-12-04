@@ -604,8 +604,6 @@
     <Content Include="Areas\E\Views\YasalBilgiler\Gizlilik.cshtml" />
     <Content Include="Areas\E\Views\Bilgiler\GenelBilgiler.cshtml" />
     <Content Include="Areas\E\Views\Kullanici\Profil.cshtml" />
-    <Content Include="Areas\E\Views\Shared\_KategorilerPartial.cshtml" />
-    <Content Include="Areas\E\Views\Shared\_KategorilerPatrial2.cshtml" />
     <Content Include="Areas\E\Views\Yetkilendirme\Giris.cshtml" />
     <Content Include="Areas\E\Views\Yetkilendirme\UyeOl.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />

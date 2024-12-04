@@ -19,6 +19,7 @@ namespace YKPortal.Models.Dto
         public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; } }
         public string Kod { get { return _Kod ?? ""; } set { _Kod = value; } }
         public string Deger { get { return _Deger ?? ""; } set { _Deger = value; } }
+        public DateTime OlusturmaTarihi { get; set; }
         public bool Aktif { get { return _Aktif == null ? false : _Aktif; } set { _Aktif = value; } }
 
         public override string ToString()

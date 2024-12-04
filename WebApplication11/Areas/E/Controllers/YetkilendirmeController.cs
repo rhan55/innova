@@ -12,6 +12,9 @@ using System.IO;
 using System.Net;
 using System.Text;
 using Org.BouncyCastle.Asn1.Cms;
+using YKEFaturaEntegrasyon.EFaturaEDM;
+using System.Web.Security;
+using System.Text.Json;
 
 namespace YKPortal.Areas.E.Controllers
 {
@@ -21,6 +24,10 @@ namespace YKPortal.Areas.E.Controllers
         [HttpGet]
         public ActionResult UyeOl()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Redirect("~/E/Site/AnaSayfa");
+            }
             IlListesiniOlustur();
             UlkeListesiniOlustur();
             return View();
@@ -29,6 +36,11 @@ namespace YKPortal.Areas.E.Controllers
         [HttpPost]
         public ActionResult UyeOl(CariDto cariDto)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Redirect("~/E/Site/AnaSayfa");
+            }
+
             IlListesiniOlustur();
             UlkeListesiniOlustur();
             // 1. TCKimlikNoVergiNo Validasyonu
@@ -57,7 +69,7 @@ namespace YKPortal.Areas.E.Controllers
                 CommandText = "p_CariKaydet",
                 CommandType = CommandType.StoredProcedure
             };
-            cmd.Parameters.AddWithValue("@UyelikID", System.Configuration.ConfigurationManager.AppSettings["UyelikID"]);
+            cmd.Parameters.AddWithValue("@UyelikID", UyelikIDGetir());
             cmd.Parameters.AddWithValue("@ID", "");
             cmd.Parameters.AddWithValue("@KullaniciID", "");
             cmd.Parameters.AddWithValue("@Aktif", cariDto.Aktif);
@@ -141,7 +153,7 @@ namespace YKPortal.Areas.E.Controllers
         [HttpGet]
         public ActionResult Giris()
         {
-            if (AutoGirisKontrol())
+            if (User.Identity.IsAuthenticated)
             {
                 return Redirect("~/E/Site/AnaSayfa");
             }
@@ -159,6 +171,11 @@ namespace YKPortal.Areas.E.Controllers
         [HttpPost]
         public ActionResult Giris(string txtKullaniciAdi, string txtParola)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Redirect("~/E/Site/AnaSayfa");
+            }
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_ETicaret_KullaniciGirisi";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -173,13 +190,26 @@ namespace YKPortal.Areas.E.Controllers
                 if (!Bilgi.StartsWith("UYARI!"))
                 {
                     #region Cookie İşlemleri
-                    CreateCookie("UyelikID", Convert.ToString(dt.Rows[0]["UyelikID"]));
-                    CreateCookie("KullaniciID", Convert.ToString(dt.Rows[0]["ID"]));
-                    CreateCookie("KullaniciAdi", Convert.ToString(dt.Rows[0]["KullaniciAdi"]));
-                    CreateCookie("Parola", Convert.ToString(dt.Rows[0]["Parola"]));
-                    CreateCookie("Isim", Convert.ToString(dt.Rows[0]["Isim"]));
-                    CreateCookie("Unvan", Convert.ToString(dt.Rows[0]["Unvan"]));
+                    var kullanici = new KullaniciEkleDto
+                    {
+                        UyelikID = Convert.ToString(dt.Rows[0]["UyelikID"]),
+                        ID = Convert.ToString(dt.Rows[0]["ID"]),
+                        KullaniciAdi = Convert.ToString(dt.Rows[0]["KullaniciAdi"]),
+                        Isim = Convert.ToString(dt.Rows[0]["Isim"]),
+                        Unvan = Convert.ToString(dt.Rows[0]["Unvan"])
+                    };
                     #endregion
+
+                    var authTicket = new FormsAuthenticationTicket(1, txtKullaniciAdi, DateTime.Now, DateTime.Now.AddDays(1), false, JsonSerializer.Serialize(kullanici));
+
+                    var encryptedTicket = FormsAuthentication.Encrypt(authTicket);
+
+                    var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket)
+                    {
+                        HttpOnly = true,
+                        Expires = authTicket.Expiration
+                    };
+                    Response.Cookies.Add(authCookie);
 
                     return Redirect("~/E/Site/AnaSayfa");
                 }
@@ -191,14 +221,9 @@ namespace YKPortal.Areas.E.Controllers
         [HttpPost]
         public ActionResult Cikis()
         {
-            if (AutoGirisKontrol())
+            if (User.Identity.IsAuthenticated)
             {
-                DeleteCookie("UyelikID");
-                DeleteCookie("KullaniciID");
-                DeleteCookie("KullaniciAdi");
-                DeleteCookie("Parola");
-                DeleteCookie("Isim");
-                DeleteCookie("Unvan");
+                FormsAuthentication.SignOut();
             }
 
             return Redirect("~/E/Yetkilendirme/Giris");
