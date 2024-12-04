@@ -13,11 +13,14 @@ using System.Text;
 using YKPortal.Models.Dto;
 using System.Security.Principal;
 using System.Web.Security;
+using System.Text.Json;
 
 namespace YKPortal.Areas.E.Controllers
 {
     public abstract class BaseController : Controller
     {
+        public KullaniciEkleDto Kullanici { get; set; } = new KullaniciEkleDto();
+
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             if (HttpContext.User == null || !HttpContext.User.Identity.IsAuthenticated)
@@ -30,7 +33,11 @@ namespace YKPortal.Areas.E.Controllers
                     {
                         string[] roles = new string[] { "Profil" };
                         var identity = new FormsIdentity(authTicket);
-          
+
+                        var kullanici = JsonSerializer.Deserialize<KullaniciEkleDto>(authTicket.UserData);
+
+                        Kullanici = kullanici;
+
                         HttpContext.User = new System.Security.Principal.GenericPrincipal(identity, roles);
                     }
                 }
@@ -82,34 +89,6 @@ namespace YKPortal.Areas.E.Controllers
             return yetkiGerekenSayfalar.Contains(controller + "/" + action);
         }
 
-
-
-
-
-
-
-        //protected override void OnActionExecuting(ActionExecutingContext filterContext)
-        //{
-        //    // Kategoriler için veri kaynağını burada doldurun
-
-
-        //    // ViewBag ile Layout'a taşınacak veri
-        //    if (filterContext.HttpContext.Request.HttpMethod == "GET")
-        //    {
-        //        //if (!AutoGirisKontrol())
-        //        //{
-        //        //
-        //        //    filterContext.Result = new RedirectResult("~/E/Yetkilendirme/Giris");
-        //        //    base.OnActionExecuting(filterContext);
-        //        //    return;
-        //        //}
-
-        //        var kategoriler = KategorileriGetir();
-        //        ViewBag.Kategoriler = kategoriler;
-        //    }
-
-        //    base.OnActionExecuting(filterContext);
-        //}
 
         protected List<KategorilerDto> KategorileriGetir()
         {
@@ -300,6 +279,12 @@ namespace YKPortal.Areas.E.Controllers
             }
 
             return GirisKontrol;
+        }
+
+        protected string UyelikIDGetir()
+        {
+            var uyelikID = System.Configuration.ConfigurationManager.AppSettings["UyelikID"];
+            return System.Configuration.ConfigurationManager.AppSettings["UyelikID"];
         }
 
     }

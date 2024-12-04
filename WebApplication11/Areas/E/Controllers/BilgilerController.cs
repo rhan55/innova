@@ -17,82 +17,89 @@ namespace YKPortal.Areas.E.Controllers
     {
         public ActionResult GenelBilgiler()
         {
-            var cmd = new SqlCommand("p_GrupKoduListesi");
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@UyelikID", System.Configuration.ConfigurationManager.AppSettings["UyelikID"]);
+            var ETicaretTelefon = GrupKodListesiniGetir("ETicaretTelefon");
+            var ETicaretEmail = GrupKodListesiniGetir("ETicaretEmail");
+            var ETicaretLogo = GrupKodListesiniGetir("ETicaretLogo");
+            var ETicaretFirmaAdi = GrupKodListesiniGetir("ETicaretFirmaAdi");
 
-            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            ViewBag.ETicaretTelefon = ETicaretTelefon;
+            ViewBag.ETicaretEmail = ETicaretEmail;
+            ViewBag.ETicaretLogo = ETicaretLogo;
+            ViewBag.ETicaretFirmaAdi = ETicaretFirmaAdi;
 
-            // Veriyi modele dönüştür:
-            var bilgiler = dt.AsEnumerable().Select(row => new GrupKoduDto
+            return View();
+        }
+        [HttpPost]
+        public JsonResult Kaydet(List<GrupKoduDto> grupKodlari)
+        {
+            try
             {
-                ID = Convert.ToString(row["ID"]),
-                UyelikID = System.Configuration.ConfigurationManager.AppSettings["UyelikID"],
-                Kod = row["Kod"].ToString(),
-                Deger = row["Deger"].ToString(),
-                Aktif = Convert.ToBoolean(row["Aktif"])
-            }).ToList();
+                foreach (var grupKoduDto in grupKodlari)
+                {
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandText = "p_GrupKoduKaydet";
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-            return View(bilgiler);
+                    if (!string.IsNullOrEmpty(grupKoduDto.ID))
+                    {
+                        cmd.Parameters.AddWithValue("@ID", grupKoduDto.ID); // ID dolu ise düzenleme
+                    }
+                    else
+                    {
+                        cmd.Parameters.AddWithValue("@ID", ""); // ID yoksa yeni kayıt
+                    }
+     
+                    cmd.Parameters.AddWithValue("@KullaniciID", Kullanici.ID);
+                    cmd.Parameters.AddWithValue("@Kod", grupKoduDto.Kod);
+                    cmd.Parameters.AddWithValue("@Deger", grupKoduDto.Deger);
+
+
+                    DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                }
+
+                return Json(new
+                {
+                    success = true,
+                    message = "Grup kodları başarıyla kaydedildi.",
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = $"Bir hata oluştu: {ex.Message}"
+                });
+            }
         }
 
-        [HttpPost]
-        public ActionResult Kaydet(FormCollection form)
+
+        private List<GrupKoduDto> GrupKodListesiniGetir(string kodAdi)
         {
-            int uyelikID = int.Parse(GetCookie("UyelikID"));
+            // GrupKodu1 Listesi oluşturma 
+            SqlCommand grupKodCommand = new SqlCommand();
+            grupKodCommand.CommandText = "p_GrupKoduListesi";
+            grupKodCommand.CommandType = System.Data.CommandType.StoredProcedure;
 
-            var bilgiler = new Dictionary<string, string>
+            grupKodCommand.Parameters.AddWithValue("@Kod", kodAdi);
+            grupKodCommand.Parameters.AddWithValue("@AranacakKelime", "");
+
+
+            DataTable grupKoduTable = (DataTable)IDVeritabani.Sorgula(grupKodCommand, SorgulaTuru.Tablo);
+
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
+
+            for (int i = 0; i < grupKoduTable.Rows.Count; i++)
             {
-                { "ETicaretTelefon", form["ETicaretTelefon"] },
-                { "ETicaretEmail", form["ETicaretEmail"] },
-                { "ETicaretLogo", form["ETicaretLogo"] },
-                { "ETicaretFirmaAdi", form["ETicaretFirmaAdi"] }
-            };
-
-            foreach (var bilgi in bilgiler)
-            {
-                var cmd = new SqlCommand("p_GrupKoduEkleVeyaGuncelle");
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@UyelikID", uyelikID);
-                cmd.Parameters.AddWithValue("@GrupKodu", bilgi.Key);
-                cmd.Parameters.AddWithValue("@Deger", bilgi.Value);
-
-                IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(grupKoduTable.Rows[i]["ID"]);
+                entity.Kod = Convert.ToString(grupKoduTable.Rows[i]["Kod"]);
+                entity.Deger = Convert.ToString(grupKoduTable.Rows[i]["Deger"]);
+                entity.Aktif = Convert.ToBoolean(grupKoduTable.Rows[i]["Aktif"]);
+                entities.Add(entity);
             }
 
-            return RedirectToAction("GenelBilgiler");
-        }
-
-
-        [HttpPost]
-        public ActionResult GenelBilgiler(GrupKoduDto grupKoduDto)
-        {
-            if (!AutoGirisKontrol())
-                return Redirect("E/Yetkilendirme/Giris");
-
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "p_GrupKoduKaydet";
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
-            // Eğer ID varsa düzenleme, yoksa ekleme
-            if (!string.IsNullOrEmpty(grupKoduDto.ID))
-            {
-                cmd.Parameters.AddWithValue("@ID", grupKoduDto.ID); // ID dolu ise düzenleme
-            }
-            else
-            {
-                cmd.Parameters.AddWithValue("@ID", DBNull.Value); // ID yoksa yeni kayıt
-            }
-
-            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-            cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
-            cmd.Parameters.AddWithValue("@Kod", grupKoduDto.Kod);
-            cmd.Parameters.AddWithValue("@Aktif", grupKoduDto.Aktif);
-            cmd.Parameters.AddWithValue("@Deger", grupKoduDto.Deger);
-
-            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
-            return RedirectToAction("GrupKodu", new { grupKodu = grupKoduDto.Kod });
+            return entities;
         }
     }
 }

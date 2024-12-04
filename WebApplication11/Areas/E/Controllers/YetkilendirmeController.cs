@@ -69,7 +69,7 @@ namespace YKPortal.Areas.E.Controllers
                 CommandText = "p_CariKaydet",
                 CommandType = CommandType.StoredProcedure
             };
-            cmd.Parameters.AddWithValue("@UyelikID", System.Configuration.ConfigurationManager.AppSettings["UyelikID"]);
+            cmd.Parameters.AddWithValue("@UyelikID", UyelikIDGetir());
             cmd.Parameters.AddWithValue("@ID", "");
             cmd.Parameters.AddWithValue("@KullaniciID", "");
             cmd.Parameters.AddWithValue("@Aktif", cariDto.Aktif);
@@ -221,7 +221,7 @@ namespace YKPortal.Areas.E.Controllers
         [HttpPost]
         public ActionResult Cikis()
         {
-            if (AutoGirisKontrol())
+            if (User.Identity.IsAuthenticated)
             {
                 FormsAuthentication.SignOut();
             }
