@@ -99,8 +99,8 @@ namespace YKPortal.Areas.E.Controllers
                 CommandText = "p_ETicaret_Kategoriler",
                 CommandType = CommandType.StoredProcedure
             };
-            cmd.Parameters.AddWithValue("@UyelikID", System.Configuration.ConfigurationManager.AppSettings["UyelikID"]);
-            cmd.Parameters.AddWithValue("@CariId", GetCookie("KullaniciID"));
+            cmd.Parameters.AddWithValue("@UyelikID", UyelikIDGetir());
+            cmd.Parameters.AddWithValue("@CariId", Kullanici.ID);
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 

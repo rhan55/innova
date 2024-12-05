@@ -256,6 +256,7 @@
     <Compile Include="Areas\E\Controllers\KullaniciController.cs" />
     <Compile Include="Areas\E\Controllers\HakkimizdaController.cs" />
     <Compile Include="Areas\E\Controllers\SepetController.cs" />
+    <Compile Include="Areas\E\Controllers\StokController.cs" />
     <Compile Include="Areas\E\Controllers\YasalBilgilerController.cs" />
     <Compile Include="Areas\E\Controllers\YetkilendirmeController.cs" />
     <Compile Include="Areas\E\EAreaRegistration.cs" />
@@ -606,6 +607,8 @@
     <Content Include="Areas\E\Views\Kullanici\Profil.cshtml" />
     <Content Include="Areas\E\Views\Yetkilendirme\Giris.cshtml" />
     <Content Include="Areas\E\Views\Yetkilendirme\UyeOl.cshtml" />
+    <Content Include="Areas\E\Views\Kategori\Kategoriler.cshtml" />
+    <Content Include="Areas\E\Views\Stok\Stoklar.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -6605,7 +6608,6 @@
     <Folder Include="Areas\Entegrasyon\Views\Shared\" />
     <Folder Include="Areas\E\Data\" />
     <Folder Include="Areas\E\Views\Base\" />
-    <Folder Include="Areas\E\Views\Kategori\" />
     <Folder Include="Areas\E\Views\NewFolder1\" />
     <Folder Include="Areas\Personel\Controllers\" />
     <Folder Include="Areas\Personel\Views\Puantaj\" />

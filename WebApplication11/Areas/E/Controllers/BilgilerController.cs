@@ -52,6 +52,7 @@ namespace YKPortal.Areas.E.Controllers
                     cmd.Parameters.AddWithValue("@KullaniciID", Kullanici.ID);
                     cmd.Parameters.AddWithValue("@Kod", grupKoduDto.Kod);
                     cmd.Parameters.AddWithValue("@Deger", grupKoduDto.Deger);
+                    cmd.Parameters.AddWithValue("@UyelikID", UyelikIDGetir());
 
 
                     DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
@@ -82,6 +83,8 @@ namespace YKPortal.Areas.E.Controllers
             grupKodCommand.CommandType = System.Data.CommandType.StoredProcedure;
 
             grupKodCommand.Parameters.AddWithValue("@Kod", kodAdi);
+            grupKodCommand.Parameters.AddWithValue("@UyelikID", UyelikIDGetir());
+
             grupKodCommand.Parameters.AddWithValue("@AranacakKelime", "");
 
 

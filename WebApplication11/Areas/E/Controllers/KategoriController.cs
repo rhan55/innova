@@ -19,5 +19,6 @@ namespace YKPortal.Areas.E.Controllers
         {
             return View(KategorileriGetir());
         }
+
     }
 }

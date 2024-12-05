@@ -13,7 +13,7 @@ namespace YKPortal.Models
 
         public static object Sorgula(SqlCommand cmd, SorgulaTuru tur)
         {
-            SqlConnection Baglanti = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString);
+            SqlConnection Baglanti = new SqlConnection(ConfigurationManager.ConnectionStrings["BaglantiYK"].ConnectionString);
             try
             {
                 Baglanti.Open();

@@ -79,13 +79,12 @@
                                     <li><a href="blog.html">Blog</a></li>
                                     <li><a href="wishlist.html">My Wishlist</a></li>
                                     <li><a href="cart.html">Cart</a></li>
-                                    <li><a href="@Url.Action("Giris","Yetkilendirme",new { Area = "E" })" class="login-link">Log In</a></li>
-
+                                
                                     @if (ViewBag.GirisYapildi)
                                     {
                                         <li>
                                             <form action="/E/Yetkilendirme/Cikis" method="POST">
-                                                <button type="submit" class="btn btn-link text-muted">Çıkış Yap</button>
+                                                <button type="submit" class="btn btn-link text-muted" style="font-size:12px; font-weight:500;">Çıkış Yap</button>
                                             </form>
                                             <span>Hoş geldiniz, @ViewBag.KullaniciAdi!</span>
                                         </li>
@@ -97,7 +96,7 @@
                                             <a href="/E/Yetkilendirme/Giris">Giriş Yap</a>
                                         </li>
                                         <li>
-                                            <a href="/E/Yetkilendirme/KayitOl">Üye Ol</a>
+                                            <a href="/E/Yetkilendirme/UyeOl">Üye Ol</a>
                                         </li>
 
                                     }
@@ -343,20 +342,32 @@
                                                 foreach (var kategori in kategoriler)
                                                 {
                                                     <div class="col-lg-4">
-                                                        <a href="#" class="nolink">@kategori.Kategori1</a>
                                                         <ul class="submenu">
+                                                            @if (!string.IsNullOrEmpty(kategori.Kategori1))
+                                                            {
+                                                                <li><a href="/kategori/@kategori.Kategori1">@kategori.Kategori1</a></li>
+                                                            }
                                                             @if (!string.IsNullOrEmpty(kategori.Kategori2))
                                                             {
-                                                                <li><a href="#">@kategori.Kategori2</a></li>
+                                                                <li><a href="/kategori/@kategori.Kategori2">@kategori.Kategori2</a></li>
                                                             }
                                                             @if (!string.IsNullOrEmpty(kategori.Kategori3))
                                                             {
-                                                                <li><a href="#">@kategori.Kategori3</a></li>
+                                                                <li><a href="/kategori/@kategori.Kategori3">@kategori.Kategori3</a></li>
                                                             }
                                                             @if (!string.IsNullOrEmpty(kategori.Kategori4))
                                                             {
-                                                                <li><a href="#">@kategori.Kategori4</a></li>
+                                                                <li><a href="/kategori/@kategori.Kategori4">@kategori.Kategori4</a></li>
                                                             }
+                                                            @if (!string.IsNullOrEmpty(kategori.Kategori5))
+                                                            {
+                                                                <li><a href="/kategori/@kategori.Kategori5">@kategori.Kategori5</a></li>
+                                                            }
+                                                            @if (!string.IsNullOrEmpty(kategori.Kategori6))
+                                                            {
+                                                                <li><a href="/kategori/@kategori.Kategori6">@kategori.Kategori6</a></li>
+                                                            }
+
                                                         </ul>
                                                     </div>
                                                 }
