@@ -172,10 +172,7 @@
                                     <div class="select-custom">
                                         @if (ViewBag.Kategoriler != null && ViewBag.Kategoriler.Count > 0)
                                         {
-                                            <select id="cat" name="cat" class="form-control">
-                                                <option value="">All Categories</option>
-                                                <option value="">All Categories</option>
-                                                <option value="">All Categories</option>
+                                            <select id="cat" name="cat">
                                                 <option value="">All Categories</option>
                                                 @foreach (var kategori in ViewBag.Kategoriler)
                                                 {

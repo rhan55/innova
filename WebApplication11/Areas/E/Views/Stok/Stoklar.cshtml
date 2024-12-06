@@ -39,7 +39,7 @@
         <div class="row">
             <div class="col-lg-9 main-content">
                 <nav class="toolbox sticky-header" data-sticky-options="{'mobile': true}">
-                    <div class="toolbox-left">
+                    <!--<div class="toolbox-left">
                         <a href="#" class="sidebar-toggle">
                             <svg data-name="Layer 3" id="Layer_3" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
                                 <line x1="15" x2="26" y1="9" y2="9" class="cls-1"></line>
@@ -70,13 +70,13 @@
                                     <option value="price">Sort by price: low to high</option>
                                     <option value="price-desc">Sort by price: high to low</option>
                                 </select>
-                            </div>
+                            </div>-->
                             <!-- End .select-custom -->
 
 
-                        </div>
+                        <!--</div>-->
                         <!-- End .toolbox-item -->
-                    </div>
+                    <!--</div>-->
                     <!-- End .toolbox-left -->
 
                     <div class="toolbox-right">
@@ -109,64 +109,67 @@
 
                 <div class="row">
                     <div class="col-6 col-sm-4">
-                        <div class="product-default">
-                            <figure>
-                                <a href="product.html">
-                                    <img src="~/Tema/ETicaret/images/products/product-1.jpg" width="280" height="280" alt="product" />
-                                    <img src="~/Tema/ETicaret/images/products/product-1-2.jpg" width="280" height="280" alt="product" />
-                                </a>
-
-                                <div class="label-group">
-                                    <div class="product-label label-hot">HOT</div>
-                                    <div class="product-label label-sale">-20%</div>
-                                </div>
-                            </figure>
-
-                            <div class="product-details">
-                                <div class="category-wrap">
-                                    <div class="category-list">
-                                        <a href="category.html" class="product-category">category</a>
-                                    </div>
-                                </div>
-
-                                <h3 class="product-title">
+                        @foreach (YKEFaturaEntegrasyon.Dto.ETicaretStokDto.ETicaretStokSonucDto stokSonucDto in ViewBag.Stoklar)
+                        {
+                            <div class="product-default">
+                                <figure>
                                     <a href="product.html">
-                                        Ultimate 3D Bluetooth
-                                        Speaker
+                                        <img src="~/Tema/ETicaret/images/products/product-1.jpg" width="280" height="280" alt="product" />
+                                        <img src="~/Tema/ETicaret/images/products/product-1-2.jpg" width="280" height="280" alt="product" />
                                     </a>
-                                </h3>
 
-                                <div class="ratings-container">
-                                    <div class="product-ratings">
-                                        <span class="ratings" style="width:100%"></span>
-                                        <!-- End .ratings -->
-                                        <span class="tooltiptext tooltip-top"></span>
+                                    <div class="label-group">
+                                        <div class="product-label label-hot">HOT</div>
+                                        <div class="product-label label-sale">-20%</div>
                                     </div>
-                                    <!-- End .product-ratings -->
-                                </div>
-                                <!-- End .product-container -->
+                                </figure>
 
-                                <div class="price-box">
-                                    <span class="old-price">$90.00</span>
-                                    <span class="product-price">$70.00</span>
-                                </div>
-                                <!-- End .price-box -->
+                                <div class="product-details">
+                                    <div class="category-wrap">
+                                        <div class="category-list">
+                                            <a href="category.html" class="product-category">category</a>
+                                        </div>
+                                    </div>
 
-                                <div class="product-action">
-                                    <a href="wishlist.html" class="btn-icon-wish" title="wishlist">
-                                        <i class="icon-heart"></i>
-                                    </a>
-                                    <a href="product.html" class="btn-icon btn-add-cart">
-                                        <i class="fa fa-arrow-right"></i><span>
-                                            SELECT
-                                            OPTIONS
-                                        </span>
-                                    </a>
-                                    <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a>
+                                    <h3 class="product-title">
+                                        <a href="product.html">
+                                            @stokSonucDto.Isim
+                                        </a>
+                                    </h3>
+
+                                    <div class="ratings-container">
+                                        <div class="product-ratings">
+                                            <span class="ratings" style="width:100%"></span>
+                                            <!-- End .ratings -->
+                                            <span class="tooltiptext tooltip-top"></span>
+                                        </div>
+                                        <!-- End .product-ratings -->
+                                    </div>
+                                    <!-- End .product-container -->
+
+                                    <div class="price-box">
+                                        <span class="old-price">$90.00</span>
+                                        <span class="product-price">$70.00</span>
+                                    </div>
+                                    <!-- End .price-box -->
+
+                                    <div class="product-action">
+                                        <a href="wishlist.html" class="btn-icon-wish" title="wishlist">
+                                            <i class="icon-heart"></i>
+                                        </a>
+                                        <a href="product.html" class="btn-icon btn-add-cart">
+                                            <i class="fa fa-arrow-right"></i><span>
+                                                SELECT
+                                                OPTIONS
+                                            </span>
+                                        </a>
+                                        <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a>
+                                    </div>
                                 </div>
+                                <!-- End .product-details -->
                             </div>
-                            <!-- End .product-details -->
-                        </div>
+                        }
+
                     </div>
                     <!-- End .col-sm-4 -->
 
