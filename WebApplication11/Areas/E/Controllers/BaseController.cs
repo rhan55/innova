@@ -14,6 +14,7 @@ using YKPortal.Models.Dto;
 using System.Security.Principal;
 using System.Web.Security;
 using System.Text.Json;
+using YKEFaturaEntegrasyon.Dto;
 
 namespace YKPortal.Areas.E.Controllers
 {
@@ -119,6 +120,55 @@ namespace YKPortal.Areas.E.Controllers
             }
 
             return kategoriler;
+        }
+
+        protected List<ETicaretStokDto.ETicaretStokSonucDto> StokGetir(ETicaretStokDto.ETicaretStokSorguDto stokSorguDto)
+        {
+            SqlCommand cmd = new SqlCommand
+            {
+                CommandText = "p_ETicaret_Stoklar",
+                CommandType = CommandType.StoredProcedure
+            };
+            cmd.Parameters.AddWithValue("@UyelikID", UyelikIDGetir());
+            cmd.Parameters.AddWithValue("@CariId", Kullanici.ID);
+            cmd.Parameters.AddWithValue("@Kategori1", stokSorguDto.Kategori1);
+            cmd.Parameters.AddWithValue("@Kategori2", stokSorguDto.Kategori2);
+            cmd.Parameters.AddWithValue("@Kategori3", stokSorguDto.Kategori3);
+            cmd.Parameters.AddWithValue("@Kategori4", stokSorguDto.Kategori4);
+            cmd.Parameters.AddWithValue("@Kategori5", stokSorguDto.Kategori5);
+            cmd.Parameters.AddWithValue("@Kategori6", stokSorguDto.Kategori6);
+            cmd.Parameters.AddWithValue("@AranacakKelime", stokSorguDto.AranacakKelime);
+            cmd.Parameters.AddWithValue("@Sayfa", stokSorguDto.Sayfa);
+
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var stoklar = new List<ETicaretStokDto.ETicaretStokSonucDto>();
+            foreach (DataRow row in dt.Rows)
+            {
+                stoklar.Add(new ETicaretStokDto.ETicaretStokSonucDto
+                {
+                    StokID = row["StokID"].ToString(),
+                    UyelikID = row["UyelikID"].ToString(),
+                    Kod = row["Kod"].ToString(),
+                    Isim = row["Isim"].ToString(),
+                    Aciklama = row["Aciklama"].ToString(),
+                    Barkod = row["Barkod"].ToString(),
+                    OlcuBirimi = row["OlcuBirimi"].ToString(),
+                    KdvSatis = row["KdvSatis"].ToString(),
+                    IskontoSatis1 = row["IskontoSatis1"].ToString(),
+                    Marka = row["Marka"].ToString(),
+                    Model = row["Model"].ToString(),
+                    Renk = row["Renk"].ToString(),
+                    Beden = row["Beden"].ToString(),
+                    Kaliye = row["Kaliye"].ToString(),
+                    UreticiFirma = row["UreticiFirma"].ToString(),
+                    Fiyat = row["Fiyat"].ToString(),
+                    Resim1 = row["Resim1"].ToString()
+                });
+            }
+
+            return stoklar;
         }
 
         #region Cookie İşlemleri

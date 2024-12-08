@@ -11,8 +11,10 @@ namespace YKPortal.Areas.E.Controllers
         // GET: E/Stok
         public ActionResult Stoklar()
         {
-            KategorileriGetir();
+            ViewBag.Stoklar = StokGetir(new YKEFaturaEntegrasyon.Dto.ETicaretStokDto.ETicaretStokSorguDto());
             return View();
         }
     }
 }
+
+ 
