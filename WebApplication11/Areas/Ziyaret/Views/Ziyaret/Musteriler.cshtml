@@ -1,0 +1,46 @@
+﻿@model System.Data.DataTable
+@{
+    ViewBag.Title = "Musteriler";
+    Layout = "~/Areas/Ziyaret/Views/Shared/_Layout.cshtml";
+}
+
+<section class="card">
+    <header class="card-header">
+        Müşteri Listesi
+    </header>
+
+    <form action="@Url.Action("MusterilerExcel","Home", new { area = "Ziyaret" })" method="post">
+        <input type="hidden" name="id" id="id" value="@ViewBag.Arama" />
+        <label><input type="submit" name="name" value="Excel" /></label>
+    </form>
+    <br />
+    <table class="table table-striped table-advance table-hover">
+        <thead>
+            <tr>
+                <th>İsim</th>
+                <th>Adres</th>
+                <th>Telefon</th>
+                <th>1.Kişi</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (System.Data.DataRow item in Model.Rows)
+                {
+                    <tr>
+                        <td><a href="@Url.Action("Ziyaret","Ziyaret",new { area = "Ziyaret", id = item["CariKodu"] })">@item["CariAdi"]</a></td>
+                        <td class="hidden-phone">@item["adres"]<br />@item["Il"] @item["Ilce"]</td>
+                        <td><span class="badge badge-warning label-mini">@item["CepTelefonu"]</span></td>
+                        <td class="hidden-phone">@item["Unvan"] @item["Isim"]</td>
+                        <td>
+                            <a href="@Url.Action("Musteri","Ziyaret",new { area = "Ziyaret",id = item["CariKodu"] })"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></button></a>
+                            <a href="@Url.Action("MusteriSil","Ziyaret",new { area = "Ziyaret",id = item["CariKodu"], harf=Convert.ToString(item["Isim"]).Substring(0,1) })"> <button class="btn btn-danger btn-sm"><i class="fa fa-trash-o "></i></button></a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</section>

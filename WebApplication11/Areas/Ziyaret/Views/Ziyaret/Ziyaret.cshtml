@@ -2,8 +2,8 @@
 @using System.Data;
 @{
     ViewBag.Title = "Ziyaret";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    
+    Layout = "~/Areas/Ziyaret/Views/Shared/_Layout.cshtml";
+
     DataTable dt = Model.Tables[0];
     DataTable dtZiyaret = Model.Tables[1];
     DataTable dtDosyalar = Model.Tables[2];
@@ -16,51 +16,23 @@
         <div class="card">
             <div class="card-body">
                 <div class="media">
-                    <a class="mr-3" href="@Url.Action("Musteri","Home",new { id = dt.Rows[0]["id"] })">
-                        <img class="thumb media-object" src="@Url.Content("~/Content/img/email-img/image2.png")" alt="">
+                    <a class="mr-3" href="@Url.Action("Musteri","Ziyaret",new { area = "Ziyaret", id = dt.Rows[0]["CariKodu"] })">
+                        <img class="thumb media-object" src="@Url.Content("~/Content/Ziyaret/img/email-img/image2.png")" alt="">
                     </a>
                     <div class="media-body">
-                        <h4>#@dt.Rows[0]["id"] |<span class="text-muted small"> - @dt.Rows[0]["Isim"]</span></h4>
+                        <h4>#@dt.Rows[0]["CariKodu"] |<span class="text-muted small"> - @dt.Rows[0]["Isim"]</span></h4>
 
                         <address>
                             <strong><abbr title="Adres">A:</abbr>@dt.Rows[0]["adres"]<br />@dt.Rows[0]["Il"] @dt.Rows[0]["Ilce"]</strong><br>
-                            <abbr title="E-Mail">M:</abbr>@dt.Rows[0]["mail"]<br>
-                            <abbr title="Web Site">W:</abbr>@dt.Rows[0]["website"]<br>
-                            <abbr title="Telefon">T:</abbr>@dt.Rows[0]["Telefon"]
+                            <abbr title="E-Mail">M:</abbr>@dt.Rows[0]["EMail"]<br>
+                            <abbr title="Web Site">W:</abbr>@dt.Rows[0]["WebSite"]<br>
+                            <abbr title="Telefon">T:</abbr>@dt.Rows[0]["CepTelefonu"]
                         </address><p>
-    @if (Convert.ToString(dt.Rows[0]["Isim1"]).Trim().Length > 0)
+    @if (Convert.ToString(dt.Rows[0]["Isim"]).Trim().Length > 0)
     {
-        <span>İletişim 1 : </span> @(dt.Rows[0]["Unvan1"] +" - "+ @dt.Rows[0]["Isim1"] + " - " + @dt.Rows[0]["Telefon1"] + " - " + @dt.Rows[0]["Mail1"])
+        <span>İletişim 1 : </span> @(dt.Rows[0]["Unvan"] +" - "+ @dt.Rows[0]["Isim"] + " - " + @dt.Rows[0]["CepTelefonu"] + " - " + @dt.Rows[0]["EMail"])
         <br />
     }
-    /**/
-    @if (Convert.ToString(dt.Rows[0]["Isim2"]).Trim().Length > 0)
-    {
-        <span>İletişim 2 : </span> @(dt.Rows[0]["Unvan2"] + " - " + @dt.Rows[0]["Isim2"] + " - " + @dt.Rows[0]["Telefon2"] + " - " + @dt.Rows[0]["Mail2"])
-        <br />
-    }
-    /**/
-    @if (Convert.ToString(dt.Rows[0]["Isim3"]).Trim().Length > 0)
-    {
-        <span>İletişim 3 : </span> @(dt.Rows[0]["Unvan3"] + " - " + @dt.Rows[0]["Isim3"] + " - " + @dt.Rows[0]["Telefon3"] + " - " + @dt.Rows[0]["Mail3"])
-        <br />
-    }
-    /**/
-    @if (Convert.ToString(dt.Rows[0]["Isim4"]).Trim().Length > 0)
-    {
-        <span>İletişim 4 : </span> @(dt.Rows[0]["Unvan4"] + " - " + @dt.Rows[0]["Isim4"] + " - " + @dt.Rows[0]["Telefon4"] + " - " + @dt.Rows[0]["Mail4"])
-        <br />
-    }
-    /**/
-    /**/
-    @if (Convert.ToString(dt.Rows[0]["Isim5"]).Trim().Length > 0)
-    {
-        <span>İletişim 5 : </span> @(dt.Rows[0]["Unvan5"] + " - " + @dt.Rows[0]["Isim5"] + " - " + @dt.Rows[0]["Telefon5"] + " - " + @dt.Rows[0]["Mail5"])
-        <br />
-    }
-    /**/
-    /**/
-    /**/
 </p>
 
                     </div>
@@ -87,8 +59,8 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form role="form" action="@Url.Action("ZiyaretKaydet", "Home", null)" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="musteriid" value="@dt.Rows[0]["id"]" />
+                                <form role="form" action="@Url.Action("ZiyaretKaydet", "Ziyaret", new { area = "Ziyaret" })" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="CariID" value="@dt.Rows[0]["CariKodu"]" />
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Tarih</label>
                                         <input type="date" class="form-control" id="exampleInputEmail3" name="Tarih" placeholder="Tarih" value="@DateTime.Today.ToString("yyyy-MM-dd")">
@@ -98,7 +70,7 @@
                                         <select class="form-control" name="Baslik">
                                             @foreach (System.Data.DataRow item in ((System.Data.DataTable)ViewBag.ZiyaretTipi).Rows)
                                             {
-                                                <option value="@item["Isim"]" @(Convert.ToString(item["Isim"]) == "Ziyaret Edilecek" ? "selected" : "")>@item["Isim"]</option>
+                                                <option value="@item["Deger"]" @(Convert.ToString(item["Deger"]) == "Ziyaret Edilecek" ? "selected" : "")>@item["Deger"]</option>
                                             }
                                         </select>
                                         <p class="help-block">Lütfen ziyaret tipi seçiniz.</p>
@@ -123,7 +95,7 @@
                                             <option value=""></option>
                                             @foreach (System.Data.DataRow item in ((System.Data.DataTable)ViewBag.Urunler).Rows)
                                             {
-                                                <option value="@item["Isim"]">@item["Isim"]</option>
+                                                <option value="@item["Deger"]">@item["Deger"]</option>
                                             }
                                         </select>
                                         <p class="help-block">ürün teslim ettiyseniz işaretleyiniz</p>
@@ -160,9 +132,9 @@
                                         <span class="arrow"></span>
                                         <span class="timeline-icon @(Convert.ToInt32(ziyaret["tamamlandi"]) == 1 ? "green" : "red")"></span>
                                         <span class="timeline-date">
-                                            @Convert.ToDateTime(ziyaret["tarih"]).ToString("dd.MM.yyyy ") @Convert.ToDateTime(ziyaret["kayittarihi"]).ToString("HH:ss") #@ziyaret["id"]
-                                            <br /><span style="color:red;font-size:10px;"><strong>Kaydı Açan : </strong>@ziyaret["kayityapankullanici"]</span>
-                                            @(Convert.ToString(ziyaret["duzenlemeyapankullanici"]).Trim().Length > 0 ? Html.Raw("<br /><span style='color:green;font-size:10px;'><strong>Kaydı Kapatan : </strong>" + ziyaret["duzenlemeyapankullanici"] + "</span>") : Html.Raw(""))
+                                            @Convert.ToDateTime(ziyaret["tarih"]).ToString("dd.MM.yyyy ") @Convert.ToDateTime(ziyaret["kayittarihi"]).ToString("HH:ss") #@ziyaret["ID"]
+                                            <br /><span style="color:red;font-size:10px;"><strong>Kaydı Açan : </strong>@ziyaret["KaydiAcan"]</span>
+                                            @(Convert.ToString(ziyaret["duzenlemeyapankullanici"]).Trim().Length > 0 ? Html.Raw("<br /><span style='color:green;font-size:10px;'><strong>Kaydı Kapatan : </strong>" + ziyaret["DuzenlemeYapanKullanici"] + "</span>") : Html.Raw(""))
                                         </span>
                                         <h1 class="yellow">@(Convert.ToString(ziyaret["Baslik"]).Trim().Length > 0 ? Html.Raw("<span><a href='#' style='color:orange;'>" + ziyaret["Baslik"] + "</a></span>") : Html.Raw(""))</h1>
                                         <h1 class="red">@(Convert.ToString(ziyaret["Urun"]).Trim().Length > 0 ? Html.Raw("<span><a href='#' class='red'>" + ziyaret["Urun"] + "</a></span>") : Html.Raw(""))</h1>
@@ -172,9 +144,9 @@
                                         <p><strong>Gerçekleşen : </strong>@ziyaret["Aciklama2"]</p>
 
                                         <div class="album">
-                                            @if (dtDosyalar.Select(" KayitID = " + ziyaret["id"] + " ").Count() > 0)
+                                            @if (dtDosyalar.Select(" KayitID = '" + ziyaret["ID"] + "' ").Count() > 0)
                                             {
-                                                foreach (DataRow dosya in dtDosyalar.Select(" KayitID = " + ziyaret["id"] + " "))
+                                                foreach (DataRow dosya in dtDosyalar.Select(" KayitID = '" + ziyaret["ID"] + "' "))
                                                 {
                                                     if (Convert.ToString(dosya["DosyaUzantisi"]).Contains(".jpeg") ||
                                                         Convert.ToString(dosya["DosyaUzantisi"]).Contains(".jpg") ||
@@ -214,7 +186,7 @@
                             </div>
 
 
-                            <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal_id_@ziyaret["id"]" class="modal fade">
+                            <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal_id_@ziyaret["ID"]" class="modal fade">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -224,9 +196,9 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form role="form" action="@Url.Action("ZiyaretKaydet", "Home", null)" method="post" enctype="multipart/form-data">
-                                                <input type="hidden" name="musteriid" value="@dt.Rows[0]["id"]" />
-                                                <input type="hidden" name="id" value="@(ziyaret["id"])" />
+                                            <form role="form" action="@Url.Action("ZiyaretKaydet", "Ziyaret", new { area = "Ziyaret" })" method="post" enctype="multipart/form-data">
+                                                <input type="hidden" name="CariID" value="@dt.Rows[0]["CariKodu"]" />
+                                                <input type="hidden" name="id" value="@(ziyaret["ID"])" />
                                                 <div class="form-group">
                                                     <label for="exampleInputPassword1">Açıklama</label>
                                                     <textarea rows="5" class="form-control" name="Aciklama"></textarea>
@@ -247,7 +219,7 @@
                                                         <option value=""></option>
                                                         @foreach (System.Data.DataRow item in ((System.Data.DataTable)ViewBag.Urunler).Rows)
                                                         {
-                                                            <option value="@item["Isim"]"  @(Convert.ToString(item["Isim"]).Replace("İ","I") == Convert.ToString(ziyaret["urun"]) ? "selected" : "")>@item["Isim"]</option>
+                                                            <option value="@item["Deger"]"  @(Convert.ToString(item["Deger"]).Replace("İ","I") == Convert.ToString(ziyaret["urun"]) ? "selected" : "")>@item["Deger"]</option>
                                                         }
                                                     </select>
                                                     <p class="help-block">ürün teslim ettiyseniz işaretleyiniz</p>
@@ -261,7 +233,7 @@
                                                     <select class="form-control" name="YeniBaslik">
                                                         @foreach (System.Data.DataRow item in ((System.Data.DataTable)ViewBag.ZiyaretTipi).Rows)
                                                         {
-                                                            <option value="@item["Isim"]" @(Convert.ToString(item["Isim"]) == "Ziyaret Edilecek" ? "selected" : "")>@item["Isim"]</option>
+                                                            <option value="@item["Deger"]" @(Convert.ToString(item["Deger"]) == "Ziyaret Edilecek" ? "selected" : "")>@item["Deger"]</option>
                                                         }
                                                     </select>
                                                     <p class="help-block">Lütfen ziyaret tipi seçiniz.</p>

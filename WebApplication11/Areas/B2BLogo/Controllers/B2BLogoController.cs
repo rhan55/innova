@@ -150,7 +150,7 @@ namespace YKPortal.Areas.B2BLogo.Controllers
 
             return View(dtKayitlar);
         }
-        public JsonResult SepeteEkle(string StokKodu = "", decimal Miktar = 0, decimal Fiyat = 0)
+        public JsonResult SepeteEkle(string StokKodu = "", decimal Miktar = 0, decimal Gor = 0)
         {
             YKJsonResult result = new YKJsonResult();
 
@@ -165,8 +165,8 @@ namespace YKPortal.Areas.B2BLogo.Controllers
             cmd.Parameters.AddWithValue("@Seri", "");
             cmd.Parameters.AddWithValue("@Birim", "");
             cmd.Parameters.AddWithValue("@Miktar", Miktar);
-            cmd.Parameters.AddWithValue("@Fiyat", Fiyat);
-            cmd.Parameters.AddWithValue("@Tutar", Miktar * Fiyat);
+            //cmd.Parameters.AddWithValue("@Fiyat", Fiyat);
+            //cmd.Parameters.AddWithValue("@Tutar", Miktar * Fiyat);
             cmd.Parameters.AddWithValue("@IslemTipi", "0");
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             DataTable dtKayitlar = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);

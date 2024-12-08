@@ -1524,6 +1524,7 @@ Select @ID as ID
         public List<PirelliResponseDto> STOCKCHECK([FromBody] JObject data)
         {
             List<PirelliResponseDto> result1 = new List<PirelliResponseDto>();
+            string City = "";
             try
             {
                 if (data["Product"] == null)
@@ -1539,7 +1540,7 @@ Select @ID as ID
                     //return result;
                 }
 
-                string City = Convert.ToString(data["City"]);
+                City = Convert.ToString(data["City"]);
                 List<PirelliDto> products = data["Product"].ToObject<List<PirelliDto>>();
 
                 int sira = 0;
@@ -1551,6 +1552,7 @@ Select @ID as ID
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "p_PirelliStockCheck";
                     cmd.Parameters.AddWithValue("@StokKodu", entity.ProductCode);
+                    cmd.Parameters.AddWithValue("@City", City);
                     DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                     if (dt.Rows.Count > 0)
                     {
@@ -1569,9 +1571,10 @@ Select @ID as ID
             }
             catch (Exception err)
             {
-                //result.SonucKodu = -1;
-                //result.Sonuc = "HATA!";
-                //result.Hata = err.Message;
+                PirelliResponseDto et = new PirelliResponseDto();
+                et.ProductCode = City;
+                et.ProductDescription = err.Message;
+                result1.Add(et);
             }
             finally
             {
@@ -1605,20 +1608,17 @@ Select @ID as ID
                     aciklama1 = Notes[0].Text;
                 }
                 _sira = "2";
-
-
-
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "p_PirelliOrderSave";
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@TrackingId", Header.TrackingId);
                 cmd.Parameters.AddWithValue("@BuyerCode", Header.BuyerCode);
                 cmd.Parameters.AddWithValue("@CariKodu", Header.Customer.Code);
                 cmd.Parameters.AddWithValue("@CariAdi", Header.Customer.Name);
-                cmd.Parameters.AddWithValue("@Adres", Header.Customer.Address.Street);
+                cmd.Parameters.AddWithValue("@Adres", Header.Customer.Address.Street[0]);
                 cmd.Parameters.AddWithValue("@Ilce", Header.Customer.Address.District);
                 cmd.Parameters.AddWithValue("@Il", Header.Customer.Address.City);
-                cmd.Parameters.AddWithValue("@SiparisNumarasi", ("0000000000000000" + Header.SalesOrderNumber).Substring(0, 15));
+                cmd.Parameters.AddWithValue("@SiparisNumarasi", Header.PurchaseOrderNumber);
                 cmd.Parameters.AddWithValue("@Tarih", Convert.ToDateTime(Header.RequestedDatetime));
                 cmd.Parameters.AddWithValue("@Aciklama1", aciklama1);
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
@@ -1630,32 +1630,37 @@ Select @ID as ID
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "p_PirelliOrderLineSave";
                     cmd.Parameters.AddWithValue("@LineId", item.LineId);
+                    cmd.Parameters.AddWithValue("@TrackingId", Header.TrackingId);
                     cmd.Parameters.AddWithValue("@ProductCode", item.ProductCode);
                     cmd.Parameters.AddWithValue("@RequestedDeliveryDatetime", Convert.ToDateTime(item.RequestedDeliveryDatetime));
                     cmd.Parameters.AddWithValue("@RequestedQuantity", item.RequestedQuantity);
                     cmd.Parameters.AddWithValue("@Price", Convert.ToDecimal(item.Price));
                     cmd.Parameters.AddWithValue("@ConfirmedDeliveryDatetime", Convert.ToDateTime(item.ConfirmedDeliveryDatetime));
                     cmd.Parameters.AddWithValue("@ConfirmedQuantity", item.ConfirmedQuantity);
+                    cmd.Parameters.AddWithValue("@SiparisNumarasi", dt.Rows[0]["SIPARIS_NO"]);
                     DataTable dt2 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
                     item.ConfirmedDeliveryDatetime = DateTime.Now.ToString("yyyy-MM-dd") + "T03:00:00+03:00";
+
                 }
+
                 _sira = "4";
                 cmd.Parameters.Clear();
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.CommandText = "p_PirelliOrderComplate";
                 cmd.Parameters.AddWithValue("@CariKodu", Header.Customer.Code);
-                cmd.Parameters.AddWithValue("@SiparisNumarasi", ("0000000000000000" + Header.SalesOrderNumber).Substring(0, 15));
+                cmd.Parameters.AddWithValue("@TrackingId", Header.TrackingId);
+                cmd.Parameters.AddWithValue("@SiparisNumarasi", dt.Rows[0]["SIPARIS_NO"]);
                 DataTable dt3 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
                 _sira = "5";
-                Header.SalesOrderNumber = ("0000000000000000" + Header.SalesOrderNumber).Substring(0, 15);
-                Header.RequestedDatetime = DateTime.Now.ToString("yyyy-MM-dd") + "T03:00:00+03:00";
+
+                Header.SalesOrderNumber = Convert.ToString(dt3.Rows[0]["SIPARIS_NO"]);
+                Header.RequestedDatetime = Convert.ToDateTime(dt3.Rows[0]["TARIH"]).ToString("yyyy-MM-dd") + "T03:00:00+03:00";
                 result1.Header = Header;
                 result1.Items = Items;
                 //result1.Notes = Notes;
-                _sira = "6";
 
+                _sira = "6";
 
                 #region Xml
                 if (true)
@@ -1678,11 +1683,11 @@ Select @ID as ID
                             writer.WriteLine("  <NumberOfMessages>1</NumberOfMessages>");
                             writer.WriteLine("  <desadv>");
                             _sira = "7.4";
-                            writer.WriteLine("    <IssueDate>" + DateTime.Now.ToString("yyyy-MM-dd") + "</IssueDate>");
+                            writer.WriteLine("    <IssueDate>" + Convert.ToDateTime(dt3.Rows[0]["TARIH"]).ToString("yyyy-MM-dd") + "</IssueDate>");
                             _sira = "7.4.1";
-                            writer.WriteLine("    <DocumentNumber>" + ("0000000000000000" + Header.SalesOrderNumber).Substring(0, 15) + "</DocumentNumber>");
-                            writer.WriteLine("    <DespatchDate>" + ("0000000000000000" + Header.SalesOrderNumber).Substring(0, 15) + "</DespatchDate>");
-                            writer.WriteLine("    <ArrivalDate>" + ("0000000000000000" + Header.SalesOrderNumber).Substring(0, 15) + "</ArrivalDate>");
+                            writer.WriteLine("    <DocumentNumber>" + (Header.PurchaseOrderNumber) + "</DocumentNumber>");
+                            writer.WriteLine("    <DespatchDate>" + Convert.ToDateTime(dt3.Rows[0]["TARIH"]).ToString("yyyy-MM-dd") + "</DespatchDate>");
+                            writer.WriteLine("    <ArrivalDate>" + Convert.ToDateTime(dt3.Rows[0]["TARIH"]).ToString("yyyy-MM-dd") + "</ArrivalDate>");
                             writer.WriteLine("    <BuyerParty>");
                             writer.WriteLine("      <PartyID>2400001085</PartyID>");
                             writer.WriteLine("      <AgencyCode>92</AgencyCode>");
@@ -1695,29 +1700,29 @@ Select @ID as ID
                             foreach (var item in Items)
                             {
                                 writer.WriteLine("    <LineLevel>");
-                                writer.WriteLine("      <LineID>1</LineID>");
+                                writer.WriteLine("      <LineID>"+item.LineId+"</LineID>");
                                 writer.WriteLine("      <References>");
                                 writer.WriteLine("        <SuppliersOrderReference>");
-                                writer.WriteLine("          <DocumentID>128244</DocumentID>");
-                                writer.WriteLine("          <LineID>000010</LineID>");
+                                writer.WriteLine("          <DocumentID>"+ Convert.ToString(dt3.Rows[0]["SIPARIS_NO"]) + "</DocumentID>");
+                                writer.WriteLine("          <LineID>" + item.LineId + "</LineID>");
                                 writer.WriteLine("        </SuppliersOrderReference>");
                                 writer.WriteLine("        <BuyerOrderReference>");
-                                writer.WriteLine("          <DocumentID>8481041767</DocumentID>");
-                                writer.WriteLine("          <LineID>000010</LineID>");
+                                writer.WriteLine("          <DocumentID>" + Convert.ToString(dt3.Rows[0]["SIPARIS_NO"]) + "</DocumentID>");
+                                writer.WriteLine("          <LineID>" + item.LineId + "</LineID>");
                                 writer.WriteLine("        </BuyerOrderReference>");
                                 writer.WriteLine("      </References>");
                                 writer.WriteLine("      <Article>");
                                 writer.WriteLine("        <ArticleIdentification>");
-                                writer.WriteLine("          <BuyersArticleID>2714200</BuyersArticleID>");
+                                writer.WriteLine("          <BuyersArticleID>"+ Convert.ToString(dt3.Rows[0]["URETICI_KODU"]) + "</BuyersArticleID>");
                                 writer.WriteLine("        </ArticleIdentification>");
                                 writer.WriteLine("        <ArticleDescription>");
-                                writer.WriteLine("          <ArticleDescriptionText>DENEMEDİR</ArticleDescriptionText>");
+                                writer.WriteLine("          <ArticleDescriptionText>"+ Convert.ToString(dt3.Rows[0]["STOK_ADI"])+ "</ArticleDescriptionText>");
                                 writer.WriteLine("        </ArticleDescription>");
                                 writer.WriteLine("        <DespatchedQuantity>");
                                 _sira = "7.4";
-                                writer.WriteLine("          <QuantityValue>" + item.RequestedQuantity.ToString() + "</QuantityValue>");
+                                writer.WriteLine("          <QuantityValue>" + Convert.ToString(dt3.Rows[0]["MIKTAR"]) + "</QuantityValue>");
                                 _sira = "7.5";
-                                writer.WriteLine("          <MeasureUnitCode>PCE</MeasureUnitCode>");
+                                writer.WriteLine("          <MeasureUnitCode>"+ Convert.ToString(dt3.Rows[0]["OLCU_BR"]) + "</MeasureUnitCode>");
                                 writer.WriteLine("        </DespatchedQuantity>");
                                 writer.WriteLine("      </Article>");
                                 writer.WriteLine("    </LineLevel>");
@@ -1739,7 +1744,7 @@ Select @ID as ID
                         _sira = "10.1";
                         client.Connect();
                         _sira = "10.2";
-                        client.UploadFile(fileStream, "/" + dosyaadi);
+                        client.UploadFile(fileStream, "/LD/TR/SERTGLOBAL/from/DeliveryStatus/" + dosyaadi);
                         _sira = "11";
                         //client.DownloadFile("/documents/document2.docx", stream);
                         _sira = "12";
@@ -1750,17 +1755,6 @@ Select @ID as ID
                         client.Dispose();
                         _sira = "15";
                     }
-                    else
-                    {
-                        WebClient client = new WebClient();
-                        _sira = "9";
-                        client.Credentials = new NetworkCredential("Sertglobal_test", "mA8CD5eZ5mth");
-                        _sira = "10";
-                        var url = "ftp://mfttest.pirelli.com/" + dosyaadi;
-                        _sira = "11 ";
-                        client.UploadFile(url, ConfigurationManager.AppSettings["Klasor"] + dosyaadi);
-                        _sira = "12";
-                    }
 
                 }
                 #endregion
@@ -1770,7 +1764,7 @@ Select @ID as ID
             catch (Exception err)
             {
                 result1.Notes = new List<PirelliNotes>();
-                result1.Notes.Add(new PirelliNotes() { Text = _sira+" - "+err.Message });
+                result1.Notes.Add(new PirelliNotes() { Text = _sira + " - " + err.Message });
             }
             finally
             {

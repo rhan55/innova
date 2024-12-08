@@ -959,13 +959,14 @@ namespace YKPortal.Controllers
         {
 
 
+            string result = "";
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "IDP_LisansKontrol";
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@LisansKodu", _lisansKodu);
                 cmd.Parameters.AddWithValue("@SabitIP", _disIp);
-                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                result = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
             }
             {
                 SqlCommand cmd = new SqlCommand();
@@ -983,17 +984,6 @@ namespace YKPortal.Controllers
                 cmd.Parameters.AddWithValue("@LisansKodu", _lisansKodu);
                 IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
             }
-            string result =
-                 _bulunduguDizin+"|"+
-                 _modul + "|" +
-                 _dosyaOlusturmaTarihi + "|" +
-                 _bilgisayarAdi + "|" +
-                 _icIp + "|" +
-                 _disIp + "|" +
-                 _BaglantiCumlesi + "|" +
-                 _sirketKodu + "|" +
-                 _sirketIsmi + "|" +
-                 _lisansKodu;
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 

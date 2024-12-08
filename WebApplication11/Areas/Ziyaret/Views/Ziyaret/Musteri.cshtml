@@ -1,0 +1,272 @@
+﻿
+@{
+    ViewBag.Title = "Musteri";
+    Layout = "~/Areas/Ziyaret/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="card">
+    <div class="card-header">Müşteri Bilgisi  #@ViewBag.id</div>
+    <div class="card-body">
+        <form class="needs-validation" novalidate action="@Url.Action("Musteri","Ziyaret", new { area = "Ziyaret" })" method="post">
+            <input type="hidden" name="id" value="@ViewBag.id" />
+            <div class="form-row">
+                <div class="col-md-12 mb-3">
+                    <label for="validationCustom02">Firma Adı</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="İsim" value="@ViewBag.isim" name="isim" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="validationCustom02">Adres</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="Adres" value="@ViewBag.adres" name="adres">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationCustom02">İl</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="Il" value="@ViewBag.Il" name="Il">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationCustom02">İlçe</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="Ilce" value="@ViewBag.Ilce" name="Ilce">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="validationCustom02">Telefon</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="Telefon" value="@ViewBag.telefon" name="telefon">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationCustomUsername">Mail</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroupPrepend">@Html.Raw("@")</span>
+                        </div>
+                        <input type="text" class="form-control" id="validationCustomUsername" placeholder="Mail" value="@ViewBag.mail" aria-describedby="inputGroupPrepend" name="mail">
+                        <div class="invalid-feedback">
+                            Lütfen mail adresi giriniz.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-6">
+                    <label for="validationCustom03">Web Sayfası</label>
+                    <input type="text" class="form-control" id="validationCustom03" placeholder="www.musteriyonetimi.org" value="@ViewBag.website" name="website">
+                    <div class="invalid-feedback">
+                        Lütfen site adresi giriniz.
+                    </div>
+                </div>
+                <div class="col-md-6 mb-6">
+                    <label for="validationCustom03">Seviye</label>
+                    <select class="form-control" id="validationCustom03" placeholder="Seviye" name="seviye">
+                        <option value="1" @(Convert.ToString(ViewBag.Seviye) == "1" ? "selected" : "")>1</option>
+                        <option value="2" @(Convert.ToString(ViewBag.Seviye) == "2" ? "selected" : "")>2</option>
+                        <option value="3" @(Convert.ToString(ViewBag.Seviye) == "3" ? "selected" : "")>3</option>
+                        <option value="4" @(Convert.ToString(ViewBag.Seviye) == "4" ? "selected" : "")>4</option>
+                        <option value="5" @(Convert.ToString(ViewBag.Seviye) == "5" ? "selected" : "")>5</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Lütfen site adresi giriniz.
+                    </div>
+                </div>
+            </div>
+            <br />
+
+            <div class="form-row">
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">1.Ünvan</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.unvan1" name="Unvan1">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">1.İsim</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.isim1" name="Isim1">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">1.Telefon</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.telefon1" name="Telefon1">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">1.Mail</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.mail1" name="Mail1">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">2.Ünvan</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.unvan2" name="Unvan2">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">2.İsim</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.isim2" name="Isim2">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">2.Telefon</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.telefon2" name="Telefon2">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">2.Mail</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.mail2" name="Mail2">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">3.Ünvan</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.unvan3" name="Unvan3">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">3.İsim</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.isim3" name="Isim3">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">3.Telefon</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.telefon3" name="Telefon3">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">3.Mail</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.mail3" name="Mail3">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">4.Ünvan</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.unvan4" name="Unvan4">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">4.İsim</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.isim4" name="Isim4">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">4.Telefon</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.telefon4" name="Telefon4">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">4.Mail</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.mail4" name="Mail4">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">5.Ünvan</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.unvan5" name="Unvan5">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">5.İsim</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.isim5" name="Isim5">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">5.Telefon</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.telefon5" name="Telefon5">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">5.Mail</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.mail5" name="Mail5">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+            </div>
+            <br />
+            <button class="btn btn-primary" type="submit">Kaydet</button>
+            <br />
+            <span style="color:green;">@ViewBag.bilgi</span>
+        </form>
+        <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function () {
+                'use strict';
+                window.addEventListener('load', function () {
+                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function (form) {
+                        form.addEventListener('submit', function (event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();</script>
+    </div>
+</section>
+

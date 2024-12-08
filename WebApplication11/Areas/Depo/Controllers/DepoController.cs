@@ -151,13 +151,13 @@ Where Aktif = 1 and UstID = @UstID Order by Sira";
             if(SonOkutulan.Trim().Length > 0)
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "Exec ElaBarkod.dbo.IDP_SKI_StokBilgisiGetir '"+SonOkutulan+"'";
+                cmd.CommandText = "Exec dbo.IDP_SKI_StokBilgisiGetir '"+SonOkutulan+"'";
                 cmd.CommandType = CommandType.Text;
                 ViewBag.dtDetay = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             }
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "ElaBarkod.dbo.IDP_SKI_SonOkutulanSeriler";
+                cmd.CommandText = "dbo.IDP_SKI_SonOkutulanSeriler";
                 cmd.Parameters.AddWithValue("@ID", SonOkutulanID);
                 cmd.CommandType = CommandType.StoredProcedure;
                 ViewBag.dtKayitlar = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
@@ -189,8 +189,8 @@ Where Aktif = 1 and UstID = @UstID Order by Sira";
                         int Kayit_Say_ = 0;
 
                         string Sorgu_1 = @" 
-SELECT ID_SKI_StokSeri.ID,S.StokKodu, S.StokAdi as STOK_ADI  FROM ElaBarkod.dbo.ID_SKI_StokSeri (NOLOCK) 
-LEFT JOIN ElaBarkod.dbo.Stoklar S WITH(NOLOCK) ON S.StokKodu = ID_SKI_StokSeri.StokKodu" +
+SELECT ID_SKI_StokSeri.ID,S.StokKodu, S.StokAdi as STOK_ADI  FROM dbo.ID_SKI_StokSeri (NOLOCK) 
+LEFT JOIN dbo.Stoklar S WITH(NOLOCK) ON S.StokKodu = ID_SKI_StokSeri.StokKodu" +
                                          " Where  SeriNo='" + deger + "' ";
                         SqlCommand c1 = new SqlCommand();
                         c1.CommandText = Sorgu_1;
@@ -211,8 +211,8 @@ LEFT JOIN ElaBarkod.dbo.Stoklar S WITH(NOLOCK) ON S.StokKodu = ID_SKI_StokSeri.S
                             string Sorgu = @" 
 SELECT 
 *  
-FROM ElaBarkod.dbo.ID_SKI_StokSeriIslemleri (NOLOCK)
-LEFT JOIN ElaBarkod.dbo.ID_SKI_StokSeri Seri WITH(NOLOCK)
+FROM dbo.ID_SKI_StokSeriIslemleri (NOLOCK)
+LEFT JOIN dbo.ID_SKI_StokSeri Seri WITH(NOLOCK)
 ON Seri_Lot_id = Seri.ID
 WHERE (Islem_Tipi IN (2,3) ) and Seri.SeriNo ='" + deger + "' ";
                             SqlCommand c2 = new SqlCommand();
@@ -232,7 +232,7 @@ WHERE (Islem_Tipi IN (2,3) ) and Seri.SeriNo ='" + deger + "' ";
                             else if (Kayit_Say == 0)
                             {
 
-                                string Sorgu2 = "Exec ElaBarkod.dbo.IDP_SKI_StokBilgisiGetir '" + deger + "' ";
+                                string Sorgu2 = "Exec dbo.IDP_SKI_StokBilgisiGetir '" + deger + "' ";
                                 SqlCommand c3 = new SqlCommand();
                                 c3.CommandText = Sorgu2;
                                 DataSet dsDetay = (DataSet)IDVeritabani.Sorgula(c3, SorgulaTuru.DataSet);
@@ -318,7 +318,7 @@ WHERE (Islem_Tipi IN (2,3) ) and Seri.SeriNo ='" + deger + "' ";
                     SqlCommand cmd = new SqlCommand();
                     cmd.Parameters.Clear();
                     cmd.CommandText = @"
-Insert Into ElaBarkod.dbo.ID_SKI_StokSeriIslemleri 
+Insert Into dbo.ID_SKI_StokSeriIslemleri 
 (Tarih,StokKodu,Company_id,CariKart_id,Departman_id,Evrak_No,Islem_Tipi,Isletme_id,User_id,Adet,Aciklama,Seri_Lot_id,Bolum_id)
 values 
 (@Tarih,@StokKodu,@Company_id,@CariKart_id,@Departman_id,@Evrak_No,@Islem_Tipi,@Isletme_id,@User_id,@Adet,@Aciklama,@Seri_Lot_id,@Bolum_id)

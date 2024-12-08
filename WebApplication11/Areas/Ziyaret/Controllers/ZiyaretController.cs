@@ -59,7 +59,7 @@ namespace YKPortal.Areas.Ziyaret.Controllers
             DataTable dtZiyaretler = new DataTable();
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "select top(150) w_Ziyaretler.*,w_Cariler.CariAdi from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.ID where w_Ziyaretler.silindi = 0 and w_Cariler.silindi = 0 and  w_Ziyaretler.UyelikID = @UyelikID " + plasiyerkisiti + "  order by Tamamlandi,w_Ziyaretler.tarih desc ";
+                cmd.CommandText = "select top(150) w_Ziyaretler.*,w_Cariler.CariAdi from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.Kod where w_Ziyaretler.silindi = 0 and w_Cariler.silindi = 0 and  w_Ziyaretler.UyelikID = @UyelikID " + plasiyerkisiti + "  order by Tamamlandi,w_Ziyaretler.tarih desc ";
                 cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
                 dtZiyaretler = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             }
@@ -69,7 +69,7 @@ namespace YKPortal.Areas.Ziyaret.Controllers
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"select top(30) tarih, count(*) adet
  from w_Ziyaretler
-inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.ID
+inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.Kod
  Where w_Cariler.silindi = 0 and w_Ziyaretler.UyelikID = @UyelikID " + plasiyerkisiti + @" and w_Ziyaretler.tamamlandi = 0 and w_Ziyaretler.silindi = 0
  group by w_Ziyaretler.tarih
 order by w_Ziyaretler.tarih desc
@@ -84,7 +84,7 @@ order by w_Ziyaretler.tarih desc
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"select top(30) tarih, count(*) adet
  from w_Ziyaretler
-inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.ID 
+inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.Kod 
  Where w_Cariler.silindi = 0 and w_Ziyaretler.UyelikID = @UyelikID and w_Ziyaretler.teklifverildi = 1  " + plasiyerkisiti + @" and w_Ziyaretler.silindi = 0
  group by w_Ziyaretler.tarih
 order by w_Ziyaretler.tarih desc
@@ -98,7 +98,7 @@ order by w_Ziyaretler.tarih desc
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"select count(*) 
 from w_Ziyaretler 
-inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.ID 
+inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.Kod 
 where w_Cariler.silindi = 0 and w_Ziyaretler.UyelikID = @UyelikID and w_Ziyaretler.tamamlandi = 0 and w_Ziyaretler.silindi = 0 " + plasiyerkisiti;
                 cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
                 ViewBag.ToplamBekleyen = Convert.ToInt32(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
@@ -109,7 +109,7 @@ where w_Cariler.silindi = 0 and w_Ziyaretler.UyelikID = @UyelikID and w_Ziyaretl
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"select top(30) w_Ziyaretler.tarih, count(*) adet
  from w_Ziyaretler
-inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.ID 
+inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.Kod 
  Where w_Cariler.silindi = 0 and w_Ziyaretler.UyelikID = @UyelikID and w_Ziyaretler.silindi = 0 and w_Ziyaretler.tamamlandi = 0 and w_Ziyaretler.tarih < '" + DateTime.Today.ToString("yyyy-MM-dd") + @"' " + plasiyerkisiti + @"
  group by w_Ziyaretler.tarih
 order by w_Ziyaretler.tarih desc
@@ -123,7 +123,7 @@ order by w_Ziyaretler.tarih desc
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"select count(*) 
 from w_Ziyaretler
-inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.ID 
+inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.Kod 
 where w_Cariler.silindi = 0 and w_Ziyaretler.UyelikID = @UyelikID and w_Ziyaretler.tamamlandi = 0 and w_Ziyaretler.silindi = 0 " + plasiyerkisiti;
                 cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
                 ViewBag.ToplamBekleyen = Convert.ToInt32(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
@@ -135,7 +135,7 @@ where w_Cariler.silindi = 0 and w_Ziyaretler.UyelikID = @UyelikID and w_Ziyaretl
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"select ZiyaretTipi,count(*) adet 
 from w_Ziyaretler 
-inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.ID
+inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.Kod
 Where w_Cariler.silindi = 0 and w_Ziyaretler.UyelikID = @UyelikID and w_Ziyaretler.tamamlandi = 0  and w_Ziyaretler.silindi = 0
 group by w_Ziyaretler.ZiyaretTipi
 order by count(*) desc
@@ -149,7 +149,7 @@ order by count(*) desc
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"select count(*) adet 
 from w_Ziyaretler 
-inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.ID
+inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.Kod
 Where w_Cariler.silindi = 0 and w_Ziyaretler.UyelikID = @UyelikID and w_Ziyaretler.tamamlandi = 0 " + plasiyerkisiti + @"  and w_Ziyaretler.tarih < '" + DateTime.Today.ToString("yyyy-MM-dd") + @"' and w_Ziyaretler.silindi = 0
 order by count(*) desc
 ";
@@ -173,9 +173,9 @@ order by count(*) desc
 
             SqlCommand cmd = new SqlCommand();
             if (id.Length == 1)
-                cmd.CommandText = "select * from w_Cariler where UyelikID = @UyelikID and silindi = 0 and (CariAdi like '" + id.Replace(";", "").Replace("'", "") + "%' ) Order by CariAdi ";
+                cmd.CommandText = "select top(1000) * from w_Cariler where UyelikID = @UyelikID and silindi = 0 and (CariAdi like '" + id.Replace(";", "").Replace("'", "") + "%' ) Order by CariAdi ";
             else
-                cmd.CommandText = "select * from w_Cariler where UyelikID = @UyelikID and silindi = 0 and (CariAdi like '%" + id.Replace(";", "").Replace("'", "") + "%'  ) Order by CariAdi ";
+                cmd.CommandText = "select top(1000) * from w_Cariler where UyelikID = @UyelikID and silindi = 0 and (CariAdi like '%" + id.Replace(";", "").Replace("'", "") + "%'  ) Order by CariAdi ";
 
             cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
@@ -215,11 +215,11 @@ order by count(*) desc
             DataSet ds = new DataSet();
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "select * from w_Cariler where UyelikID = @UyelikID and ID = @ID and silindi = 0";
+                cmd.CommandText = "select * from w_Cariler where UyelikID = @UyelikID and Kod = @Kod and silindi = 0";
                 if (id == null)
-                    cmd.Parameters.AddWithValue("@ID", DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Kod", DBNull.Value);
                 else
-                    cmd.Parameters.AddWithValue("@ID", id);
+                    cmd.Parameters.AddWithValue("@Kod", id);
                 cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                 ds.Tables.Add(dt);
@@ -227,7 +227,7 @@ order by count(*) desc
             string idler = "null,";
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "select * from w_Ziyaretler where CariID = @ID and silindi = 0 order by Tamamlandi, tarih desc,kayittarihi desc";
+                cmd.CommandText = "select * from w_Ziyaretler where CariKodu = @ID and silindi = 0 order by Tamamlandi, tarih desc,kayittarihi desc";
                 if (id == null)
                     cmd.Parameters.AddWithValue("@ID", DBNull.Value);
                 else
@@ -236,7 +236,7 @@ order by count(*) desc
                 ds.Tables.Add(dt);
                 foreach (DataRow item in dt.Rows)
                 {
-                    idler += item["id"] + ",";
+                    idler += "'"+item["ID"] + "',";
                 }
                 idler = idler.Substring(0, idler.Length - 1);
             }
@@ -250,13 +250,13 @@ order by count(*) desc
 
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "select 'GENEL' Deger ";
+                cmd.CommandText = "select  Deger from GrupKodlari WITH(NOLOCK) where UyelikID = @UyelikID and Kod = 'Crm_Urunler' order by Deger";
                 cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
                 ViewBag.Urunler = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             }
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "select Deger from GrupKodlari WITH(NOLOCK) Where Kod = 'Crm_ZiyaretTipi' Order by Deger";
+                cmd.CommandText = "select  Deger from GrupKodlari WITH(NOLOCK) where UyelikID = @UyelikID and Kod = 'Crm_ZiyaretTipi' order by Deger";
                 cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
                 ViewBag.ZiyaretTipi = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             }
@@ -266,7 +266,7 @@ order by count(*) desc
 
 
         [HttpPost]
-        public ActionResult ZiyaretKaydet(int id = 0, int CariID = 0, string Tarih = null, string Baslik = null, string Aciklama = null, string TeklifVerildi = null, string Urun = null, IEnumerable<HttpPostedFileBase> Dosya = null, string YeniTarih = null, string YeniBaslik = null, string YeniAciklama = null, string Tip = "", string Baslangic = null, string Bitis = null)
+        public ActionResult ZiyaretKaydet(string id = "", string CariID = "", string Tarih = null, string Baslik = null, string Aciklama = null, string TeklifVerildi = null, string Urun = null, IEnumerable<HttpPostedFileBase> Dosya = null, string YeniTarih = null, string YeniBaslik = null, string YeniAciklama = null, string Tip = "", string Baslangic = null, string Bitis = null)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
@@ -275,13 +275,15 @@ order by count(*) desc
             string KullaniciID = GetCookie("KullaniciID");
 
             SqlCommand cmd = new SqlCommand();
-            if (id == 0)
+            if (id == "")
             {
                 cmd.CommandText = @"
-Insert Into w_Ziyaretler 
-(UyelikID,CariID,tarih,aciklama,teklifverildi,urun,kayittarihi,kayityapankullanici,tamamlandi,baslik,silindi) 
+declare @ID nvarchar(100)=(Select NEWID())
+Insert Into Ziyaretler 
+(ID,UyelikID,CariID,tarih,aciklama,teklifverildi,urun,kayittarihi,kayityapankullanici,tamamlandi,baslik,silindi) 
 values 
-('" + UyelikID + "','" + CariID + "',@tarih,@aciklama,@teklifverildi,@urun,@kayittarihi,@kayityapankullanici,0,@baslik,0); select LAST_INSERT_ID() ";
+(@ID,'" + UyelikID + "','" + CariID + @"',@tarih,@aciklama,@teklifverildi,@urun,@kayittarihi,@kayityapankullanici,0,@baslik,0); 
+select @ID ";
                 //cmd.Parameters.AddWithValue("@CariID", CariID);
                 cmd.Parameters.AddWithValue("@tarih", Convert.ToDateTime(Tarih));
                 cmd.Parameters.AddWithValue("@baslik", Baslik);
@@ -290,12 +292,12 @@ values
                 cmd.Parameters.AddWithValue("@urun", Urun);
                 cmd.Parameters.AddWithValue("@kayittarihi", DateTime.Now);
                 cmd.Parameters.AddWithValue("@kayityapankullanici", KullaniciID);
-                id = Convert.ToInt32(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+                id = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
             }
             else
             {
                 cmd.CommandText = @"
-Update w_Ziyaretler set
+Update Ziyaretler set
 kapanistarih=@tarih,aciklama2=@aciklama,teklifverildi=@teklifverildi,urun=@urun,duzenlemetarihi=@kayittarihi,duzenlemeyapankullanici=@kayityapankullanici,tamamlandi=1
 Where id = @id
 ";
@@ -312,10 +314,12 @@ Where id = @id
                 {
                     cmd.Parameters.Clear();
                     cmd.CommandText = @"
-Insert Into w_Ziyaretler 
-(UyelikID,CariID,tarih,baslik,aciklama,teklifverildi,urun,kayittarihi,kayityapankullanici,tamamlandi) 
+declare @ID nvarchar(100)=(Select NEWID())
+Insert Into Ziyaretler 
+declare @ID nvarchar(100)=(Select NEWID())
+(ID,UyelikID,CariID,tarih,baslik,aciklama,teklifverildi,urun,kayittarihi,kayityapankullanici,tamamlandi) 
 values 
-('" + UyelikID + "','" + CariID + "',@tarih,@baslik,@aciklama,@teklifverildi,@urun,@kayittarihi,@kayityapankullanici,0); select LAST_INSERT_ID() ";
+(@ID,'" + UyelikID + "','" + CariID + "',@tarih,@baslik,@aciklama,@teklifverildi,@urun,@kayittarihi,@kayityapankullanici,0); select @ID ";
                     //cmd.Parameters.AddWithValue("@CariID", CariID);
                     cmd.Parameters.AddWithValue("@tarih", Convert.ToDateTime(YeniTarih));
                     cmd.Parameters.AddWithValue("@baslik", YeniBaslik);
@@ -324,7 +328,7 @@ values
                     cmd.Parameters.AddWithValue("@urun", "");
                     cmd.Parameters.AddWithValue("@kayittarihi", DateTime.Now);
                     cmd.Parameters.AddWithValue("@kayityapankullanici", KullaniciID);
-                    id = Convert.ToInt32(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+                    id = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
                 }
             }
 
@@ -357,13 +361,13 @@ values
 
             if (Tip == "BekleyenZiyaretler")
             {
-                return Redirect("~/Home/BekleyenZiyaretler/?Baslangic=" + Baslangic + "&Bitis=" + Bitis);
+                return Redirect("~/Ziyaret/Ziyaret/BekleyenZiyaretler/?Baslangic=" + Baslangic + "&Bitis=" + Bitis);
             }
             if (Tip == "GunlukIslemler")
             {
-                return Redirect("~/Home/GunlukIslemler/?Baslangic=" + Baslangic + "&Bitis=" + Bitis);
+                return Redirect("~/Ziyaret/Ziyaret/GunlukIslemler/?Baslangic=" + Baslangic + "&Bitis=" + Bitis);
             }
-            return Redirect("~/Home/Ziyaret/" + CariID);
+            return Redirect("~/Ziyaret/Ziyaret/Ziyaret/" + CariID);
         }
 
         #endregion
@@ -406,19 +410,19 @@ values
             }
 
             SqlCommand cmd2 = new SqlCommand();
-            cmd2.CommandText = "select  w_Ziyaretler.*,w_Cariler.Isim,w_Cariler.seviye from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.ID where w_Cariler.silindi = 0 and w_Ziyaretler.UyelikID = '" + UyelikID + "' and w_Ziyaretler.silindi = 0 and tamamlandi = 0 " + plasiyerkisiti + "  " + baslikkisiti + "  and tarih between '" + Baslangic + "' and '" + Bitis + "' order by IFNULL(w_Cariler.seviye,6),w_Ziyaretler.tarih ";
+            cmd2.CommandText = "select  w_Ziyaretler.*,w_Cariler.Isim,w_Cariler.seviye from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.Kod where w_Cariler.silindi = 0 and w_Ziyaretler.UyelikID = '" + UyelikID + "' and w_Ziyaretler.silindi = 0 and tamamlandi = 0 " + plasiyerkisiti + "  " + baslikkisiti + "  and tarih between '" + Baslangic + "' and '" + Bitis + "' order by ISNULL(w_Cariler.seviye,6),w_Ziyaretler.tarih ";
             DataTable dtBekleyenZiyaretler = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
 
 
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "select  Isim from urunler where UyelikID = @UyelikID order by Isim";
+                cmd.CommandText = "select  Deger from GrupKodlari WITH(NOLOCK) where UyelikID = @UyelikID and Kod = 'Crm_Urunler' order by Deger";
                 cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
                 ViewBag.Urunler = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             }
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "select  Isim from ziyarettipi where UyelikID = @UyelikID order by Isim";
+                cmd.CommandText = "select  Deger from GrupKodlari WITH(NOLOCK) where UyelikID = @UyelikID and Kod = 'Crm_ZiyaretTipi' order by Deger";
                 cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
                 ViewBag.ZiyaretTipi = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             }
@@ -476,7 +480,7 @@ w_Cariler.website,
 w_Cariler.Unvan1 as Kisi1Unvan,
 w_Cariler.Isim1 as Kisi1Isim,
 w_Cariler.Telefon1 as Kisi1Telefon
-from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.ID where w_Cariler.silindi = 0 and w_Ziyaretler.UyelikID = '" + UyelikID + "' and w_Ziyaretler.silindi = 0 and tamamlandi = 0 " + plasiyerkisiti + "  " + baslikkisiti + "  and tarih between '" + Baslangic + "' and '" + Bitis + "' order by IFNULL(w_Cariler.seviye,6),w_Ziyaretler.tarih ";
+from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.Kod where w_Cariler.silindi = 0 and w_Ziyaretler.UyelikID = '" + UyelikID + "' and w_Ziyaretler.silindi = 0 and tamamlandi = 0 " + plasiyerkisiti + "  " + baslikkisiti + "  and tarih between '" + Baslangic + "' and '" + Bitis + "' order by ISNULL(w_Cariler.seviye,6),w_Ziyaretler.tarih ";
             DataTable dtBekleyenZiyaretler = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
 
 
@@ -508,12 +512,12 @@ from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.ID whe
 
 
             SqlCommand cmd2 = new SqlCommand();
-            cmd2.CommandText = "select  w_Ziyaretler.*,w_Cariler.Isim,w_Cariler.seviye from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.ID where w_Ziyaretler.UyelikID = '" + UyelikID + "'  and w_Ziyaretler.silindi = 0 and  teklifverildi = 1 " + plasiyerkisiti + "  and tarih between '" + Baslangic + "' and '" + Bitis + "' order by IFNULL(w_Cariler.seviye,6),w_Ziyaretler.tarih ";
+            cmd2.CommandText = "select  w_Ziyaretler.*,w_Cariler.Isim,w_Cariler.seviye from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.Kod where w_Ziyaretler.UyelikID = '" + UyelikID + "'  and w_Ziyaretler.silindi = 0 and  teklifverildi = 1 " + plasiyerkisiti + "  and tarih between '" + Baslangic + "' and '" + Bitis + "' order by ISNULL(w_Cariler.seviye,6),w_Ziyaretler.tarih ";
             DataTable dtBekleyenZiyaretler = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
 
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "select  Isim from urunler where UyelikID = @UyelikID order by Isim";
+                cmd.CommandText = "select  Deger from GrupKodlari WITH(NOLOCK) where UyelikID = @UyelikID and Kod = 'Crm_Urunler' order by Deger";
                 cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
                 ViewBag.Urunler = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             }
@@ -553,7 +557,7 @@ from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.ID whe
             }
 
             SqlCommand cmd2 = new SqlCommand();
-            cmd2.CommandText = "select  w_Ziyaretler.*,w_Cariler.Isim,w_Cariler.seviye from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.ID where w_Ziyaretler.UyelikID = '" + UyelikID + "' and w_Ziyaretler.silindi = 0 and tamamlandi = 1 " + plasiyerkisiti + " " + teklifverildi + "  and CAST(w_Ziyaretler.DuzenlemeTarihi as DATE) between '" + Baslangic + "' and '" + Bitis + "' order by IFNULL(w_Cariler.seviye,6),w_Ziyaretler.tarih ";
+            cmd2.CommandText = "select  w_Ziyaretler.*,w_Cariler.Isim,w_Cariler.seviye from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.Kod where w_Ziyaretler.UyelikID = '" + UyelikID + "' and w_Ziyaretler.silindi = 0 and tamamlandi = 1 " + plasiyerkisiti + " " + teklifverildi + "  and CAST(w_Ziyaretler.DuzenlemeTarihi as DATE) between '" + Baslangic + "' and '" + Bitis + "' order by ISNULL(w_Cariler.seviye,6),w_Ziyaretler.tarih ";
             DataTable dtBekleyenZiyaretler = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
 
             return View(dtBekleyenZiyaretler);
@@ -590,18 +594,18 @@ from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.ID whe
             }
 
             SqlCommand cmd2 = new SqlCommand();
-            cmd2.CommandText = "select  w_Ziyaretler.*,w_Cariler.Isim,w_Cariler.seviye from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.ID where w_Ziyaretler.UyelikID = '" + UyelikID + "' " + plasiyerkisiti + "   and w_Ziyaretler.silindi = 0 and  tarih between '" + Baslangic + "' and '" + Bitis + "' order by IFNULL(w_Cariler.seviye,6),w_Ziyaretler.tarih ";
+            cmd2.CommandText = "select  w_Ziyaretler.*,w_Cariler.Isim,w_Cariler.seviye from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.Kod where w_Ziyaretler.UyelikID = '" + UyelikID + "' " + plasiyerkisiti + "   and w_Ziyaretler.silindi = 0 and  tarih between '" + Baslangic + "' and '" + Bitis + "' order by ISNULL(w_Cariler.seviye,6),w_Ziyaretler.tarih ";
             DataTable dtBekleyenZiyaretler = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
 
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "select  Isim from urunler where UyelikID = @UyelikID order by Isim";
+                cmd.CommandText = "select  Deger from GrupKodlari WITH(NOLOCK) where UyelikID = @UyelikID and Kod = 'Crm_Urunler' order by Deger";
                 cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
                 ViewBag.Urunler = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             }
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "select  Isim from ziyarettipi where UyelikID = @UyelikID order by Isim";
+                cmd.CommandText = "select  Deger from GrupKodlari WITH(NOLOCK) where UyelikID = @UyelikID and Kod = 'Crm_ZiyaretTipi' order by Deger";
                 cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
                 ViewBag.ZiyaretTipi = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             }
@@ -665,7 +669,7 @@ w_Cariler.website,
 w_Cariler.Unvan1 as Kisi1Unvan,
 w_Cariler.Isim1 as Kisi1Isim,
 w_Cariler.Telefon1 as Kisi1Telefon
-from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.ID where w_Ziyaretler.UyelikID = '" + UyelikID + "' " + plasiyerkisiti + "   and w_Ziyaretler.silindi = 0 and  tarih between '" + Baslangic + "' and '" + Bitis + "' order by IFNULL(w_Cariler.seviye,6),w_Ziyaretler.tarih ";
+from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.Kod where w_Ziyaretler.UyelikID = '" + UyelikID + "' " + plasiyerkisiti + "   and w_Ziyaretler.silindi = 0 and  tarih between '" + Baslangic + "' and '" + Bitis + "' order by ISNULL(w_Cariler.seviye,6),w_Ziyaretler.tarih ";
             DataTable dtBekleyenZiyaretler = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
 
 
