@@ -18,7 +18,7 @@ using System.Text.Json;
 
 namespace YKPortal.Areas.E.Controllers
 {
-    public class YetkilendirmeController : BaseController
+    public class ETicaretYetkilendirmeController : BaseController
     {
         // GET: E/Yetkilendirme
         [HttpGet]
@@ -26,7 +26,7 @@ namespace YKPortal.Areas.E.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return Redirect("~/E/Site/AnaSayfa");
+                return Redirect("~/E/ETicaretSite/AnaSayfa");
             }
             IlListesiniOlustur();
             UlkeListesiniOlustur();
@@ -38,7 +38,7 @@ namespace YKPortal.Areas.E.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return Redirect("~/E/Site/AnaSayfa");
+                return Redirect("~/E/ETicaretSite/AnaSayfa");
             }
 
             IlListesiniOlustur();
@@ -155,7 +155,7 @@ namespace YKPortal.Areas.E.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return Redirect("~/E/Site/AnaSayfa");
+                return Redirect("~/E/ETicaretSite/AnaSayfa");
             }
 
             string redirectUrl = Request.Url.ToString().Replace("http:", "https:");
@@ -173,7 +173,7 @@ namespace YKPortal.Areas.E.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return Redirect("~/E/Site/AnaSayfa");
+                return Redirect("~/E/ETicaretSite/AnaSayfa");
             }
 
             SqlCommand cmd = new SqlCommand();
@@ -211,7 +211,7 @@ namespace YKPortal.Areas.E.Controllers
                     };
                     Response.Cookies.Add(authCookie);
 
-                    return Redirect("~/E/Site/AnaSayfa");
+                    return Redirect("~/E/ETicaretSite/AnaSayfa");
                 }
             }
 
@@ -226,7 +226,7 @@ namespace YKPortal.Areas.E.Controllers
                 FormsAuthentication.SignOut();
             }
 
-            return Redirect("~/E/Yetkilendirme/Giris");
+            return Redirect("~/E/ETicaretYetkilendirme/Giris");
         }
 
     }

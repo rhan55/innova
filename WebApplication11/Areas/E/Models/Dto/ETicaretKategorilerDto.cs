@@ -5,7 +5,7 @@ using System.Web;
 
 namespace YKPortal.Areas.E.Models.Dto
 {
-    public class KategorilerDto
+    public class ETicaretKategorilerDto
     {
         private string _CariID;
         private string _UyelikID;

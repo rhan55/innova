@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YKEFaturaEntegrasyon.Dto
+namespace YKPortal.Areas.E.Models.Dto
 {
     public class ETicaretStokDto
     {
         public class ETicaretStokSorguDto
         {
+            private string _StokID;
             private string _CariID;
             private string _UyelikID;
             private string _Kategori1;
@@ -21,6 +22,7 @@ namespace YKEFaturaEntegrasyon.Dto
             private string _AranacakKelime;
             private int _Sayfa;
 
+            public string StokID { get { return _StokID ?? ""; } set { _StokID = value; } }
             public string CariID { get { return _CariID ?? ""; } set { _CariID = value; } }
             public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; } }
             public string Kategori1 { get { return _Kategori1 ?? ""; } set { _Kategori1 = value; } }
@@ -52,7 +54,7 @@ namespace YKEFaturaEntegrasyon.Dto
             private string _UreticiFirma;
             private string _Fiyat;
             private string _Resim1;
-
+            private string _Resim2;
             public string StokID { get { return _StokID ?? ""; } set { _StokID = value; } }
             public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; } }
             public string Kod { get { return _Kod ?? ""; } set { _Kod = value; } }
@@ -69,6 +71,7 @@ namespace YKEFaturaEntegrasyon.Dto
             public string Kaliye { get { return _Kaliye ?? ""; } set { _Kaliye = value; } }
             public string UreticiFirma { get { return _UreticiFirma ?? ""; } set { _UreticiFirma = value; } }
             public string Fiyat { get { return _Fiyat ?? ""; } set { _Fiyat = value; } }
+            public string Resim2 { get { return _Resim2 ?? ""; } set { _Resim2 = value; } }
             public string Resim1 { get { return _Resim1 ?? ""; } set { _Resim1 = value; } }
         }
 

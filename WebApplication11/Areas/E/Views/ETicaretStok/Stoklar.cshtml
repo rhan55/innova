@@ -109,18 +109,20 @@
 
                 <div class="row">
                     <div class="col-6 col-sm-4">
-                        @foreach (YKEFaturaEntegrasyon.Dto.ETicaretStokDto.ETicaretStokSonucDto stokSonucDto in ViewBag.Stoklar)
+                        @foreach (YKPortal.Areas.E.Models.Dto.ETicaretStokDto.ETicaretStokSonucDto stokSonucDto in ViewBag.Stoklar)
                         {
                             <div class="product-default">
                                 <figure>
-                                    <a href="product.html">
-                                        <img src="~/Tema/ETicaret/images/products/product-1.jpg" width="280" height="280" alt="product" />
-                                        <img src="~/Tema/ETicaret/images/products/product-1-2.jpg" width="280" height="280" alt="product" />
+                                    <a href="/E/ETicaretStok/StokDetay?StokID=@stokSonucDto.StokID">
+                                        <img src="@stokSonucDto.Resim1" width="280" height="280" alt="product" />
+                                        @*<img src="@stokSonucDto.Resim2" width="280" height="280" alt="product" />*@
                                     </a>
 
                                     <div class="label-group">
-                                        <div class="product-label label-hot">HOT</div>
-                                        <div class="product-label label-sale">-20%</div>
+                                        <div class="product-label label-hot">@if (stokSonucDto.Kod == "HOT")
+                                        {<span>HOT</span>}</div>
+                                        <div class="product-label label-sale">@if (!string.IsNullOrEmpty(stokSonucDto.IskontoSatis1))
+                                        {<span>% @stokSonucDto.IskontoSatis1 İndirim</span>}</div>
                                     </div>
                                 </figure>
 
@@ -132,7 +134,7 @@
                                     </div>
 
                                     <h3 class="product-title">
-                                        <a href="product.html">
+                                        <a href="/E/ETicaretStok/StokDetay?StokID=@stokSonucDto.StokID">
                                             @stokSonucDto.Isim
                                         </a>
                                     </h3>
@@ -148,8 +150,11 @@
                                     <!-- End .product-container -->
 
                                     <div class="price-box">
-                                        <span class="old-price">$90.00</span>
-                                        <span class="product-price">$70.00</span>
+                                        @*@if (!string.IsNullOrEmpty(stokSonucDto.IskontoSatis1))
+                                        {
+                                            <span class="old-price">@Convert.ToDecimal(stokSonucDto.Fiyat)</span>
+                                        }*@
+                                        <span class="product-price">@stokSonucDto.Fiyat</span>
                                     </div>
                                     <!-- End .price-box -->
 
@@ -157,7 +162,7 @@
                                         <a href="wishlist.html" class="btn-icon-wish" title="wishlist">
                                             <i class="icon-heart"></i>
                                         </a>
-                                        <a href="product.html" class="btn-icon btn-add-cart">
+                                        <a href="E/ETicaretStok/StokDetay/@stokSonucDto.StokID" class="btn-icon btn-add-cart">
                                             <i class="fa fa-arrow-right"></i><span>
                                                 SELECT
                                                 OPTIONS
@@ -223,7 +228,7 @@
 
                                 @if (ViewBag.Kategoriler != null)
                                 {
-                                    var kategoriler = ViewBag.Kategoriler as List<YKPortal.Areas.E.Models.Dto.KategorilerDto>;
+                                    var kategoriler = ViewBag.Kategoriler as List<YKPortal.Areas.E.Models.Dto.ETicaretKategorilerDto>;
                                     if (kategoriler != null && kategoriler.Any())
                                     {
                                         foreach (var kategori in kategoriler)
@@ -233,27 +238,27 @@
                                             <ul class="submenu">
                                                 @if (!string.IsNullOrEmpty(kategori.Kategori1))
                                                 {
-                                                    <li><a href="/kategori/@kategori.Kategori1">@kategori.Kategori1</a></li>
+                                                    <li><a href="/ETicaretStok/Stoklar?Kategori1=@kategori.Kategori1">@kategori.Kategori1</a></li>
                                                 }
                                                 @if (!string.IsNullOrEmpty(kategori.Kategori2))
                                                 {
-                                                    <li><a href="/kategori/@kategori.Kategori2">@kategori.Kategori2</a></li>
+                                                    <li><a href="/ETicaretStok/Stoklar?Kategori2=@kategori.Kategori2">@kategori.Kategori2</a></li>
                                                 }
                                                 @if (!string.IsNullOrEmpty(kategori.Kategori3))
                                                 {
-                                                    <li><a href="/kategori/@kategori.Kategori3">@kategori.Kategori3</a></li>
+                                                    <li><a href="/ETicaretStok/Stoklar?Kategori3=@kategori.Kategori3">@kategori.Kategori3</a></li>
                                                 }
                                                 @if (!string.IsNullOrEmpty(kategori.Kategori4))
                                                 {
-                                                    <li><a href="/kategori/@kategori.Kategori4">@kategori.Kategori4</a></li>
+                                                    <li><a href="/ETicaretStok/Stoklar?Kategori4=@kategori.Kategori4">@kategori.Kategori4</a></li>
                                                 }
                                                 @if (!string.IsNullOrEmpty(kategori.Kategori5))
                                                 {
-                                                    <li><a href="/kategori/@kategori.Kategori5">@kategori.Kategori5</a></li>
+                                                    <li><a href="/ETicaretStok/Stoklar?Kategori5=@kategori.Kategori5">@kategori.Kategori5</a></li>
                                                 }
                                                 @if (!string.IsNullOrEmpty(kategori.Kategori6))
                                                 {
-                                                    <li><a href="/kategori/@kategori.Kategori6">@kategori.Kategori6</a></li>
+                                                    <li><a href="/ETicaretStok/Stoklar?Kategori6=@kategori.Kategori6">@kategori.Kategori6</a></li>
                                                 }
                                             </ul>
 

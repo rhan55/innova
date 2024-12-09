@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace YKPortal.Areas.E.Controllers
 {
-    public class HakkimizdaController : BaseController
+    public class ETicaretHakkimizdaController : BaseController
     {
         // GET: E/Hakkimizda
         [HttpGet]

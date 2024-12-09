@@ -13,7 +13,7 @@ using YKPortal.Models.Dto;
 
 namespace YKPortal.Areas.E.Controllers
 {
-    public class KullaniciController : BaseController
+    public class ETicaretKullaniciController : BaseController
     {
 
 

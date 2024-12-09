@@ -58,7 +58,7 @@ namespace YKPortal.Areas.E.Controllers
             // Yönlendirme sadece yetki gerektiren sayfalarda yapılır
             if (IsAuthorizationRequired(filterContext))
             {
-                filterContext.Result = new RedirectResult("~/E/Yetkilendirme/Giris");
+                filterContext.Result = new RedirectResult("~/E/ETicaretYetkilendirme/Giris");
                 return;
             }
 
@@ -91,7 +91,7 @@ namespace YKPortal.Areas.E.Controllers
         }
 
 
-        protected List<KategorilerDto> KategorileriGetir()
+        protected List<ETicaretKategorilerDto> KategorileriGetir()
         {
 
 
@@ -105,10 +105,10 @@ namespace YKPortal.Areas.E.Controllers
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            var kategoriler = new List<KategorilerDto>();
+            var kategoriler = new List<ETicaretKategorilerDto>();
             foreach (DataRow row in dt.Rows)
             {
-                kategoriler.Add(new KategorilerDto
+                kategoriler.Add(new ETicaretKategorilerDto
                 {
                     Kategori1 = row["Kategori1"].ToString(),
                     Kategori2 = row["Kategori2"].ToString(),
@@ -120,6 +120,47 @@ namespace YKPortal.Areas.E.Controllers
             }
 
             return kategoriler;
+        }
+
+        protected ETicaretStokDto.ETicaretStokSonucDto StokBul(ETicaretStokDto.ETicaretStokSorguDto stokSorguDto)
+        {
+            SqlCommand cmd = new SqlCommand
+            {
+                CommandText = "[p_ETicaret_Stok]",
+                CommandType = CommandType.StoredProcedure
+            };
+            cmd.Parameters.AddWithValue("@UyelikID", UyelikIDGetir());
+            cmd.Parameters.AddWithValue("@CariId", Kullanici.ID);
+            cmd.Parameters.AddWithValue("@StokID", stokSorguDto.StokID);
+
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            if (dt.Rows.Count > 0)
+            {
+                return new ETicaretStokDto.ETicaretStokSonucDto
+                {
+                    StokID = dt.Rows[0]["StokID"].ToString(),
+                    UyelikID = dt.Rows[0]["UyelikID"].ToString(),
+                    Kod = dt.Rows[0]["Kod"].ToString(),
+                    Isim = dt.Rows[0]["Isim"].ToString(),
+                    Aciklama = dt.Rows[0]["Aciklama"].ToString(),
+                    Barkod = dt.Rows[0]["Barkod"].ToString(),
+                    OlcuBirimi = dt.Rows[0]["OlcuBirimi"].ToString(),
+                    KdvSatis = dt.Rows[0]["KdvSatis"].ToString(),
+                    IskontoSatis1 = dt.Rows[0]["IskontoSatis1"].ToString(),
+                    Marka = dt.Rows[0]["Marka"].ToString(),
+                    Model = dt.Rows[0]["Model"].ToString(),
+                    Renk = dt.Rows[0]["Renk"].ToString(),
+                    Beden = dt.Rows[0]["Beden"].ToString(),
+                    Kaliye = dt.Rows[0]["Kaliye"].ToString(),
+                    UreticiFirma = dt.Rows[0]["UreticiFirma"].ToString(),
+                    Fiyat = dt.Rows[0]["Fiyat"].ToString(),
+                    Resim1 = dt.Rows[0]["Resim1"].ToString()
+                };
+            }
+
+            return new ETicaretStokDto.ETicaretStokSonucDto();
         }
 
         protected List<ETicaretStokDto.ETicaretStokSonucDto> StokGetir(ETicaretStokDto.ETicaretStokSorguDto stokSorguDto)

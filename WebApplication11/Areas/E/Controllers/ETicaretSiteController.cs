@@ -17,7 +17,7 @@ using YKPortal.Models.YKClasses;
 
 namespace YKPortal.Areas.E.Controllers
 {
-    public class SiteController : BaseController
+    public class ETicaretSiteController : BaseController
     {
         [HttpGet]
         public ActionResult AnaSayfa()
