@@ -48,6 +48,7 @@ namespace YKPortal.Areas.E.Controllers
             {
                 ViewBag.KullaniciAdi = User.Identity.Name;
                 ViewBag.GirisYapildi = true;
+                ViewBag.SepetBilgileri = SepetListesiniGetir();
             }
             else
             {
@@ -148,14 +149,14 @@ namespace YKPortal.Areas.E.Controllers
                     Barkod = dt.Rows[0]["Barkod"].ToString(),
                     OlcuBirimi = dt.Rows[0]["OlcuBirimi"].ToString(),
                     KdvSatis = dt.Rows[0]["KdvSatis"].ToString(),
-                    IskontoSatis1 = dt.Rows[0]["IskontoSatis1"].ToString(),
+                    IskontoSatis1 = Convert.ToDecimal(dt.Rows[0]["IskontoSatis1"]),
                     Marka = dt.Rows[0]["Marka"].ToString(),
                     Model = dt.Rows[0]["Model"].ToString(),
                     Renk = dt.Rows[0]["Renk"].ToString(),
                     Beden = dt.Rows[0]["Beden"].ToString(),
-                    Kaliye = dt.Rows[0]["Kaliye"].ToString(),
+                    Kalite = dt.Rows[0]["Kalite"].ToString(),
                     UreticiFirma = dt.Rows[0]["UreticiFirma"].ToString(),
-                    Fiyat = dt.Rows[0]["Fiyat"].ToString(),
+                    Fiyat = Convert.ToDecimal(dt.Rows[0]["Fiyat"]),
                     Resim1 = dt.Rows[0]["Resim1"].ToString()
                 };
             }
@@ -197,19 +198,85 @@ namespace YKPortal.Areas.E.Controllers
                     Barkod = row["Barkod"].ToString(),
                     OlcuBirimi = row["OlcuBirimi"].ToString(),
                     KdvSatis = row["KdvSatis"].ToString(),
-                    IskontoSatis1 = row["IskontoSatis1"].ToString(),
+                    IskontoSatis1 = Convert.ToDecimal(row["IskontoSatis1"]),
                     Marka = row["Marka"].ToString(),
                     Model = row["Model"].ToString(),
                     Renk = row["Renk"].ToString(),
                     Beden = row["Beden"].ToString(),
-                    Kaliye = row["Kaliye"].ToString(),
+                    Kalite = row["Kalite"].ToString(),
                     UreticiFirma = row["UreticiFirma"].ToString(),
-                    Fiyat = row["Fiyat"].ToString(),
-                    Resim1 = row["Resim1"].ToString()
+                    Resim1 = row["Resim1"].ToString(),
+                    Fiyat = Convert.ToDecimal(row["Fiyat"]),
+                   
                 });
             }
 
             return stoklar;
+        }
+
+        protected List<ETicaretSepetDto.ETicaretSepetListeSonucDto> SepetListesiniGetir() {
+            SqlCommand cmd = new SqlCommand
+            {
+                CommandText = "[p_ETicaret_SepetListesi]",
+                CommandType = CommandType.StoredProcedure
+            };
+            cmd.Parameters.AddWithValue("@UyelikID", UyelikIDGetir());
+            cmd.Parameters.AddWithValue("@CariId", Kullanici.ID);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+
+            var sepetler = new List<ETicaretSepetDto.ETicaretSepetListeSonucDto>();
+
+            if (dt.Rows.Count > 0)
+            {
+                sepetler.Add(new ETicaretSepetDto.ETicaretSepetListeSonucDto
+                {
+                    ID = dt.Rows[0]["ID"].ToString(),
+                    CariID = dt.Rows[0]["CariID"].ToString(),
+                    StokID = dt.Rows[0]["StokID"].ToString(),
+                    UyelikID = dt.Rows[0]["UyelikID"].ToString(),
+                    Kod = dt.Rows[0]["Kod"].ToString(),
+                    Isim = dt.Rows[0]["Isim"].ToString(),
+                    OlcuBirimi = dt.Rows[0]["OlcuBirimi"].ToString(),
+                    Fiyat = Convert.ToDecimal(dt.Rows[0]["Fiyat"]),
+                    Resim1 = dt.Rows[0]["Resim1"].ToString(),
+                    KayitTarihi = dt.Rows[0]["KayitTarihi"].ToString(),
+                    Miktar = Convert.ToDecimal(dt.Rows[0]["Miktar"]),
+                    DovizBirimi = dt.Rows[0]["DovizBirimi"].ToString(),
+                    Silindi = Convert.ToBoolean(dt.Rows[0]["Silindi"]),
+
+                });
+            }
+
+            return sepetler;
+
+        }
+
+        protected bool SepetKaydet(ETicaretSepetDto.ETicaretSepetEkleDto eTicaretSepetEkleDto)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand
+                {
+                    CommandText = "[p_ETicaret_SepetEkle]",
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("@UyelikID", UyelikIDGetir());
+                cmd.Parameters.AddWithValue("@CariId", Kullanici.ID);
+                cmd.Parameters.AddWithValue("@StokID", eTicaretSepetEkleDto.StokID);
+                cmd.Parameters.AddWithValue("@OlcuBirimi", eTicaretSepetEkleDto.OlcuBirimi);
+                cmd.Parameters.AddWithValue("@Miktar", eTicaretSepetEkleDto.Miktar);
+                cmd.Parameters.AddWithValue("@Fiyat", eTicaretSepetEkleDto.Fiyat);
+                cmd.Parameters.AddWithValue("@DovizBirimi", eTicaretSepetEkleDto.DovizBirimi);
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+
+            }
         }
 
         #region Cookie İşlemleri
@@ -374,7 +441,6 @@ namespace YKPortal.Areas.E.Controllers
 
         protected string UyelikIDGetir()
         {
-            var uyelikID = System.Configuration.ConfigurationManager.AppSettings["UyelikID"];
             return System.Configuration.ConfigurationManager.AppSettings["UyelikID"];
         }
 

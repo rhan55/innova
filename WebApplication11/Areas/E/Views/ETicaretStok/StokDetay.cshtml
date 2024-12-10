@@ -5,6 +5,7 @@
     var stok = ViewBag.Stok as YKPortal.Areas.E.Models.Dto.ETicaretStokDto.ETicaretStokSonucDto;
 }
 
+  Fiyat,  diğerleri varsa görünsün.
 <main class="main">
     <div class="container">
         <nav aria-label="breadcrumb" class="breadcrumb-nav">
@@ -69,7 +70,7 @@
                         </span>
                     </div>
 
-                    <div class="prod-thumbnail owl-dots">
+                    <div class="prod-thumbnail owl-dots">     
                         <div class="owl-dot">
                             <img src="assets/images/products/zoom/product-1.jpg" width="110" height="110"
                                  alt="product-thumbnail" />
@@ -93,8 +94,12 @@
                     </div>
                 </div><!-- End .product-single-gallery -->
 
-                <div class="col-lg-7 col-md-6 product-single-details">
-                    <h1 class="product-title">@stok.Isim</h1>
+                <div class="col-lg-7 col-md-6 product-single-details"> 
+                    <div>
+                        <div> <h1 class="product-title">@stok.Isim</h1></div>
+                        <div> <h3 class="product-title">@stok.Kod </h3></div>
+                    </div>
+                   
 
                     <div class="product-nav">
                         <div class="product-prev">
@@ -142,25 +147,24 @@
                     <hr class="short-divider">
 
                     <div class="price-box">
-                        <span class="old-price">$1,999.00</span>
-                        <span class="new-price">$1,699.00</span>
+                        <span class="old-price">@stok.IskontoSatis1</span>
+                        <span class="new-price">@stok.Fiyat</span>
                     </div><!-- End .price-box -->
 
                     <div class="product-desc">
                         <p>
-                            Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis
-                            egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet,
-                            ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est.
-                            Mauris placerat eleifend leo.
+                           @stok.Aciklama
                         </p>
                     </div><!-- End .product-desc -->
 
                     <ul class="single-info-list">
 
                         <li>
-                            SKU: <strong>654613612</strong>
+                            BARKOD: <strong>@stok.Barkod</strong>
                         </li>
-
+                        <li>
+                            ÖLÇÜ BİRİMİ: <strong>@stok.OlcuBirimi</strong>
+                        </li>
                         <li>
                             CATEGORY: <strong><a href="#" class="product-category">SHOES</a></strong>
                         </li>
@@ -177,8 +181,7 @@
                         </div><!-- End .product-single-qty -->
 
                         <a href="javascript:;" class="btn btn-dark add-cart mr-2" title="Add to Cart">
-                            Add to
-                            Cart
+                           SEPETE EKLE
                         </a>
 
                         <a href="cart.html" class="btn btn-gray view-cart d-none">View cart</a>
@@ -204,8 +207,7 @@
 
                         <a href="wishlist.html" class="btn-icon-wish add-wishlist" title="Add to Wishlist">
                             <i class="icon-wishlist-2"></i><span>
-                                Add to
-                                Wishlist
+                                Favorilere Ekle
                             </span>
                         </a>
                     </div><!-- End .product single-share -->
@@ -507,8 +509,7 @@
                             </a>
                             <a href="product.html" class="btn-icon btn-add-cart">
                                 <i class="fa fa-arrow-right"></i><span>
-                                    SELECT
-                                    OPTIONS
+                                   ÜRÜN DETAYI
                                 </span>
                             </a>
                             <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">
@@ -554,9 +555,8 @@
                             </a>
                             <a href="product.html" class="btn-icon btn-add-cart">
                                 <i class="fa fa-arrow-right"></i><span>
-                                    SELECT
-                                    OPTIONS
-                                </span>
+                                  ÜRÜN DETAYI
+</span>
                             </a>
                             <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">
                                 <i class="fas fa-external-link-alt"></i>
@@ -601,9 +601,8 @@
                             </a>
                             <a href="product.html" class="btn-icon btn-add-cart">
                                 <i class="fa fa-arrow-right"></i><span>
-                                    SELECT
-                                    OPTIONS
-                                </span>
+                                ÜRÜN DETAYI
+</span>
                             </a>
                             <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">
                                 <i class="fas fa-external-link-alt"></i>
@@ -648,9 +647,8 @@
                             </a>
                             <a href="product.html" class="btn-icon btn-add-cart">
                                 <i class="fa fa-arrow-right"></i><span>
-                                    SELECT
-                                    OPTIONS
-                                </span>
+                               ÜRÜN DETAYI
+</span>
                             </a>
                             <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">
                                 <i class="fas fa-external-link-alt"></i>
@@ -695,9 +693,8 @@
                             </a>
                             <a href="product.html" class="btn-icon btn-add-cart">
                                 <i class="fa fa-arrow-right"></i><span>
-                                    SELECT
-                                    OPTIONS
-                                </span>
+                                 ÜRÜN DETAYI
+</span>
                             </a>
                             <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">
                                 <i class="fas fa-external-link-alt"></i>

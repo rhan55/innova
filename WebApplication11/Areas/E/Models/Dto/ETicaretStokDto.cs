@@ -45,14 +45,14 @@ namespace YKPortal.Areas.E.Models.Dto
             private string _Barkod;
             private string _OlcuBirimi;
             private string _KdvSatis;
-            private string _IskontoSatis1;
+            private decimal _IskontoSatis1;
             private string _Marka;
             private string _Model;
             private string _Renk;
             private string _Beden;
-            private string _Kaliye;
+            private string _Kalite;
             private string _UreticiFirma;
-            private string _Fiyat;
+            private decimal _Fiyat;
             private string _Resim1;
             private string _Resim2;
             public string StokID { get { return _StokID ?? ""; } set { _StokID = value; } }
@@ -63,14 +63,15 @@ namespace YKPortal.Areas.E.Models.Dto
             public string Barkod { get { return _Barkod ?? ""; } set { _Barkod = value; } }
             public string OlcuBirimi { get { return _OlcuBirimi ?? ""; } set { _OlcuBirimi = value; } }
             public string KdvSatis { get { return _KdvSatis ?? ""; } set { _KdvSatis = value; } }
-            public string IskontoSatis1 { get { return _IskontoSatis1 ?? ""; } set { _IskontoSatis1 = value; } }
+            public decimal IskontoSatis1 { get { return _IskontoSatis1; } set { _IskontoSatis1 = value; } }
+          
             public string Marka { get { return _Marka ?? ""; } set { _Marka = value; } }
             public string Model { get { return _Model ?? ""; } set { _Model = value; } }
             public string Renk { get { return _Renk ?? ""; } set { _Renk = value; } }
             public string Beden { get { return _Beden ?? ""; } set { _Beden = value; } }
-            public string Kaliye { get { return _Kaliye ?? ""; } set { _Kaliye = value; } }
+            public string Kalite { get { return _Kalite ?? ""; } set { _Kalite = value; } }
             public string UreticiFirma { get { return _UreticiFirma ?? ""; } set { _UreticiFirma = value; } }
-            public string Fiyat { get { return _Fiyat ?? ""; } set { _Fiyat = value; } }
+            public decimal Fiyat { get { return _Fiyat; } set { _Fiyat = value; } }
             public string Resim2 { get { return _Resim2 ?? ""; } set { _Resim2 = value; } }
             public string Resim1 { get { return _Resim1 ?? ""; } set { _Resim1 = value; } }
         }

@@ -264,6 +264,7 @@
     <Compile Include="Areas\Entegrasyon\Controllers\FordAktarim.cs" />
     <Compile Include="Areas\E\Models\Dto\ETicaretKategorilerDto.cs" />
     <Compile Include="Areas\E\Models\Dto\ETicaretKategorilerViewModel.cs" />
+    <Compile Include="Areas\E\Models\Dto\ETicaretSepetDto.cs" />
     <Compile Include="Areas\E\Models\Dto\ETicaretStokDto.cs" />
     <Compile Include="Areas\Ziyaret\ZiyaretAreaRegistration.cs" />
     <Compile Include="Areas\Ziyaret\Controllers\ZiyaretController.cs" />
