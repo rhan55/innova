@@ -51,7 +51,7 @@
         <h1 class="title mb-4 text-dark font-weight-bold mb-4 display-5">Üye Ol</h1>
 
         <div class="page-wrapper mt-5">
-            <form id="uyelikFormu" action="@Url.Action("UyeOl","Yetkilendirme",new { Area = "E" })" class="mb-0" method="post">
+            <form id="uyelikFormu" action="@Url.Action("UyeOl","ETicaretYetkilendirme",new { Area = "E" })" class="mb-0" method="post">
                 <input type="hidden" name="ID" value="" />
                 <input type="hidden" name="KullaniciID" value="" />
                 <div class="row ">
@@ -179,7 +179,7 @@
 
                 </div>
                 <div class="text-center mt-3">
-                   <a href="@Url.Action("Giris","Yetkilendirme",new { Area = "E" })" class=" rounded btn-block btn-md" >
+                   <a href="@Url.Action("Giris","ETicaretYetkilendirme",new { Area = "E" })" class=" rounded btn-block btn-md" >
                        <h4 class="">Giriş Yap</h4>
                    </a>                  
                 </div>

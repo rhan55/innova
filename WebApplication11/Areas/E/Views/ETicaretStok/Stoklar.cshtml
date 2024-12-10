@@ -71,11 +71,9 @@
                                     <option value="price-desc">Sort by price: high to low</option>
                                 </select>
                             </div>-->
-                            <!-- End .select-custom -->
-
-
-                        <!--</div>-->
-                        <!-- End .toolbox-item -->
+                    <!-- End .select-custom -->
+                    <!--</div>-->
+                    <!-- End .toolbox-item -->
                     <!--</div>-->
                     <!-- End .toolbox-left -->
 
@@ -109,66 +107,74 @@
 
                 <div class="row">
                     <div class="col-6 col-sm-4">
-                        @foreach (YKEFaturaEntegrasyon.Dto.ETicaretStokDto.ETicaretStokSonucDto stokSonucDto in ViewBag.Stoklar)
+                        @foreach (YKPortal.Areas.E.Models.Dto.ETicaretStokDto.ETicaretStokSonucDto stokSonucDto in ViewBag.Stoklar)
                         {
                             <div class="product-default">
                                 <figure>
-                                    <a href="product.html">
-                                        <img src="~/Tema/ETicaret/images/products/product-1.jpg" width="280" height="280" alt="product" />
-                                        <img src="~/Tema/ETicaret/images/products/product-1-2.jpg" width="280" height="280" alt="product" />
+                                    <a href="/E/ETicaretStok/StokDetay?StokID=@stokSonucDto.StokID">
+                                        <img src="@stokSonucDto.Resim1" width="280" height="280" alt="product" />
+                                      
                                     </a>
 
                                     <div class="label-group">
-                                        <div class="product-label label-hot">HOT</div>
-                                        <div class="product-label label-sale">-20%</div>
+                                        <div class="product-label label-hot">
+                                            
+                                            {<span>HOT</span>}
                                     </div>
-                                </figure>
-
-                                <div class="product-details">
-                                    <div class="category-wrap">
-                                        <div class="category-list">
-                                            <a href="category.html" class="product-category">category</a>
-                                        </div>
-                                    </div>
-
-                                    <h3 class="product-title">
-                                        <a href="product.html">
-                                            @stokSonucDto.Isim
-                                        </a>
-                                    </h3>
-
-                                    <div class="ratings-container">
-                                        <div class="product-ratings">
-                                            <span class="ratings" style="width:100%"></span>
-                                            <!-- End .ratings -->
-                                            <span class="tooltiptext tooltip-top"></span>
-                                        </div>
-                                        <!-- End .product-ratings -->
-                                    </div>
-                                    <!-- End .product-container -->
-
-                                    <div class="price-box">
-                                        <span class="old-price">$90.00</span>
-                                        <span class="product-price">$70.00</span>
-                                    </div>
-                                    <!-- End .price-box -->
-
-                                    <div class="product-action">
-                                        <a href="wishlist.html" class="btn-icon-wish" title="wishlist">
-                                            <i class="icon-heart"></i>
-                                        </a>
-                                        <a href="product.html" class="btn-icon btn-add-cart">
-                                            <i class="fa fa-arrow-right"></i><span>
-                                                SELECT
-                                                OPTIONS
-                                            </span>
-                                        </a>
-                                        <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a>
-                                    </div>
+                                    <div class="product-label label-sale">
+                                        @*@if (!string.IsNullOrEmpty(stokSonucDto.IskontoSatis1))
+                                        {<span>% @stokSonucDto.IskontoSatis1 İndirim</span>}*@
                                 </div>
-                                <!-- End .product-details -->
                             </div>
-                        }
+                                  </figure>
+
+                        <div class="product-details">
+                            <div class="category-wrap">
+                                <div class="category-list">
+                                    <a href="category.html" class="product-category">category</a>
+                                </div>
+                            </div>
+
+                            <h3 class="product-title">
+                                <a href="/E/ETicaretStok/StokDetay?StokID=@stokSonucDto.StokID">
+                                    @stokSonucDto.Isim
+                                </a>
+                            </h3>
+
+                            <div class="ratings-container">
+                                <div class="product-ratings">
+                                    <span class="ratings" style="width:100%"></span>
+                                    <!-- End .ratings -->
+                                    <span class="tooltiptext tooltip-top"></span>
+                                </div>
+                                <!-- End .product-ratings -->
+                            </div>
+                            <!-- End .product-container -->
+
+                            <div class="price-box">
+                                @*@if (!string.IsNullOrEmpty(stokSonucDto.IskontoSatis1))
+                                    {
+                                        <span class="old-price">@Convert.ToDecimal(stokSonucDto.Fiyat)</span>
+                                    }*@
+                                <span class="product-price">@stokSonucDto.Fiyat</span>
+                            </div>
+                            <!-- End .price-box -->
+
+                            <div class="product-action">
+                                <a href="wishlist.html" class="btn-icon-wish" title="wishlist">
+                                    <i class="icon-heart"></i>
+                                </a>
+                                <a href="E/ETicaretStok/StokDetay/@stokSonucDto.StokID" class="btn-icon btn-add-cart">
+                                    <i class="fa fa-arrow-right"></i><span>
+                                        ÜRÜN DETAYI
+                                    </span>
+                                </a>
+                                <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                        <!-- End .product-details -->
+                    </div>
+                }
 
                     </div>
                     <!-- End .col-sm-4 -->
@@ -223,7 +229,7 @@
 
                                 @if (ViewBag.Kategoriler != null)
                                 {
-                                    var kategoriler = ViewBag.Kategoriler as List<YKPortal.Areas.E.Models.Dto.KategorilerDto>;
+                                    var kategoriler = ViewBag.Kategoriler as List<YKPortal.Areas.E.Models.Dto.ETicaretKategorilerDto>;
                                     if (kategoriler != null && kategoriler.Any())
                                     {
                                         foreach (var kategori in kategoriler)
@@ -233,27 +239,27 @@
                                             <ul class="submenu">
                                                 @if (!string.IsNullOrEmpty(kategori.Kategori1))
                                                 {
-                                                    <li><a href="/kategori/@kategori.Kategori1">@kategori.Kategori1</a></li>
+                                                    <li><a href="/ETicaretStok/Stoklar?Kategori1=@kategori.Kategori1">@kategori.Kategori1</a></li>
                                                 }
                                                 @if (!string.IsNullOrEmpty(kategori.Kategori2))
                                                 {
-                                                    <li><a href="/kategori/@kategori.Kategori2">@kategori.Kategori2</a></li>
+                                                    <li><a href="/ETicaretStok/Stoklar?Kategori2=@kategori.Kategori2">@kategori.Kategori2</a></li>
                                                 }
                                                 @if (!string.IsNullOrEmpty(kategori.Kategori3))
                                                 {
-                                                    <li><a href="/kategori/@kategori.Kategori3">@kategori.Kategori3</a></li>
+                                                    <li><a href="/ETicaretStok/Stoklar?Kategori3=@kategori.Kategori3">@kategori.Kategori3</a></li>
                                                 }
                                                 @if (!string.IsNullOrEmpty(kategori.Kategori4))
                                                 {
-                                                    <li><a href="/kategori/@kategori.Kategori4">@kategori.Kategori4</a></li>
+                                                    <li><a href="/ETicaretStok/Stoklar?Kategori4=@kategori.Kategori4">@kategori.Kategori4</a></li>
                                                 }
                                                 @if (!string.IsNullOrEmpty(kategori.Kategori5))
                                                 {
-                                                    <li><a href="/kategori/@kategori.Kategori5">@kategori.Kategori5</a></li>
+                                                    <li><a href="/ETicaretStok/Stoklar?Kategori5=@kategori.Kategori5">@kategori.Kategori5</a></li>
                                                 }
                                                 @if (!string.IsNullOrEmpty(kategori.Kategori6))
                                                 {
-                                                    <li><a href="/kategori/@kategori.Kategori6">@kategori.Kategori6</a></li>
+                                                    <li><a href="/ETicaretStok/Stoklar?Kategori6=@kategori.Kategori6">@kategori.Kategori6</a></li>
                                                 }
                                             </ul>
 

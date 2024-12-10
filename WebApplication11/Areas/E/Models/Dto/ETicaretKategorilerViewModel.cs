@@ -5,9 +5,9 @@ using System.Web;
 
 namespace YKPortal.Areas.E.Models.Dto
 {
-    public class KategorilerViewModel
+    public class ETicaretKategorilerViewModel
     {
-        public List<KategorilerDto> Kategoriler { get; set; }
+        public List<ETicaretKategorilerDto> Kategoriler { get; set; }
         public string ErrorMessage { get; set; }
     }
 }

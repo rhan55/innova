@@ -1,8 +1,6 @@
 ﻿@*@model List<YKPortal.Areas.E.Models.Dto.KategorilerDto>*@
 @{
-
-
-
+    var sepetBilgileri = ViewBag.SepetBilgileri as List<YKPortal.Areas.E.Models.Dto.ETicaretSepetDto.ETicaretSepetListeSonucDto>;
 }
 
 <!DOCTYPE html>
@@ -83,7 +81,7 @@
                                     @if (ViewBag.GirisYapildi)
                                     {
                                         <li>
-                                            <form action="/E/Yetkilendirme/Cikis" method="POST">
+                                            <form action="/E/ETicaretYetkilendirme/Cikis" method="POST">
                                                 <button type="submit" class="btn btn-link text-muted" style="font-size:12px; font-weight:500;">Çıkış Yap</button>
                                             </form>
                                             <span>Hoş geldiniz, @ViewBag.KullaniciAdi!</span>
@@ -93,10 +91,10 @@
                                     else
                                     {
                                         <li>
-                                            <a href="/E/Yetkilendirme/Giris">Giriş Yap</a>
+                                            <a href="/E/ETicaretYetkilendirme/Giris">Giriş Yap</a>
                                         </li>
                                         <li>
-                                            <a href="/E/Yetkilendirme/UyeOl">Üye Ol</a>
+                                            <a href="/E/ETicaretYetkilendirme/UyeOl">Üye Ol</a>
                                         </li>
 
                                     }
@@ -204,14 +202,17 @@
                             <h6><span>Call us now</span><a href="tel:#" class="text-dark font1">+123 5678 890</a></h6>
                         </div>
 
-                        <a href="@Url.Action("Profil","Kullanici",new { Area = "E" })" class="header-icon" title="login"><i class="icon-user-2"></i></a>
+                        <a href="@Url.Action("Profil","ETicaretKullanici",new { Area = "E" })" class="header-icon" title="login"><i class="icon-user-2"></i></a>
 
                         <a href="wishlist.html" class="header-icon" title="wishlist"><i class="icon-wishlist-2"></i></a>
 
                         <div class="dropdown cart-dropdown">
                             <a href="#" title="Cart" class="dropdown-toggle dropdown-arrow cart-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <i class="minicart-icon"></i>
-                                <span class="cart-count badge-circle">3</span>
+                                @if (sepetBilgileri != null && sepetBilgileri.Count > 0)
+                                {
+                                    <span class="cart-count badge-circle">@sepetBilgileri.Count</span>
+                                }
                             </a>
 
                             <div class="cart-overlay"></div>
@@ -224,73 +225,31 @@
                                     <!-- End .dropdown-cart-header -->
 
                                     <div class="dropdown-cart-products">
-                                        <div class="product">
-                                            <div class="product-details">
-                                                <h4 class="product-title">
-                                                    <a href="product.html">Ultimate 3D Bluetooth Speaker</a>
-                                                </h4>
+                                        @foreach (var stok in sepetBilgileri)
+                                        {
+                                            <div class="product">
+                                                <div class="product-details">
+                                                    <h4 class="product-title">
+                                                        <a href="product.html">@stok.Isim</a>
+                                                    </h4>
 
-                                                <span class="cart-product-info">
-                                                    <span class="cart-product-qty">1</span> × $99.00
-                                                </span>
+                                                    <span class="cart-product-info">
+                                                        <span class="cart-product-qty">@stok.Miktar</span> × @stok.Fiyat
+                                                    </span>
+                                                </div>
+                                                <!-- End .product-details -->
+
+                                                <figure class="product-image-container">
+                                                    <a href="product.html" class="product-image">
+                                                        <img src="~/Tema/ETicaret/assets/images/products/product-1.jpg" alt="product" width="80" height="80">
+                                                    </a>
+
+                                                    <a href="#" class="btn-remove" title="Remove Product"><span>×</span></a>
+                                                </figure>
                                             </div>
-                                            <!-- End .product-details -->
+                                            <!-- End .product -->
 
-                                            <figure class="product-image-container">
-                                                <a href="product.html" class="product-image">
-                                                    <img src="~/Tema/ETicaret/assets/images/products/product-1.jpg" alt="product" width="80" height="80">
-                                                </a>
-
-                                                <a href="#" class="btn-remove" title="Remove Product"><span>×</span></a>
-                                            </figure>
-                                        </div>
-                                        <!-- End .product -->
-
-                                        <div class="product">
-                                            <div class="product-details">
-                                                <h4 class="product-title">
-                                                    <a href="product.html">Brown Women Casual HandBag</a>
-                                                </h4>
-
-                                                <span class="cart-product-info">
-                                                    <span class="cart-product-qty">1</span> × $35.00
-                                                </span>
-                                            </div>
-                                            <!-- End .product-details -->
-
-                                            <figure class="product-image-container">
-                                                <a href="product.html" class="product-image">
-                                                    <img src="~/Tema/ETicaret/assets/images/products/product-2.jpg" alt="product" width="80" height="80">
-                                                </a>
-
-                                                <a href="#" class="btn-remove" title="Remove Product"><span>×</span></a>
-                                            </figure>
-                                        </div>
-                                        <!-- End .product -->
-
-                                        <div class="product">
-                                            <div class="product-details">
-                                                <h4 class="product-title">
-                                                    <a href="product.html">Circled Ultimate 3D Speaker</a>
-                                                </h4>
-
-                                                <span class="cart-product-info">
-                                                    <span class="cart-product-qty">1</span> × $35.00
-                                                </span>
-                                            </div>
-                                            <!-- End .product-details -->
-
-                                            <figure class="product-image-container">
-                                                <a href="product.html" class="product-image">
-                                                    <img src="~/Tema/ETicaret/assets/images/products/product-3.jpg" alt="product" width="80" height="80">
-                                                </a>
-                                                <a href="#" class="btn-remove" title="Remove Product"><span>×</span></a>
-                                            </figure>
-                                        </div>
-                                        <!-- End .product -->
-                                    </div>
-                                    <!-- End .cart-product -->
-
+                                        }
                                     <div class="dropdown-cart-total">
                                         <span>SUBTOTAL:</span>
 
@@ -333,7 +292,7 @@
                                     <div class="row">
                                         @if (ViewBag.Kategoriler != null)
                                         {
-                                            var kategoriler = ViewBag.Kategoriler as List<YKPortal.Areas.E.Models.Dto.KategorilerDto>;
+                                            var kategoriler = ViewBag.Kategoriler as List<YKPortal.Areas.E.Models.Dto.ETicaretKategorilerDto>;
                                             if (kategoriler != null && kategoriler.Any())
                                             {
                                                 foreach (var kategori in kategoriler)
@@ -342,27 +301,27 @@
                                                         <ul class="submenu">
                                                             @if (!string.IsNullOrEmpty(kategori.Kategori1))
                                                             {
-                                                                <li><a href="/kategori/@kategori.Kategori1">@kategori.Kategori1</a></li>
+                                                                <li><a href="/E/ETicaretKategori/KategoriDetay?kategori=@kategori.Kategori1">@kategori.Kategori1</a></li>
                                                             }
                                                             @if (!string.IsNullOrEmpty(kategori.Kategori2))
                                                             {
-                                                                <li><a href="/kategori/@kategori.Kategori2">@kategori.Kategori2</a></li>
+                                                                <li><a href="/E/ETicaretKategori/KategoriDetay?kategori=@kategori.Kategori2">@kategori.Kategori2</a></li>
                                                             }
                                                             @if (!string.IsNullOrEmpty(kategori.Kategori3))
                                                             {
-                                                                <li><a href="/kategori/@kategori.Kategori3">@kategori.Kategori3</a></li>
+                                                                <li><a href="/E/ETicaretKategori/KategoriDetay?kategori=@kategori.Kategori3">@kategori.Kategori3</a></li>
                                                             }
                                                             @if (!string.IsNullOrEmpty(kategori.Kategori4))
                                                             {
-                                                                <li><a href="/kategori/@kategori.Kategori4">@kategori.Kategori4</a></li>
+                                                                <li><a href="/E/ETicaretKategori/KategoriDetay?kategori=@kategori.Kategori4">@kategori.Kategori4</a></li>
                                                             }
                                                             @if (!string.IsNullOrEmpty(kategori.Kategori5))
                                                             {
-                                                                <li><a href="/kategori/@kategori.Kategori5">@kategori.Kategori5</a></li>
+                                                                <li><a href="/E/ETicaretKategori/KategoriDetay?kategori=@kategori.Kategori5">@kategori.Kategori5</a></li>
                                                             }
                                                             @if (!string.IsNullOrEmpty(kategori.Kategori6))
                                                             {
-                                                                <li><a href="/kategori/@kategori.Kategori6">@kategori.Kategori6</a></li>
+                                                                <li><a href="/E/ETicaretKategori/KategoriDetay?kategori=@kategori.Kategori6">@kategori.Kategori6</a></li>
                                                             }
 
                                                         </ul>

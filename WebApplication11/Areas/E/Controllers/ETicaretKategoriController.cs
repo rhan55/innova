@@ -8,16 +8,25 @@ using System.Web.Mvc;
 using YKPortal.Models.Dto;
 using YKPortal.Models;
 using YKPortal.Areas.E.Models.Dto;
+using YKEFaturaEntegrasyon.Dto;
 
 namespace YKPortal.Areas.E.Controllers
 {
-    public class KategoriController : BaseController
+    public class ETicaretKategoriController : BaseController
     {
         // GET: E/Kategori
         [HttpGet]
-        public ActionResult Kategoriler(KategorilerDto kategorilerDto)
+        public ActionResult KategoriDetay(ETicaretKategorilerDto kategorilerDto)
         {
             return View(KategorileriGetir());
+        }
+
+        [HttpGet]
+        public ActionResult KategoriStoklari(ETicaretStokDto.ETicaretStokSorguDto sorguDto)
+        {
+            var stokListesi = StokGetir(sorguDto);
+
+            return View(stokListesi);  
         }
 
     }

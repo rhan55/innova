@@ -13,7 +13,7 @@ using System.Text;
 
 namespace YKPortal.Areas.E.Controllers
 {
-    public class BilgilerController : BaseController
+    public class ETicaretBilgilerController : BaseController
     {
         public ActionResult GenelBilgiler()
         {
