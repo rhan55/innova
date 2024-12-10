@@ -1,7 +1,7 @@
 ﻿@model System.Data.DataTable
 @using System.Data;
 @{
-    ViewBag.Title = "BekleyenZiyaretler";
+    ViewBag.Title = "Tamamlanan Ziyaretler";
     Layout = "~/Areas/Ziyaret/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,7 +9,7 @@
     <header class="card-header">
         <strong>Tamamlanan Ziyaretler</strong> | Toplam @Model.Rows.Count adet tamamlanan işlem listelenmektedir.
         <br /><br />
-        <form action="@Url.Action("TamamlananZiyaretler","Home", null)" method="post">
+        <form action="@Url.Action("TamamlananZiyaretler","Ziyaret", new { area = "Ziyaret" })" method="post">
             <label>Başlangıç : <input type="date" name="Baslangic" id="Baslangic" value="@ViewBag.Baslagic" /></label>
             <label>Bitiş : <input type="date" name="Bitis" id="Bitis" value="@ViewBag.Bitis" /></label>
             <label>
@@ -24,7 +24,7 @@
     <table class="table table-striped table-advance table-hover">
         <thead>
             <tr>
-                <th>ID</th>
+                <th style="display:none;">ID</th>
                 <th nowrap>Tarih</th>
                 <th nowrap>T.Tarih</th>
                 <th>Firma</th>
@@ -39,8 +39,8 @@
             {
                 foreach (System.Data.DataRow item in Model.Rows)
                 {
-            <tr href="@Url.Action("Ziyaret","Home",new { id = item["musteriid"] })">
-                <td><a href="@Url.Action("Ziyaret", "Home", new { id = item["musteriid"] })">@item["id"]</a></td>
+            <tr href="@Url.Action("Ziyaret","Ziyaret",new { area = "Ziyaret",id = item["CariKodu"] })">
+                <td style="display:none;"><a href="@Url.Action("Ziyaret", "Ziyaret", new { area = "Ziyaret",id = item["CariKodu"] })">@item["ID"]</a></td>
                 <td nowrap class="hidden-phone">@Convert.ToDateTime(item["Tarih"]).ToString("dd-MM-yyyy")</td>
                 <td nowrap>@(item["DuzenlemeTarihi"] == DBNull.Value ? "" : Convert.ToDateTime(item["DuzenlemeTarihi"]).ToString("dd-MM-yyyy"))</td>
                 <td><span class="badge badge-warning label-mini">@item["Isim"]</span></td>

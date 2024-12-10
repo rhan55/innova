@@ -132,9 +132,9 @@
                                         <span class="arrow"></span>
                                         <span class="timeline-icon @(Convert.ToInt32(ziyaret["tamamlandi"]) == 1 ? "green" : "red")"></span>
                                         <span class="timeline-date">
-                                            @Convert.ToDateTime(ziyaret["tarih"]).ToString("dd.MM.yyyy ") @Convert.ToDateTime(ziyaret["kayittarihi"]).ToString("HH:ss") #@ziyaret["ID"]
+                                            @Convert.ToDateTime(ziyaret["tarih"]).ToString("dd.MM.yyyy ") @Convert.ToDateTime(ziyaret["kayittarihi"]).ToString("HH:ss") 
                                             <br /><span style="color:red;font-size:10px;"><strong>Kaydı Açan : </strong>@ziyaret["KaydiAcan"]</span>
-                                            @(Convert.ToString(ziyaret["duzenlemeyapankullanici"]).Trim().Length > 0 ? Html.Raw("<br /><span style='color:green;font-size:10px;'><strong>Kaydı Kapatan : </strong>" + ziyaret["DuzenlemeYapanKullanici"] + "</span>") : Html.Raw(""))
+                                            @(Convert.ToString(ziyaret["KaydiKapatan"]).Trim().Length > 0 ? Html.Raw("<br /><span style='color:green;font-size:10px;'><strong>Kaydı Kapatan : </strong>" + ziyaret["KaydiKapatan"] + "</span>") : Html.Raw(""))
                                         </span>
                                         <h1 class="yellow">@(Convert.ToString(ziyaret["Baslik"]).Trim().Length > 0 ? Html.Raw("<span><a href='#' style='color:orange;'>" + ziyaret["Baslik"] + "</a></span>") : Html.Raw(""))</h1>
                                         <h1 class="red">@(Convert.ToString(ziyaret["Urun"]).Trim().Length > 0 ? Html.Raw("<span><a href='#' class='red'>" + ziyaret["Urun"] + "</a></span>") : Html.Raw(""))</h1>

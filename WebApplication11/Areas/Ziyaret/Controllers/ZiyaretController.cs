@@ -158,7 +158,7 @@ order by count(*) desc
 
             }
 
-            return View();
+            return View(dtZiyaretler);
         }
 
 
@@ -299,7 +299,7 @@ select @ID ";
                 cmd.CommandText = @"
 Update Ziyaretler set
 kapanistarih=@tarih,aciklama2=@aciklama,teklifverildi=@teklifverildi,urun=@urun,duzenlemetarihi=@kayittarihi,duzenlemeyapankullanici=@kayityapankullanici,tamamlandi=1
-Where id = @id
+Where ID = @id
 ";
                 cmd.Parameters.AddWithValue("@id", id);
                 cmd.Parameters.AddWithValue("@tarih", DateTime.Today); // Convert.ToDateTime(Tarih));
@@ -316,7 +316,6 @@ Where id = @id
                     cmd.CommandText = @"
 declare @ID nvarchar(100)=(Select NEWID())
 Insert Into Ziyaretler 
-declare @ID nvarchar(100)=(Select NEWID())
 (ID,UyelikID,CariID,tarih,baslik,aciklama,teklifverildi,urun,kayittarihi,kayityapankullanici,tamamlandi) 
 values 
 (@ID,'" + UyelikID + "','" + CariID + "',@tarih,@baslik,@aciklama,@teklifverildi,@urun,@kayittarihi,@kayityapankullanici,0); select @ID ";
@@ -521,6 +520,12 @@ from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.Kod wh
                 cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
                 ViewBag.Urunler = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             }
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "select  Deger from GrupKodlari WITH(NOLOCK) where UyelikID = @UyelikID and Kod = 'Crm_ZiyaretTipi' order by Deger";
+                cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
+                ViewBag.ZiyaretTipi = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            }
 
             return View(dtBekleyenZiyaretler);
 
@@ -615,7 +620,7 @@ from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.Kod wh
 
 
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "select KullaniciAdi,Isim from Kullanicilar Where UyelikID = @UyelikID " + plasiyerkisiti2 + " Order by KullaniciAdi";
+                cmd.CommandText = "select KullaniciAdi,Ad+' '+Soyad as Isim from Kullanicilar Where UyelikID = @UyelikID " + plasiyerkisiti2 + " Order by KullaniciAdi";
                 cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
                 ViewBag.Kullanicilar = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             }

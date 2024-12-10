@@ -34,7 +34,7 @@
     <meta name="keyword" content="FlatLab, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
     <link rel="shortcut icon" href="@Url.Content("~/Content/Ziyaret/img/favicon.png")">
 
-    <title>@@ViewBag.Title - @System.Configuration.ConfigurationManager.AppSettings["FirmaAdi"]</title>
+    <title>@ViewBag.Title - @System.Configuration.ConfigurationManager.AppSettings["FirmaAdi"]</title>
 
     <!-- Bootstrap core CSS -->
     <link href="@Url.Content("~/Content/Ziyaret/css/bootstrap.min.css")" rel="stylesheet">
@@ -93,8 +93,6 @@
                         </a>
                         <ul class="dropdown-menu extended logout dropdown-menu-right">
                             <div class="log-arrow-up"></div>
-                            <li><a href="@Url.Action("ParolaDegistir","Ziyaret",null)"><i class="fa fa-cog"></i>Parola Değiştir</a></li>
-                            <li><a href="@Url.Action("Cikis","Ziyaret",null)"><i class="fa fa-key"></i>Çıkış</a></li>
                         </ul>
                     </li>
                     <!-- user login dropdown end -->
@@ -109,9 +107,15 @@
                 <!-- sidebar menu start-->
                 <ul class="sidebar-menu" id="nav-accordion">
                     <li>
-                        <a class="active" href="@Url.Action("AnaSayfa","Ziyaret",new { area = "Ziyaret" })">
+                        <a class="active" href="/YK/AnaSayfa">
                             <i class="fa fa-dashboard"></i>
                             <span>Ana Sayfa</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="active" href="@Url.Action("AnaSayfa","Ziyaret",new { area = "Ziyaret" })">
+                            <i class="fa fa-dashboard"></i>
+                            <span>Ana Ekran</span>
                         </a>
                     </li>
 
@@ -125,14 +129,14 @@
                             <li><a href="@Url.Action("Musteri","Ziyaret",new { area = "Ziyaret",id=0 })">Yeni Müşteri</a></li>
                             <li><a href="@Url.Action("Musteriler","Ziyaret",new { area = "Ziyaret",id="" })">Müşteri Listesi</a></li>
                             <!--
-                                <li class="sub-menu">
-                                    <a href="index.html">Ziyaretler</a>
-                                    <ul class="sub">
-                                        <li><a href="javascript:;">Yeni Ziyaret</a></li>
-                                        <li><a href="javascript:;">Ziyaret Listesi</a></li>
-                                    </ul>
-                                </li>
-                            -->
+                <li class="sub-menu">
+                    <a href="index.html">Ziyaretler</a>
+                    <ul class="sub">
+                        <li><a href="javascript:;">Yeni Ziyaret</a></li>
+                        <li><a href="javascript:;">Ziyaret Listesi</a></li>
+                    </ul>
+                </li>
+            -->
                         </ul>
                     </li>
                     <!--multi level menu start-->

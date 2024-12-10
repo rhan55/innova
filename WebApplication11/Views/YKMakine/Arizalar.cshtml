@@ -28,8 +28,7 @@
                     <td>:</td>
                     <td>
                         <select name="SeriNo" id="SeriNo" class="js-example-basic-single" style="width:450px;">
-                            
-                        </select> 
+                        </select>
                     </td>
                 </tr>
                 <tr>
@@ -126,8 +125,9 @@
                 <th>Durum</th>
                 <th>Teknisyen</th>
                 <th>Cari Adı</th>
+                <th>Ürün</th>
                 <th>Seri No</th>
-                <th>Detay</th>
+                <th>Açıklama</th>
             </tr>
         </thead>
         <tbody>
@@ -149,16 +149,17 @@
                 {
                     IDclass = "blinking-text";
                 }
-            <tr style="@(renk)" class="@(IDclass)">
+                <tr style="@(renk)" class="@(IDclass)">
 
-                <td>@Convert.ToDateTime(satir["Tarih"]).ToString("dd-MM-yyyy HH:mm")</td>
-                <td>@satir["EvrakNo"]</td>
-                <td>@(Convert.ToString(satir["Durum"]) == "" ? "Beklemede" : satir["Durum"])</td>
-                <td>@satir["TeknisyenAdi"]</td>
-                <td>@satir["CariAdi"]</td>
-                <td>@satir["SeriNo"]</td>
-                <td><a href="@Url.Content("~/YKMakine/ArizaDetay/"+satir["ID"])">Detay'a Git</a></td>
-            </tr>
+                    <td style="white-space: nowrap;">@Convert.ToDateTime(satir["Tarih"]).ToString("dd-MM-yyyy")</td>
+                    <td><a href="@Url.Content("~/YKMakine/ArizaDetay/"+satir["ID"])">@satir["EvrakNo"]</a></td>
+                    <td><a href="@Url.Content("~/YKMakine/ArizaDetay/"+satir["ID"])">@(Convert.ToString(satir["Durum"]) == "" ? "Beklemede" : satir["Durum"])</a></td>
+                    <td style="white-space: nowrap;">@satir["TeknisyenAdi"]</td>
+                    <td>@satir["CariAdi"]</td>
+                    <td>@satir["StokAdi"]</td>
+                    <td><a href="@Url.Content("~/YKMakine/ArizaDetay/"+satir["ID"])">@satir["SeriNo"]</a></td>
+                    <td>@satir["Aciklama"]</td>
+                </tr>
 
             }
         </tbody>

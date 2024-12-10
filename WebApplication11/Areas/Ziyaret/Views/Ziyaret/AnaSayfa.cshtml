@@ -13,7 +13,7 @@
     {
         foreach (DataRow item in Model.Rows)
         {
-            idler += item["id"] + ",";
+            idler += "'"+item["ID"] + "',";
         }
     }
     idler = idler.Substring(0, idler.Length - 1);
@@ -101,7 +101,7 @@
                         foreach (DataRow item in ((DataTable)ViewBag.dtGrup1).Rows)
                         {
                             sira_1++;
-                            <a class="list-group-item" href="@Url.Action("GunlukIslemler","Home",new { Baslangic = Convert.ToDateTime(item["tarih"]).ToString("yyyy-MM-dd"),Bitis = Convert.ToDateTime(item["tarih"]).ToString("yyyy-MM-dd") , Personel = "" })"><strong>@((sira_1 + ".    ").Substring(0, 4)) @Convert.ToDateTime(item["tarih"]).ToString("dd.MM.yyyy")</strong> tarihinde <strong>@item["adet"]</strong> adet</a>
+                            <a class="list-group-item" href="@Url.Action("GunlukIslemler","Ziyaret",new { area = "Ziyaret", Baslangic = Convert.ToDateTime(item["tarih"]).ToString("yyyy-MM-dd"),Bitis = Convert.ToDateTime(item["tarih"]).ToString("yyyy-MM-dd") , Personel = "" })"><strong>@((sira_1 + ".    ").Substring(0, 4)) @Convert.ToDateTime(item["tarih"]).ToString("dd.MM.yyyy")</strong> tarihinde <strong>@item["adet"]</strong> adet</a>
                         }
 
                     }
@@ -121,7 +121,7 @@
                         foreach (DataRow item in ((DataTable)ViewBag.dtGrup3).Rows)
                         {
                             sira_3++;
-                            <a class="list-group-item" href="@Url.Action("TeklifVerilenler","Home",new { Baslangic = Convert.ToDateTime(item["tarih"]).ToString("yyyy-MM-dd"),Bitis = Convert.ToDateTime(item["tarih"]).ToString("yyyy-MM-dd") })"><strong>@((sira_3 + ".    ").Substring(0, 4)) @Convert.ToDateTime(item["tarih"]).ToString("dd.MM.yyyy")</strong> tarihinde <strong>@item["adet"]</strong> adet</a>
+                            <a class="list-group-item" href="@Url.Action("TeklifVerilenler","Ziyaret",new { area = "Ziyaret",Baslangic = Convert.ToDateTime(item["tarih"]).ToString("yyyy-MM-dd"),Bitis = Convert.ToDateTime(item["tarih"]).ToString("yyyy-MM-dd") })"><strong>@((sira_3 + ".    ").Substring(0, 4)) @Convert.ToDateTime(item["tarih"]).ToString("dd.MM.yyyy")</strong> tarihinde <strong>@item["adet"]</strong> adet</a>
                         }
                     }
                 </div>
@@ -137,22 +137,22 @@
                 <div class="list-group">
                     @if (Convert.ToInt32(@ViewBag.ToplamGecikmis) > 0)
                     {
-                        <a href="@Url.Action("BekleyenZiyaretler","Home",new { Baslangic = DateTime.Today.AddYears(-2).ToString("yyyy-MM-dd"),Bitis = DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd") })" class="list-group-item active" style="background-color:red;" id="pulsate-regular"> <strong>Geçikmiş Kayıtlar : @ViewBag.ToplamGecikmis </strong> adet</a>
+                        <a href="@Url.Action("BekleyenZiyaretler","Ziyaret",new { area = "Ziyaret",Baslangic = DateTime.Today.AddYears(-2).ToString("yyyy-MM-dd"),Bitis = DateTime.Today.AddDays(-1).ToString("yyyy-MM-dd") })" class="list-group-item active" style="background-color:red;" id="pulsate-regular"> <strong>Geçikmiş Kayıtlar : @ViewBag.ToplamGecikmis </strong> adet</a>
                     }
                     @if (ViewBag.dtGrupGecikenler != null)
                     {
                         foreach (DataRow item in ((DataTable)ViewBag.dtGrupGecikenler).Rows)
                         {
-                            <a class="list-group-item" href="@Url.Action("BekleyenZiyaretler","Home",new { Baslangic = Convert.ToDateTime(item["tarih"]).ToString("yyyy-MM-dd"),Bitis = Convert.ToDateTime(item["tarih"]).ToString("yyyy-MM-dd"), ZiyaretTipi = "" })"><strong>@(Convert.ToString(item["tarih"])) @item["adet"]</strong> adet</a>
+                            <a class="list-group-item" href="@Url.Action("BekleyenZiyaretler","Ziyaret",new { area = "Ziyaret",Baslangic = Convert.ToDateTime(item["tarih"]).ToString("yyyy-MM-dd"),Bitis = Convert.ToDateTime(item["tarih"]).ToString("yyyy-MM-dd"), ZiyaretTipi = "" })"><strong>@(Convert.ToString(item["tarih"])) @item["adet"]</strong> adet</a>
                         }
                     }
-                    <a class="list-group-item active" href="@Url.Action("BekleyenZiyaretler","Home",new { Baslangic = DateTime.Today.AddYears(-2).ToString("yyyy-MM-dd"),Bitis = DateTime.Today.AddYears(2).ToString("yyyy-MM-dd") })"><strong>Toplam Bekleyen : @ViewBag.ToplamBekleyen</strong> adet</a>
+                    <a class="list-group-item active" href="@Url.Action("BekleyenZiyaretler","Ziyaret",new { area = "Ziyaret",Baslangic = DateTime.Today.AddYears(-2).ToString("yyyy-MM-dd"),Bitis = DateTime.Today.AddYears(2).ToString("yyyy-MM-dd") })"><strong>Toplam Bekleyen : @ViewBag.ToplamBekleyen</strong> adet</a>
 
                     @if (ViewBag.dtGrup4 != null)
                     {
                         foreach (DataRow item in ((DataTable)ViewBag.dtGrup4).Rows)
                         {
-                            <a class="list-group-item" href="@Url.Action("BekleyenZiyaretler","Home",new { Baslangic = DateTime.Today.AddYears(-2).ToString("yyyy-MM-dd"),Bitis = DateTime.Today.AddYears(2).ToString("yyyy-MM-dd"), ZiyaretTipi = (Convert.ToString(item["ZiyaretTipi"]) == "" ? "Diğer" : Convert.ToString(item["ZiyaretTipi"])) })"><strong>@(Convert.ToString(item["ZiyaretTipi"]) == "" ? "Diğer" : Convert.ToString(item["ZiyaretTipi"])) @item["adet"]</strong> adet</a>
+                            <a class="list-group-item" href="@Url.Action("BekleyenZiyaretler","Ziyaret",new { area = "Ziyaret",Baslangic = DateTime.Today.AddYears(-2).ToString("yyyy-MM-dd"),Bitis = DateTime.Today.AddYears(2).ToString("yyyy-MM-dd"), ZiyaretTipi = (Convert.ToString(item["ZiyaretTipi"]) == "" ? "Diğer" : Convert.ToString(item["ZiyaretTipi"])) })"><strong>@(Convert.ToString(item["ZiyaretTipi"]) == "" ? "Diğer" : Convert.ToString(item["ZiyaretTipi"])) @item["adet"]</strong> adet</a>
                         }
                     }
 
@@ -186,13 +186,13 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <span class="arrow"></span>
-                                            <span class="timeline-icon @(Convert.ToInt32(ziyaret["tamamlandi"]) == 1 ? "green" : "red")"></span>
+                                            <span class="timeline-icon @(Convert.ToBoolean(ziyaret["tamamlandi"]) == true ? "green" : "red")"></span>
                                             <span class="timeline-date">
-                                                @Convert.ToDateTime(ziyaret["tarih"]).ToString("dd.MM.yyyy ") @Convert.ToDateTime(ziyaret["kayittarihi"]).ToString("HH:ss") #@ziyaret["id"]
-                                                <br /><span style="color:red;font-size:10px;"><strong>Kaydı Açan : </strong>@ziyaret["kayityapankullanici"]</span>
-                                                @(Convert.ToString(ziyaret["duzenlemeyapankullanici"]).Trim().Length > 0 ? Html.Raw("<br /><span style='color:green;font-size:10px;'><strong>Kaydı Kapatan : </strong>" + ziyaret["duzenlemeyapankullanici"] + "</span>") : Html.Raw(""))
+                                                @Convert.ToDateTime(ziyaret["tarih"]).ToString("dd.MM.yyyy ") @Convert.ToDateTime(ziyaret["kayittarihi"]).ToString("HH:ss") 
+                                                <br /><span style="color:red;font-size:10px;"><strong>Kaydı Açan : </strong>@ziyaret["KaydiAcan"]</span>
+                                                @(Convert.ToString(ziyaret["KaydiAcan"]).Trim().Length > 0 ? Html.Raw("<br /><span style='color:green;font-size:10px;'><strong>Kaydı Kapatan : </strong>" + ziyaret["KaydiKapatan"] + "</span>") : Html.Raw(""))
                                             </span>
-                                            <p style="font-size:16px;color:#007bff;"><a href="@Url.Action("Ziyaret", "Home", new { id = ziyaret["musteriid"] })"><strong>@ziyaret["Isim"]</strong></a></p>
+                                            <p style="font-size:16px;color:#007bff;"><a href="@Url.Action("Ziyaret", "Ziyaret", new { area = "Ziyaret",id = ziyaret["CariKodu"] })"><strong>@ziyaret["Isim"]</strong></a></p>
                                             <h1 class="yellow">@(Convert.ToString(ziyaret["ZiyaretTipi"]).Trim().Length > 0 ? Html.Raw("<span><a href='#' style='color:orange;'>" + ziyaret["ZiyaretTipi"] + "</a></span>") : Html.Raw(""))</h1>
 
                                             <h1 class="red">@(Convert.ToString(ziyaret["Urun"]).Trim().Length > 0 ? Html.Raw("<span><a href='#' class='red'>" + ziyaret["Urun"] + "</a></span>") : Html.Raw(""))</h1>
@@ -201,9 +201,9 @@
                                             <p><strong>Gerçekleşen : </strong>@ziyaret["Aciklama2"]</p>
 
                                             <div class="album">
-                                                @if (dtDosyalar.Select(" KayitID = " + ziyaret["id"] + " ").Count() > 0)
+                                                @if (dtDosyalar.Select(" KayitID = '" + ziyaret["ID"] + "' ").Count() > 0)
                                                 {
-                                                    foreach (DataRow dosya in dtDosyalar.Select(" KayitID = " + ziyaret["id"] + " "))
+                                                    foreach (DataRow dosya in dtDosyalar.Select(" KayitID = '" + ziyaret["ID"] + "' "))
                                                     {
                                                         if (Convert.ToString(dosya["DosyaUzantisi"]).Contains(".jpeg") ||
                                                             Convert.ToString(dosya["DosyaUzantisi"]).Contains(".jpg") ||

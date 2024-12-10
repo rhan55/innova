@@ -1,7 +1,7 @@
 ﻿@model System.Data.DataTable
 @using System.Data;
 @{
-    ViewBag.Title = "BekleyenZiyaretler";
+    ViewBag.Title = "Bekleyen Ziyaretler";
     Layout = "~/Areas/Ziyaret/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,7 +9,7 @@
     <header class="card-header">
         <strong>Bekleyen Ziyaretler</strong> | Toplam @Model.Rows.Count adet bekleyen işlem listelenmektedir.
         <br /><br />
-        <form action="@Url.Action("BekleyenZiyaretler","Home", null)" method="post">
+        <form action="@Url.Action("BekleyenZiyaretler","Ziyaret", new { area = "Ziyaret" })" method="post">
             <label>Başlangıç : <input type="date" name="Baslangic" id="Baslangic" value="@ViewBag.Baslagic" /></label>
             <label>Bitiş : <input type="date" name="Bitis" id="Bitis" value="@ViewBag.Bitis" /></label>
             <label>
@@ -89,7 +89,7 @@
                         }
                         else
                         {
-                                            @Html.Raw("background-color:#ffaad4;");
+                                            @Html.Raw("background-color:#7f003f;");
                         }
                                     } ">
                                 @{

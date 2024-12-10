@@ -252,7 +252,7 @@
             </tr>
             <tr>
                 <td>
-                    @if (Convert.ToString(Model.Tables[0].Rows[0]["Durum"]).EndsWith("Yapıldı"))
+                    @if (Convert.ToString(Model.Tables[0].Rows[0]["Durum"]).EndsWith("Yapıldı") && 1 == 2)
                     {
                         <span style="color:red;"><strong>Tamamlanmış Kayıt Düzeltilemez!</strong></span>
                     }

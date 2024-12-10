@@ -1,7 +1,7 @@
 ﻿@model System.Data.DataTable
 @using System.Data;
 @{
-    ViewBag.Title = "BekleyenZiyaretler";
+    ViewBag.Title = "Günlük İşlemler";
     Layout = "~/Areas/Ziyaret/Views/Shared/_Layout.cshtml";
 
 
@@ -11,7 +11,7 @@
     <header class="card-header">
         <strong>Günlük İşlemler</strong> | Toplam @Model.Rows.Count adet işlem listelenmektedir.
         <br /><br />
-        <form action="@Url.Action("GunlukIslemler","Home", null)" method="post">
+        <form action="@Url.Action("GunlukIslemler","Ziyaret", new { area = "Ziyaret" })" method="post">
             <label>Başlangıç : <input type="date" name="Baslangic" id="Baslangic" value="@ViewBag.Baslagic" /></label>
             <label>Bitiş : <input type="date" name="Bitis" id="Bitis" value="@ViewBag.Bitis" /></label>
             <label>
@@ -25,7 +25,7 @@
             </label>
             <label><input type="submit" name="name" value="Getir" /></label>
         </form>
-        <form action="@Url.Action("GunlukIslemlerExcel","Home", null)" method="post">
+        <form action="@Url.Action("GunlukIslemlerExcel","Ziyaret", new {area = "Ziyaret" })" method="post">
             <div style="display:none;">
 
                 <label>Başlangıç : <input type="date" name="Baslangic" id="Baslangic" value="@ViewBag.Baslagic" /></label>
@@ -47,7 +47,7 @@
     <table class="table table-striped table-advance table-hover">
         <thead>
             <tr>
-                <td>ID</td>
+                <td style="display:none;">ID</td>
                 <td nowrap>Tarih</td>
                 <td>Firma</td>
                 <td>Başlık</td>
@@ -63,17 +63,18 @@
                 foreach (System.Data.DataRow item in Model.Rows)
                 {
             <tr>
-                <td><a href=" @Url.Action("Ziyaret", "Home", new { id = item["musteriid"] })">@item["id"]</a></td>
+                <td style="display:none;"><a href=" @Url.Action("Ziyaret", "Ziyaret", new { area = "Ziyaret", id = item["CariKodu"] })">@item["ID"]</a></td>
                 <td nowrap class="hidden-phone">@Convert.ToDateTime(item["Tarih"]).ToString("dd-MM-yyyy")</td>
                 <td><span class="badge badge-warning label-mini">@item["Isim"]</span></td>
                 <td> @item["Baslik"] </td>
                 <td> @item["Aciklama"] <br /> @item["Aciklama2"]</td>
                 <td class="hidden-phone">@item["TeklifVerildi"]</td>
-                <td> K.:@item["kayityapankullanici"] <br />T.:@item["duzenlemeyapankullanici"] </td>
+                <td> K.:@item["KaydiAcan"] <br />T.:@item["KaydiKapatan"] </td>
                 <td>
-                    @if (Convert.ToString(item["tamamlandi"]) == "0")
+                   
+                    @if (Convert.ToBoolean(item["Tamamlandi"]) == false)
                     {
-                        <a href="#myModal_id_@item["id"]" data-toggle="modal" class="btn btn-sm" style="color:white;@{
+                        <a href="#myModal_id_@item["ID"]" data-toggle="modal" class="btn btn-sm" style="color:white;@{
                                         if (Convert.ToString(item["seviye"]) == "1")
                                         {
                                             @Html.Raw("background-color:#7f003f;");
@@ -93,7 +94,11 @@
                                         else if (Convert.ToString(item["seviye"]) == "5")
                                         {
                                             @Html.Raw("background-color:#ffaad4;");
-                                        }
+                            }
+                            else
+                            {
+                                            @Html.Raw("background-color:#7f003f;");
+                            }
                                     } ">
                             @{
                                 if (Convert.ToString(item["seviye"]) == "1")
@@ -116,12 +121,16 @@
                                 {
                                     @Html.Raw("Zyt. Kapat (Svy.5)");
                                 }
+                                else
+                                {
+                                    @Html.Raw("Zyt. Kapat");
+                                }
                             }
 
                         </a>
                     }
 
-                    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal_id_@item["id"]" class="modal fade">
+                    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal_id_@item["ID"]" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -131,9 +140,9 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form role="form" action="@Url.Action("ZiyaretKaydet", "Home", new { Tip = "GunlukIslemler" })" method="post" enctype="multipart/form-data">
-                                        <input type="hidden" name="musteriid" value="@item["musteriid"]" />
-                                        <input type="hidden" name="id" value="@(item["id"])" />
+                                    <form role="form" action="@Url.Action("ZiyaretKaydet", "Ziyaret", new { area = "Ziyaret", Tip = "GunlukIslemler" })" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="CariID" value="@item["CariKodu"]" />
+                                        <input type="hidden" name="id" value="@(item["ID"])" />
                                         <input type="hidden" name="Baslangic" value="@ViewBag.Baslagic" />
                                         <input type="hidden" name="Bitis" value="@ViewBag.Bitis" />
                                         <div class="form-group">
@@ -156,7 +165,7 @@
                                                 <option value=""></option>
                                                 @foreach (System.Data.DataRow item2 in ((System.Data.DataTable)ViewBag.Urunler).Rows)
                                                 {
-                                                    <option value="@item2["Isim"]">@item2["Isim"]</option>
+                                                    <option value="@item2["Deger"]">@item2["Deger"]</option>
                                                 }
                                             </select>
                                             <p class="help-block">ürün teslim ettiyseniz işaretleyiniz</p>
@@ -170,7 +179,7 @@
                                             <select class="form-control" name="YeniBaslik">
                                                 @foreach (System.Data.DataRow item2 in ((System.Data.DataTable)ViewBag.ZiyaretTipi).Rows)
                                                 {
-                                                    <option value="@item2["Isim"]" @(Convert.ToString(item2["Isim"]) == "Ziyaret Edilecek" ? "selected" : "")>@item2["Isim"]</option>
+                                                    <option value="@item2["Deger"]" @(Convert.ToString(item2["Deger"]) == "Ziyaret Edilecek" ? "selected" : "")>@item2["Deger"]</option>
                                                 }
                                             </select>
                                             <p class="help-block">Lütfen ziyaret tipi seçiniz.</p>
