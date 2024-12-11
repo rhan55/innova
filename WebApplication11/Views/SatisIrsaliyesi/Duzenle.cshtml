@@ -5,7 +5,7 @@
 @using System.Data
 @model BelgeDto
 @{
-    ViewBag.Title = "Satış İrsaliyesi Düzenleı";
+    ViewBag.Title = "Satış İrsaliyesi Düzenle";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string Tip = Request.QueryString["Tip"];
 
@@ -20,7 +20,9 @@
     BelgeDto = Model,
     Depolar = dtDepolar,
     SatisPersonelleri = ViewBag.Personeller,
-
+    SatisPersoneliVarMi = true,
+    DurumuVarMi = true,
+    CikisDepoVarMi = true,
     //KalemBilgileri = new BelgeEkleKalemComponent
     //{
     //    FiyatVarMi = false

@@ -43,9 +43,10 @@ namespace YKPortal.Areas.E.Controllers
                     }
                 }
             }
-
+          
             if (User.Identity.IsAuthenticated)
             {
+                ViewBag.KullaniciIsim = Kullanici?.Isim ?? "Bilinmiyor";
                 ViewBag.KullaniciAdi = User.Identity.Name;
                 ViewBag.GirisYapildi = true;
                 ViewBag.SepetBilgileri = SepetListesiniGetir();
@@ -377,7 +378,7 @@ namespace YKPortal.Areas.E.Controllers
             {
 
                 ViewBag.KullaniciAdi = KullaniciAdi;
-
+            
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.CommandText = "p_ETicaret_KullaniciGirisi";

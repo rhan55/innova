@@ -299,6 +299,7 @@ namespace YKPortal.Controllers
                 entity.Durumu = Convert.ToString(ds.Tables[0].Rows[0]["Durumu"]);
                 entity.SatisPersonelID = Convert.ToString(ds.Tables[0].Rows[0]["SatisPersonelID"]);
                 entity.Aciklama = Convert.ToString(ds.Tables[0].Rows[0]["Aciklama1"]);
+                entity.DepoCikisID = Convert.ToString(ds.Tables[0].Rows[0]["DepoCikisID"]);
                 entity.Kalemler = new List<BelgeKalemDto>();
                 foreach (DataRow satir in ds.Tables[1].Rows)
                 {

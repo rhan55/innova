@@ -58,110 +58,108 @@
                             </div>
                             @if (Model.BelgeNoVarMi)
                             {
-                            <div class="col-lg-4">
-                                <label for="BelgeNo" class="form-label fs-6 fw-bold text-gray-600 mb-3">Belge No</label>
+                                <div class="col-lg-4">
+                                    <label for="BelgeNo" class="form-label fs-6 fw-bold text-gray-600 mb-3">Belge No</label>
 
-                                <!--begin::Input group-->
-                                <div class="mb-4">
-                                    <input type="text" name="BelgeNo" id="BelgeNo" value="@(Convert.ToString(Model.BelgeDto.BelgeNo))" class="form-control p-2 rounded-1" placeholder="" />
+                                    <!--begin::Input group-->
+                                    <div class="mb-4">
+                                        <input type="text" name="BelgeNo" id="BelgeNo" value="@(Convert.ToString(Model.BelgeDto.BelgeNo))" class="form-control p-2 rounded-1" placeholder="" />
+                                    </div>
+                                    <!--end::Input group-->
+                                    <!--begin::Input group-->
+
                                 </div>
-                                <!--end::Input group-->
-                                <!--begin::Input group-->
-
-                            </div>
                             }
                             <!--end::Col-->
                             <!--begin::Col-->
                             @if (Model.CariVarMi)
                             {
-                            <div class="col-lg-4 col-12">
+                                <div class="col-lg-4 col-12">
 
-                                <!--begin::Input group-->
-                                <div>
-                                    <div class="" style="@(Model.Tip == "DT")">
-                                        <div class="form-group ">
-                                            <label for="CariID" class="form-label fs-6 fw-bold text-gray-600 mb-3 cari-select">Cari</label>
-                                            <select class="form-select form-select-solid p-2 rounded-1" name="CariID" id="CariID"
-                                                    aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                    <!--begin::Input group-->
+                                    <div>
+                                        <div class="" style="@(Model.Tip == "DT")">
+                                            <div class="form-group ">
+                                                <label for="CariID" class="form-label fs-6 fw-bold text-gray-600 mb-3 cari-select">Cari</label>
+                                                <select class="form-select form-select-solid p-2 rounded-1" name="CariID" id="CariID"
+                                                        aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
 
-                                                @if (Model.BelgeDto.CariID != "")
+                                                    @if (Model.BelgeDto.CariID != "")
                                                     {
-                                                <option value="@Model.BelgeDto.CariID" selected>@Model.BelgeDto.CariAdi</option>
+                                                        <option value="@Model.BelgeDto.CariID" selected>@Model.BelgeDto.CariAdi</option>
                                                     }
-                                            </select>
+                                                </select>
+                                            </div>
                                         </div>
+                                    </div>
+
+                                </div>
+                            }
+                            @if (Model.SatisPersoneliVarMi)
+                            {
+
+                                <div class="col-lg-4 col-12">
+                                    <div class="form-group">
+                                        <!--begin::Label-->
+                                        <label for="SatisPersonelID" class="required form-label fs-6 fw-bold text-gray-600 mb-3">Satış Personeli</label>
+                                        <!--end::Label-->
+                                        <select class="form-control p-2 rounded-1" data-control="select2" name="SatisPersonelID" id="SatisPersonelID" data-placeholder="Lütfen Seçim Yapınız"
+                                                aria-label="Floating label select example">
+                                            <option value=""></option>
+                                            @foreach (SatisPersonelleriDto personel in Model.SatisPersonelleri)
+                                            {
+                                                <option value="@personel.ID" @(Model.BelgeDto.SatisPersonelID == personel.ID ? "selected" : "")>@personel.Isim</option>
+                                            }
+                                        </select>
+                                        <!--end::Input group-->
                                     </div>
                                 </div>
 
-                            </div>
                             }
-                            @if (Model.SatisPersoneliVarMi)
- {
 
-                            <div class="col-lg-4 col-12">
-                                <div class="form-group">
-                                    <!--begin::Label-->
-                                    <label for="SatisPersonelID" class="required form-label fs-6 fw-bold text-gray-600 mb-3">Satış Personeli</label>
-                                    <!--end::Label-->
-                                    <select class="form-control p-2 rounded-1" data-control="select2" name="SatisPersonelID" id="SatisPersonelID" data-placeholder="Lütfen Seçim Yapınız"
-                                            aria-label="Floating label select example">
-                                        <option value=""></option>
-                                        @foreach (SatisPersonelleriDto personel in Model.SatisPersonelleri)
-                 {
-                                        <option value="@personel.ID" @(Model.BelgeDto.SatisPersonelID == personel.ID ? "selected" : "")>@personel.Isim</option>
-                 }
-                                    </select>
-                                    <!--end::Input group-->
-                                </div>
-                            </div>
-
- }
-               
 
                         </div>
                         <div class="row mb-4">
                             @if (Model.DurumuVarMi)
-             {
-                            <div class="col-lg-4 col-12">
-                                <!--begin::Label-->
-                                <label for="Durumu" class="form-label fs-6 fw-bold text-gray-600 mb-3">Durumu</label>
-                                <!--begin::Input-->
-                                <div class="form-group">
-                                    <select class="px-2 py-1 rounded-1 form-control form-control-solid" data-control="select2"  name="Durumu" id="Durumu" data-placeholder="Lütfen Seçim Yapınız"
-                                            aria-label="Floating label select example">
-                                       <option></option>
-                                        <option value="Öneri" @(Model.BelgeDto.Durumu == "Öneri" ? "selected" : "")>Öneri</option>
-                                        <option value="Onaylandı" @(Model.BelgeDto.Durumu == "Onaylandı" ? "selected" : "")>Onaylandı</option>
-                                        <option value="Reddedildi" @(Model.BelgeDto.Durumu == "Reddedildi" ? "selected" : "")>Reddedildi</option>
-                                    </select>
-                                </div>                            <!--end::Input-->
-                            </div>
-             }
+                            {
+                                <div class="col-lg-4 col-12">
+                                    <!--begin::Label-->
+                                    <label for="Durumu" class="form-label fs-6 fw-bold text-gray-600 mb-3">Durumu</label>
+                                    <!--begin::Input-->
+                                    <div class="form-group">
+                                        <select class="px-2 py-1 rounded-1 form-control form-control-solid" data-control="select2" name="Durumu" id="Durumu" data-placeholder="Lütfen Seçim Yapınız"
+                                                aria-label="Floating label select example">
+                                            <option></option>
+                                            <option value="Öneri" @(Model.BelgeDto.Durumu == "Öneri" ? "selected" : "")>Öneri</option>
+                                            <option value="Onaylandı" @(Model.BelgeDto.Durumu == "Onaylandı" ? "selected" : "")>Onaylandı</option>
+                                            <option value="Reddedildi" @(Model.BelgeDto.Durumu == "Reddedildi" ? "selected" : "")>Reddedildi</option>
+                                        </select>
+                                    </div>                            <!--end::Input-->
+                                </div>
+                            }
 
                             @if (Model.CikisDepoVarMi)
                             {
-                            <div class="col-lg-4 col-12">
-                                <div class="form-group">
-                                    <label for="DepoCikisID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Çıkış Depo</label>
-                                    <select class="form-select form-select-solid p-2 rounded-1" name="DepoCikisID" id="DepoCikisID"
-                                            aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
-                                        <option></option>
-                                        @foreach (System.Data.DataRow drDepo in Model.Depolar.Rows)
+                                <div class="col-lg-4 col-12">
+                                    <div class="form-group">
+                                        <label for="DepoCikisID" class="form-label fs-6 fw-bold text-gray-600 mb-3">Çıkış Depo</label>
+                                        <select class="form-select form-select-solid p-2 rounded-1" name="DepoCikisID" id="DepoCikisID"
+                                                aria-label="Floating label select example" data-control="select2" data-placeholder="Lütfen Seçim Yapınız">
+                                            <option></option>
+                                            @foreach (System.Data.DataRow drDepo in Model.Depolar.Rows)
                                             {
                                                 if (Model.BelgeDto.DepoCikisID == drDepo["ID"].ToString())
                                                 {
-                                        <option value="@drDepo["ID"]" selected>@drDepo["Isim"]</option>
+                                                    <option value="@drDepo["ID"]" selected>@drDepo["Isim"]</option>
                                                 }
                                                 else
                                                 {
-                                        <option value="@drDepo["ID"]">@drDepo["Isim"]</option>
+                                                    <option value="@drDepo["ID"]">@drDepo["Isim"]</option>
                                                 }
-
- <!-- @drDepo["ID"] -->
                                             }
-                                    </select>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
                             }
                         </div>
                         <div class="row mb-4">
@@ -369,7 +367,7 @@
 
 <script>
     const belgeEkleCompenentValue = @Html.Raw(personJson);
-    const duzenleSayfasiMi = @(ViewBag.IsDuzenleSayfasi ? "true" : "false"); 
+    const duzenleSayfasiMi = @(ViewBag.IsDuzenleSayfasi ? "true" : "false");
  console.log(belgeEkleCompenentValue);
 
 </script>

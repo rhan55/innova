@@ -20,11 +20,15 @@ namespace YKPortal.Areas.E.Controllers
         [HttpGet]
         public ActionResult Profil()
         {
+            if (!User.Identity.IsAuthenticated) {
+                return Redirect("/E/ETicaretYetkilendirme/Giris");
+            }
+
             UlkeListesiniOlustur();
             IlListesiniOlustur();
 
-            var uyelikId = GetCookie("UyelikID");
-            var kullaniciID = GetCookie("KullaniciID");
+            var uyelikId = UyelikIDGetir();
+            var kullaniciID =Kullanici.ID;
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_Cari";
@@ -40,17 +44,17 @@ namespace YKPortal.Areas.E.Controllers
         [HttpPost]
         public ActionResult Profil(CariDto cariDto)
         {
-            if (!AutoGirisKontrol())
+            if (!User.Identity.IsAuthenticated)
             {
-                return Redirect("E/Yetkilendirme/Giris");
+                return Redirect("/E/ETicaretYetkilendirme/Giris");
             }
+
 
             IlListesiniOlustur();
             UlkeListesiniOlustur();
           
-            cariDto.UyelikID = GetCookie("UyelikID");
-
-            cariDto.KullaniciID = GetCookie("KullaniciID");
+            cariDto.UyelikID =UyelikIDGetir();
+            cariDto.KullaniciID = Kullanici.ID;
 
             if (cariDto.TCKimlikNoVergiNo.Length == 10)
             {
