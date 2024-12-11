@@ -36,25 +36,29 @@
     <link rel="stylesheet" href="~/Tema/ETicaret/assets/css/demo4.min.css">  
     <link rel="stylesheet" type="text/css" href="~/Tema/ETicaret/assets/vendor/fontawesome-free/css/all.min.css">
     <meta name="viewport" content="width=device-width" />
-    <title>Giris</title>
+   
 </head>
 <body style="background-color: #efefef05;">
-    <div class="container d-flex justify-content-center align-items-center" style="height: 100dvh;width: 100dvw;">
+    <div class="container d-flex justify-content-center align-items-center " style="height: 100dvh;width: 100dvw;">
        
 
         <div class="page-wrapper ">
             <div class="">
-                <div class=" d-flex align-items-center justify-content-center" style="width: 400px;">
+                <div class=" d-flex align-items-center justify-content-center flex-column" style="width: 400px;">
 
+                    <div href="#" class="logo">
+                        <img src="~/Tema/ETicaret/assets/images/logo.png" width="111" height="44" alt="Porto Logo">
+                    </div>
+                    <h3 class=" mt-2 mb-2">Giriş</h3>
                     <form action="@Url.Action("Giris","ETicaretYetkilendirme",new { Area = "E" })" method="post" class="mb-0 w-100">
-                        <h2 class="title">Giriş</h2>
+
                         <div class="">
 
                             <label class="fs-1" for="KullaniciAdi">
                                 Kullanıcı Adı
                                 <span class="required">*</span>
                             </label>
-                            <input type="email" class="form-input form-wide mb-2" name="txtKullaniciAdi" id="txtKullaniciAdi"  required="" placeholder="name@example.com">
+                            <input type="email" class="form-input form-wide mb-2" name="txtKullaniciAdi" id="txtKullaniciAdi" required="" placeholder="name@example.com">
                         </div>
                         <div class="">
 
@@ -69,7 +73,7 @@
                         <div class="form-footer m-0">
 
                             <div class="form-footer-right">
-                                <a href="#" class="link-color sifremi-unuttum">Şifremi Unuttum?</a>
+                                <a href="#" class="link-color font-weight-bold sifremi-unuttum">Şifremi Unuttum?</a>
                             </div>
                         </div>
 

@@ -72,7 +72,7 @@ namespace YKPortal.Areas.E.Controllers
             cmd.Parameters.AddWithValue("@UyelikID", UyelikIDGetir());
             cmd.Parameters.AddWithValue("@ID", "");
             cmd.Parameters.AddWithValue("@KullaniciID", "");
-            cmd.Parameters.AddWithValue("@Aktif", cariDto.Aktif);
+            cmd.Parameters.AddWithValue("@Aktif",true);
             cmd.Parameters.AddWithValue("@KayitTarihi  ", DateTime.Now);
             cmd.Parameters.AddWithValue("@Kod", cariDto.Kod);
             cmd.Parameters.AddWithValue("@Isim", cariDto.Isim);
@@ -89,7 +89,7 @@ namespace YKPortal.Areas.E.Controllers
             cmd.Parameters.AddWithValue("@Personel", cariDto.Personel);
             cmd.Parameters.AddWithValue("@Telefon1", cariDto.Telefon1);
             cmd.Parameters.AddWithValue("@Telefon2", cariDto.Telefon2);
-            cmd.Parameters.AddWithValue("@EMail", cariDto.EMail);
+            cmd.Parameters.AddWithValue("@EMail", cariDto.KullaniciAdi);
             cmd.Parameters.AddWithValue("@Faks", cariDto.Faks);
             cmd.Parameters.AddWithValue("@CepTelefonu", cariDto.CepTelefonu);
             cmd.Parameters.AddWithValue("@WebSite", cariDto.WebSite);
