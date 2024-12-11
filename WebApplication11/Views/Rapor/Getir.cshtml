@@ -1,0 +1,155 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Rapor";
+
+}
+
+<div class="container-fluid p-0" style="margin: 5px;padding:5px;">
+    <div class="row p-0 m-0">
+        <div class="col-lg-12 p-0">
+            <div class="content d-flex justify-center flex-column flex-column-fluid p-0" id="kt_content">
+                <h2>@ViewBag.Isim</h2>
+                <!--begin::Post-->
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <!--begin::Container-->
+                    <div id="kt_content_container" class="container-fluid p-0 m-0" style="background-color:white;">
+                        <style>
+                            table {
+                                border-collapse: collapse;
+                                width: 100%;
+                            }
+
+                            th, td {
+                                border: 1px solid #ddd;
+                                padding: 8px;
+                            }
+
+                            th {
+                                background-color: #f2f2f2;
+                                position: sticky;
+                                top: 0;
+                            }
+
+                            input[type="text"] {
+                                width: 90%;
+                                padding: 5px;
+                                box-sizing: border-box;
+                            }
+                        </style>
+                        <table id="filterTable" class="table">
+
+
+                            <thead>
+                                <tr>
+                                    @foreach (DataColumn kolon in Model.Columns)
+                                    {
+                                        string style = "";
+                                        if (kolon.DataType.Name == "DateTime")
+                                        {
+                                            style = "text-align:center;";
+                                        }
+                                        else if (kolon.DataType.Name == "Decimal")
+                                        {
+                                            style = "text-align:right;";
+                                        }
+                                        else if (kolon.DataType.Name == "Int32")
+                                        {
+                                            style = "text-align:right;";
+                                        }
+                                        <th style="@(style);min-width:100px;">@kolon.ColumnName<br><input type="text" placeholder="Filtrele..."></th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (DataRow satir in Model.Rows)
+                                {
+                                    <tr>
+                                        @foreach (DataColumn kolon in Model.Columns)
+                                        {
+                                            string style = "";
+                                            if (satir[kolon.ColumnName].GetType().ToString() == "System.DateTime")
+                                            {
+                                                style = "text-align:center;";
+                                            }
+                                            else if (satir[kolon.ColumnName].GetType().ToString() == "System.Decimal")
+                                            {
+                                                style = "text-align:right;";
+                                            }
+                                            else if (satir[kolon.ColumnName].GetType().ToString() == "System.Int32")
+                                            {
+                                                style = "text-align:right;";
+                                            }
+                                            <td style="@(style);white-space: nowrap;">
+                                                @if (satir[kolon.ColumnName].GetType().ToString() == "System.DateTime")
+                                                {
+                                                    <span>@Convert.ToDateTime(satir[kolon.ColumnName]).ToString("dd-MM-yyyy")</span>
+                                                }
+                                                else if (satir[kolon.ColumnName].GetType().ToString() == "System.Int32")
+                                                {
+                                                    <span>@Convert.ToString(satir[kolon.ColumnName])</span>
+                                                }
+                                                else if (satir[kolon.ColumnName].GetType().ToString() == "System.Decimal")
+                                                {
+                                                    <span>@String.Format("{0:N2}", Convert.ToDecimal(satir[kolon.ColumnName]))</span>
+                                                }
+                                                else
+                                                {
+                                                    <span> @satir[kolon.ColumnName]</span>
+                                                }
+
+
+                                            </td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                    @section scripts {
+
+                        <script type="text/javascript">
+
+                            document.addEventListener('DOMContentLoaded', () => {
+                                const table = document.getElementById('filterTable');
+                                const filters = table.querySelectorAll('thead input[type="text"]');
+
+                                filters.forEach((input, colIndex) => {
+                                    input.addEventListener('input', () => {
+                                        const filterValue = input.value.toLowerCase();
+                                        const rows = table.querySelectorAll('tbody tr');
+
+                                        rows.forEach(row => {
+                                            const cell = row.cells[colIndex];
+                                            if (cell) {
+                                                const cellText = cell.textContent.toLowerCase();
+                                                row.style.display = cellText.includes(filterValue) ? '' : 'none';
+                                            }
+                                        });
+
+                                        // Tüm filtrelerin birlikte çalışması için diğer filtreleri tekrar kontrol et
+                                        filters.forEach((otherInput, otherIndex) => {
+                                            if (otherInput.value) {
+                                                const otherValue = otherInput.value.toLowerCase();
+                                                rows.forEach(row => {
+                                                    const otherCell = row.cells[otherIndex];
+                                                    if (otherCell) {
+                                                        const otherCellText = otherCell.textContent.toLowerCase();
+                                                        if (!otherCellText.includes(otherValue)) {
+                                                            row.style.display = 'none';
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        </script>
+                    }

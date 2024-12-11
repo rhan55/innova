@@ -12,7 +12,6 @@ namespace YKPortal.Controllers
     public class RaporController : Controller
     {
 
-        // GET: Rapor
         public ActionResult RaporIsimleri()
         {
             if (!AutoGirisKontrol())
@@ -27,7 +26,35 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KullaniciID", KullaniciID);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            return View();
+            return View(dt);
+        }
+
+        public ActionResult Getir(string id)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            string UyelikID = GetCookie("UyelikID");
+            string KullaniciID = GetCookie("KullaniciID");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.CommandText = "Select Sorgu From Raporlar WITH(NOLOCK) Where ID = @ID";
+            cmd.Parameters.AddWithValue("@ID",id);
+            string Sorgu = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+
+            cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.CommandText = "Select Isim From Raporlar WITH(NOLOCK) Where ID = @ID";
+            cmd.Parameters.AddWithValue("@ID", id);
+            ViewBag.Isim = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+
+            cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.CommandText = Sorgu;
+            cmd.Parameters.AddWithValue("@ID", id);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            return View(dt);
         }
 
 

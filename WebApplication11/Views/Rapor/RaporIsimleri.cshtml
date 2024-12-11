@@ -1,0 +1,49 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Rapor Listesi";
+
+}
+
+<div class="container-fluid p-0" style="margin: 5px;padding:5px;">
+    <div class="row p-0 m-0">
+        <div class="col-lg-12 p-0">
+            <div class="content d-flex justify-center flex-column flex-column-fluid p-0" id="kt_content">
+                <!--begin::Post-->
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <!--begin::Container-->
+                    <div id="kt_content_container" class="container-fluid p-0 m-0" style="background-color:white;">
+
+                        <table class="table p-2 align-middle border rounded table-row-dashed fs-6 display nowrap w-100" id="Personel-datatable">
+                            <thead>
+                                <tr>
+                                    <th>Tip</th>
+                                    <th>İsim</th>
+                                    <th>İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (DataRow satir in Model.Rows)
+                                {
+                                    <tr>
+                                        <td>@satir["Tip"]</td>
+                                        <td>@satir["Isim"]</td>
+                                        <td><a href="/Rapor/Getir/@(satir["ID"])">Çalıştır</a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                    @section scripts {
+
+                        <script type="text/javascript">
+
+
+                        </script>
+                    }
