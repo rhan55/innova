@@ -1,6 +1,10 @@
 ﻿@*@model List<YKPortal.Areas.E.Models.Dto.KategorilerDto>*@
 @{
     var sepetBilgileri = ViewBag.SepetBilgileri as List<YKPortal.Areas.E.Models.Dto.ETicaretSepetDto.ETicaretSepetListeSonucDto>;
+    if (sepetBilgileri == null)
+    {
+        sepetBilgileri = new List<YKPortal.Areas.E.Models.Dto.ETicaretSepetDto.ETicaretSepetListeSonucDto>();
+    }
 }
 
 <!DOCTYPE html>
