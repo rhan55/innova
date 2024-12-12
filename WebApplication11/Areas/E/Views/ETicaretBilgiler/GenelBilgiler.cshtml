@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "GenelBilgiler";
+    ViewBag.Title = "Genel Bilgiler";
     Layout = "~/Areas/E/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,7 +9,7 @@
 
 
     <!-- Tab İçerikleri -->
-    <form class="tab-content" method="post" id="GenelBilgilerForm">
+    <form class="tab-content" method="post" id="GenelBilgilerForm" enctype="multipart/form-data">
         <div class="row">
             @foreach (YKPortal.Models.Dto.GrupKoduDto grupKodu in ViewBag.ETicaretTelefon)
             {
@@ -27,13 +27,14 @@
                 </div>
             }
         </div>
-       
+
         <div class="row">
             @foreach (YKPortal.Models.Dto.GrupKoduDto grupKodu in ViewBag.ETicaretLogo)
             {
                 <div class="col-lg-6 mt-4">
+                    <img src="~/Uploads/ETicaret/@grupKodu.Deger" alt="Alternate Text" />
                     <label>Logo</label>
-                    <input type="text" class="form-input p-3 form-wide mb-2" name="@grupKodu.Kod" value="@grupKodu.Deger" data-grupKodId="@grupKodu.ID" />
+                    <input type="file" class="form-input p-3 form-wide mb-2" name="ETicaretLogo" data-grupKodId="@grupKodu.ID" />
                 </div>
             }
             @foreach (YKPortal.Models.Dto.GrupKoduDto grupKodu in ViewBag.ETicaretFirmaAdi)
@@ -44,18 +45,18 @@
                 </div>
             }
         </div>
-       
 
-    
+
+
 
         <div class="d-flex mt-2">
             <div>
-                <button type="submit" id="KaydetButonu" class="btn-sm btn btn-primary font-weight-bold py-2 btn-block" style="height:40px;">
+                <button type="submit" id="KaydetButonu" class="btn btn-dark btn-ellipse btn-md">
                     Kaydet
                 </button>
             </div>
-            <div class="">
-                <button type="button" onclick="history.back()" class="btn btn-light btn-block btn-sm">
+            <div class="ml-3">
+                <button type="button" onclick="history.back()" class="btn btn-default btn-ellipse btn-md">
                     Geri
                 </button>
             </div>
@@ -63,7 +64,7 @@
         </div>
     </form>
 
-    
+
 </div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
@@ -81,38 +82,76 @@
 
     <script>
 
+
+
         $('#KaydetButonu').click(function (e) {
             e.preventDefault(); // Formun varsayılan gönderimini engelle
 
             let formData = [];
 
-            $('#GenelBilgilerForm input').each(function () {
+            let fileReadPromises = [];
+
+            $('#GenelBilgilerForm input[type="file"]').each(function () {
+                if (this.files.length > 0) {
+                    let fileInput = $(this);
+                    let file = this.files[0];
+
+                    let fileReadPromise = new Promise(function (resolve, reject) {
+                        let reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = function () {
+                            console.log(reader.result);
+                            formData.push({
+                                ID: fileInput.attr('data-grupKodId'),
+                                Kod: fileInput.attr('name'),
+                                Deger: reader.result
+                            });
+                            resolve(); // Resolve the promise after file is read
+                        };
+                        reader.onerror = function (error) {
+                            console.log('Error: ', error);
+                            reject(error); // Reject the promise if an error occurs
+                        };
+                    });
+
+                    fileReadPromises.push(fileReadPromise); // Add to the list of promises
+                }
+            });
+
+            // Add text input data (does not require async handling)
+            $('#GenelBilgilerForm input[type="text"]').each(function () {
                 formData.push({
-                    ID: $(this).attr('data-grupKodId'), 
-                    Kod: $(this).attr('name'),   
-                    Deger: $(this).val()         
+                    ID: $(this).attr('data-grupKodId'),
+                    Kod: $(this).attr('name'),
+                    Deger: $(this).val()
                 });
             });
 
-            $.ajax({
-                url: '/E/Bilgiler/Kaydet',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(formData), 
-                success: function (response) {
-                    if (response.success) {
-                        alert(response.message);
-                        if (response.redirectUrl) {
-                            window.location.href = response.redirectUrl;
+            Promise.all(fileReadPromises)
+                .then(function () {
+                    $.ajax({
+                        url: '/E/ETicaretBilgiler/Kaydet',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(formData),
+                        success: function (response) {
+                            if (response.success) {
+                                alert(response.message);
+                                if (response.redirectUrl) {
+                                    window.location.href = response.redirectUrl;
+                                }
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function () {
+                            alert("Bir hata oluştu.");
                         }
-                    } else {
-                        alert(response.message);
-                    }
-                },
-                error: function () {
-                    alert("Bir hata oluştu.");
-                }
-            });
+                    });
+                })
+                .catch(function (error) {
+                    alert("Dosyalar okunurken bir hata oluştu: " + error);
+                });
         });
 
 

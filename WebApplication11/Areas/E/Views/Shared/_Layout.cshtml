@@ -64,88 +64,74 @@
         <!-- End .top-notice -->
 
         <header class="header">
-            <div class="header-top" style="height:90px;">
-                <div class="container">
-                    <div class="header-left d-none d-sm-block">
-                        <p class="top-message text-uppercase">FREE Returns. Standard Shipping Orders $99+</p>
+            <div class="header-top" style="height:60px;">
+                <div class="container d-flex">
+                    <div class="d-flex justify-content-between" style="width:100%;">
+                        <div class="header-dropdowns w-sm-100">
+                            <div class="header-dropdown dropdown-expanded d-none d-lg-block">
+                                <a href="#">Links</a>
+                                <div class="header-menu d-flex">
+                                    <ul>
+                                        <li><a href="dashboard.html">Hesabım</a></li>
+                                        <li><a href="about.html">İletişim</a></li>
+                                        <li><a href="blog.html">Blog</a></li>
+                                        <li><a href="wishlist.html">istek Listem</a></li>
+                                        <li><a href="cart.html">Cart</a></li>
+                                        @if (ViewBag.GirisYapildi)
+                                        {
+                                            <li>
+                                                <form action="/E/ETicaretYetkilendirme/Cikis" method="POST">
+                                                    <button type="submit" class="btn btn-link text-muted  font-weight-bold" style="font-size:12px; font-weight:500;">Çıkış Yap</button>
+                                                </form>
+
+                                            </li>
+                                            <li>  <span class="text-primary font-weight-bold ">Hoş geldiniz, @ViewBag.KullaniciIsim!</span></li>
+
+                                        }
+                                        else
+                                        {
+                                            <li>
+                                                <a href="/E/ETicaretYetkilendirme/Giris">Giriş Yap</a>
+                                            </li>
+                                            <li>
+                                                <a href="/E/ETicaretYetkilendirme/UyeOl">Üye Ol</a>
+                                            </li>
+
+                                        }
+                                    </ul>
+
+                                </div>
+                                <!-- End .header-menu -->
+                            </div>
+                            <!-- End .header-dropown -->
+
+
+                        </div>
+                        <div class="d-flex">
+                            <div class="header-dropdown">
+                                <a href="#"><i class="flag-tr flag"></i>TR</a>
+                                <div class="header-menu">
+                                </div>
+                            </div>
+                            <!-- End .header-dropown -->
+
+                            <div class="header-dropdown mr-auto mr-sm-3 mr-md-0">
+                                <a href="#">TL</a>
+                            </div>
+                            <!-- End .header-dropown -->
+
+                            <div class="social-icons">
+                                <a href="#" class="social-icon social-facebook icon-facebook" target="_blank"></a>
+                                <a href="#" class="social-icon social-twitter icon-twitter" target="_blank"></a>
+                                <a href="#" class="social-icon social-instagram icon-instagram" target="_blank"></a>
+                            </div>
+                            <!-- End .social-icons -->
+                        </div>
                     </div>
+
                     <!-- End .header-left -->
 
-                    <div class="header-right header-dropdowns ml-0 ml-sm-auto w-sm-100">
-                        <div class="header-dropdown dropdown-expanded d-none d-lg-block">
-                            <a href="#">Links</a>
-                            <div class="header-menu d-flex">
-                                <ul>
-                                    <li><a href="dashboard.html">My Account</a></li>
-                                    <li><a href="about.html">About Us</a></li>
-                                    <li><a href="blog.html">Blog</a></li>
-                                    <li><a href="wishlist.html">My Wishlist</a></li>
-                                    <li><a href="cart.html">Cart</a></li>
-                                    @if (ViewBag.GirisYapildi)
-                                    {
-                                        <li>
-                                            <form action="/E/ETicaretYetkilendirme/Cikis" method="POST">
-                                                <button type="submit" class="btn btn-link text-muted  font-weight-bold" style="font-size:12px; font-weight:500;">Çıkış Yap</button>
-                                            </form>
-
-                                        </li>
-                                        <li>  <span class="text-primary font-weight-bold ">Hoş geldiniz, @ViewBag.KullaniciIsim!</span></li>
-
-                                    }
-                                    else
-                                    {
-                                        <li>
-                                            <a href="/E/ETicaretYetkilendirme/Giris">Giriş Yap</a>
-                                        </li>
-                                        <li>
-                                            <a href="/E/ETicaretYetkilendirme/UyeOl">Üye Ol</a>
-                                        </li>
-
-                                    }
-                                </ul>
-                            
-                            </div>
-                            <!-- End .header-menu -->
-                        </div>
-                        <!-- End .header-dropown -->
-
-                        <span class="separator"></span>
-
-                        <div class="header-dropdown">
-                            <a href="#"><i class="flag-tr flag"></i>TR</a>
-                            <div class="header-menu">
-                                @*<ul>
-                                    <li>  
-                                        <a href="#"><i class="flag-tr flag mr-2"></i>ENG</a>
-                                    </li>
-                                    <li><a href="#"><i class="flag-fr flag mr-2"></i>FRA</a></li>
-                                </ul>*@
-                            </div>
-                            <!-- End .header-menu -->
-                        </div>
-                        <!-- End .header-dropown -->
-
-                        <div class="header-dropdown mr-auto mr-sm-3 mr-md-0">
-                            <a href="#">TL</a>
-                            <!--<div class="header-menu">
-                                <ul>
-                                    <li><a href="#">TL</a></li>-->
-                                    @*<li><a href="#">USD</a></li>*@
-                                <!--</ul>
-                            </div>-->
-                            <!-- End .header-menu -->
-                        </div>
-                        <!-- End .header-dropown -->
-
-                        <span class="separator"></span>
-
-                        <div class="social-icons">
-                            <a href="#" class="social-icon social-facebook icon-facebook" target="_blank"></a>
-                            <a href="#" class="social-icon social-twitter icon-twitter" target="_blank"></a>
-                            <a href="#" class="social-icon social-instagram icon-instagram" target="_blank"></a>
-                        </div>
-                        <!-- End .social-icons -->
-                    </div>
+                
                     <!-- End .header-right -->
                 </div>
                 <!-- End .container -->
@@ -228,7 +214,7 @@
                                     <!-- End .dropdown-cart-header -->
 
                                     <div class="dropdown-cart-products">
-                                       Buraya Sepet Bilgileri döngüsü gelecek
+                                        Buraya Sepet Bilgileri döngüsü gelecek
                                         <div class="dropdown-cart-total">
                                             <span>SUBTOTAL:</span>
 
@@ -318,20 +304,24 @@
                                 </div>
                             </li>
                             <li>
-                                <a href="product.html">Products</a>
+                                <a href="#">SAYFALAR</a>
                                 <div class="megamenu megamenu-fixed-width">
                                     <div class="row">
                                         <div class="col-lg-4">
-                                            <a href="#" class="nolink">PRODUCT PAGES</a>
+
+
                                             <ul class="submenu">
-                                                <li><a href="product.html">SIMPLE PRODUCT</a></li>
-                                                <li><a href="product-variable.html">VARIABLE PRODUCT</a></li>
-                                                <li><a href="product.html">SALE PRODUCT</a></li>
-                                                <li><a href="product.html">FEATURED & ON SALE</a></li>
-                                                <li><a href="product-custom-tab.html">WITH CUSTOM TAB</a></li>
-                                                <li><a href="product-sidebar-left.html">WITH LEFT SIDEBAR</a></li>
-                                                <li><a href="product-sidebar-right.html">WITH RIGHT SIDEBAR</a></li>
-                                                <li><a href="product-addcart-sticky.html">ADD CART STICKY</a></li>
+                                                <li><a href="/E/ETicaretSite/Anasayfa">Ana Sayfa</a></li>
+                                                <li><a href="/E/ETicaretHakkimizda/Hakkimizda">Hakkımızda</a></li>
+                                                <li><a href="/E/ETicaretHakkimizda/Iletisim">İletişim</a></li>
+                                                <li><a href="/E/ETicaretBilgiler/GenelBilgiler">Genel Bilgiler</a></li>
+                                                <li><a href="/E/ETicaretHakkimizda/Misyonumuz">Misyonumuz</a></li>
+                                                <li><a href="/E/ETicaretHakkimizda/Vizyonumuz">Vizyonumuz</a></li>
+                                                <li><a href="#">Sözleşme</a></li>
+                                                <li><a href="/E/ETicaretStok/Stoklar">Kategoriler</a></li>
+                                                <li><a href="/E/ETicaretKullanici/Profil">Profil</a></li>
+                                                <li><a href="#">Sepet</a></li>
+                                                <li><a href="#">Siparişler</a></li>
                                             </ul>
                                         </div>
                                         <!-- End .col-lg-4 -->
@@ -549,8 +539,14 @@
                 <!-- End .container -->
             </div>
             <!-- End .header-bottom -->
-        </header>
+        </header> 
         <!-- End .header -->
+        <div class="container-fluid shadow-sm p-2 bg-white rounded ">
+            <ol class="breadcrumb  container">
+                <li class="breadcrumb-item "><a href="/E/ETicaretSite/Anasayfa"><i class="fas fa-home "></i></a></li>
+                <li class="breadcrumb-item active " aria-current="page">@ViewBag.Title</li>
+            </ol>
+        </div>
         <div class="container-fluid">
             @RenderBody()
         </div>
@@ -805,15 +801,16 @@
                 </ul>
 
                 <ul class="mobile-menu">
-                    <li><a href="login.html">My Account</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="login.html">Hesabım</a></li>
+                    <li><a href="contact.html">İletişim</a></li>
                     <li><a href="blog.html">Blog</a></li>
-                    <li><a href="wishlist.html">My Wishlist</a></li>
+                    <li><a href="wishlist.html">İstek Listem</a></li>
                     <li><a href="cart.html">Cart</a></li>
-                    <li><a href="@Url.Action("Giris","Yetkilendirme",new { Area = "E" })" class="login-link">Log In</a></li>
+                    <li><a href="@Url.Action("Giris","ETicaretYetkilendirme",new { Area = "E" })" class="login-link">Giriş Yap</a></li>
                     <li>
-                        <form action="/E/Yetkilendirme/Cikis" method="post">
-                            <button class="login-link">Çıkış Yap</button>
+                        <form action="/E/ETicaretYetkilendirme/Cikis" method="post">
+                            <button type="submit" class="btn btn-link text-muted  font-weight-bold" style="font-size:12px; font-weight:500;">Çıkış Yap</button>
+
                         </form>
                     </li>
                 </ul>
@@ -840,72 +837,35 @@
 
     <div class="sticky-navbar">
         <div class="sticky-info">
-            <a href="demo4.html">
+            <a href="/E/ETicatetSite/Anasayfa">
                 <i class="icon-home"></i>Anasayfa
             </a>
         </div>
         <div class="sticky-info">
-            <a href="category.html" class="">
-                <i class="icon-bars"></i>Hakkımızda
+            <a href="/E/ETicatetHakkimizda/Hakkimizda" class="">
+                <i class="icon-bars"></i>Kategoriler
             </a>
         </div>
         <div class="sticky-info">
-            <a href="wishlist.html" class="">
-                <i class="icon-wishlist-2"></i>İletişim
-            </a>
-        </div>
-        <div class="sticky-info">
-            <a href="login.html" class="">
-                <i class="icon-user-2"></i>Misyonumuz
+            <a href="/E/ETicatetHakkimizda/Iletisim" class="">
+                <i class="icon-wishlist-2"></i>Favorilerim
             </a>
         </div>
         <div class="sticky-info">
             <a href="login.html" class="">
-                <i class="icon-user-2"></i>Vizyonumuz
+                <i class="icon-user-2"></i>Hesabım
             </a>
         </div>
         <div class="sticky-info">
-            <a href="login.html" class="">
-                <i class="icon-user-2"></i>Sözleşme
-            </a>
-        </div>
-        <div class="sticky-info">
-            <a href="login.html" class="">
-                <i class="icon-user-2"></i>Profil
-            </a>
-        </div>
-        <div class="sticky-info">
-            <a href="login.html" class="">
-                <i class="icon-user-2"></i>Arama
-            </a>
-        </div>
-        <div class="sticky-info">
-            <a href="login.html" class="">
-                <i class="icon-user-2"></i>Sepet
-            </a>
-        </div>
-        <div class="sticky-info">
-            <a href="login.html" class="">
-                <i class="icon-user-2"></i>Ödeme
-            </a>
-        </div>
-        <div class="sticky-info">
-            <a href="login.html" class="">
-                <i class="icon-user-2"></i>Sepet Sonuç Bilgisi
-            </a>
-        </div>
-        <div class="sticky-info">
-            <a href="login.html" class="">
-                <i class="icon-user-2"></i>Geçmiş Siparişler ve Detayı
-            </a>
-        </div>
-        <div class="sticky-info">
-            <a href="cart.html" class="">
+            <a href="/E/ETicatetSepet/SepetBilgileri" class="">
                 <i class="icon-shopping-cart position-relative">
                     <span class="cart-count badge-circle">3</span>
-                </i>Cart
+                </i>Sepetim
             </a>
         </div>
+       
+       
+
     </div>
 
     <div class="newsletter-popup mfp-hide bg-img" id="newsletter-popup-form" style="background: #f1f1f1 no-repeat center/cover url(/Tema/ETicaret/assets/images/newsletter_popup_bg.jpg)">
