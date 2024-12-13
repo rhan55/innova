@@ -11,36 +11,53 @@
     <!-- Tab İçerikleri -->
     <form class="tab-content" method="post" id="GenelBilgilerForm" enctype="multipart/form-data">
         <div class="row">
-            @foreach (YKPortal.Models.Dto.GrupKoduDto grupKodu in ViewBag.ETicaretTelefon)
-            {
-                <div class="col-lg-6 mt-4">
-                    <label>Telefon</label>
-                    <input type="text" class="form-input p-3 form-wide mb-2" name="@grupKodu.Kod" value="@grupKodu.Deger" data-grupKodId="@grupKodu.ID" />
-                </div>
-            }
-
-            @foreach (YKPortal.Models.Dto.GrupKoduDto grupKodu in ViewBag.ETicaretEmail)
-            {
-                <div class="col-lg-6 mt-4">
-                    <label>E-Mail</label>
-                    <input type="text" class="form-input p-3 form-wide mb-2" name="@grupKodu.Kod" value="@grupKodu.Deger" data-grupKodId="@grupKodu.ID" />
-                </div>
-            }
-        </div>
-
-        <div class="row">
             @foreach (YKPortal.Models.Dto.GrupKoduDto grupKodu in ViewBag.ETicaretLogo)
             {
-                <div class="col-lg-6 mt-4">
-                    <img src="~/Uploads/ETicaret/@grupKodu.Deger" alt="Alternate Text" />
-                    <label>Logo</label>
-                    <input type="file" class="form-input p-3 form-wide mb-2" name="ETicaretLogo" data-grupKodId="@grupKodu.ID" />
+                <div class="col-lg-6 d-flex flex-column">
+                    <img class="img-fluid" src="~/Uploads/ETicaret/@grupKodu.Deger" alt="Alternate Text" style="width:120px; border-radius:4px;" />
+                    <div class="mt-2">
+
+                        <label class="form-label">Logo</label>
+                        <input type="file" class="form-input  form-wide mb-2" name="ETicaretLogo" data-grupKodId="@grupKodu.ID" style="padding:8px;"/>
+                    </div>
                 </div>
+                
             }
             @foreach (YKPortal.Models.Dto.GrupKoduDto grupKodu in ViewBag.ETicaretFirmaAdi)
             {
+               
                 <div class="col-lg-6 mt-4">
-                    <label>Firma Adı</label>
+                    <div style="height:90px; width:82px;"></div>
+                    <label class="form-label">Firma Adı</label>
+                    <input type="text" class="form-input p-3 form-wide mb-2" name="@grupKodu.Kod" value="@grupKodu.Deger" data-grupKodId="@grupKodu.ID" />
+                </div>
+            }
+         
+        </div>
+
+        <div class="row">     
+            @foreach (YKPortal.Models.Dto.GrupKoduDto grupKodu in ViewBag.ETicaretEmail)
+            {
+                <div class="col-lg-6 mt-4">
+                    <label class="form-label">E-Mail</label>
+                    <input type="text" class="form-input p-3 form-wide mb-2" name="@grupKodu.Kod" value="@grupKodu.Deger" data-grupKodId="@grupKodu.ID" />
+                </div>
+            }
+            @foreach (YKPortal.Models.Dto.GrupKoduDto grupKodu in ViewBag.ETicaretTelefon)
+            {
+                <div class="col-lg-6 mt-4">
+                    <label class="form-label">Telefon</label>
+                    <input type="text" class="form-input p-3 form-wide mb-2" name="@grupKodu.Kod" value="@grupKodu.Deger" data-grupKodId="@grupKodu.ID" />
+                </div>
+            }
+
+        </div> 
+        
+        <div class="row">     
+            @foreach (YKPortal.Models.Dto.GrupKoduDto grupKodu in ViewBag.ETicaretAdres)
+            {
+                <div class="col-lg-6 mt-4">
+                    <label class="form-label">Adres</label>
                     <input type="text" class="form-input p-3 form-wide mb-2" name="@grupKodu.Kod" value="@grupKodu.Deger" data-grupKodId="@grupKodu.ID" />
                 </div>
             }

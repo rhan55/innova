@@ -11,152 +11,153 @@
 
 
     <div class="page-wrapper mt-4">
-        <h3 class="title mb-2 text-dark font-weight-bold display-5">Profil</h3>
-        <form id="uyelikDuzenlemeFormu" action="@Url.Action("Profil","ETicaretKullanici",new { Area = "E" })" class="mb-1" method="post">
-            <input type="hidden" name="ID" value="" />
-            <input type="hidden" name="KullaniciID" value="" />
-            <div class="row ">
-                <div class="col-lg-4">
-                    <label class="fs-1 text-dark text-xl-1" for="KullaniciAdi">
-                        Kullanıcı Adı
-                        <span class="required">*</span>
-                    </label>
-                    <input type="email" class=" border rounded form-input p-3 form-wide mb-2 " name="KullaniciAdi" id="KullaniciAdi" value="@(Convert.ToString(Model.Rows[0]["KullaniciAdi"]))" required="">
-                </div>
-                <div class="col-lg-4">
-                    <label class="text-dark" for="Parola">
-                        Parola
-                        <span class="required">*</span>
-                    </label>
-                    <input type="password" class="form-input p-3 form-wide mb-2" name="Parola" id="Parola" value="@(Convert.ToString(Model.Rows[0]["Parola"]))" required="">
-                </div>
-                <div class="col-lg-4">
-                    <label class="text-dark" for="Isim">
-                        İsim
-                        <span class="required">*</span>
-                    </label>
-                    <input type="text" class="form-input p-3 form-wide mb-2" id="Isim" name="Isim" value="@(Convert.ToString(Model.Rows[0]["Isim"]))" required="">
-                </div>
+        <div class="card  container-lg User-card">
+            <h3 class="title-form mb-2 font-weight-bold display-5">Profil</h3>
+            <form id="uyelikDuzenlemeFormu" action="@Url.Action("Profil","ETicaretKullanici",new { Area = "E" })" class="mb-1" method="post">
+                <input type="hidden" name="ID" value="" />
+                <input type="hidden" name="KullaniciID" value="" />
+                <div class="row ">
+                    <div class="col-lg-4">
+                        <label class="fs-1 text-dark form-label text-xl-1" for="KullaniciAdi">
+                            Kullanıcı Adı
 
-            </div>
-            <div class="row">
-
-                <div class="col-lg-6">
-                    <label class="text-dark" for="TCKimlikNoVergiNo">
-                        TCKimlik numarası veya Vergi Numarası
-                        <span class="required">*</span>
-                    </label>
-                    <input type="text" class="form-input form-wide p-3" name="TCKimlikNoVergiNo" id="TCKimlikNoVergiNo" value="@(Convert.ToString(Model.Rows[0]["TCKimlikNo"]) ?? Convert.ToString(Model.Rows[0]["VergiNumarasi"]))">
-                    <div data-error="TCKimlikNoVergiNo"></div>
-                </div>
-                <div class="col-lg-6">
-                    <label class="text-dark" for="Unvan">
-                        Unvan
-                        <span class="required">*</span>
-                    </label>
-                    <input type="text" class="form-input text-dark form-wide mb-2 p-3" id="Unvan" name="Unvan" value="@(Convert.ToString(Model.Rows[0]["Unvan"]))" required="">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-6">
-                    <label class="text-dark" for="VergiDairesi">
-                        Vergi Dairesi
-                        <span class="required">*</span>
-                    </label>
-                    <input type="text" class="form-input form-wide mb-2 p-3" name="VergiDairesi" id="VergiDairesi" value="@(Convert.ToString(Model.Rows[0]["VergiDairesi"]))" required="">
-                </div>
-                <div class="col-lg-6">
-                    <label class="text-dark" for="CepTelefonu">
-                        CepTelefonu
-                        <span class="required">*</span>
-                    </label>
-                    <input type="text" class="form-input  form-wide mb-2 p-3" value="@(Convert.ToString(Model.Rows[0]["CepTelefonu"]))" id="CepTelefonu" name="CepTelefonu" placeholder="(___) ___-____">
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <label class="text-dark" for="Adres">
-                        Adres
-                        <span class="required">*</span>
-                    </label>
-
-                    <textarea class=" form-input form-wide mb-2 " name="Adres" id="Adres" rows="4" placeholder="Adresinizi girin...">@(Convert.ToString(Model.Rows[0]["Adres"]))</textarea>
-
-
-                </div>
-
-
-            </div>
-
-            <div class="row ">
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <label for="Ulke" class="form-label text-dark">Ülke</label>
-                        <span class="required">*</span>
-                        <select class="form-input form-wide p-3" data-control="select2" name="Ulke" id="Ulke" required
-                                aria-label="Floating label select example">
-                            <option value="">Lütfen Seçim Yapınız</option>
-                            @foreach (GrupKoduDto ulke in ViewBag.Ulkeler)
-                            {
-                                <option value="@ulke.ID" @(Convert.ToString(Model.Rows[0]["Ulke"]) == ulke.ID ? "selected" : "")>@ulke.Deger</option>
-                            }
-                        </select>
+                        </label>
+                        <input type="email" class="form-wide form-input-new p-3 mb-2 " name="KullaniciAdi" id="KullaniciAdi" value="@(Convert.ToString(Model.Rows[0]["KullaniciAdi"]))" required="">
                     </div>
+                    <div class="col-lg-4">
+                        <label class="text-dark form-label" for="Parola">
+                            Parola
+
+                        </label>
+                        <input type="password" class="form-input-new form-wide p-3 mb-2" name="Parola" id="Parola" value="@(Convert.ToString(Model.Rows[0]["Parola"]))" required="">
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="text-dark form-label" for="Isim">
+                            İsim
+
+                        </label>
+                        <input type="text" class=" form-input-new form-wide p-3  mb-2" id="Isim" name="Isim" value="@(Convert.ToString(Model.Rows[0]["Isim"]))" required="">
+                    </div>
+
                 </div>
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <label for="Il" class=" form-label text-dark">İl</label>
-                        <span class="required">*</span>
-                        <select class="form-input form-wide p-3" name="Il" data-control="select2" id="Il" required
-                                aria-label="Floating label select example">
-                            <option value="">Lütfen Seçim Yapınız</option>
-                            @foreach (GrupKoduDto il in ViewBag.Iller)
-                            {
-                                <option value="@il.ID" @(Convert.ToString(Model.Rows[0]["Il"]) == il.ID ? "selected" : "")>@il.Deger</option>
-                            }
-                        </select>
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <label class="text-dark form-label" for="TCKimlikNoVergiNo">
+                            TCKimlik numarası veya Vergi Numarası
+
+                        </label>
+                        <input type="text" class="form-input-new form-wide  p-3" name="TCKimlikNoVergiNo" id="TCKimlikNoVergiNo" value="@(Convert.ToString(Model.Rows[0]["TCKimlikNo"]) ?? Convert.ToString(Model.Rows[0]["VergiNumarasi"]))">
+                        <div data-error="TCKimlikNoVergiNo"></div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="text-dark form-label" for="Unvan">
+                            Unvan
+
+                        </label>
+                        <input type="text" class="form-input-new form-wide  mb-2 p-3" id="Unvan" name="Unvan" value="@(Convert.ToString(Model.Rows[0]["Unvan"]))" required="">
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label class="text-dark form-label" for="VergiDairesi">
+                            Vergi Dairesi
 
-                <div class="col-lg-4 ">
-                    <label class="text-dark" for="PostaKodu">
-                        Posta Kodu
-                        <span class="required">*</span>
-                    </label>
-                    <input type="text" class="form-input form-wide mb-2 p-3" name="PostaKodu" id="PostaKodu" value="@(Convert.ToString(Model.Rows[0]["PostaKodu"]))" required="">
+                        </label>
+                        <input type="text" class="form-input-new form-wide  mb-2 p-3" name="VergiDairesi" id="VergiDairesi" value="@(Convert.ToString(Model.Rows[0]["VergiDairesi"]))" required="">
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="text-dark form-label" for="CepTelefonu">
+                            CepTelefonu
+
+                        </label>
+                        <input type="text" class=" form-input-new form-wide mb-2 p-3" value="@(Convert.ToString(Model.Rows[0]["CepTelefonu"]))" id="CepTelefonu" name="CepTelefonu" placeholder="(___) ___-____">
+                    </div>
+
                 </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label class="text-dark form-label" for="Adres">
+                            Adres
+
+                        </label>
+
+                        <textarea class=" form-input-new  mb-2 p-3 form-wide" name="Adres" id="Adres" rows="4" placeholder="Adresinizi girin...">@(Convert.ToString(Model.Rows[0]["Adres"]))</textarea>
+
+
+                    </div>
+
+
+                </div>
+
+                <div class="row ">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="Ulke" class=" form-label  text-dark">Ülke</label>
+
+                            <select class="form-input-new  form-wide p-3" data-control="select2" name="Ulke" id="Ulke" required
+                                    aria-label="Floating label select example">
+                                <option value="">Lütfen Seçim Yapınız</option>
+                                @foreach (GrupKoduDto ulke in ViewBag.Ulkeler)
+                                {
+                                    <option value="@ulke.ID" @(Convert.ToString(Model.Rows[0]["Ulke"]) == ulke.ID ? "selected" : "")>@ulke.Deger</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label for="Il" class=" form-label text-dark">İl</label>
+
+                            <select class="form-input-new form-wide p-3" name="Il" data-control="select2" id="Il" required
+                                    aria-label="Floating label select example">
+                                <option value="">Lütfen Seçim Yapınız</option>
+                                @foreach (GrupKoduDto il in ViewBag.Iller)
+                                {
+                                    <option value="@il.ID" @(Convert.ToString(Model.Rows[0]["Il"]) == il.ID ? "selected" : "")>@il.Deger</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-4 ">
+                        <label class="text-dark form-label " for="PostaKodu">
+                            Posta Kodu
+                            
+                        </label>
+                        <input type="text" class="form-input-new  form-wide mb-2 p-3" name="PostaKodu" id="PostaKodu" value="@(Convert.ToString(Model.Rows[0]["PostaKodu"]))" required="">
+                    </div>
+                </div>
+
+
+
+
+            </form>
+            <div class="d-flex">
+                <div>
+                    <button type="submit" id="DuzenleButonu" class=" form-button btn btn-dark btn-ellipse btn-sm">
+                        Düzenle
+                    </button>
+                </div>
+                <div class="pl-3">
+                    <button type="button" onclick="history.back()" class="form-button text-dark btn btn-default btn-ellipse btn-sm">
+                        Geri
+                    </button>
+                </div>
+
+
             </div>
-
-
-
-
-        </form>
-        <div class="d-flex">
-            <div>              
-                <button type="submit" id="DuzenleButonu" class="btn btn-dark btn-ellipse btn-md">
-                    Düzenle
-                </button>
-            </div>
-            <div  class="pl-3">
-                <button type="button" onclick="history.back()" class="btn btn-default btn-ellipse btn-md">
-                    Geri
-                </button>
-            </div>
-
-
         </div>
+
+
     </div>
-
-
-
 </div>
 
 <script>var hostUrl = "~/Tema/ETicaret";</script>
-
+<link href="~/Tema/ETicaret/assets/css/style.css" rel="stylesheet" />
 <script src="~/Tema/ETicaret/assets/js/jquery.min.js"></script>
 <script src="~/Tema/ETicaret/assets/js/bootstrap.bundle.min.js"></script>
 <script src="~/Tema/ETicaret/assets/js/optional/isotope.pkgd.min.js"></script>
