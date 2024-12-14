@@ -43,6 +43,7 @@ namespace YKPortal.Areas.E.Controllers
 
             IlListesiniOlustur();
             UlkeListesiniOlustur();
+
             // 1. TCKimlikNoVergiNo Validasyonu
             if (string.IsNullOrEmpty(cariDto.TCKimlikNoVergiNo))
             {

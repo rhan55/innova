@@ -45,7 +45,7 @@
 
     <!-- Main CSS File -->
     <link href="~/Tema/ETicaret/assets/css/style.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/Tema/ETicaret/assets/css/demo4.min.css">
+
     <link rel="stylesheet" type="text/css" href="~/Tema/ETicaret/assets/vendor/fontawesome-free/css/all.min.css">
     @RenderSection("Styles", required: false)
 </head>
@@ -165,7 +165,7 @@
                                         @if (ViewBag.Kategoriler != null && ViewBag.Kategoriler.Count > 0)
                                         {
                                             <select id="cat" name="cat">
-                                                <option value="">All Categories</option>
+                                                <option value="">Tüm Kategoriler</option>
                                                 @foreach (var kategori in ViewBag.Kategoriler)
                                                 {
                                                     <option value="@kategori.Kategori1">@kategori.Kategori1</option>
