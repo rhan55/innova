@@ -6625,6 +6625,7 @@
     <Folder Include="References\" />
     <Folder Include="Tema\ETicaret\assets\images\demoes\demo35\products\zoom\" />
     <Folder Include="Uploads\Dosyalar\" />
+    <Folder Include="Uploads\ETicaret\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

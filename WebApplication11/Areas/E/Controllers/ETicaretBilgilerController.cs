@@ -10,6 +10,7 @@ using YKPortal.Models;
 using System.IO;
 using System.Net;
 using System.Text;
+using YKPortal.Extensions;
 
 namespace YKPortal.Areas.E.Controllers
 {
@@ -17,23 +18,15 @@ namespace YKPortal.Areas.E.Controllers
     {
         public ActionResult GenelBilgiler()
         {
-            var ETicaretTelefon = GrupKodListesiniGetir("ETicaretTelefon");
-            var ETicaretEmail = GrupKodListesiniGetir("ETicaretEmail");
-            var ETicaretLogo = GrupKodListesiniGetir("ETicaretLogo");
-            var ETicaretFirmaAdi = GrupKodListesiniGetir("ETicaretFirmaAdi");
-
-            ViewBag.ETicaretTelefon = ETicaretTelefon;
-            ViewBag.ETicaretEmail = ETicaretEmail;
-            ViewBag.ETicaretLogo = ETicaretLogo;
-            ViewBag.ETicaretFirmaAdi = ETicaretFirmaAdi;
-
             return View();
         }
         [HttpPost]
+
         public JsonResult Kaydet(List<GrupKoduDto> grupKodlari)
         {
             try
             {
+               
                 foreach (var grupKoduDto in grupKodlari)
                 {
                     SqlCommand cmd = new SqlCommand();
@@ -48,10 +41,37 @@ namespace YKPortal.Areas.E.Controllers
                     {
                         cmd.Parameters.AddWithValue("@ID", ""); // ID yoksa yeni kayıt
                     }
-     
+                    
                     cmd.Parameters.AddWithValue("@KullaniciID", Kullanici.ID);
                     cmd.Parameters.AddWithValue("@Kod", grupKoduDto.Kod);
-                    cmd.Parameters.AddWithValue("@Deger", grupKoduDto.Deger);
+                    if (grupKoduDto.Kod == "ETicaretLogo" && grupKoduDto.Deger.Length > 0)
+                    {
+
+                        var dosyaUzantisi = grupKoduDto.Deger.Base64DosyaUzantisiniGetir();
+                        if (dosyaUzantisi == string.Empty)
+                        {
+                            continue;
+                        }
+
+                        var dosyaAdi = Guid.NewGuid().ToString();
+
+                        var dosyaBase64Data = grupKoduDto.Deger.Contains(",") ? grupKoduDto.Deger.Split(',')[1] : grupKoduDto.Deger;
+
+                        var dosyaByteDegeri = Convert.FromBase64String(dosyaBase64Data);
+
+                        if (!Directory.Exists(Server.MapPath("/Uploads/ETicaret")))
+                        {
+                            Directory.CreateDirectory(Server.MapPath("/Uploads/ETicaret"));
+                        }
+
+                        System.IO.File.WriteAllBytes(Server.MapPath("/Uploads/ETicaret/" + dosyaAdi + dosyaUzantisi), dosyaByteDegeri);
+                        cmd.Parameters.AddWithValue("@Deger", dosyaAdi + dosyaUzantisi);
+                    }
+                    else
+                    {
+                        cmd.Parameters.AddWithValue("@Deger", grupKoduDto.Deger);
+                    }
+                    
                     cmd.Parameters.AddWithValue("@UyelikID", UyelikIDGetir());
 
 
@@ -75,34 +95,6 @@ namespace YKPortal.Areas.E.Controllers
         }
 
 
-        private List<GrupKoduDto> GrupKodListesiniGetir(string kodAdi)
-        {
-            // GrupKodu1 Listesi oluşturma 
-            SqlCommand grupKodCommand = new SqlCommand();
-            grupKodCommand.CommandText = "p_GrupKoduListesi";
-            grupKodCommand.CommandType = System.Data.CommandType.StoredProcedure;
-
-            grupKodCommand.Parameters.AddWithValue("@Kod", kodAdi);
-            grupKodCommand.Parameters.AddWithValue("@UyelikID", UyelikIDGetir());
-
-            grupKodCommand.Parameters.AddWithValue("@AranacakKelime", "");
-
-
-            DataTable grupKoduTable = (DataTable)IDVeritabani.Sorgula(grupKodCommand, SorgulaTuru.Tablo);
-
-            List<GrupKoduDto> entities = new List<GrupKoduDto>();
-
-            for (int i = 0; i < grupKoduTable.Rows.Count; i++)
-            {
-                GrupKoduDto entity = new GrupKoduDto();
-                entity.ID = Convert.ToString(grupKoduTable.Rows[i]["ID"]);
-                entity.Kod = Convert.ToString(grupKoduTable.Rows[i]["Kod"]);
-                entity.Deger = Convert.ToString(grupKoduTable.Rows[i]["Deger"]);
-                entity.Aktif = Convert.ToBoolean(grupKoduTable.Rows[i]["Aktif"]);
-                entities.Add(entity);
-            }
-
-            return entities;
-        }
+        
     }
 }

@@ -13,7 +13,7 @@
     <link href="~/Tema/ETicaret/assets/css/demo4-dark.min.css" rel="stylesheet" />
     <link href="~/Tema/ETicaret/assets/css/demo4.min.css" rel="stylesheet" />
     <link href="~/Tema/ETicaret/assets/css/style.min.css" rel="stylesheet" />
-
+    <link href="~/Tema/ETicaret/assets/css/style.css" rel="stylesheet" />
 
     <script>
         WebFontConfig = {
@@ -43,30 +43,30 @@
        
 
         <div class="page-wrapper ">
-            <div class="">
+            <div class="card logIn-card">
                 <div class=" d-flex align-items-center justify-content-center flex-column" style="width: 400px;">
 
                     <div href="#" class="logo">
                         <img src="~/Tema/ETicaret/assets/images/logo.png" width="111" height="44" alt="Porto Logo">
                     </div>
-                    <h3 class=" mt-2 mb-2">Giriş</h3>
+                    <h3 class="logIn-title mt-2 mb-2">Giriş</h3>
                     <form action="@Url.Action("Giris","ETicaretYetkilendirme",new { Area = "E" })" method="post" class="mb-0 w-100">
 
                         <div class="">
 
-                            <label class="fs-1" for="KullaniciAdi">
+                            <label class="fs-1 logIn-form-label" for="KullaniciAdi">
                                 Kullanıcı Adı
-                                <span class="required">*</span>
+                               
                             </label>
-                            <input type="email" class="form-input form-wide mb-2" name="txtKullaniciAdi" id="txtKullaniciAdi" required="" placeholder="name@example.com">
+                            <input type="email" class="form-input logIn-input form-wide mb-2" name="txtKullaniciAdi" id="txtKullaniciAdi" required="" placeholder="name@example.com">
                         </div>
                         <div class="">
 
-                            <label for="Parola">
+                            <label class="logIn-form-label" for="Parola">
                                 Parola
-                                <span class="required">*</span>
+                               
                             </label>
-                            <input type="password" class="form-input form-wide mb-2" name="txtParola" id="txtParola" required="">
+                            <input type="password" class="form-input logIn-input form-wide mb-2" name="txtParola" id="txtParola" required="">
 
                         </div>
 
@@ -78,7 +78,8 @@
                         </div>
 
                         <div class="text-center mt-4">
-                            <button type="submit" class="btn btn-dark btn-block btn-md">
+                          
+                            <button type="submit" class="btn btn-primary btn-block btn-md logIn-button">
                                 Giriş Yap
                             </button>
 

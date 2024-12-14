@@ -46,7 +46,7 @@ namespace YKPortal.Controllers
 
         public ActionResult Liste(BelgeDto belgeDto, string Tip = "", string AranacakKelime = "")
         {
-            var client = new EFaturaEDMPortClient("https://test.edmbilisim.com.tr/EFaturaEDM21ea/EFaturaEDM.svc");
+            var client = new EFaturaEDMPortClient("EFaturaEDMPort");
 
             var sonuc = client.Login(new LoginRequest
             {

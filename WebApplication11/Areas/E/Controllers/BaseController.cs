@@ -57,6 +57,12 @@ namespace YKPortal.Areas.E.Controllers
                 ViewBag.GirisYapildi = false;
             }
 
+            ViewBag.ETicaretTelefon = GrupKodListesiniGetir("ETicaretTelefon");
+            ViewBag.ETicaretEmail = GrupKodListesiniGetir("ETicaretEmail");
+            ViewBag.ETicaretLogo = GrupKodListesiniGetir("ETicaretLogo");
+            ViewBag.ETicaretFirmaAdi = GrupKodListesiniGetir("ETicaretFirmaAdi");
+            ViewBag.ETicaretAdres = GrupKodListesiniGetir("ETicaretAdres");
+
             // Yönlendirme sadece yetki gerektiren sayfalarda yapılır
             if (IsAuthorizationRequired(filterContext))
             {
@@ -80,8 +86,8 @@ namespace YKPortal.Areas.E.Controllers
             // Yetki gerektiren sayfalar listesi
             var yetkiGerekenSayfalar = new[]
             {
-                "Profil",
-                "GenelBilgiler"
+                "ETicaretKullanici/Profil",
+                "ETicaretBilgiler/GenelBilgiler"
 
             };
 
@@ -89,7 +95,7 @@ namespace YKPortal.Areas.E.Controllers
             var action = filterContext.RouteData.Values["action"]?.ToString();
 
             // Yetki gerektiren bir sayfa mı?
-            return yetkiGerekenSayfalar.Contains(controller + "/" + action);
+            return !User.Identity.IsAuthenticated && yetkiGerekenSayfalar.Contains(controller + "/" + action);
         }
 
 
@@ -443,6 +449,36 @@ namespace YKPortal.Areas.E.Controllers
         protected string UyelikIDGetir()
         {
             return System.Configuration.ConfigurationManager.AppSettings["UyelikID"];
+        }
+
+        protected List<GrupKoduDto> GrupKodListesiniGetir(string kodAdi)
+        {
+            // GrupKodu1 Listesi oluşturma 
+            SqlCommand grupKodCommand = new SqlCommand();
+            grupKodCommand.CommandText = "p_GrupKoduListesi";
+            grupKodCommand.CommandType = System.Data.CommandType.StoredProcedure;
+
+            grupKodCommand.Parameters.AddWithValue("@Kod", kodAdi);
+            grupKodCommand.Parameters.AddWithValue("@UyelikID", UyelikIDGetir());
+
+            grupKodCommand.Parameters.AddWithValue("@AranacakKelime", "");
+
+
+            DataTable grupKoduTable = (DataTable)IDVeritabani.Sorgula(grupKodCommand, SorgulaTuru.Tablo);
+
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
+
+            for (int i = 0; i < grupKoduTable.Rows.Count; i++)
+            {
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(grupKoduTable.Rows[i]["ID"]);
+                entity.Kod = Convert.ToString(grupKoduTable.Rows[i]["Kod"]);
+                entity.Deger = Convert.ToString(grupKoduTable.Rows[i]["Deger"]);
+                entity.Aktif = Convert.ToBoolean(grupKoduTable.Rows[i]["Aktif"]);
+                entities.Add(entity);
+            }
+
+            return entities;
         }
 
     }
