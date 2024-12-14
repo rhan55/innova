@@ -20,6 +20,103 @@ namespace YKPortal.Controllers
             return View();
         }
 
+        public JsonResult SeriNoKontrolEt(string SeriNo, string Durum, string KayitID)
+        {
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_SeriNoKontrolEt";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@SeriNo", SeriNo);
+            cmd.Parameters.AddWithValue("@Durum", Durum);
+            cmd.Parameters.AddWithValue("@KayitID", KayitID);
+            string sonuc = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+
+            return Json(sonuc, JsonRequestBehavior.AllowGet);
+        }
+
+        #region Garanti Tarihleri
+        [HttpGet]
+        public ActionResult StokGarantiTarihleri(string id = "")
+        {
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "select * from w_Stoklar order by StokKodu";
+            cmd.CommandType = System.Data.CommandType.Text;
+            ViewBag.dtStoklar = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            cmd.Parameters.Clear();
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.CommandText = @" select 
+StokGarantiTarihleri.* ,
+w_Stoklar.StokAdi
+from StokGarantiTarihleri WITH(NOLOCK)
+LEFT OUTER JOIN w_Stoklar ON w_Stoklar.StokKodu = StokGarantiTarihleri.StokKodu collate Turkish_CI_AS
+Order by StokGarantiTarihleri.SeriNo ";
+            DataTable dt = (DataTable)Models.IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            SqlCommand cmd2 = new SqlCommand();
+            cmd2.CommandType = System.Data.CommandType.Text;
+            cmd2.CommandText = "select * from StokGarantiTarihleri WITH(NOLOCK) Where ID = @ID";
+            if (id == "")
+            {
+                cmd2.Parameters.AddWithValue("@ID", DBNull.Value);
+            }
+            else
+            {
+                cmd2.Parameters.AddWithValue("@ID", id);
+            }
+            ViewBag.dtKayit = (DataTable)Models.IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
+            ViewBag.id = id;
+            return View(dt);
+        }
+
+        [HttpPost]
+        public ActionResult StokGarantiTarihiEkle(string id, string StokKodu, string SeriNo, DateTime Tarih)
+        {
+            SqlCommand cmd = new SqlCommand();
+            if (id == "")
+            {
+                foreach (var item in SeriNo.Split(','))
+                {
+                    cmd.Parameters.Clear();
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = "Insert Into StokGarantiTarihleri (StokKodu,SeriNo,GarantiBitisTarihi) values (@StokKodu,@SeriNo,@GarantiBitisTarihi)";
+                    cmd.Parameters.AddWithValue("@StokKodu", StokKodu);
+                    cmd.Parameters.AddWithValue("@SeriNo", item.Trim());
+                    cmd.Parameters.AddWithValue("@GarantiBitisTarihi", Tarih);
+                    Models.IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                }
+            }
+            else
+            {
+                foreach (var item in SeriNo.Split(','))
+                {
+                    cmd.Parameters.Clear();
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = "Update StokGarantiTarihleri set StokKodu=@StokKodu,SeriNo=@SeriNo,GarantiBitisTarihi=@GarantiBitisTarihi Where ID = @ID";
+                    cmd.Parameters.AddWithValue("@StokKodu", StokKodu);
+                    cmd.Parameters.AddWithValue("@SeriNo", item.Trim());
+                    cmd.Parameters.AddWithValue("@GarantiBitisTarihi", Tarih);
+                    cmd.Parameters.AddWithValue("@ID", id);
+                    Models.IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                }
+            }
+
+            return Redirect("~/YKMakine/StokGarantiTarihleri");
+        }
+
+        [HttpGet]
+        public ActionResult StokGarantiTarihiSil(string id)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.CommandText = "Delete From StokGarantiTarihleri Where ID = @ID";
+            cmd.Parameters.AddWithValue("@ID", id);
+            Models.IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+            return Redirect("~/YKMakine/StokGarantiTarihleri");
+        }
+        #endregion
         public ActionResult Bilgilendirme(string mesaj)
         {
             ViewBag.Mesaj = mesaj;
@@ -136,12 +233,10 @@ namespace YKPortal.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Arizalar(string Baslangic = "", string Bitis = "", string Durum = "", string Teknisyen = "", string Cari = "")
+        public ActionResult Arizalar(string Baslangic = "", string Bitis = "", string Durum = "", string Teknisyen = "", string Cari = "", string SeriNo="")
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/Kullanici/Giris");
-
-
 
             if (Baslangic == "")
             {
@@ -157,6 +252,7 @@ namespace YKPortal.Controllers
             ViewBag.Durum = Durum;
             ViewBag.Teknisyen = Teknisyen;
             ViewBag.Cari = Cari;
+            ViewBag.SeriNo = SeriNo;
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_ArizaListesi";
@@ -166,6 +262,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@Durum", Durum);
             cmd.Parameters.AddWithValue("@Teknisyen", Teknisyen);
             cmd.Parameters.AddWithValue("@Cari", Cari);
+            cmd.Parameters.AddWithValue("@SeriNo", SeriNo);
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
 
@@ -230,24 +327,27 @@ Select @EvrakNo
 
             return Redirect("~/YKMakine/Arizalar/?Bilgi=Kayıt başarıyla silindi.");
         }
-        public ActionResult ArizaGuncelle(int id, 
+        public ActionResult ArizaGuncelle(int id,
             string EvrakNo,
-            DateTime Tarih, string CariKodu, string Teknisyen, 
-            string Durum, string Aciklama,
+            DateTime Tarih,
+            DateTime? GarantiBitisTarihi,
+            string CariKodu,
+            string Teknisyen,
+            string Durum,
+            string Aciklama,
             string DegisenParcalar,
             string StokKodu,
             string SeriNo,
             string ArizayiBildiren, string ArizayiBildirenTelefon, string EMail, string BulunduguYer,
             string Imza)
         {
-
-
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_ArizaGuncelle";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@id", id);
             cmd.Parameters.AddWithValue("@EvrakNo", EvrakNo);
             cmd.Parameters.AddWithValue("@Tarih", Tarih);
+            cmd.Parameters.AddWithValue("@GarantiBitisTarihi", GarantiBitisTarihi);
             cmd.Parameters.AddWithValue("@CariKodu", CariKodu);
             cmd.Parameters.AddWithValue("@Teknisyen", Teknisyen);
             cmd.Parameters.AddWithValue("@Durum", Durum);
@@ -437,7 +537,7 @@ ArizayiBildirenTelefon : " + ArizayiBildirenTelefon + @" <br>
                 #endregion
             }
 
-            return Redirect("~/YKMakine/Arizalar/?Bilgi=Son güncellenen evrak numarası : "+ EvrakNumarasi);
+            return Redirect("~/YKMakine/Arizalar/?Bilgi=Son güncellenen evrak numarası : " + EvrakNumarasi);
         }
 
         public ActionResult ArizaDetay(int id)
@@ -448,7 +548,7 @@ ArizayiBildirenTelefon : " + ArizayiBildirenTelefon + @" <br>
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_ArizaDetay";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@UyelikID",GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@ID", id);
             DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
 

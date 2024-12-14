@@ -1,0 +1,133 @@
+﻿@using System.Data
+@model System.Data.DataTable
+@{
+    ViewBag.Title = "Stok Seri Garanti Tarihleri";
+    DataTable dtKayit = ViewBag.dtKayit as DataTable;
+    DataTable dtStoklar = ViewBag.dtStoklar as DataTable;
+}
+
+<form action="@(System.Configuration.ConfigurationManager.AppSettings["IISIcIsim"])/YKMakine/StokGarantiTarihiEkle" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" id="id" value="@ViewBag.id" />
+    <h3>Detay #@ViewBag.id</h3>
+    <table style="font-size:12px;" border="1" class="table responsive">
+        <tr>
+            <td style="padding:3px;">
+                <label>Stok</label>
+                <select name="StokKodu" id="StokKodu" class="js-example-basic-single" style="width:450px;">
+                    @foreach (DataRow satir in dtStoklar.Rows)
+                    {
+                        <option value="@satir["StokKodu"]" @(Convert.ToString(dtKayit.Rows.Count > 0 ? dtKayit.Rows[0]["StokKodu"] : "") == Convert.ToString(satir["StokKodu"]) ? "selected" : "")>@satir["StokAdi"]</option>
+                    }
+                </select>
+
+            </td>
+            <td style="padding:3px;"><input type="text" name="SeriNo" id="SeriNo" placeholder="Seri No" value="@(dtKayit.Rows.Count > 0 ? dtKayit.Rows[0]["SeriNo"] : "")" style="" class="form-control" required /></td>
+
+            <td style="padding:3px;"><input type="date" name="Tarih" id="Tarih" placeholder="Garanti Bitiş Tarihi" value="@(dtKayit.Rows.Count > 0 ? Convert.ToDateTime(dtKayit.Rows[0]["GarantiBitisTarihi"]).ToString("yyyy-MM-dd") : "")" style="" class="form-control" required /></td>
+            <td style="padding:3px;"><input type="submit" name="name" value="Kaydet" class="btn btn-success" style="" /></td>
+        </tr>
+    </table>
+    <br />
+
+</form>
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        position: sticky;
+        top: 0;
+    }
+
+    input[type="text"] {
+        width: 90%;
+        padding: 5px;
+        box-sizing: border-box;
+    }
+</style>
+<table border="1" id="filterTable" name="filterTable">
+    <thead>
+        <tr>
+            <th style="padding: 2px; text-align: left;">Stok Kodu<br><input type="text" placeholder="Filtrele..."></th>
+            <th style="padding: 2px; text-align: left;">Stok Adı<br><input type="text" placeholder="Filtrele..."></th>
+            <th style="padding: 2px; text-align: left;">Seri No<br><input type="text" placeholder="Filtrele..."></th>
+            <th style="padding: 2px; text-align: left;">Tarih<br><input type="text" placeholder="Filtrele..."></th>
+            <th style="padding: 2px; text-align: center;">İşlem (@(Model.Rows.Count) kayıt)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (DataRow satir in Model.Rows)
+            {
+                string renk = "";
+                <tr style="@(renk)">
+                    <td style="padding: 2px; text-align: left;">@satir["StokKodu"]</td>
+                    <td style="padding: 2px; text-align: left;">@satir["StokAdi"]</td>
+                    <td style="padding: 2px; text-align: left;">@satir["SeriNo"]</td>
+                    <td style="padding:2px;text-align:center;">@Convert.ToDateTime(satir["GarantiBitisTarihi"]).ToString("dd-MM-yyyy")</td>
+                    <td style="padding:2px;text-align:center;">
+                        <a href="@Url.Action("StokGarantiTarihleri", "YKMakine", new { id = satir["ID"] })">Detay</a> |
+                        <a href="@Url.Action("StokGarantiTarihiSil", "YKMakine", new { id = satir["ID"] })" onclick="return confirm('Silmek istediğinizden emin misiniz?')">Sil</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@section scripts {
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.js-example-basic-single').select2();
+        });
+    </script>
+    <script type="text/javascript">
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const table = document.getElementById('filterTable');
+            const filters = table.querySelectorAll('thead input[type="text"]');
+
+            filters.forEach((input, colIndex) => {
+                input.addEventListener('input', () => {
+                    const filterValue = input.value.toLowerCase();
+                    const rows = table.querySelectorAll('tbody tr');
+
+                    rows.forEach(row => {
+                        const cell = row.cells[colIndex];
+                        if (cell) {
+                            const cellText = cell.textContent.toLowerCase();
+                            row.style.display = cellText.includes(filterValue) ? '' : 'none';
+                        }
+                    });
+
+                    // Tüm filtrelerin birlikte çalışması için diğer filtreleri tekrar kontrol et
+                    filters.forEach((otherInput, otherIndex) => {
+                        if (otherInput.value) {
+                            const otherValue = otherInput.value.toLowerCase();
+                            rows.forEach(row => {
+                                const otherCell = row.cells[otherIndex];
+                                if (otherCell) {
+                                    const otherCellText = otherCell.textContent.toLowerCase();
+                                    if (!otherCellText.includes(otherValue)) {
+                                        row.style.display = 'none';
+                                    }
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+}
