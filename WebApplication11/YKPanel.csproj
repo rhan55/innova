@@ -6529,6 +6529,7 @@
     <Content Include="Views\Shared\_LayoutCrm.cshtml" />
     <Content Include="Views\Rapor\RaporIsimleri.cshtml" />
     <Content Include="Views\Rapor\Getir.cshtml" />
+    <Content Include="Views\YKMakine\StokGarantiTarihleri.cshtml" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>

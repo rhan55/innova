@@ -62,8 +62,7 @@
             <tr>
                 <td>Başlangıç</td>
                 <td><input type="date" name="Baslangic" id="Baslangic" value="@ViewBag.Baslangic" /></td>
-            </tr>
-            <tr>
+               
                 <td>Bitiş</td>
                 <td><input type="date" name="Bitis" id="Bitis" value="@ViewBag.Bitis" /></td>
             </tr>
@@ -84,8 +83,6 @@
                         <option value="İptal" @(Convert.ToString(ViewBag.Durum) == "İptal" ? "selected" : "")>İptal</option>
                     </select>
                 </td>
-            </tr>
-            <tr>
                 <td>Teknisyen</td>
                 <td>
                     <select id="Teknisyen" name="Teknisyen">
@@ -99,7 +96,7 @@
             </tr>
             <tr>
                 <td>Cari</td>
-                <td>
+                <td colspan="3">
                     <select name="Cari" id="Cari">
                         <option value="">Hepsi</option>
                         @foreach (DataRow satir in dtCariler.Rows)
@@ -110,7 +107,9 @@
                 </td>
             </tr>
             <tr>
-                <td>Kayıt Sayısı:@Model.Tables[0].Rows.Count</td>
+                <td>Seri No : </td>
+                <td><input type="text" name="SeriNo" id="SeriNo" value="@ViewBag.SeriNo" /></td>
+                <td>Kayıt Sayısı : @Model.Tables[0].Rows.Count</td>
                 <td><input type="submit" name="name" value="Yenile" /></td>
             </tr>
         </table>
