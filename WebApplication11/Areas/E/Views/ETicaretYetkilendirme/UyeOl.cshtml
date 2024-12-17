@@ -16,10 +16,7 @@
 
 <html>
 <head>
-    <link rel="icon" type="image/x-icon" href="~/Tema/ETicaret/assets/images/icons/favicon.png">
-    <link rel="stylesheet" href="~/Tema/ETicaret/assets/css/bootstrap.min.css">
-    <link href="~/Tema/ETicaret/assets/css/style.css" rel="stylesheet" />
-
+    <!-- Main CSS File -->
     <script>
         WebFontConfig = {
             google: {
@@ -38,13 +35,14 @@
     <link rel="stylesheet" href="~/Tema/ETicaret/assets/css/bootstrap.min.css">
 
     <!-- Main CSS File -->
-    <link rel="stylesheet" href="~/Tema/ETicaret/assets/css/demo4.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Tema/ETicaret/assets/vendor/fontawesome-free/css/all.min.css">
-    <link href="~/Tema/ETicaret/assets/css/demo4.min.css" rel="stylesheet" />
-    <meta name="viewport" content="width=device-width" />
     <link href="~/Tema/ETicaret/assets/css/bootstrap.min.css" rel="stylesheet" />
 
-
+    <link rel="stylesheet" type="text/css" href="~/Tema/ETicaret/assets/vendor/fontawesome-free/css/all.min.css">
+    <link href="~/Tema/ETicaret/assets/css/style.min.css" rel="stylesheet" />
+    <link href="~/Tema/ETicaret/assets/css/demo4.min.css" rel="stylesheet" />
+    <link href="~/Tema/ETicaret/assets/css/override.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -53,12 +51,12 @@
     <div class="page-wrapper container d-flex align-items-center justify-content-center">
 
 
-        <div class="card   User-card mt-4" style="padding:30px;width:800px;">
+        <div class="card   User-card mt-3" style="padding:30px;width:800px;">
             <div class="d-flex align-items-center justify-content-center flex-column">
                 <a href="/E/ETicaretSite/Anasayfa" class="logo " style="padding-bottom:24px;">
                     <img src="~/Tema/ETicaret/assets/images/logo.png" width="111" height="44" alt="Porto Logo">
                 </a>
-                <h2 class="title-form mb-3  text-dark font-weight-bold  display-5">Üye Ol</h2>
+                <h2 class=" mb-3  font-weight-bold  display-5" style="color:#444343;">Üye Ol</h2>
                 <form id="uyelikFormu" action="@Url.Action("UyeOl","ETicaretYetkilendirme",new { Area = "E" })" class="mb-0 w-100" method="post">
                     <input type="hidden" name="ID" value="" />
                     <input type="hidden" name="KullaniciID" value="" />
@@ -68,14 +66,14 @@
                                 Kullanıcı Adı
 
                             </label>
-                            <input type="email" class="form-input-new form-wide p-2  mb-2 " name="KullaniciAdi" id="KullaniciAdi" value="@ViewBag.Form.KullaniciAdi" required="">
+                            <input type="email" class="form-input-new form-wide p-2" name="KullaniciAdi" id="KullaniciAdi" value="@ViewBag.Form.KullaniciAdi" required="">
                         </div>
                         <div class="col-lg-6 p-2">
                             <label class="form-label" for="Parola">
                                 Parola
 
                             </label>
-                            <input type="password" class="form-input-new  form-wide p-2 mb-2" name="Parola" id="Parola" value="@ViewBag.Form.Parola" required="">
+                            <input type="password" class="form-input-new  form-wide p-2" name="Parola" id="Parola" value="@ViewBag.Form.Parola" required="">
                         </div>
 
 
@@ -86,7 +84,7 @@
                                 İsim
 
                             </label>
-                            <input type="text" class="form-input-new  form-wide p-2  mb-2" id="Isim" name="Isim" value="@ViewBag.Form.Isim" required="">
+                            <input type="text" class="form-input-new  form-wide p-2" id="Isim" name="Isim" value="@ViewBag.Form.Isim" required="">
                         </div>
 
                     </div>
@@ -105,7 +103,7 @@
                                 Unvan
 
                             </label>
-                            <input type="text" class="form-input-new  form-wide text-dark  mb-2 p-2" id="Unvan" name="Unvan" value="@ViewBag.Form.Unvan" required="">
+                            <input type="text" class="form-input-new  form-wide text-dark p-2" id="Unvan" name="Unvan" value="@ViewBag.Form.Unvan" required="">
                         </div>
                     </div>
 
@@ -115,14 +113,14 @@
                                 Vergi Dairesi
 
                             </label>
-                            <input type="text" class="form-input-new form-wide  p-2 mb-2 " name="VergiDairesi" id="VergiDairesi" value="@ViewBag.Form.VergiDairesi" placeholder="Default input">
+                            <input type="text" class="form-input-new form-wide  p-2" name="VergiDairesi" id="VergiDairesi" value="@ViewBag.Form.VergiDairesi">
                         </div>
                         <div class="col-lg-6 p-2">
                             <label class="form-label" for="CepTelefonu">
                                 CepTelefonu
 
                             </label>
-                            <input type="text" class="form-input-new  form-wide mb-2 p-2" value="@ViewBag.Form.CepTelefonu" id="CepTelefonu" name="CepTelefonu" placeholder="(___) ___-____" style="padding:10px;">
+                            <input type="text" class="form-input-new  form-wide p-2" value="@ViewBag.Form.CepTelefonu" id="CepTelefonu" name="CepTelefonu" placeholder="(___) ___-____" style="padding:10px;">
                         </div>
 
                     </div>
@@ -134,7 +132,7 @@
 
                             </label>
 
-                            <textarea class=" form-input-new  form-wide p-2 mb-2 " name="Adres" id="Adres" rows="4" placeholder="Adresinizi girin...">@ViewBag.Form.Adres</textarea>
+                            <textarea class=" form-input-new  form-wide p-2 " name="Adres" id="Adres" rows="4" placeholder="Adresinizi girin...">@ViewBag.Form.Adres</textarea>
 
 
                         </div>
@@ -147,9 +145,8 @@
                             <div class="form-group">
                                 <label for="Ulke" class="form-label ">Ülke</label>
 
-                                <select class="form-input-new form-wide p-2" data-control="select2" name="Ulke" value="@ViewBag.Form.Ulke" id="Ulke" required
+                                <select class="form-input-new  form-wide p-2" data-control="select2" name="Ulke" value="@ViewBag.Form.Ulke" id="Ulke" aria-hidden="true" required data-placeholder="Lütfen Seçim Yapınız"
                                         aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
                                     @foreach (GrupKoduDto ulke in ViewBag.Ulkeler)
                                     {
                                         <option value="@ulke.ID">@ulke.Deger</option>
@@ -161,9 +158,7 @@
                             <div class="form-group">
                                 <label for="Il" class=" form-label ">İl</label>
 
-                                <select class="form-input-new form-wide p-2" name="Il" data-control="select2" value="@ViewBag.Form.Il" id="Il" required
-                                        aria-label="Floating label select example">
-                                    <option value="">Lütfen Seçim Yapınız</option>
+                                <select class="form-input-new  form-wide p-2" data-control="select2" name="Il" id="Il" aria-hidden="true"  data-placeholder="Lütfen Seçim Yapınız">
                                     @foreach (GrupKoduDto il in ViewBag.Iller)
                                     {
                                         <option value="@il.ID">@il.Deger</option>
@@ -178,29 +173,29 @@
                                 Posta Kodu
 
                             </label>
-                            <input type="text" class="form-input-new  form-wide mb-2 p-2" name="PostaKodu" id="PostaKodu" value="@ViewBag.Form.PostaKodu" required="">
+                            <input type="text" class="form-input-new  form-wide  p-2" name="PostaKodu" id="PostaKodu" value="@ViewBag.Form.PostaKodu" required="">
                         </div>
                     </div>
 
-                    <div class="row text-center mt-4">
+                    <div class="row text-center d-flex align-items-center justify-content-center mt-4">
 
                         <div class="">
-                            <button type="button" id="UyeOlButonu" class="btn form-button btn-lg btn-primary font-weight-bold btn-block" style="width:200px;">
+                            <button type="button" id="UyeOlButonu" class="btn form-button btn-md btn-primary font-weight-bold btn-block" style="width:200px;">
                                 Üye Ol
                             </button>
 
 
                         </div>
                         <div class=" ml-3">
-                           
-                                <a href="@Url.Action("Giris","ETicaretYetkilendirme",new { Area = "E" })" class="btn form-button btn-lg text-dark btn-light font-weight-bold btn-block" style="width:200px;">
-                                    <span class="">Giriş Yap</span>
-                                </a>
-                            
-                          
+
+                            <a href="@Url.Action("Giris","ETicaretYetkilendirme",new { Area = "E" })" class="btn form-button btn-md text-dark btn-light font-weight-bold btn-block" style="width:200px; background-color:#eaeaea;">
+                                <span class="">Giriş Yap</span>
+                            </a>
+
+
                         </div>
                     </div>
-                       
+
                 </form>
             </div>
 
@@ -223,6 +218,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
+
     <script>
         function sweetalert(message = "", type = "success") {
             Swal.fire({
@@ -236,6 +232,9 @@
             });
         }
         $(document).ready(function () {
+
+            $('#Ulke').select2();
+            $('#Il').select2();
 
             Inputmask({
                 "mask": "(999) 999-9999"

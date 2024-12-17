@@ -1,0 +1,89 @@
+﻿.form-label {
+    font-size: 12px !important;
+    color: #222529 !important;
+    font-weight: 600 !important;
+}
+
+.logIn-form-label {
+    font-size: 14px !important;
+    color: #222529 !important;
+    font-weight: 500 !important;
+    padding-left: 4px !important;
+}
+
+.logIn-title {
+    color: #222529 !important;
+    font-weight: 600 !important;
+}
+
+.logIn-card {
+    padding: 50px !important;
+    border-radius: 16px !important;
+    border: 0 !important;
+    background-color: #ffffff !important;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px !important;
+}
+
+.form-input-new {
+    border-radius: 4px !important;
+    border: 1px solid #e7f0f8 !important; /* Kalınlık, tür ve renk eklendi */
+    background-color: white !important;
+}
+
+    .form-input-new:focus {
+        border: 2px solid #4CAF50; /* Odaklanıldığında sınır rengi */
+        outline: none; /* Tarayıcının varsayılan mavi çerçevesini kaldırır */
+        background-color: #f0f0f0; /* Arka plan rengini değiştirir */
+        box-shadow: 0 0 5px #a4cfec73; /* Işıma efekti ekler */
+        transition: all 0.3s ease; /* Geçiş animasyonu ekler */
+    }
+
+.logIn-input {
+    border-radius: 20px !important;
+    border: 1px solid #e7f0f8 !important;
+    background-color: transparent !important;
+}
+
+    .logIn-input:focus {
+        background-color: #fcfcfc !important;
+        outline: 0;
+    }
+
+
+.logIn-button {
+    border-radius: 20px !important;
+}
+
+.User-card {
+    padding: 60px !important;
+    border-radius: 16px !important;
+    border: 0 !important;
+    background-color: #ffffff !important;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px !important;
+}
+
+.title-form {
+    color: #222529 !important;
+}
+
+.form-button {
+    border-radius: 20px !important;
+}
+
+.GeriButton {
+    width: 200px !important;
+    border-radius: 5px !important;
+    text-decoration: none !important;
+}
+.select2-selection select2-selection--single {
+    border-radius: 4px !important;
+    border: 1px solid #e7f0f8 !important; /* Kalınlık, tür ve renk eklendi */
+    background-color: white !important;
+}
+.select2-selection select2-selection--single {
+    border: 2px solid #4CAF50; /* Odaklanıldığında sınır rengi */
+    outline: none; /* Tarayıcının varsayılan mavi çerçevesini kaldırır */
+    background-color: #f0f0f0; /* Arka plan rengini değiştirir */
+    box-shadow: 0 0 5px #a4cfec73; /* Işıma efekti ekler */
+    transition: all 0.3s ease; /* Geçiş animasyonu ekler */
+}

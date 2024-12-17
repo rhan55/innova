@@ -1,12 +1,14 @@
-﻿@model System.Data.DataTable
+﻿@using YKPortal.Models.Dto;
+@model YKPortal.Models.Dto.KasaViewModel
 @{
     ViewBag.Title = "KasaDuzenle";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="Container-fluid mt-10">
     <form id="kt_modal_add_user_form" class="form container" action="@Url.Action("KasaDuzenle","Tanimlamalar",null)" method="post">
         <div class="d-flex flex-column scroll-y px-5 px-lg-10">
-            <input type="hidden" name="ID" value="@(Convert.ToString(Model.Rows[0]["ID"]))" />
+            <input type="hidden" name="ID" value="@Model.ID" />
             <!--begin::Row Input group-->
             <div class="row mb-7 mt-4">
 
@@ -16,7 +18,7 @@
                     <label for="Kod" class="required form-label fs-6 fw-bold text-gray-600 mb-3">Kod</label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <input type="text" name="Kod" id="Kod" class="form-control p-2 mb-3 mb-lg-0" required value="@(Convert.ToString(Model.Rows[0]["Kod"]))" />
+                    <input type="text" name="Kod" id="Kod" class="form-control p-2 mb-3 mb-lg-0" required value="@Model.Kod" />
 
                     <!--end::Input-->
                 </div>
@@ -27,7 +29,7 @@
                     <label for="Isim" class="required form-label fs-6 fw-bold text-gray-600 mb-3">isim</label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <input type="text" name="Isim" id="Isim" class="form-control p-2 mb-3 mb-lg-0" value="@(Convert.ToString(Model.Rows[0]["Isim"]))" />
+                    <input type="text" name="Isim" id="Isim" class="form-control p-2 mb-3 mb-lg-0" value="@Model.Isim" />
                     <!--end::Input-->
                 </div>
                 <!--end::Input group-->
@@ -39,7 +41,14 @@
                     <label for="DovizID" class="required form-label fs-6 fw-bold text-gray-600 mb-3">DovizID</label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <input type="text" name="DovizID" id="DovizID" class="form-control p-2 mb-3 mb-lg-0" value="@(Convert.ToString(Model.Rows[0]["DovizID"]))" />
+                    <select class="form-control p-2 rounded-1" data-control="select2" name="DovizID" id="DovizID"
+                            aria-label="Floating label select example">
+                        <option value="">Lütfen Seçim Yapınız</option>
+                        @foreach (DovizBirimiDto doviz in ViewBag.Dovizler)
+                        {
+                            <option value="@doviz.ID" @(Model.DovizID == doviz.ID ? "selected" : "")>@doviz.Isim</option>
+                        }
+                    </select>
 
                     <!--end::Input-->
                 </div>
@@ -49,7 +58,14 @@
                     <label for="PersonelID" class="required form-label fs-6 fw-bold text-gray-600 mb-3">Personel</label>
                     <!--end::Label-->
                     <!--begin::Input-->
-                    <input type="text" name="PersonelID" id="PersonelID" class="form-control p-2 mb-3 mb-lg-0" value="@(Convert.ToString(Model.Rows[0]["PersonelID"]))" />
+                    <select class="form-control p-2 rounded-1" data-control="select2" name="PersonelID" id="PersonelID"
+                            aria-label="Floating label select example">
+                        <option value="">Lütfen Seçim Yapınız</option>
+                        @foreach (PersonelDto personel in ViewBag.Personeller)
+                        {
+                            <option value="@personel.ID" @(Model.PersonelID == personel.ID ? "selected" : "")>@personel.Isim</option>
+                        }
+                    </select>
 
                     <!--end::Input-->
                     <!--end::Input group-->
@@ -70,3 +86,13 @@
         <!--end::Actions-->
     </form>
 </div>
+
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+
+    </script>
+}
+
+
