@@ -247,6 +247,75 @@
     </div>
 </div>
 
+
+@*<div class="card card-flush w-100 p-6 mt-10">
+    @if (Model != null)
+    {
+        foreach (DataRow satir in Model.Rows)
+        {
+            string renk = "";
+            if (Model != null && Model.Rows.Count > 0)
+            {
+                <div class="row align-items-center justify-content-center text-align-center grid gap-3">
+                    <div class="col-lg-1">
+                        <label class="form-label fs-6 fw-bold text-gray-600 mb-3 pt-2 border-bottom border-secondary px-3 w-100">Kategori 1</label>
+                        <div class="px-3">
+
+                            @(string.IsNullOrEmpty(Convert.ToString(satir["Kategori1"])) ? "Veri Yok" : satir["Kategori1"])
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <label class="form-label fs-6 fw-bold text-gray-600 mb-3 pt-2 border-bottom border-secondary px-3 w-100">Kod</label>
+                        <div class="px-3">
+                            @(string.IsNullOrEmpty(Convert.ToString(satir["StokKodu"])) ? "Veri Yok" : satir["StokKodu"])
+
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <label class="form-label fs-6 fw-bold text-gray-600 mb-3 pt-2 border-bottom border-secondary px-3 w-100">İsim (@(sayi) kayıt mevcut.)</label>
+                        <div class="px-3">
+                            @(string.IsNullOrEmpty(Convert.ToString(satir["StokAdi"])) ? "Veri Yok" : satir["StokAdi"])
+                        </div>
+                    </div>
+                    <div class="col-lg-1">
+                        <label class="form-label fs-6 fw-bold text-gray-600 mb-3 pt-2 border-bottom border-secondary px-3 w-100">Stok</label>
+                        <div class="px-3">
+                            @(satir["Bakiye"] == DBNull.Value ? "Veri Yok" : String.Format("{0:N2} {1}", Convert.ToDecimal(satir["Bakiye"]), satir["OlcuBirimi"]))
+                        </div>
+                    </div>
+                    <div class="col-lg-1">
+                        <label class="form-label fs-6 fw-bold text-gray-600 mb-3 pt-2 border-bottom border-secondary px-3 w-100">Talep Miktarı</label>
+                        <div class="d-flex align-items-center justify-content-center text-align-center">
+                            <input class="form-control p-2 rounded-1" type="text" data-id="@satir["ID"]" name="Miktar_@(Convert.ToString(satir["IDTresiz"]))" id="Miktar_@(Convert.ToString(satir["IDTresiz"]))" value="0" onchange="TutarKontroluYap(this);" />
+                            <div class="ms-2">
+                                @satir["OlcuBirimi"]
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <label class="form-label fs-6 fw-bold text-gray-600 mb-3 pt-2 border-bottom border-secondary px-3 w-100">Açıklama</label>
+                        <textarea class="form-control p-2 rounded-1" rows="1" id="Aciklama_@(Convert.ToString(satir["IDTresiz"]))" name="Aciklama_@(Convert.ToString(satir["IDTresiz"]))"></textarea>
+                    </div>
+                    <div class="">
+                        <label class="form-label fs-6 fw-bold text-gray-600 mb-3 pt-2 border-bottom border-secondary px-3 w-100 d-none">Dosya</label>
+                        <input type="file" class="d-none" name="Dosya_@(Convert.ToString(satir["IDTresiz"]))" id="Dosya_@(Convert.ToString(satir["IDTresiz"]))" value="" accept="image/png, image/gif, image/jpeg,application/pdf,application/vnd.ms-excel" />
+                    </div>
+                </div>
+
+            }
+            else
+            {
+                <div class="alert alert-warning text-center">
+                    Veri bulunamadı.
+                </div>
+            }
+
+
+        }
+
+    }
+</div>*@
+
 @section scripts {
 
     <script type="text/javascript">
