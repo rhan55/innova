@@ -391,7 +391,8 @@ namespace YKPortal.Controllers
         [HttpGet]
         public ActionResult Liste()
         {
-          
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
             var model = new StokListeViewModel
             {
                 Sil = YetkiKontrolu("/Stok/Liste", "Sil"),

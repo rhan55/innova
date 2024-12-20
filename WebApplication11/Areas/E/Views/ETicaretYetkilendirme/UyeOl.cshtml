@@ -16,10 +16,7 @@
 
 <html>
 <head>
-    <link rel="icon" type="image/x-icon" href="~/Tema/ETicaret/assets/images/icons/favicon.png">
-    <link rel="stylesheet" href="~/Tema/ETicaret/assets/css/bootstrap.min.css">
-    <link href="~/Tema/ETicaret/assets/css/style.css" rel="stylesheet" />
-
+    <!-- Main CSS File -->
     <script>
         WebFontConfig = {
             google: {
@@ -38,239 +35,252 @@
     <link rel="stylesheet" href="~/Tema/ETicaret/assets/css/bootstrap.min.css">
 
     <!-- Main CSS File -->
-    <link rel="stylesheet" href="~/Tema/ETicaret/assets/css/demo4.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Tema/ETicaret/assets/vendor/fontawesome-free/css/all.min.css">
-    <link href="~/Tema/ETicaret/assets/css/demo4.min.css" rel="stylesheet" />
-    <meta name="viewport" content="width=device-width" />
     <link href="~/Tema/ETicaret/assets/css/bootstrap.min.css" rel="stylesheet" />
 
-
+    <link rel="stylesheet" type="text/css" href="~/Tema/ETicaret/assets/vendor/fontawesome-free/css/all.min.css">
+    <link href="~/Tema/ETicaret/assets/css/style.min.css" rel="stylesheet" />
+    <link href="~/Tema/ETicaret/assets/css/demo4.min.css" rel="stylesheet" />
+    <link href="~/Tema/ETicaret/assets/css/override.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
 
 
-   
-    <div class="page-wrapper ">
-       
-            <div class="card  container User-card mt-10">
-                <div class="d-flex align-items-center justify-content-center flex-column">
-                    <a href="/E/ETicaretSite/Anasayfa" class="logo " style="padding-bottom:24px;">
-                        <img src="~/Tema/ETicaret/assets/images/logo.png" width="111" height="44" alt="Porto Logo">
-                    </a>
-                    <h3 class="title-form mb-2 mt-2 text-dark font-weight-bold mb-4 display-5">Üye Ol</h3>
-                    <form id="uyelikFormu" action="@Url.Action("UyeOl","ETicaretYetkilendirme",new { Area = "E" })" class="mb-0 w-100" method="post">
-                        <input type="hidden" name="ID" value="" />
-                        <input type="hidden" name="KullaniciID" value="" />
-                        <div class="row ">
-                            <div class="col-lg-4 mt-4">
-                                <label class=" form-label" for="KullaniciAdi">
-                                    Kullanıcı Adı
-                                    <span class="required">*</span>
-                                </label>
-                                <input type="email" class="form-input-new  form-wide p-3  mb-2 rounded-2" name="KullaniciAdi" id="KullaniciAdi" value="@ViewBag.Form.KullaniciAdi" required="">
-                            </div>
-                            <div class="col-lg-4 mt-4">
-                                <label class="form-label" for="Parola">
-                                    Parola
-                                    <span class="required">*</span>
-                                </label>
-                                <input type="password" class="form-input-new  form-wide p-3 mb-2" name="Parola" id="Parola" value="@ViewBag.Form.Parola" required="">
-                            </div>
-                            <div class="col-lg-4 mt-4">
-                                <label class=" form-label" for="Isim">
-                                    İsim
-                                    <span class="required">*</span>
-                                </label>
-                                <input type="text" class="form-input-new  form-wide p-3  mb-2" id="Isim" name="Isim" value="@ViewBag.Form.Isim" required="">
-                            </div>
 
+    <div class="page-wrapper container d-flex align-items-center justify-content-center">
+
+
+        <div class="card   User-card mt-3" style="padding:30px;width:800px;">
+            <div class="d-flex align-items-center justify-content-center flex-column">
+                <a href="/E/ETicaretSite/Anasayfa" class="logo " style="padding-bottom:24px;">
+                    <img src="~/Tema/ETicaret/assets/images/logo.png" width="111" height="44" alt="Porto Logo">
+                </a>
+                <h2 class=" mb-3  font-weight-bold  display-5" style="color:#444343;">Üye Ol</h2>
+                <form id="uyelikFormu" action="@Url.Action("UyeOl","ETicaretYetkilendirme",new { Area = "E" })" class="mb-0 w-100" method="post">
+                    <input type="hidden" name="ID" value="" />
+                    <input type="hidden" name="KullaniciID" value="" />
+                    <div class="row">
+                        <div class="col-lg-6 p-2">
+                            <label class=" form-label" for="KullaniciAdi">
+                                Kullanıcı Adı
+
+                            </label>
+                            <input type="email" class="form-input-new form-wide p-2" name="KullaniciAdi" id="KullaniciAdi" value="@ViewBag.Form.KullaniciAdi" required="">
                         </div>
-                        <div class="row">
+                        <div class="col-lg-6 p-2">
+                            <label class="form-label" for="Parola">
+                                Parola
 
-                            <div class="col-lg-6 mt-4 mb-2">
-                                <label class="form-label" for="TCKimlikNoVergiNo">
-                                    TCKimlik numarası veya Vergi Numarası
-                                    <span class="required">*</span>
-                                </label>
-                                <input type="text" class="form-input-new  form-wide p-3" name="TCKimlikNoVergiNo" id="TCKimlikNoVergiNo" value="@ViewBag.Form.TCKimlikNoVergiNo">
-                                <div data-error="TCKimlikNoVergiNo"></div>
-                            </div>
-                            <div class="col-lg-6 mt-4">
-                                <label class=" form-label" for="Unvan">
-                                    Unvan
-                                    <span class="required">*</span>
-                                </label>
-                                <input type="text" class="form-input-new  form-wide text-dark  mb-2 p-3" id="Unvan" name="Unvan" value="@ViewBag.Form.Unvan" required="">
-                            </div>
+                            </label>
+                            <input type="password" class="form-input-new  form-wide p-2" name="Parola" id="Parola" value="@ViewBag.Form.Parola" required="">
                         </div>
 
-                        <div class="row">
-                            <div class="col-lg-6 mt-4">
-                                <label class=" form-label" for="VergiDairesi">
-                                    Vergi Dairesi
-                                    <span class="required">*</span>
-                                </label>
-                                <input type="text" class="form-input-new  form-wide mb-2 p-3" name="VergiDairesi" id="VergiDairesi" value="@ViewBag.Form.VergiDairesi">
-                            </div>
-                            <div class="col-lg-6 mt-4">
-                                <label class="form-label" for="CepTelefonu">
-                                    CepTelefonu
-                                    <span class="required">*</span>
-                                </label>
-                                <input type="text" class="form-input-new  form-wide mb-2 p-3" value="@ViewBag.Form.CepTelefonu" id="CepTelefonu" name="CepTelefonu" placeholder="(___) ___-____">
-                            </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 p-2">
+                            <label class=" form-label" for="Isim">
+                                İsim
+
+                            </label>
+                            <input type="text" class="form-input-new  form-wide p-2" id="Isim" name="Isim" value="@ViewBag.Form.Isim" required="">
+                        </div>
+
+                    </div>
+                    <div class="row">
+
+                        <div class="col-lg-6  p-2">
+                            <label class="form-label" for="TCKimlikNoVergiNo">
+                                TCKimlik numarası veya Vergi Numarası
+
+                            </label>
+                            <input type="text" class="form-input-new  form-wide p-2" name="TCKimlikNoVergiNo" id="TCKimlikNoVergiNo" value="@ViewBag.Form.TCKimlikNoVergiNo">
+                            <div data-error="TCKimlikNoVergiNo"></div>
+                        </div>
+                        <div class="col-lg-6   p-2">
+                            <label class=" form-label" for="Unvan">
+                                Unvan
+
+                            </label>
+                            <input type="text" class="form-input-new  form-wide text-dark p-2" id="Unvan" name="Unvan" value="@ViewBag.Form.Unvan" required="">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6 p-2">
+                            <label class=" form-label " for="VergiDairesi">
+                                Vergi Dairesi
+
+                            </label>
+                            <input type="text" class="form-input-new form-wide  p-2" name="VergiDairesi" id="VergiDairesi" value="@ViewBag.Form.VergiDairesi">
+                        </div>
+                        <div class="col-lg-6 p-2">
+                            <label class="form-label" for="CepTelefonu">
+                                CepTelefonu
+
+                            </label>
+                            <input type="text" class="form-input-new  form-wide p-2" value="@ViewBag.Form.CepTelefonu" id="CepTelefonu" name="CepTelefonu" placeholder="(___) ___-____" style="padding:10px;">
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12 p-2">
+                            <label class=" form-label" for="Adres">
+                                Adres
+
+                            </label>
+
+                            <textarea class=" form-input-new  form-wide p-2 " name="Adres" id="Adres" rows="4" placeholder="Adresinizi girin...">@ViewBag.Form.Adres</textarea>
+
 
                         </div>
 
-                        <div class="row">
-                            <div class="col-lg-12 mt-4">
-                                <label class=" form-label" for="Adres">
-                                    Adres
-                                    <span class="required">*</span>
-                                </label>
 
-                                <textarea class=" form-input-new  form-wide p-3 mb-2 " name="Adres" id="Adres" rows="4" placeholder="Adresinizi girin...">@ViewBag.Form.Adres</textarea>
+                    </div>
 
+                    <div class="row">
+                        <div class="col-lg-6 p-2">
+                            <div class="form-group">
+                                <label for="Ulke" class="form-label ">Ülke</label>
 
+                                <select class="form-input-new  form-wide p-2" data-control="select2" name="Ulke" value="@ViewBag.Form.Ulke" id="Ulke" aria-hidden="true" required data-placeholder="Lütfen Seçim Yapınız"
+                                        aria-label="Floating label select example">
+                                    @foreach (GrupKoduDto ulke in ViewBag.Ulkeler)
+                                    {
+                                        <option value="@ulke.ID">@ulke.Deger</option>
+                                    }
+                                </select>
                             </div>
-
-
                         </div>
+                        <div class="col-lg-6 p-2">
+                            <div class="form-group">
+                                <label for="Il" class=" form-label ">İl</label>
 
-                        <div class="row ">
-                            <div class="col-lg-4 mt-4 ">
-                                <div class="form-group">
-                                    <label for="Ulke" class="form-label ">Ülke</label>
-
-                                    <select class="form-input-new form-wide p-3" data-control="select2" name="Ulke" value="@ViewBag.Form.Ulke" id="Ulke" required
-                                            aria-label="Floating label select example">
-                                        <option value="">Lütfen Seçim Yapınız</option>
-                                        @foreach (GrupKoduDto ulke in ViewBag.Ulkeler)
-                                        {
-                                            <option value="@ulke.ID">@ulke.Deger</option>
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 mt-4">
-                                <div class="form-group">
-                                    <label for="Il" class=" form-label ">İl</label>
-
-                                    <select class="form-input-new form-wide p-3" name="Il" data-control="select2" value="@ViewBag.Form.Il" id="Il" required
-                                            aria-label="Floating label select example">
-                                        <option value="">Lütfen Seçim Yapınız</option>
-                                        @foreach (GrupKoduDto il in ViewBag.Iller)
-                                        {
-                                            <option value="@il.ID">@il.Deger</option>
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-
-
-                            <div class="col-lg-4 mt-4">
-                                <label class=" form-label" for="PostaKodu">
-                                    Posta Kodu
-
-                                </label>
-                                <input type="text" class="form-input-new  form-wide mb-2 p-3" name="PostaKodu" id="PostaKodu" value="@ViewBag.Form.PostaKodu" required="">
+                                <select class="form-input-new  form-wide p-2" data-control="select2" name="Il" id="Il" aria-hidden="true"  data-placeholder="Lütfen Seçim Yapınız">
+                                    @foreach (GrupKoduDto il in ViewBag.Iller)
+                                    {
+                                        <option value="@il.ID">@il.Deger</option>
+                                    }
+                                </select>
                             </div>
                         </div>
 
 
-                        <div class="text-center mt-5">
-                            <button type="button" id="UyeOlButonu" class="btn form-button btn-lg btn-dark font-weight-bold py-2 btn-block" style="height:40px;">
+                        <div class="col-lg-6 p-2">
+                            <label class=" form-label" for="PostaKodu">
+                                Posta Kodu
+
+                            </label>
+                            <input type="text" class="form-input-new  form-wide  p-2" name="PostaKodu" id="PostaKodu" value="@ViewBag.Form.PostaKodu" required="">
+                        </div>
+                    </div>
+
+                    <div class="row text-center d-flex align-items-center justify-content-center mt-4">
+
+                        <div class="">
+                            <button type="button" id="UyeOlButonu" class="btn form-button btn-md btn-primary font-weight-bold btn-block" style="width:200px;">
                                 Üye Ol
                             </button>
 
 
                         </div>
-                        <div class="text-center mt-3">
-                            <a href="@Url.Action("Giris","ETicaretYetkilendirme",new { Area = "E" })" class=" rounded btn-block btn-md">
-                                <h4 class="">Giriş Yap</h4>
-                            </a>
-                        </div>
-                    </form>
-                </div>
+                        <div class=" ml-3">
 
+                            <a href="@Url.Action("Giris","ETicaretYetkilendirme",new { Area = "E" })" class="btn form-button btn-md text-dark btn-light font-weight-bold btn-block" style="width:200px; background-color:#eaeaea;">
+                                <span class="">Giriş Yap</span>
+                            </a>
+
+
+                        </div>
+                    </div>
+
+                </form>
             </div>
 
         </div>
 
-        <script>var hostUrl = "~/Tema/ETicaret";</script>
+    </div>
 
-        <!-- Plugins JS File -->
-        <script src="~/Tema/ETicaret/assets/js/jquery.min.js"></script>
-        <script src="~/Tema/ETicaret/assets/js/bootstrap.bundle.min.js"></script>
-        <script src="~/Tema/ETicaret/assets/js/optional/isotope.pkgd.min.js"></script>
-        <script src="~/Tema/ETicaret/assets/js/plugins.min.js"></script>
-        <script src="~/Tema/ETicaret/assets/js/jquery.appear.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/jquery.inputmask.min.js" integrity="sha512-F5Ul1uuyFlGnIT1dk2c4kB4DBdi5wnBJjVhL7gQlGh46Xn0VhvD8kgxLtjdZ5YN83gybk/aASUAlpdoWUjRR3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <!-- Main JS File -->
-        <script src="~/Tema/ETicaret/assets/js/main.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>var hostUrl = "~/Tema/ETicaret";</script>
 
-
-        <script>
-            function sweetalert(message = "", type = "success") {
-                Swal.fire({
-                    text: message,
-                    icon: type,
-                    buttonsStyling: false,
-                    confirmButtonText: "Anladım!",
-                    customClass: {
-                        confirmButton: "btn btn-primary"
-                    }
-                });
-            }
-            $(document).ready(function () {
-
-                Inputmask({
-                    "mask": "(999) 999-9999"
-                }).mask("#CepTelefonu");
-
-                const onlyNumbers = /^\d+$/; // REGEX - Düzenli İfadeler : Bu ifadeler ile bir string içerisinde specific arama ve kontrol yapabiliyoruz.
+    <!-- Plugins JS File -->
+    <script src="~/Tema/ETicaret/assets/js/jquery.min.js"></script>
+    <script src="~/Tema/ETicaret/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Tema/ETicaret/assets/js/optional/isotope.pkgd.min.js"></script>
+    <script src="~/Tema/ETicaret/assets/js/plugins.min.js"></script>
+    <script src="~/Tema/ETicaret/assets/js/jquery.appear.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.9/jquery.inputmask.min.js" integrity="sha512-F5Ul1uuyFlGnIT1dk2c4kB4DBdi5wnBJjVhL7gQlGh46Xn0VhvD8kgxLtjdZ5YN83gybk/aASUAlpdoWUjRR3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Main JS File -->
+    <script src="~/Tema/ETicaret/assets/js/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
-                $('#UyeOlButonu').on('click', function (e) {
-                    e.preventDefault();
 
-                    let isValidated = true;
-                    if (isValidated) {
-                        $('#uyelikFormu').submit();
-                    } else {
-                        console.log("Validasyon hataları var.");
-                    }
-                    const message = {
-                        TCKimlikNoVergiNo: [],
-                    };
-
-                    const TCKimlikNoVergiNo = $('#TCKimlikNoVergiNo').val();
-
-                    if (!TCKimlikNoVergiNo) {
-                        isValidated = false;
-                        message.TCKimlikNoVergiNo.push("TC Kimlik numarası boş olamaz.")
-                    }
-
-                    if (TCKimlikNoVergiNo.length != 10 && TCKimlikNoVergiNo.length != 11) {
-                        isValidated = false;
-                        message.TCKimlikNoVergiNo.push("TC Kimlik numarası 11 Vergi Numarası 10 haneli olmalıdır.")
-                    }
-
-                    if (!(onlyNumbers.test(TCKimlikNoVergiNo))) {
-                        isValidated = false;
-                        message.TCKimlikNoVergiNo.push("TC Kimlik numarasında sadece rakamlar kullanılabilir.");
-                    }
-
-                    if (isValidated) {
-                        $('#uyelikFormu').submit();
-                    } else {
-                        document.querySelector('[data-error="TCKimlikNoVergiNo"]').innerHTML = message.TCKimlikNoVergiNo.map(error => `<div class="text-danger">${error}</div>`).join("");
-                    }
-                })
+    <script>
+        function sweetalert(message = "", type = "success") {
+            Swal.fire({
+                text: message,
+                icon: type,
+                buttonsStyling: false,
+                confirmButtonText: "Anladım!",
+                customClass: {
+                    confirmButton: "btn btn-primary"
+                }
             });
+        }
+        $(document).ready(function () {
 
-        </script>
+            //$('#Ulke').select2();
+            //$('#Il').select2();
+
+            Inputmask({
+                "mask": "(999) 999-9999"
+            }).mask("#CepTelefonu");
+
+            const onlyNumbers = /^\d+$/; // REGEX - Düzenli İfadeler : Bu ifadeler ile bir string içerisinde specific arama ve kontrol yapabiliyoruz.
+
+
+            $('#UyeOlButonu').on('click', function (e) {
+                e.preventDefault();
+
+                let isValidated = true;
+                if (isValidated) {
+                    $('#uyelikFormu').submit();
+                } else {
+                    console.log("Validasyon hataları var.");
+                }
+                const message = {
+                    TCKimlikNoVergiNo: [],
+                };
+
+                const TCKimlikNoVergiNo = $('#TCKimlikNoVergiNo').val();
+
+                if (!TCKimlikNoVergiNo) {
+                    isValidated = false;
+                    message.TCKimlikNoVergiNo.push("TC Kimlik numarası boş olamaz.")
+                }
+
+                if (TCKimlikNoVergiNo.length != 10 && TCKimlikNoVergiNo.length != 11) {
+                    isValidated = false;
+                    message.TCKimlikNoVergiNo.push("TC Kimlik numarası 11 Vergi Numarası 10 haneli olmalıdır.")
+                }
+
+                if (!(onlyNumbers.test(TCKimlikNoVergiNo))) {
+                    isValidated = false;
+                    message.TCKimlikNoVergiNo.push("TC Kimlik numarasında sadece rakamlar kullanılabilir.");
+                }
+
+                if (isValidated) {
+                    $('#uyelikFormu').submit();
+                } else {
+                    document.querySelector('[data-error="TCKimlikNoVergiNo"]').innerHTML = message.TCKimlikNoVergiNo.map(error => `<div class="text-danger">${error}</div>`).join("");
+                }
+            })
+        });
+
+    </script>
 </body>
 </html>

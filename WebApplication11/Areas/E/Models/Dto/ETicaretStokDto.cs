@@ -10,6 +10,7 @@ namespace YKPortal.Areas.E.Models.Dto
     {
         public class ETicaretStokSorguDto
         {
+
             private string _StokID;
             private string _CariID;
             private string _UyelikID;

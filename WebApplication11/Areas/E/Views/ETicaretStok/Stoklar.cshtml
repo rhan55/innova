@@ -28,13 +28,7 @@
     </div>
 
     <div class="container">
-        <nav aria-label="breadcrumb" class="breadcrumb-nav">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="demo4.html"><i class="icon-home"></i></a></li>
-                <li class="breadcrumb-item"><a href="#">Men</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Accessories</li>
-            </ol>
-        </nav>
+      
 
         <div class="row">
             <div class="col-lg-9 main-content">
@@ -113,20 +107,11 @@
                                 <figure>
                                     <a href="/E/ETicaretStok/StokDetay?StokID=@stokSonucDto.StokID">
                                         <img src="@stokSonucDto.Resim1" width="280" height="280" alt="product" />
-                                      
+                                        <img class="product-single-image" src="@stokSonucDto.Resim2" data-zoom-image="assets/images/products/zoom/product-3-big.jpg" width="468" height="468" alt="Ürün Fotoğrafı" />
                                     </a>
+                                 
 
-                                    <div class="label-group">
-                                        <div class="product-label label-hot">
-                                            
-                                            {<span>HOT</span>}
-                                    </div>
-                                    <div class="product-label label-sale">
-                                        @*@if (!string.IsNullOrEmpty(stokSonucDto.IskontoSatis1))
-                                        {<span>% @stokSonucDto.IskontoSatis1 İndirim</span>}*@
-                                </div>
-                            </div>
-                                  </figure>
+                                </figure>
 
                         <div class="product-details">
                             <div class="category-wrap">

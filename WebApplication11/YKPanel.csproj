@@ -364,7 +364,7 @@
     <Compile Include="Models\Dto\EFaturaDto.cs" />
     <Compile Include="Models\Dto\FullcalendarDto.cs" />
     <Compile Include="Models\Dto\GrupkoduListeViewModel.cs" />
-    <Compile Include="Models\Dto\KasaTanimlamaDto.cs" />
+    <Compile Include="Models\Dto\KasaViewModel.cs" />
     <Compile Include="Models\Dto\MesajlasmaDto.cs" />
     <Compile Include="Models\Dto\PersonelDto.cs" />
     <Compile Include="Models\Dto\PersonelListeViewModel.cs" />
@@ -720,6 +720,7 @@
     <Content Include="Tema\ETicaret\assets\css\demo\demo7\demo7.css" />
     <Content Include="Tema\ETicaret\assets\css\demo\demo8\demo8.css" />
     <Content Include="Tema\ETicaret\assets\css\demo\demo9\demo9.css" />
+    <Content Include="Tema\ETicaret\assets\css\override.css" />
     <Content Include="Tema\ETicaret\assets\css\style.css" />
     <Content Include="Tema\ETicaret\assets\css\style.min.css" />
     <Content Include="Tema\ETicaret\assets\fonts\porto.svg" />

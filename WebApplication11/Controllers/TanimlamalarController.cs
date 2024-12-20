@@ -313,7 +313,7 @@ namespace YKPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult KasaEkle(KasaTanimlamaDto kasaTanimlamaDto)
+        public ActionResult KasaEkle(KasaViewModel kasaTanimlamaDto)
          {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
@@ -330,11 +330,13 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@PersonelID", kasaTanimlamaDto.PersonelID);
             cmd.Parameters.AddWithValue("@DovizID", kasaTanimlamaDto.DovizID);
 
-
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
             return RedirectToAction("KasaListe");
         
         }
+
+
         [HttpGet]
         public ActionResult KasaListe(string aranacakKelime = "")
         {
@@ -350,21 +352,24 @@ namespace YKPortal.Controllers
             ViewBag.AranacakKelime = aranacakKelime;
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            List<KasaTanimlamaDto> entities = new List<KasaTanimlamaDto>();
+            List<KasaViewModel> entities = new List<KasaViewModel>();
 
             var personeller = PersonelGetir();
             var dovizler = DovizGetir();
 
-            for (int i = 0; i < dt.Rows.Count; i++)
+            foreach (DataRow row in dt.Rows)
             {
-                KasaTanimlamaDto entity = new KasaTanimlamaDto();
-                entity.ID = Convert.ToString(dt.Rows[i]["ID"]);
-                entity.Isim = Convert.ToString(dt.Rows[i]["Isim"]);
-                entity.Kod = Convert.ToString(dt.Rows[i]["Kod"]);
-                entity.PersonelID = Convert.ToString(dt.Rows[i]["PersonelID"]);
-                entity.DovizID = Convert.ToString(dt.Rows[i]["DovizID"]);
-                entity.Personel = personeller.FirstOrDefault(m =>  m.ID == entity.PersonelID)?.Isim ?? "Personel Bulunamadı";
-                entity.Doviz = dovizler.FirstOrDefault(m => m.ID == entity.DovizID)?.Isim ?? "Döviz Bulunamadı";
+                var entity = new KasaViewModel
+                {
+                    ID = row["ID"] != DBNull.Value ? Convert.ToString(row["ID"]) : "",
+                    Isim = row["Isim"] != DBNull.Value ? Convert.ToString(row["Isim"]) : "",
+                    Kod = row["Kod"] != DBNull.Value ? Convert.ToString(row["Kod"]) : "",
+                    PersonelID = row["PersonelID"] != DBNull.Value ? Convert.ToString(row["PersonelID"]) : "",
+                    DovizID = row["DovizID"] != DBNull.Value ? Convert.ToString(row["DovizID"]) : "",
+                    Personel = personeller.FirstOrDefault(m => m.ID == row["PersonelID"].ToString())?.Isim ?? "Personel Bulunamadı",
+                    Doviz = dovizler.FirstOrDefault(m => m.ID == row["DovizID"].ToString())?.Isim ?? "Döviz Bulunamadı"
+                };
+
                 entities.Add(entity);
             }
 
@@ -375,11 +380,10 @@ namespace YKPortal.Controllers
                 Sil = true
             };
 
-         
             return View(model);
         }
 
-        [HttpGet]
+
         public ActionResult KasaDuzenle(string id)
         {
             if (!AutoGirisKontrol())
@@ -394,10 +398,35 @@ namespace YKPortal.Controllers
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-            return View(dt);
+            // İlk satırdaki Kasa verisini al
+            if (dt.Rows.Count == 0)
+            {
+                // Eğer kayıt bulunamazsa hata sayfasına yönlendirme yapın
+                return RedirectToAction("Hata", "YK");
+            }
+
+            DataRow row = dt.Rows[0]; // İlk satırı al
+
+            // ViewModel oluştur ve gerekli verileri ata
+            var model = new KasaViewModel
+            {
+                ID = row["ID"].ToString(),
+                Isim = row["Isim"].ToString(),
+                Kod = row["Kod"].ToString(),
+                PersonelID = row["PersonelID"].ToString(),
+                DovizID = row["DovizID"].ToString()
+            };
+
+            ViewBag.Personeller = PersonelGetir();
+            ViewBag.Dovizler = DovizGetir();
+
+            return View(model);
         }
+
+
+
         [HttpPost]
-        public ActionResult KasaDuzenle(KasaTanimlamaDto kasaTanimlamaDto)
+        public ActionResult KasaDuzenle(KasaViewModel kasaTanimlamaDto)
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");

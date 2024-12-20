@@ -1,68 +1,32 @@
 ﻿
 @{
-    ViewBag.Title = "StokDetay";
+    ViewBag.Title = "Stok Detay";
     Layout = "~/Areas/E/Views/Shared/_Layout.cshtml";
     var stok = ViewBag.Stok as YKPortal.Areas.E.Models.Dto.ETicaretStokDto.ETicaretStokSonucDto;
 }
 
-  Fiyat,  diğerleri varsa görünsün.
-<main class="main">
-    <div class="container">
-        <nav aria-label="breadcrumb" class="breadcrumb-nav">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="demo4.html"><i class="icon-home"></i></a></li>
-                <li class="breadcrumb-item"><a href="#">Products</a></li>
-            </ol>
-        </nav>
+<main class="main" data-stokId="@stok.StokID">
+    <div class="container mt-10">
 
         <div class="product-single-container product-single-default">
             <div class="cart-message d-none">
-                <strong class="single-cart-notice">“Men Black Sports Shoes”</strong>
-                <span>has been added to your cart.</span>
+                <strong class="single-cart-notice">@stok.Isim</strong>
+                <span>Sepetinize Eklendi!</span>
             </div>
 
             <div class="row">
                 <div class="col-lg-5 col-md-6 product-single-gallery">
                     <div class="product-slider-container">
-                        <div class="label-group">
-                            <div class="product-label label-hot">HOT</div>
 
-                            <div class="product-label label-sale">
-                                -16%
-                            </div>
-                        </div>
 
                         <div class="product-single-carousel owl-carousel owl-theme show-nav-hover">
                             <div class="product-item">
-                                <img class="product-single-image"
-                                     src="assets/images/products/zoom/product-1-big.jpg"
-                                     data-zoom-image="assets/images/products/zoom/product-1-big.jpg" width="468"
-                                     height="468" alt="product" />
+                                <img class="product-single-image" src="@stok.Resim1" data-zoom-image="assets/images/products/zoom/product-3-big.jpg" width="468" height="468" alt="Ürün Fotoğrafı" />
                             </div>
                             <div class="product-item">
-                                <img class="product-single-image"
-                                     src="assets/images/products/zoom/product-2-big.jpg"
-                                     data-zoom-image="assets/images/products/zoom/product-2-big.jpg" width="468"
-                                     height="468" alt="product" />
+                                <img class="product-single-image" src="@stok.Resim2" data-zoom-image="assets/images/products/zoom/product-3-big.jpg" width="468" height="468" alt="Ürün Fotoğrafı" />
                             </div>
-                            <div class="product-item">
-                                <img class="product-single-image"
-                                     src="assets/images/products/zoom/product-3-big.jpg"
-                                     data-zoom-image="assets/images/products/zoom/product-3-big.jpg" width="468"
-                                     height="468" alt="product" />
-                            </div>
-                            <div class="product-item">
-                                <img class="product-single-image"
-                                     src="assets/images/products/zoom/product-4-big.jpg"
-                                     data-zoom-image="assets/images/products/zoom/product-4-big.jpg" width="468"
-                                     height="468" alt="product" />
-                            </div>
-                            <div class="product-item">
-                                <img class="product-single-image"
-                                     src="assets/images/products/zoom/product-5-big.jpg"
-                                     data-zoom-image="assets/images/products/zoom/product-5-big.jpg" width="468"
-                                     height="468" alt="product" />
-                            </div>
+
                         </div>
                         <!-- End .product-single-carousel -->
                         <span class="prod-full-screen">
@@ -70,7 +34,7 @@
                         </span>
                     </div>
 
-                    <div class="prod-thumbnail owl-dots">     
+                    <div class="prod-thumbnail owl-dots">
                         <div class="owl-dot">
                             <img src="assets/images/products/zoom/product-1.jpg" width="110" height="110"
                                  alt="product-thumbnail" />
@@ -94,12 +58,12 @@
                     </div>
                 </div><!-- End .product-single-gallery -->
 
-                <div class="col-lg-7 col-md-6 product-single-details"> 
+                <div class="col-lg-7 col-md-6 product-single-details">
                     <div>
                         <div> <h1 class="product-title">@stok.Isim</h1></div>
                         <div> <h3 class="product-title">@stok.Kod </h3></div>
                     </div>
-                   
+
 
                     <div class="product-nav">
                         <div class="product-prev">
@@ -147,44 +111,57 @@
                     <hr class="short-divider">
 
                     <div class="price-box">
-                        <span class="old-price">@stok.IskontoSatis1</span>
+
                         <span class="new-price">@stok.Fiyat</span>
                     </div><!-- End .price-box -->
 
                     <div class="product-desc">
                         <p>
-                           @stok.Aciklama
+                            @stok.Aciklama
                         </p>
                     </div><!-- End .product-desc -->
+                    <div class="container single-info-list">
+                        <div class="row gap-3">
+                            <div class="col-lg-6">
+                                <div class="d-flex">
+                                    <p class="text-override-grey font-weight-bold"> BARKOD:</p>
+                                    <p class="text-override-grey font-weight-bold ml-2">@stok.Barkod</p>
+                                </div>
+                               
+                            </div>
 
-                    <ul class="single-info-list">
-
-                        <li>
-                            BARKOD: <strong>@stok.Barkod</strong>
-                        </li>
-                        <li>
-                            ÖLÇÜ BİRİMİ: <strong>@stok.OlcuBirimi</strong>
-                        </li>
-                        <li>
-                            CATEGORY: <strong><a href="#" class="product-category">SHOES</a></strong>
-                        </li>
-
-                        <li>
-                            TAGs: <strong><a href="#" class="product-category">CLOTHES</a></strong>,
-                            <strong><a href="#" class="product-category">SWEATER</a></strong>
-                        </li>
-                    </ul>
+                            <div class="col-lg-6">
+                                <div class="d-flex">
+                                    <p class="text-override-grey font-weight-bold"> MARKA:</p> 
+                                    <p class="text-override-grey font-weight-bold  ml-2"><a href="#" class="">@stok.Marka</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="d-flex">
+                                    <p class="text-override-grey font-weight-bold"> MODEL:</p> 
+                                    <p class="text-override-grey font-weight-bold  ml-2"><a href="#" class="">@stok.Model</a></p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="d-flex">
+                                    <p class="text-override-grey font-weight-bold"> FİRMA:</p>
+                                    <p class="text-override-grey font-weight-bold  ml-2"><a href="#" class="">@stok.UreticiFirma</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="product-action">
                         <div class="product-single-qty">
-                            <input class="horizontal-quantity form-control" type="text">
+                            <input class="horizontal-quantity form-control" type="text" id="UrunSayisi" value="1">
                         </div><!-- End .product-single-qty -->
 
-                        <a href="javascript:;" class="btn btn-dark add-cart mr-2" title="Add to Cart">
-                           SEPETE EKLE
-                        </a>
+                        <button id="SepeteEkle"  href="javascript:;" class="btn btn-dark add-cart mr-2" title="Add to Cart">
+                            SEPETE EKLE
+                        </button>
 
-                        <a href="cart.html" class="btn btn-gray view-cart d-none">View cart</a>
                     </div><!-- End .product-action -->
 
                     <hr class="divider mb-0 mt-0">
@@ -218,33 +195,33 @@
         <div class="product-single-tabs">
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="product-tab-desc" data-toggle="tab"
+                    <a class="nav-link active" id="product-tab-tags" data-toggle="tab" href="#product-tags-content"
+                       role="tab" aria-controls="product-tags-content" aria-selected="false">
+                        Özellikler
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " id="product-tab-desc" data-toggle="tab"
                        href="#product-desc-content" role="tab" aria-controls="product-desc-content"
-                       aria-selected="true">Description</a>
+                       aria-selected="true">Tanım</a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link" id="product-tab-size" data-toggle="tab" href="#product-size-content"
-                       role="tab" aria-controls="product-size-content" aria-selected="true">Size Guide</a>
+                       role="tab" aria-controls="product-size-content" aria-selected="true">Beden Tablosu</a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" id="product-tab-tags" data-toggle="tab" href="#product-tags-content"
-                       role="tab" aria-controls="product-tags-content" aria-selected="false">
-                        Additional
-                        Information
-                    </a>
-                </li>
+
 
                 <li class="nav-item">
                     <a class="nav-link" id="product-tab-reviews" data-toggle="tab"
                        href="#product-reviews-content" role="tab" aria-controls="product-reviews-content"
-                       aria-selected="false">Reviews (1)</a>
+                       aria-selected="false">Yorumlar (1)</a>
                 </li>
             </ul>
 
             <div class="tab-content">
-                <div class="tab-pane fade show active" id="product-desc-content" role="tabpanel"
+                <div class="tab-pane fade" id="product-desc-content" role="tabpanel"
                      aria-labelledby="product-tab-desc">
                     <div class="product-desc-content">
                         <p>
@@ -274,7 +251,30 @@
                         </p>
                     </div><!-- End .product-desc-content -->
                 </div><!-- End .tab-pane -->
+                <div class="tab-pane fade show active" id="product-tags-content" role="tabpanel"
+                     aria-labelledby="product-tab-tags">
+                    <table class="table table-striped mt-2">
+                        <tbody>
+                            <tr>
+                                <th>RENK</th>
+                                <td>@stok.Renk</td>
+                            </tr>
 
+                            <tr>
+                                <th>BEDEN</th>
+                                <td>@stok.Beden</td>
+                            </tr>
+                            <tr>
+                                <th>ÖLÇÜ BİRİMİ</th>
+                                <td>@stok.OlcuBirimi</td>
+                            </tr>
+                            <tr>
+                                <th>KALİTE</th>
+                                <td>@stok.Kalite</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div><!-- End .tab-pane -->
                 <div class="tab-pane fade" id="product-size-content" role="tabpanel"
                      aria-labelledby="product-tab-size">
                     <div class="product-size-content">
@@ -338,32 +338,7 @@
                     </div><!-- End .product-size-content -->
                 </div><!-- End .tab-pane -->
 
-                <div class="tab-pane fade" id="product-tags-content" role="tabpanel"
-                     aria-labelledby="product-tab-tags">
-                    <table class="table table-striped mt-2">
-                        <tbody>
-                            <tr>
-                                <th>Weight</th>
-                                <td>23 kg</td>
-                            </tr>
 
-                            <tr>
-                                <th>Dimensions</th>
-                                <td>12 × 24 × 35 cm</td>
-                            </tr>
-
-                            <tr>
-                                <th>Color</th>
-                                <td>Black, Green, Indigo</td>
-                            </tr>
-
-                            <tr>
-                                <th>Size</th>
-                                <td>Large, Medium, Small</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div><!-- End .tab-pane -->
 
                 <div class="tab-pane fade" id="product-reviews-content" role="tabpanel"
                      aria-labelledby="product-tab-reviews">
@@ -509,7 +484,7 @@
                             </a>
                             <a href="product.html" class="btn-icon btn-add-cart">
                                 <i class="fa fa-arrow-right"></i><span>
-                                   ÜRÜN DETAYI
+                                    ÜRÜN DETAYI
                                 </span>
                             </a>
                             <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">
@@ -555,8 +530,8 @@
                             </a>
                             <a href="product.html" class="btn-icon btn-add-cart">
                                 <i class="fa fa-arrow-right"></i><span>
-                                  ÜRÜN DETAYI
-</span>
+                                    ÜRÜN DETAYI
+                                </span>
                             </a>
                             <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">
                                 <i class="fas fa-external-link-alt"></i>
@@ -601,8 +576,8 @@
                             </a>
                             <a href="product.html" class="btn-icon btn-add-cart">
                                 <i class="fa fa-arrow-right"></i><span>
-                                ÜRÜN DETAYI
-</span>
+                                    ÜRÜN DETAYI
+                                </span>
                             </a>
                             <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">
                                 <i class="fas fa-external-link-alt"></i>
@@ -647,8 +622,8 @@
                             </a>
                             <a href="product.html" class="btn-icon btn-add-cart">
                                 <i class="fa fa-arrow-right"></i><span>
-                               ÜRÜN DETAYI
-</span>
+                                    ÜRÜN DETAYI
+                                </span>
                             </a>
                             <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">
                                 <i class="fas fa-external-link-alt"></i>
@@ -693,8 +668,8 @@
                             </a>
                             <a href="product.html" class="btn-icon btn-add-cart">
                                 <i class="fa fa-arrow-right"></i><span>
-                                 ÜRÜN DETAYI
-</span>
+                                    ÜRÜN DETAYI
+                                </span>
                             </a>
                             <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View">
                                 <i class="fas fa-external-link-alt"></i>
@@ -705,338 +680,37 @@
             </div><!-- End .products-slider -->
         </div><!-- End .products-section -->
 
-        <hr class="mt-0 m-b-5" />
 
-        <div class="product-widgets-container row pb-2">
-            <div class="col-lg-3 col-sm-6 pb-5 pb-md-0">
-                <h4 class="section-sub-title">Featured Products</h4>
-                <div class="product-default left-details product-widget">
-                    <figure>
-                        <a href="product.html">
-                            <img src="assets/images/products/small/product-1.jpg" width="74" height="74"
-                                 alt="product">
-                            <img src="assets/images/products/small/product-1-2.jpg" width="74" height="74"
-                                 alt="product">
-                        </a>
-                    </figure>
 
-                    <div class="product-details">
-                        <h3 class="product-title">
-                            <a href="product.html">Ultimate 3D Bluetooth Speaker</a>
-                        </h3>
 
-                        <div class="ratings-container">
-                            <div class="product-ratings">
-                                <span class="ratings" style="width:100%"></span><!-- End .ratings -->
-                                <span class="tooltiptext tooltip-top"></span>
-                            </div><!-- End .product-ratings -->
-                        </div><!-- End .product-container -->
-
-                        <div class="price-box">
-                            <span class="product-price">$49.00</span>
-                        </div><!-- End .price-box -->
-                    </div><!-- End .product-details -->
-                </div>
-
-                <div class="product-default left-details product-widget">
-                    <figure>
-                        <a href="product.html">
-                            <img src="assets/images/products/small/product-2.jpg" width="74" height="74"
-                                 alt="product">
-                            <img src="assets/images/products/small/product-2-2.jpg" width="74" height="74"
-                                 alt="product">
-                        </a>
-                    </figure>
-
-                    <div class="product-details">
-                        <h3 class="product-title"> <a href="product.html">Brown Women Casual HandBag</a> </h3>
-
-                        <div class="ratings-container">
-                            <div class="product-ratings">
-                                <span class="ratings" style="width:100%"></span><!-- End .ratings -->
-                                <span class="tooltiptext tooltip-top">5.00</span>
-                            </div><!-- End .product-ratings -->
-                        </div><!-- End .product-container -->
-
-                        <div class="price-box">
-                            <span class="product-price">$49.00</span>
-                        </div><!-- End .price-box -->
-                    </div><!-- End .product-details -->
-                </div>
-
-                <div class="product-default left-details product-widget">
-                    <figure>
-                        <a href="product.html">
-                            <img src="assets/images/products/small/product-3.jpg" width="74" height="74"
-                                 alt="product">
-                            <img src="assets/images/products/small/product-3-2.jpg" width="74" height="74"
-                                 alt="product">
-                        </a>
-                    </figure>
-
-                    <div class="product-details">
-                        <h3 class="product-title"> <a href="product.html">Circled Ultimate 3D Speaker</a> </h3>
-
-                        <div class="ratings-container">
-                            <div class="product-ratings">
-                                <span class="ratings" style="width:100%"></span><!-- End .ratings -->
-                                <span class="tooltiptext tooltip-top"></span>
-                            </div><!-- End .product-ratings -->
-                        </div><!-- End .product-container -->
-
-                        <div class="price-box">
-                            <span class="product-price">$49.00</span>
-                        </div><!-- End .price-box -->
-                    </div><!-- End .product-details -->
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-sm-6 pb-5 pb-md-0">
-                <h4 class="section-sub-title">Best Selling Products</h4>
-                <div class="product-default left-details product-widget">
-                    <figure>
-                        <a href="product.html">
-                            <img src="assets/images/products/small/product-4.jpg" width="74" height="74"
-                                 alt="product">
-                            <img src="assets/images/products/small/product-4-2.jpg" width="74" height="74"
-                                 alt="product">
-                        </a>
-                    </figure>
-
-                    <div class="product-details">
-                        <h3 class="product-title">
-                            <a href="product.html">Blue Backpack for the Young - S</a>
-                        </h3>
-
-                        <div class="ratings-container">
-                            <div class="product-ratings">
-                                <span class="ratings" style="width:100%"></span><!-- End .ratings -->
-                                <span class="tooltiptext tooltip-top">5.00</span>
-                            </div><!-- End .product-ratings -->
-                        </div><!-- End .product-container -->
-
-                        <div class="price-box">
-                            <span class="product-price">$49.00</span>
-                        </div><!-- End .price-box -->
-                    </div><!-- End .product-details -->
-                </div>
-
-                <div class="product-default left-details product-widget">
-                    <figure>
-                        <a href="product.html">
-                            <img src="assets/images/products/small/product-5.jpg" width="74" height="74"
-                                 alt="product">
-                            <img src="assets/images/products/small/product-5-2.jpg" width="74" height="74"
-                                 alt="product">
-                        </a>
-                    </figure>
-
-                    <div class="product-details">
-                        <h3 class="product-title"> <a href="product.html">Casual Spring Blue Shoes</a> </h3>
-
-                        <div class="ratings-container">
-                            <div class="product-ratings">
-                                <span class="ratings" style="width:100%"></span><!-- End .ratings -->
-                                <span class="tooltiptext tooltip-top"></span>
-                            </div><!-- End .product-ratings -->
-                        </div><!-- End .product-container -->
-
-                        <div class="price-box">
-                            <span class="product-price">$49.00</span>
-                        </div><!-- End .price-box -->
-                    </div><!-- End .product-details -->
-                </div>
-
-                <div class="product-default left-details product-widget">
-                    <figure>
-                        <a href="product.html">
-                            <img src="assets/images/products/small/product-6.jpg" width="74" height="74"
-                                 alt="product">
-                            <img src="assets/images/products/small/product-6-2.jpg" width="74" height="74"
-                                 alt="product">
-                        </a>
-                    </figure>
-
-                    <div class="product-details">
-                        <h3 class="product-title"> <a href="product.html">Men Black Gentle Belt</a> </h3>
-
-                        <div class="ratings-container">
-                            <div class="product-ratings">
-                                <span class="ratings" style="width:100%"></span><!-- End .ratings -->
-                                <span class="tooltiptext tooltip-top">5.00</span>
-                            </div><!-- End .product-ratings -->
-                        </div><!-- End .product-container -->
-
-                        <div class="price-box">
-                            <span class="product-price">$49.00</span>
-                        </div><!-- End .price-box -->
-                    </div><!-- End .product-details -->
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-sm-6 pb-5 pb-md-0">
-                <h4 class="section-sub-title">Latest Products</h4>
-                <div class="product-default left-details product-widget">
-                    <figure>
-                        <a href="product.html">
-                            <img src="assets/images/products/small/product-7.jpg" width="74" height="74"
-                                 alt="product">
-                            <img src="assets/images/products/small/product-7-2.jpg" width="74" height="74"
-                                 alt="product">
-                        </a>
-                    </figure>
-
-                    <div class="product-details">
-                        <h3 class="product-title"> <a href="product.html">@stok.Isim</a> </h3>
-
-                        <div class="ratings-container">
-                            <div class="product-ratings">
-                                <span class="ratings" style="width:100%"></span><!-- End .ratings -->
-                                <span class="tooltiptext tooltip-top"></span>
-                            </div><!-- End .product-ratings -->
-                        </div><!-- End .product-container -->
-
-                        <div class="price-box">
-                            <span class="product-price">$49.00</span>
-                        </div><!-- End .price-box -->
-                    </div><!-- End .product-details -->
-                </div>
-
-                <div class="product-default left-details product-widget">
-                    <figure>
-                        <a href="product.html">
-                            <img src="assets/images/products/small/product-8.jpg" width="74" height="74"
-                                 alt="product">
-                            <img src="assets/images/products/small/product-8-2.jpg" width="74" height="74"
-                                 alt="product">
-                        </a>
-                    </figure>
-
-                    <div class="product-details">
-                        <h3 class="product-title">
-                            <a href="product.html">Brown-Black Men Casual Glasses</a>
-                        </h3>
-
-                        <div class="ratings-container">
-                            <div class="product-ratings">
-                                <span class="ratings" style="width:100%"></span><!-- End .ratings -->
-                                <span class="tooltiptext tooltip-top">5.00</span>
-                            </div><!-- End .product-ratings -->
-                        </div><!-- End .product-container -->
-
-                        <div class="price-box">
-                            <span class="product-price">$49.00</span>
-                        </div><!-- End .price-box -->
-                    </div><!-- End .product-details -->
-                </div>
-
-                <div class="product-default left-details product-widget">
-                    <figure>
-                        <a href="product.html">
-                            <img src="assets/images/products/small/product-9.jpg" width="74" height="74"
-                                 alt="product">
-                            <img src="assets/images/products/small/product-9-2.jpg" width="74" height="74"
-                                 alt="product">
-                        </a>
-                    </figure>
-
-                    <div class="product-details">
-                        <h3 class="product-title"> <a href="product.html">Black Men Casual Glasses</a> </h3>
-
-                        <div class="ratings-container">
-                            <div class="product-ratings">
-                                <span class="ratings" style="width:100%"></span><!-- End .ratings -->
-                                <span class="tooltiptext tooltip-top"></span>
-                            </div><!-- End .product-ratings -->
-                        </div><!-- End .product-container -->
-
-                        <div class="price-box">
-                            <span class="product-price">$49.00</span>
-                        </div><!-- End .price-box -->
-                    </div><!-- End .product-details -->
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-sm-6 pb-5 pb-md-0">
-                <h4 class="section-sub-title">Top Rated Products</h4>
-                <div class="product-default left-details product-widget">
-                    <figure>
-                        <a href="product.html">
-                            <img src="assets/images/products/small/product-10.jpg" width="74" height="74"
-                                 alt="product">
-                            <img src="assets/images/products/small/product-10-2.jpg" width="74" height="74"
-                                 alt="product">
-                        </a>
-                    </figure>
-
-                    <div class="product-details">
-                        <h3 class="product-title"> <a href="product.html">Basketball Sports Blue Shoes</a> </h3>
-
-                        <div class="ratings-container">
-                            <div class="product-ratings">
-                                <span class="ratings" style="width:100%"></span><!-- End .ratings -->
-                                <span class="tooltiptext tooltip-top"></span>
-                            </div><!-- End .product-ratings -->
-                        </div><!-- End .product-container -->
-
-                        <div class="price-box">
-                            <span class="product-price">$49.00</span>
-                        </div><!-- End .price-box -->
-                    </div><!-- End .product-details -->
-                </div>
-
-                <div class="product-default left-details product-widget">
-                    <figure>
-                        <a href="product.html">
-                            <img src="assets/images/products/small/product-11.jpg" width="74" height="74"
-                                 alt="product">
-                            <img src="assets/images/products/small/product-11-2.jpg" width="74" height="74"
-                                 alt="product">
-                        </a>
-                    </figure>
-
-                    <div class="product-details">
-                        <h3 class="product-title"> <a href="product.html">Men Sports Travel Bag</a> </h3>
-
-                        <div class="ratings-container">
-                            <div class="product-ratings">
-                                <span class="ratings" style="width:100%"></span><!-- End .ratings -->
-                                <span class="tooltiptext tooltip-top">5.00</span>
-                            </div><!-- End .product-ratings -->
-                        </div><!-- End .product-container -->
-
-                        <div class="price-box">
-                            <span class="product-price">$49.00</span>
-                        </div><!-- End .price-box -->
-                    </div><!-- End .product-details -->
-                </div>
-
-                <div class="product-default left-details product-widget">
-                    <figure>
-                        <a href="product.html">
-                            <img src="assets/images/products/small/product-12.jpg" width="74" height="74"
-                                 alt="product">
-                            <img src="assets/images/products/small/product-12-2.jpg" width="74" height="74"
-                                 alt="product">
-                        </a>
-                    </figure>
-
-                    <div class="product-details">
-                        <h3 class="product-title"> <a href="product.html">Brown HandBag</a> </h3>
-
-                        <div class="ratings-container">
-                            <div class="product-ratings">
-                                <span class="ratings" style="width:100%"></span><!-- End .ratings -->
-                                <span class="tooltiptext tooltip-top"></span>
-                            </div><!-- End .product-ratings -->
-                        </div><!-- End .product-container -->
-
-                        <div class="price-box">
-                            <span class="product-price">$49.00</span>
-                        </div><!-- End .price-box -->
-                    </div><!-- End .product-details -->
-                </div>
-            </div>
-        </div><!-- End .row -->
     </div><!-- End .container -->
 </main><!-- End .main -->
+
+@section Scripts {
+    <script>
+        $(function () {
+            const sepeteEkleButon = $('#SepeteEkle');
+            const urunSayisiInput = $('#UrunSayisi');
+
+            sepeteEkleButon.on('click', function () {
+                var data = {
+                    Miktar: parseInt(urunSayisiInput.val()),
+                    StokId: $('[data-stokId]').attr('data-stokId')
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: '/E/ETicaretSepet/SepeteEkle',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(data),
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (msg) {
+                        console.log("HATA! ", msg);
+                    }
+                });
+            });
+        })
+    </script>    
+}

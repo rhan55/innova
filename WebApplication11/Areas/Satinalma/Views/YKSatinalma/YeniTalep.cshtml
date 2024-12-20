@@ -9,94 +9,314 @@
     int sayi = Model.Rows.Count;
 }
 
-<form action="/Satinalma/YKSatinalma/YeniTalep" method="post">
-    <table style="width:100%;" border="1">
-        <tr>
-            <td style="padding: 3px; text-align: left;">
-                <label>Şube</label>
-                <select id="Sube" name="Sube">
-                    @foreach (DataRow satir in dtSubeler.Rows)
-                    {
-                        if (Convert.ToBoolean(satir["Yetki"]))
-                        {
-                            <option value="@satir["Kod"]" @(ViewBag.Sube == Convert.ToString(satir["Kod"]) ? "selected": "")>@satir["Isim"]</option>
-                        }
-                    }
-                </select>
-            </td>
-            <td style="padding: 3px; text-align: left;">
-                <label>Kategori 1</label>
-                <select id="Kategori1" name="Kategori1" onchange="SecimKategori1();">
-                    <option value="">Kategori Seçimi</option>
-                    @foreach (DataRow satir in dtKategori1.Rows)
-                    {
-                        if (ViewBag.Kategori1 == Convert.ToString(satir["Kategori1"]))
-                        {
+<div class="Conteiner-fluid p-4">
+    <div class="card card-flush w-100 p-6">
+        <form action="/Satinalma/YKSatinalma/YeniTalep" method="post">
+            <div class="row mb-2">
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="form-label fs-6 fw-bold text-gray-600 mb-2 pt-2 pe-2">Şube</label>
+                        <select id="Sube" class="form-control p-1 rounded-1" name="Sube">
+                            @foreach (DataRow satir in dtSubeler.Rows)
+                            {
+                                if (Convert.ToBoolean(satir["Yetki"]))
+                                {
+                                    <option value="@satir["Kod"]" @(ViewBag.Sube == Convert.ToString(satir["Kod"]) ? "selected" : "")>@satir["Isim"]</option>
+                                }
+                            }
+                        </select>
+                    </div>
 
-                        }
-                        <option value="@satir["Kategori1"]" @(ViewBag.Kategori1 == Convert.ToString(satir["Kategori1"]) ? "selected" : "")>@satir["Kategori1"]</option>
-                    }
-                </select>
-            </td>
-            <td style="padding: 3px; text-align: left;">
-                <label>Kategori 2</label>
-                <select id="Kategori2" name="Kategori2" onchange="SecimKategori2();">
-                </select>
-            </td>
-            <td style="padding: 3px; text-align: left;">
-                <label>Kategori 3</label>
-                <select id="Kategori3" name="Kategori3">
-                </select>
-            </td>
-            <td>
-                <label>Aranacak Kelime</label>
-                <input type="text" value="" id="AranacakKelime" name="AranacakKelime" />
-            </td>
-            <td><input type="submit" name="name" value="Getir" class="btn btn-primary" /></td>
-            <td><input type="button" name="btnKaydet" id="btnKaydet" value="Kaydet" class="btn btn-primary" onclick="Kaydet();" /></td>
-        </tr>
-    </table>
-</form>
-<div style="clear:both;"></div>
-<div>
-    
-    <table border="1" name="TabloListe" id="TabloListe" style="width:100%;"  >
-        <thead>
-            <tr>
-                <th style="padding: 2px; text-align: left;"><strong>Kategori1</strong></th>
-                <th style="padding: 2px; text-align: left;"><strong>Kod</strong></th>
-                <th style="padding: 2px; text-align: left;"><strong>İsim (@(sayi) kayıt mevcut.)</strong></th>
-                <th style="padding: 2px; text-align: right;"><strong>Stok</strong></th>
-                <th style="padding: 2px; text-align: right;"><strong>Talep Miktarı</strong></th>
-                <th style="padding: 2px; text-align: left;"><strong>Açıklama</strong></th>
-                <th style="padding: 2px; text-align: left;display:none;"><strong>Dosya</strong></th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model != null)
-            {
-                foreach (DataRow satir in Model.Rows)
-                {
-                    string renk = "";
-                    <tr style="@(renk)">
-                        <td style="padding: 2px;text-align:left;">@satir["Kategori1"]</td>
-                        <td style="padding: 2px;text-align:left;">@satir["StokKodu"]</td>
-                        <td style="padding: 2px;text-align:left;">@satir["StokAdi"]</td>
-                        <td style="padding: 2px;text-align:right;@(Convert.ToDecimal(satir["Bakiye"]) <= 0 ? "background-color:red;color:white;" : "background-color:green;color:white;")">@String.Format("{0:N2} {1}", Convert.ToDecimal(satir["Bakiye"]), satir["OlcuBirimi"])</td>
-                        <td style="padding: 2px;text-align:right;"><input type="text" data-id="@satir["ID"]" name="Miktar_@(Convert.ToString(satir["IDTresiz"]))" id="Miktar_@(Convert.ToString(satir["IDTresiz"]))" value="0" style="text-align:right;width:100%;width:100px;" onchange="TutarKontroluYap(this);" /> @satir["OlcuBirimi"]</td>
-                        <td style="padding: 2px;text-align:left;"><textarea rows="1" id="Aciklama_@(Convert.ToString(satir["IDTresiz"]))" name="Aciklama_@(Convert.ToString(satir["IDTresiz"]))"></textarea></td>
-                        <td style="padding: 2px; text-align: right; display: none;"><input type="file" name="Dosya_@(Convert.ToString(satir["IDTresiz"]))" id="Dosya_@(Convert.ToString(satir["IDTresiz"]))" value="" accept="image/png, image/gif, image/jpeg,application/pdf,application/vnd.ms-excel" /></td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="form-label fs-6 fw-bold text-gray-600 mb-2 pt-2 pe-2">Kategori 1</label>
+                        <select id="Kategori1" class="form-control p-1 rounded-1" name="Kategori1" onchange="SecimKategori1();">
+                            <option value="">Kategori Seçimi</option>
+                            @foreach (DataRow satir in dtKategori1.Rows)
+                            {
+                                if (ViewBag.Kategori1 == Convert.ToString(satir["Kategori1"]))
+                                {
+
+                                }
+                                <option value="@satir["Kategori1"]" @(ViewBag.Kategori1 == Convert.ToString(satir["Kategori1"]) ? "selected" : "")>@satir["Kategori1"]</option>
+                            }
+                        </select>
+                    </div>
+
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="form-label fs-6 fw-bold text-gray-600 mb-2 pt-2 pe-2">Kategori 2</label>
+                        <select id="Kategori2" class="form-control p-1 rounded-1" name="Kategori2" onchange="SecimKategori2();">
+                        </select>
+                    </div>
+
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="form-label fs-6 fw-bold text-gray-600 mb-2 pt-2 pe-2">Kategori 3</label>
+                        <select id="Kategori3" class="form-control p-1 rounded-1" name="Kategori3">
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row mb-2">
+
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="form-label fs-6 fw-bold text-gray-600 mb-2 pt-2 pe-2">Aranacak Kelime</label>
+                        <input type="text" value="" class="form-control p-1 rounded-1" id="AranacakKelime" name="AranacakKelime" />
+                    </div>
+
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group mt-6">
+
+                    </div>
+
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group mt-6">
+
+                    </div>
+
+                </div>
+                <div class="col-lg-3 text-end">
+                    <div class="form-group mt-6">
+                        <input type="submit" name="name" value="Getir" class="btn btn-primary btn-sm" />
+                        <input type="button" name="btnKaydet" id="btnKaydet" value="Kaydet" class="btn btn-primary  btn-sm" onclick="Kaydet();" />
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
+
+
+
+
+
+
+<div style="clear:both;"></div>
+
+<div class="container-fluid">
+    <div class="col-lg-12">
+        <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+            <!--begin::Post-->
+            <div class="post d-flex flex-column-fluid overflow-hidden" id="kt_post">
+                <!--begin::Container-->
+                <div id="kt_content_container p-0" class="container-fluid p-0 m-0">
+                    <div class="card card-flush">
+                        <div class="card-header align-items-center gap-2 gap-md-5 px-6">
+                            <div class="card-title">
+                                <!--begin::Search-->
+                                <div class="d-flex align-items-center position-relative my-1">
+                                    <i class="ki-duotone ki-magnifier fs-3 position-absolute m-4">
+                                        <span class="path1 text-gray-500"></span>
+                                        <span class="path2 text-gray-500"></span>
+                                    </i>
+                                    <input type="text" data-kt-filter="search" class="form-control  w-250px py-1 ps-14" placeholder="Kişi Ara" />
+                                </div>
+                                <!--end::Search-->
+                                <!--begin::Export buttons-->
+                                <div id="kt_datatable_example_1_export" class="d-none"></div>
+                                <!--end::Export buttons-->
+                            </div>
+                            <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
+                                <!--begin::Export dropdown-->
+                                <button type="button" class="btn btn-light-primary btn-sm fw-bold" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                    <i class="ki-duotone ki-exit-down fs-2"><span class="path1"></span><span class="path2"></span></i>
+                                    Dışarı aktar
+                                </button>
+                                <!--begin::Menu-->
+                                <div id="kt_datatable_example_export_menu" class="menu menu-sub menu-sub-dropdown menu-column menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-200px p-0" data-kt-menu="true">
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item p-0">
+                                        <a href="#" class="menu-link px-2 py-2" data-kt-export="copy">
+                                            Panoya Kopyala
+                                        </a>
+                                    </div>
+                                    <!--end::Menu item-->
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item p-0">
+                                        <a href="#" class="menu-link px-2 py-2" data-kt-export="excel">
+                                            Excel olarak dışarı aktar
+                                        </a>
+                                    </div>
+                                    <!--end::Menu item-->
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item p-0">
+                                        <a href="#" class="menu-link px-2 py-2" data-kt-export="csv">
+                                            CSV olarak dışarı aktar
+                                        </a>
+                                    </div>
+                                    <!--end::Menu item-->
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item p-0">
+                                        <a href="#" class="menu-link px-2 py-2" data-kt-export="pdf">
+                                            PDF olarak dışarı aktar
+                                        </a>
+                                    </div>
+                                    <!--end::Menu item-->
+                                </div>
+                                <!--end::Menu-->
+                                <!--end::Export dropdown-->
+                                <!--begin::Hide default export buttons-->
+                                <div id="kt_datatable_example_buttons" class="d-none"></div>
+                                <!--end::Hide default export buttons-->
+
+                            </div>
+                        </div>
+
+                        <div class="px-4 scroll-x  w-100">
+                            <div class=" w-100">
+                                @if (Model != null)
+                                {
+                                    <table class="table align-middle rounded-0 table-row-dashed  fs-6 g-5" id="TabloListe">
+                                        <thead>
+                                            <!--begin::Table row-->
+                                            <tr class="text-start" style="font-size:15px;">
+                                                <th class="min-w-125px text-gray-600"><strong>KATEGORİ 1</strong></th>
+                                                <th class="min-w-125px text-gray-600"><strong>KOD </strong></th>
+                                                <th class="min-w-125px text-gray-600"><strong>İSİM (@(sayi) kayıt mevcut.)</strong></th>
+                                                <th class="min-w-125px text-gray-600"><strong>STOK</strong></th>
+                                                <th class="min-w-125px text-gray-600"><strong>TALEP MİKTAR</strong></th>
+                                                <th class="min-w-125px text-gray-600"><strong>AÇIKLAMA</strong></th>
+                                                <th class=" text-gray-600 d-none no-export"><strong>DOSYA</strong></th>
+
+
+                                            </tr>
+                                            <!--end::Table row-->
+                                        </thead>
+
+                                        <tbody class="text-gray-600 fw-semibold">
+                                            @foreach (DataRow satir in Model.Rows)
+                                            {
+                                                string renk = "";
+                                                if (Model != null && Model.Rows.Count > 0)
+                                                {
+                                                    <tr>
+
+
+                                                        <td>
+                                                            @(string.IsNullOrEmpty(Convert.ToString(satir["Kategori1"])) ? "Veri Yok" : satir["Kategori1"])
+                                                        </td>
+                                                        <td>
+                                                            @(string.IsNullOrEmpty(Convert.ToString(satir["StokKodu"])) ? "Veri Yok" : satir["StokKodu"])
+                                                        </td>
+                                                        <td>
+                                                            @(string.IsNullOrEmpty(Convert.ToString(satir["StokAdi"])) ? "Veri Yok" : satir["StokAdi"])
+                                                        </td>
+                                                        <td> @(satir["Bakiye"] == DBNull.Value ? "Veri Yok" : String.Format("{0:N2} {1}", Convert.ToDecimal(satir["Bakiye"]), satir["OlcuBirimi"]))</td>
+                                                        <td>
+                                                            <div class="d-flex">
+                                                                <input class="form-control p-1 rounded-1" style="width:50px;" type="text" data-id="@satir["ID"]" name="Miktar_@(Convert.ToString(satir["IDTresiz"]))" id="Miktar_@(Convert.ToString(satir["IDTresiz"]))" value="0" onchange="TutarKontroluYap(this);" />
+                                                                <div class="ms-2">
+                                                                    @satir["OlcuBirimi"]
+                                                                </div>
+                                                            </div>
+
+                                                        </td>
+                                                        <td> <textarea class="form-control p-1 rounded-1" rows="1" id="Aciklama_@(Convert.ToString(satir["IDTresiz"]))" name="Aciklama_@(Convert.ToString(satir["IDTresiz"]))"></textarea></td>
+                                                        <td style="display: none;"><input type="file" name="Dosya_@(Convert.ToString(satir["IDTresiz"]))" id="Dosya_@(Convert.ToString(satir["IDTresiz"]))" value="" accept="image/png, image/gif, image/jpeg,application/pdf,application/vnd.ms-excel" /></td>
+
+                                                    </tr>
+
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Container-->
+                </div>
+                <!--end::Post-->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@*<div class="card card-flush w-100 p-6 mt-10">
+    @if (Model != null)
+    {
+        foreach (DataRow satir in Model.Rows)
+        {
+            string renk = "";
+            if (Model != null && Model.Rows.Count > 0)
+            {
+                <div class="row align-items-center justify-content-center text-align-center grid gap-3">
+                    <div class="col-lg-1">
+                        <label class="form-label fs-6 fw-bold text-gray-600 mb-3 pt-2 border-bottom border-secondary px-3 w-100">Kategori 1</label>
+                        <div class="px-3">
+
+                            @(string.IsNullOrEmpty(Convert.ToString(satir["Kategori1"])) ? "Veri Yok" : satir["Kategori1"])
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <label class="form-label fs-6 fw-bold text-gray-600 mb-3 pt-2 border-bottom border-secondary px-3 w-100">Kod</label>
+                        <div class="px-3">
+                            @(string.IsNullOrEmpty(Convert.ToString(satir["StokKodu"])) ? "Veri Yok" : satir["StokKodu"])
+
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <label class="form-label fs-6 fw-bold text-gray-600 mb-3 pt-2 border-bottom border-secondary px-3 w-100">İsim (@(sayi) kayıt mevcut.)</label>
+                        <div class="px-3">
+                            @(string.IsNullOrEmpty(Convert.ToString(satir["StokAdi"])) ? "Veri Yok" : satir["StokAdi"])
+                        </div>
+                    </div>
+                    <div class="col-lg-1">
+                        <label class="form-label fs-6 fw-bold text-gray-600 mb-3 pt-2 border-bottom border-secondary px-3 w-100">Stok</label>
+                        <div class="px-3">
+                            @(satir["Bakiye"] == DBNull.Value ? "Veri Yok" : String.Format("{0:N2} {1}", Convert.ToDecimal(satir["Bakiye"]), satir["OlcuBirimi"]))
+                        </div>
+                    </div>
+                    <div class="col-lg-1">
+                        <label class="form-label fs-6 fw-bold text-gray-600 mb-3 pt-2 border-bottom border-secondary px-3 w-100">Talep Miktarı</label>
+                        <div class="d-flex align-items-center justify-content-center text-align-center">
+                            <input class="form-control p-2 rounded-1" type="text" data-id="@satir["ID"]" name="Miktar_@(Convert.ToString(satir["IDTresiz"]))" id="Miktar_@(Convert.ToString(satir["IDTresiz"]))" value="0" onchange="TutarKontroluYap(this);" />
+                            <div class="ms-2">
+                                @satir["OlcuBirimi"]
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <label class="form-label fs-6 fw-bold text-gray-600 mb-3 pt-2 border-bottom border-secondary px-3 w-100">Açıklama</label>
+                        <textarea class="form-control p-2 rounded-1" rows="1" id="Aciklama_@(Convert.ToString(satir["IDTresiz"]))" name="Aciklama_@(Convert.ToString(satir["IDTresiz"]))"></textarea>
+                    </div>
+                    <div class="">
+                        <label class="form-label fs-6 fw-bold text-gray-600 mb-3 pt-2 border-bottom border-secondary px-3 w-100 d-none">Dosya</label>
+                        <input type="file" class="d-none" name="Dosya_@(Convert.ToString(satir["IDTresiz"]))" id="Dosya_@(Convert.ToString(satir["IDTresiz"]))" value="" accept="image/png, image/gif, image/jpeg,application/pdf,application/vnd.ms-excel" />
+                    </div>
+                </div>
+
+            }
+            else
+            {
+                <div class="alert alert-warning text-center">
+                    Veri bulunamadı.
+                </div>
+            }
+
+
+        }
+
+    }
+</div>*@
+
 @section scripts {
 
     <script type="text/javascript">
-        
-            
+
+
             function Kaydet() {
             $("#btnKaydet").val("Bekleyin...");
             var table = document.getElementById("TabloListe");
@@ -111,7 +331,7 @@
                          var MiktarID = col.querySelector('input').getAttribute("id");
                          var Miktar = $("#Miktar_" + MiktarID.split("_")[1]).val();
                          Miktar = Miktar.toString().replace(",", ".");
-                         
+
                          var Aciklama = $("#Aciklama_" + MiktarID.split("_")[1]).val();
                          var SubeKodu = $("#Sube").val();
                          if (Miktar > 0) {
@@ -123,7 +343,7 @@
                              formData.append('miktar', Miktar);
                              formData.append('aciklama', Aciklama);
                              formData.append('Dosya', $('#Dosya_' + MiktarID.split("_")[1])[0].files[0]);
-                             
+
                              $.ajax({
                                  type: "POST",
                                  url: '/Satinalma/YKSatinalma/TalepKaydet',
@@ -132,7 +352,7 @@
                                  enctype: 'multipart/form-data',
                                  async: false,
                                  contentType: false,
-                                 processData: false,            
+                                 processData: false,
                                  //contentType: "application/json; charset=utf-8",
                                  //dataFilter: function (data) { return data; },
                                  success: function (data) {
@@ -155,7 +375,7 @@
                                      }
                                  },
                                  error: function (msg) {
-                                     
+
                                      Swal.fire({
                                          position: "center",
                                          icon: "error",
@@ -184,7 +404,7 @@
             $("#btnKaydet").val("Kaydet");
         }
 
-       
+
 
         function SecimKategori1() {
             var Kategori1 = $("#Kategori1").val();
@@ -247,7 +467,121 @@
         }
 
         SecimKategori1();
-        SecimKategori2();
+            SecimKategori2();
+
+
+            // Class definition
+            var KTDatatablesExample = function () {
+                // Shared variables
+                var table;
+                var datatable;
+
+                // Private functions
+                var initDatatable = function () {
+                    // Set date data order
+                    const tableRows = table.querySelectorAll('tbody tr');
+
+                    // Init datatable --- more info on datatables: https://datatables.net/manual/
+                    datatable = $(table).DataTable({
+                        "info": false,
+
+                        'order': [],
+                        paging: false,
+                        columnDefs: [
+                            {
+                                targets: [0, 6],
+                                visible: false,
+                                className: 'noVis'
+                            },
+                        ]
+
+                    });
+
+                    datatable.on('columns-reordered', function (e, settings, details) {
+                        KTMenu.createInstances();
+                    });
+                }
+
+                // Hook export buttons
+                var exportButtons = () => {
+                    const documentTitle = 'TabloListe-' + moment(new Date()).format("DD-MM-YYYY");
+                    var buttons = new $.fn.dataTable.Buttons(table, {
+                        buttons: [
+                            {
+                                extend: 'copyHtml5',
+                                title: documentTitle,
+                                exportOptions: {
+                                    columns: ['th:not(.no-export)'],
+                                }
+                            },
+                            {
+                                extend: 'excelHtml5',
+                                title: documentTitle,
+                                exportOptions: {
+                                    columns: ['th:not(.no-export)'],
+                                }
+                            },
+                            {
+                                extend: 'csvHtml5',
+                                title: documentTitle,
+                                exportOptions: {
+                                    columns: ['th:not(.no-export)'],
+                                }
+                            },
+                            {
+                                extend: 'pdfHtml5',
+                                title: documentTitle,
+                                exportOptions: {
+                                    columns: ['th:not(.no-export)'],
+                                }
+                            }
+                        ]
+                    }).container().appendTo($('#kt_datatable_example_buttons'));
+
+                    // Hook dropdown menu click event to datatable export buttons
+                    const exportButtons = document.querySelectorAll('#kt_datatable_example_export_menu [data-kt-export]');
+                    exportButtons.forEach(exportButton => {
+                        exportButton.addEventListener('click', e => {
+                            e.preventDefault();
+
+                            // Get clicked export value
+                            const exportValue = e.target.getAttribute('data-kt-export');
+                            const target = document.querySelector('.dt-buttons .buttons-' + exportValue);
+
+                            // Trigger click event on hidden datatable export buttons
+                            target.click();
+                        });
+                    });
+                }
+
+                // Search Datatable --- official docs reference: https://datatables.net/reference/api/search()
+                var handleSearchDatatable = () => {
+                    const filterSearch = document.querySelector('[data-kt-filter="search"]');
+                    filterSearch.addEventListener('keyup', function (e) {
+                        datatable.search(e.target.value).draw();
+                    });
+                }
+
+                // Public methods
+                return {
+                    init: function () {
+                        table = document.querySelector('#TabloListe');
+
+                        if (!table) {
+                            return;
+                        }
+
+                        initDatatable();
+                        exportButtons();
+                        handleSearchDatatable();
+                    }
+                };
+            }();
+
+            // On document ready
+            KTUtil.onDOMContentLoaded(function () {
+                KTDatatablesExample.init();
+            });
     </script>
 
 }

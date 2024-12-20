@@ -45,31 +45,21 @@
 
     <!-- Main CSS File -->
     <link href="~/Tema/ETicaret/assets/css/style.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/Tema/ETicaret/assets/css/demo4.min.css">
+    <link href="~/Tema/ETicaret/assets/css/override.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="~/Tema/ETicaret/assets/vendor/fontawesome-free/css/all.min.css">
     @RenderSection("Styles", required: false)
 </head>
 
 <body style="background-color: #fcfcfc;">
     <div class="page-wrapper">
-        <div class="top-notice bg-primary text-white">
-            <div class="container text-center">
-                <h5 class="d-inline-block">Get Up to <b>40% OFF</b> New-Season Styles</h5>
-                <a href="category.html" class="category">MEN</a>
-                <a href="category.html" class="category ml-2 mr-3">WOMEN</a>
-                <small>* Limited time only.</small>
-                <button title="Close (Esc)" type="button" class="mfp-close">×</button>
-            </div>
-            <!-- End .container -->
-        </div>
-        <!-- End .top-notice -->
+
 
         <header class="header " style="background-color: #ffffff;">
-            <div class="header-top" style="height:60px;">
-                <div class="container d-flex">
-                    <div class="d-flex justify-content-between" style="width:100%;">
-                        <div class="header-dropdowns w-sm-100">
-                            <div class="header-dropdown dropdown-expanded d-none d-lg-block">
+            <div class="header-top d-flex align-items-center justify-content-center bg-light" style="height:40px;">
+                <div class="container d-flex" style="height: 100%;">
+                    <div class="d-flex justify-content-between" style="width:100%;height: 100%;">
+                        <div class="d-flex header-dropdowns w-sm-100">
+                            <div class="header-dropdown dropdown-expanded d-none d-lg-block" style="height: 100%;">
                                 <a href="#">Links</a>
                                 <div class="header-menu d-flex">
                                     <ul>
@@ -77,7 +67,7 @@
                                         <li><a href="about.html">İletişim</a></li>
                                         <li><a href="blog.html">Blog</a></li>
                                         <li><a href="wishlist.html">istek Listem</a></li>
-                                        <li><a href="cart.html">Cart</a></li>
+
                                         @if (ViewBag.GirisYapildi)
                                         {
                                             <li>
@@ -106,7 +96,6 @@
                             </div>
                             <!-- End .header-dropown -->
 
-
                         </div>
                         <div class="d-flex">
                             <div class="header-dropdown">
@@ -131,8 +120,6 @@
                     </div>
 
                     <!-- End .header-left -->
-
-                
                     <!-- End .header-right -->
                 </div>
                 <!-- End .container -->
@@ -147,31 +134,31 @@
                         </button>
                         @foreach (YKPortal.Models.Dto.GrupKoduDto grupKodu in ViewBag.ETicaretLogo)
                         {
-                           <a href="/E/ETicaretSite/Anasayfa" class="">
-                               <img src="~/Uploads/ETicaret/@grupKodu.Deger" style="height: 50px;width: 100px;object-fit: contain;" alt="@ViewBag.ETicaretFirmaAdi[0].Deger">
-                           </a>
+                            <a href="/E/ETicaretSite/Anasayfa" class="">
+                                <img src="~/Uploads/ETicaret/@grupKodu.Deger" style="height: 50px;width: 100px;object-fit: contain;" alt="@ViewBag.ETicaretFirmaAdi[0].Deger">
+                            </a>
                         }
-                        
+
                     </div>
                     <!-- End .header-left -->
 
                     <div class="header-right w-lg-max">
                         <div class="header-icon header-search header-search-inline header-search-category w-lg-max text-right mt-0">
                             <a href="#" class="search-toggle" role="button"><i class="icon-search-3"></i></a>
-                            <form action="#" method="get">
+                            <form action="/E/ETicaretStok/Stoklar" method="get">
                                 <div class="header-search-wrapper">
-                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search..." required>
+                                    <input type="search" class="form-control" name="aranacakKelime" id="searchQuery" placeholder="Ürün ara..." required>
                                     <div class="select-custom">
                                         @if (ViewBag.Kategoriler != null && ViewBag.Kategoriler.Count > 0)
                                         {
-                                            <select id="cat" name="cat">
-                                                <option value="">All Categories</option>
+                                            <select class="p-1" id="cat" name="cat">
+                                                <option value="">Tüm Kategoriler</option>
                                                 @foreach (var kategori in ViewBag.Kategoriler)
                                                 {
                                                     <option value="@kategori.Kategori1">@kategori.Kategori1</option>
                                                     if (!string.IsNullOrEmpty(kategori.Kategori2))
                                                     {
-                                                        <option value="@kategori.Kategori2">- @kategori.Kategori2</option>
+                                                        <option value="@kategori.Kategori2">@kategori.Kategori2</option>
                                                     }
                                                 }
                                             </select>
@@ -222,7 +209,33 @@
                                     <!-- End .dropdown-cart-header -->
 
                                     <div class="dropdown-cart-products">
-                                        Buraya Sepet Bilgileri döngüsü gelecek
+                                        @foreach (var stok in sepetBilgileri)
+                                        {
+                                            <div class="product">
+                                                <div class="product-details">
+                                                    <h4 class="product-title">
+                                                        <a href="">@stok.Isim</a>
+                                                    </h4>
+
+                                                    <span class="cart-product-info">
+                                                        <span class="cart-product-qty">@stok.Miktar</span> × @stok.Fiyat
+                                                    </span>
+                                                </div>
+                                                <!-- End .product-details -->
+
+                                                <figure class="product-image-container">
+                                                    <a href="product.html" class="product-image">
+                                                        <img src="@stok.Resim1" alt="product" width="80" height="80">
+                                                    </a>
+
+                                                    <a href="#" class="btn-remove" title="Remove Product"><span>×</span></a>
+                                                </figure>
+                                            </div>
+                                            <!-- End .product -->
+
+                                        }
+
+
                                         <div class="dropdown-cart-total">
                                             <span>SUBTOTAL:</span>
 
@@ -274,7 +287,7 @@
                                                         <ul class="submenu">
                                                             @if (!string.IsNullOrEmpty(kategori.Kategori1))
                                                             {
-                                                                <li><a href="/E/ETicaretKategori/KategoriDetay?kategori=@kategori.Kategori1">@kategori.Kategori1</a></li>
+                                                                <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.Kategori1">@kategori.Kategori1</a></li>
                                                             }
                                                             @if (!string.IsNullOrEmpty(kategori.Kategori2))
                                                             {
@@ -316,8 +329,6 @@
                                 <div class="megamenu megamenu-fixed-width">
                                     <div class="row">
                                         <div class="col-lg-4">
-
-
                                             <ul class="submenu">
                                                 <li><a href="/E/ETicaretSite/Anasayfa">Ana Sayfa</a></li>
                                                 <li><a href="/E/ETicaretHakkimizda/Hakkimizda">Hakkımızda</a></li>
@@ -333,212 +344,10 @@
                                             </ul>
                                         </div>
                                         <!-- End .col-lg-4 -->
-
-                                        <div class="col-lg-4">
-                                            <a href="#" class="nolink">PRODUCT LAYOUTS</a>
-                                            <ul class="submenu">
-                                                <li><a href="product-extended-layout.html">EXTENDED LAYOUT</a></li>
-                                                <li><a href="product-grid-layout.html">GRID IMAGE</a></li>
-                                                <li><a href="product-full-width.html">FULL WIDTH LAYOUT</a></li>
-                                                <li><a href="product-sticky-info.html">STICKY INFO</a></li>
-                                                <li><a href="product-sticky-both.html">LEFT & RIGHT STICKY</a></li>
-                                                <li><a href="product-transparent-image.html">TRANSPARENT IMAGE</a></li>
-                                                <li><a href="product-center-vertical.html">CENTER VERTICAL</a></li>
-                                                <li><a href="#">BUILD YOUR OWN</a></li>
-                                            </ul>
-                                        </div>
-                                        <!-- End .col-lg-4 -->
-
-                                        <div class="col-lg-4 p-0">
-                                            <div class="menu-banner menu-banner-2">
-                                                <figure>
-                                                    <img src="~/Tema/ETicaret/assets/images/menu-banner-1.jpg" width="182" height="317" alt="Menu banner" class="product-promo">
-                                                </figure>
-                                                <i>OFF</i>
-                                                <div class="banner-content">
-                                                    <h4>
-                                                        <span class="">UP TO</span><br />
-                                                        <b class="">50%</b>
-                                                    </h4>
-                                                </div>
-                                                <a href="category.html" class="btn btn-sm btn-dark">SHOP NOW</a>
-                                            </div>
-                                        </div>
-                                        <!-- End .col-lg-4 -->
                                     </div>
                                     <!-- End .row -->
                                 </div>
                                 <!-- End .megamenu -->
-                            </li>
-                            <li>
-                                <a href="#">Pages</a>
-                                <ul>
-                                    <li><a href="wishlist.html">Wishlist</a></li>
-                                    <li><a href="cart.html">Shopping Cart</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
-                                    <li><a href="dashboard.html">Dashboard</a></li>
-                                    <li><a href="about.html">About Us</a></li>
-                                    <li>
-                                        <a href="#">Blog</a>
-                                        <ul>
-                                            <li><a href="blog.html">Blog</a></li>
-                                            <li><a href="single.html">Blog Post</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="contact.html">Contact Us</a></li>
-                                    <li><a href="login.html">Login</a></li>
-                                    <li><a href="forgot-password.html">Forgot Password</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="product.html">Products</a>
-                                <div class="megamenu megamenu-fixed-width">
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <a href="#" class="nolink">PRODUCT PAGES</a>
-                                            <ul class="submenu">
-                                                <li><a href="product.html">SIMPLE PRODUCT</a></li>
-                                                <li><a href="product-variable.html">VARIABLE PRODUCT</a></li>
-                                                <li><a href="product.html">SALE PRODUCT</a></li>
-                                                <li><a href="product.html">FEATURED & ON SALE</a></li>
-                                                <li><a href="product-custom-tab.html">WITH CUSTOM TAB</a></li>
-                                                <li><a href="product-sidebar-left.html">WITH LEFT SIDEBAR</a></li>
-                                                <li><a href="product-sidebar-right.html">WITH RIGHT SIDEBAR</a></li>
-                                                <li><a href="product-addcart-sticky.html">ADD CART STICKY</a></li>
-                                            </ul>
-                                        </div>
-                                        <!-- End .col-lg-4 -->
-
-                                        <div class="col-lg-4">
-                                            <a href="#" class="nolink">PRODUCT LAYOUTS</a>
-                                            <ul class="submenu">
-                                                <li><a href="product-extended-layout.html">EXTENDED LAYOUT</a></li>
-                                                <li><a href="product-grid-layout.html">GRID IMAGE</a></li>
-                                                <li><a href="product-full-width.html">FULL WIDTH LAYOUT</a></li>
-                                                <li><a href="product-sticky-info.html">STICKY INFO</a></li>
-                                                <li><a href="product-sticky-both.html">LEFT & RIGHT STICKY</a></li>
-                                                <li><a href="product-transparent-image.html">TRANSPARENT IMAGE</a></li>
-                                                <li><a href="product-center-vertical.html">CENTER VERTICAL</a></li>
-                                                <li><a href="#">BUILD YOUR OWN</a></li>
-                                            </ul>
-                                        </div>
-                                        <!-- End .col-lg-4 -->
-
-                                        <div class="col-lg-4 p-0">
-                                            <div class="menu-banner menu-banner-2">
-                                                <figure>
-                                                    <img src="~/Tema/ETicaret/assets/images/menu-banner-1.jpg" width="182" height="317" alt="Menu banner" class="product-promo">
-                                                </figure>
-                                                <i>OFF</i>
-                                                <div class="banner-content">
-                                                    <h4>
-                                                        <span class="">UP TO</span><br />
-                                                        <b class="">50%</b>
-                                                    </h4>
-                                                </div>
-                                                <a href="category.html" class="btn btn-sm btn-dark">SHOP NOW</a>
-                                            </div>
-                                        </div>
-                                        <!-- End .col-lg-4 -->
-                                    </div>
-                                    <!-- End .row -->
-                                </div>
-                                <!-- End .megamenu -->
-                            </li>
-                            <li>
-                                <a href="#">Pages</a>
-                                <ul>
-                                    <li><a href="wishlist.html">Wishlist</a></li>
-                                    <li><a href="cart.html">Shopping Cart</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
-                                    <li><a href="dashboard.html">Dashboard</a></li>
-                                    <li><a href="about.html">About Us</a></li>
-                                    <li>
-                                        <a href="#">Blog</a>
-                                        <ul>
-                                            <li><a href="blog.html">Blog</a></li>
-                                            <li><a href="single.html">Blog Post</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="contact.html">Contact Us</a></li>
-                                    <li><a href="login.html">Login</a></li>
-                                    <li><a href="forgot-password.html">Forgot Password</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="product.html">Products</a>
-                                <div class="megamenu megamenu-fixed-width">
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <a href="#" class="nolink">PRODUCT PAGES</a>
-                                            <ul class="submenu">
-                                                <li><a href="product.html">SIMPLE PRODUCT</a></li>
-                                                <li><a href="product-variable.html">VARIABLE PRODUCT</a></li>
-                                                <li><a href="product.html">SALE PRODUCT</a></li>
-                                                <li><a href="product.html">FEATURED & ON SALE</a></li>
-                                                <li><a href="product-custom-tab.html">WITH CUSTOM TAB</a></li>
-                                                <li><a href="product-sidebar-left.html">WITH LEFT SIDEBAR</a></li>
-                                                <li><a href="product-sidebar-right.html">WITH RIGHT SIDEBAR</a></li>
-                                                <li><a href="product-addcart-sticky.html">ADD CART STICKY</a></li>
-                                            </ul>
-                                        </div>
-                                        <!-- End .col-lg-4 -->
-
-                                        <div class="col-lg-4">
-                                            <a href="#" class="nolink">PRODUCT LAYOUTS</a>
-                                            <ul class="submenu">
-                                                <li><a href="product-extended-layout.html">EXTENDED LAYOUT</a></li>
-                                                <li><a href="product-grid-layout.html">GRID IMAGE</a></li>
-                                                <li><a href="product-full-width.html">FULL WIDTH LAYOUT</a></li>
-                                                <li><a href="product-sticky-info.html">STICKY INFO</a></li>
-                                                <li><a href="product-sticky-both.html">LEFT & RIGHT STICKY</a></li>
-                                                <li><a href="product-transparent-image.html">TRANSPARENT IMAGE</a></li>
-                                                <li><a href="product-center-vertical.html">CENTER VERTICAL</a></li>
-                                                <li><a href="#">BUILD YOUR OWN</a></li>
-                                            </ul>
-                                        </div>
-                                        <!-- End .col-lg-4 -->
-
-                                        <div class="col-lg-4 p-0">
-                                            <div class="menu-banner menu-banner-2">
-                                                <figure>
-                                                    <img src="~/Tema/ETicaret/assets/images/menu-banner-1.jpg" width="182" height="317" alt="Menu banner" class="product-promo">
-                                                </figure>
-                                                <i>OFF</i>
-                                                <div class="banner-content">
-                                                    <h4>
-                                                        <span class="">UP TO</span><br />
-                                                        <b class="">50%</b>
-                                                    </h4>
-                                                </div>
-                                                <a href="category.html" class="btn btn-sm btn-dark">SHOP NOW</a>
-                                            </div>
-                                        </div>
-                                        <!-- End .col-lg-4 -->
-                                    </div>
-                                    <!-- End .row -->
-                                </div>
-                                <!-- End .megamenu -->
-                            </li>
-                            <li>
-                                <a href="#">Pages</a>
-                                <ul>
-                                    <li><a href="wishlist.html">Wishlist</a></li>
-                                    <li><a href="cart.html">Shopping Cart</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
-                                    <li><a href="dashboard.html">Dashboard</a></li>
-                                    <li><a href="about.html">About Us</a></li>
-                                    <li>
-                                        <a href="#">Blog</a>
-                                        <ul>
-                                            <li><a href="blog.html">Blog</a></li>
-                                            <li><a href="single.html">Blog Post</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="contact.html">Contact Us</a></li>
-                                    <li><a href="login.html">Login</a></li>
-                                    <li><a href="forgot-password.html">Forgot Password</a></li>
-                                </ul>
                             </li>
                         </ul>
                     </nav>
@@ -547,7 +356,7 @@
                 <!-- End .container -->
             </div>
             <!-- End .header-bottom -->
-        </header> 
+        </header>
         <!-- End .header -->
         <div class="container-fluid shadow-sm p-2 bg-white rounded ">
             <ol class="breadcrumb  container">
@@ -567,7 +376,7 @@
                     <div class="row">
                         <div class="col-lg-3 col-sm-6">
                             <div class="widget">
-                                <h4 class="widget-title">Contact Info</h4>
+                                <h4 class="widget-title">İLETİŞİM BİLGİLERİ</h4>
                                 <ul class="contact-info">
                                     <li>
                                         <span class="contact-info-label">Adres:</span>@ViewBag.ETicaretAdres[0].Deger
@@ -601,28 +410,26 @@
 
                         <div class="col-lg-3 col-sm-6">
                             <div class="widget">
-                                <h4 class="widget-title">Customer Service</h4>
+                                <h4 class="widget-title">SAYFALAR</h4>
 
                                 <ul class="links">
-                                    <li><a href="#">Help & FAQs</a></li>
-                                    <li><a href="#">Order Tracking</a></li>
-                                    <li><a href="#">Shipping & Delivery</a></li>
-                                    <li><a href="#">Orders History</a></li>
-                                    <li><a href="#">Advanced Search</a></li>
-                                    <li><a href="dashboard.html">My Account</a></li>
-                                    <li><a href="#">Careers</a></li>
-                                    <li><a href="about.html">About Us</a></li>
-                                    <li><a href="#">Corporate Sales</a></li>
-                                    <li><a href="#">Privacy</a></li>
+                                    <li><a href="/E/ETicaretSite/Anasayfa">Ana Sayfa</a></li>
+                                    <li><a href="/E/ETicaretHakkimizda/Hakkimizda">Hakkımızda</a></li>
+                                    <li><a href="/E/ETicaretHakkimizda/Iletisim">İletişim</a></li>
+                                    <li><a href="/E/ETicaretBilgiler/GenelBilgiler">Genel Bilgiler</a></li>
+                                    <li><a href="/E/ETicaretHakkimizda/Misyonumuz">Misyonumuz</a></li>
+                                    <li><a href="/E/ETicaretHakkimizda/Vizyonumuz">Vizyonumuz</a></li>
+                                    <li><a href="#">Sözleşme</a></li>
                                 </ul>
                             </div>
                             <!-- End .widget -->
                         </div>
                         <!-- End .col-lg-3 -->
 
+
                         <div class="col-lg-3 col-sm-6">
                             <div class="widget">
-                                <h4 class="widget-title">Popular Tags</h4>
+                                <h4 class="widget-title">Popüler Etiketler</h4>
 
                                 <div class="tagcloud">
                                     <a href="#">Bag</a>
@@ -644,14 +451,14 @@
 
                         <div class="col-lg-3 col-sm-6">
                             <div class="widget widget-newsletter">
-                                <h4 class="widget-title">Subscribe newsletter</h4>
+                                <h4 class="widget-title">Bültene abone olun</h4>
                                 <p>
-                                    Get all the latest information on events, sales and offers. Sign up for newsletter:
+                                    Etkinlikler, indirimler ve tekliflerle ilgili en son bilgileri alın. Bültene Kayıt Olun:
                                 </p>
                                 <form action="#" class="mb-0">
-                                    <input type="email" class="form-control m-b-3" placeholder="Email address" required>
+                                    <input type="email" class="form-control m-b-3" placeholder="Email adresiniz" required>
 
-                                    <input type="submit" class="btn btn-primary shadow-none" value="Subscribe">
+                                    <input type="submit" class="btn btn-primary shadow-none" value="Bültene Kayıt Ol">
                                 </form>
                             </div>
                             <!-- End .widget -->
@@ -671,14 +478,14 @@
                             <span class="footer-copyright">@(ViewBag.ETicaretFirmaAdi[0].Deger). @DateTime.Now.Year. Tüm Hakları Saklıdır</span>
                         </div>
 
-                        <div class="footer-right ml-auto mt-1 mt-sm-0">
-                            <div class="payment-icons">
-                                <span class="payment-icon visa" style="background-image: url(/Tema/ETicaret/assets/images/payments/payment-visa.svg)"></span>
-                                <span class="payment-icon paypal" style="background-image: url(/Tema/ETicaret/assets/images/payments/payment-paypal.svg)"></span>
-                                <span class="payment-icon stripe" style="background-image: url(/Tema/ETicaret/assets/images/payments/payment-stripe.png)"></span>
-                                <span class="payment-icon verisign" style="background-image: url(/Tema/ETicaret/assets/images/payments/payment-verisign.svg)"></span>
-                            </div>
-                        </div>
+                        @*<div class="footer-right ml-auto mt-1 mt-sm-0"> ODEME İKONLARI
+                                <div class="payment-icons">
+                                    <span class="payment-icon visa" style="background-image: url(/Tema/ETicaret/assets/images/payments/payment-visa.svg)"></span>
+                                    <span class="payment-icon paypal" style="background-image: url(/Tema/ETicaret/assets/images/payments/payment-paypal.svg)"></span>
+                                    <span class="payment-icon stripe" style="background-image: url(/Tema/ETicaret/assets/images/payments/payment-stripe.png)"></span>
+                                    <span class="payment-icon verisign" style="background-image: url(/Tema/ETicaret/assets/images/payments/payment-verisign.svg)"></span>
+                                </div>
+                            </div>*@
                     </div>
                 </div>
                 <!-- End .footer-bottom -->
@@ -703,136 +510,123 @@
     <div class="mobile-menu-container">
         <div class="mobile-menu-wrapper">
             <span class="mobile-menu-close"><i class="fa fa-times"></i></span>
-            <nav class="mobile-nav">
+            <nav class="mobile-nav" id="menuContainer">
+                <form class="search-wrapper mb-2" action="#">
+                    <input type="text" id="MobileNavsearchInput"  class="form-control mb-0" placeholder="Arayın..." required />
+                    <button class="btn icon-search text-white bg-transparent p-0" type="submit"></button>
+                </form>
+                <div class="search-area"></div>
                 <ul class="mobile-menu">
-                    <li><a href="demo4.html">Home</a></li>
+                    <li><a href="/E/ETicaretSite/Anasayfa">ANASAYFA</a></li>
                     <li>
-                        <a href="category.html">Kategoriler</a>
-                        <ul>
-                            <li><a href="category.html">Full Width Banner</a></li>
-                            <li><a href="category-banner-boxed-slider.html">Boxed Slider Banner</a></li>
-                            <li><a href="category-banner-boxed-image.html">Boxed Image Banner</a></li>
-                            <li><a href="category-sidebar-left.html">Left Sidebar</a></li>
-                            <li><a href="category-sidebar-right.html">Right Sidebar</a></li>
-                            <li><a href="category-off-canvas.html">Off Canvas Filter</a></li>
-                            <li><a href="category-horizontal-filter1.html">Horizontal Filter 1</a></li>
-                            <li><a href="category-horizontal-filter2.html">Horizontal Filter 2</a></li>
-                            <li><a href="#">List Types</a></li>
-                            <li>
-                                <a href="category-infinite-scroll.html">
-                                    Ajax Infinite Scroll<span class="tip tip-new">New</span>
-                                </a>
-                            </li>
-                            <li><a href="category.html">3 Columns Products</a></li>
-                            <li><a href="category-4col.html">4 Columns Products</a></li>
-                            <li><a href="category-5col.html">5 Columns Products</a></li>
-                            <li><a href="category-6col.html">6 Columns Products</a></li>
-                            <li><a href="category-7col.html">7 Columns Products</a></li>
-                            <li><a href="category-8col.html">8 Columns Products</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="product.html">Products</a>
-                        <ul>
-                            <li>
-                                <a href="#" class="nolink">PRODUCT PAGES</a>
-                                <ul>
-                                    <li><a href="product.html">SIMPLE PRODUCT</a></li>
-                                    <li><a href="product-variable.html">VARIABLE PRODUCT</a></li>
-                                    <li><a href="product.html">SALE PRODUCT</a></li>
-                                    <li><a href="product.html">FEATURED & ON SALE</a></li>
-                                    <li><a href="product-sticky-info.html">WIDTH CUSTOM TAB</a></li>
-                                    <li><a href="product-sidebar-left.html">WITH LEFT SIDEBAR</a></li>
-                                    <li><a href="product-sidebar-right.html">WITH RIGHT SIDEBAR</a></li>
-                                    <li><a href="product-addcart-sticky.html">ADD CART STICKY</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#" class="nolink">PRODUCT LAYOUTS</a>
-                                <ul>
-                                    <li><a href="product-extended-layout.html">EXTENDED LAYOUT</a></li>
-                                    <li><a href="product-grid-layout.html">GRID IMAGE</a></li>
-                                    <li><a href="product-full-width.html">FULL WIDTH LAYOUT</a></li>
-                                    <li><a href="product-sticky-info.html">STICKY INFO</a></li>
-                                    <li><a href="product-sticky-both.html">LEFT & RIGHT STICKY</a></li>
-                                    <li><a href="product-transparent-image.html">TRANSPARENT IMAGE</a></li>
-                                    <li><a href="product-center-vertical.html">CENTER VERTICAL</a></li>
-                                    <li><a href="#">BUILD YOUR OWN</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">Pages<span class="tip tip-hot">Hot!</span></a>
-                        <ul>
-                            <li>
-                                <a href="wishlist.html">Wishlist</a>
-                            </li>
-                            <li>
-                                <a href="cart.html">Shopping Cart</a>
-                            </li>
-                            <li>
-                                <a href="checkout.html">Checkout</a>
-                            </li>
-                            <li>
-                                <a href="dashboard.html">Dashboard</a>
-                            </li>
-                            <li>
-                                <a href="login.html">Login</a>
-                            </li>
-                            <li>
-                                <a href="forgot-password.html">Forgot Password</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li>
-                        <a href="#">Elements</a>
-                        <ul class="custom-scrollbar">
-                            <li><a href="element-accordions.html">Accordion</a></li>
-                            <li><a href="element-alerts.html">Alerts</a></li>
-                            <li><a href="element-animations.html">Animations</a></li>
+                        <a href="#">KATEGORİLER</a>
+                        @if (ViewBag.Kategoriler != null)
+                        {
+                            var kategoriler = ViewBag.Kategoriler as List<YKPortal.Areas.E.Models.Dto.ETicaretKategorilerDto>;
+                            if (kategoriler != null && kategoriler.Any())
+                            {
+                                foreach (var kategori in kategoriler)
+                                {
+                                    <div class="col-lg-4">
+                                        <ul class="submenu">
+                                            @if (!string.IsNullOrEmpty(kategori.Kategori1))
+                                            {
+                                                <li><a href="/ETicaretStok/Stoklar?Kategori1=@kategori.Kategori1">@kategori.Kategori1</a></li>
+                                            }
+                                            @if (!string.IsNullOrEmpty(kategori.Kategori2))
+                                            {
+                                                <li><a href="/E/ETicaretKategori/KategoriDetay?kategori=@kategori.Kategori2">@kategori.Kategori2</a></li>
+                                            }
+                                            @if (!string.IsNullOrEmpty(kategori.Kategori3))
+                                            {
+                                                <li><a href="/E/ETicaretKategori/KategoriDetay?kategori=@kategori.Kategori3">@kategori.Kategori3</a></li>
+                                            }
+                                            @if (!string.IsNullOrEmpty(kategori.Kategori4))
+                                            {
+                                                <li><a href="/E/ETicaretKategori/KategoriDetay?kategori=@kategori.Kategori4">@kategori.Kategori4</a></li>
+                                            }
+                                            @if (!string.IsNullOrEmpty(kategori.Kategori5))
+                                            {
+                                                <li><a href="/E/ETicaretKategori/KategoriDetay?kategori=@kategori.Kategori5">@kategori.Kategori5</a></li>
+                                            }
+                                            @if (!string.IsNullOrEmpty(kategori.Kategori6))
+                                            {
+                                                <li><a href="/E/ETicaretKategori/KategoriDetay?kategori=@kategori.Kategori6">@kategori.Kategori6</a></li>
+                                            }
 
+                                        </ul>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p>Kategori Yok</p>
+                            }
+                        }        
+                    </li>
+                    <li>
+                        <a href="#">SAYFALAR</a>
+                        <ul>
+
+
+                            <li><a href="/E/ETicaretStok/Stoklar">Ürünler</a></li>
+                            <li><a href="/E/ETicaretBilgiler/GenelBilgiler">Genel Bilgiler</a></li>
+
+                            <li><a href="/E/ETicaretHakkimizda/Misyonumuz">Misyonumuz</a></li>
+                            <li><a href="/E/ETicaretHakkimizda/Vizyonumuz">Vizyonumuz</a></li>
+                            <li><a href="#">Sözleşme</a></li>
                         </ul>
                     </li>
                 </ul>
-
-                <ul class="mobile-menu mt-2 mb-2">
-                    <li class="border-0">
-                        <a href="#">
-                            Special Offer!
-                        </a>
-                    </li>
-                    <li class="border-0">
-                        <a href="#" target="_blank">
-                            Buy Porto!
-                            <span class="tip tip-hot">Hot</span>
-                        </a>
-                    </li>
-                </ul>
-
+                
                 <ul class="mobile-menu">
-                    <li><a href="login.html">Hesabım</a></li>
-                    <li><a href="contact.html">İletişim</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="wishlist.html">İstek Listem</a></li>
-                    <li><a href="cart.html">Cart</a></li>
-                    <li><a href="@Url.Action("Giris","ETicaretYetkilendirme",new { Area = "E" })" class="login-link">Giriş Yap</a></li>
-                    <li>
-                        <form action="/E/ETicaretYetkilendirme/Cikis" method="post">
-                            <button type="submit" class="btn btn-link text-muted  font-weight-bold" style="font-size:12px; font-weight:500;">Çıkış Yap</button>
+                    @if (ViewBag.GirisYapildi)
+                    {
+                        <li><a href="#">Hesabım</a></li>
+                        <li><a href="/E/ETicaretKullanici/Profil">Profil</a></li>
+                        <li><a href="#">İstek Listem</a></li>
+                    }
+                    else
+                    {
 
-                        </form>
+                    }
+                    <li>
+                        <a href="#">İletişim</a>
+
+                        <ul>
+                            <li><a href="/E/ETicaretHakkimizda/Iletisim">İletişim</a></li>
+                            <li><a href="/E/ETicaretHakkimizda/Hakkimizda">Hakkımızda</a></li>
+
+                        </ul>
+                    </li>
+                    @if (ViewBag.GirisYapildi)
+                    {
+                        <li>
+                            <form class="m-0" action="/E/ETicaretYetkilendirme/Cikis" method="POST">
+                                <button type="submit" class="btn btn-link text-white p-4" style="font-size:12px; font-weight:500;">ÇIKIŞ YAP</button>
+                            </form>
+
+                        </li>
+
+
+                    }
+                    else
+                    {
+
+                        <li><a href="/E/ETicaretYetkilendirme/Giris" class="login-link">Giriş Yap</a></li>
+
+                        <li>
+                            <a href="/E/ETicaretYetkilendirme/UyeOl">Üye Ol</a>
+                        </li>
+
+                    }
+
+                    <li>
+
                     </li>
                 </ul>
             </nav>
             <!-- End .mobile-nav -->
-
-            <form class="search-wrapper mb-2" action="#">
-                <input type="text" class="form-control mb-0" placeholder="Search..." required />
-                <button class="btn icon-search text-white bg-transparent p-0" type="submit"></button>
-            </form>
-
             <div class="social-icons">
                 <a href="#" class="social-icon social-facebook icon-facebook" target="_blank">
                 </a>
@@ -844,72 +638,7 @@
         </div>
         <!-- End .mobile-menu-wrapper -->
     </div>
-    <!-- End .mobile-menu-container -->
 
-    <div class="sticky-navbar">
-        <div class="sticky-info">
-            <a href="/E/ETicatetSite/Anasayfa">
-                <i class="icon-home"></i>Anasayfa
-            </a>
-        </div>
-        <div class="sticky-info">
-            <a href="/E/ETicatetHakkimizda/Hakkimizda" class="">
-                <i class="icon-bars"></i>Kategoriler
-            </a>
-        </div>
-        <div class="sticky-info">
-            <a href="/E/ETicatetHakkimizda/Iletisim" class="">
-                <i class="icon-wishlist-2"></i>Favorilerim
-            </a>
-        </div>
-        <div class="sticky-info">
-            <a href="login.html" class="">
-                <i class="icon-user-2"></i>Hesabım
-            </a>
-        </div>
-        <div class="sticky-info">
-            <a href="/E/ETicatetSepet/SepetBilgileri" class="">
-                <i class="icon-shopping-cart position-relative">
-                    <span class="cart-count badge-circle">3</span>
-                </i>Sepetim
-            </a>
-        </div>
-       
-       
-
-    </div>
-
-    <div class="newsletter-popup mfp-hide bg-img" id="newsletter-popup-form" style="background: #f1f1f1 no-repeat center/cover url(/Tema/ETicaret/assets/images/newsletter_popup_bg.jpg)">
-        <div class="newsletter-popup-content">
-            <img src="~/Tema/ETicaret/assets/images/logo.png" width="111" height="44" alt="Logo" class="logo-newsletter">
-            <h2>Subscribe to newsletter</h2>
-
-            <p>
-                Subscribe to the Porto mailing list to receive updates on new arrivals, special offers and our promotions.
-            </p>
-
-            <form action="#">
-                <div class="input-group">
-                    <input type="email" class="form-control" id="newsletter-email" name="newsletter-email" placeholder="Your email address" required />
-                    <input type="submit" class="btn btn-primary" value="Submit" />
-                </div>
-            </form>
-            <div class="newsletter-subscribe">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" value="0" id="show-again" />
-                    <label for="show-again" class="custom-control-label">
-                        Don't show this popup again
-                    </label>
-                </div>
-            </div>
-        </div>
-        <!-- End .newsletter-popup-content -->
-
-        <button title="Close (Esc)" type="button" class="mfp-close">
-            ×
-        </button>
-    </div>
-    <!-- End .newsletter-popup -->
 
     <a id="scroll-top" href="#top" title="Top" role="button"><i class="icon-angle-up"></i></a>
 
@@ -941,6 +670,73 @@
                 }
             });
         }
+
+        $(function () {
+
+            const menuSearch = function () {
+                const searchInput = document.getElementById('MobileNavsearchInput');
+                const menuItems = document.querySelectorAll('#menuContainer a'); // Tüm menü bağlantılarını seç
+
+                var menuTemplate = (links) => `
+                    <ul class="mobile-menu">
+                        ${links.map(link => '<li><a href="' + link.href + '">' + link.content + '</a></li>')}
+                    </ul>
+                `;
+
+                searchInput.addEventListener('keyup', function () {
+                    const searchTerm = searchInput.value.toLowerCase();
+                    const links = [];
+                    if (searchTerm.length > 0) {
+                        menuItems.forEach(item => {
+                            const text = item.textContent.toLowerCase(); // Menüdeki metni küçük harfe çevir
+
+                            if ($(item).attr('href') != "#") {
+                                if (text.includes(searchTerm)) {
+                                    links.push({
+                                        href: $(item).attr('href'),
+                                        content: item.textContent
+                                    });
+                                }
+                            }
+                        });
+
+                        if (links.length > 0) {
+                            var template = menuTemplate(links);
+                            $('.search-area').html(template);
+
+                            $('#menuContainer > .mobile-menu').css('display', 'none');
+                        }
+                    } else {
+                        $('.search-area').html('');
+                        $('#menuContainer > .mobile-menu').css('display', 'block');
+                    }
+                });
+                return {}
+            }
+
+            menuSearch();
+
+            var searchQuery = $('input#searchQuery');
+            var searchCategory = $('select#cat');
+            var uriParse = window.location.href.split("?");
+
+            if (uriParse.length > 1) {
+                var parameters = Object.fromEntries((new URLSearchParams(uriParse[1])).entries());
+
+                if (Object.keys(parameters).filter(e => e == "aranacakKelime").length > 0) {
+                    searchQuery.val(parameters["aranacakKelime"]);
+                }
+
+                if (Object.keys(parameters).filter(e => e == "cat").length > 0) {
+                    searchCategory.find('option').each(function () {
+                        if ($(this).val() == parameters["cat"]) {
+                            $(this).attr("selected", true);
+                        }
+                    })
+                }
+            }
+
+        });
     </script>
     <script>var hostUrl = "~/Tema/ETicaret";</script>
     @RenderSection("Scripts", required: false)
