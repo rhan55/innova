@@ -1561,7 +1561,7 @@ Select @ID as ID
                         et.Manufacturer = Convert.ToString(dt.Rows[0]["Uretici"]);
                         et.ProductCode = Convert.ToString(dt.Rows[0]["StokKodu"]);
                         et.ProductDescription = Convert.ToString(dt.Rows[0]["StokAdi"]);
-                        et.ProductionDate = Convert.ToInt32(dt.Rows[0]["UretimYili"]);
+                        et.ProductionDate = Convert.ToString(dt.Rows[0]["UretimYili"]);
                         et.Quantity = Convert.ToInt32(dt.Rows[0]["Miktar"]);
                         result1.Add(et);
                     }
@@ -1601,7 +1601,15 @@ Select @ID as ID
                     item.ConfirmedDeliveryDatetime = item.RequestedDeliveryDatetime;
                 }
                 _sira = "1";
-                List<PirelliNotes> Notes = data["Notes"].ToObject<List<PirelliNotes>>();
+                List<PirelliNotes> Notes = new List<PirelliNotes>();
+                try
+                {
+                    Notes = data["Notes"].ToObject<List<PirelliNotes>>();
+                }
+                catch (Exception err)
+                {
+                    ;
+                }
                 string aciklama1 = "";
                 if (Notes.Count >= 1)
                 {
@@ -1640,6 +1648,7 @@ Select @ID as ID
                     cmd.Parameters.AddWithValue("@SiparisNumarasi", dt.Rows[0]["SIPARIS_NO"]);
                     DataTable dt2 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                     item.ConfirmedDeliveryDatetime = DateTime.Now.ToString("yyyy-MM-dd") + "T03:00:00+03:00";
+                    item.RequestedDeliveryDatetime = Convert.ToDateTime(item.RequestedDeliveryDatetime).ToString("yyyy-MM-dd") + "T03:00:00+03:00";
 
                 }
 
@@ -1653,7 +1662,7 @@ Select @ID as ID
                 DataTable dt3 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
                 _sira = "5";
-
+                //Header.BuyerCode = "2400001349";
                 Header.SalesOrderNumber = Convert.ToString(dt3.Rows[0]["SIPARIS_NO"]);
                 Header.RequestedDatetime = Convert.ToDateTime(dt3.Rows[0]["TARIH"]).ToString("yyyy-MM-dd") + "T03:00:00+03:00";
                 result1.Header = Header;
@@ -1665,7 +1674,7 @@ Select @ID as ID
                 #region Xml
                 if (true)
                 {
-                    string dosyaadi = Guid.NewGuid().ToString() + ".xml";
+                    string dosyaadi = "DESADV"+ Header.PurchaseOrderNumber + ".xml";
                     FileInfo info = new FileInfo(ConfigurationManager.AppSettings["Klasor"] + dosyaadi);
                     _sira = "7";
                     if (!info.Exists)
@@ -2200,7 +2209,7 @@ END
         public string ProductDescription { get; set; }
         public int Quantity { get; set; }
         public string DeliveryDatetime { get; set; }
-        public int ProductionDate { get; set; }
+        public string ProductionDate { get; set; }
     }
 
     #endregion

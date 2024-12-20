@@ -970,7 +970,12 @@ namespace YKPortal.Controllers
             }
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "Insert Into IDLog (Dizin,[Version],ExeTarihi,BilgisayarAdi,LocalIP,DisIP,BaglantiCumlesi,SirketKodu,SirketIsmi,Tarih,LisansKodu) values (@Dizin,@Version,@ExeTarihi,@BilgisayarAdi,@LocalIP,@DisIP,@BaglantiCumlesi,@SirketKodu,@SirketIsmi,GETDATE(),@LisansKodu)";
+                cmd.CommandText = @"
+Insert Into IDLog 
+(Dizin,[Version],ExeTarihi,BilgisayarAdi,LocalIP,DisIP,BaglantiCumlesi,SirketKodu,SirketIsmi,Tarih,LisansKodu) 
+values 
+(@Dizin,@Version,@ExeTarihi,@BilgisayarAdi,@LocalIP,@DisIP,@BaglantiCumlesi,@SirketKodu,@SirketIsmi,GETDATE(),@LisansKodu)
+";
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.Parameters.AddWithValue("@Dizin", _bulunduguDizin);
                 cmd.Parameters.AddWithValue("@Version", _modul);

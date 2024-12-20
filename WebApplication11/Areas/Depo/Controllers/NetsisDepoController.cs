@@ -41,7 +41,7 @@ namespace YKPortal.Areas.Depo.Controllers
 
                 cmd.Parameters.Clear();
                 string _srg = " SELECT ST.STOK_KODU, STOK_ADI +'('+ ISNULL(EK.KULL1S,'') +' '+ ISNULL(EK.KULL2S,'') +' '+ ISNULL(EK.KULL3S,'')+')' as STOK_ADI ";
-                _srg += " , KULL1S, KULL2S, KULL3S ";
+                _srg += " , KULL1S, KULL2S, KULL3S,ST.BARKOD1,ST.BARKOD2,ST.ONCEKI_KOD ";
                 _srg += " FROM " + NetsisDatatable + "..TBLSTSABIT ST WITH (NOLOCK) ";
                 _srg += " INNER JOIN " + NetsisDatatable + "..TBLSTSABITEK EK WITH (NOLOCK) ON ST.STOK_KODU = EK.STOK_KODU ";
                 _srg += " WHERE (ST.STOK_KODU = '" + Belge_Barkod + "' or ST.BARKOD1 = '" + Belge_Barkod + "' or ST.BARKOD2 = '" + Belge_Barkod + "' or ST.BARKOD3 = '" + Belge_Barkod + "' )";
@@ -51,6 +51,17 @@ namespace YKPortal.Areas.Depo.Controllers
                 if (dt.Rows.Count > 0)
                 {
                     ViewBag.dtDetay = dt;
+                    _srg = @" 
+  select TBLSTHAR.SUBE_KODU, TBLSTHAR.DEPO_KODU, ISNULL(SUM(CASE WHEN STHAR_GCKOD = 'G' THEN 1 ELSE - 1 END * STHAR_GCMIK),0)  as Bakiye
+from " + NetsisDatatable + @"..TBLSTHAR WITH(NOlOCK)
+LEFT OUTER JOIN " + NetsisDatatable + @"..TBLSTSABIT  ST WITH(NOlOCK) ON ST.STOK_KODU = TBLSTHAR.STOK_KODU
+WHERE (ST.STOK_KODU = '" + Belge_Barkod + "' or ST.BARKOD1 = '" + Belge_Barkod + "' or ST.BARKOD2 = '" + Belge_Barkod + "' or ST.BARKOD3 = '" + Belge_Barkod + @"' )
+Group by  TBLSTHAR.SUBE_KODU,TBLSTHAR.DEPO_KODU
+ORder by TBLSTHAR.DEPO_KODU";
+                    cmd.CommandText = _srg;
+                    cmd.CommandType = CommandType.Text;
+                    ViewBag.dtBakiyeler = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                    
                 }
                 else
                 {
@@ -62,7 +73,8 @@ namespace YKPortal.Areas.Depo.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult NetsisStokEkBilgi_Guncelle(string Stok_Kodu, string Okutma_Kull1, string Okutma_Kull2, string Okutma_Kull3)
+        public ActionResult NetsisStokEkBilgi_Guncelle(string Stok_Kodu, string Okutma_Kull1, string Okutma_Kull2, string Okutma_Kull3, 
+            string Okutma_Barkod1, string Okutma_Barkod2, string Okutma_OncekiKod)
         {
 
             SqlCommand cmd = new SqlCommand();
@@ -90,6 +102,18 @@ namespace YKPortal.Areas.Depo.Controllers
             cmd.CommandType = CommandType.Text;
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             ViewBag.dtDetay = dt;
+
+            _srg = " UPDATE " + NetsisDatatable + "..TBLSTSABIT ";
+            _srg += " \r\n SET BARKOD1 = '" + Okutma_Barkod1 + "' ";
+            _srg += " \r\n ,   BARKOD2 = '" + Okutma_Barkod2 + "' "; 
+            _srg += " \r\n ,   ONCEKI_KOD = '" + Okutma_OncekiKod + "' "; 
+             _srg += " \r\n WHERE STOK_KODU = '" + Stok_Kodu + "' ";
+
+            // SqlCommand cmd = new SqlCommand();
+            cmd.Parameters.Clear();
+            cmd.CommandText = _srg;
+            cmd.CommandType = CommandType.Text;
+            IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
             return Redirect("~/Depo/NetsisDepo/NetsisStokEkbilgiDuzenle/?Belge_Lokasyon_Barkod=" + "");
 
