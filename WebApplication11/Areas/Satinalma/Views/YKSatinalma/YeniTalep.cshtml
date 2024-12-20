@@ -9,7 +9,7 @@
     int sayi = Model.Rows.Count;
 }
 
-<div class="Conteiner-fluid">
+<div class="Conteiner-fluid p-4">
     <div class="card card-flush w-100 p-6">
         <form action="/Satinalma/YKSatinalma/YeniTalep" method="post">
             <div class="row mb-2">
@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-lg-3">
                     <div class="form-group">
-                        <label class="form-label fs-4 fw-bold text-gray-600 mb-2 pt-2 pe-2">Kategori 1</label>
+                        <label class="form-label fs-6 fw-bold text-gray-600 mb-2 pt-2 pe-2">Kategori 1</label>
                         <select id="Kategori1" class="form-control p-1 rounded-1" name="Kategori1" onchange="SecimKategori1();">
                             <option value="">Kategori Seçimi</option>
                             @foreach (DataRow satir in dtKategori1.Rows)
@@ -91,10 +91,6 @@
 
                 </div>
             </div>
-
-
-
-
         </form>
     </div>
 </div>
@@ -106,7 +102,7 @@
 
 <div style="clear:both;"></div>
 
-<div class="container-fluid mt-6 ">
+<div class="container-fluid">
     <div class="col-lg-12">
         <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
             <!--begin::Post-->
@@ -114,7 +110,7 @@
                 <!--begin::Container-->
                 <div id="kt_content_container p-0" class="container-fluid p-0 m-0">
                     <div class="card card-flush">
-                        <div class="card-header align-items-center py-5 gap-2 gap-md-5 px-4">
+                        <div class="card-header align-items-center gap-2 gap-md-5 px-6">
                             <div class="card-title">
                                 <!--begin::Search-->
                                 <div class="d-flex align-items-center position-relative my-1">
@@ -139,28 +135,28 @@
                                 <div id="kt_datatable_example_export_menu" class="menu menu-sub menu-sub-dropdown menu-column menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-200px p-0" data-kt-menu="true">
                                     <!--begin::Menu item-->
                                     <div class="menu-item p-0">
-                                        <a href="#" class="menu-link px-2 py-0" data-kt-export="copy">
+                                        <a href="#" class="menu-link px-2 py-2" data-kt-export="copy">
                                             Panoya Kopyala
                                         </a>
                                     </div>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
                                     <div class="menu-item p-0">
-                                        <a href="#" class="menu-link px-2 py-0" data-kt-export="excel">
+                                        <a href="#" class="menu-link px-2 py-2" data-kt-export="excel">
                                             Excel olarak dışarı aktar
                                         </a>
                                     </div>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
                                     <div class="menu-item p-0">
-                                        <a href="#" class="menu-link px-2 py-0" data-kt-export="csv">
+                                        <a href="#" class="menu-link px-2 py-2" data-kt-export="csv">
                                             CSV olarak dışarı aktar
                                         </a>
                                     </div>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
                                     <div class="menu-item p-0">
-                                        <a href="#" class="menu-link px-2 py-0" data-kt-export="pdf">
+                                        <a href="#" class="menu-link px-2 py-2" data-kt-export="pdf">
                                             PDF olarak dışarı aktar
                                         </a>
                                     </div>
@@ -175,7 +171,7 @@
                             </div>
                         </div>
 
-                        <div class="px-4 mt-4 scroll-x  w-100">
+                        <div class="px-4 scroll-x  w-100">
                             <div class=" w-100">
                                 @if (Model != null)
                                 {
@@ -183,13 +179,13 @@
                                         <thead>
                                             <!--begin::Table row-->
                                             <tr class="text-start" style="font-size:15px;">
-                                                <th class="min-w-125px text-gray-600"><strong>Kategori1</strong></th>
-                                                <th class="min-w-125px text-gray-600"><strong>Kod </strong></th>
-                                                <th class="min-w-125px text-gray-600"><strong>İsim (@(sayi) kayıt mevcut.)</strong></th>
-                                                <th class="min-w-125px text-gray-600"><strong>Stok</strong></th>
-                                                <th class="min-w-125px text-gray-600"><strong>Talep Miktar</strong></th>
-                                                <th class="min-w-125px text-gray-600"><strong>Açıklama</strong></th>
-                                                <th class=" text-gray-600 d-none no-export"><strong>Dosya</strong></th>
+                                                <th class="min-w-125px text-gray-600"><strong>KATEGORİ 1</strong></th>
+                                                <th class="min-w-125px text-gray-600"><strong>KOD </strong></th>
+                                                <th class="min-w-125px text-gray-600"><strong>İSİM (@(sayi) kayıt mevcut.)</strong></th>
+                                                <th class="min-w-125px text-gray-600"><strong>STOK</strong></th>
+                                                <th class="min-w-125px text-gray-600"><strong>TALEP MİKTAR</strong></th>
+                                                <th class="min-w-125px text-gray-600"><strong>AÇIKLAMA</strong></th>
+                                                <th class=" text-gray-600 d-none no-export"><strong>DOSYA</strong></th>
 
 
                                             </tr>
@@ -494,6 +490,7 @@
                         columnDefs: [
                             {
                                 targets: [0, 6],
+                                visible: false,
                                 className: 'noVis'
                             },
                         ]

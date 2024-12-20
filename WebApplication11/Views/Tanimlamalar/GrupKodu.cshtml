@@ -31,28 +31,28 @@
                     <div id="kt_datatable_example_export_menu" class="menu menu-sub menu-sub-dropdown menu-column menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-200px p-0" data-kt-menu="true">
                         <!--begin::Menu item-->
                         <div class="menu-item p-0">
-                            <a href="#" class="menu-link py-0 px-2" data-kt-export="copy">
+                            <a href="#" class="menu-link py-2 px-2" data-kt-export="copy">
                                 Panoya Kopyala
                             </a>
                         </div>
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
                         <div class="menu-item p-0">
-                            <a href="#" class="menu-link py-0 px-2" data-kt-export="excel">
+                            <a href="#" class="menu-link py-2 px-2" data-kt-export="excel">
                                 Excel olarak dışarı aktar
                             </a>
                         </div>
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
                         <div class="menu-item p-0">
-                            <a href="#" class="menu-link py-0 px-2" data-kt-export="csv">
+                            <a href="#" class="menu-link py-2 px-2" data-kt-export="csv">
                                 CSV olarak dışarı aktar
                             </a>
                         </div>
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
                         <div class="menu-item p-0">
-                            <a href="#" class="menu-link py-0 px-2" data-kt-export="pdf">
+                            <a href="#" class="menu-link py-2 px-2" data-kt-export="pdf">
                                 PDF olarak dışarı aktar
                             </a>
                         </div>
@@ -107,7 +107,7 @@
                                         @if (Model.Duzenle)
                                         {
                                             <div class="menu-item p-0">
-                                                <a href="/Tanimlamalar/Duzenle/?grupKodu=@Request.QueryString["grupKodu"]&id=@(Convert.ToString(Model.GrupKodlari.Rows[i]["ID"]))" class="menu-link rounded-0 py-0 px-2">Düzenle</a>
+                                                <a href="/Tanimlamalar/Duzenle/?grupKodu=@Request.QueryString["grupKodu"]&id=@(Convert.ToString(Model.GrupKodlari.Rows[i]["ID"]))" class="menu-link rounded-0 py-2 px-2">Düzenle</a>
                                             </div>
                                         }
                                         <!--end::Menu item-->
@@ -115,7 +115,7 @@
                                         @if (Model.Sil)
                                         {
                                             <div class="menu-item p-0">
-                                                <button type="button" data-id="@(Convert.ToString(Model.GrupKodlari.Rows[i]["ID"]))" data-grupKodu="@(Convert.ToString(Model.GrupKodlari.Rows[i]["Kod"]))" class="btn btn-sm w-100 menu-link rounded-0 py-0 px-2 btn-sil" data-bs-toggle="modal" data-bs-target="#grup-kodu-silme">
+                                                <button type="button" data-id="@(Convert.ToString(Model.GrupKodlari.Rows[i]["ID"]))" data-grupKodu="@(Convert.ToString(Model.GrupKodlari.Rows[i]["Kod"]))" class="btn btn-sm w-100 menu-link rounded-0 py-2 px-2 btn-sil" data-bs-toggle="modal" data-bs-target="#grup-kodu-silme">
                                                     Sil
                                                 </button>
 

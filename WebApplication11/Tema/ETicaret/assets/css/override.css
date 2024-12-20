@@ -87,3 +87,7 @@
     box-shadow: 0 0 5px #a4cfec73; /* Işıma efekti ekler */
     transition: all 0.3s ease; /* Geçiş animasyonu ekler */
 }
+.text-override-grey {
+    color: #a3a3a3 !important;
+    font-size: 14px !important;
+}

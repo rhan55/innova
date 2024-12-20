@@ -209,7 +209,33 @@
                                     <!-- End .dropdown-cart-header -->
 
                                     <div class="dropdown-cart-products">
-                                        Buraya Sepet Bilgileri döngüsü gelecek
+                                        @foreach (var stok in sepetBilgileri)
+                                        {
+                                            <div class="product">
+                                                <div class="product-details">
+                                                    <h4 class="product-title">
+                                                        <a href="">@stok.Isim</a>
+                                                    </h4>
+
+                                                    <span class="cart-product-info">
+                                                        <span class="cart-product-qty">@stok.Miktar</span> × @stok.Fiyat
+                                                    </span>
+                                                </div>
+                                                <!-- End .product-details -->
+
+                                                <figure class="product-image-container">
+                                                    <a href="product.html" class="product-image">
+                                                        <img src="@stok.Resim1" alt="product" width="80" height="80">
+                                                    </a>
+
+                                                    <a href="#" class="btn-remove" title="Remove Product"><span>×</span></a>
+                                                </figure>
+                                            </div>
+                                            <!-- End .product -->
+
+                                        }
+
+
                                         <div class="dropdown-cart-total">
                                             <span>SUBTOTAL:</span>
 
@@ -427,12 +453,12 @@
                             <div class="widget widget-newsletter">
                                 <h4 class="widget-title">Bültene abone olun</h4>
                                 <p>
-                                    Etkinlikler, indirimler ve tekliflerle ilgili en son bilgileri alın. Bültene kaydolun:
+                                    Etkinlikler, indirimler ve tekliflerle ilgili en son bilgileri alın. Bültene Kayıt Olun:
                                 </p>
                                 <form action="#" class="mb-0">
                                     <input type="email" class="form-control m-b-3" placeholder="Email adresiniz" required>
 
-                                    <input type="submit" class="btn btn-primary shadow-none" value="Bültene Kaydol">
+                                    <input type="submit" class="btn btn-primary shadow-none" value="Bültene Kayıt Ol">
                                 </form>
                             </div>
                             <!-- End .widget -->
