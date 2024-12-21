@@ -1,5 +1,4 @@
-﻿
-@using System.Data
+﻿@using System.Data
 @{
     ViewBag.Title = "Depo Otomasyonu";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -65,6 +64,32 @@
                     <input type="text" name="Okutma_Kull3" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["KULL3S"]) : "")" class="form-control" style="font-size:10px;width:100%;" />
                 </td>
             </tr>
+
+            <tr>
+                <td>
+                    <label> Barkod </label>
+                </td>
+                <td colspan="2">
+                    <input type="text" name="Okutma_Barkod1" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["BARKOD1"]) : "")" class="form-control" style="font-size:10px;width:100%;" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label> Üretim Tarihi</label>
+                </td>
+                <td colspan="2">
+                    <input type="text" name="Okutma_Barkod2" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["BARKOD2"]) : "")" class="form-control" style="font-size:10px;width:100%;" />
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label> Raf</label>
+                </td>
+                <td colspan="2">
+                    <input type="text" name="Okutma_OncekiKod" value="@(dt.Rows.Count > 0 ?  Convert.ToString( dt.Rows[0]["ONCEKI_KOD"]) : "")" class="form-control" style="font-size:10px;width:100%;" />
+                </td>
+            </tr>
             <tr>
                 <td colspan="3">
                     <hr />
@@ -84,7 +109,24 @@
                 </td>
             </tr>
         </table>
-
+        <table class="table">
+            <tr>
+                <td>Şube</td>
+                <td>Depo</td>
+                <td>Bakiye</td>
+            </tr>
+            @if (ViewBag.dtBakiyeler != null)
+            {
+                foreach (DataRow dr in ((DataTable)ViewBag.dtBakiyeler).Rows)
+                {
+        <tr>
+            <td>@dr["SUBE_KODU"]</td>
+            <td>@dr["DEPO_KODU"]</td>
+            <td>@String.Format("{0:N2}",Convert.ToDecimal(dr["Bakiye"]))</td>
+        </tr>
+                }
+            }
+        </table>
     </form>
 
     @section Scripts {
@@ -105,7 +147,7 @@
                         var KayitCalisacak = false;
                         for (var i = 0; i < data3.Data.length; i++) {
                             deger += "" + data3.Data[i].Depo + " nolu depo bakiyesi : " + data3.Data[i].Bakiye + "</br>";
-                           
+
                         }
                         $('#Bilgilendirme').html(deger);
                     },
