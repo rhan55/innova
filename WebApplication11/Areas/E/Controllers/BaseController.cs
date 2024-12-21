@@ -101,7 +101,7 @@ namespace YKPortal.Areas.E.Controllers
 
         protected List<ETicaretKategorilerDto> KategorileriGetir()
         {
-
+           
 
             SqlCommand cmd = new SqlCommand
             {
