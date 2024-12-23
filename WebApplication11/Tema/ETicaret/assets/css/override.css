@@ -91,3 +91,10 @@
     color: #a3a3a3 !important;
     font-size: 14px !important;
 }
+.search-categories-option-area {
+    padding: 14px !important;
+    border-radius: 16px !important;
+    border: 0 !important;
+    background-color: #ffffff !important;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px !important;
+}

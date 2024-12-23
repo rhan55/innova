@@ -1,10 +1,13 @@
 ﻿@*@model List<YKPortal.Areas.E.Models.Dto.KategorilerDto>*@
+@using YKPortal.Extensions
+
 @{
     var sepetBilgileri = ViewBag.SepetBilgileri as List<YKPortal.Areas.E.Models.Dto.ETicaretSepetDto.ETicaretSepetListeSonucDto>;
     if (sepetBilgileri == null)
     {
         sepetBilgileri = new List<YKPortal.Areas.E.Models.Dto.ETicaretSepetDto.ETicaretSepetListeSonucDto>();
     }
+    Tarayici tarayici = Html.TasayiciBilgisiGetir(Request.UserAgent);
 }
 
 <!DOCTYPE html>
@@ -148,20 +151,23 @@
                             <form action="/E/ETicaretStok/Stoklar" method="get">
                                 <div class="header-search-wrapper">
                                     <input type="search" class="form-control" name="aranacakKelime" id="searchQuery" placeholder="Ürün ara..." required>
-                                    <div class="select-custom">
+                                    <div class="select-custom ">
                                         @if (ViewBag.Kategoriler != null && ViewBag.Kategoriler.Count > 0)
                                         {
                                             <select class="p-1" id="cat" name="cat">
+
                                                 <option value="">Tüm Kategoriler</option>
                                                 @foreach (var kategori in ViewBag.Kategoriler)
                                                 {
                                                     <option value="@kategori.Kategori1">@kategori.Kategori1</option>
                                                     if (!string.IsNullOrEmpty(kategori.Kategori2))
                                                     {
-                                                        <option value="@kategori.Kategori2">@kategori.Kategori2</option>
+                                                        <option class="search-categories-option-area" value="@kategori.Kategori2">@kategori.Kategori2</option>
                                                     }
                                                 }
                                             </select>
+
+
                                         }
                                         else
                                         {
@@ -195,8 +201,7 @@
                                 <i class="minicart-icon"></i>
                                 @if (sepetBilgileri != null && sepetBilgileri.Count > 0)
                                 {
-                                    <span class="cart-count badge-circle">@sepetBilgileri.Count</span>
-                                }
+                                    <span data-id="BildirimEkle" class="cart-count badge-circle position-absolute top-0 start-50 hidden">@sepetBilgileri.Count</span>}
                             </a>
 
                             <div class="cart-overlay"></div>
@@ -272,83 +277,59 @@
                     <!-- MegaMenu Kullanımı -->
                     <nav class="main-nav w-100">
                         <ul class="menu">
-                            <li>
-                                <a href="#">Kategoriler</a>
-                                <div class="megamenu megamenu-fixed-width megamenu-3cols">
-                                    <div class="row">
-                                        @if (ViewBag.Kategoriler != null)
+                            @if (ViewBag.Kategoriler != null)
+                            {
+                                var kategoriler = ViewBag.Kategoriler as List<YKPortal.Areas.E.Models.Dto.ETicaretKategorilerDto>;
+                                if (kategoriler != null && kategoriler.Any())
+                                {
+                                    foreach (var kategori in kategoriler)
+                                    {
+                                        if (!string.IsNullOrEmpty(kategori.Kategori1))
                                         {
-                                            var kategoriler = ViewBag.Kategoriler as List<YKPortal.Areas.E.Models.Dto.ETicaretKategorilerDto>;
-                                            if (kategoriler != null && kategoriler.Any())
-                                            {
-                                                foreach (var kategori in kategoriler)
-                                                {
-                                                    <div class="col-lg-4">
-                                                        <ul class="submenu">
-                                                            @if (!string.IsNullOrEmpty(kategori.Kategori1))
-                                                            {
-                                                                <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.Kategori1">@kategori.Kategori1</a></li>
-                                                            }
-                                                            @if (!string.IsNullOrEmpty(kategori.Kategori2))
-                                                            {
-                                                                <li><a href="/E/ETicaretKategori/KategoriDetay?kategori=@kategori.Kategori2">@kategori.Kategori2</a></li>
-                                                            }
-                                                            @if (!string.IsNullOrEmpty(kategori.Kategori3))
-                                                            {
-                                                                <li><a href="/E/ETicaretKategori/KategoriDetay?kategori=@kategori.Kategori3">@kategori.Kategori3</a></li>
-                                                            }
-                                                            @if (!string.IsNullOrEmpty(kategori.Kategori4))
-                                                            {
-                                                                <li><a href="/E/ETicaretKategori/KategoriDetay?kategori=@kategori.Kategori4">@kategori.Kategori4</a></li>
-                                                            }
-                                                            @if (!string.IsNullOrEmpty(kategori.Kategori5))
-                                                            {
-                                                                <li><a href="/E/ETicaretKategori/KategoriDetay?kategori=@kategori.Kategori5">@kategori.Kategori5</a></li>
-                                                            }
-                                                            @if (!string.IsNullOrEmpty(kategori.Kategori6))
-                                                            {
-                                                                <li><a href="/E/ETicaretKategori/KategoriDetay?kategori=@kategori.Kategori6">@kategori.Kategori6</a></li>
-                                                            }
 
-                                                        </ul>
+                                            <li>
+                                                <a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.Kategori1">@kategori.Kategori1</a>
+                                                <div class="megamenu megamenu-fixed-width">
+                                                    <div>
+
+                                                        <div class="">
+                                                            <ul class="submenu">
+
+                                                                @if (!string.IsNullOrEmpty(kategori.Kategori2))
+                                                                {
+                                                                    <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.Kategori1&Kategori2=@kategori.Kategori2">@kategori.Kategori2</a></li>
+                                                                }
+                                                                @if (!string.IsNullOrEmpty(kategori.Kategori3))
+                                                                {
+                                                                    <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.Kategori1&Kategori3=@kategori.Kategori3">@kategori.Kategori3</a></li>
+                                                                }
+                                                                @if (!string.IsNullOrEmpty(kategori.Kategori4))
+                                                                {
+                                                                    <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.Kategori1&Kategori4=@kategori.Kategori4">@kategori.Kategori4</a></li>
+                                                                }
+                                                                @if (!string.IsNullOrEmpty(kategori.Kategori5))
+                                                                {
+                                                                    <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.Kategori1&Kategori5=@kategori.Kategori5">@kategori.Kategori5</a></li>
+                                                                }
+                                                                @if (!string.IsNullOrEmpty(kategori.Kategori6))
+                                                                {
+                                                                    <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.Kategori1&Kategori6=@kategori.Kategori6">@kategori.Kategori6</a></li>
+                                                                }
+
+                                                            </ul>
+                                                        </div>
+
+
                                                     </div>
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <p>Kategori Yok</p>
-                                            }
+
+                                                </div>
+                                            </li>
+
                                         }
+                                    }
+                                }
+                            }
 
-                                    </div>
-
-                                </div>
-                            </li>
-                            <li>
-                                <a href="#">SAYFALAR</a>
-                                <div class="megamenu megamenu-fixed-width">
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <ul class="submenu">
-                                                <li><a href="/E/ETicaretSite/Anasayfa">Ana Sayfa</a></li>
-                                                <li><a href="/E/ETicaretHakkimizda/Hakkimizda">Hakkımızda</a></li>
-                                                <li><a href="/E/ETicaretHakkimizda/Iletisim">İletişim</a></li>
-                                                <li><a href="/E/ETicaretBilgiler/GenelBilgiler">Genel Bilgiler</a></li>
-                                                <li><a href="/E/ETicaretHakkimizda/Misyonumuz">Misyonumuz</a></li>
-                                                <li><a href="/E/ETicaretHakkimizda/Vizyonumuz">Vizyonumuz</a></li>
-                                                <li><a href="#">Sözleşme</a></li>
-                                                <li><a href="/E/ETicaretStok/Stoklar">Kategoriler</a></li>
-                                                <li><a href="/E/ETicaretKullanici/Profil">Profil</a></li>
-                                                <li><a href="#">Sepet</a></li>
-                                                <li><a href="#">Siparişler</a></li>
-                                            </ul>
-                                        </div>
-                                        <!-- End .col-lg-4 -->
-                                    </div>
-                                    <!-- End .row -->
-                                </div>
-                                <!-- End .megamenu -->
-                            </li>
                         </ul>
                     </nav>
                 </div>
@@ -360,8 +341,19 @@
         <!-- End .header -->
         <div class="container-fluid shadow-sm p-2 bg-white rounded ">
             <ol class="breadcrumb  container">
-                <li class="breadcrumb-item "><a href="/E/ETicaretSite/Anasayfa"><i class="fas fa-home "></i></a></li>
-                <li class="breadcrumb-item active " aria-current="page">@ViewBag.Title</li>
+
+                @if (ViewBag.Title == "Anasayfa")
+                {
+                    <li class="breadcrumb-item "><a href="/E/ETicaretSite/Anasayfa"><i class="fas fa-home "></i></a></li>
+                    <li class="breadcrumb-item active " aria-current="page">@ViewBag.Title</li>
+
+                }
+                else
+                {
+
+                }
+
+
             </ol>
         </div>
         <div class="container-fluid">
@@ -512,7 +504,7 @@
             <span class="mobile-menu-close"><i class="fa fa-times"></i></span>
             <nav class="mobile-nav" id="menuContainer">
                 <form class="search-wrapper mb-2" action="#">
-                    <input type="text" id="MobileNavsearchInput"  class="form-control mb-0" placeholder="Arayın..." required />
+                    <input type="text" id="MobileNavsearchInput" class="form-control mb-0" placeholder="Arayın..." required />
                     <button class="btn icon-search text-white bg-transparent p-0" type="submit"></button>
                 </form>
                 <div class="search-area"></div>
@@ -562,7 +554,7 @@
                             {
                                 <p>Kategori Yok</p>
                             }
-                        }        
+                        }
                     </li>
                     <li>
                         <a href="#">SAYFALAR</a>
@@ -578,7 +570,7 @@
                         </ul>
                     </li>
                 </ul>
-                
+
                 <ul class="mobile-menu">
                     @if (ViewBag.GirisYapildi)
                     {
@@ -678,10 +670,10 @@
                 const menuItems = document.querySelectorAll('#menuContainer a'); // Tüm menü bağlantılarını seç
 
                 var menuTemplate = (links) => `
-                    <ul class="mobile-menu">
-                        ${links.map(link => '<li><a href="' + link.href + '">' + link.content + '</a></li>')}
-                    </ul>
-                `;
+                                    <ul class="mobile-menu">
+                                        ${links.map(link => '<li><a href="' + link.href + '">' + link.content + '</a></li>')}
+                                    </ul>
+                                `;
 
                 searchInput.addEventListener('keyup', function () {
                     const searchTerm = searchInput.value.toLowerCase();
@@ -737,6 +729,77 @@
             }
 
         });
+
+        //SIGNAL R-START
+
+     const anaSayfaBilgileri = {
+         YeniOkunmamisMesaj: 0
+     }
+
+     function AnaSayfaBilgileriGetir() {
+         $.ajax({
+             url: "/YK/AnaSayfaBilgileriGetir",
+             method: 'POST',
+             data: JSON.stringify({}),
+             success: (response) => {
+                 if (response.Data) {
+                     anaSayfaBilgileri.BildirimEkle = response.Data.BildirimEkle;
+                     YeniOkunmamisMesajEkle();
+                 }
+             },
+             error: (err) => {
+                 console.log(err)
+             }
+         })
+     }
+
+     function BildirimEkle(ekle = null) {
+         if (ekle == null) {
+             if (anaSayfaBilgileri.BildirimEkle > 0) {
+                 $('[data-id="BildirimEkle"]').html(anaSayfaBilgileri.BildirimEkle);
+                 $('[data-id="BildirimEkle"]').removeClass('hidden');
+             } else {
+                 $('[data-id="BildirimEkle"]').addClass('hidden');
+             }
+         } else if (ekle === "") {
+             var suAnkiMesajSayisi = Number($('[data-id="BildirimEkle"]').html());
+
+             $('[data-id="BildirimEkle"]').html(suAnkiMesajSayisi + 1);
+             $('[data-id="BildirimEkle"]').removeClass('hidden');
+         }
+
+     }
+
+     function bildirimHubBaglantisi() {
+         var bildirimHub = $.connection.bildirimHub;
+
+         bildirimHub.client.receiveNotification = function (bosIcerik) {
+
+             BildirimEkle("");
+         };
+
+         const hubOptions = [];
+
+        @if (tarayici == Tarayici.Firefox)
+        {
+            @Html.Raw("hubOptions.push('webSockets', 'serverSentEvents');"); // Firefox için
+        }
+        else
+        {
+            @Html.Raw("hubOptions.push('webSockets','serverSentEvents', 'longPolling');"); // Diğer tarayıcılar için
+        }
+
+
+
+         $.connection.hub.start({ transport: hubOptions, connectionTimeout: 20000 }).done(function () {
+             console.log('Connected to SignalR hub');
+         }).fail(function (error) {
+             console.log('Could not connect: ' + error);
+         })
+        }
+        //SIGNAL R-END
+
+
     </script>
     <script>var hostUrl = "~/Tema/ETicaret";</script>
     @RenderSection("Scripts", required: false)

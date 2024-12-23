@@ -6617,6 +6617,7 @@
     <Folder Include="Areas\Entegrasyon\Data\" />
     <Folder Include="Areas\Entegrasyon\Views\Shared\" />
     <Folder Include="Areas\E\Data\" />
+    <Folder Include="Areas\E\Hubs\" />
     <Folder Include="Areas\E\Views\Base\" />
     <Folder Include="Areas\E\Views\NewFolder1\" />
     <Folder Include="Areas\Personel\Controllers\" />

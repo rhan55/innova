@@ -98,6 +98,10 @@ namespace YKPortal.Areas.E.Controllers
             return !User.Identity.IsAuthenticated && yetkiGerekenSayfalar.Contains(controller + "/" + action);
         }
 
+ 
+
+
+
 
         protected List<ETicaretKategorilerDto> KategorileriGetir()
         {
@@ -108,8 +112,7 @@ namespace YKPortal.Areas.E.Controllers
                 CommandText = "p_ETicaret_Kategoriler",
                 CommandType = CommandType.StoredProcedure
             };
-            cmd.Parameters.AddWithValue("@UyelikID", UyelikIDGetir());
-            cmd.Parameters.AddWithValue("@CariId", Kullanici.ID);
+
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
@@ -136,9 +139,7 @@ namespace YKPortal.Areas.E.Controllers
             {
                 CommandText = "[p_ETicaret_Stok]",
                 CommandType = CommandType.StoredProcedure
-            };
-            cmd.Parameters.AddWithValue("@UyelikID", UyelikIDGetir());
-            cmd.Parameters.AddWithValue("@CariId", Kullanici.ID);
+            };  
             cmd.Parameters.AddWithValue("@StokID", stokSorguDto.StokID);
 
 
@@ -148,23 +149,22 @@ namespace YKPortal.Areas.E.Controllers
             {
                 return new ETicaretStokDto.ETicaretStokSonucDto
                 {
-                    StokID = dt.Rows[0]["StokID"].ToString(),
-                    UyelikID = dt.Rows[0]["UyelikID"].ToString(),
-                    Kod = dt.Rows[0]["Kod"].ToString(),
-                    Isim = dt.Rows[0]["Isim"].ToString(),
-                    Aciklama = dt.Rows[0]["Aciklama"].ToString(),
-                    Barkod = dt.Rows[0]["Barkod"].ToString(),
-                    OlcuBirimi = dt.Rows[0]["OlcuBirimi"].ToString(),
-                    KdvSatis = dt.Rows[0]["KdvSatis"].ToString(),
-                    IskontoSatis1 = Convert.ToDecimal(dt.Rows[0]["IskontoSatis1"]),
-                    Marka = dt.Rows[0]["Marka"].ToString(),
-                    Model = dt.Rows[0]["Model"].ToString(),
-                    Renk = dt.Rows[0]["Renk"].ToString(),
-                    Beden = dt.Rows[0]["Beden"].ToString(),
-                    Kalite = dt.Rows[0]["Kalite"].ToString(),
-                    UreticiFirma = dt.Rows[0]["UreticiFirma"].ToString(),
-                    Fiyat = Convert.ToDecimal(dt.Rows[0]["Fiyat"]),
-                    Resim1 = dt.Rows[0]["Resim1"].ToString()
+                    StokID = dt.Rows[0]["StokID"] != DBNull.Value ? dt.Rows[0]["StokID"].ToString() : string.Empty,
+                    Kod = dt.Rows[0]["Kod"] != DBNull.Value ? dt.Rows[0]["Kod"].ToString() : string.Empty,
+                    Isim = dt.Rows[0]["Isim"] != DBNull.Value ? dt.Rows[0]["Isim"].ToString() : string.Empty,
+                    Aciklama = dt.Rows[0]["Aciklama"] != DBNull.Value ? dt.Rows[0]["Aciklama"].ToString() : string.Empty,
+                    Barkod = dt.Rows[0]["Barkod"] != DBNull.Value ? dt.Rows[0]["Barkod"].ToString() : string.Empty,
+                    OlcuBirimi = dt.Rows[0]["OlcuBirimi"] != DBNull.Value ? dt.Rows[0]["OlcuBirimi"].ToString() : string.Empty,
+                    KdvSatis = dt.Rows[0]["KdvSatis"] != DBNull.Value ? dt.Rows[0]["KdvSatis"].ToString() : string.Empty,
+                    IskontoSatis1 = dt.Rows[0]["IskontoSatis1"] != DBNull.Value ? Convert.ToDecimal(dt.Rows[0]["IskontoSatis1"]) : 0m,
+                    Marka = dt.Rows[0]["Marka"] != DBNull.Value ? dt.Rows[0]["Marka"].ToString() : string.Empty,
+                    Model = dt.Rows[0]["Model"] != DBNull.Value ? dt.Rows[0]["Model"].ToString() : string.Empty,
+                    Renk = dt.Rows[0]["Renk"] != DBNull.Value ? dt.Rows[0]["Renk"].ToString() : string.Empty,
+                    Beden = dt.Rows[0]["Beden"] != DBNull.Value ? dt.Rows[0]["Beden"].ToString() : string.Empty,
+                    Kalite = dt.Rows[0]["Kalite"] != DBNull.Value ? dt.Rows[0]["Kalite"].ToString() : string.Empty,
+                    UreticiFirma = dt.Rows[0]["UreticiFirma"] != DBNull.Value ? dt.Rows[0]["UreticiFirma"].ToString() : string.Empty,
+                    Fiyat = dt.Rows[0]["Fiyat"] != DBNull.Value ? Convert.ToDecimal(dt.Rows[0]["Fiyat"]) : 0m,
+                    Resim1 = dt.Rows[0]["Resim1"] != DBNull.Value ? dt.Rows[0]["Resim1"].ToString() : string.Empty
                 };
             }
 
@@ -178,8 +178,7 @@ namespace YKPortal.Areas.E.Controllers
                 CommandText = "p_ETicaret_Stoklar",
                 CommandType = CommandType.StoredProcedure
             };
-            cmd.Parameters.AddWithValue("@UyelikID", UyelikIDGetir());
-            cmd.Parameters.AddWithValue("@CariId", Kullanici.ID);
+
             cmd.Parameters.AddWithValue("@Kategori1", stokSorguDto.Kategori1);
             cmd.Parameters.AddWithValue("@Kategori2", stokSorguDto.Kategori2);
             cmd.Parameters.AddWithValue("@Kategori3", stokSorguDto.Kategori3);
@@ -197,24 +196,23 @@ namespace YKPortal.Areas.E.Controllers
             {
                 stoklar.Add(new ETicaretStokDto.ETicaretStokSonucDto
                 {
-                    StokID = row["StokID"].ToString(),
-                    UyelikID = row["UyelikID"].ToString(),
-                    Kod = row["Kod"].ToString(),
-                    Isim = row["Isim"].ToString(),
-                    Aciklama = row["Aciklama"].ToString(),
-                    Barkod = row["Barkod"].ToString(),
-                    OlcuBirimi = row["OlcuBirimi"].ToString(),
-                    KdvSatis = row["KdvSatis"].ToString(),
-                    IskontoSatis1 = Convert.ToDecimal(row["IskontoSatis1"]),
-                    Marka = row["Marka"].ToString(),
-                    Model = row["Model"].ToString(),
-                    Renk = row["Renk"].ToString(),
-                    Beden = row["Beden"].ToString(),
-                    Kalite = row["Kalite"].ToString(),
-                    UreticiFirma = row["UreticiFirma"].ToString(),
-                    Resim1 = row["Resim1"].ToString(),
-                    Fiyat = Convert.ToDecimal(row["Fiyat"]),
-                   
+                    StokID = row["StokID"] != DBNull.Value ? row["StokID"].ToString() : null,
+                    UyelikID = row["UyelikID"] != DBNull.Value ? row["UyelikID"].ToString() : null,
+                    Kod = row["Kod"] != DBNull.Value ? row["Kod"].ToString() : null,
+                    Isim = row["Isim"] != DBNull.Value ? row["Isim"].ToString() : null,
+                    Aciklama = row["Aciklama"] != DBNull.Value ? row["Aciklama"].ToString() : string.Empty,
+                    Barkod = row["Barkod"] != DBNull.Value ? row["Barkod"].ToString() : string.Empty,
+                    OlcuBirimi = row["OlcuBirimi"] != DBNull.Value ? row["OlcuBirimi"].ToString() : string.Empty,
+                    KdvSatis = row["KdvSatis"] != DBNull.Value ? row["KdvSatis"].ToString() : null,
+                    IskontoSatis1 = row["IskontoSatis1"] != DBNull.Value ? Convert.ToDecimal(row["IskontoSatis1"]) : 0,
+                    Marka = row["Marka"] != DBNull.Value ? row["Marka"].ToString() : string.Empty,
+                    Model = row["Model"] != DBNull.Value ? row["Model"].ToString() : string.Empty,
+                    Renk = row["Renk"] != DBNull.Value ? row["Renk"].ToString() : string.Empty,
+                    Beden = row["Beden"] != DBNull.Value ? row["Beden"].ToString() : string.Empty,
+                    Kalite = row["Kalite"] != DBNull.Value ? row["Kalite"].ToString() : string.Empty,
+                    UreticiFirma = row["UreticiFirma"] != DBNull.Value ? row["UreticiFirma"].ToString() : string.Empty,
+                    Fiyat = row["Fiyat"] != DBNull.Value ? Convert.ToDecimal(row["Fiyat"]) : 0,
+                    Resim1 = row["Resim1"] != DBNull.Value ? row["Resim1"].ToString() : string.Empty,
                 });
             }
 
@@ -269,8 +267,9 @@ namespace YKPortal.Areas.E.Controllers
                     CommandText = "[p_ETicaret_SepetEkle]",
                     CommandType = CommandType.StoredProcedure
                 };
+               
                 cmd.Parameters.AddWithValue("@UyelikID", UyelikIDGetir());
-                cmd.Parameters.AddWithValue("@CariId", Kullanici.ID);
+                cmd.Parameters.AddWithValue("@CariID", Kullanici.ID);
                 cmd.Parameters.AddWithValue("@StokID", eTicaretSepetEkleDto.StokID);
                 cmd.Parameters.AddWithValue("@OlcuBirimi", eTicaretSepetEkleDto.OlcuBirimi);
                 cmd.Parameters.AddWithValue("@Miktar", eTicaretSepetEkleDto.Miktar);
@@ -286,6 +285,7 @@ namespace YKPortal.Areas.E.Controllers
             }
         }
 
+      
         #region Cookie İşlemleri
 
 
