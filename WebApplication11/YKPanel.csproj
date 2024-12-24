@@ -262,10 +262,12 @@
     <Compile Include="Areas\E\EAreaRegistration.cs" />
     <Compile Include="Areas\E\Controllers\ETicaretSiteController.cs" />
     <Compile Include="Areas\Entegrasyon\Controllers\FordAktarim.cs" />
+    <Compile Include="Areas\E\ETicaretHubs\BildirimHub.cs" />
     <Compile Include="Areas\E\Models\Dto\ETicaretKategorilerDto.cs" />
     <Compile Include="Areas\E\Models\Dto\ETicaretKategorilerViewModel.cs" />
     <Compile Include="Areas\E\Models\Dto\ETicaretSepetDto.cs" />
     <Compile Include="Areas\E\Models\Dto\ETicaretStokDto.cs" />
+    <Compile Include="Areas\E\Startup.cs" />
     <Compile Include="Areas\Ziyaret\ZiyaretAreaRegistration.cs" />
     <Compile Include="Areas\Ziyaret\Controllers\ZiyaretController.cs" />
     <Compile Include="Areas\Crm2\Crm2AreaRegistration.cs" />
@@ -6617,9 +6619,10 @@
     <Folder Include="Areas\Entegrasyon\Data\" />
     <Folder Include="Areas\Entegrasyon\Views\Shared\" />
     <Folder Include="Areas\E\Data\" />
-    <Folder Include="Areas\E\Hubs\" />
     <Folder Include="Areas\E\Views\Base\" />
+    <Folder Include="Areas\E\Views\BildirimHub\" />
     <Folder Include="Areas\E\Views\NewFolder1\" />
+    <Folder Include="Areas\E\Views\Startup\" />
     <Folder Include="Areas\Personel\Controllers\" />
     <Folder Include="Areas\Personel\Views\Puantaj\" />
     <Folder Include="Areas\Ziyaret\Data\" />

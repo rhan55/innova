@@ -57,6 +57,7 @@ namespace YKPortal.Areas.E.Models.Dto
             private decimal _Miktar;
             private decimal _Fiyat;
             private string _DovizBirimi;
+            public string _UrunAdi;
 
             public string CariID { get { return _CariID ?? ""; } set { _CariID = value; } }
             public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; } }
@@ -65,6 +66,7 @@ namespace YKPortal.Areas.E.Models.Dto
             public decimal Miktar { get { return _Miktar; } set { _Miktar = value; } }
             public decimal Fiyat { get { return _Fiyat; } set { _Fiyat = value; } }
             public string DovizBirimi { get { return _DovizBirimi ?? ""; } set { _DovizBirimi = value; } }
+            public string UrunAdi { get { return _UrunAdi ?? ""; } set { _UrunAdi = value; } }
         }
     }
 }
