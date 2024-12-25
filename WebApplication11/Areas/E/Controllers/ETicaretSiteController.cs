@@ -1,5 +1,15 @@
-﻿using System.Web.Mvc;
+﻿using System.Data.SqlClient;
+using System.Data;
+using System;
+using System.Web.Mvc;
 using YKPortal.Areas.E.Models.Dto;
+using YKPortal.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using YKEFaturaEntegrasyon.EFaturaEDM;
+using YKPortal.Controllers;
+
 
 namespace YKPortal.Areas.E.Controllers
 {
@@ -8,11 +18,24 @@ namespace YKPortal.Areas.E.Controllers
         [HttpGet]
         public ActionResult AnaSayfa()
         {
-            ViewBag.Stoklar = StokGetir(new ETicaretStokDto.ETicaretStokSorguDto { });
+            // Stokları al ve sadece ilk 25 ürünü seç
+            var stoklar = StokGetir(new ETicaretStokDto.ETicaretStokSorguDto { });
+
+            // İlk 25 kaydı al ve ViewBag'e ata
+            ViewBag.Stoklar = stoklar.Take(25).ToList();
             return View();
         }
+        [HttpPost]
+        public JsonResult SepeteEkle(ETicaretSepetDto.ETicaretSepetEkleDto sepetEkleDto)
+        {
 
-       
+            var sonuc = SepetKaydet(sepetEkleDto);
+
+            return Json(new YKJsonResult { SonucKodu = sonuc ? "Başarılı" : "Hata!" });
+        }
+
+
+
     }
 
 }

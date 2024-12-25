@@ -11,7 +11,7 @@
 }
 
 <!DOCTYPE html>
-<html lang="tr">    
+<html lang="tr">
 
 <head>
     <meta charset="UTF-8">
@@ -201,7 +201,9 @@
                                 <i class="minicart-icon"></i>
                                 @if (sepetBilgileri != null && sepetBilgileri.Count > 0)
                                 {
-                                    <span data-id="BildirimEkle" class="cart-count badge-circle position-absolute top-0 start-50 hidden">@sepetBilgileri.Count</span>}
+
+                                    <span data-id="SepetBildirimi" class="notification hidden cart-count badge-circle position-absolute top-0 start-50 hidden">@sepetBilgileri.Count</span>
+                                }
                             </a>
 
                             <div class="cart-overlay"></div>
@@ -218,6 +220,9 @@
                                         {
                                             <div class="product">
                                                 <div class="product-details">
+                                                    <div>
+
+                                                    </div>
                                                     <h4 class="product-title">
                                                         <a href="">@stok.Isim</a>
                                                     </h4>
@@ -636,8 +641,6 @@
 
     <!-- Plugins JS File -->
 
-
-
     <script src="~/Tema/ETicaret/assets/js/jquery.min.js"></script>
     <script src="~/Tema/ETicaret/assets/js/jquery.plugin.min.js"></script>
     <script src="~/Tema/ETicaret/assets/js/jquery.countdown.min.js"></script>
@@ -648,6 +651,8 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.8/jquery.inputmask.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="~/SignalR/Hubs"></script>
     <!-- Main JS File -->
     <script src="~/Tema/ETicaret/assets/js/main.js"></script>
     <script>
@@ -664,6 +669,7 @@
         }
 
         $(function () {
+
 
             const menuSearch = function () {
                 const searchInput = document.getElementById('MobileNavsearchInput');
@@ -730,76 +736,74 @@
 
         });
 
-        //SIGNAL R-START
+        const sepeteEkleButon = $('#SepeteEkle');
+        const urunSayisiInput = $('#UrunSayisi');
 
-     const anaSayfaBilgileri = {
-         YeniOkunmamisMesaj: 0
-     }
+        sepeteEkleButon.on('click', function () {
+            var data = {
+                Miktar: parseInt(urunSayisiInput.val()),
+                StokId: $('[data-stokId]').attr('data-stokId')
+            }
 
-     function AnaSayfaBilgileriGetir() {
-         $.ajax({
-             url: "/YK/AnaSayfaBilgileriGetir",
-             method: 'POST',
-             data: JSON.stringify({}),
-             success: (response) => {
-                 if (response.Data) {
-                     anaSayfaBilgileri.BildirimEkle = response.Data.BildirimEkle;
-                     YeniOkunmamisMesajEkle();
-                 }
-             },
-             error: (err) => {
-                 console.log(err)
-             }
-         })
-     }
+            $.ajax({
+                type: "POST",
+                url: '/E/ETicaretSepet/SepeteEkle',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(data),
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (msg) {
+                    console.log("HATA! ", msg);
+                }
+            });
+        });
 
-     function BildirimEkle(ekle = null) {
-         if (ekle == null) {
-             if (anaSayfaBilgileri.BildirimEkle > 0) {
-                 $('[data-id="BildirimEkle"]').html(anaSayfaBilgileri.BildirimEkle);
-                 $('[data-id="BildirimEkle"]').removeClass('hidden');
-             } else {
-                 $('[data-id="BildirimEkle"]').addClass('hidden');
-             }
-         } else if (ekle === "") {
-             var suAnkiMesajSayisi = Number($('[data-id="BildirimEkle"]').html());
 
-             $('[data-id="BildirimEkle"]').html(suAnkiMesajSayisi + 1);
-             $('[data-id="BildirimEkle"]').removeClass('hidden');
-         }
+  //SIGNAL R-START
 
-     }
+        function bildirimHubBaglantisi() {
+            console.log($.connection.eTicaretBildirimHub);
+            const bildirimHub = $.connection.eTicaretBildirimHub;
 
-     function bildirimHubBaglantisi() {
-         var bildirimHub = $.connection.bildirimHub;
+            bildirimHub.client.receiveNotification = function (count) {
+                let counter = parseInt($('[data-id="SepetBildirimi"]').html());
 
-         bildirimHub.client.receiveNotification = function (bosIcerik) {
+                counter = counter + parseInt(count);
+                $('[data-id="SepetBildirimi"]').html(counter)
+             };
 
-             BildirimEkle("");
-         };
+             const hubOptions = [];
 
-         const hubOptions = [];
+            @if (tarayici == Tarayici.Firefox)
+            {
+                @Html.Raw("hubOptions.push('webSockets', 'serverSentEvents');"); // Firefox için
+            }
+            else
+            {
+                @Html.Raw("hubOptions.push('webSockets','serverSentEvents', 'longPolling');"); // Diğer tarayıcılar için
+            }
 
-        @if (tarayici == Tarayici.Firefox)
-        {
-            @Html.Raw("hubOptions.push('webSockets', 'serverSentEvents');"); // Firefox için
+
+
+            $.connection.hub.start({ transport: hubOptions, connectionTimeout: 20000 }).done(function () {
+                $('[data-click="SepeteEkle"]').on("click", function () {
+                    const count = $(this).parent().find('#UrunSayisi').val();
+                    $.connection.eTicaretBildirimHub.server.bildirimGonder(count).done(function () {
+                        
+                    })
+                });
+            }).fail(function (error) {
+                console.log('Could not connect: ' + error);
+            });
+
         }
-        else
-        {
-            @Html.Raw("hubOptions.push('webSockets','serverSentEvents', 'longPolling');"); // Diğer tarayıcılar için
-        }
 
+        $(function () {
+            bildirimHubBaglantisi();
+        });
 
-
-         $.connection.hub.start({ transport: hubOptions, connectionTimeout: 20000 }).done(function () {
-             console.log('Connected to SignalR hub');
-         }).fail(function (error) {
-             console.log('Could not connect: ' + error);
-         })
-        }
         //SIGNAL R-END
-
-
     </script>
     <script>var hostUrl = "~/Tema/ETicaret";</script>
     @RenderSection("Scripts", required: false)

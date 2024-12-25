@@ -235,24 +235,27 @@ namespace YKPortal.Areas.E.Controllers
 
             if (dt.Rows.Count > 0)
             {
-                sepetler.Add(new ETicaretSepetDto.ETicaretSepetListeSonucDto
+                foreach (DataRow row in dt.Rows)
                 {
-                    ID = dt.Rows[0]["ID"].ToString(),
-                    CariID = dt.Rows[0]["CariID"].ToString(),
-                    StokID = dt.Rows[0]["StokID"].ToString(),
-                    UyelikID = dt.Rows[0]["UyelikID"].ToString(),
-                    Kod = dt.Rows[0]["Kod"].ToString(),
-                    Isim = dt.Rows[0]["Isim"].ToString(),
-                    OlcuBirimi = dt.Rows[0]["OlcuBirimi"].ToString(),
-                    Fiyat = Convert.ToDecimal(dt.Rows[0]["Fiyat"]),
-                    Resim1 = dt.Rows[0]["Resim1"].ToString(),
-                    KayitTarihi = dt.Rows[0]["KayitTarihi"].ToString(),
-                    Miktar = Convert.ToDecimal(dt.Rows[0]["Miktar"]),
-                    DovizBirimi = dt.Rows[0]["DovizBirimi"].ToString(),
-                    Silindi = Convert.ToBoolean(dt.Rows[0]["Silindi"]),
-
-                });
+                    sepetler.Add(new ETicaretSepetDto.ETicaretSepetListeSonucDto
+                    {
+                        ID = row["ID"].ToString(),
+                        CariID = row["CariID"].ToString(),
+                        StokID = row["StokID"].ToString(),
+                        UyelikID = row["UyelikID"].ToString(),
+                        Kod = row["Kod"].ToString(),
+                        Isim = row["Isim"].ToString(),
+                        OlcuBirimi = row["OlcuBirimi"].ToString(),
+                        Fiyat = Convert.ToDecimal(row["Fiyat"]),
+                        Resim1 = row["Resim1"].ToString(),
+                        KayitTarihi = row["KayitTarihi"].ToString(),
+                        Miktar = Convert.ToDecimal(row["Miktar"]),
+                        DovizBirimi = row["DovizBirimi"].ToString(),
+                        Silindi = Convert.ToBoolean(row["Silindi"]),
+                    });
+                }
             }
+
 
             return sepetler;
 
