@@ -736,27 +736,27 @@
 
         });
 
-        const sepeteEkleButon = $('#SepeteEkle');
-        const urunSayisiInput = $('#UrunSayisi');
 
-        sepeteEkleButon.on('click', function () {
-            var data = {
-                Miktar: parseInt(urunSayisiInput.val()),
-                StokId: $('[data-stokId]').attr('data-stokId')
-            }
-
-            $.ajax({
-                type: "POST",
-                url: '/E/ETicaretSepet/SepeteEkle',
-                contentType: "application/json; charset=utf-8",
-                data: JSON.stringify(data),
-                success: function (data) {
-                    console.log(data);
-                },
-                error: function (msg) {
-                    console.log("HATA! ", msg);
+        const sepeteEkleButonlar = $('[data-click="SepeteEkle"]').each(function () {
+            $(this).on('click', function () {
+                var data = {
+                    Miktar: parseInt($(this).parent().find('[data-input="quantity"]').val()),
+                    StokId: $(this).attr('data-id')
                 }
-            });
+
+                $.ajax({
+                    type: "POST",
+                    url: '/E/ETicaretSepet/SepeteEkle',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(data),
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (msg) {
+                        console.log("HATA! ", msg);
+                    }
+                });
+            })
         });
 
 

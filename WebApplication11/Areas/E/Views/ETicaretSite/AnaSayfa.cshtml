@@ -199,9 +199,9 @@
                                             <i class="icon-heart"></i>
                                         </a>
                                         <div class="product-single-qty">
-                                            <input class="horizontal-quantity form-control" type="text" id="UrunSayisi" value="1">
+                                            <input class="horizontal-quantity form-control" type="text" id="UrunSayisi" value="1" data-input="quantity">
                                         </div><!-- End .product-single-qty -->
-                                        <button id="SepeteEkle" href="javascript:;" class="btn-icon btn-add-cart" data-click="SepeteEkle">
+                                        <button id="SepeteEkle" href="javascript:;" class="btn-icon btn-add-cart" data-click="SepeteEkle" data-id="@stokSonucDto.StokID">
                                             <i class="fa fa-arrow-right"></i><span>
                                                 SEPETE EKLE
                                             </span>
@@ -224,12 +224,12 @@
                 <div class="row mt-2">
                     @foreach (YKPortal.Areas.E.Models.Dto.ETicaretStokDto.ETicaretStokSonucDto stokSonucDto in ViewBag.Stoklar)
                     {
-                        <div class="col-6 col-sm-4">
+                        <div class="col-6 col-sm-4" style="height:600px;">
                             <div class="product-default appear-animate" data-animation-name="fadeInRightShorter">
                                 <figure>
                                     <a href="/E/ETicaretStok/StokDetay?StokID=@stokSonucDto.StokID">
-                                        <img src="/Uploads/Dosyalar/@stokSonucDto.Resim1" width="220" height="220" alt="product" />
-                                        <img class="product-single-image" src="/Uploads/Dosyalar/@stokSonucDto.Resim1" data-zoom-image="/Uploads/Dosyalar/@stokSonucDto.Resim1" width="220" height="220" alt="Ürün Fotoğrafı" />
+                                        <img src="/Uploads/Dosyalar/@stokSonucDto.Resim1" alt="product" />
+                                        <img class="product-single-image" src="/Uploads/Dosyalar/@stokSonucDto.Resim1" data-zoom-image="/Uploads/Dosyalar/@stokSonucDto.Resim1" alt="Ürün Fotoğrafı" />
                                     </a>
                                 </figure>
 
@@ -268,12 +268,13 @@
                                         <div class="product-single-qty">
                                             <input class="horizontal-quantity form-control" type="text" id="UrunSayisi" value="1">
                                         </div><!-- End .product-single-qty -->
-                                        <button id="SepeteEkle" href="javascript:;" class="btn-icon btn-add-cart">
-                                            <i class="fa fa-arrow-right"></i><span>
+                                        <button id="SepeteEkle" href="javascript:;" class="btn-icon btn-add-cart" data-click="SepeteEkle">
+                                            <span>
+                                                <i class="fa fa-arrow-right"></i>
                                                 SEPETE EKLE
                                             </span>
                                         </button>
-                                     
+
                                         <a href="ajax/product-quick-view.html" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a>
                                     </div>
 

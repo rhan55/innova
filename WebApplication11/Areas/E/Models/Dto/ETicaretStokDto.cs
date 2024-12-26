@@ -56,6 +56,8 @@ namespace YKPortal.Areas.E.Models.Dto
             private decimal _Fiyat;
             private string _Resim1;
             private string _Resim2;
+
+            public ETicaretStokSorguDto Kategoriler { get; set; } // Diğer DTO ile ilişki
             public string StokID { get { return _StokID ?? ""; } set { _StokID = value; } }
             public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; } }
             public string Kod { get { return _Kod ?? ""; } set { _Kod = value; } }

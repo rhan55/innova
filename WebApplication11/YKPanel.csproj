@@ -255,6 +255,7 @@
     <Compile Include="Areas\E\Controllers\ETicaretKategoriController.cs" />
     <Compile Include="Areas\E\Controllers\ETicaretKullaniciController.cs" />
     <Compile Include="Areas\E\Controllers\ETicaretHakkimizdaController.cs" />
+    <Compile Include="Areas\E\Controllers\ETicaretSabitSayfalarController.cs" />
     <Compile Include="Areas\E\Controllers\ETicaretSepetController.cs" />
     <Compile Include="Areas\E\Controllers\ETicaretStokController.cs" />
     <Compile Include="Areas\E\Controllers\ETicaretYasalBilgilerController.cs" />
@@ -263,6 +264,7 @@
     <Compile Include="Areas\E\Controllers\ETicaretSiteController.cs" />
     <Compile Include="Areas\Entegrasyon\Controllers\FordAktarim.cs" />
     <Compile Include="Areas\E\Hubs\ETicaretBildirimHub.cs" />
+    <Compile Include="Areas\E\Models\Dto\ETicaretSabitSayfalarDto.cs" />
     <Compile Include="Areas\E\Models\Dto\ETicaretKategorilerDto.cs" />
     <Compile Include="Areas\E\Models\Dto\ETicaretKategorilerViewModel.cs" />
     <Compile Include="Areas\E\Models\Dto\ETicaretSepetDto.cs" />
@@ -615,6 +617,9 @@
     <Content Include="Areas\Ziyaret\Views\Ziyaret\Musteri.cshtml" />
     <Content Include="Areas\Ziyaret\Views\Ziyaret\Musteriler.cshtml" />
     <Content Include="Areas\E\Views\ETicaretStok\StokDetay.cshtml" />
+    <Content Include="Areas\E\Views\ETicaretSabitSayfalar\Vizyon.cshtml" />
+    <Content Include="Areas\E\Views\ETicaretSabitSayfalar\Sayfa.cshtml" />
+    <Content Include="Areas\E\Views\ETicaretSabitSayfalar\SayfaBulunamadi.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

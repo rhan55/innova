@@ -15,6 +15,7 @@ using System.Security.Principal;
 using System.Web.Security;
 using System.Text.Json;
 using YKEFaturaEntegrasyon.Dto;
+using static YKPortal.Areas.E.Models.Dto.ETicaretStokDto;
 
 namespace YKPortal.Areas.E.Controllers
 {
@@ -191,9 +192,20 @@ namespace YKPortal.Areas.E.Controllers
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
+
             var stoklar = new List<ETicaretStokDto.ETicaretStokSonucDto>();
             foreach (DataRow row in dt.Rows)
             {
+                var kategoriBilgisi = new ETicaretStokDto.ETicaretStokSorguDto
+                {
+                    Kategori1 = stokSorguDto.Kategori1,
+                    Kategori2 = stokSorguDto.Kategori2,
+                    Kategori3 = stokSorguDto.Kategori3,
+                    Kategori4 = stokSorguDto.Kategori4,
+                    Kategori5 = stokSorguDto.Kategori5,
+                    Kategori6 = stokSorguDto.Kategori6
+                };
+
                 stoklar.Add(new ETicaretStokDto.ETicaretStokSonucDto
                 {
                     StokID = row["StokID"] != DBNull.Value ? row["StokID"].ToString() : null,
@@ -213,6 +225,8 @@ namespace YKPortal.Areas.E.Controllers
                     UreticiFirma = row["UreticiFirma"] != DBNull.Value ? row["UreticiFirma"].ToString() : string.Empty,
                     Fiyat = row["Fiyat"] != DBNull.Value ? Convert.ToDecimal(row["Fiyat"]) : 0,
                     Resim1 = row["Resim1"] != DBNull.Value ? row["Resim1"].ToString() : string.Empty,
+                    Kategoriler = kategoriBilgisi
+
                 });
             }
 
