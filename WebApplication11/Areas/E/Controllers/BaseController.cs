@@ -47,6 +47,7 @@ namespace YKPortal.Areas.E.Controllers
           
             if (User.Identity.IsAuthenticated)
             {
+                ViewBag.IsAuthenticated = true;
                 ViewBag.KullaniciIsim = Kullanici?.Isim ?? "Bilinmiyor";
                 ViewBag.KullaniciAdi = User.Identity.Name;
                 ViewBag.GirisYapildi = true;
@@ -63,6 +64,8 @@ namespace YKPortal.Areas.E.Controllers
             ViewBag.ETicaretLogo = GrupKodListesiniGetir("ETicaretLogo");
             ViewBag.ETicaretFirmaAdi = GrupKodListesiniGetir("ETicaretFirmaAdi");
             ViewBag.ETicaretAdres = GrupKodListesiniGetir("ETicaretAdres");
+
+            ViewBag.SabitSayfalar = SabitSayfalarGetir();
 
             // Yönlendirme sadece yetki gerektiren sayfalarda yapılır
             if (IsAuthorizationRequired(filterContext))
@@ -273,6 +276,50 @@ namespace YKPortal.Areas.E.Controllers
 
             return sepetler;
 
+        }
+        protected List<ETicaretSabitSayfalarDto> SabitSayfalarGetir()
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM ETicaret_SabitSayfalar WHERE Durum = 1");
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var entities = new List<ETicaretSabitSayfalarDto>();
+
+            if (dt.Rows.Count > 0)
+            {
+                foreach(DataRow row in dt.Rows)
+                {
+                    var entity = new ETicaretSabitSayfalarDto();
+
+                    entity.SayfaID = Convert.ToString(row["SayfaID"]);
+                    entity.Ad = Convert.ToString(row["Ad"]);
+                    entity.UrlAd = Convert.ToString(row["UrlAd"]);
+                    entity.Icerik = Convert.ToString(row["Icerik"]);
+
+                    entities.Add(entity);
+                }
+            }
+
+            return entities;
+        }
+        protected ETicaretSabitSayfalarDto SabitSayfaGetir(string SayfaID)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM ETicaret_SabitSayfalar WHERE SayfaID = @SayfaID");
+            cmd.Parameters.AddWithValue("@SayfaID", SayfaID);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var entities = new List<ETicaretSabitSayfalarDto>();
+            var entity = new ETicaretSabitSayfalarDto();
+            if (dt.Rows.Count > 0)
+            {
+                entity.SayfaID = Convert.ToString(dt.Rows[0]["SayfaID"]);
+                entity.Ad = Convert.ToString(dt.Rows[0]["Ad"]);
+                entity.Durum = Convert.ToBoolean(dt.Rows[0]["Durum"]);
+                entity.UrlAd = Convert.ToString(dt.Rows[0]["UrlAd"]);
+                entity.Icerik = Convert.ToString(dt.Rows[0]["Icerik"]);
+            }
+
+            return entity;
         }
 
         protected bool SepetKaydet(ETicaretSepetDto.ETicaretSepetEkleDto eTicaretSepetEkleDto)

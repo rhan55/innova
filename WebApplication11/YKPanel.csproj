@@ -617,7 +617,7 @@
     <Content Include="Areas\Ziyaret\Views\Ziyaret\Musteri.cshtml" />
     <Content Include="Areas\Ziyaret\Views\Ziyaret\Musteriler.cshtml" />
     <Content Include="Areas\E\Views\ETicaretStok\StokDetay.cshtml" />
-    <Content Include="Areas\E\Views\ETicaretSabitSayfalar\Vizyon.cshtml" />
+    <Content Include="Areas\E\Views\ETicaretSabitSayfalar\SayfaGuncelle.cshtml" />
     <Content Include="Areas\E\Views\ETicaretSabitSayfalar\Sayfa.cshtml" />
     <Content Include="Areas\E\Views\ETicaretSabitSayfalar\SayfaBulunamadi.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />

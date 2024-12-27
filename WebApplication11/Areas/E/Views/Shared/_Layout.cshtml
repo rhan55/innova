@@ -1,6 +1,5 @@
-﻿@*@model List<YKPortal.Areas.E.Models.Dto.KategorilerDto>*@
-@using YKPortal.Extensions
-
+﻿@using YKPortal.Extensions
+@using YKPortal.Areas.E.Models.Dto;
 @{
     var sepetBilgileri = ViewBag.SepetBilgileri as List<YKPortal.Areas.E.Models.Dto.ETicaretSepetDto.ETicaretSepetListeSonucDto>;
     if (sepetBilgileri == null)
@@ -411,12 +410,11 @@
 
                                 <ul class="links">
                                     <li><a href="/E/ETicaretSite/Anasayfa">Ana Sayfa</a></li>
-                                    <li><a href="/E/ETicaretHakkimizda/Hakkimizda">Hakkımızda</a></li>
-                                    <li><a href="/E/ETicaretHakkimizda/Iletisim">İletişim</a></li>
                                     <li><a href="/E/ETicaretBilgiler/GenelBilgiler">Genel Bilgiler</a></li>
-                                    <li><a href="/E/ETicaretHakkimizda/Misyonumuz">Misyonumuz</a></li>
-                                    <li><a href="/E/ETicaretHakkimizda/Vizyonumuz">Vizyonumuz</a></li>
-                                    <li><a href="#">Sözleşme</a></li>
+                                    @foreach (ETicaretSabitSayfalarDto sabitSayfa in ViewBag.SabitSayfalar as List<ETicaretSabitSayfalarDto>)
+                                    {
+                                        <li><a href="/E/ETicaretSabitSayfalar/Sayfa/@(sabitSayfa.UrlAd)">@(sabitSayfa.Ad)</a></li>
+                                    }
                                 </ul>
                             </div>
                             <!-- End .widget -->
@@ -568,10 +566,9 @@
 
                             <li><a href="/E/ETicaretStok/Stoklar">Ürünler</a></li>
                             <li><a href="/E/ETicaretBilgiler/GenelBilgiler">Genel Bilgiler</a></li>
-
-                            <li><a href="/E/ETicaretHakkimizda/Misyonumuz">Misyonumuz</a></li>
-                            <li><a href="/E/ETicaretHakkimizda/Vizyonumuz">Vizyonumuz</a></li>
-                            <li><a href="#">Sözleşme</a></li>
+                            <li><a href="/E/ETicaretSabitSayfalar/Sayfa/[UrlAd]">Misyonumuz</a></li>
+                            <li><a href="/E/ETicaretSabitSayfalar/Sayfa/[UrlAd]">Vizyonumuz</a></li>
+                            <li><a href="/E/ETicaretSabitSayfalar/Sayfa/[UrlAd]">Sözleşme</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -653,6 +650,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.8/jquery.inputmask.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
     <script src="~/SignalR/Hubs"></script>
+    <script src="~/Tema/plugins/custom/tinymce/tinymce.min.js"></script>
     <!-- Main JS File -->
     <script src="~/Tema/ETicaret/assets/js/main.js"></script>
     <script>
@@ -790,7 +788,7 @@
                 $('[data-click="SepeteEkle"]').on("click", function () {
                     const count = $(this).parent().find('#UrunSayisi').val();
                     $.connection.eTicaretBildirimHub.server.bildirimGonder(count).done(function () {
-                        
+
                     })
                 });
             }).fail(function (error) {

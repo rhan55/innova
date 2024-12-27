@@ -7,6 +7,7 @@ using YKPortal.Areas.E.Models.Dto;
 using YKPortal.Models.Dto;
 using YKPortal.Models;
 using System.Collections.Generic;
+using System.Web;
 
 namespace YKPortal.Areas.E.Controllers
 {
@@ -41,7 +42,20 @@ namespace YKPortal.Areas.E.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult SayfaGuncelle(string SayfaID)
+        {
+            var entity = new ETicaretSabitSayfalarDto();
+            if (string.IsNullOrWhiteSpace(SayfaID))
+            {
+                return View(entity);
+            } 
 
+            entity = SabitSayfaGetir(SayfaID);
+            return View(entity);
+        }
+
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult SayfaGuncelle(ETicaretSabitSayfalarDto eTicaretSabitSayfalarDto)
         {
@@ -50,24 +64,23 @@ namespace YKPortal.Areas.E.Controllers
 
             if (string.IsNullOrWhiteSpace(eTicaretSabitSayfalarDto.SayfaID))
             {
-                cmd = new SqlCommand("INSERT INTO Sayfalar (Ad, Icerik, Tarih, Durum, OlusturulmaTarihi, GuncellemeTarihi) VALUES (@Ad, @Icerik, @Durum, @OlusturulmaTarihi, @GuncellenmeTarihi)");
+                cmd = new SqlCommand("INSERT INTO ETicaret_SabitSayfalar (Ad,UrlAd, Icerik, Durum, OlusturulmaTarihi, GuncellemeTarihi) VALUES (@Ad, @UrlAd, @Icerik, @Durum, @OlusturulmaTarihi, @GuncellenmeTarihi)");
                 cmd.Parameters.AddWithValue("@OlusturulmaTarihi", DateTime.Now);  // Tarih
-
             }
             else
             {
-                cmd = new SqlCommand("UPDATE Sayfalar SET Ad = @Ad, Icerik = @Icerik, Durum = @Durum, GuncellenmeTarihi = @GuncellenmeTarihi WHERE SayfaID = @SayfaID");
-              
+                cmd = new SqlCommand("UPDATE  ETicaret_SabitSayfalar SET Ad = @Ad, UrlAd = @UrlAd, Icerik = @Icerik, Durum = @Durum, GuncellenmeTarihi = @GuncellenmeTarihi WHERE SayfaID = @SayfaID");
             }
-            cmd.Parameters.AddWithValue("@SayfaID", eTicaretSabitSayfalarDto.SayfaID); 
-            cmd.Parameters.AddWithValue("@Ad", eTicaretSabitSayfalarDto.Ad);  
-            cmd.Parameters.AddWithValue("@Icerik", eTicaretSabitSayfalarDto.Icerik);
+
+            cmd.Parameters.AddWithValue("@Icerik", HttpUtility.HtmlEncode(eTicaretSabitSayfalarDto.Icerik));
+            cmd.Parameters.AddWithValue("@SayfaID", eTicaretSabitSayfalarDto.SayfaID);
+            cmd.Parameters.AddWithValue("@UrlAd", eTicaretSabitSayfalarDto.UrlAd);
+            cmd.Parameters.AddWithValue("@Ad", eTicaretSabitSayfalarDto.Ad);           
             cmd.Parameters.AddWithValue("@Durum", true);  
             cmd.Parameters.AddWithValue("@GuncellenmeTarihi", DateTime.Now);
-
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
    
-            return RedirectToAction("SayfaListe");
+            return RedirectToAction($"Sayfa/{eTicaretSabitSayfalarDto.UrlAd}");
         }
 
     }

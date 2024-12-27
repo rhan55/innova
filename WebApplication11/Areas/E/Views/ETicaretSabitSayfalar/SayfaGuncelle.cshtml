@@ -1,0 +1,104 @@
+﻿@using YKPortal.Areas.E.Models.Dto
+@model YKPortal.Areas.E.Models.Dto.ETicaretSabitSayfalarDto
+
+@{
+    ViewBag.Title = "Sayfa Güncelleme";
+    Layout = "~/Areas/E/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2>@(Model.SayfaID == string.Empty ? "Ekle" : "Düzenle")</h2>
+    <form method="post" action="@Url.Action("SayfaGuncelle", "ETicaretSabitSayfalar")">
+        <input type="hidden" name="ID" value="@Model.SayfaID" />
+
+        <div class="row">
+            <div class="form-group col-6">
+                <label class="fs-1 text-dark form-label text-xl-1" for="Ad">
+                    Sayfa Adı:
+                </label>
+                <input type="text" class="form-wide form-input-new p-3 mb-2 " name="Ad" id="Ad" value="@Model.Ad" required="">
+            </div>
+            <div class="form-group col-6">
+                <label class="fs-1 text-dark form-label text-xl-1" for="UrlAd">
+                    Sayfa Url Adı:
+                </label>
+                <input type="text" class="form-wide form-input-new p-3 mb-2 " name="UrlAd" id="UrlAd" value="@Model.UrlAd" required="">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="fs-1 text-dark form-label text-xl-1" for="Icerik">
+                Sayfa Adı:
+            </label>
+            <textarea class="form-wide form-input-new p-2 " name="Icerik" id="Icerik" rows="4" placeholder="İçeriği girin...">@(HttpUtility.HtmlDecode(Model.Icerik))</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="Durum">Durum:</label>
+            <input type="checkbox" id="Durum" name="Durum" @(Model.Durum ? "checked" : "") value="true" />
+        </div>
+
+        <button type="submit" id="" class=" form-button btn btn-dark btn-ellipse btn-sm">
+            @(Model.SayfaID == string.Empty ? "Ekle" : "Düzenle")
+        </button>
+
+    </form>
+
+</div>
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="~/Tema/plugins/custom/tinymce/tinymce.min.js"></script>
+
+    <script>
+        function convertToSlug(input) {
+            // Türkçe karakterler ve karşılıkları
+            const turkishChars = {
+                'ı': 'i', 'İ': 'I', 'ğ': 'g', 'Ğ': 'G', 'ü': 'u', 'Ü': 'U',
+                'ş': 's', 'Ş': 'S', 'ö': 'o', 'Ö': 'O', 'ç': 'c', 'Ç': 'C'
+            };
+
+            // Türkçe karakterleri İngilizce karşılıklarıyla değiştir
+            input = input.replace(/[ıİğĞüÜşŞöÖçÇ]/g, function (match) {
+                return turkishChars[match] || match;
+            });
+
+            // Boşlukları tireye çevir ve küçük harfe dönüştür
+            input = input.trim().toLowerCase();
+            input = input.replace(/\s+/g, '-'); // Birden fazla boşluğu tek tireye çevir
+
+            // Özel karakterleri temizle
+            input = input.replace(/[^a-z0-9\s-]/g, '');
+
+            // Baş ve sondaki tireyi kaldır
+            input = input.replace(/^-+|-+$/g, '');
+
+            return input;
+        }
+
+        $(document).ready(function () {
+            var IcerikEditorOptions = {
+                selector: "#Icerik",
+                height: 200,
+                promotion: false
+            };
+
+            if (typeof KTThemeMode !== 'undefined') { // KTThemeMode varsa kontrol et
+                if (KTThemeMode.getMode() === "dark") {
+                   IcerikEditorOptions["skin"] = "oxide-dark";
+                   IcerikEditorOptions["content_css"] = "dark";
+                }
+            }
+
+            // tinyMCE init
+            tinymce.init(IcerikEditorOptions);
+
+            $('input#Ad').on('input', function () {
+                $('input#UrlAd').val(convertToSlug($(this).val()));
+            });
+
+        });
+    </script>
+  
+
+}
+
