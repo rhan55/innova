@@ -53,7 +53,7 @@
         </div>
         <!-- End .home-slider -->
 
-        <div class="container">
+        <div class="container-fluid">
             <div class="info-boxes-slider owl-carousel owl-theme mb-2" data-owl-options="{
 			'dots': false,
 			'loop': false,
@@ -152,17 +152,17 @@
         <!-- End .container -->
 
         <section class="featured-products-section">
-            <div class="container">
+            <div class="container-fluid" style="max-width: 1514px!important;">
                 <h2 class="mt-4 section-title categories-section-title heading-border border-0 ls-0 appear-animate">Yeni Gelen Ürünler</h2>
                 <div class="row mt-2">
                     @foreach (YKPortal.Areas.E.Models.Dto.ETicaretStokDto.ETicaretStokSonucDto stokSonucDto in ViewBag.Stoklar)
                     {
-                        <div class="col-6 col-sm-4">
+                        <div class="col-12 col-sm-3">
                             <div class="product-default appear-animate" data-animation-name="fadeInRightShorter">
                                 <figure>
                                     <a href="/E/ETicaretStok/StokDetay?StokID=@stokSonucDto.StokID">
-                                        <img src="/Uploads/Dosyalar/@stokSonucDto.Resim1" width="220" height="220" alt="product" />
-                                        <img class="product-single-image" src="/Uploads/Dosyalar/@stokSonucDto.Resim1" data-zoom-image="/Uploads/Dosyalar/@stokSonucDto.Resim1" width="220" height="220" alt="Ürün Fotoğrafı" />
+                                        <img src="/Uploads/Dosyalar/@stokSonucDto.Resim1" class="ov-brand-image" alt="@stokSonucDto.Isim" />
+                                        <img class="ov-brand-image" src="/Uploads/Dosyalar/@stokSonucDto.Resim1" alt="@stokSonucDto.Isim" />
                                     </a>
                                 </figure>
 

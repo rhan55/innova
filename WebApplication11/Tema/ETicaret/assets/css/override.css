@@ -100,3 +100,34 @@
     background-color: #ffffff !important;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px !important;
 }
+
+.ov-brand-image {
+    width: 358px !important;
+    height: 358px !important;
+    object-fit: cover !important;
+}
+
+.menu .megamenu {
+    initial-letter-wrap: none;
+    overflow-wrap:normal;
+    word-wrap: normal;
+    width: fit-content!important;
+    min-width: 200px!important;
+    max-width: 580px!important;
+}
+
+@media (max-width: 600px) {
+    .ov-brand-image {
+        width: 310px !important;
+        height: 310px !important;
+        object-fit: cover !important;
+    }
+
+    .social-icons {
+        display: flex !important;
+        align-items: center !important;
+    }
+    .header-dropdown {
+        min-width:60px!important;
+    }
+}

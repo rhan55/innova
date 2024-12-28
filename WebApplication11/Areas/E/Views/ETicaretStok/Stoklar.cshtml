@@ -27,11 +27,11 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container-fluid">
 
 
         <div class="row">
-            <div class="col-lg-9 main-content">
+            <div class="col-lg-10 main-content">
                 <nav class="toolbox sticky-header" data-sticky-options="{'mobile': true}">                 
                     <div class="toolbox-right">
                         <div class="toolbox-item toolbox-show">
@@ -65,12 +65,12 @@
 
                     @foreach (YKPortal.Areas.E.Models.Dto.ETicaretStokDto.ETicaretStokSonucDto stokSonucDto in ViewBag.Stoklar)
                     {
-                        <div class="col-6 col-sm-4" style="">
+                        <div class="col-12 col-sm-3" style="">
                             <div class="product-default">
                                 <figure>
                                     <a href="/E/ETicaretStok/StokDetay?StokID=@stokSonucDto.StokID">
-                                        <img src="/Uploads/Dosyalar/@stokSonucDto.Resim1" style="height:400px;" alt="product" />
-                                        <img class="product-single-image" src="/Uploads/Dosyalar/@stokSonucDto.Resim1" data-zoom-image="/Uploads/Dosyalar/@stokSonucDto.Resim1" width="220" height="220" alt="Ürün Fotoğrafı" />
+                                        <img src="/Uploads/Dosyalar/@stokSonucDto.Resim1" class="ov-brand-image" alt="@stokSonucDto.Isim" />
+                                        <img  class="ov-brand-image" src="/Uploads/Dosyalar/@stokSonucDto.Resim1" data-zoom-image="/Uploads/Dosyalar/@stokSonucDto.Resim1"  alt="@stokSonucDto.Isim" />
                                     </a>
                                 </figure>
 
@@ -167,62 +167,164 @@
             <!-- End .col-lg-9 -->
 
             <div class="sidebar-overlay"></div>
-            <aside class="sidebar-shop col-lg-3 order-lg-first mobile-sidebar">
+
+            <aside class="sidebar-shop col-lg-2 order-lg-first mobile-sidebar">
                 <div class="sidebar-wrapper">
+                    <div class="widget">
+                        <h3 class="widget-title">
+                            <a data-toggle="collapse" href="#widget-body-3" role="button" aria-expanded="true" aria-controls="widget-body-3">Price</a>
+                        </h3>
+
+                        <div class="collapse show" id="widget-body-3">
+                            <div class="widget-body pb-0">
+                                <form action="#">
+                                    <div class="price-slider-wrapper">
+                                        <div id="price-slider"></div>
+                                        <!-- End #price-slider -->
+                                    </div>
+                                    <!-- End .price-slider-wrapper -->
+
+                                    <div class="filter-price-action d-flex align-items-center justify-content-between flex-wrap">
+                                        <div class="filter-price-text">
+                                            Price:
+                                            <span id="filter-price-range"></span>
+                                        </div>
+                                        <!-- End .filter-price-text -->
+
+                                        <button type="submit" class="btn btn-primary">Filter</button>
+                                    </div>
+                                    <!-- End .filter-price-action -->
+                                </form>
+                            </div>
+                            <!-- End .widget-body -->
+                        </div>
+                        <!-- End .collapse -->
+                    </div>
                     <div class="widget">
                         <h3 class="widget-title">
                             <a data-toggle="collapse" href="#widget-body-2" role="button" aria-expanded="true" aria-controls="widget-body-2">Categories</a>
                         </h3>
-
                         <div class="collapse show" id="widget-body-2">
-                            <div class="widget-body">
-
-
+                          
                                 @if (ViewBag.Kategoriler != null)
                                 {
                                     var kategoriler = ViewBag.Kategoriler as List<YKPortal.Areas.E.Models.Dto.ETicaretKategorilerDto>;
                                     if (kategoriler != null && kategoriler.Any())
                                     {
-                                        foreach (var kategori in kategoriler)
+                                        foreach (var kategori in kategoriler.Select((m, i) => new {m, i}))
                                         {
+                                            if (!string.IsNullOrEmpty(kategori.m.Kategori1))
+                                            {
+                                                <div class="widget-body">
+                                                    <ul class="cat-list">
+                                                        <li>      
+                                                            <a href="#widget-category-@(kategori.i)" class="collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="widget-category-@(kategori.i)">
+                                                                @kategori.m.Kategori1<span class="products-count">(3)</span>
+                                                                <span class="toggle"></span>
+                                                            </a>
+                                                            <div class="collapse" id="widget-category-@(kategori.i)">
+                                                                <ul class="cat-sublist">
+                                                                    @if (!string.IsNullOrEmpty(kategori.m.Kategori1))
+                                                                    {
+                                                                        <li><a style="font-weight: bold;" href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.m.Kategori1">@kategori.m.Kategori1</a></li>
+                                                                    }
+                                                                    @if (!string.IsNullOrEmpty(kategori.m.Kategori2))
+                                                                    {
+                                                                        <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.m.Kategori1&Kategori2=@kategori.m.Kategori2">@kategori.m.Kategori2</a></li>
+                                                                    }
+                                                                    @if (!string.IsNullOrEmpty(kategori.m.Kategori3))
+                                                                    {
+                                                                        <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.m.Kategori1&Kategori3=@kategori.m.Kategori3">@kategori.m.Kategori3</a></li>
+                                                                    }
+                                                                    @if (!string.IsNullOrEmpty(kategori.m.Kategori4))
+                                                                    {
+                                                                        <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.m.Kategori1&Kategori4=@kategori.m.Kategori4">@kategori.m.Kategori4</a></li>
+                                                                    }
+                                                                    @if (!string.IsNullOrEmpty(kategori.m.Kategori5))
+                                                                    {
+                                                                        <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.m.Kategori1&Kategori5=@kategori.m.Kategori5">@kategori.m.Kategori5</a></li>
+                                                                    }
+                                                                    @if (!string.IsNullOrEmpty(kategori.m.Kategori6))
+                                                                    {
+                                                                        <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.m.Kategori1&Kategori6=@kategori.m.Kategori6">@kategori.m.Kategori6</a></li>
+                                                                    }
+                                                                </ul>
+                                                            </div>
+                                                        </li>
 
-
-                                            <ul class="submenu">
-                                                @if (!string.IsNullOrEmpty(kategori.Kategori1))
-                                                {
-                                                    <li><a href="/ETicaretStok/Stoklar?Kategori1=@kategori.Kategori1">@kategori.Kategori1</a></li>
-                                                }
-                                                @if (!string.IsNullOrEmpty(kategori.Kategori2))
-                                                {
-                                                    <li><a href="/ETicaretStok/Stoklar?Kategori2=@kategori.Kategori2">@kategori.Kategori2</a></li>
-                                                }
-                                                @if (!string.IsNullOrEmpty(kategori.Kategori3))
-                                                {
-                                                    <li><a href="/ETicaretStok/Stoklar?Kategori3=@kategori.Kategori3">@kategori.Kategori3</a></li>
-                                                }
-                                                @if (!string.IsNullOrEmpty(kategori.Kategori4))
-                                                {
-                                                    <li><a href="/ETicaretStok/Stoklar?Kategori4=@kategori.Kategori4">@kategori.Kategori4</a></li>
-                                                }
-                                                @if (!string.IsNullOrEmpty(kategori.Kategori5))
-                                                {
-                                                    <li><a href="/ETicaretStok/Stoklar?Kategori5=@kategori.Kategori5">@kategori.Kategori5</a></li>
-                                                }
-                                                @if (!string.IsNullOrEmpty(kategori.Kategori6))
-                                                {
-                                                    <li><a href="/ETicaretStok/Stoklar?Kategori6=@kategori.Kategori6">@kategori.Kategori6</a></li>
-                                                }
-                                            </ul>
-
+                                                    </ul>
+                                                </div>
+                                                <!-- End .widget-body -->
+                                            }
                                         }
-                                    }
-                                    else
-                                    {
-                                        <p>Kategori Yok</p>
                                     }
                                 }
 
+</div>
 
+
+
+
+                        <div class="collapse show" id="widget-body-2">
+                            <div class="widget-body">
+
+
+
+                                <ul class="menu">
+                                    @if (ViewBag.Kategoriler != null)
+                                    {
+                                        var kategoriler = ViewBag.Kategoriler as List<YKPortal.Areas.E.Models.Dto.ETicaretKategorilerDto>;
+                                        if (kategoriler != null && kategoriler.Any())
+                                        {
+                                            foreach (var kategori in kategoriler)
+                                            {
+                                                if (!string.IsNullOrEmpty(kategori.Kategori1))
+                                                {
+
+                                                    <li>
+                                                        <a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.Kategori1">@kategori.Kategori1</a>
+                                                        <div class="megamenu megamenu-fixed-width">
+                                                            <div>
+
+                                                                <div class="">
+                                                                    <ul class="submenu">
+
+                                                                        @if (!string.IsNullOrEmpty(kategori.Kategori2))
+                                                                        {
+                                                                            <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.Kategori1&Kategori2=@kategori.Kategori2">@kategori.Kategori2</a></li>
+                                                                        }
+                                                                        @if (!string.IsNullOrEmpty(kategori.Kategori3))
+                                                                        {
+                                                                            <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.Kategori1&Kategori3=@kategori.Kategori3">@kategori.Kategori3</a></li>
+                                                                        }
+                                                                        @if (!string.IsNullOrEmpty(kategori.Kategori4))
+                                                                        {
+                                                                            <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.Kategori1&Kategori4=@kategori.Kategori4">@kategori.Kategori4</a></li>
+                                                                        }
+                                                                        @if (!string.IsNullOrEmpty(kategori.Kategori5))
+                                                                        {
+                                                                            <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.Kategori1&Kategori5=@kategori.Kategori5">@kategori.Kategori5</a></li>
+                                                                        }
+                                                                        @if (!string.IsNullOrEmpty(kategori.Kategori6))
+                                                                        {
+                                                                            <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.Kategori1&Kategori6=@kategori.Kategori6">@kategori.Kategori6</a></li>
+                                                                        }
+
+                                                                    </ul>
+                                                                </div>
+
+
+                                                            </div>
+
+                                                        </div>
+                                                    </li>
+
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                </ul>
 
                             </div>
                             <!-- End .widget-body -->
