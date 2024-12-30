@@ -101,12 +101,6 @@ namespace YKPortal.Areas.E.Controllers
             // Yetki gerektiren bir sayfa mı?
             return !User.Identity.IsAuthenticated && yetkiGerekenSayfalar.Contains(controller + "/" + action);
         }
-
- 
-
-
-
-
         protected List<ETicaretKategorilerDto> KategorileriGetir()
         {
            
@@ -321,7 +315,46 @@ namespace YKPortal.Areas.E.Controllers
 
             return entity;
         }
+        protected ETicaretSlaytDto SlaytlarıGetir(string SlaytID)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM ETicaret_Slaytlar WHERE SlaytID = @SlaytID");
+            cmd.Parameters.AddWithValue("@SlaytID", SlaytID);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
+            var entities = new List<ETicaretSlaytDto>();
+            var entity = new ETicaretSlaytDto();
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    entity.SlaytID = Convert.ToString(row["SlaytID"]);
+                    entity.ResimYolu = Convert.ToString(row["ResimYolu"]);
+                    entity.Aktif = Convert.ToBoolean(row["Aktif"]);
+                    entity.Text = Convert.ToString(row["Text"]);
+                    entity.OlusturulmaTarihi = Convert.ToString(row["OlusturulmaTarihi"]);
+                }
+            }
+            return entity;
+        }
+        protected ETicaretSlaytDto SlaytGetir(string SlaytID)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM ETicaret_Slaytlar WHERE SlaytID = @SlaytID");
+            cmd.Parameters.AddWithValue("@SlaytID", SlaytID);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var entities = new List<ETicaretSlaytDto>();
+            var entity = new ETicaretSlaytDto();
+            if (dt.Rows.Count > 0)
+            {
+                entity.SlaytID = Convert.ToString(dt.Rows[0]["SlaytID"]);
+                entity.ResimYolu = Convert.ToString(dt.Rows[0]["ResimYolu"]);
+                entity.Aktif = Convert.ToBoolean(dt.Rows[0]["Aktif"]);
+                entity.Text = Convert.ToString(dt.Rows[0]["Text"]);
+                entity.OlusturulmaTarihi = Convert.ToString(dt.Rows[0]["OlusturulmaTarihi"]);
+            }
+
+            return entity;
+        }
         protected bool SepetKaydet(ETicaretSepetDto.ETicaretSepetEkleDto eTicaretSepetEkleDto)
         {
             try

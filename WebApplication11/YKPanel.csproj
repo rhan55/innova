@@ -257,6 +257,7 @@
     <Compile Include="Areas\E\Controllers\ETicaretHakkimizdaController.cs" />
     <Compile Include="Areas\E\Controllers\ETicaretSabitSayfalarController.cs" />
     <Compile Include="Areas\E\Controllers\ETicaretSepetController.cs" />
+    <Compile Include="Areas\E\Controllers\ETicaretSlaytController.cs" />
     <Compile Include="Areas\E\Controllers\ETicaretStokController.cs" />
     <Compile Include="Areas\E\Controllers\ETicaretYasalBilgilerController.cs" />
     <Compile Include="Areas\E\Controllers\ETicaretYetkilendirmeController.cs" />
@@ -268,6 +269,7 @@
     <Compile Include="Areas\E\Models\Dto\ETicaretKategorilerDto.cs" />
     <Compile Include="Areas\E\Models\Dto\ETicaretKategorilerViewModel.cs" />
     <Compile Include="Areas\E\Models\Dto\ETicaretSepetDto.cs" />
+    <Compile Include="Areas\E\Models\Dto\ETicaretSlaytDto.cs" />
     <Compile Include="Areas\E\Models\Dto\ETicaretStokDto.cs" />
     <Compile Include="Areas\Ziyaret\ZiyaretAreaRegistration.cs" />
     <Compile Include="Areas\Ziyaret\Controllers\ZiyaretController.cs" />
@@ -620,6 +622,7 @@
     <Content Include="Areas\E\Views\ETicaretSabitSayfalar\SayfaGuncelle.cshtml" />
     <Content Include="Areas\E\Views\ETicaretSabitSayfalar\Sayfa.cshtml" />
     <Content Include="Areas\E\Views\ETicaretSabitSayfalar\SayfaBulunamadi.cshtml" />
+    <Content Include="Areas\E\Views\ETicaretSlayt\SlaytEkle.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

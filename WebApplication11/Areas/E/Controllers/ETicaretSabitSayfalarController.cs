@@ -59,19 +59,8 @@ namespace YKPortal.Areas.E.Controllers
         [HttpPost]
         public ActionResult SayfaGuncelle(ETicaretSabitSayfalarDto eTicaretSabitSayfalarDto)
         {
-
-            SqlCommand cmd;
-
-            if (string.IsNullOrWhiteSpace(eTicaretSabitSayfalarDto.SayfaID))
-            {
-                cmd = new SqlCommand("INSERT INTO ETicaret_SabitSayfalar (Ad,UrlAd, Icerik, Durum, OlusturulmaTarihi, GuncellemeTarihi) VALUES (@Ad, @UrlAd, @Icerik, @Durum, @OlusturulmaTarihi, @GuncellenmeTarihi)");
-                cmd.Parameters.AddWithValue("@OlusturulmaTarihi", DateTime.Now);  // Tarih
-            }
-            else
-            {
-                cmd = new SqlCommand("UPDATE  ETicaret_SabitSayfalar SET Ad = @Ad, UrlAd = @UrlAd, Icerik = @Icerik, Durum = @Durum, GuncellenmeTarihi = @GuncellenmeTarihi WHERE SayfaID = @SayfaID");
-            }
-
+            SqlCommand cmd;     
+            cmd = new SqlCommand("UPDATE  ETicaret_SabitSayfalar SET Ad = @Ad, UrlAd = @UrlAd, Icerik = @Icerik, Durum = @Durum, GuncellenmeTarihi = @GuncellenmeTarihi WHERE SayfaID = @SayfaID");
             cmd.Parameters.AddWithValue("@Icerik", HttpUtility.HtmlEncode(eTicaretSabitSayfalarDto.Icerik));
             cmd.Parameters.AddWithValue("@SayfaID", eTicaretSabitSayfalarDto.SayfaID);
             cmd.Parameters.AddWithValue("@UrlAd", eTicaretSabitSayfalarDto.UrlAd);

@@ -6,12 +6,20 @@
     Layout = "~/Areas/E/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container">
-    <h2>@(Model.SayfaID == string.Empty ? "Ekle" : "Düzenle")</h2>
+<div class="container mt-4">
+    <h2>Düzenle</h2>
     <form method="post" action="@Url.Action("SayfaGuncelle", "ETicaretSabitSayfalar")">
         <input type="hidden" name="ID" value="@Model.SayfaID" />
 
         <div class="row">
+      
+
+            <div class="form-group col-6">
+                <label class="fs-1 text-dark form-label text-xl-1" for="GuncellemeTarihi">
+                    GuncellemeTarihi
+                </label>
+                <input type="text" class="form-wide form-input-new p-3 mb-2 " name="GuncellemeTarihi" id="GuncellemeTarihi" value="@Model.GuncellemeTarihi" required="">
+            </div>
             <div class="form-group col-6">
                 <label class="fs-1 text-dark form-label text-xl-1" for="Ad">
                     Sayfa Adı:
@@ -27,7 +35,7 @@
         </div>
         <div class="form-group">
             <label class="fs-1 text-dark form-label text-xl-1" for="Icerik">
-                Sayfa Adı:
+                Sayfa İçeriği:
             </label>
             <textarea class="form-wide form-input-new p-2 " name="Icerik" id="Icerik" rows="4" placeholder="İçeriği girin...">@(HttpUtility.HtmlDecode(Model.Icerik))</textarea>
         </div>
@@ -38,7 +46,7 @@
         </div>
 
         <button type="submit" id="" class=" form-button btn btn-dark btn-ellipse btn-sm">
-            @(Model.SayfaID == string.Empty ? "Ekle" : "Düzenle")
+           Düzenle
         </button>
 
     </form>
