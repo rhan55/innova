@@ -60,13 +60,13 @@ namespace YKPortal.Areas.E.Controllers
         public ActionResult SayfaGuncelle(ETicaretSabitSayfalarDto eTicaretSabitSayfalarDto)
         {
             SqlCommand cmd;     
-            cmd = new SqlCommand("UPDATE  ETicaret_SabitSayfalar SET Ad = @Ad, UrlAd = @UrlAd, Icerik = @Icerik, Durum = @Durum, GuncellenmeTarihi = @GuncellenmeTarihi WHERE SayfaID = @SayfaID");
+            cmd = new SqlCommand("UPDATE  ETicaret_SabitSayfalar SET Ad = @Ad, UrlAd = @UrlAd, Icerik = @Icerik, Durum = @Durum, GuncellemeTarihi = @GuncellemeTarihi WHERE SayfaID = @SayfaID");
             cmd.Parameters.AddWithValue("@Icerik", HttpUtility.HtmlEncode(eTicaretSabitSayfalarDto.Icerik));
             cmd.Parameters.AddWithValue("@SayfaID", eTicaretSabitSayfalarDto.SayfaID);
             cmd.Parameters.AddWithValue("@UrlAd", eTicaretSabitSayfalarDto.UrlAd);
             cmd.Parameters.AddWithValue("@Ad", eTicaretSabitSayfalarDto.Ad);           
             cmd.Parameters.AddWithValue("@Durum", true);  
-            cmd.Parameters.AddWithValue("@GuncellenmeTarihi", DateTime.Now);
+            cmd.Parameters.AddWithValue("@GuncellemeTarihi", DateTime.Now);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
    
             return RedirectToAction($"Sayfa/{eTicaretSabitSayfalarDto.UrlAd}");

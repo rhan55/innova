@@ -623,6 +623,7 @@
     <Content Include="Areas\E\Views\ETicaretSabitSayfalar\Sayfa.cshtml" />
     <Content Include="Areas\E\Views\ETicaretSabitSayfalar\SayfaBulunamadi.cshtml" />
     <Content Include="Areas\E\Views\ETicaretSlayt\SlaytEkle.cshtml" />
+    <Content Include="Areas\E\Views\ETicaretSlayt\Slaytlar.cshtml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

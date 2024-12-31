@@ -1,0 +1,20 @@
+﻿@model List<YKPortal.Areas.E.Models.Dto.ETicaretSlaytDto>
+
+@{
+    ViewBag.Title = "Slaytlar";
+    Layout = "~/Areas/E/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h1>Slaytlar</h1>
+    @foreach(var item in Model)
+    {
+        <div>
+            <img src="@item.ResimYolu" alt="Slayt @item.Siralama" />
+            <p>@item.Text</p>
+            <p>@item.Link</p>
+            <p>@item.Siralama</p>
+            <p>@item.Aktif</p>
+        </div>
+    }
+</div>

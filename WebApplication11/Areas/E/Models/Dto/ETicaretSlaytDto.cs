@@ -13,13 +13,18 @@ namespace YKPortal.Areas.E.Models.Dto
         private string _Text;
         private bool _Durum;
         public string _OlusturulmaTarihi;
+        public int _Siralama;
+
+
 
         public string SlaytID { get { return _SlaytID ?? ""; } set { _SlaytID = value; } }
         public string ResimYolu { get { return _ResimYolu ?? ""; } set { _ResimYolu = value; } }
         public string Link { get { return _Link ?? ""; } set { _Link = value; } }
         public string Text { get { return _Text ?? ""; } set { _Text = value; } }
-        public bool Aktif { get { return _Durum; } set { _Durum = value; } }
+        public bool Aktif { get { return _Durum; } set { _Durum = value; } }        
+        public int Siralama { get { return _Siralama; } set { _Siralama = value; } }
         public string OlusturulmaTarihi { get { return _OlusturulmaTarihi ?? ""; } set { _OlusturulmaTarihi = value; } }
+      
     }
 }
 

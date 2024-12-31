@@ -332,6 +332,8 @@ namespace YKPortal.Areas.E.Controllers
                     entity.Aktif = Convert.ToBoolean(row["Aktif"]);
                     entity.Text = Convert.ToString(row["Text"]);
                     entity.OlusturulmaTarihi = Convert.ToString(row["OlusturulmaTarihi"]);
+                   
+                    entity.Siralama = Convert.ToInt32(row["Siralama"]);
                 }
             }
             return entity;
@@ -351,6 +353,8 @@ namespace YKPortal.Areas.E.Controllers
                 entity.Aktif = Convert.ToBoolean(dt.Rows[0]["Aktif"]);
                 entity.Text = Convert.ToString(dt.Rows[0]["Text"]);
                 entity.OlusturulmaTarihi = Convert.ToString(dt.Rows[0]["OlusturulmaTarihi"]);
+            
+                entity.Siralama = Convert.ToInt32(dt.Rows[0]["Siralama"]);
             }
 
             return entity;
