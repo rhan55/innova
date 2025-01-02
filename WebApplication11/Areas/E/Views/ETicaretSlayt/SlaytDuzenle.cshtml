@@ -1,0 +1,41 @@
+﻿
+@model YKPortal.Areas.E.Models.Dto.ETicaretSlaytDto
+@{
+    ViewBag.Title = "Slayt Düzenle";
+    Layout = "~/Areas/E/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <h1>Slayt Ekle</h1>
+    <form action="/E/ETicaretSlayt/SlaytDuzenle" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="SlaytID" value="@Model.SlaytID" />
+
+        <div>
+            <img src="@Model.ResimYolu" alt="Slayt @Model.Siralama" />
+        </div>
+
+        <div class="col-lg-12">
+            <label for="ResimYolu">Resim Yolu:</label>
+            <input type="file" id="ResimYolu" name="Dosya" class="form-control" />
+        </div>
+
+        <div class="col-lg-12">
+            <label for="Link">Link:</label>
+            <input type="text" id="Link" name="Link" value="@Model.Link" class="form-control" />
+        </div>
+        <div class="col-lg-12">
+            <label for="Text">Metin:</label>
+            <textarea class="form-control" name="Text">@Model.Text</textarea>
+        </div>
+        <div class="col-lg-12">
+            <label for="Siralama">Sıralama:</label>
+            <input type="number" name="Siralama" class="form-control" value="@Model.Siralama" />
+        </div>
+        <div class="col-lg-12">
+            <label for="Aktif">Aktif:</label>
+            <input type="checkbox" id="Aktif" name="Aktif" value="true" @(Model != null && Model.Aktif ? "checked" : "") />
+        </div>
+        <button type="submit" class="form-button btn btn-dark btn-ellipse btn-sm mt-2">Kaydet</button>
+    </form>
+</div>

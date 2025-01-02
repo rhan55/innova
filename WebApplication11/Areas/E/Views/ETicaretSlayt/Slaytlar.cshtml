@@ -4,17 +4,92 @@
     ViewBag.Title = "Slaytlar";
     Layout = "~/Areas/E/Views/Shared/_Layout.cshtml";
 }
+<table class="table" id="Slayt-datatable">
+    <thead class="">
+        <tr>
+            <th scope="col"><strong>Resim Yolu</strong></th>
+            <th scope="col"><strong>Link</strong></th>
+            <th scope="col"><strong>Text</strong></th>
+            <th scope="col"><strong>Sıralama</strong></th>
+            <th scope="col"><strong>Aktif</strong></th>
+            <th scope="col"><strong>İşlemler</strong></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <div class="d-flex">
+                        <span class="icon-wrapper">
+                            <i class="ki-duotone ki-folder fs-2x text-primary me-4">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                        <div href="" class="text-gray-800 text-hover-primary ">@item.ResimYolu</div>
+                    </div>
 
-<div class="container">
-    <h1>Slaytlar</h1>
-    @foreach(var item in Model)
-    {
-        <div>
-            <img src="@item.ResimYolu" alt="Slayt @item.Siralama" />
-            <p>@item.Text</p>
-            <p>@item.Link</p>
-            <p>@item.Siralama</p>
-            <p>@item.Aktif</p>
-        </div>
-    }
-</div>
+                </td>
+                <td>@item.Link</td>
+                <td>@item.Text</td>
+                <td>@item.Siralama</td>
+                <td>@item.Aktif</td>
+                <td>
+                    <div class="">
+                        <button type="button" data-id="@item.SlaytID" class="silButon btn btn-sm btn-dark">
+                            Sil
+                        </button>
+                        <a href="/E/ETicaretSlayt/SlaytDuzenle?SlaytID=@item.SlaytID" class="btn btn-sm btn-dark">
+                            Düzenle
+                        </a>
+
+                    </div>
+                </td>
+
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+         
+            $(document).on('click', '.silButon', function () {
+                const slaytId = $(this).data('id');
+                if (confirm("Bu slaytı silmek istediğinize emin misiniz?")) {
+                    $.ajax({
+                        url: '/E/ETicaretSlayt/SlaytSilJson',
+                        type: 'POST',
+                        data: { SlaytID: slaytId },
+                        success: function (response) {
+                            if (response.success) {
+                                alert(response.message);
+                               
+                               
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function () {
+                            alert("Bir hata oluştu.");
+                        }
+                    });
+                }
+            });
+
+
+            $("#Slayt-datatable").DataTable({
+                searchable: true
+            });
+        })
+
+    </script>
+}
+
+
+

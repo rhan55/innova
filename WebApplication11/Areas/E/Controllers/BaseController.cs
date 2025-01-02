@@ -315,7 +315,7 @@ namespace YKPortal.Areas.E.Controllers
 
             return entity;
         }
-        protected ETicaretSlaytDto SlaytlarıGetir(string SlaytID)
+        protected ETicaretSlaytDto SlaytlariGetir(string SlaytID)
         {
             SqlCommand cmd = new SqlCommand("SELECT * FROM ETicaret_Slaytlar WHERE SlaytID = @SlaytID");
             cmd.Parameters.AddWithValue("@SlaytID", SlaytID);
@@ -359,6 +359,27 @@ namespace YKPortal.Areas.E.Controllers
 
             return entity;
         }
+        //protected List<ETicaretSlaytDto> SlaytListesi()
+        //{
+        //    SqlCommand cmd = new SqlCommand("SELECT * FROM ETicaret_Slaytlar WHERE Silindi = 0 AND Aktif = 1 ORDER BY Siralama ASC");
+
+        //    DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+        //    var entities = new List<ETicaretSlaytDto>();
+        //    foreach (DataRow row in dt.Rows)
+        //    {
+        //        var entity = new ETicaretSlaytDto();
+        //        entity.SlaytID = Convert.ToString(row["SlaytID"]);
+        //        entity.ResimYolu = Convert.ToString(row["ResimYolu"]);
+        //        entity.Link = Convert.ToString(row["Link"]);
+        //        entity.Text = Convert.ToString(row["Text"]);
+        //        entity.Aktif = Convert.ToBoolean(row["Aktif"]);
+        //        entity.Siralama = Convert.ToInt32(row["Siralama"]);
+
+        //        entities.Add(entity);
+        //    }
+        //    return entities;
+        //}
         protected bool SepetKaydet(ETicaretSepetDto.ETicaretSepetEkleDto eTicaretSepetEkleDto)
         {
             try
