@@ -16,6 +16,7 @@ using System.Web.Security;
 using System.Text.Json;
 using YKEFaturaEntegrasyon.Dto;
 using static YKPortal.Areas.E.Models.Dto.ETicaretStokDto;
+using iText.StyledXmlParser.Jsoup.Nodes;
 
 namespace YKPortal.Areas.E.Controllers
 {
@@ -59,6 +60,7 @@ namespace YKPortal.Areas.E.Controllers
                 ViewBag.GirisYapildi = false;
             }
 
+          
             ViewBag.ETicaretTelefon = GrupKodListesiniGetir("ETicaretTelefon");
             ViewBag.ETicaretEmail = GrupKodListesiniGetir("ETicaretEmail");
             ViewBag.ETicaretLogo = GrupKodListesiniGetir("ETicaretLogo");
@@ -66,6 +68,7 @@ namespace YKPortal.Areas.E.Controllers
             ViewBag.ETicaretAdres = GrupKodListesiniGetir("ETicaretAdres");
 
             ViewBag.SabitSayfalar = SabitSayfalarGetir();
+            ViewBag.Slaytlar = SlaytListesi();
 
             // Yönlendirme sadece yetki gerektiren sayfalarda yapılır
             if (IsAuthorizationRequired(filterContext))
@@ -359,27 +362,28 @@ namespace YKPortal.Areas.E.Controllers
 
             return entity;
         }
-        //protected List<ETicaretSlaytDto> SlaytListesi()
-        //{
-        //    SqlCommand cmd = new SqlCommand("SELECT * FROM ETicaret_Slaytlar WHERE Silindi = 0 AND Aktif = 1 ORDER BY Siralama ASC");
 
-        //    DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+        //Order BY Siralama ASC ile seçiyoruz.
+        protected List<ETicaretSlaytDto> SlaytListesi()
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM ETicaret_Slaytlar WHERE Silindi = 0 AND Aktif = 1 ORDER BY Siralama ASC");
 
-        //    var entities = new List<ETicaretSlaytDto>();
-        //    foreach (DataRow row in dt.Rows)
-        //    {
-        //        var entity = new ETicaretSlaytDto();
-        //        entity.SlaytID = Convert.ToString(row["SlaytID"]);
-        //        entity.ResimYolu = Convert.ToString(row["ResimYolu"]);
-        //        entity.Link = Convert.ToString(row["Link"]);
-        //        entity.Text = Convert.ToString(row["Text"]);
-        //        entity.Aktif = Convert.ToBoolean(row["Aktif"]);
-        //        entity.Siralama = Convert.ToInt32(row["Siralama"]);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-        //        entities.Add(entity);
-        //    }
-        //    return entities;
-        //}
+            var entities = new List<ETicaretSlaytDto>();
+            foreach (DataRow row in dt.Rows)
+            {
+                var entity = new ETicaretSlaytDto();
+                entity.SlaytID = Convert.ToString(row["SlaytID"]);
+                entity.ResimYolu = Convert.ToString(row["ResimYolu"]);
+                entity.Link = Convert.ToString(row["Link"]);
+                entity.Text = Convert.ToString(row["Text"]);
+                entity.Aktif = Convert.ToBoolean(row["Aktif"]);
+                entity.Siralama = Convert.ToInt32(row["Siralama"]);
+                entities.Add(entity);
+            }
+            return entities;
+        }
         protected bool SepetKaydet(ETicaretSepetDto.ETicaretSepetEkleDto eTicaretSepetEkleDto)
         {
             try

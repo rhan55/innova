@@ -602,11 +602,7 @@
     <Content Include="Areas\E\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\E\Views\Shared\Error.cshtml" />
     <Content Include="Areas\E\Views\web.config" />
-    <Content Include="Areas\E\Views\ETicaretHakkimizda\Hakkimizda.cshtml" />
     <Content Include="Areas\E\Views\ETicaretSepet\SepetBilgileri.cshtml" />
-    <Content Include="Areas\E\Views\ETicaretHakkimizda\Misyonumuz.cshtml" />
-    <Content Include="Areas\E\Views\ETicaretHakkimizda\Vizyonumuz.cshtml" />
-    <Content Include="Areas\E\Views\ETicaretHakkimizda\Iletisim.cshtml" />
     <Content Include="Areas\E\Views\ETicaretYasalBilgiler\MesafeliSatisSozlesmesi.cshtml" />
     <Content Include="Areas\E\Views\ETicaretYasalBilgiler\KisiselVerilerinKorunmasi.cshtml" />
     <Content Include="Areas\E\Views\ETicaretYasalBilgiler\Gizlilik.cshtml" />

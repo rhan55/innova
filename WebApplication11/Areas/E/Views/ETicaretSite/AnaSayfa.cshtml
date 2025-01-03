@@ -26,10 +26,11 @@
             @foreach (var slayt in Slaytlar)
             {
                 <div class="home-slide home-slide1 banner">
-                    <img class="slide-bg" src="@slayt.ResimYolu"  alt="slider image">
+
+                    <img class="slide-bg" src="@slayt.ResimYolu"  alt="slider image" style="width:100%; height:700px; object-fit:cover;">
                     <div class="container d-flex align-items-center">
                         <div class="banner-layer appear-animate" data-animation-name="fadeInUpShorter">
-                            <h4 class="text-transform-none m-b-3">Find the Boundaries. Push Through!</h4>
+                            <h4 class="text-transform-none m-b-3">@Html.Raw(HttpUtility.HtmlDecode(slayt.Text))</h4>
                             <h2 class="text-transform-none mb-0">Summer Sale</h2>
                             <h3 class="m-b-3">70% Off</h3>
                             <h5 class="d-inline-block mb-0">

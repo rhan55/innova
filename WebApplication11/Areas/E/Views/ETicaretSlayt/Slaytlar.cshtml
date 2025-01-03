@@ -32,7 +32,7 @@
 
                 </td>
                 <td>@item.Link</td>
-                <td>@item.Text</td>
+                <td>@Html.Raw(HttpUtility.HtmlDecode(item.Text))</td>
                 <td>@item.Siralama</td>
                 <td>@item.Aktif</td>
                 <td>

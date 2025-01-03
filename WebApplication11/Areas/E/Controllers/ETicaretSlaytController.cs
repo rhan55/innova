@@ -56,7 +56,7 @@ namespace YKPortal.Areas.E.Controllers
             entity = string.IsNullOrWhiteSpace(SlaytID) ? new ETicaretSlaytDto() : SlaytGetir(SlaytID);
             return View(entity);
         }
-
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult SlaytEkle(ETicaretSlaytDto eTicaretSlaytDto, HttpPostedFileBase Dosya)
         {
@@ -84,10 +84,10 @@ namespace YKPortal.Areas.E.Controllers
                 cmd = new SqlCommand("UPDATE ETicaret_Slaytlar SET ResimYolu = @ResimYolu, Link = @Link, Text = @Text, Aktif = @Aktif, Siralama = @Siralama WHERE SlaytID = @SlaytID");
                 cmd.Parameters.AddWithValue("@SlaytID", eTicaretSlaytDto.SlaytID);
             }
-
+           
             cmd.Parameters.AddWithValue("@ResimYolu", resimYolu);
             cmd.Parameters.AddWithValue("@Link", eTicaretSlaytDto.Link);
-            cmd.Parameters.AddWithValue("@Text", eTicaretSlaytDto.Text);
+            cmd.Parameters.AddWithValue("@Text", HttpUtility.HtmlEncode(eTicaretSlaytDto.Text));
             cmd.Parameters.AddWithValue("@Aktif", eTicaretSlaytDto.Aktif);
             cmd.Parameters.AddWithValue("@OlusturulmaTarihi", eTicaretSlaytDto.OlusturulmaTarihi);
             cmd.Parameters.AddWithValue("@Siralama", string.IsNullOrWhiteSpace(eTicaretSlaytDto.SlaytID) ? 0 : int.Parse(eTicaretSlaytDto.SlaytID));
@@ -121,7 +121,7 @@ namespace YKPortal.Areas.E.Controllers
 
             return View(entity);
         }
-
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult SlaytDuzenle(ETicaretSlaytDto eTicaretSlaytDto, HttpPostedFileBase Dosya)
         {
@@ -148,7 +148,7 @@ namespace YKPortal.Areas.E.Controllers
                 cmd.Parameters.AddWithValue("@ResimYolu", resimYolu);
             }
             cmd.Parameters.AddWithValue("@Link", eTicaretSlaytDto.Link);
-            cmd.Parameters.AddWithValue("@Text", eTicaretSlaytDto.Text);
+            cmd.Parameters.AddWithValue("@Text", HttpUtility.HtmlEncode(eTicaretSlaytDto.Text));
             cmd.Parameters.AddWithValue("@Aktif", eTicaretSlaytDto.Aktif);
             cmd.Parameters.AddWithValue("@Siralama", eTicaretSlaytDto.Siralama);
             cmd.Parameters.AddWithValue("@GuncellenmeTarihi", DateTime.Now.ToString());
