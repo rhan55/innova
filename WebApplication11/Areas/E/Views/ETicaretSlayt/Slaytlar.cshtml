@@ -4,61 +4,81 @@
     ViewBag.Title = "Slaytlar";
     Layout = "~/Areas/E/Views/Shared/_Layout.cshtml";
 }
-<table class="table" id="Slayt-datatable">
-    <thead class="">
-        <tr>
-            <th scope="col"><strong>Resim Yolu</strong></th>
-            <th scope="col"><strong>Link</strong></th>
-            <th scope="col"><strong>Text</strong></th>
-            <th scope="col"><strong>Sıralama</strong></th>
-            <th scope="col"><strong>Aktif</strong></th>
-            <th scope="col"><strong>İşlemler</strong></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div class="container py-5">
+    <table class="table slayt-table" id="Slayt-datatable">
+        <thead class="">
             <tr>
-                <td>
-                    <div class="d-flex">
-                        <span class="icon-wrapper">
-                            <i class="ki-duotone ki-folder fs-2x text-primary me-4">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                            </i>
-                        </span>
-                        <div href="" class="text-gray-800 text-hover-primary ">@item.ResimYolu</div>
-                    </div>
-
-                </td>
-                <td>@item.Link</td>
-                <td>@Html.Raw(HttpUtility.HtmlDecode(item.Text))</td>
-                <td>@item.Siralama</td>
-                <td>@item.Aktif</td>
-                <td>
-                    <div class="">
-                        <button type="button" data-id="@item.SlaytID" class="silButon btn btn-sm btn-dark">
-                            Sil
-                        </button>
-                        <a href="/E/ETicaretSlayt/SlaytDuzenle?SlaytID=@item.SlaytID" class="btn btn-sm btn-dark">
-                            Düzenle
-                        </a>
-
-                    </div>
-                </td>
-
+                <th scope="col"><strong>Resim</strong></th>
+                <th scope="col"><strong>Link</strong></th>
+                <th scope="col" class="text-center"><strong>Sıralama</strong></th>
+                <th scope="col" class="text-center"><strong>Aktif</strong></th>
+                <th scope="col"><strong>İşlemler</strong></th>
             </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="d-flex">
+                            <span class="icon-wrapper">
+                                <i class="ki-duotone ki-folder fs-2x text-primary me-4">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                </i>
+                            </span>
+                            <div href="" class="text-gray-800 text-hover-primary ">
+                                <img class="dt-image-thumbnail" src="@item.ResimYolu" alt="Alternate Text" />
+                            </div>
+                        </div>
 
-        }
-    </tbody>
-</table>
+                    </td>
+                    <td>@item.Link</td>
+              
+                    <td class="text-center">@item.Siralama</td>
+                    <td class="text-center">
+                        @if (item.Aktif)
+                        {
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 status-active">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                        }
+                        else
+                        {
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 status-not-active">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                        }
+                    </td>
+                    <td>
+
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle btn-sm text-muted rounded" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                İşlemler
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a href="/E/ETicaretSlayt/SlaytDuzenle?SlaytID=@item.SlaytID" class="dropdown-item py-3 text-muted font-weight-bold">
+                                    Düzenle
+                                </a>
+                                <button type="button" data-id="@item.SlaytID" class="silButon dropdown-item py-3 text-muted font-weight-bold">
+                                    Sil
+                                </button>
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 
 @section Scripts {
     <script>
         $(document).ready(function () {
 
-         
+
             $(document).on('click', '.silButon', function () {
                 const slaytId = $(this).data('id');
                 if (confirm("Bu slaytı silmek istediğinize emin misiniz?")) {
@@ -69,8 +89,8 @@
                         success: function (response) {
                             if (response.success) {
                                 alert(response.message);
-                               
-                               
+
+
                             } else {
                                 alert(response.message);
                             }
@@ -84,8 +104,11 @@
 
 
             $("#Slayt-datatable").DataTable({
-                searchable: true
+                searchable: true,
+                language: { url: '/Tema/plugins/custom/datatables/languages/tr.json', },
             });
+
+            
         })
 
     </script>
