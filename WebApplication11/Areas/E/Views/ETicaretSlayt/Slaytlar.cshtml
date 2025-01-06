@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Slaytlar";
     Layout = "~/Areas/E/Views/Shared/_Layout.cshtml";
+    Dictionary<string, string> tipler = ViewBag.Tipler as Dictionary<string, string>;
 }
 <div class="container py-5">
     <table class="table slayt-table" id="Slayt-datatable">
@@ -12,6 +13,7 @@
                 <th scope="col"><strong>Link</strong></th>
                 <th scope="col" class="text-center"><strong>Sıralama</strong></th>
                 <th scope="col" class="text-center"><strong>Aktif</strong></th>
+                <th scope="col" class="text-center"><strong>Pozisyon</strong></th>
                 <th scope="col"><strong>İşlemler</strong></th>
             </tr>
         </thead>
@@ -50,6 +52,14 @@
                             </svg>
                         }
                     </td>
+                     <td>
+                         @foreach(var tip in tipler) {
+                            if (tip.Key == item.Tip)
+                            {
+                                 <span>@tip.Value</span>
+                            }
+                         }
+                     </td>
                     <td>
 
                         <div class="dropdown">

@@ -6625,6 +6625,7 @@
     <Folder Include="Areas\Entegrasyon\Data\" />
     <Folder Include="Areas\Entegrasyon\Views\Shared\" />
     <Folder Include="Areas\E\Data\" />
+    <Folder Include="Areas\E\Views\ApplicationDbContext\" />
     <Folder Include="Areas\E\Views\Base\" />
     <Folder Include="Areas\E\Views\BildirimHub\" />
     <Folder Include="Areas\E\Views\NewFolder1\" />

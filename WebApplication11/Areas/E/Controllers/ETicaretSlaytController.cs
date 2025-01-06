@@ -34,32 +34,40 @@ namespace YKPortal.Areas.E.Controllers
                 entity.ResimYolu = Convert.ToString(row["ResimYolu"]);
                 entity.Link = Convert.ToString(row["Link"]);
                 entity.Text = Convert.ToString(row["Text"]);
+                entity.Tip = Convert.ToString(row["Tip"]);
                 entity.Aktif = Convert.ToBoolean(row["Aktif"]);
                 entity.Siralama = Convert.ToInt32(row["Siralama"]);
 
                 entities.Add(entity);
             }
-        
+
+            ViewBag.Tipler = new Dictionary<string, string>()
+            {
+                { "anasayfa-ust", "Anasayfa Üst" },
+            };
 
             return View(entities);
         }
 
         [HttpGet]
-        public ActionResult SlaytEkle(string SlaytID)
+        public ActionResult SlaytEkle()
         {
+            var tipler = SlaytTipleriGetir();
             var entity = new ETicaretSlaytDto();
-            if (string.IsNullOrWhiteSpace(SlaytID))
-            {
-                return View(entity);
-            }
 
-            entity = string.IsNullOrWhiteSpace(SlaytID) ? new ETicaretSlaytDto() : SlaytGetir(SlaytID);
+            ViewBag.Tipler = new Dictionary<string, string>()
+            {
+                { "anasayfa-ust", "Anasayfa Üst" },
+            };
+
             return View(entity);
         }
+
         [ValidateInput(false)]
         [HttpPost]
         public ActionResult SlaytEkle(ETicaretSlaytDto eTicaretSlaytDto, HttpPostedFileBase Dosya)
         {
+            var tipler = SlaytTipleriGetir();
             var resimYolu = "";
             if (Dosya != null && Dosya.ContentLength > 0)
             {
@@ -76,21 +84,22 @@ namespace YKPortal.Areas.E.Controllers
             if (string.IsNullOrWhiteSpace(eTicaretSlaytDto.SlaytID))
             {
                 // Yeni slayt ekleme
-                cmd = new SqlCommand("INSERT INTO ETicaret_Slaytlar (ResimYolu, Link, Text, Aktif, OlusturulmaTarihi, Siralama) VALUES (@ResimYolu, @Link, @Text, @Aktif, @OlusturulmaTarihi, @Siralama)");
+                cmd = new SqlCommand("INSERT INTO ETicaret_Slaytlar (ResimYolu, Link, Text, Tip,Aktif, OlusturulmaTarihi, Siralama) VALUES (@ResimYolu, @Link, @Text,@Tip, @Aktif, @OlusturulmaTarihi, @Siralama)");
             }
             else
             {
                 // Mevcut slaytı güncelleme
-                cmd = new SqlCommand("UPDATE ETicaret_Slaytlar SET ResimYolu = @ResimYolu, Link = @Link, Text = @Text, Aktif = @Aktif, Siralama = @Siralama WHERE SlaytID = @SlaytID");
+                cmd = new SqlCommand("UPDATE ETicaret_Slaytlar SET ResimYolu = @ResimYolu, Link = @Link, Text = @Text,Tip = @Tip, Aktif = @Aktif, Siralama = @Siralama WHERE SlaytID = @SlaytID");
                 cmd.Parameters.AddWithValue("@SlaytID", eTicaretSlaytDto.SlaytID);
             }
            
             cmd.Parameters.AddWithValue("@ResimYolu", resimYolu);
             cmd.Parameters.AddWithValue("@Link", eTicaretSlaytDto.Link);
             cmd.Parameters.AddWithValue("@Text", HttpUtility.HtmlEncode(eTicaretSlaytDto.Text));
+            cmd.Parameters.AddWithValue("@Tip", eTicaretSlaytDto.Tip);
             cmd.Parameters.AddWithValue("@Aktif", eTicaretSlaytDto.Aktif);
             cmd.Parameters.AddWithValue("@OlusturulmaTarihi", eTicaretSlaytDto.OlusturulmaTarihi);
-            cmd.Parameters.AddWithValue("@Siralama", string.IsNullOrWhiteSpace(eTicaretSlaytDto.SlaytID) ? 0 : int.Parse(eTicaretSlaytDto.SlaytID));
+            cmd.Parameters.AddWithValue("@Siralama", eTicaretSlaytDto.Siralama);
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
@@ -100,6 +109,7 @@ namespace YKPortal.Areas.E.Controllers
         [HttpGet]
         public ActionResult SlaytDuzenle(ETicaretSlaytDto eTicaretSlaytDto)
         {
+            var tipler = SlaytTipleriGetir();
             SqlCommand cmd = new SqlCommand("SELECT * FROM ETicaret_Slaytlar WHERE Aktif = 1 AND SlaytID = @SlaytID");
             cmd.Parameters.AddWithValue("@SlaytID", eTicaretSlaytDto.SlaytID);
 
@@ -116,8 +126,14 @@ namespace YKPortal.Areas.E.Controllers
             entity.ResimYolu = Convert.ToString(dt.Rows[0]["ResimYolu"]);
             entity.Link = Convert.ToString(dt.Rows[0]["Link"]);
             entity.Text = Convert.ToString(dt.Rows[0]["Text"]);
+            entity.Tip = Convert.ToString(dt.Rows[0]["Tip"]);
             entity.Aktif = Convert.ToBoolean(dt.Rows[0]["Aktif"]);
             entity.Siralama = Convert.ToInt32(dt.Rows[0]["Siralama"]);
+
+            ViewBag.Tipler = new Dictionary<string, string>()
+            {
+                { "anasayfa-ust", "Anasayfa Üst" },
+            };
 
             return View(entity);
         }
@@ -125,6 +141,7 @@ namespace YKPortal.Areas.E.Controllers
         [HttpPost]
         public ActionResult SlaytDuzenle(ETicaretSlaytDto eTicaretSlaytDto, HttpPostedFileBase Dosya)
         {
+            var tipler = SlaytTipleriGetir();
             var resimYolu = "";
             if (Dosya != null && Dosya.ContentLength > 0)
             {
@@ -138,7 +155,7 @@ namespace YKPortal.Areas.E.Controllers
 
             SqlCommand cmd;
             var resimYoluQuery = string.IsNullOrWhiteSpace(resimYolu) ? "" : "ResimYolu = @ResimYolu,"; 
-            var sql = $"UPDATE ETicaret_Slaytlar SET {resimYoluQuery} Link = @Link, Text = @Text, Aktif = @Aktif, Siralama = @Siralama, GuncellenmeTarihi = @GuncellenmeTarihi WHERE SlaytID = @SlaytID";
+            var sql = $"UPDATE ETicaret_Slaytlar SET {resimYoluQuery} Link = @Link, Text = @Text,Tip = @Tip ,Aktif = @Aktif, Siralama = @Siralama, GuncellenmeTarihi = @GuncellenmeTarihi WHERE SlaytID = @SlaytID";
 
             // Mevcut slaytı güncelleme
             cmd = new SqlCommand(sql);
@@ -149,6 +166,7 @@ namespace YKPortal.Areas.E.Controllers
             }
             cmd.Parameters.AddWithValue("@Link", eTicaretSlaytDto.Link);
             cmd.Parameters.AddWithValue("@Text", HttpUtility.HtmlEncode(eTicaretSlaytDto.Text));
+            cmd.Parameters.AddWithValue("@Tip", eTicaretSlaytDto.Tip);
             cmd.Parameters.AddWithValue("@Aktif", eTicaretSlaytDto.Aktif);
             cmd.Parameters.AddWithValue("@Siralama", eTicaretSlaytDto.Siralama);
             cmd.Parameters.AddWithValue("@GuncellenmeTarihi", DateTime.Now.ToString());
@@ -158,6 +176,26 @@ namespace YKPortal.Areas.E.Controllers
             return RedirectToAction("Slaytlar");
         }
 
+        protected List<string> SlaytTipleriGetir()
+        {
+            SqlCommand cmd = new SqlCommand("SELECT DISTINCT Tip FROM ETicaret_Slaytlar WHERE Silindi = 0");
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var tipler = new List<string>();
+            foreach (DataRow row in dt.Rows)
+            {
+                tipler.Add(Convert.ToString(row["Tip"]));
+
+            }
+            return tipler;
+
+        }
+        public JsonResult SlaytTipleriGetirJson()
+        {
+            // Örnek olarak veritabanından alınan değerler
+            var tipler = new List<string> { "Tip1", "Tip2", "Tip3" };
+            return Json(tipler, JsonRequestBehavior.AllowGet);
+        }
         protected bool SlaytSil(string SlaytID)
         {
             try

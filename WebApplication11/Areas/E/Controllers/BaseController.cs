@@ -68,7 +68,7 @@ namespace YKPortal.Areas.E.Controllers
             ViewBag.ETicaretAdres = GrupKodListesiniGetir("ETicaretAdres");
 
             ViewBag.SabitSayfalar = SabitSayfalarGetir();
-            ViewBag.Slaytlar = SlaytListesi();
+            ViewBag.Slaytlar = SlaytListesi("anasayfa-ust");
 
             // Yönlendirme sadece yetki gerektiren sayfalarda yapılır
             if (IsAuthorizationRequired(filterContext))
@@ -334,6 +334,7 @@ namespace YKPortal.Areas.E.Controllers
                     entity.ResimYolu = Convert.ToString(row["ResimYolu"]);
                     entity.Aktif = Convert.ToBoolean(row["Aktif"]);
                     entity.Text = Convert.ToString(row["Text"]);
+                    entity.Tip = Convert.ToString(row["Tip"]);
                     entity.OlusturulmaTarihi = Convert.ToString(row["OlusturulmaTarihi"]);
                    
                     entity.Siralama = Convert.ToInt32(row["Siralama"]);
@@ -353,6 +354,7 @@ namespace YKPortal.Areas.E.Controllers
             {
                 entity.SlaytID = Convert.ToString(dt.Rows[0]["SlaytID"]);
                 entity.ResimYolu = Convert.ToString(dt.Rows[0]["ResimYolu"]);
+                entity.Tip = Convert.ToString(dt.Rows[0]["Tip"]);
                 entity.Aktif = Convert.ToBoolean(dt.Rows[0]["Aktif"]);
                 entity.Text = Convert.ToString(dt.Rows[0]["Text"]);
                 entity.OlusturulmaTarihi = Convert.ToString(dt.Rows[0]["OlusturulmaTarihi"]);
@@ -364,9 +366,9 @@ namespace YKPortal.Areas.E.Controllers
         }
 
         //Order BY Siralama ASC ile seçiyoruz.
-        protected List<ETicaretSlaytDto> SlaytListesi()
+        protected List<ETicaretSlaytDto> SlaytListesi(string Tip)
         {
-            SqlCommand cmd = new SqlCommand("SELECT * FROM ETicaret_Slaytlar WHERE Silindi = 0 AND Aktif = 1 ORDER BY Siralama ASC");
+            SqlCommand cmd = new SqlCommand($"SELECT * FROM ETicaret_Slaytlar WHERE Silindi = 0 AND Aktif = 1 AND Tip = '{Tip}' ORDER BY Siralama ASC");
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
@@ -378,12 +380,15 @@ namespace YKPortal.Areas.E.Controllers
                 entity.ResimYolu = Convert.ToString(row["ResimYolu"]);
                 entity.Link = Convert.ToString(row["Link"]);
                 entity.Text = Convert.ToString(row["Text"]);
+                entity.Tip = Convert.ToString(row["Tip"]);
                 entity.Aktif = Convert.ToBoolean(row["Aktif"]);
                 entity.Siralama = Convert.ToInt32(row["Siralama"]);
                 entities.Add(entity);
             }
             return entities;
         }
+
+
         protected bool SepetKaydet(ETicaretSepetDto.ETicaretSepetEkleDto eTicaretSepetEkleDto)
         {
             try
@@ -496,7 +501,31 @@ namespace YKPortal.Areas.E.Controllers
             }
             ViewBag.Ulkeler = entities;
         }
+        protected void TipListesiniGetir()
+        {
+            // GrupKodu1 Listesi oluşturma 
+            SqlCommand ulkeCommand = new SqlCommand();
+            ulkeCommand.CommandText = "p_GrupKoduListesi";
+            ulkeCommand.CommandType = System.Data.CommandType.StoredProcedure;
+            ulkeCommand.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
 
+            ulkeCommand.Parameters.AddWithValue("@Kod", "Ulke");
+            ulkeCommand.Parameters.AddWithValue("@AranacakKelime", "");
+
+
+            DataTable ulkeDataTable = (DataTable)IDVeritabani.Sorgula(ulkeCommand, SorgulaTuru.Tablo);
+
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
+
+            for (int i = 0; i < ulkeDataTable.Rows.Count; i++)
+            {
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(ulkeDataTable.Rows[i]["ID"]);
+                entity.Deger = Convert.ToString(ulkeDataTable.Rows[i]["Deger"]);
+                entities.Add(entity);
+            }
+            ViewBag.Ulkeler = entities;
+        }
 
         protected bool AutoGirisKontrol()
         {

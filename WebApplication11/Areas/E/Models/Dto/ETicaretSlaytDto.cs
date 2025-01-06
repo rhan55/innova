@@ -14,6 +14,7 @@ namespace YKPortal.Areas.E.Models.Dto
         private bool _Durum;
         public string _OlusturulmaTarihi;
         public int _Siralama;
+        public string _Tip;
 
 
 
@@ -24,7 +25,8 @@ namespace YKPortal.Areas.E.Models.Dto
         public bool Aktif { get { return _Durum; } set { _Durum = value; } }        
         public int Siralama { get { return _Siralama; } set { _Siralama = value; } }
         public string OlusturulmaTarihi { get { return _OlusturulmaTarihi ?? ""; } set { _OlusturulmaTarihi = value; } }
-      
+        public string Tip { get { return _Tip ?? ""; } set { _Tip = value; } }
+
     }
 }
 

@@ -14,6 +14,7 @@ namespace YKPortal.Areas.E.Controllers
         [HttpGet]
         public ActionResult Stoklar(YKPortal.Areas.E.Models.Dto.ETicaretStokDto.ETicaretStokSorguDto stokSorguDto = null)
         {
+          
             ViewBag.Stoklar = StokGetir(stokSorguDto);
             return View("~/Areas/E/Views/ETicaretStok/Stoklar.cshtml");
         }

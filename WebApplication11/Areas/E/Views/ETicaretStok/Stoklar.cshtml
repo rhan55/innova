@@ -32,7 +32,7 @@
 
         <div class="row">
             <div class="col-lg-10 main-content">
-                <nav class="toolbox sticky-header" data-sticky-options="{'mobile': true}">                 
+                <nav class="toolbox sticky-header" data-sticky-options="{'mobile': true}">
                     <div class="toolbox-right">
                         <div class="toolbox-item toolbox-show">
                             <label>Show:</label>
@@ -70,20 +70,20 @@
                                 <figure>
                                     <a href="/E/ETicaretStok/StokDetay?StokID=@stokSonucDto.StokID">
                                         <img src="/Uploads/Dosyalar/@stokSonucDto.Resim1" class="ov-brand-image" alt="@stokSonucDto.Isim" />
-                                        <img  class="ov-brand-image" src="/Uploads/Dosyalar/@stokSonucDto.Resim1" data-zoom-image="/Uploads/Dosyalar/@stokSonucDto.Resim1"  alt="@stokSonucDto.Isim" />
+                                        <img class="ov-brand-image" src="/Uploads/Dosyalar/@stokSonucDto.Resim1" data-zoom-image="/Uploads/Dosyalar/@stokSonucDto.Resim1" alt="@stokSonucDto.Isim" />
                                     </a>
                                 </figure>
 
                                 <div class="product-details">
                                     <div class="category-wrap">
-                                        <div class="category-list">                                           
+                                        <div class="category-list">
                                             <div>
                                                 @(
                                                    string.IsNullOrEmpty(stokSonucDto.Kategoriler.Kategori1)
                                                    ? "Kategori 1 Bulunamadı"
                                                    : stokSonucDto.Kategoriler.Kategori1
                                                 )
-                                            </div>                                        
+                                            </div>
                                         </div>
                                     </div>
 
@@ -121,15 +121,15 @@
                                                 SEPETE EKLE
                                             </span>
                                         </button>
-                                   
+
                                     </div>
 
                                 </div>
                                 <!-- End .product-details -->
                             </div>
                         </div>
-                            }
-                    
+                    }
+
                 </div>
                 <!-- End .row -->
 
@@ -167,17 +167,15 @@
             <!-- End .col-lg-9 -->
 
             <div class="sidebar-overlay"></div>
-
             <aside class="sidebar-shop col-lg-2 order-lg-first mobile-sidebar">
                 <div class="sidebar-wrapper">
                     <div class="widget">
                         <h3 class="widget-title">
                             <a data-toggle="collapse" href="#widget-body-3" role="button" aria-expanded="true" aria-controls="widget-body-3">Price</a>
                         </h3>
-
                         <div class="collapse show" id="widget-body-3">
                             <div class="widget-body pb-0">
-                                <form action="#">
+                                <form method="get" action="/E/ETicaretStok/Stoklar" class="filter-form">
                                     <div class="price-slider-wrapper">
                                         <div id="price-slider"></div>
                                         <!-- End #price-slider -->
@@ -186,12 +184,24 @@
 
                                     <div class="filter-price-action d-flex align-items-center justify-content-between flex-wrap">
                                         <div class="filter-price-text">
-                                            Price:
+                                            Fiyat Aralığı:
                                             <span id="filter-price-range"></span>
+                                            <input type="hidden" id="price-min" name="PriceMin" value="0">
+                                            <input type="hidden" id="price-max" name="PriceMax" value="1000">
                                         </div>
                                         <!-- End .filter-price-text -->
+                                        <button type="submit" class="btn btn-primary">Filtrele</button>
+                                    </div>
 
-                                        <button type="submit" class="btn btn-primary">Filter</button>
+                                    <div class="filter-categories">
+                                        <h5>Kategoriler</h5>
+                                        <select name="Kategori1" id="kategori" class="form-control">
+                                            <option value="">Tüm Kategoriler</option>
+                                            @foreach (var kategori in ViewBag.Kategoriler as List<YKPortal.Areas.E.Models.Dto.ETicaretKategorilerDto>)
+                                            {
+                                                <option value="@kategori.Kategori1">@kategori.Kategori1</option>
+                                            }
+                                        </select>
                                     </div>
                                     <!-- End .filter-price-action -->
                                 </form>
@@ -205,62 +215,62 @@
                             <a data-toggle="collapse" href="#widget-body-2" role="button" aria-expanded="true" aria-controls="widget-body-2">Categories</a>
                         </h3>
                         <div class="collapse show" id="widget-body-2">
-                          
-                                @if (ViewBag.Kategoriler != null)
-                                {
-                                    var kategoriler = ViewBag.Kategoriler as List<YKPortal.Areas.E.Models.Dto.ETicaretKategorilerDto>;
-                                    if (kategoriler != null && kategoriler.Any())
-                                    {
-                                        foreach (var kategori in kategoriler.Select((m, i) => new {m, i}))
-                                        {
-                                            if (!string.IsNullOrEmpty(kategori.m.Kategori1))
-                                            {
-                                                <div class="widget-body">
-                                                    <ul class="cat-list">
-                                                        <li>      
-                                                            <a href="#widget-category-@(kategori.i)" class="collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="widget-category-@(kategori.i)">
-                                                                @kategori.m.Kategori1<span class="products-count">(3)</span>
-                                                                <span class="toggle"></span>
-                                                            </a>
-                                                            <div class="collapse" id="widget-category-@(kategori.i)">
-                                                                <ul class="cat-sublist">
-                                                                    @if (!string.IsNullOrEmpty(kategori.m.Kategori1))
-                                                                    {
-                                                                        <li><a style="font-weight: bold;" href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.m.Kategori1">@kategori.m.Kategori1</a></li>
-                                                                    }
-                                                                    @if (!string.IsNullOrEmpty(kategori.m.Kategori2))
-                                                                    {
-                                                                        <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.m.Kategori1&Kategori2=@kategori.m.Kategori2">@kategori.m.Kategori2</a></li>
-                                                                    }
-                                                                    @if (!string.IsNullOrEmpty(kategori.m.Kategori3))
-                                                                    {
-                                                                        <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.m.Kategori1&Kategori3=@kategori.m.Kategori3">@kategori.m.Kategori3</a></li>
-                                                                    }
-                                                                    @if (!string.IsNullOrEmpty(kategori.m.Kategori4))
-                                                                    {
-                                                                        <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.m.Kategori1&Kategori4=@kategori.m.Kategori4">@kategori.m.Kategori4</a></li>
-                                                                    }
-                                                                    @if (!string.IsNullOrEmpty(kategori.m.Kategori5))
-                                                                    {
-                                                                        <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.m.Kategori1&Kategori5=@kategori.m.Kategori5">@kategori.m.Kategori5</a></li>
-                                                                    }
-                                                                    @if (!string.IsNullOrEmpty(kategori.m.Kategori6))
-                                                                    {
-                                                                        <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.m.Kategori1&Kategori6=@kategori.m.Kategori6">@kategori.m.Kategori6</a></li>
-                                                                    }
-                                                                </ul>
-                                                            </div>
-                                                        </li>
 
-                                                    </ul>
-                                                </div>
-                                                <!-- End .widget-body -->
-                                            }
+                            @if (ViewBag.Kategoriler != null)
+                            {
+                                var kategoriler = ViewBag.Kategoriler as List<YKPortal.Areas.E.Models.Dto.ETicaretKategorilerDto>;
+                                if (kategoriler != null && kategoriler.Any())
+                                {
+                                    foreach (var kategori in kategoriler.Select((m, i) => new { m, i }))
+                                    {
+                                        if (!string.IsNullOrEmpty(kategori.m.Kategori1))
+                                        {
+                                            <div class="widget-body">
+                                                <ul class="cat-list">
+                                                    <li>
+                                                        <a href="#widget-category-@(kategori.i)" class="collapsed" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="widget-category-@(kategori.i)">
+                                                            @kategori.m.Kategori1<span class="products-count">(3)</span>
+                                                            <span class="toggle"></span>
+                                                        </a>
+                                                        <div class="collapse" id="widget-category-@(kategori.i)">
+                                                            <ul class="cat-sublist">
+                                                                @if (!string.IsNullOrEmpty(kategori.m.Kategori1))
+                                                                {
+                                                                    <li><a style="font-weight: bold;" href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.m.Kategori1">@kategori.m.Kategori1</a></li>
+                                                                }
+                                                                @if (!string.IsNullOrEmpty(kategori.m.Kategori2))
+                                                                {
+                                                                    <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.m.Kategori1&Kategori2=@kategori.m.Kategori2">@kategori.m.Kategori2</a></li>
+                                                                }
+                                                                @if (!string.IsNullOrEmpty(kategori.m.Kategori3))
+                                                                {
+                                                                    <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.m.Kategori1&Kategori3=@kategori.m.Kategori3">@kategori.m.Kategori3</a></li>
+                                                                }
+                                                                @if (!string.IsNullOrEmpty(kategori.m.Kategori4))
+                                                                {
+                                                                    <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.m.Kategori1&Kategori4=@kategori.m.Kategori4">@kategori.m.Kategori4</a></li>
+                                                                }
+                                                                @if (!string.IsNullOrEmpty(kategori.m.Kategori5))
+                                                                {
+                                                                    <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.m.Kategori1&Kategori5=@kategori.m.Kategori5">@kategori.m.Kategori5</a></li>
+                                                                }
+                                                                @if (!string.IsNullOrEmpty(kategori.m.Kategori6))
+                                                                {
+                                                                    <li><a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.m.Kategori1&Kategori6=@kategori.m.Kategori6">@kategori.m.Kategori6</a></li>
+                                                                }
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                            <!-- End .widget-body -->
                                         }
                                     }
                                 }
+                            }
 
-</div>
+                        </div>
 
 
 
@@ -659,5 +669,20 @@
                 });
             });
         })
+        $(document).ready(function () {
+            $("#price-slider").slider({
+                range: true,
+                min: 0,
+                max: 1000,
+                values: [0, 1000],
+                slide: function (event, ui) {
+                    $("#filter-price-range").text(ui.values[0] + " - " + ui.values[1] + " TL");
+                    $("#price-min").val(ui.values[0]);
+                    $("#price-max").val(ui.values[1]);
+                }
+            });
+            $("#filter-price-range").text($("#price-slider").slider("values", 0) + " - " + $("#price-slider").slider("values", 1) + " TL");
+        });
     </script>
+    <div id="price-slider"></div>
 }
