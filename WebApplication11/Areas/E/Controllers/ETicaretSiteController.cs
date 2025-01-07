@@ -19,7 +19,7 @@ namespace YKPortal.Areas.E.Controllers
         public ActionResult AnaSayfa()
         {
             // Stokları al ve sadece ilk 25 ürünü seç
-            //var stoklar = StokGetir(new ETicaretStokDto.ETicaretStokSorguDto { });
+            var stoklar = StokGetir(new ETicaretStokDto.ETicaretStokFiltreDto { });
            
 
             // İlk 25 kaydı al ve ViewBag'e ata

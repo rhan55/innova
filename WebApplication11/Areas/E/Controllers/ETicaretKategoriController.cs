@@ -22,7 +22,7 @@ namespace YKPortal.Areas.E.Controllers
         }
 
         [HttpGet]
-        public ActionResult KategoriStoklari(ETicaretStokDto.ETicaretStokSorguDto sorguDto)
+        public ActionResult KategoriStoklari(ETicaretStokDto.ETicaretStokFiltreDto sorguDto)
         {
             var stokListesi = StokGetir(sorguDto);
 
