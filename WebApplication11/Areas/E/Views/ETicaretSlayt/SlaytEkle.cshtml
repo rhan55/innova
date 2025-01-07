@@ -1,10 +1,11 @@
 ﻿@model YKPortal.Areas.E.Models.Dto.ETicaretSlaytDto
+@using YKPortal.Models.Dto
 
 @{
     ViewBag.Title = "SlaytEkle";
     Layout = "~/Areas/E/Views/Shared/_Layout.cshtml";
 
-    Dictionary<string, string> tipler = ViewBag.Tipler as Dictionary<string, string>;
+    Dictionary<string, string> tipler = ViewBag.Tipler as Dictionary<string, string>;   
 
 }
 
@@ -52,10 +53,11 @@
                 <select class="form-input-new  form-wide p-3" data-control="select2" name="Tip" id="tipSelect" required
                         aria-label="Floating label select example">
                     <option value="">Lütfen Seçim Yapınız</option>
-                    @foreach (var tip in tipler)
+                    @foreach (GrupKoduDto tip in ViewBag.SlaytTipleri)
                     {
-                        <option value="@tip.Key">@tip.Value</option>
+                        <option value="@tip.ID">@tip.Deger</option>                      
                     }
+
                 </select>
             </div>
         </div>

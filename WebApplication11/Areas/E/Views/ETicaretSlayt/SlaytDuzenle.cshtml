@@ -1,5 +1,6 @@
 ﻿
 @model YKPortal.Areas.E.Models.Dto.ETicaretSlaytDto
+@using YKPortal.Models.Dto
 @{
     ViewBag.Title = "Slayt Düzenle";
     Layout = "~/Areas/E/Views/Shared/_Layout.cshtml";
@@ -46,9 +47,9 @@
                 <select class="form-input-new  form-wide p-3" data-control="select2" name="Tip" id="tipSelect" required
                         aria-label="Floating label select example">
                     <option value="">Lütfen Seçim Yapınız</option>
-                    @foreach (var tip in tipler)
-                    {
-                        <option value="@tip.Key" @(tip.Key == Model.Tip ? "selected" : "")>@tip.Value</option>
+                    @foreach (GrupKoduDto tip in ViewBag.SlaytTipleri)
+                    {        
+                        <option value="@tip.ID" @(Model.Tip == tip.ID ? "selected" : "")>@tip.Deger</option>
                     }
                 </select>
             </div>

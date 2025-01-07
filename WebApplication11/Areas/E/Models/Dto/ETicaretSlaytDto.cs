@@ -15,7 +15,7 @@ namespace YKPortal.Areas.E.Models.Dto
         public string _OlusturulmaTarihi;
         public int _Siralama;
         public string _Tip;
-
+        public string _TipDeger;
 
 
         public string SlaytID { get { return _SlaytID ?? ""; } set { _SlaytID = value; } }
@@ -26,6 +26,7 @@ namespace YKPortal.Areas.E.Models.Dto
         public int Siralama { get { return _Siralama; } set { _Siralama = value; } }
         public string OlusturulmaTarihi { get { return _OlusturulmaTarihi ?? ""; } set { _OlusturulmaTarihi = value; } }
         public string Tip { get { return _Tip ?? ""; } set { _Tip = value; } }
+        public string TipDeger { get { return _TipDeger ?? ""; } set { _TipDeger = value; } }
 
     }
 }

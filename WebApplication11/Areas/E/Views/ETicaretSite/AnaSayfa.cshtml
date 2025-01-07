@@ -25,9 +25,9 @@
 
             @foreach (var slayt in Slaytlar)
             {
-                <div class="home-slide home-slide1 banner">
+                <div class="home-slide home-slide1 banner" data-click="@slayt.Link">
 
-                    <img class="slide-bg" src="@slayt.ResimYolu"  alt="slider image" style="width:100%; height:700px; object-fit:cover;">
+                    <img class="slide-bg" src="@slayt.ResimYolu" alt="slider image" style="width:100%; height:700px; object-fit:cover;">
                     <div class="container d-flex align-items-center">
                         <div class="banner-layer appear-animate" data-animation-name="fadeInUpShorter">
                             <h4 class="text-transform-none m-b-3">@Html.Raw(HttpUtility.HtmlDecode(slayt.Text))</h4>
@@ -48,7 +48,7 @@
             }
 
 
-            
+
         </div>
         <!-- End .home-slider -->
 
@@ -475,7 +475,14 @@
 
 @section Scripts {
     <script>
-      
+        $(function () {
+            $(document).on('click', '[data-click]', function () {
+                if (!!$(this).data('click')) {
+                    window.open($(this).data('click'), '_self');
+                }
+
+            });
+        });
     </script>
 }
 

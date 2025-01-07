@@ -20,9 +20,11 @@ namespace YKPortal.Areas.E.Controllers
         {
             // Stokları al ve sadece ilk 25 ürünü seç
             var stoklar = StokGetir(new ETicaretStokDto.ETicaretStokSorguDto { });
+           
 
             // İlk 25 kaydı al ve ViewBag'e ata
             ViewBag.Stoklar = stoklar.Take(25).ToList();
+            ViewBag.Slaytlar = SlaytListesi("bba8dbbd-b83a-43cd-9699-a407653a1cdb");
             return View();
         }
         [HttpPost]

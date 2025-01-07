@@ -68,7 +68,6 @@ namespace YKPortal.Areas.E.Controllers
             ViewBag.ETicaretAdres = GrupKodListesiniGetir("ETicaretAdres");
 
             ViewBag.SabitSayfalar = SabitSayfalarGetir();
-            ViewBag.Slaytlar = SlaytListesi("anasayfa-ust");
 
             // Yönlendirme sadece yetki gerektiren sayfalarda yapılır
             if (IsAuthorizationRequired(filterContext))
@@ -172,7 +171,7 @@ namespace YKPortal.Areas.E.Controllers
             return new ETicaretStokDto.ETicaretStokSonucDto();
         }
 
-        protected List<ETicaretStokDto.ETicaretStokSonucDto> StokGetir(ETicaretStokDto.ETicaretStokSorguDto stokSorguDto)
+        protected List<ETicaretStokDto.ETicaretStokSonucDto> StokGetir(ETicaretStokDto.ETicaretStokFiltreDto stokSorguDto)
         {
             SqlCommand cmd = new SqlCommand
             {
@@ -501,31 +500,32 @@ namespace YKPortal.Areas.E.Controllers
             }
             ViewBag.Ulkeler = entities;
         }
-        protected void TipListesiniGetir()
+        protected void SlaytTipGetir()
         {
             // GrupKodu1 Listesi oluşturma 
-            SqlCommand ulkeCommand = new SqlCommand();
-            ulkeCommand.CommandText = "p_GrupKoduListesi";
-            ulkeCommand.CommandType = System.Data.CommandType.StoredProcedure;
-            ulkeCommand.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            SqlCommand slaytCommand = new SqlCommand();
+            slaytCommand.CommandText = "p_GrupKoduListesi";
+            slaytCommand.CommandType = System.Data.CommandType.StoredProcedure;
+            slaytCommand.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
 
-            ulkeCommand.Parameters.AddWithValue("@Kod", "Ulke");
-            ulkeCommand.Parameters.AddWithValue("@AranacakKelime", "");
+            slaytCommand.Parameters.AddWithValue("@Kod", "ETicaretSlaytTip");
+            slaytCommand.Parameters.AddWithValue("@AranacakKelime", "");
 
 
-            DataTable ulkeDataTable = (DataTable)IDVeritabani.Sorgula(ulkeCommand, SorgulaTuru.Tablo);
+            DataTable ETicaretSlaytTipDataTable = (DataTable)IDVeritabani.Sorgula(slaytCommand, SorgulaTuru.Tablo);
 
             List<GrupKoduDto> entities = new List<GrupKoduDto>();
 
-            for (int i = 0; i < ulkeDataTable.Rows.Count; i++)
+            for (int i = 0; i < ETicaretSlaytTipDataTable.Rows.Count; i++)
             {
                 GrupKoduDto entity = new GrupKoduDto();
-                entity.ID = Convert.ToString(ulkeDataTable.Rows[i]["ID"]);
-                entity.Deger = Convert.ToString(ulkeDataTable.Rows[i]["Deger"]);
+                entity.ID = Convert.ToString(ETicaretSlaytTipDataTable.Rows[i]["ID"]);
+                entity.Deger = Convert.ToString(ETicaretSlaytTipDataTable.Rows[i]["Deger"]);
                 entities.Add(entity);
             }
-            ViewBag.Ulkeler = entities;
+            ViewBag.SlaytTipleri = entities;
         }
+  
 
         protected bool AutoGirisKontrol()
         {

@@ -18,9 +18,12 @@ namespace YKPortal.Areas.E.Controllers
         [HttpGet]
         public ActionResult Slaytlar()
         {
-           SqlCommand cmd = new SqlCommand("SELECT * FROM ETicaret_Slaytlar WHERE Silindi = 0");
+            SlaytTipGetir();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM ETicaret_Slaytlar WHERE Silindi = 0");
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var slaytTipleri = GrupKodListesiniGetir("ETicaretSlaytTip");
 
             if (dt.Rows.Count == 0)
             {
@@ -29,6 +32,7 @@ namespace YKPortal.Areas.E.Controllers
             var entities = new List<ETicaretSlaytDto>();
             foreach (DataRow row in dt.Rows)
             {
+                var grupKodu = slaytTipleri.Where(m => m.ID == Convert.ToString(row["Tip"])).First();
                 var entity = new ETicaretSlaytDto();
                 entity.SlaytID = Convert.ToString(row["SlaytID"]);
                 entity.ResimYolu = Convert.ToString(row["ResimYolu"]);
@@ -37,22 +41,19 @@ namespace YKPortal.Areas.E.Controllers
                 entity.Tip = Convert.ToString(row["Tip"]);
                 entity.Aktif = Convert.ToBoolean(row["Aktif"]);
                 entity.Siralama = Convert.ToInt32(row["Siralama"]);
+                entity.TipDeger = grupKodu != null ? grupKodu.Deger : string.Empty;
 
                 entities.Add(entity);
             }
 
-            ViewBag.Tipler = new Dictionary<string, string>()
-            {
-                { "anasayfa-ust", "Anasayfa Üst" },
-            };
-
+            ViewBag.Tipler = entities.Select(e => e.Tip).Distinct().ToList();
             return View(entities);
         }
 
         [HttpGet]
         public ActionResult SlaytEkle()
         {
-            var tipler = SlaytTipleriGetir();
+            SlaytTipGetir();
             var entity = new ETicaretSlaytDto();
 
             ViewBag.Tipler = new Dictionary<string, string>()
@@ -67,7 +68,7 @@ namespace YKPortal.Areas.E.Controllers
         [HttpPost]
         public ActionResult SlaytEkle(ETicaretSlaytDto eTicaretSlaytDto, HttpPostedFileBase Dosya)
         {
-            var tipler = SlaytTipleriGetir();
+            SlaytTipGetir();
             var resimYolu = "";
             if (Dosya != null && Dosya.ContentLength > 0)
             {
@@ -109,7 +110,7 @@ namespace YKPortal.Areas.E.Controllers
         [HttpGet]
         public ActionResult SlaytDuzenle(ETicaretSlaytDto eTicaretSlaytDto)
         {
-            var tipler = SlaytTipleriGetir();
+            SlaytTipGetir();
             SqlCommand cmd = new SqlCommand("SELECT * FROM ETicaret_Slaytlar WHERE Aktif = 1 AND SlaytID = @SlaytID");
             cmd.Parameters.AddWithValue("@SlaytID", eTicaretSlaytDto.SlaytID);
 
@@ -141,7 +142,7 @@ namespace YKPortal.Areas.E.Controllers
         [HttpPost]
         public ActionResult SlaytDuzenle(ETicaretSlaytDto eTicaretSlaytDto, HttpPostedFileBase Dosya)
         {
-            var tipler = SlaytTipleriGetir();
+            SlaytTipGetir();
             var resimYolu = "";
             if (Dosya != null && Dosya.ContentLength > 0)
             {
@@ -176,26 +177,8 @@ namespace YKPortal.Areas.E.Controllers
             return RedirectToAction("Slaytlar");
         }
 
-        protected List<string> SlaytTipleriGetir()
-        {
-            SqlCommand cmd = new SqlCommand("SELECT DISTINCT Tip FROM ETicaret_Slaytlar WHERE Silindi = 0");
-            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
-            var tipler = new List<string>();
-            foreach (DataRow row in dt.Rows)
-            {
-                tipler.Add(Convert.ToString(row["Tip"]));
-
-            }
-            return tipler;
-
-        }
-        public JsonResult SlaytTipleriGetirJson()
-        {
-            // Örnek olarak veritabanından alınan değerler
-            var tipler = new List<string> { "Tip1", "Tip2", "Tip3" };
-            return Json(tipler, JsonRequestBehavior.AllowGet);
-        }
+     
+   
         protected bool SlaytSil(string SlaytID)
         {
             try

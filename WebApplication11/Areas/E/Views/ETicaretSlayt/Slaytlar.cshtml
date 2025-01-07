@@ -1,9 +1,9 @@
 ﻿@model List<YKPortal.Areas.E.Models.Dto.ETicaretSlaytDto>
 
+@using YKPortal.Models.Dto
 @{
     ViewBag.Title = "Slaytlar";
     Layout = "~/Areas/E/Views/Shared/_Layout.cshtml";
-    Dictionary<string, string> tipler = ViewBag.Tipler as Dictionary<string, string>;
 }
 <div class="container py-5">
     <table class="table slayt-table" id="Slayt-datatable">
@@ -36,7 +36,7 @@
 
                     </td>
                     <td>@item.Link</td>
-              
+
                     <td class="text-center">@item.Siralama</td>
                     <td class="text-center">
                         @if (item.Aktif)
@@ -52,14 +52,9 @@
                             </svg>
                         }
                     </td>
-                     <td>
-                         @foreach(var tip in tipler) {
-                            if (tip.Key == item.Tip)
-                            {
-                                 <span>@tip.Value</span>
-                            }
-                         }
-                     </td>
+                    <td>
+                        @item.TipDeger
+                    </td>
                     <td>
 
                         <div class="dropdown">
@@ -118,7 +113,7 @@
                 language: { url: '/Tema/plugins/custom/datatables/languages/tr.json', },
             });
 
-            
+
         })
 
     </script>

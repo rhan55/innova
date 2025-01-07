@@ -2,30 +2,47 @@
 @{
     ViewBag.Title = "Stoklar";
     Layout = "~/Areas/E/Views/Shared/_Layout.cshtml";
+
+    var Slaytlar = new List<YKPortal.Areas.E.Models.Dto.ETicaretSlaytDto>();
+
+    if (ViewBag.Slaytlar != null)
+    {
+        Slaytlar = ViewBag.Slaytlar as List<YKPortal.Areas.E.Models.Dto.ETicaretSlaytDto>;
+    }
 }
 
 
 <main class="main">
-    <div class="category-banner-container bg-gray">
-        <div class="category-banner banner text-uppercase" style="background: no-repeat 60%/cover url('~/Tema/ETicaret/images/banners/banner-top.jpg');">
-            <div class="container position-relative">
-                <div class="row">
-                    <div class="pl-lg-5 pb-5 pb-md-0 col-sm-5 col-xl-4 col-lg-4 offset-1">
-                        <h3>Electronic<br>Deals</h3>
-                        <a href="category.html" class="btn btn-dark">Get Yours!</a>
+
+    <div class="home-slider slide-animate owl-carousel owl-theme show-nav-hover nav-big mb-2 text-uppercase" data-owl-options="{
+	'loop': false
+}">
+
+        @foreach (var slayt in Slaytlar)
+        {
+            <div class="home-slide home-slide1 banner" data-click="@slayt.Link">
+
+                <img class="slide-bg" src="@slayt.ResimYolu" alt="slider image" style="width:100%; height:400px; object-fit:cover;">
+                <div class="container d-flex align-items-center">
+                    <div class="banner-layer appear-animate" data-animation-name="fadeInUpShorter">
+                        <h4 class="text-transform-none m-b-3">@Html.Raw(HttpUtility.HtmlDecode(slayt.Text))</h4>
+                        <h2 class="text-transform-none mb-0">Summer Sale</h2>
+                        <h3 class="m-b-3">70% Off</h3>
+                        <h5 class="d-inline-block mb-0">
+                            <span>Starting At</span>
+                            <b class="coupon-sale-text text-white bg-secondary align-middle">
+                                <sup>$</sup><em class="align-text-top">199</em><sup>99</sup>
+                            </b>
+                        </h5>
+                        <a href="category.html" class="btn btn-dark btn-lg">Shop Now!</a>
                     </div>
-                    <div class="pl-lg-3 col-sm-4 offset-sm-0 offset-1 pt-3">
-                        <div class="coupon-sale-content">
-                            <h4 class="m-b-1 coupon-sale-text bg-white text-transform-none">
-                                Exclusive COUPON
-                            </h4>
-                            <h5 class="mb-2 coupon-sale-text d-block ls-10 p-0"><i class="ls-0">UP TO</i><b class="text-dark">$100</b> OFF</h5>
-                        </div>
-                    </div>
+                    <!-- End .banner-layer -->
                 </div>
             </div>
-        </div>
+            <!-- End .home-slide -->
+        }
     </div>
+    <!-- End .home-slider -->
 
     <div class="container-fluid">
 
@@ -682,6 +699,15 @@
                 }
             });
             $("#filter-price-range").text($("#price-slider").slider("values", 0) + " - " + $("#price-slider").slider("values", 1) + " TL");
+        });
+
+        $(function () {
+            $(document).on('click', '[data-click]', function () {
+                if (!!$(this).data('click')) {
+                    window.open($(this).data('click'), '_self');
+                }
+               
+            });
         });
     </script>
     <div id="price-slider"></div>

@@ -12,10 +12,12 @@ namespace YKPortal.Areas.E.Controllers
     {
 
         [HttpGet]
-        public ActionResult Stoklar(YKPortal.Areas.E.Models.Dto.ETicaretStokDto.ETicaretStokSorguDto stokSorguDto = null)
+        public ActionResult Stoklar(Models.Dto.ETicaretStokDto.ETicaretStokFiltreDto stokSorguDto = null)
         {
           
             ViewBag.Stoklar = StokGetir(stokSorguDto);
+            ViewBag.Slaytlar = SlaytListesi("251cb42f-2aaa-46f2-9379-d0d5babed510");
+
             return View("~/Areas/E/Views/ETicaretStok/Stoklar.cshtml");
         }
 
