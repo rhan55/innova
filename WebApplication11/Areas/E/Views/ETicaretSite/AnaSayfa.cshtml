@@ -25,7 +25,7 @@
 
             @foreach (var slayt in Slaytlar)
             {
-                <div class="home-slide home-slide1 banner" data-click="@slayt.Link">
+                <div class="home-slide home-slide1 banner" data-open="self" data-click="@slayt.Link">
 
                     <img class="slide-bg" src="@slayt.ResimYolu" alt="slider image" style="width:100%; height:700px; object-fit:cover;">
                     <div class="container d-flex align-items-center">
@@ -200,7 +200,7 @@
                                         <div class="product-single-qty">
                                             <input class="horizontal-quantity form-control" type="text" id="UrunSayisi" value="1" data-input="quantity">
                                         </div><!-- End .product-single-qty -->
-                                        <button id="SepeteEkle" href="javascript:;" class="btn-icon btn-add-cart" data-click="SepeteEkle" data-id="@stokSonucDto.StokID">
+                                        <button type="button" id="SepeteEkle" class="btn-icon btn-add-cart" data-click="SepeteEkle" data-id="@stokSonucDto.StokID">
                                             <i class="fa fa-arrow-right"></i><span>
                                                 SEPETE EKLE
                                             </span>
@@ -267,7 +267,7 @@
                                         <div class="product-single-qty">
                                             <input class="horizontal-quantity form-control" type="text" id="UrunSayisi" value="1">
                                         </div><!-- End .product-single-qty -->
-                                        <button id="SepeteEkle" href="javascript:;" class="btn-icon btn-add-cart" data-click="SepeteEkle">
+                                        <button type="button" id="SepeteEkle" class="btn-icon btn-add-cart" data-click="SepeteEkle" data-id="@stokSonucDto.StokID">
                                             <span>
                                                 <i class="fa fa-arrow-right"></i>
                                                 SEPETE EKLE
@@ -476,7 +476,7 @@
 @section Scripts {
     <script>
         $(function () {
-            $(document).on('click', '[data-click]', function () {
+            $(document).on('click', '[data-open="self"]', function () {
                 if (!!$(this).data('click')) {
                     window.open($(this).data('click'), '_self');
                 }

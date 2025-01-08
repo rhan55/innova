@@ -11,18 +11,15 @@ using System.IO;
 using System.Net;
 using System.Text;
 using YKPortal.Models.Dto;
-using System.Security.Principal;
 using System.Web.Security;
 using System.Text.Json;
-using YKEFaturaEntegrasyon.Dto;
-using static YKPortal.Areas.E.Models.Dto.ETicaretStokDto;
 using iText.StyledXmlParser.Jsoup.Nodes;
 
 namespace YKPortal.Areas.E.Controllers
 {
     public abstract class BaseController : Controller
     {
-        public KullaniciEkleDto Kullanici { get; set; } = new KullaniciEkleDto();
+        public ETicaretKullaniciDto.KullaniciEkleDto Kullanici { get; set; } = new ETicaretKullaniciDto.KullaniciEkleDto();
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -37,9 +34,10 @@ namespace YKPortal.Areas.E.Controllers
                         string[] roles = new string[] { "Profil" };
                         var identity = new FormsIdentity(authTicket);
 
-                        var kullanici = JsonSerializer.Deserialize<KullaniciEkleDto>(authTicket.UserData);
+                        var kullanici = JsonSerializer.Deserialize<ETicaretKullaniciDto.KullaniciEkleDto>(authTicket.UserData);
 
-                        Kullanici = kullanici;
+                        Kullanici = AktifKullaniciGetir(kullanici.ID);
+                        ViewBag.Kullanici = Kullanici;
 
                         HttpContext.User = new System.Security.Principal.GenericPrincipal(identity, roles);
                     }
@@ -268,10 +266,7 @@ namespace YKPortal.Areas.E.Controllers
                     });
                 }
             }
-
-
             return sepetler;
-
         }
         protected List<ETicaretSabitSayfalarDto> SabitSayfalarGetir()
         {
@@ -634,6 +629,31 @@ namespace YKPortal.Areas.E.Controllers
             }
 
             return entities;
+        }
+
+        protected ETicaretKullaniciDto.KullaniciEkleDto AktifKullaniciGetir(string id)
+        {
+            if (Kullanici == null) return new ETicaretKullaniciDto.KullaniciEkleDto { };
+
+            var uyelikId = UyelikIDGetir();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_Cari";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@UyelikID", uyelikId);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+
+            return new ETicaretKullaniciDto.KullaniciEkleDto
+            {
+                ID = Convert.ToString(dt.Rows[0]["ID"]),
+                Adres = Convert.ToString(dt.Rows[0]["Adres"]),
+                Il = Convert.ToString(dt.Rows[0]["Il"]),
+                Ulke = Convert.ToString(dt.Rows[0]["Ulke"]),
+                Ilce = Convert.ToString(dt.Rows[0]["Ilce"]),
+            };
         }
 
     }

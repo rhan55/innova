@@ -236,7 +236,7 @@
 
                                                 <figure class="product-image-container">
                                                     <a href="product.html" class="product-image">
-                                                        <img src="@stok.Resim1" alt="product" width="80" height="80">
+                                                        <img src="/Uploads/Dosya/@stok.Resim1" alt="product" width="80" height="80">
                                                     </a>
 
                                                     <a href="#" class="btn-remove" title="Remove Product"><span>×</span></a>
@@ -255,9 +255,8 @@
                                         <!-- End .dropdown-cart-total -->
 
                                         <div class="dropdown-cart-action">
-                                            <a href="cart.html" class="btn btn-gray btn-block view-cart">
-                                                View
-                                                Cart
+                                            <a href="/E/ETicaretSepet/SepetBilgileri" class="btn btn-gray btn-block view-cart">
+                                                Sepete Git                                            
                                             </a>
                                             <a href="checkout.html" class="btn btn-dark btn-block">Checkout</a>
                                         </div>
@@ -720,7 +719,9 @@
 
 
         const sepeteEkleButonlar = $('[data-click="SepeteEkle"]').each(function () {
-            $(this).on('click', function () {
+            console.log(this);
+            $(this).on('click', function (e) {
+                e.preventDefault();
                 var data = {
                     Miktar: parseInt($(this).parent().find('[data-input="quantity"]').val()),
                     StokId: $(this).attr('data-id')

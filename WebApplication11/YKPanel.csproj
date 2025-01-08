@@ -265,6 +265,7 @@
     <Compile Include="Areas\E\Controllers\ETicaretSiteController.cs" />
     <Compile Include="Areas\Entegrasyon\Controllers\FordAktarim.cs" />
     <Compile Include="Areas\E\Hubs\ETicaretBildirimHub.cs" />
+    <Compile Include="Areas\E\Models\Dto\ETicaretKullaniciDto.cs" />
     <Compile Include="Areas\E\Models\Dto\ETicaretSabitSayfalarDto.cs" />
     <Compile Include="Areas\E\Models\Dto\ETicaretKategorilerDto.cs" />
     <Compile Include="Areas\E\Models\Dto\ETicaretKategorilerViewModel.cs" />
