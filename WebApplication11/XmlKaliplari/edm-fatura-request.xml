@@ -1,0 +1,33 @@
+﻿<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+	<s:Header>
+		<ActivityId CorrelationId="cdc1a640-f7a1-48e8-84e3-ac0ec8228ce8" xmlns="http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics">00000000-0000-0000-0000-000000000000</ActivityId>
+	</s:Header>
+	<s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+		<SendInvoiceRequest xmlns="http://tempuri.org/">
+			<REQUEST_HEADER xmlns="">
+				<SESSION_ID>{{SESSION_ID}}</SESSION_ID>
+				<CLIENT_TXN_ID>dc824d6f-cf80-4079-994f-192eedb5027d</CLIENT_TXN_ID>
+				<ACTION_DATE>2018-11-01T11:14:56.7583153+03:00</ACTION_DATE>
+				<REASON>E-fatura/E-Arşiv gönder-al testleri için</REASON>
+				<APPLICATION_NAME>EDM MINI CONNECTOR v1.0</APPLICATION_NAME>
+				<HOSTNAME>MDORA17</HOSTNAME>
+				<CHANNEL_NAME>TEST</CHANNEL_NAME>
+				<COMPRESSED>N</COMPRESSED>
+			</REQUEST_HEADER>
+			<RECEIVER vkn="1245548126" alias="damla.bas@edmbilisim.com.tr" xmlns=""/>
+			<INVOICE TRXID="0" xmlns="">
+				<HEADER>
+					<SENDER>3230512384</SENDER>
+					<RECEIVER>1245548126</RECEIVER>
+					<FROM>urn:mail:defaultgb@yenibirfirmadaha.com.tr </FROM>
+					<TO>damla.bas@edmbilisim.com.tr</TO>
+					<INTERNETSALES>false</INTERNETSALES>
+					<EARCHIVE>false</EARCHIVE>
+					<EARCHIVE_REPORT_SENDDATE>0001-01-01</EARCHIVE_REPORT_SENDDATE>
+					<CANCEL_EARCHIVE_REPORT_SENDDATE>0001-01-01</CANCEL_EARCHIVE_REPORT_SENDDATE>
+				</HEADER>
+				<CONTENT>PEludm9pY...2UgeG1sbn</CONTENT>
+			</INVOICE>
+		</SendInvoiceRequest>
+	</s:Body>
+</s:Envelope>
