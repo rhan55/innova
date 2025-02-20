@@ -12,8 +12,8 @@
             <input type="hidden" name="id" value="@ViewBag.id" />
             <div class="form-row">
                 <div class="col-md-12 mb-3">
-                    <label for="validationCustom02">Firma Adı</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="İsim" value="@ViewBag.isim" name="isim" required>
+                    <label for="validationCustom02">YILDIZ SAYISI</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="YILDIZSAYISI" value="@ViewBag.YILDIZSAYISI" name="YILDIZSAYISI" required>
                     <div class="valid-feedback">
                         Looks good!
                     </div>
@@ -21,230 +21,199 @@
             </div>
 
             <div class="form-row">
-                <div class="col-md-4 mb-3">
-                    <label for="validationCustom02">Adres</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="Adres" value="@ViewBag.adres" name="adres">
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">SHP_CepTel</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="SHP_CepTel" value="@ViewBag.SHP_CepTel" name="SHP_CepTel">
                     <div class="valid-feedback">
                         Looks good!
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <label for="validationCustom02">İl</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="Il" value="@ViewBag.Il" name="Il">
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">SHP_MAIL</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="SHP_MAIL" value="@ViewBag.SHP_MAIL" name="SHP_MAIL">
                     <div class="valid-feedback">
                         Looks good!
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <label for="validationCustom02">İlçe</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="Ilce" value="@ViewBag.Ilce" name="Ilce">
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">SNF_ALANI</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="SNF_ALANI" value="@ViewBag.SNF_ALANI" name="SNF_ALANI">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="validationCustom02">SHP_ADSOYAD</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="SHP_ADSOYAD" value="@ViewBag.SHP_ADSOYAD" name="SHP_ADSOYAD">
                     <div class="valid-feedback">
                         Looks good!
                     </div>
                 </div>
             </div>
 
+
             <div class="form-row">
                 <div class="col-md-4 mb-3">
-                    <label for="validationCustom02">Telefon</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="Telefon" value="@ViewBag.telefon" name="telefon">
+                    <label for="validationCustom02">GM_ADSOYAD</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="GM_ADSOYAD" value="@ViewBag.GM_ADSOYAD" name="GM_ADSOYAD">
                     <div class="valid-feedback">
                         Looks good!
                     </div>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <label for="validationCustomUsername">Mail</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroupPrepend">@Html.Raw("@")</span>
-                        </div>
-                        <input type="text" class="form-control" id="validationCustomUsername" placeholder="Mail" value="@ViewBag.mail" aria-describedby="inputGroupPrepend" name="mail">
-                        <div class="invalid-feedback">
-                            Lütfen mail adresi giriniz.
-                        </div>
+                    <label for="validationCustom02">GM_MAIL</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="GM_MAIL" value="@ViewBag.GM_MAIL" name="GM_MAIL">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationCustom02">GM_CEPTEL</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="GM_CEPTEL" value="@ViewBag.GM_CEPTEL" name="GM_CEPTEL">
+                    <div class="valid-feedback">
+                        Looks good!
                     </div>
                 </div>
             </div>
+
+
             <div class="form-row">
-                <div class="col-md-6 mb-6">
-                    <label for="validationCustom03">Web Sayfası</label>
-                    <input type="text" class="form-control" id="validationCustom03" placeholder="www.musteriyonetimi.org" value="@ViewBag.website" name="website">
-                    <div class="invalid-feedback">
-                        Lütfen site adresi giriniz.
+                <div class="col-md-4 mb-3">
+                    <label for="validationCustom02">YATAK_SAYI</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="YATAK_SAYI" value="@ViewBag.YATAK_SAYI" name="YATAK_SAYI">
+                    <div class="valid-feedback">
+                        Looks good!
                     </div>
                 </div>
-                <div class="col-md-6 mb-6">
-                    <label for="validationCustom03">Seviye</label>
-                    <select class="form-control" id="validationCustom03" placeholder="Seviye" name="seviye">
-                        <option value="1" @(Convert.ToString(ViewBag.Seviye) == "1" ? "selected" : "")>1</option>
-                        <option value="2" @(Convert.ToString(ViewBag.Seviye) == "2" ? "selected" : "")>2</option>
-                        <option value="3" @(Convert.ToString(ViewBag.Seviye) == "3" ? "selected" : "")>3</option>
-                        <option value="4" @(Convert.ToString(ViewBag.Seviye) == "4" ? "selected" : "")>4</option>
-                        <option value="5" @(Convert.ToString(ViewBag.Seviye) == "5" ? "selected" : "")>5</option>
-                    </select>
-                    <div class="invalid-feedback">
-                        Lütfen site adresi giriniz.
+                <div class="col-md-4 mb-3">
+                    <label for="validationCustom02">ODA_SAYI</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="ODA_SAYI" value="@ViewBag.ODA_SAYI" name="ODA_SAYI">
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationCustom02">KISI_SAYI</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="KISI_SAYI" value="@ViewBag.KISI_SAYI" name="KISI_SAYI">
+                    <div class="valid-feedback">
+                        Looks good!
                     </div>
                 </div>
             </div>
+
+
+
+
+
+
+
+
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="validationCustom02">FB_MAILI</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="FB_MAILI" value="@ViewBag.FB_MAILI" name="FB_MAILI">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="validationCustom02">FB_CEPTEL</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="FB_CEPTEL" value="@ViewBag.FB_CEPTEL" name="FB_CEPTEL">
+                </div>
+
+                <div class="col-md-4mb-3">
+                    <label for="validationCustom02">KONSEPT</label>
+                    <input type="text" class="form-control" id="validationCustom02" placeholder="KONSEPT" value="@ViewBag.KONSEPT" name="KONSEPT">
+                </div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">FB_ADSOYAD</label><input type="text" class="form-control" id="validationCustom02" placeholder="FB_ADSOYAD" value="@ViewBag.FB_ADSOYAD" name="FB_ADSOYAD"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">GMY_MAIL</label><input type="text" class="form-control" id="validationCustom02" placeholder="GMY_MAIL" value="@ViewBag.GMY_MAIL" name="GMY_MAIL"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">GMY_CEPTEL</label><input type="text" class="form-control" id="validationCustom02" placeholder="GMY_CEPTEL" value="@ViewBag.GMY_CEPTEL" name="GMY_CEPTEL"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">GMY_ADSOYAD</label><input type="text" class="form-control" id="validationCustom02" placeholder="GMY_ADSOYAD" value="@ViewBag.GMY_ADSOYAD" name="GMY_ADSOYAD"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">ALAKART4_KAPASITE</label><input type="text" class="form-control" id="validationCustom02" placeholder="ALAKART4_KAPASITE" value="@ViewBag.ALAKART4_KAPASITE" name="ALAKART4_KAPASITE"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">ALAKART3_KAPASITE</label><input type="text" class="form-control" id="validationCustom02" placeholder="ALAKART3_KAPASITE" value="@ViewBag.ALAKART3_KAPASITE" name="ALAKART3_KAPASITE"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">ALAKART5_KAPASITE</label><input type="text" class="form-control" id="validationCustom02" placeholder="ALAKART5_KAPASITE" value="@ViewBag.ALAKART5_KAPASITE" name="ALAKART5_KAPASITE"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">BANKET_KAPASITE</label><input type="text" class="form-control" id="validationCustom02" placeholder="BANKET_KAPASITE" value="@ViewBag.BANKET_KAPASITE" name="BANKET_KAPASITE"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">ALAKART2_KAPASITE</label><input type="text" class="form-control" id="validationCustom02" placeholder="ALAKART2_KAPASITE" value="@ViewBag.ALAKART2_KAPASITE" name="ALAKART2_KAPASITE"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">ALAKART1_KAPASITE</label><input type="text" class="form-control" id="validationCustom02" placeholder="ALAKART1_KAPASITE" value="@ViewBag.ALAKART1_KAPASITE" name="ALAKART1_KAPASITE"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">KAGIT_BASTAR</label><input type="text" class="form-control" id="validationCustom02" placeholder="KAGIT_BASTAR" value="@ViewBag.KAGIT_BASTAR" name="KAGIT_BASTAR"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">KAGIT</label><input type="text" class="form-control" id="validationCustom02" placeholder="KAGIT" value="@ViewBag.KAGIT" name="KAGIT"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">KAGIT_BITTAR</label><input type="text" class="form-control" id="validationCustom02" placeholder="KAGIT_BITTAR" value="@ViewBag.KAGIT_BITTAR" name="KAGIT_BITTAR"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">KISILER_NOT</label><input type="text" class="form-control" id="validationCustom02" placeholder="KISILER_NOT" value="@ViewBag.KISILER_NOT" name="KISILER_NOT"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">TESIS_NOT</label><input type="text" class="form-control" id="validationCustom02" placeholder="TESIS_NOT" value="@ViewBag.TESIS_NOT" name="TESIS_NOT"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">DETERJAN</label><input type="text" class="form-control" id="validationCustom02" placeholder="DETERJAN" value="@ViewBag.DETERJAN" name="DETERJAN"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">DET_BITTAR</label><input type="text" class="form-control" id="validationCustom02" placeholder="DET_BITTAR" value="@ViewBag.DET_BITTAR" name="DET_BITTAR"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">DET_BASTAR</label><input type="text" class="form-control" id="validationCustom02" placeholder="DET_BASTAR" value="@ViewBag.DET_BASTAR" name="DET_BASTAR"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">STNALMAMD_MAIL</label><input type="text" class="form-control" id="validationCustom02" placeholder="STNALMAMD_MAIL" value="@ViewBag.STNALMAMD_MAIL" name="STNALMAMD_MAIL"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">STNALMMD_CEPTEL</label><input type="text" class="form-control" id="validationCustom02" placeholder="STNALMMD_CEPTEL" value="@ViewBag.STNALMMD_CEPTEL" name="STNALMMD_CEPTEL"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">MUHMD_CEPTEL</label><input type="text" class="form-control" id="validationCustom02" placeholder="MUHMD_CEPTEL" value="@ViewBag.MUHMD_CEPTEL" name="MUHMD_CEPTEL"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">MUHMD_ADSOYAD</label><input type="text" class="form-control" id="validationCustom02" placeholder="MUHMD_ADSOYAD" value="@ViewBag.MUHMD_ADSOYAD" name="MUHMD_ADSOYAD"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">ASCIBASI_CEPTEL</label><input type="text" class="form-control" id="validationCustom02" placeholder="ASCIBASI_CEPTEL" value="@ViewBag.ASCIBASI_CEPTEL" name="ASCIBASI_CEPTEL"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">ASCIBASI_MAIL</label><input type="text" class="form-control" id="validationCustom02" placeholder="ASCIBASI_MAIL" value="@ViewBag.ASCIBASI_MAIL" name="ASCIBASI_MAIL"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">STNALMAMD_ADSOYAD</label><input type="text" class="form-control" id="validationCustom02" placeholder="STNALMAMD_ADSOYAD" value="@ViewBag.STNALMAMD_ADSOYAD" name="STNALMAMD_ADSOYAD"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">MUHMD_MAIL</label><input type="text" class="form-control" id="validationCustom02" placeholder="MUHMD_MAIL" value="@ViewBag.MUHMD_MAIL" name="MUHMD_MAIL"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">TEKNIKMD_CEPTEL</label><input type="text" class="form-control" id="validationCustom02" placeholder="TEKNIKMD_CEPTEL" value="@ViewBag.TEKNIKMD_CEPTEL" name="TEKNIKMD_CEPTEL"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">TEKNIKMD_ADSOYAD</label><input type="text" class="form-control" id="validationCustom02" placeholder="TEKNIKMD_ADSOYAD" value="@ViewBag.TEKNIKMD_ADSOYAD" name="TEKNIKMD_ADSOYAD"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">TEKNIKMD_MAIL</label><input type="text" class="form-control" id="validationCustom02" placeholder="TEKNIKMD_MAIL" value="@ViewBag.TEKNIKMD_MAIL" name="TEKNIKMD_MAIL"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">ANAREST_KAPASITE</label><input type="text" class="form-control" id="validationCustom02" placeholder="ANAREST_KAPASITE" value="@ViewBag.ANAREST_KAPASITE" name="ANAREST_KAPASITE"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">HAUKEP_CEPTEL</label><input type="text" class="form-control" id="validationCustom02" placeholder="HAUKEP_CEPTEL" value="@ViewBag.HAUKEP_CEPTEL" name="HAUKEP_CEPTEL"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">HAUKEP_ADSOYAD</label><input type="text" class="form-control" id="validationCustom02" placeholder="HAUKEP_ADSOYAD" value="@ViewBag.HAUKEP_ADSOYAD" name="HAUKEP_ADSOYAD"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">HAUKEP_MAIL</label><input type="text" class="form-control" id="validationCustom02" placeholder="HAUKEP_MAIL" value="@ViewBag.HAUKEP_MAIL" name="HAUKEP_MAIL"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">SEF_MAIL</label><input type="text" class="form-control" id="validationCustom02" placeholder="SEF_MAIL" value="@ViewBag.SEF_MAIL" name="SEF_MAIL"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">SEF_CEPTEL</label><input type="text" class="form-control" id="validationCustom02" placeholder="SEF_CEPTEL" value="@ViewBag.SEF_CEPTEL" name="SEF_CEPTEL"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">SEF_ADSOYAD</label><input type="text" class="form-control" id="validationCustom02" placeholder="SEF_ADSOYAD" value="@ViewBag.SEF_ADSOYAD" name="SEF_ADSOYAD"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">ALAKART3_KULL_MM</label><input type="text" class="form-control" id="validationCustom02" placeholder="ALAKART3_KULL_MM" value="@ViewBag.ALAKART3_KULL_MM" name="ALAKART3_KULL_MM"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">ALAKART3_KUL_CKB_MDL</label><input type="text" class="form-control" id="validationCustom02" placeholder="ALAKART3_KUL_CKB_MDL" value="@ViewBag.ALAKART3_KUL_CKB_MDL" name="ALAKART3_KUL_CKB_MDL"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">ALAKART2_KUL_CKB_MDL</label><input type="text" class="form-control" id="validationCustom02" placeholder="ALAKART2_KUL_CKB_MDL" value="@ViewBag.ALAKART2_KUL_CKB_MDL" name="ALAKART2_KUL_CKB_MDL"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">ALAKART5_KUL_CKB_MDL</label><input type="text" class="form-control" id="validationCustom02" placeholder="ALAKART5_KUL_CKB_MDL" value="@ViewBag.ALAKART5_KUL_CKB_MDL" name="ALAKART5_KUL_CKB_MDL"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">ALAKART5_KULL_MM</label><input type="text" class="form-control" id="validationCustom02" placeholder="ALAKART5_KULL_MM" value="@ViewBag.ALAKART5_KULL_MM" name="ALAKART5_KULL_MM"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">ALAKART4_KULL_MM</label><input type="text" class="form-control" id="validationCustom02" placeholder="ALAKART4_KULL_MM" value="@ViewBag.ALAKART4_KULL_MM" name="ALAKART4_KULL_MM"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">ALAKART4_KUL_CKB_MDL</label><input type="text" class="form-control" id="validationCustom02" placeholder="ALAKART4_KUL_CKB_MDL" value="@ViewBag.ALAKART4_KUL_CKB_MDL" name="ALAKART4_KUL_CKB_MDL"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">ALAKART2_KULL_MM</label><input type="text" class="form-control" id="validationCustom02" placeholder="ALAKART2_KULL_MM" value="@ViewBag.ALAKART2_KULL_MM" name="ALAKART2_KULL_MM"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">ANAREST_KUL_CKB_MDL</label><input type="text" class="form-control" id="validationCustom02" placeholder="ANAREST_KUL_CKB_MDL" value="@ViewBag.ANAREST_KUL_CKB_MDL" name="ANAREST_KUL_CKB_MDL"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">ANAREST_KUL_MRK_MDL</label><input type="text" class="form-control" id="validationCustom02" placeholder="ANAREST_KUL_MRK_MDL" value="@ViewBag.ANAREST_KUL_MRK_MDL" name="ANAREST_KUL_MRK_MDL"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">ASCIBASI_ADSOYAD</label><input type="text" class="form-control" id="validationCustom02" placeholder="ASCIBASI_ADSOYAD" value="@ViewBag.ASCIBASI_ADSOYAD" name="ASCIBASI_ADSOYAD"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">BANKET_KULL_MM</label><input type="text" class="form-control" id="validationCustom02" placeholder="BANKET_KULL_MM" value="@ViewBag.BANKET_KULL_MM" name="BANKET_KULL_MM"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">ALAKART1_KULL_MM</label><input type="text" class="form-control" id="validationCustom02" placeholder="ALAKART1_KULL_MM" value="@ViewBag.ALAKART1_KULL_MM" name="ALAKART1_KULL_MM"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">ALAKART1_KUL_CKB_MDL</label><input type="text" class="form-control" id="validationCustom02" placeholder="ALAKART1_KUL_CKB_MDL" value="@ViewBag.ALAKART1_KUL_CKB_MDL" name="ALAKART1_KUL_CKB_MDL"></div>
+                <div class="col-md-4mb-3"><label for="validationCustom02">BANKET_KUL_CKB_MDL</label><input type="text" class="form-control" id="validationCustom02" placeholder="BANKET_KUL_CKB_MDL" value="@ViewBag.BANKET_KUL_CKB_MDL" name="BANKET_KUL_CKB_MDL"></div>
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <br />
-
-            <div class="form-row">
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">1.Ünvan</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.unvan1" name="Unvan1">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">1.İsim</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.isim1" name="Isim1">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">1.Telefon</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.telefon1" name="Telefon1">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">1.Mail</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.mail1" name="Mail1">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">2.Ünvan</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.unvan2" name="Unvan2">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">2.İsim</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.isim2" name="Isim2">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">2.Telefon</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.telefon2" name="Telefon2">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">2.Mail</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.mail2" name="Mail2">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">3.Ünvan</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.unvan3" name="Unvan3">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">3.İsim</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.isim3" name="Isim3">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">3.Telefon</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.telefon3" name="Telefon3">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">3.Mail</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.mail3" name="Mail3">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">4.Ünvan</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.unvan4" name="Unvan4">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">4.İsim</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.isim4" name="Isim4">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">4.Telefon</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.telefon4" name="Telefon4">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">4.Mail</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.mail4" name="Mail4">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">5.Ünvan</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.unvan5" name="Unvan5">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">5.İsim</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.isim5" name="Isim5">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">5.Telefon</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.telefon5" name="Telefon5">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <label for="validationCustom02">5.Mail</label>
-                    <input type="text" class="form-control" id="validationCustom02" placeholder="" value="@ViewBag.mail5" name="Mail5">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-            </div>
-            <br />
-            <button class="btn btn-primary" type="submit">Kaydet</button>
+            <button class="btn btn-primary" type="submit" style="display:none;">Kaydet</button>
             <br />
             <span style="color:green;">@ViewBag.bilgi</span>
         </form>

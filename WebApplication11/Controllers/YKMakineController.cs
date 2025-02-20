@@ -233,7 +233,7 @@ Order by StokGarantiTarihleri.SeriNo ";
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Arizalar(string Baslangic = "", string Bitis = "", string Durum = "", string Teknisyen = "", string Cari = "", string SeriNo="")
+        public ActionResult Arizalar(string Baslangic = "", string Bitis = "", string Durum = "", string Teknisyen = "", string Cari = "", string SeriNo = "", string EvrakNo = "")
         {
             if (!AutoGirisKontrol())
                 return Redirect("~/Kullanici/Giris");
@@ -253,6 +253,7 @@ Order by StokGarantiTarihleri.SeriNo ";
             ViewBag.Teknisyen = Teknisyen;
             ViewBag.Cari = Cari;
             ViewBag.SeriNo = SeriNo;
+            ViewBag.EvrakNo = EvrakNo;
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_ArizaListesi";
@@ -263,6 +264,7 @@ Order by StokGarantiTarihleri.SeriNo ";
             cmd.Parameters.AddWithValue("@Teknisyen", Teknisyen);
             cmd.Parameters.AddWithValue("@Cari", Cari);
             cmd.Parameters.AddWithValue("@SeriNo", SeriNo);
+            cmd.Parameters.AddWithValue("@EvrakNo", EvrakNo);
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
 

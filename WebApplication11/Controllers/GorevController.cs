@@ -98,13 +98,22 @@ namespace YKPortal.Controllers
                 cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
                 DataTable dtMailBilgileri = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
-                YKUtils.MailGonder(Baslik, Icerik, GetCookie("KullaniciAdi"),
-                        Convert.ToString(dtMailBilgileri.Select(" Isim = 'KullaniciAdi' ")[0]["Deger"]),
-                        Convert.ToString(dtMailBilgileri.Select(" Isim = 'Parola' ")[0]["Deger"]),
-                        Convert.ToString(dtMailBilgileri.Select(" Isim = 'Host' ")[0]["Deger"]),
-                        Convert.ToInt32(dtMailBilgileri.Select(" Isim = 'Port' ")[0]["Deger"]),
-                        Convert.ToString(dtMailBilgileri.Select(" Isim = 'SSL' ")[0]["Deger"]) == "0" ? false : true
-                    );
+
+                cmd.Parameters.Clear();
+                cmd.CommandText = "select Aciklama2 from Kullanicilar WITH(NOLOCK) Where Silindi = 0 and ID = @KullaniciID";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
+                string mailadresi = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+                if (mailadresi.Contains("@"))
+                {
+                    YKUtils.MailGonder(Baslik, Icerik, GetCookie("KullaniciAdi"),
+                            Convert.ToString(dtMailBilgileri.Select(" Isim = 'KullaniciAdi' ")[0]["Deger"]),
+                            Convert.ToString(dtMailBilgileri.Select(" Isim = 'Parola' ")[0]["Deger"]),
+                            Convert.ToString(dtMailBilgileri.Select(" Isim = 'Host' ")[0]["Deger"]),
+                            Convert.ToInt32(dtMailBilgileri.Select(" Isim = 'Port' ")[0]["Deger"]),
+                            Convert.ToString(dtMailBilgileri.Select(" Isim = 'SSL' ")[0]["Deger"]) == "0" ? false : true
+                        );
+                }
             }
 
             #endregion

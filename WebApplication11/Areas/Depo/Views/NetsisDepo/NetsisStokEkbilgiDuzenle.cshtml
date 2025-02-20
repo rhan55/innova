@@ -97,7 +97,6 @@
             </tr>
             <tr>
                 <td style="text-align:left;">
-
                     <strong><span id="Bilgilendirme" name="Bilgilendirme"></span></strong>
                 </td>
             </tr>
@@ -119,11 +118,11 @@
             {
                 foreach (DataRow dr in ((DataTable)ViewBag.dtBakiyeler).Rows)
                 {
-        <tr>
-            <td>@dr["SUBE_KODU"]</td>
-            <td>@dr["DEPO_KODU"]</td>
-            <td>@String.Format("{0:N2}",Convert.ToDecimal(dr["Bakiye"]))</td>
-        </tr>
+                    <tr>
+                        <td>@dr["SUBE_KODU"]</td>
+                        <td>@dr["DEPO_KODU"]</td>
+                        <td>@String.Format("{0:N2}",Convert.ToDecimal(dr["Bakiye"]))</td>
+                    </tr>
                 }
             }
         </table>

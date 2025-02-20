@@ -18,6 +18,7 @@
                 <div class="media">
                     <a class="mr-3" href="@Url.Action("Musteri","Ziyaret",new { area = "Ziyaret", id = dt.Rows[0]["CariKodu"] })">
                         <img class="thumb media-object" src="@Url.Content("~/Content/Ziyaret/img/email-img/image2.png")" alt="">
+                        <br /><span>DÜZENLE</span>
                     </a>
                     <div class="media-body">
                         <h4>#@dt.Rows[0]["CariKodu"] |<span class="text-muted small"> - @dt.Rows[0]["Isim"]</span></h4>

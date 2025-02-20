@@ -7,7 +7,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Net.NetworkInformation;
 using System.Net.Security;
+using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
 using System.Web;
 
@@ -18,28 +20,52 @@ namespace YKPortal.Models.YKClasses
         public static string SmsKullaniciAdi = ConfigurationManager.AppSettings["SmsKullaniciAdi"];
         public static string SmsParola = ConfigurationManager.AppSettings["SmsParola"];
         public static string SmsIsim = ConfigurationManager.AppSettings["SmsIsim"];
+
         public static string GetIPAdress()
         {
-            ServicePointManager.Expect100Continue = true;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            return new System.Net.WebClient().DownloadString("https://api.ipify.org");
+            string hostName = Dns.GetHostName();
+            var ipAddresses = Dns.GetHostAddresses(hostName);
+
+            foreach (var ip in ipAddresses)
+            {
+                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+
+            return GetClientIPAddress();
         }
 
         public static string GetClientIPAddress()
         {
-            System.Web.HttpContext context = System.Web.HttpContext.Current;
-            string ipAddress = context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-
-            if (!string.IsNullOrEmpty(ipAddress))
+            try
             {
-                string[] addresses = ipAddress.Split(',');
-                if (addresses.Length != 0)
+                var networkInterfaces = NetworkInterface.GetAllNetworkInterfaces()
+                    .Where(n => n.OperationalStatus == OperationalStatus.Up &&
+                                n.NetworkInterfaceType != NetworkInterfaceType.Loopback);
+
+                foreach (var networkInterface in networkInterfaces)
                 {
-                    return addresses[0];
+                    var ipProperties = networkInterface.GetIPProperties();
+                    var unicastAddresses = ipProperties.UnicastAddresses;
+
+                    foreach (var unicastAddress in unicastAddresses)
+                    {
+                        if (unicastAddress.Address.AddressFamily == AddressFamily.InterNetwork) // IPv4 Adreslerini Al
+                        {
+                            return unicastAddress.Address.ToString();
+                        }
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                return "";
+                return $"Hata: {ex.Message}";
+            }
 
-            return context.Request.ServerVariables["REMOTE_ADDR"];
+            return "";
         }
         public static string GetVersion()
         {

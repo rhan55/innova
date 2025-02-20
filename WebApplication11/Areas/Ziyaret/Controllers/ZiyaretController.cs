@@ -26,8 +26,16 @@ namespace YKPortal.Areas.Ziyaret.Controllers
             string KullaniciID = GetCookie("KullaniciID");
 
             string plasiyerkisiti = " and w_Ziyaretler.kayityapankullanici = '" + KullaniciID + "' ";
-
-
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "select Aciklama1 from Kullanicilar where ID = @KullaniciID ";
+                cmd.Parameters.AddWithValue("@KullaniciID", UyelikID);
+                string kontrol1 = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+                if (kontrol1 == "Yetkili")
+                {
+                    plasiyerkisiti = "";
+                }
+            }
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "select count(*) from w_Cariler where UyelikID = @UyelikID and silindi = 0 ";
@@ -36,13 +44,13 @@ namespace YKPortal.Areas.Ziyaret.Controllers
             }
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "select count(*) from w_Ziyaretler where UyelikID = @UyelikID and tamamlandi = 1 and silindi = 0 " + plasiyerkisiti;
+                cmd.CommandText = "select count(*) from w_Ziyaretler where UyelikID = @UyelikID and tamamlandi = 1 " + plasiyerkisiti + " and silindi = 0 " + plasiyerkisiti;
                 cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
                 ViewBag.ZiyaretSayisi = Convert.ToInt32(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
             }
             {
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "select count(*) from w_Ziyaretler where UyelikID = @UyelikID and tamamlandi = 1 and teklifverildi = 1 and silindi = 0  " + plasiyerkisiti;
+                cmd.CommandText = "select count(*) from w_Ziyaretler where UyelikID = @UyelikID and tamamlandi = 1 " + plasiyerkisiti + " and teklifverildi = 1 and silindi = 0  " + plasiyerkisiti;
                 cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
                 ViewBag.TeklifVerildi = Convert.ToInt32(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
             }
@@ -164,6 +172,237 @@ order by count(*) desc
 
 
         #region Müşteriler
+
+        [HttpGet]
+        public ActionResult Musteri(string id = "")
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            string UyelikID = GetCookie("UyelikID");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = @"select LG_018_CLCARD.CODE as CariKodu, LG_XT1015_018.* from TIGER3.dbo.LG_XT1015_018 WITH(NOLOCK) 
+LEFT OUTER JOIN TIGER3.dbo.LG_018_CLCARD WITH(NOLOCK) ON LG_018_CLCARD.LOGICALREF = LG_XT1015_018.PARLOGREF
+Where LG_018_CLCARD.CODE = @CariID";
+            cmd.Parameters.AddWithValue("@CariID", id);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            if (dt.Rows.Count > 0)
+            {
+                ViewBag.id = id;
+                ViewBag.YILDIZSAYISI = Convert.ToString(dt.Rows[0]["YILDIZSAYISI"]);
+                ViewBag.SHP_CepTel = Convert.ToString(dt.Rows[0]["SHP_CepTel"]);
+                ViewBag.SHP_MAIL = Convert.ToString(dt.Rows[0]["SHP_MAIL"]);
+                ViewBag.SNF_ALANI = Convert.ToString(dt.Rows[0]["SNF_ALANI"]);
+                ViewBag.SHP_ADSOYAD = Convert.ToString(dt.Rows[0]["SHP_ADSOYAD"]);
+                ViewBag.GM_ADSOYAD = Convert.ToString(dt.Rows[0]["GM_ADSOYAD"]);
+                ViewBag.GM_MAIL = Convert.ToString(dt.Rows[0]["GM_MAIL"]);
+                ViewBag.GM_CEPTEL = Convert.ToString(dt.Rows[0]["GM_CEPTEL"]);
+                ViewBag.YATAK_SAYI = Convert.ToString(dt.Rows[0]["YATAK_SAYI"]);
+                ViewBag.ODA_SAYI = Convert.ToString(dt.Rows[0]["ODA_SAYI"]);
+                ViewBag.KISI_SAYI = Convert.ToString(dt.Rows[0]["KISI_SAYI"]);
+                ViewBag.FB_MAILI = Convert.ToString(dt.Rows[0]["FB_MAILI"]);
+                ViewBag.FB_CEPTEL = Convert.ToString(dt.Rows[0]["FB_CEPTEL"]);
+                ViewBag.KONSEPT = Convert.ToString(dt.Rows[0]["KONSEPT"]);
+                ViewBag.FB_ADSOYAD = Convert.ToString(dt.Rows[0]["FB_ADSOYAD"]);
+                ViewBag.GMY_MAIL = Convert.ToString(dt.Rows[0]["GMY_MAIL"]);
+                ViewBag.GMY_CEPTEL = Convert.ToString(dt.Rows[0]["GMY_CEPTEL"]);
+                ViewBag.GMY_ADSOYAD = Convert.ToString(dt.Rows[0]["GMY_ADSOYAD"]);
+                ViewBag.ALAKART4_KAPASITE = Convert.ToString(dt.Rows[0]["ALAKART4_KAPASITE"]);
+                ViewBag.ALAKART3_KAPASITE = Convert.ToString(dt.Rows[0]["ALAKART3_KAPASITE"]);
+                ViewBag.ALAKART5_KAPASITE = Convert.ToString(dt.Rows[0]["ALAKART5_KAPASITE"]);
+                ViewBag.BANKET_KAPASITE = Convert.ToString(dt.Rows[0]["BANKET_KAPASITE"]);
+                ViewBag.ALAKART2_KAPASITE = Convert.ToString(dt.Rows[0]["ALAKART2_KAPASITE"]);
+                ViewBag.ALAKART1_KAPASITE = Convert.ToString(dt.Rows[0]["ALAKART1_KAPASITE"]);
+                ViewBag.KAGIT_BASTAR = Convert.ToString(dt.Rows[0]["KAGIT_BASTAR"]);
+                ViewBag.KAGIT = Convert.ToString(dt.Rows[0]["KAGIT"]);
+                ViewBag.KAGIT_BITTAR = Convert.ToString(dt.Rows[0]["KAGIT_BITTAR"]);
+                ViewBag.KISILER_NOT = Convert.ToString(dt.Rows[0]["KISILER_NOT"]);
+                ViewBag.TESIS_NOT = Convert.ToString(dt.Rows[0]["TESIS_NOT"]);
+                ViewBag.DETERJAN = Convert.ToString(dt.Rows[0]["DETERJAN"]);
+                ViewBag.DET_BITTAR = Convert.ToString(dt.Rows[0]["DET_BITTAR"]);
+                ViewBag.DET_BASTAR = Convert.ToString(dt.Rows[0]["DET_BASTAR"]);
+                ViewBag.STNALMAMD_MAIL = Convert.ToString(dt.Rows[0]["STNALMAMD_MAIL"]);
+                ViewBag.STNALMMD_CEPTEL = Convert.ToString(dt.Rows[0]["STNALMMD_CEPTEL"]);
+                ViewBag.MUHMD_CEPTEL = Convert.ToString(dt.Rows[0]["MUHMD_CEPTEL"]);
+                ViewBag.MUHMD_ADSOYAD = Convert.ToString(dt.Rows[0]["MUHMD_ADSOYAD"]);
+                ViewBag.ASCIBASI_CEPTEL = Convert.ToString(dt.Rows[0]["ASCIBASI_CEPTEL"]);
+                ViewBag.ASCIBASI_MAIL = Convert.ToString(dt.Rows[0]["ASCIBASI_MAIL"]);
+                ViewBag.STNALMAMD_ADSOYAD = Convert.ToString(dt.Rows[0]["STNALMAMD_ADSOYAD"]);
+                ViewBag.MUHMD_MAIL = Convert.ToString(dt.Rows[0]["MUHMD_MAIL"]);
+                ViewBag.TEKNIKMD_CEPTEL = Convert.ToString(dt.Rows[0]["TEKNIKMD_CEPTEL"]);
+                ViewBag.TEKNIKMD_ADSOYAD = Convert.ToString(dt.Rows[0]["TEKNIKMD_ADSOYAD"]);
+                ViewBag.TEKNIKMD_MAIL = Convert.ToString(dt.Rows[0]["TEKNIKMD_MAIL"]);
+                ViewBag.ANAREST_KAPASITE = Convert.ToString(dt.Rows[0]["ANAREST_KAPASITE"]);
+                ViewBag.HAUKEP_CEPTEL = Convert.ToString(dt.Rows[0]["HAUKEP_CEPTEL"]);
+                ViewBag.HAUKEP_ADSOYAD = Convert.ToString(dt.Rows[0]["HAUKEP_ADSOYAD"]);
+                ViewBag.HAUKEP_MAIL = Convert.ToString(dt.Rows[0]["HAUKEP_MAIL"]);
+                ViewBag.SEF_MAIL = Convert.ToString(dt.Rows[0]["SEF_MAIL"]);
+                ViewBag.SEF_CEPTEL = Convert.ToString(dt.Rows[0]["SEF_CEPTEL"]);
+                ViewBag.SEF_ADSOYAD = Convert.ToString(dt.Rows[0]["SEF_ADSOYAD"]);
+                ViewBag.ALAKART3_KULL_MM = Convert.ToString(dt.Rows[0]["ALAKART3_KULL_MM"]);
+                ViewBag.ALAKART3_KUL_CKB_MDL = Convert.ToString(dt.Rows[0]["ALAKART3_KUL_CKB_MDL"]);
+                ViewBag.ALAKART2_KUL_CKB_MDL = Convert.ToString(dt.Rows[0]["ALAKART2_KUL_CKB_MDL"]);
+                ViewBag.ALAKART5_KUL_CKB_MDL = Convert.ToString(dt.Rows[0]["ALAKART5_KUL_CKB_MDL"]);
+                ViewBag.ALAKART5_KULL_MM = Convert.ToString(dt.Rows[0]["ALAKART5_KULL_MM"]);
+                ViewBag.ALAKART4_KULL_MM = Convert.ToString(dt.Rows[0]["ALAKART4_KULL_MM"]);
+                ViewBag.ALAKART4_KUL_CKB_MDL = Convert.ToString(dt.Rows[0]["ALAKART4_KUL_CKB_MDL"]);
+                ViewBag.ALAKART2_KULL_MM = Convert.ToString(dt.Rows[0]["ALAKART2_KULL_MM"]);
+                ViewBag.ANAREST_KUL_CKB_MDL = Convert.ToString(dt.Rows[0]["ANAREST_KUL_CKB_MDL"]);
+                ViewBag.ANAREST_KUL_MRK_MDL = Convert.ToString(dt.Rows[0]["ANAREST_KUL_MRK_MDL"]);
+                ViewBag.ASCIBASI_ADSOYAD = Convert.ToString(dt.Rows[0]["ASCIBASI_ADSOYAD"]);
+                ViewBag.BANKET_KULL_MM = Convert.ToString(dt.Rows[0]["BANKET_KULL_MM"]);
+                ViewBag.ALAKART1_KULL_MM = Convert.ToString(dt.Rows[0]["ALAKART1_KULL_MM"]);
+                ViewBag.ALAKART1_KUL_CKB_MDL = Convert.ToString(dt.Rows[0]["ALAKART1_KUL_CKB_MDL"]);
+                ViewBag.BANKET_KUL_CKB_MDL = Convert.ToString(dt.Rows[0]["BANKET_KUL_CKB_MDL"]);
+            }
+            else
+            {
+                ViewBag.id = id;
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Musteri(string id, string YILDIZSAYISI, string SHP_CepTel, string SHP_MAIL, string SNF_ALANI, string SHP_ADSOYAD,
+            string GM_ADSOYAD, string GM_MAIL, string GM_CEPTEL, string YATAK_SAYI, string ODA_SAYI, string KISI_SAYI,
+string FB_MAILI,
+string FB_CEPTEL,
+string KONSEPT,
+string FB_ADSOYAD,
+string GMY_MAIL,
+string GMY_CEPTEL,
+string GMY_ADSOYAD,
+string ALAKART4_KAPASITE,
+string ALAKART3_KAPASITE,
+string ALAKART5_KAPASITE,
+string BANKET_KAPASITE,
+string ALAKART2_KAPASITE,
+string ALAKART1_KAPASITE,
+string KAGIT_BASTAR,
+string KAGIT,
+string KAGIT_BITTAR,
+string KISILER_NOT,
+string TESIS_NOT,
+string DETERJAN,
+string DET_BITTAR,
+string DET_BASTAR,
+string STNALMAMD_MAIL,
+string STNALMMD_CEPTEL,
+string MUHMD_CEPTEL,
+string MUHMD_ADSOYAD,
+string ASCIBASI_CEPTEL,
+string ASCIBASI_MAIL,
+string STNALMAMD_ADSOYAD,
+string MUHMD_MAIL,
+string TEKNIKMD_CEPTEL,
+string TEKNIKMD_ADSOYAD,
+string TEKNIKMD_MAIL,
+string ANAREST_KAPASITE,
+string HAUKEP_CEPTEL,
+string HAUKEP_ADSOYAD,
+string HAUKEP_MAIL,
+string SEF_MAIL,
+string SEF_CEPTEL,
+string SEF_ADSOYAD,
+string ALAKART3_KULL_MM,
+string ALAKART3_KUL_CKB_MDL,
+string ALAKART2_KUL_CKB_MDL,
+string ALAKART5_KUL_CKB_MDL,
+string ALAKART5_KULL_MM,
+string ALAKART4_KULL_MM,
+string ALAKART4_KUL_CKB_MDL,
+string ALAKART2_KULL_MM,
+string ANAREST_KUL_CKB_MDL,
+string ANAREST_KUL_MRK_MDL,
+string ASCIBASI_ADSOYAD,
+string BANKET_KULL_MM,
+string ALAKART1_KULL_MM,
+string ALAKART1_KUL_CKB_MDL,
+string BANKET_KUL_CKB_MDL
+            )
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
+
+            if (true)
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "IDP_CrmCariGuncelle";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CariID", id);
+                cmd.Parameters.AddWithValue("@YILDIZSAYISI", YILDIZSAYISI);
+                cmd.Parameters.AddWithValue("@SHP_CepTel", SHP_CepTel);
+                cmd.Parameters.AddWithValue("@SHP_MAIL", SHP_MAIL);
+                cmd.Parameters.AddWithValue("@SNF_ALANI", SNF_ALANI);
+                cmd.Parameters.AddWithValue("@SHP_ADSOYAD", SHP_ADSOYAD);
+                cmd.Parameters.AddWithValue("@GM_ADSOYAD", GM_ADSOYAD);
+                cmd.Parameters.AddWithValue("@GM_MAIL", GM_MAIL);
+                cmd.Parameters.AddWithValue("@GM_CEPTEL", GM_CEPTEL);
+                cmd.Parameters.AddWithValue("@YATAK_SAYI", YATAK_SAYI);
+                cmd.Parameters.AddWithValue("@ODA_SAYI", ODA_SAYI);
+                cmd.Parameters.AddWithValue("@KISI_SAYI", KISI_SAYI);
+                cmd.Parameters.AddWithValue("FB_MAILI",FB_MAILI);
+                cmd.Parameters.AddWithValue("FB_CEPTEL",FB_CEPTEL);
+                cmd.Parameters.AddWithValue("KONSEPT",KONSEPT);
+                cmd.Parameters.AddWithValue("FB_ADSOYAD",FB_ADSOYAD);
+                cmd.Parameters.AddWithValue("GMY_MAIL",GMY_MAIL);
+                cmd.Parameters.AddWithValue("GMY_CEPTEL",GMY_CEPTEL);
+                cmd.Parameters.AddWithValue("GMY_ADSOYAD",GMY_ADSOYAD);
+                cmd.Parameters.AddWithValue("ALAKART4_KAPASITE",ALAKART4_KAPASITE);
+                cmd.Parameters.AddWithValue("ALAKART3_KAPASITE",ALAKART3_KAPASITE);
+                cmd.Parameters.AddWithValue("ALAKART5_KAPASITE",ALAKART5_KAPASITE);
+                cmd.Parameters.AddWithValue("BANKET_KAPASITE",BANKET_KAPASITE);
+                cmd.Parameters.AddWithValue("ALAKART2_KAPASITE",ALAKART2_KAPASITE);
+                cmd.Parameters.AddWithValue("ALAKART1_KAPASITE",ALAKART1_KAPASITE);
+                cmd.Parameters.AddWithValue("KAGIT_BASTAR",KAGIT_BASTAR);
+                cmd.Parameters.AddWithValue("KAGIT",KAGIT);
+                cmd.Parameters.AddWithValue("KAGIT_BITTAR",KAGIT_BITTAR);
+                cmd.Parameters.AddWithValue("KISILER_NOT",KISILER_NOT);
+                cmd.Parameters.AddWithValue("TESIS_NOT",TESIS_NOT);
+                cmd.Parameters.AddWithValue("DETERJAN",DETERJAN);
+                cmd.Parameters.AddWithValue("DET_BITTAR",DET_BITTAR);
+                cmd.Parameters.AddWithValue("DET_BASTAR",DET_BASTAR);
+                cmd.Parameters.AddWithValue("STNALMAMD_MAIL",STNALMAMD_MAIL);
+                cmd.Parameters.AddWithValue("STNALMMD_CEPTEL",STNALMMD_CEPTEL);
+                cmd.Parameters.AddWithValue("MUHMD_CEPTEL",MUHMD_CEPTEL);
+                cmd.Parameters.AddWithValue("MUHMD_ADSOYAD",MUHMD_ADSOYAD);
+                cmd.Parameters.AddWithValue("ASCIBASI_CEPTEL",ASCIBASI_CEPTEL);
+                cmd.Parameters.AddWithValue("ASCIBASI_MAIL",ASCIBASI_MAIL);
+                cmd.Parameters.AddWithValue("STNALMAMD_ADSOYAD",STNALMAMD_ADSOYAD);
+                cmd.Parameters.AddWithValue("MUHMD_MAIL",MUHMD_MAIL);
+                cmd.Parameters.AddWithValue("TEKNIKMD_CEPTEL",TEKNIKMD_CEPTEL);
+                cmd.Parameters.AddWithValue("TEKNIKMD_ADSOYAD",TEKNIKMD_ADSOYAD);
+                cmd.Parameters.AddWithValue("TEKNIKMD_MAIL",TEKNIKMD_MAIL);
+                cmd.Parameters.AddWithValue("ANAREST_KAPASITE",ANAREST_KAPASITE);
+                cmd.Parameters.AddWithValue("HAUKEP_CEPTEL",HAUKEP_CEPTEL);
+                cmd.Parameters.AddWithValue("HAUKEP_ADSOYAD",HAUKEP_ADSOYAD);
+                cmd.Parameters.AddWithValue("HAUKEP_MAIL",HAUKEP_MAIL);
+                cmd.Parameters.AddWithValue("SEF_MAIL",SEF_MAIL);
+                cmd.Parameters.AddWithValue("SEF_CEPTEL",SEF_CEPTEL);
+                cmd.Parameters.AddWithValue("SEF_ADSOYAD",SEF_ADSOYAD);
+                cmd.Parameters.AddWithValue("ALAKART3_KULL_MM",ALAKART3_KULL_MM);
+                cmd.Parameters.AddWithValue("ALAKART3_KUL_CKB_MDL",ALAKART3_KUL_CKB_MDL);
+                cmd.Parameters.AddWithValue("ALAKART2_KUL_CKB_MDL",ALAKART2_KUL_CKB_MDL);
+                cmd.Parameters.AddWithValue("ALAKART5_KUL_CKB_MDL",ALAKART5_KUL_CKB_MDL);
+                cmd.Parameters.AddWithValue("ALAKART5_KULL_MM",ALAKART5_KULL_MM);
+                cmd.Parameters.AddWithValue("ALAKART4_KULL_MM",ALAKART4_KULL_MM);
+                cmd.Parameters.AddWithValue("ALAKART4_KUL_CKB_MDL",ALAKART4_KUL_CKB_MDL);
+                cmd.Parameters.AddWithValue("ALAKART2_KULL_MM",ALAKART2_KULL_MM);
+                cmd.Parameters.AddWithValue("ANAREST_KUL_CKB_MDL",ANAREST_KUL_CKB_MDL);
+                cmd.Parameters.AddWithValue("ANAREST_KUL_MRK_MDL",ANAREST_KUL_MRK_MDL);
+                cmd.Parameters.AddWithValue("ASCIBASI_ADSOYAD",ASCIBASI_ADSOYAD);
+                cmd.Parameters.AddWithValue("BANKET_KULL_MM",BANKET_KULL_MM);
+                cmd.Parameters.AddWithValue("ALAKART1_KULL_MM",ALAKART1_KULL_MM);
+                cmd.Parameters.AddWithValue("ALAKART1_KUL_CKB_MDL",ALAKART1_KUL_CKB_MDL);
+                cmd.Parameters.AddWithValue("BANKET_KUL_CKB_MDL",BANKET_KUL_CKB_MDL);
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+            }
+
+            ViewBag.bilgi = "Bilgiler kaydedildi.";
+            return Redirect("~/Ziyaret/Ziyaret/" + id);
+        }
+
         public ActionResult Musteriler(string id = "")
         {
             if (!AutoGirisKontrol())
@@ -236,7 +475,7 @@ order by count(*) desc
                 ds.Tables.Add(dt);
                 foreach (DataRow item in dt.Rows)
                 {
-                    idler += "'"+item["ID"] + "',";
+                    idler += "'" + item["ID"] + "',";
                 }
                 idler = idler.Substring(0, idler.Length - 1);
             }
@@ -398,6 +637,17 @@ values
 
             string plasiyerkisiti = " and w_Ziyaretler.kayityapankullanici = '" + KullaniciID + "' ";
 
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "select Aciklama1 from Kullanicilar where ID = @KullaniciID ";
+                cmd.Parameters.AddWithValue("@KullaniciID", UyelikID);
+                string kontrol1 = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+                if (kontrol1 == "Yetkili")
+                {
+                    plasiyerkisiti = "";
+                }
+            }
+
             string baslikkisiti = "";
             if (ZiyaretTipi == "Diğer")
             {
@@ -452,6 +702,16 @@ values
 
             string plasiyerkisiti = " and w_Ziyaretler.kayityapankullanici = '" + KullaniciID + "' ";
 
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "select Aciklama1 from Kullanicilar where ID = @KullaniciID ";
+                cmd.Parameters.AddWithValue("@KullaniciID", UyelikID);
+                string kontrol1 = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+                if (kontrol1 == "Yetkili")
+                {
+                    plasiyerkisiti = "";
+                }
+            }
             string baslikkisiti = "";
             if (ZiyaretTipi != "")
             {
@@ -509,6 +769,16 @@ from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.Kod wh
 
             string plasiyerkisiti = " and w_Ziyaretler.kayityapankullanici = '" + KullaniciID + "' ";
 
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "select Aciklama1 from Kullanicilar where ID = @KullaniciID ";
+                cmd.Parameters.AddWithValue("@KullaniciID", UyelikID);
+                string kontrol1 = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+                if (kontrol1 == "Yetkili")
+                {
+                    plasiyerkisiti = "";
+                }
+            }
 
             SqlCommand cmd2 = new SqlCommand();
             cmd2.CommandText = "select  w_Ziyaretler.*,w_Cariler.Isim,w_Cariler.seviye from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.Kod where w_Ziyaretler.UyelikID = '" + UyelikID + "'  and w_Ziyaretler.silindi = 0 and  teklifverildi = 1 " + plasiyerkisiti + "  and tarih between '" + Baslangic + "' and '" + Bitis + "' order by ISNULL(w_Cariler.seviye,6),w_Ziyaretler.tarih ";
@@ -555,6 +825,16 @@ from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.Kod wh
 
             string plasiyerkisiti = " and w_Ziyaretler.kayityapankullanici = '" + KullaniciID + "' ";
 
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "select Aciklama1 from Kullanicilar where ID = @KullaniciID ";
+                cmd.Parameters.AddWithValue("@KullaniciID", UyelikID);
+                string kontrol1 = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+                if (kontrol1 == "Yetkili")
+                {
+                    plasiyerkisiti = "";
+                }
+            }
             string teklifverildi = "";
             if (Teklif != "0")
             {
@@ -592,10 +872,17 @@ from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.Kod wh
             ViewBag.Bitis = Bitis;
             ViewBag.Personel = Personel;
 
-            string plasiyerkisiti = "";
-            if (Personel != "")
+            string plasiyerkisiti = " and w_Ziyaretler.kayityapankullanici = '" + KullaniciID + "' ";
+
             {
-                plasiyerkisiti = " and w_Ziyaretler.kayityapankullanici = '" + Personel + "' ";
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "select Aciklama1 from Kullanicilar where ID = @KullaniciID ";
+                cmd.Parameters.AddWithValue("@KullaniciID", UyelikID);
+                string kontrol1 = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+                if (kontrol1 == "Yetkili")
+                {
+                    plasiyerkisiti = "";
+                }
             }
 
             SqlCommand cmd2 = new SqlCommand();
@@ -647,10 +934,17 @@ from w_Ziyaretler inner join w_Cariler on w_Ziyaretler.CariID = w_Cariler.Kod wh
             ViewBag.Bitis = Bitis;
             ViewBag.Personel = Personel;
 
-            string plasiyerkisiti = "";
-            if (Personel != "")
+            string plasiyerkisiti = " and w_Ziyaretler.kayityapankullanici = '" + KullaniciID + "' ";
+
             {
-                plasiyerkisiti = " and w_Ziyaretler.kayityapankullanici = '" + Personel + "' ";
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "select Aciklama1 from Kullanicilar where ID = @KullaniciID ";
+                cmd.Parameters.AddWithValue("@KullaniciID", UyelikID);
+                string kontrol1 = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+                if (kontrol1 == "Yetkili")
+                {
+                    plasiyerkisiti = "";
+                }
             }
 
             SqlCommand cmd2 = new SqlCommand();
