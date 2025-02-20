@@ -309,6 +309,7 @@
     <Compile Include="Areas\Satinalma\SatinalmaAreaRegistration.cs" />
     <Compile Include="Controllers\AktivasyonController.cs" />
     <Compile Include="Controllers\BelgeController.cs" />
+    <Compile Include="Controllers\BepController.cs" />
     <Compile Include="Controllers\CariController.cs" />
     <Compile Include="Controllers\DepoController.cs" />
     <Compile Include="Controllers\DosyaController.cs" />
@@ -6531,6 +6532,7 @@
     <Content Include="Views\Rapor\RaporIsimleri.cshtml" />
     <Content Include="Views\Rapor\Getir.cshtml" />
     <Content Include="Views\YKMakine\StokGarantiTarihleri.cshtml" />
+    <Content Include="Views\Bep\Index.cshtml" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>
