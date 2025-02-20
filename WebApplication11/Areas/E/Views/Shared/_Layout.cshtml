@@ -1,6 +1,5 @@
-﻿@*@model List<YKPortal.Areas.E.Models.Dto.KategorilerDto>*@
-@using YKPortal.Extensions
-
+﻿@using YKPortal.Extensions
+@using YKPortal.Areas.E.Models.Dto;
 @{
     var sepetBilgileri = ViewBag.SepetBilgileri as List<YKPortal.Areas.E.Models.Dto.ETicaretSepetDto.ETicaretSepetListeSonucDto>;
     if (sepetBilgileri == null)
@@ -48,8 +47,10 @@
 
     <!-- Main CSS File -->
     <link href="~/Tema/ETicaret/assets/css/style.css" rel="stylesheet" />
-    <link href="~/Tema/ETicaret/assets/css/override.css" rel="stylesheet" />
+    <link href="~/Tema/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="~/Tema/ETicaret/assets/vendor/fontawesome-free/css/all.min.css">
+    <link href="https://cdn.datatables.net/v/bs4/jq-3.7.0/jszip-3.10.1/dt-2.1.8/af-2.7.0/b-3.2.0/b-colvis-3.2.0/b-html5-3.2.0/b-print-3.2.0/cr-2.0.4/date-1.5.4/fc-5.0.4/fh-4.0.1/kt-2.12.1/r-3.0.3/rg-1.5.1/rr-1.5.0/sc-2.4.3/sb-1.8.1/sp-2.3.3/sl-2.1.0/sr-1.4.1/datatables.min.css" rel="stylesheet">
+    <link href="~/Tema/ETicaret/assets/css/override.css" rel="stylesheet" />
     @RenderSection("Styles", required: false)
 </head>
 
@@ -201,7 +202,9 @@
                                 <i class="minicart-icon"></i>
                                 @if (sepetBilgileri != null && sepetBilgileri.Count > 0)
                                 {
-                                    <span data-id="BildirimEkle" class="cart-count badge-circle position-absolute top-0 start-50 hidden">@sepetBilgileri.Count</span>}
+
+                                    <span data-id="SepetBildirimi" class="notification hidden cart-count badge-circle position-absolute top-0 start-50 hidden">@sepetBilgileri.Count</span>
+                                }
                             </a>
 
                             <div class="cart-overlay"></div>
@@ -218,6 +221,9 @@
                                         {
                                             <div class="product">
                                                 <div class="product-details">
+                                                    <div>
+
+                                                    </div>
                                                     <h4 class="product-title">
                                                         <a href="">@stok.Isim</a>
                                                     </h4>
@@ -230,7 +236,7 @@
 
                                                 <figure class="product-image-container">
                                                     <a href="product.html" class="product-image">
-                                                        <img src="@stok.Resim1" alt="product" width="80" height="80">
+                                                        <img src="/Uploads/Dosya/@stok.Resim1" alt="product" width="80" height="80">
                                                     </a>
 
                                                     <a href="#" class="btn-remove" title="Remove Product"><span>×</span></a>
@@ -249,9 +255,8 @@
                                         <!-- End .dropdown-cart-total -->
 
                                         <div class="dropdown-cart-action">
-                                            <a href="cart.html" class="btn btn-gray btn-block view-cart">
-                                                View
-                                                Cart
+                                            <a href="/E/ETicaretSepet/SepetBilgileri" class="btn btn-gray btn-block view-cart">
+                                                Sepete Git                                            
                                             </a>
                                             <a href="checkout.html" class="btn btn-dark btn-block">Checkout</a>
                                         </div>
@@ -289,7 +294,7 @@
 
                                             <li>
                                                 <a href="/E/ETicaretStok/Stoklar?Kategori1=@kategori.Kategori1">@kategori.Kategori1</a>
-                                                <div class="megamenu megamenu-fixed-width">
+                                                <div class="megamenu">
                                                     <div>
 
                                                         <div class="">
@@ -403,21 +408,18 @@
                         <div class="col-lg-3 col-sm-6">
                             <div class="widget">
                                 <h4 class="widget-title">SAYFALAR</h4>
-
                                 <ul class="links">
                                     <li><a href="/E/ETicaretSite/Anasayfa">Ana Sayfa</a></li>
-                                    <li><a href="/E/ETicaretHakkimizda/Hakkimizda">Hakkımızda</a></li>
-                                    <li><a href="/E/ETicaretHakkimizda/Iletisim">İletişim</a></li>
                                     <li><a href="/E/ETicaretBilgiler/GenelBilgiler">Genel Bilgiler</a></li>
-                                    <li><a href="/E/ETicaretHakkimizda/Misyonumuz">Misyonumuz</a></li>
-                                    <li><a href="/E/ETicaretHakkimizda/Vizyonumuz">Vizyonumuz</a></li>
-                                    <li><a href="#">Sözleşme</a></li>
+                                    @foreach (ETicaretSabitSayfalarDto sabitSayfa in ViewBag.SabitSayfalar as List<ETicaretSabitSayfalarDto>)
+                                    {
+                                        <li><a href="/E/ETicaretSabitSayfalar/Sayfa/@(sabitSayfa.UrlAd)">@(sabitSayfa.Ad)</a></li>
+                                    }
                                 </ul>
                             </div>
                             <!-- End .widget -->
                         </div>
                         <!-- End .col-lg-3 -->
-
 
                         <div class="col-lg-3 col-sm-6">
                             <div class="widget">
@@ -557,17 +559,7 @@
                         }
                     </li>
                     <li>
-                        <a href="#">SAYFALAR</a>
-                        <ul>
-
-
-                            <li><a href="/E/ETicaretStok/Stoklar">Ürünler</a></li>
-                            <li><a href="/E/ETicaretBilgiler/GenelBilgiler">Genel Bilgiler</a></li>
-
-                            <li><a href="/E/ETicaretHakkimizda/Misyonumuz">Misyonumuz</a></li>
-                            <li><a href="/E/ETicaretHakkimizda/Vizyonumuz">Vizyonumuz</a></li>
-                            <li><a href="#">Sözleşme</a></li>
-                        </ul>
+                        <a href="/E/ETicaretStok/Stoklar">ÜRÜNLER</a>
                     </li>
                 </ul>
 
@@ -582,15 +574,7 @@
                     {
 
                     }
-                    <li>
-                        <a href="#">İletişim</a>
 
-                        <ul>
-                            <li><a href="/E/ETicaretHakkimizda/Iletisim">İletişim</a></li>
-                            <li><a href="/E/ETicaretHakkimizda/Hakkimizda">Hakkımızda</a></li>
-
-                        </ul>
-                    </li>
                     @if (ViewBag.GirisYapildi)
                     {
                         <li>
@@ -613,9 +597,6 @@
 
                     }
 
-                    <li>
-
-                    </li>
                 </ul>
             </nav>
             <!-- End .mobile-nav -->
@@ -636,11 +617,13 @@
 
     <!-- Plugins JS File -->
 
-
-
     <script src="~/Tema/ETicaret/assets/js/jquery.min.js"></script>
     <script src="~/Tema/ETicaret/assets/js/jquery.plugin.min.js"></script>
     <script src="~/Tema/ETicaret/assets/js/jquery.countdown.min.js"></script>
+    <script src="~/Tema/ETicaret/assets/js/plugins/moment-with-locales.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/v/bs4/jq-3.7.0/jszip-3.10.1/dt-2.1.8/af-2.7.0/b-3.2.0/b-colvis-3.2.0/b-html5-3.2.0/b-print-3.2.0/cr-2.0.4/date-1.5.4/fc-5.0.4/fh-4.0.1/kt-2.12.1/r-3.0.3/rg-1.5.1/rr-1.5.0/sc-2.4.3/sb-1.8.1/sp-2.3.3/sl-2.1.0/sr-1.4.1/datatables.min.js"></script>
     <script src="~/Tema/ETicaret/assets/js/bootstrap.bundle.min.js"></script>
     <script src="~/Tema/ETicaret/assets/js/optional/isotope.pkgd.min.js"></script>
     <script src="~/Tema/ETicaret/assets/js/plugins.min.js"></script>
@@ -648,6 +631,9 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.8/jquery.inputmask.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="~/SignalR/Hubs"></script>
+    <script src="~/Tema/plugins/custom/tinymce/tinymce.min.js"></script>
     <!-- Main JS File -->
     <script src="~/Tema/ETicaret/assets/js/main.js"></script>
     <script>
@@ -664,6 +650,7 @@
         }
 
         $(function () {
+
 
             const menuSearch = function () {
                 const searchInput = document.getElementById('MobileNavsearchInput');
@@ -730,76 +717,76 @@
 
         });
 
-        //SIGNAL R-START
 
-     const anaSayfaBilgileri = {
-         YeniOkunmamisMesaj: 0
-     }
+        const sepeteEkleButonlar = $('[data-click="SepeteEkle"]').each(function () {
+            console.log(this);
+            $(this).on('click', function (e) {
+                e.preventDefault();
+                var data = {
+                    Miktar: parseInt($(this).parent().find('[data-input="quantity"]').val()),
+                    StokId: $(this).attr('data-id')
+                }
 
-     function AnaSayfaBilgileriGetir() {
-         $.ajax({
-             url: "/YK/AnaSayfaBilgileriGetir",
-             method: 'POST',
-             data: JSON.stringify({}),
-             success: (response) => {
-                 if (response.Data) {
-                     anaSayfaBilgileri.BildirimEkle = response.Data.BildirimEkle;
-                     YeniOkunmamisMesajEkle();
-                 }
-             },
-             error: (err) => {
-                 console.log(err)
-             }
-         })
-     }
+                $.ajax({
+                    type: "POST",
+                    url: '/E/ETicaretSepet/SepeteEkle',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(data),
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (msg) {
+                        console.log("HATA! ", msg);
+                    }
+                });
+            })
+        });
 
-     function BildirimEkle(ekle = null) {
-         if (ekle == null) {
-             if (anaSayfaBilgileri.BildirimEkle > 0) {
-                 $('[data-id="BildirimEkle"]').html(anaSayfaBilgileri.BildirimEkle);
-                 $('[data-id="BildirimEkle"]').removeClass('hidden');
-             } else {
-                 $('[data-id="BildirimEkle"]').addClass('hidden');
-             }
-         } else if (ekle === "") {
-             var suAnkiMesajSayisi = Number($('[data-id="BildirimEkle"]').html());
 
-             $('[data-id="BildirimEkle"]').html(suAnkiMesajSayisi + 1);
-             $('[data-id="BildirimEkle"]').removeClass('hidden');
-         }
+  //SIGNAL R-START
 
-     }
+        function bildirimHubBaglantisi() {
+            console.log($.connection.eTicaretBildirimHub);
+            const bildirimHub = $.connection.eTicaretBildirimHub;
 
-     function bildirimHubBaglantisi() {
-         var bildirimHub = $.connection.bildirimHub;
+            bildirimHub.client.receiveNotification = function (count) {
+                let counter = parseInt($('[data-id="SepetBildirimi"]').html());
 
-         bildirimHub.client.receiveNotification = function (bosIcerik) {
+                counter = counter + parseInt(count);
+                $('[data-id="SepetBildirimi"]').html(counter)
+             };
 
-             BildirimEkle("");
-         };
+             const hubOptions = [];
 
-         const hubOptions = [];
+            @if (tarayici == Tarayici.Firefox)
+            {
+                @Html.Raw("hubOptions.push('webSockets', 'serverSentEvents');"); // Firefox için
+            }
+            else
+            {
+                @Html.Raw("hubOptions.push('webSockets','serverSentEvents', 'longPolling');"); // Diğer tarayıcılar için
+            }
 
-        @if (tarayici == Tarayici.Firefox)
-        {
-            @Html.Raw("hubOptions.push('webSockets', 'serverSentEvents');"); // Firefox için
+
+
+            $.connection.hub.start({ transport: hubOptions, connectionTimeout: 20000 }).done(function () {
+                $('[data-click="SepeteEkle"]').on("click", function () {
+                    const count = $(this).parent().find('#UrunSayisi').val();
+                    $.connection.eTicaretBildirimHub.server.bildirimGonder(count).done(function () {
+
+                    })
+                });
+            }).fail(function (error) {
+                console.log('Could not connect: ' + error);
+            });
+
         }
-        else
-        {
-            @Html.Raw("hubOptions.push('webSockets','serverSentEvents', 'longPolling');"); // Diğer tarayıcılar için
-        }
 
+        $(function () {
+            bildirimHubBaglantisi();
+        });
 
-
-         $.connection.hub.start({ transport: hubOptions, connectionTimeout: 20000 }).done(function () {
-             console.log('Connected to SignalR hub');
-         }).fail(function (error) {
-             console.log('Could not connect: ' + error);
-         })
-        }
         //SIGNAL R-END
-
-
     </script>
     <script>var hostUrl = "~/Tema/ETicaret";</script>
     @RenderSection("Scripts", required: false)

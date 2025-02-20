@@ -92,6 +92,7 @@
     <Compile Include="Deneme.Designer.cs">
       <DependentUpon>Deneme.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dto\InvoiceDto.cs" />
     <Compile Include="EFaturaIslemleri.cs" />
     <Compile Include="Dto\EFaturaAyarlariDto.cs" />
     <Compile Include="LogoEntegrasyon.cs" />
@@ -564,6 +565,9 @@
     <EmbeddedResource Include="Deneme.resx">
       <DependentUpon>Deneme.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="XmlKaliplari\edm-fatura-request.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

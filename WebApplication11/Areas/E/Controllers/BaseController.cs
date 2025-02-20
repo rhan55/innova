@@ -11,16 +11,15 @@ using System.IO;
 using System.Net;
 using System.Text;
 using YKPortal.Models.Dto;
-using System.Security.Principal;
 using System.Web.Security;
 using System.Text.Json;
-using YKEFaturaEntegrasyon.Dto;
+using iText.StyledXmlParser.Jsoup.Nodes;
 
 namespace YKPortal.Areas.E.Controllers
 {
     public abstract class BaseController : Controller
     {
-        public KullaniciEkleDto Kullanici { get; set; } = new KullaniciEkleDto();
+        public ETicaretKullaniciDto.KullaniciEkleDto Kullanici { get; set; } = new ETicaretKullaniciDto.KullaniciEkleDto();
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -35,9 +34,10 @@ namespace YKPortal.Areas.E.Controllers
                         string[] roles = new string[] { "Profil" };
                         var identity = new FormsIdentity(authTicket);
 
-                        var kullanici = JsonSerializer.Deserialize<KullaniciEkleDto>(authTicket.UserData);
+                        var kullanici = JsonSerializer.Deserialize<ETicaretKullaniciDto.KullaniciEkleDto>(authTicket.UserData);
 
-                        Kullanici = kullanici;
+                        Kullanici = AktifKullaniciGetir(kullanici.ID);
+                        ViewBag.Kullanici = Kullanici;
 
                         HttpContext.User = new System.Security.Principal.GenericPrincipal(identity, roles);
                     }
@@ -46,6 +46,7 @@ namespace YKPortal.Areas.E.Controllers
           
             if (User.Identity.IsAuthenticated)
             {
+                ViewBag.IsAuthenticated = true;
                 ViewBag.KullaniciIsim = Kullanici?.Isim ?? "Bilinmiyor";
                 ViewBag.KullaniciAdi = User.Identity.Name;
                 ViewBag.GirisYapildi = true;
@@ -57,11 +58,14 @@ namespace YKPortal.Areas.E.Controllers
                 ViewBag.GirisYapildi = false;
             }
 
+          
             ViewBag.ETicaretTelefon = GrupKodListesiniGetir("ETicaretTelefon");
             ViewBag.ETicaretEmail = GrupKodListesiniGetir("ETicaretEmail");
             ViewBag.ETicaretLogo = GrupKodListesiniGetir("ETicaretLogo");
             ViewBag.ETicaretFirmaAdi = GrupKodListesiniGetir("ETicaretFirmaAdi");
             ViewBag.ETicaretAdres = GrupKodListesiniGetir("ETicaretAdres");
+
+            ViewBag.SabitSayfalar = SabitSayfalarGetir();
 
             // Yönlendirme sadece yetki gerektiren sayfalarda yapılır
             if (IsAuthorizationRequired(filterContext))
@@ -97,12 +101,6 @@ namespace YKPortal.Areas.E.Controllers
             // Yetki gerektiren bir sayfa mı?
             return !User.Identity.IsAuthenticated && yetkiGerekenSayfalar.Contains(controller + "/" + action);
         }
-
- 
-
-
-
-
         protected List<ETicaretKategorilerDto> KategorileriGetir()
         {
            
@@ -171,7 +169,7 @@ namespace YKPortal.Areas.E.Controllers
             return new ETicaretStokDto.ETicaretStokSonucDto();
         }
 
-        protected List<ETicaretStokDto.ETicaretStokSonucDto> StokGetir(ETicaretStokDto.ETicaretStokSorguDto stokSorguDto)
+        protected List<ETicaretStokDto.ETicaretStokSonucDto> StokGetir(ETicaretStokDto.ETicaretStokFiltreDto stokSorguDto)
         {
             SqlCommand cmd = new SqlCommand
             {
@@ -191,9 +189,20 @@ namespace YKPortal.Areas.E.Controllers
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
+
             var stoklar = new List<ETicaretStokDto.ETicaretStokSonucDto>();
             foreach (DataRow row in dt.Rows)
             {
+                var kategoriBilgisi = new ETicaretStokDto.ETicaretStokSorguDto
+                {
+                    Kategori1 = stokSorguDto.Kategori1,
+                    Kategori2 = stokSorguDto.Kategori2,
+                    Kategori3 = stokSorguDto.Kategori3,
+                    Kategori4 = stokSorguDto.Kategori4,
+                    Kategori5 = stokSorguDto.Kategori5,
+                    Kategori6 = stokSorguDto.Kategori6
+                };
+
                 stoklar.Add(new ETicaretStokDto.ETicaretStokSonucDto
                 {
                     StokID = row["StokID"] != DBNull.Value ? row["StokID"].ToString() : null,
@@ -213,6 +222,8 @@ namespace YKPortal.Areas.E.Controllers
                     UreticiFirma = row["UreticiFirma"] != DBNull.Value ? row["UreticiFirma"].ToString() : string.Empty,
                     Fiyat = row["Fiyat"] != DBNull.Value ? Convert.ToDecimal(row["Fiyat"]) : 0,
                     Resim1 = row["Resim1"] != DBNull.Value ? row["Resim1"].ToString() : string.Empty,
+                    Kategoriler = kategoriBilgisi
+
                 });
             }
 
@@ -235,28 +246,142 @@ namespace YKPortal.Areas.E.Controllers
 
             if (dt.Rows.Count > 0)
             {
-                sepetler.Add(new ETicaretSepetDto.ETicaretSepetListeSonucDto
+                foreach (DataRow row in dt.Rows)
                 {
-                    ID = dt.Rows[0]["ID"].ToString(),
-                    CariID = dt.Rows[0]["CariID"].ToString(),
-                    StokID = dt.Rows[0]["StokID"].ToString(),
-                    UyelikID = dt.Rows[0]["UyelikID"].ToString(),
-                    Kod = dt.Rows[0]["Kod"].ToString(),
-                    Isim = dt.Rows[0]["Isim"].ToString(),
-                    OlcuBirimi = dt.Rows[0]["OlcuBirimi"].ToString(),
-                    Fiyat = Convert.ToDecimal(dt.Rows[0]["Fiyat"]),
-                    Resim1 = dt.Rows[0]["Resim1"].ToString(),
-                    KayitTarihi = dt.Rows[0]["KayitTarihi"].ToString(),
-                    Miktar = Convert.ToDecimal(dt.Rows[0]["Miktar"]),
-                    DovizBirimi = dt.Rows[0]["DovizBirimi"].ToString(),
-                    Silindi = Convert.ToBoolean(dt.Rows[0]["Silindi"]),
+                    sepetler.Add(new ETicaretSepetDto.ETicaretSepetListeSonucDto
+                    {
+                        ID = row["ID"].ToString(),
+                        CariID = row["CariID"].ToString(),
+                        StokID = row["StokID"].ToString(),
+                        UyelikID = row["UyelikID"].ToString(),
+                        Kod = row["Kod"].ToString(),
+                        Isim = row["Isim"].ToString(),
+                        OlcuBirimi = row["OlcuBirimi"].ToString(),
+                        Fiyat = Convert.ToDecimal(row["Fiyat"]),
+                        Resim1 = row["Resim1"].ToString(),
+                        KayitTarihi = row["KayitTarihi"].ToString(),
+                        Miktar = Convert.ToDecimal(row["Miktar"]),
+                        DovizBirimi = row["DovizBirimi"].ToString(),
+                        Silindi = Convert.ToBoolean(row["Silindi"]),
+                    });
+                }
+            }
+            return sepetler;
+        }
+        protected List<ETicaretSabitSayfalarDto> SabitSayfalarGetir()
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM ETicaret_SabitSayfalar WHERE Durum = 1");
 
-                });
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var entities = new List<ETicaretSabitSayfalarDto>();
+
+            if (dt.Rows.Count > 0)
+            {
+                foreach(DataRow row in dt.Rows)
+                {
+                    var entity = new ETicaretSabitSayfalarDto();
+
+                    entity.SayfaID = Convert.ToString(row["SayfaID"]);
+                    entity.Ad = Convert.ToString(row["Ad"]);
+                    entity.UrlAd = Convert.ToString(row["UrlAd"]);
+                    entity.Icerik = Convert.ToString(row["Icerik"]);
+
+                    entities.Add(entity);
+                }
             }
 
-            return sepetler;
-
+            return entities;
         }
+        protected ETicaretSabitSayfalarDto SabitSayfaGetir(string SayfaID)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM ETicaret_SabitSayfalar WHERE SayfaID = @SayfaID");
+            cmd.Parameters.AddWithValue("@SayfaID", SayfaID);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var entities = new List<ETicaretSabitSayfalarDto>();
+            var entity = new ETicaretSabitSayfalarDto();
+            if (dt.Rows.Count > 0)
+            {
+                entity.SayfaID = Convert.ToString(dt.Rows[0]["SayfaID"]);
+                entity.Ad = Convert.ToString(dt.Rows[0]["Ad"]);
+                entity.Durum = Convert.ToBoolean(dt.Rows[0]["Durum"]);
+                entity.UrlAd = Convert.ToString(dt.Rows[0]["UrlAd"]);
+                entity.Icerik = Convert.ToString(dt.Rows[0]["Icerik"]);
+            }
+
+            return entity;
+        }
+        protected ETicaretSlaytDto SlaytlariGetir(string SlaytID)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM ETicaret_Slaytlar WHERE SlaytID = @SlaytID");
+            cmd.Parameters.AddWithValue("@SlaytID", SlaytID);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var entities = new List<ETicaretSlaytDto>();
+            var entity = new ETicaretSlaytDto();
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow row in dt.Rows)
+                {
+                    entity.SlaytID = Convert.ToString(row["SlaytID"]);
+                    entity.ResimYolu = Convert.ToString(row["ResimYolu"]);
+                    entity.Aktif = Convert.ToBoolean(row["Aktif"]);
+                    entity.Text = Convert.ToString(row["Text"]);
+                    entity.Tip = Convert.ToString(row["Tip"]);
+                    entity.OlusturulmaTarihi = Convert.ToString(row["OlusturulmaTarihi"]);
+                   
+                    entity.Siralama = Convert.ToInt32(row["Siralama"]);
+                }
+            }
+            return entity;
+        }
+        protected ETicaretSlaytDto SlaytGetir(string SlaytID)
+        {
+            SqlCommand cmd = new SqlCommand("SELECT * FROM ETicaret_Slaytlar WHERE SlaytID = @SlaytID");
+            cmd.Parameters.AddWithValue("@SlaytID", SlaytID);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var entities = new List<ETicaretSlaytDto>();
+            var entity = new ETicaretSlaytDto();
+            if (dt.Rows.Count > 0)
+            {
+                entity.SlaytID = Convert.ToString(dt.Rows[0]["SlaytID"]);
+                entity.ResimYolu = Convert.ToString(dt.Rows[0]["ResimYolu"]);
+                entity.Tip = Convert.ToString(dt.Rows[0]["Tip"]);
+                entity.Aktif = Convert.ToBoolean(dt.Rows[0]["Aktif"]);
+                entity.Text = Convert.ToString(dt.Rows[0]["Text"]);
+                entity.OlusturulmaTarihi = Convert.ToString(dt.Rows[0]["OlusturulmaTarihi"]);
+            
+                entity.Siralama = Convert.ToInt32(dt.Rows[0]["Siralama"]);
+            }
+
+            return entity;
+        }
+
+        //Order BY Siralama ASC ile seçiyoruz.
+        protected List<ETicaretSlaytDto> SlaytListesi(string Tip)
+        {
+            SqlCommand cmd = new SqlCommand($"SELECT * FROM ETicaret_Slaytlar WHERE Silindi = 0 AND Aktif = 1 AND Tip = '{Tip}' ORDER BY Siralama ASC");
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            var entities = new List<ETicaretSlaytDto>();
+            foreach (DataRow row in dt.Rows)
+            {
+                var entity = new ETicaretSlaytDto();
+                entity.SlaytID = Convert.ToString(row["SlaytID"]);
+                entity.ResimYolu = Convert.ToString(row["ResimYolu"]);
+                entity.Link = Convert.ToString(row["Link"]);
+                entity.Text = Convert.ToString(row["Text"]);
+                entity.Tip = Convert.ToString(row["Tip"]);
+                entity.Aktif = Convert.ToBoolean(row["Aktif"]);
+                entity.Siralama = Convert.ToInt32(row["Siralama"]);
+                entities.Add(entity);
+            }
+            return entities;
+        }
+
 
         protected bool SepetKaydet(ETicaretSepetDto.ETicaretSepetEkleDto eTicaretSepetEkleDto)
         {
@@ -370,7 +495,32 @@ namespace YKPortal.Areas.E.Controllers
             }
             ViewBag.Ulkeler = entities;
         }
+        protected void SlaytTipGetir()
+        {
+            // GrupKodu1 Listesi oluşturma 
+            SqlCommand slaytCommand = new SqlCommand();
+            slaytCommand.CommandText = "p_GrupKoduListesi";
+            slaytCommand.CommandType = System.Data.CommandType.StoredProcedure;
+            slaytCommand.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
 
+            slaytCommand.Parameters.AddWithValue("@Kod", "ETicaretSlaytTip");
+            slaytCommand.Parameters.AddWithValue("@AranacakKelime", "");
+
+
+            DataTable ETicaretSlaytTipDataTable = (DataTable)IDVeritabani.Sorgula(slaytCommand, SorgulaTuru.Tablo);
+
+            List<GrupKoduDto> entities = new List<GrupKoduDto>();
+
+            for (int i = 0; i < ETicaretSlaytTipDataTable.Rows.Count; i++)
+            {
+                GrupKoduDto entity = new GrupKoduDto();
+                entity.ID = Convert.ToString(ETicaretSlaytTipDataTable.Rows[i]["ID"]);
+                entity.Deger = Convert.ToString(ETicaretSlaytTipDataTable.Rows[i]["Deger"]);
+                entities.Add(entity);
+            }
+            ViewBag.SlaytTipleri = entities;
+        }
+  
 
         protected bool AutoGirisKontrol()
         {
@@ -479,6 +629,31 @@ namespace YKPortal.Areas.E.Controllers
             }
 
             return entities;
+        }
+
+        protected ETicaretKullaniciDto.KullaniciEkleDto AktifKullaniciGetir(string id)
+        {
+            if (Kullanici == null) return new ETicaretKullaniciDto.KullaniciEkleDto { };
+
+            var uyelikId = UyelikIDGetir();
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_Cari";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ID", id);
+            cmd.Parameters.AddWithValue("@UyelikID", uyelikId);
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+
+            return new ETicaretKullaniciDto.KullaniciEkleDto
+            {
+                ID = Convert.ToString(dt.Rows[0]["ID"]),
+                Adres = Convert.ToString(dt.Rows[0]["Adres"]),
+                Il = Convert.ToString(dt.Rows[0]["Il"]),
+                Ulke = Convert.ToString(dt.Rows[0]["Ulke"]),
+                Ilce = Convert.ToString(dt.Rows[0]["Ilce"]),
+            };
         }
 
     }

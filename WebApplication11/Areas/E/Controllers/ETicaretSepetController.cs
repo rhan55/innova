@@ -16,6 +16,8 @@ namespace YKPortal.Areas.E.Controllers
         [HttpGet]
         public ActionResult SepetBilgileri()
         {
+            UlkeListesiniOlustur();
+            IlListesiniOlustur();
             return View();
         }
 

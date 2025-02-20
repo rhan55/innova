@@ -1,0 +1,20 @@
+﻿@using YKPortal.Areas.E.Models.Dto
+@model YKPortal.Areas.E.Models.Dto.ETicaretSabitSayfalarDto
+@{
+    ViewBag.Title = Model.Ad;
+    Layout = "~/Areas/E/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+
+    <h1>@Model.Ad</h1>
+    <p>@(Html.Raw(HttpUtility.HtmlDecode(Model.Icerik)))</p>
+
+    @if (ViewBag.GirisYapildi)
+    {
+        <div class="mb-4">
+            <a href="/E/ETicaretSabitSayfalar/SayfaGuncelle?SayfaID=@Model.SayfaID" class="form-button btn btn-dark btn-ellipse btn-sm">Düzenle</a>
+        </div>
+    }
+</div>
+

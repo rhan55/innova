@@ -13,6 +13,8 @@ using System.IO;
 using System.Web.Razor.Parser.SyntaxTree;
 using iText.Layout.Font;
 using YKEFaturaEntegrasyon.EFaturaEDM;
+using Microsoft.Ajax.Utilities;
+using System.Text;
 
 namespace YKPortal.Controllers
 {
@@ -46,34 +48,6 @@ namespace YKPortal.Controllers
 
         public ActionResult Liste(BelgeDto belgeDto, string Tip = "", string AranacakKelime = "")
         {
-            var client = new EFaturaEDMPortClient("EFaturaEDMPort");
-
-            var sonuc = client.Login(new LoginRequest
-            {
-                USER_NAME = "ykyazilim",
-                PASSWORD = "1234567Edm",
-                SECRET_KEY = "",
-                REQUEST_HEADER = new REQUEST_HEADERType
-                {
-                    SESSION_ID = "0",
-                    ACTION_DATE = DateTime.Now,
-                    ACTION_DATESpecified = true,
-                    APPLICATION_NAME = "YK PORTAL v1.0",
-                    CHANNEL_NAME = "TEST",
-                    COMPRESSED = "N",
-                    HOSTNAME = "YK PORTAL",
-                    REASON = "E-fatura/E-Arşiv gönder-al testleri için",
-                    CLIENT_TXN_ID = Guid.NewGuid().ToString()
-                }
-            });
-
-            //if (sonuc.REQUEST_RETURN.RETURN_CODE == 0)
-            //{
-            //    client.SendInvoice();
-
-            //    client.GetInvoice();
-            //}
-
 
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
@@ -126,8 +100,8 @@ namespace YKPortal.Controllers
 
             ViewBag.Filters = belgeDto;
             ViewBag.Durumu = belgeDto.Durumu;
-            ViewBag.ControllerName = "SatinalmaFatura"; 
-            ViewBag.Tip = Tip;            
+            ViewBag.ControllerName = "SatinalmaFatura";
+            ViewBag.Tip = Tip;
 
             return View(model);
         }
@@ -166,7 +140,7 @@ namespace YKPortal.Controllers
             {
                 return Redirect("~/YK/Anasayfa");
             }
-           
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "p_Belge";
@@ -234,7 +208,7 @@ namespace YKPortal.Controllers
             return View(entity);
         }
 
-        [HttpPost] 
+        [HttpPost]
         public ActionResult Kaydet(string Tip = "", string ID = "", string BelgeNo = "", string Tarih = "", string CariID = "", string SatisPersonelID = "", string Durumu = "",
            string DepoCikisID = "", string DepoGirisID = "",
             string Aciklama = "", List<BelgeKalemDto> Kalemler = null)
@@ -311,7 +285,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
 
-         
+
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "p_Belge";
@@ -413,7 +387,7 @@ namespace YKPortal.Controllers
                                 .Replace("[TARIH]", belge.Tarih.ToString("dd/MM/yyyy HH:mm:ss"))
                                 .Replace("[ACIKLAMA]", belge.Aciklama)
                                 .Replace("[ARA_TOPLAM]", String.Format("{0:N2}", belge.Kalemler.Select(m => m.Fiyat * m.Miktar).Sum()))
-                                .Replace("[ISKONTO_TUTAR]", String.Format("{0:N2}", belge.Kalemler.Select(m => m.Fiyat * m.Miktar * m.IskontoOrani1 / 100).Sum()))                         
+                                .Replace("[ISKONTO_TUTAR]", String.Format("{0:N2}", belge.Kalemler.Select(m => m.Fiyat * m.Miktar * m.IskontoOrani1 / 100).Sum()))
                                 .Replace("[KDV_TUTAR]", String.Format("{0:N2}", belge.Kalemler.Select(m => (m.Fiyat * m.Miktar - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100)) * m.KdvOrani / 100).Sum()))
                                 .Replace("[TOPLAM_TUTAR]", String.Format("{0:N2}", belge.Kalemler.Select(m => m.Fiyat * m.Miktar - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100) + ((m.Fiyat * m.Miktar - (m.Fiyat * m.Miktar * m.IskontoOrani1 / 100)) * m.KdvOrani / 100)).Sum()))
                                 .Replace("[KALEMLER]", kalemler);
@@ -558,6 +532,150 @@ namespace YKPortal.Controllers
             #endregion
             result.Data = entities;
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult FaturaYukle(BelgeDto belgeDto)
+        {
+            var client = new EFaturaEDMPortClient("EFaturaEDMPort");
+
+            var sonuc = client.Login(new LoginRequest
+            {
+                USER_NAME = "ykyazilim",
+                PASSWORD = "1234567Edm",
+                SECRET_KEY = "",
+                REQUEST_HEADER = new REQUEST_HEADERType
+                {
+                    SESSION_ID = "0",
+                    ACTION_DATE = DateTime.Now,
+                    ACTION_DATESpecified = true,
+                    APPLICATION_NAME = "YK PORTAL v1.0",
+                    CHANNEL_NAME = "TEST",
+                    COMPRESSED = "N",
+                    HOSTNAME = "YK PORTAL",
+                    REASON = "E-fatura/E-Arşiv gönder-al testleri için",
+                    CLIENT_TXN_ID = Guid.NewGuid().ToString()
+                },
+            });
+
+
+
+
+            if (!string.IsNullOrWhiteSpace(sonuc.SESSION_ID) && sonuc.SESSION_ID != Guid.Empty.ToString())
+            {
+                // Load Invoice ile EFatura taslagi kaydet
+                var cari = Getir(belgeDto.CariID);
+                var invoiceDto = new INVOICE
+                {
+                    HEADER = new INVOICEHEADER
+                    {
+                        SENDER = "9811613622",
+                        RECEIVER = $"{cari.TCKimlikNo}{cari.VergiNumarasi}",
+                        SUPPLIER = "YK Yazılım",
+                        CUSTOMER = cari.Unvan,
+                        ISSUE_DATE = belgeDto.BaslangicTarihi,
+                        ISSUE_DATESpecified = true,
+                    },
+                    UUID = belgeDto.ID,
+                    CONTENT = new base64Binary
+                    {
+                    }
+                };
+
+               
+                // { { ID} }: Fatura kimliği(Fatura numarası veya sistem tarafından belirlenen ID).
+                // { { UUID} }: Faturaya özel UUID(Benzersiz Kimlik).
+                //  { { ISSUE_DATE} }: Fatura tarihi.
+                // { { INVOICE_TYPE_CODE} }: Fatura tipi kodu(örneğin, TEMELFATURA).
+                // { { DOCUMENT_CURRENCY_CODE} }: Belge para birimi(örneğin, TRY).
+                // { { SIGNATURE_ID} }: İmza kimliği.
+                // { { VCKN} }: Vergi kimlik numarası(VKN) bilgisi.
+                // { { SENDER_COMPANY_NAME} }: Gönderen firma adı.
+                // { { SUPPLIER_VKN} }: Tedarikçi firma VKN'si.
+                // { { SUPPLIER_NAME} }: Tedarikçi firma adı.
+                // { { CUSTOMER_VKN} }: Alıcı firma VKN'si.
+                // { { CUSTOMER_NAME} }: Alıcı firma adı.
+                // { { TAX_AMOUNT} }: Vergi miktarı.
+                // { { TAXABLE_AMOUNT} }: Vergiye tabi tutar.
+                // { { LINE_EXTENSION_AMOUNT} }: Satır uzatma tutarı.
+                // { { TAX_EXCLUSIVE_AMOUNT} }: Vergi hariç tutar.
+                // { { TAX_INCLUSIVE_AMOUNT} }: Vergi dahil tutar.
+                // { { PAYABLE_AMOUNT} }: Ödenecek tutar.
+                // { { LINE_ID} }: Fatura kaleminin kimliği.
+                // { { INVOICED_QUANTITY} }: Faturalandırılan miktar.
+                // { { ITEM_NAME} }: Ürün veya hizmet adı.
+                //     { { ITEM_PRICE} }: Ürün veya hizmet fiyatı.
+
+                string xmlSource = System.IO.File.ReadAllText(Server.MapPath("~/XmlKaliplari/edm-fatura-request.xml"));
+                xmlSource = xmlSource.Replace("{{ID}}", invoiceDto.UUID)
+                            .Replace("{{UUID}}", Guid.NewGuid().ToString())
+                            .Replace("{{ISSUE_DATE}}", invoiceDto.HEADER.ISSUE_DATE.ToString("yyyy-MM-dd"))
+                            .Replace("{{SENDER}}", invoiceDto.HEADER.SENDER)
+                            .Replace("{{RECEIVER}}", invoiceDto.HEADER.RECEIVER)
+                            .Replace("{{CUSTOMER_NAME}}", invoiceDto.HEADER.CUSTOMER)
+                            .Replace("{{SESSION_ID}}", sonuc.SESSION_ID);
+
+                invoiceDto.CONTENT.Value = Encoding.UTF8.GetBytes(xmlSource);
+
+                var invoices = new List<INVOICE> {
+                    invoiceDto
+                };
+
+                try
+                {
+                    var loaded = client.SendInvoice(new SendInvoiceRequest
+                    {
+                        REQUEST_HEADER = new REQUEST_HEADERType
+                        {
+                            SESSION_ID = sonuc.SESSION_ID,
+                            ACTION_DATE = DateTime.Now,
+                            ACTION_DATESpecified = true,
+                            APPLICATION_NAME = "YK PORTAL v1.0",
+                            CHANNEL_NAME = "TEST",
+                            COMPRESSED = "N",
+                            HOSTNAME = "YK PORTAL",
+                            REASON = "E-fatura/E-Arşiv gönder-al testleri için",
+                            CLIENT_TXN_ID = Guid.NewGuid().ToString()
+                        },
+                        INVOICE = invoices.ToArray()
+                    });
+
+
+                    if (loaded.REQUEST_RETURN.RETURN_CODE != 0)
+                    {
+                        return Json(new { success = false, message = loaded.REQUEST_RETURN.RETURN_CODE }, JsonRequestBehavior.AllowGet);
+                    }
+
+                    return Json(new { success = true, message = "Fatura başarıyla gönderildi." });
+                } catch (Exception ex)
+                {
+                    return Json(new { success = false, message = "" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                return Json(new { success = false, message = sonuc.REQUEST_RETURN.RETURN_CODE });
+            }
+
+
+            //client.SendInvoice(new SendInvoiceRequest
+            //{
+            //    REQUEST_HEADER = new REQUEST_HEADERType
+            //    {
+            //        SESSION_ID = sonuc.SESSION_ID
+            //    },
+            //    SENDER = new SendInvoiceRequestSENDER
+            //    {
+            //        alias = "YK Yazılım",
+            //        vkn = "9811613622"
+            //    },
+            //    RECEIVER = new SendInvoiceRequestRECEIVER
+            //    {
+
+            //    }
+            //});
+
+
         }
 
 
@@ -717,6 +835,31 @@ namespace YKPortal.Controllers
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
             return dt;
+        }
+        private CariDto Getir(string id)
+        {
+            if (id != null && id.Length > 0)
+
+            {
+                var uyelikId = GetCookie("UyelikID");
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_Cari";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ID", id);
+                cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+
+                return new CariDto
+                {
+                    ID = Convert.ToString(dt.Rows[0]["ID"]),
+                    Isim = Convert.ToString(dt.Rows[0]["Isim"]),
+                    VergiNumarasi = Convert.ToString(dt.Rows[0]["VergiNumarasi"]),
+                    TCKimlikNo = Convert.ToString(dt.Rows[0]["TCKimlikNo"]),
+                };
+            }
+            return new CariDto { };
         }
     }
 }

@@ -50,7 +50,6 @@
 
     <div class="page-wrapper container d-flex align-items-center justify-content-center">
 
-
         <div class="card   User-card mt-3" style="padding:30px;width:800px;">
             <div class="d-flex align-items-center justify-content-center flex-column">
                 <a href="/E/ETicaretSite/Anasayfa" class="logo " style="padding-bottom:24px;">
@@ -64,25 +63,21 @@
                         <div class="col-lg-6 p-2">
                             <label class=" form-label" for="KullaniciAdi">
                                 Kullanıcı Adı
-
                             </label>
                             <input type="email" class="form-input-new form-wide p-2" name="KullaniciAdi" id="KullaniciAdi" value="@ViewBag.Form.KullaniciAdi" required="">
                         </div>
                         <div class="col-lg-6 p-2">
                             <label class="form-label" for="Parola">
                                 Parola
-
                             </label>
                             <input type="password" class="form-input-new  form-wide p-2" name="Parola" id="Parola" value="@ViewBag.Form.Parola" required="">
                         </div>
-
 
                     </div>
                     <div class="row">
                         <div class="col-lg-12 p-2">
                             <label class=" form-label" for="Isim">
                                 İsim
-
                             </label>
                             <input type="text" class="form-input-new  form-wide p-2" id="Isim" name="Isim" value="@ViewBag.Form.Isim" required="">
                         </div>
@@ -93,7 +88,6 @@
                         <div class="col-lg-6  p-2">
                             <label class="form-label" for="TCKimlikNoVergiNo">
                                 TCKimlik numarası veya Vergi Numarası
-
                             </label>
                             <input type="text" class="form-input-new  form-wide p-2" name="TCKimlikNoVergiNo" id="TCKimlikNoVergiNo" value="@ViewBag.Form.TCKimlikNoVergiNo">
                             <div data-error="TCKimlikNoVergiNo"></div>
@@ -101,7 +95,6 @@
                         <div class="col-lg-6   p-2">
                             <label class=" form-label" for="Unvan">
                                 Unvan
-
                             </label>
                             <input type="text" class="form-input-new  form-wide text-dark p-2" id="Unvan" name="Unvan" value="@ViewBag.Form.Unvan" required="">
                         </div>
@@ -111,40 +104,30 @@
                         <div class="col-lg-6 p-2">
                             <label class=" form-label " for="VergiDairesi">
                                 Vergi Dairesi
-
                             </label>
                             <input type="text" class="form-input-new form-wide  p-2" name="VergiDairesi" id="VergiDairesi" value="@ViewBag.Form.VergiDairesi">
                         </div>
                         <div class="col-lg-6 p-2">
                             <label class="form-label" for="CepTelefonu">
                                 CepTelefonu
-
                             </label>
                             <input type="text" class="form-input-new  form-wide p-2" value="@ViewBag.Form.CepTelefonu" id="CepTelefonu" name="CepTelefonu" placeholder="(___) ___-____" style="padding:10px;">
                         </div>
-
                     </div>
 
                     <div class="row">
                         <div class="col-lg-12 p-2">
                             <label class=" form-label" for="Adres">
                                 Adres
-
                             </label>
-
                             <textarea class=" form-input-new  form-wide p-2 " name="Adres" id="Adres" rows="4" placeholder="Adresinizi girin...">@ViewBag.Form.Adres</textarea>
-
-
                         </div>
-
-
                     </div>
 
                     <div class="row">
                         <div class="col-lg-6 p-2">
                             <div class="form-group">
                                 <label for="Ulke" class="form-label ">Ülke</label>
-
                                 <select class="form-input-new  form-wide p-2" data-control="select2" name="Ulke" value="@ViewBag.Form.Ulke" id="Ulke" aria-hidden="true" required data-placeholder="Lütfen Seçim Yapınız"
                                         aria-label="Floating label select example">
                                     @foreach (GrupKoduDto ulke in ViewBag.Ulkeler)
@@ -167,40 +150,29 @@
                             </div>
                         </div>
 
-
                         <div class="col-lg-6 p-2">
                             <label class=" form-label" for="PostaKodu">
                                 Posta Kodu
-
                             </label>
                             <input type="text" class="form-input-new  form-wide  p-2" name="PostaKodu" id="PostaKodu" value="@ViewBag.Form.PostaKodu" required="">
                         </div>
                     </div>
 
                     <div class="row text-center d-flex align-items-center justify-content-center mt-4">
-
                         <div class="">
                             <button type="button" id="UyeOlButonu" class="btn form-button btn-md btn-primary font-weight-bold btn-block" style="width:200px;">
                                 Üye Ol
                             </button>
-
-
                         </div>
                         <div class=" ml-3">
-
                             <a href="@Url.Action("Giris","ETicaretYetkilendirme",new { Area = "E" })" class="btn form-button btn-md text-dark btn-light font-weight-bold btn-block" style="width:200px; background-color:#eaeaea;">
                                 <span class="">Giriş Yap</span>
                             </a>
-
-
                         </div>
                     </div>
-
                 </form>
             </div>
-
         </div>
-
     </div>
 
     <script>var hostUrl = "~/Tema/ETicaret";</script>

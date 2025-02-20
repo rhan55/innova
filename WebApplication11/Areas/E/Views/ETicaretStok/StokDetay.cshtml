@@ -21,10 +21,10 @@
 
                         <div class="product-single-carousel owl-carousel owl-theme show-nav-hover">
                             <div class="product-item">
-                                <img class="product-single-image" src="@stok.Resim1" data-zoom-image="assets/images/products/zoom/product-3-big.jpg" width="468" height="468" alt="Ürün Fotoğrafı" />
+                                <img class="product-single-image" src="/Uploads/Dosyalar/@stok.Resim1" data-zoom-image="/Uploads/Dosyalar/@stok.Resim1" width="468" height="468" alt="Ürün Fotoğrafı" />
                             </div>
                             <div class="product-item">
-                                <img class="product-single-image" src="@stok.Resim2" data-zoom-image="assets/images/products/zoom/product-3-big.jpg" width="468" height="468" alt="Ürün Fotoğrafı" />
+                                <img class="product-single-image" src="/Uploads/Dosyalar/@stok.Resim2" data-zoom-image="/Uploads/Dosyalar/@stok.Resim2" width="468" height="468" alt="Ürün Fotoğrafı" />
                             </div>
 
                         </div>
@@ -36,23 +36,7 @@
 
                     <div class="prod-thumbnail owl-dots">
                         <div class="owl-dot">
-                            <img src="assets/images/products/zoom/product-1.jpg" width="110" height="110"
-                                 alt="product-thumbnail" />
-                        </div>
-                        <div class="owl-dot">
-                            <img src="assets/images/products/zoom/product-2.jpg" width="110" height="110"
-                                 alt="product-thumbnail" />
-                        </div>
-                        <div class="owl-dot">
-                            <img src="assets/images/products/zoom/product-3.jpg" width="110" height="110"
-                                 alt="product-thumbnail" />
-                        </div>
-                        <div class="owl-dot">
-                            <img src="assets/images/products/zoom/product-4.jpg" width="110" height="110"
-                                 alt="product-thumbnail" />
-                        </div>
-                        <div class="owl-dot">
-                            <img src="assets/images/products/zoom/product-5.jpg" width="110" height="110"
+                            <img src="/Uploads/Dosyalar/@stok.Resim1" width="110" height="110"
                                  alt="product-thumbnail" />
                         </div>
                     </div>
@@ -127,12 +111,12 @@
                                     <p class="text-override-grey font-weight-bold"> BARKOD:</p>
                                     <p class="text-override-grey font-weight-bold ml-2">@stok.Barkod</p>
                                 </div>
-                               
+
                             </div>
 
                             <div class="col-lg-6">
                                 <div class="d-flex">
-                                    <p class="text-override-grey font-weight-bold"> MARKA:</p> 
+                                    <p class="text-override-grey font-weight-bold"> MARKA:</p>
                                     <p class="text-override-grey font-weight-bold  ml-2"><a href="#" class="">@stok.Marka</a></p>
                                 </div>
                             </div>
@@ -140,7 +124,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="d-flex">
-                                    <p class="text-override-grey font-weight-bold"> MODEL:</p> 
+                                    <p class="text-override-grey font-weight-bold"> MODEL:</p>
                                     <p class="text-override-grey font-weight-bold  ml-2"><a href="#" class="">@stok.Model</a></p>
                                 </div>
                             </div>
@@ -155,13 +139,14 @@
 
                     <div class="product-action">
                         <div class="product-single-qty">
-                            <input class="horizontal-quantity form-control" type="text" id="UrunSayisi" value="1">
+                            <input class="horizontal-quantity form-control" type="text" id="UrunSayisi" value="1" data-input="quantity">
                         </div><!-- End .product-single-qty -->
-
-                        <button id="SepeteEkle"  href="javascript:;" class="btn btn-dark add-cart mr-2" title="Add to Cart">
-                            SEPETE EKLE
+                        <button href="javascript:;" class="btn btn-dark add-cart mr-2" data-click="SepeteEkle" data-id="@stok.StokID">
+                            <span>
+                            
+                                SEPETE EKLE
+                            </span>
                         </button>
-
                     </div><!-- End .product-action -->
 
                     <hr class="divider mb-0 mt-0">
@@ -689,28 +674,7 @@
 @section Scripts {
     <script>
         $(function () {
-            const sepeteEkleButon = $('#SepeteEkle');
-            const urunSayisiInput = $('#UrunSayisi');
-
-            sepeteEkleButon.on('click', function () {
-                var data = {
-                    Miktar: parseInt(urunSayisiInput.val()),
-                    StokId: $('[data-stokId]').attr('data-stokId')
-                }
-
-                $.ajax({
-                    type: "POST",
-                    url: '/E/ETicaretSepet/SepeteEkle',
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify(data),
-                    success: function (data) {
-                        console.log(data);
-                    },
-                    error: function (msg) {
-                        console.log("HATA! ", msg);
-                    }
-                });
-            });
+            
         })
-    </script>    
+    </script>
 }

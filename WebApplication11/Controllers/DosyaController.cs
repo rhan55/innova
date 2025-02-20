@@ -59,6 +59,7 @@ namespace YKPortal.Controllers
             if (!AutoGirisKontrol())
                 return new HttpResponseMessage(System.Net.HttpStatusCode.Unauthorized);
 
+            var fileName = Guid.NewGuid().ToString() + "." + Dosya.FileName.Split('.').Last();
           
             SqlCommand cmd = new SqlCommand();
 
@@ -68,8 +69,8 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@Modul", cariDosyaDto.Modul);
             cmd.Parameters.AddWithValue("@KayitID", cariDosyaDto.KayitID);
-            Dosya.SaveAs(Server.MapPath($"/Uploads/Dosyalar/{Dosya.FileName}"));
-            cmd.Parameters.AddWithValue("@Dosya", Dosya.FileName);
+            Dosya.SaveAs(Server.MapPath($"/Uploads/Dosyalar/{fileName}"));
+            cmd.Parameters.AddWithValue("@Dosya", fileName);
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
