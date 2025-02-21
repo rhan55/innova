@@ -360,8 +360,13 @@
     <Compile Include="Models\Dto\BankaTanimlamalariDto.cs" />
     <Compile Include="Models\Dto\BankaTanimlamalariListeViewModel.cs" />
     <Compile Include="Models\Dto\Belge.cs" />
+    <Compile Include="Models\Dto\BepYontemTeknik.cs" />
+    <Compile Include="Models\Dto\BepAracGerec.cs" />
+    <Compile Include="Models\Dto\BepSoru.cs" />
+    <Compile Include="Models\Dto\BepDers.cs" />
     <Compile Include="Models\Dto\BelgeDto.cs" />
     <Compile Include="Models\Dto\BelgeKalemDto.cs" />
+    <Compile Include="Models\Dto\BepSinifDuzeyiDto.cs" />
     <Compile Include="Models\Dto\CariEFaturaBilgiGuncelleDto.cs" />
     <Compile Include="Models\Dto\CariListeJsonModel.cs" />
     <Compile Include="Models\Dto\CariNotListeViewModel.cs" />
@@ -371,6 +376,10 @@
     <Compile Include="Models\Dto\EFaturaDto.cs" />
     <Compile Include="Models\Dto\FullcalendarDto.cs" />
     <Compile Include="Models\Dto\GrupkoduListeViewModel.cs" />
+    <Compile Include="Models\Dto\BepEgitimDuzeyi.cs" />
+    <Compile Include="Models\Dto\BepSinifDto.cs" />
+    <Compile Include="Models\Dto\OkulDto.cs" />
+    <Compile Include="Models\Dto\ILCEDto.cs" />
     <Compile Include="Models\Dto\KasaViewModel.cs" />
     <Compile Include="Models\Dto\MesajlasmaDto.cs" />
     <Compile Include="Models\Dto\PersonelDto.cs" />
@@ -399,6 +408,7 @@
     <Compile Include="Models\Dto\StokNotDto.cs" />
     <Compile Include="Models\Dto\YetkilerDto.cs" />
     <Compile Include="Models\Dto\DepoDto.cs" />
+    <Compile Include="Models\Dto\ILDto.cs" />
     <Compile Include="Models\Dto\ZiyaretDto.cs" />
     <Compile Include="Models\Dto\DosyaDto.cs" />
     <Compile Include="Models\Dto\CariDto.cs" />
@@ -6543,6 +6553,16 @@
     <Content Include="Views\Rapor\Getir.cshtml" />
     <Content Include="Views\YKMakine\StokGarantiTarihleri.cshtml" />
     <Content Include="Views\Bep\Index.cshtml" />
+    <Content Include="Views\Bep\il.cshtml" />
+    <Content Include="Views\Bep\ilce.cshtml" />
+    <Content Include="Views\Bep\Okul.cshtml" />
+    <Content Include="Views\Bep\EgitimDuzeyi.cshtml" />
+    <Content Include="Views\Bep\Sinif.cshtml" />
+    <Content Include="Views\Bep\SinifDuzeyi.cshtml" />
+    <Content Include="Views\Bep\Dersler.cshtml" />
+    <Content Include="Views\Bep\Sorular.cshtml" />
+    <Content Include="Views\Bep\AracGerec.cshtml" />
+    <Content Include="Views\Bep\YontemTeknik.cshtml" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>

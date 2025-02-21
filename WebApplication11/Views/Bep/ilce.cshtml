@@ -1,0 +1,199 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <!--begin::Form-->
+            <!--begin::Scroll-->
+            <div class="d-flex flex-column scroll-y px-5 px-lg-10  mt-10">
+                <input type="hidden" name="ID" value="@ViewBag.ID" />
+                <!--begin::Row Input group-->
+                <div class="row mb-7">
+                    <!--begin::Input group-->
+                    <div class="col-lg-8">
+                        <!--begin::Label-->
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2">İl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <!--end::Label-->
+                        <!--begin::texarea-->
+                        <select id="ddlil">
+                            @foreach (var item in ViewBag.iller)
+                            {
+                                <option value="@item.ID">@item.IL</option>
+                            }
+                        </select>
+                        <!--end::Input-->
+                    </div>
+
+                    <div class="col-lg-8">
+                        <!--begin::Label-->
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2">İLÇE</label>
+                        <!--end::Label-->
+                        <!--begin::texarea-->
+                        <input type="text" id="txtilce" value="" style="width:300px;" />
+                        <!--end::Input-->
+                    </div>
+
+                    <div class="col-lg-8">
+                        <!--begin::Label-->
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2">&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <!--end::Label-->
+                        <!--begin::texarea-->
+                        <button type="submit" class="btn btn-primary btn-sm" id="btnkaydet">
+                            <span class="indicator-label">Kaydet</span>
+                            <span class="indicator-progress">
+                                Lütfen Bekleyin...
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </button>
+                        <!--end::Input-->
+                    </div>
+                </div>
+                <!--end::Actions-->
+            </div>
+        </div>
+        <!--end::Scroll-->
+    </div>
+
+    <div class="card card-flush mt-4 scroll-x">
+        <!--begin::Table-->
+        <table class="table align-middle table-row-dashed fs-6" id="tblliste" style="width:300px;">
+            <thead>
+                <tr class="text-start" style="font-size:15px;">
+                    <th class="min-w-125px"><strong>İlçe</strong></th>
+                    <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
+                </tr>
+            </thead>
+            <tbody class="text-gray-600 fw-semibold">
+            </tbody>
+        </table>
+        <!--end::Table-->
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="~/Tema/plugins/custom/tinymce/tinymce.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            var AciklamaEditorOptions = {
+                selector: "#Aciklama",
+                height: 200,
+                promotion: false
+            };
+            if (typeof KTThemeMode !== 'undefined') {
+                if (KTThemeMode.getMode() === "dark") {
+                    AciklamaEditorOptions["skin"] = "oxide-dark";
+                    AciklamaEditorOptions["content_css"] = "dark";
+                }
+            }
+            // tinyMCE init
+            tinymce.init(AciklamaEditorOptions);
+        });
+
+        var id = "";
+        $(document).ready(function () {
+            ilgetir();
+        });
+
+        $("#ddlil").on("change", function () {
+            ilgetir();
+        });
+
+        $("#btnkaydet").on("click", function () {
+            $.ajax({
+                url: '/Bep/ilcekaydet',
+                data: JSON.stringify({ ilid: $("#ddlil").val(), ilceid: id, ilce: $("#txtilce").val() }),
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    id = "";
+                    $("#txtilce").val("");
+                    ilgetir();
+                },
+            });
+        });
+
+        function ilgetir() {
+            $('#tblliste > tbody > tr').remove();
+            $.ajax({
+                url: '/Bep/ilcegetir',
+                data: JSON.stringify({ ilid: $("#ddlil").val() }),
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    data.forEach(function (seri) {
+
+                        var options = '';
+                        var butongroup = "";
+
+                        butongroup += '<tr data-id=' + seri.ID + ' data-text=' + seri.ILCE + '>';
+
+                        butongroup += '<td class="align-items-center p-0">';
+                        butongroup += '<a href="" class="text-gray-600 text-hover-primary">' + seri.ILCE + '</a>';
+                        butongroup += '</td>';
+
+                        butongroup += '<td class="text-end py-1">';
+                        butongroup += '<div class="menu-item p-0" style="float: left;">';
+                        butongroup += '<a href="javascript:void(0);" class="menu-link px-2 py-0 btnduzenle" >Düzenle</a>';
+                        butongroup += '</div>';
+
+                        butongroup += '<div class="menu-item p-0" style="float: left;">';
+                        butongroup += '<a href="javascript:void(0);" class="menu-link px-2 py-0 btnsil">Sil</a>';
+                        butongroup += '</div>';
+
+                        butongroup += '</td>';
+                        butongroup += '</tr>';
+
+
+                        $("#tblliste tbody").append(butongroup);
+                    });
+
+                    $(".btnduzenle").on("click", function () {
+                        id = $(this).closest("tr").attr("data-id");
+                        $("#txtilce").val($(this).closest("tr").attr("data-text"));
+                    });
+
+                    $(".btnsil").on("click", function () {
+                        Swal.fire({
+                            title: 'Silinsin mi?',
+                            showDenyButton: true,
+                            showCancelButton: false,
+                            confirmButtonText: 'Evet',
+                            denyButtonText: 'Hayır',
+                            customClass: {
+                                actions: 'my-actions',
+                                cancelButton: 'order-1 right-gap',
+                                confirmButton: 'order-2',
+                                denyButton: 'order-3',
+                            },
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                var secilisatir = $(this).closest("tr");
+                                $.ajax({
+                                    url: '/Bep/İlceSil',
+                                    data: JSON.stringify({ id: secilisatir.attr("data-id") }),
+                                    type: 'POST',
+                                    contentType: 'application/json',
+                                    success: function (data) {
+                                        $(secilisatir).remove();
+                                    },
+                                });
+                            }
+                        })
+                    });
+                },
+            });
+        }
+    </script>
+}
+
+
+
+

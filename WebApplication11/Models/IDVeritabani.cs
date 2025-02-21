@@ -10,13 +10,13 @@ namespace YKPortal.Models
 {
     public class IDVeritabani
     {
-
         public static object Sorgula(SqlCommand cmd, SorgulaTuru tur)
         {
             SqlConnection Baglanti = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString);
             try
             {
-                Baglanti.Open();
+                if (Baglanti.State == System.Data.ConnectionState.Closed)
+                    Baglanti.Open();
                 cmd.Connection = Baglanti;
 
                 switch (tur)

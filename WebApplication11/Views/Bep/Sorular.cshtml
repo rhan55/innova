@@ -1,0 +1,170 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="d-flex flex-column scroll-y px-5 px-lg-10  mt-10">
+                <div class="row mb-7">
+
+                    <div class="col-lg-8">
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:40px;">Ders</label>
+                        <select id="ddlders" style="width: 200px;">
+              
+                            @foreach (var item in ViewBag.iller)
+                            {
+                                <option value="@item.ID">@item.Ders</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-lg-8">
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width: 40px;">Soru</label>
+                        <input type="text" id="txtSoru" value="" style="width:400px;" />
+                    </div>
+                    <div class="col-lg-8">
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width: 40px;"></label>
+                        <button type="submit" class="btn btn-primary btn-sm" id="btnkaydet">
+                            <span class="indicator-label">Kaydet</span>
+                            <span class="indicator-progress">
+                                Lütfen Bekleyin...
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card card-flush mt-4 scroll-x">
+        <table class="table align-middle table-row-dashed fs-6" id="tblliste" style="width:400px;">
+            <thead>
+                <tr class="text-start" style="font-size:15px;">
+                    <th class="min-w-125px"><strong>Dersler</strong></th>
+                    <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
+                </tr>
+            </thead>
+            <tbody class="text-gray-600 fw-semibold">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="~/Tema/plugins/custom/tinymce/tinymce.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            var AciklamaEditorOptions = {
+                selector: "#Aciklama",
+                height: 200,
+                promotion: false
+            };
+            if (typeof KTThemeMode !== 'undefined') {
+                if (KTThemeMode.getMode() === "dark") {
+                    AciklamaEditorOptions["skin"] = "oxide-dark";
+                    AciklamaEditorOptions["content_css"] = "dark";
+                }
+            }
+            tinymce.init(AciklamaEditorOptions);
+        });
+
+        var id = "";
+        $("#btnkaydet").on("click", function () {
+            $.ajax({
+                url: '/Bep/SoruKaydet',
+                data: JSON.stringify({ dersid: $("#ddlders").val(), id: id, soru: $("#txtSoru").val() }),
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    $("#txtSoru").val("");
+                    Listele();
+                },
+            });
+        });
+
+        $(document).ready(function () {
+            Listele();
+        });
+
+
+        function Listele() {
+            $('#tblliste > tbody').find("tr").remove();
+            if ($("#ddlders").val() != "-1") {
+
+                $.ajax({
+                    url: '/Bep/SorulariGetir',
+                    type: 'POST',
+                    data: JSON.stringify({ DersId: $("#ddlders").val(), id: id }),
+                    contentType: 'application/json',
+                    success: function (data) {
+                        data.forEach(function (seri) {
+                            var butongroup = "";
+                            butongroup += '<tr data-id=' + seri.ID + ' data-text=' + seri.Soru + '>';
+                            butongroup += '<td class="align-items-center p-0">';
+                            butongroup += seri.Soru;
+                            butongroup += '</td>';
+
+                            butongroup += '<td class="text-end py-1">';
+                            butongroup += '<div class="menu-item p-0" style="float: left;">';
+                            butongroup += '<a href="javascript:void(0);" class="menu-link px-2 py-0 btnduzenle" >Düzenle</a>';
+                            butongroup += '</div>';
+
+                            butongroup += '<div class="menu-item p-0" style="float: left;">';
+                            butongroup += '<a href="javascript:void(0);" class="menu-link px-2 py-0 btnsil">Sil</a>';
+                            butongroup += '</div>';
+
+                            butongroup += '</td>';
+                            butongroup += '</tr>';
+
+                            $("#tblliste tbody").append(butongroup);
+                        });
+
+                        $(".btnduzenle").on("click", function () {
+                            id = $(this).closest("tr").attr("data-id");
+                            $("#txtSoru").val($(this).closest("tr").attr("data-text"));
+                        });
+
+                        $(".btnsil").on("click", function () {
+                            Swal.fire({
+                                title: 'Silinsin mi?',
+                                showDenyButton: true,
+                                showCancelButton: false,
+                                confirmButtonText: 'Evet',
+                                denyButtonText: 'Hayır',
+                                customClass: {
+                                    actions: 'my-actions',
+                                    cancelButton: 'order-1 right-gap',
+                                    confirmButton: 'order-2',
+                                    denyButton: 'order-3',
+                                },
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    var secilisatir = $(this).closest("tr");
+                                    $.ajax({
+                                        url: '/Bep/SoruSil',
+                                        data: JSON.stringify({ id: secilisatir.attr("data-id") }),
+                                        type: 'POST',
+                                        contentType: 'application/json',
+                                        success: function (data) {
+                                            $(secilisatir).remove();
+                                        },
+                                    });
+                                }
+                            })
+                        });
+                    },
+                });
+            }
+        }
+    </script>
+}
+
+
+
+
