@@ -62,22 +62,6 @@
     <script src="~/Tema/plugins/custom/tinymce/tinymce.min.js"></script>
     <script>
 
-        $(document).ready(function () {
-            var AciklamaEditorOptions = {
-                selector: "#Aciklama",
-                height: 200,
-                promotion: false
-            };
-            if (typeof KTThemeMode !== 'undefined') {
-                if (KTThemeMode.getMode() === "dark") {
-                    AciklamaEditorOptions["skin"] = "oxide-dark";
-                    AciklamaEditorOptions["content_css"] = "dark";
-                }
-            }
-            // tinyMCE init
-            tinymce.init(AciklamaEditorOptions);
-        });
-
         var id = "";
         $("#btnkaydet").on("click", function () {
             $.ajax({

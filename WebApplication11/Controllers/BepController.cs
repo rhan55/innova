@@ -14,7 +14,6 @@ namespace YKPortal.Controllers
 {
     public class BepController : Controller
     {
-        // GET: Bep
         public ActionResult Index()
         {
             if (!AutoGirisKontrol())
@@ -22,6 +21,25 @@ namespace YKPortal.Controllers
 
             string UyelikID = GetCookie("UyelikID");
             string KullaniciID = GetCookie("KullaniciID");
+            return View();
+        }
+        public ActionResult AnaSayfa()
+        {
+
+            SqlCommand cmdil = new SqlCommand();
+            cmdil.CommandText = "select * from BepIL With(nolock)";
+            cmdil.CommandType = System.Data.CommandType.Text;
+            DataTable stokGrupKod1DataTable = (DataTable)IDVeritabani.Sorgula(cmdil, SorgulaTuru.Tablo);
+            List<ILDto> entities = new List<ILDto>();
+            for (int i = 0; i < stokGrupKod1DataTable.Rows.Count; i++)
+            {
+                ILDto entity = new ILDto();
+                entity.ID = Convert.ToString(stokGrupKod1DataTable.Rows[i]["ID"]);
+                entity.IL = Convert.ToString(stokGrupKod1DataTable.Rows[i]["IL"]);
+                entity.KayitYapanKullanici = Convert.ToString(stokGrupKod1DataTable.Rows[i]["KayitYapanKullanici"]);
+                entities.Add(entity);
+            }
+            ViewBag.iller = entities;
             return View();
         }
         public ActionResult il()
@@ -65,7 +83,6 @@ namespace YKPortal.Controllers
             }
             return Json(ilcelistesi, JsonRequestBehavior.AllowGet);
         }
-
         public JsonResult ilekle(string il, string id)
         {
             SqlCommand cmd = new SqlCommand("p_BepilKaydet");
@@ -76,7 +93,6 @@ namespace YKPortal.Controllers
             IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
             return Json("", JsonRequestBehavior.AllowGet);
         }
-
         public JsonResult İlSil(string id)
         {
             SqlCommand cmd = new SqlCommand();
@@ -271,7 +287,6 @@ namespace YKPortal.Controllers
             }
             return Json(ilcelistesi, JsonRequestBehavior.AllowGet);
         }
-
         public JsonResult EgitimDuzeyiSil(string id)
         {
             SqlCommand cmd = new SqlCommand();
@@ -312,6 +327,26 @@ namespace YKPortal.Controllers
             cmd.CommandText = "SELECT * FROM BepSinif WITH(NOLOCK)";
             cmd.CommandType = CommandType.Text;
 
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            var ilcelistesi = new List<BepSinifDto>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                ilcelistesi.Add(new BepSinifDto
+                {
+                    ID = Convert.ToString(dt.Rows[i]["ID"]),
+                    Sinif = Convert.ToString(dt.Rows[i]["Sinif"]),
+                    EgitimDuzeyId = Convert.ToString(dt.Rows[i]["EgitimDuzeyId"]),
+                });
+            }
+            return Json(ilcelistesi, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult siniflarigetir(string egitimduzeyid)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "SELECT * FROM BepSinif WITH(NOLOCK) WHERE EgitimDuzeyId=@EgitimDuzeyId";
+            cmd.CommandType = CommandType.Text;
+            cmd.Parameters.AddWithValue("@EgitimDuzeyId", egitimduzeyid);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             var ilcelistesi = new List<BepSinifDto>();
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -503,7 +538,6 @@ namespace YKPortal.Controllers
             IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
             return Json("", JsonRequestBehavior.AllowGet);
         }
-
         public JsonResult SoruSil(string id)
         {
             SqlCommand cmd = new SqlCommand();
@@ -513,7 +547,6 @@ namespace YKPortal.Controllers
             IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
             return Json("", JsonRequestBehavior.AllowGet);
         }
-
         public ActionResult AracGerec()
         {
             //if (!AutoGirisKontrol())
@@ -580,7 +613,6 @@ namespace YKPortal.Controllers
             IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
             return Json("", JsonRequestBehavior.AllowGet);
         }
-
         public ActionResult YontemTeknik()
         {
             //if (!AutoGirisKontrol())
@@ -644,6 +676,50 @@ namespace YKPortal.Controllers
             cmd.CommandText = "delete from BepYontemTeknik WHERE ID=@ID";
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("@ID", id);
+            IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult BepKaydet(
+            string ilid, 
+            string ilceid,
+            string okulid,
+            string donem,
+            string adi,
+            string soyadi,
+            string egitimduzeyi,
+            string sinif,
+            string ogrencivelisi,
+            string sinifduzeyi,
+            string sinifrehberogretmeni,
+            string bransogretmeni,
+            string rehberogretmeni,
+            string uygulayici,
+            string mudur,
+            string dersler
+            )
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_BepKaydet";
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ilid", ilid);
+            cmd.Parameters.AddWithValue("@ilceid", ilceid);
+            cmd.Parameters.AddWithValue("@okulid", okulid);
+            cmd.Parameters.AddWithValue("@donem", donem);
+            cmd.Parameters.AddWithValue("@adi", adi);
+            cmd.Parameters.AddWithValue("@soyadi", soyadi);
+            cmd.Parameters.AddWithValue("@egitimduzeyi", egitimduzeyi);
+            cmd.Parameters.AddWithValue("@sinif", sinif);
+            cmd.Parameters.AddWithValue("@ogrencivelisi", ogrencivelisi);
+            cmd.Parameters.AddWithValue("@sinifduzeyi", sinifduzeyi);
+            cmd.Parameters.AddWithValue("@sinifrehberogretmeni", sinifrehberogretmeni);
+            cmd.Parameters.AddWithValue("@bransogretmeni", bransogretmeni);
+            cmd.Parameters.AddWithValue("@rehberogretmeni", rehberogretmeni);
+            cmd.Parameters.AddWithValue("@uygulayici", uygulayici);
+            cmd.Parameters.AddWithValue("@mudur", mudur);
+            cmd.Parameters.AddWithValue("@dersler", dersler);
+            cmd.Parameters.AddWithValue("@KayitYapanKullanici", GetCookie("UyelikID"));
             IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
             return Json("", JsonRequestBehavior.AllowGet);
         }

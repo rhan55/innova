@@ -1,0 +1,397 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/Content/assets/img/apple-icon.png" />
+    <link rel="icon" type="image/png" href="/Content/assets/img/favicon.png" />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+    <link rel="canonical" href="https://www.creative-tim.com/product/paper-bootstrap-wizard" />
+    <meta itemprop="name" content="Paper Bootstrap Wizard by Creative Tim">
+    <meta itemprop="description" content="Paper Bootstrap Wizard is a fully responsive wizard that is inspired by our famous Paper Kit  and comes with 3 useful examples and 5 colors.">
+    <meta itemprop="image" content="https://s3.amazonaws.com/creativetim_bucket/products/49/opt_pbw_thumbnail.jpg">
+
+    <link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/assets/css/paper-bootstrap-wizard.css" rel="stylesheet" />
+    <link href="~/Content/assets/css/demo.css" rel="stylesheet" />
+
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
+    <link href="~/Content/assets/css/themify-icons.css" rel="stylesheet">
+
+</head>
+<body>
+    <div class="image-container set-full-height" style="background-image: url('assets/img/paper-1.jpeg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="wizard-container">
+                        <div class="card wizard-card" data-color="orange" id="wizardProfile">
+                            <form action="">
+                                <div class="wizard-navigation">
+                                    <div class="progress-with-circle">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3" style="width: 21%;"></div>
+                                    </div>
+                                    <ul>
+                                        <li>
+                                            <a href="#about" data-toggle="tab">
+                                                <div class="icon-circle">
+                                                    <i class="ti-user"></i>
+                                                </div>
+                                                Okul Bilgİlerİ
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#account" data-toggle="tab">
+                                                <div class="icon-circle">
+                                                    <i class="ti-settings"></i>
+                                                </div>
+                                                Öğrencİ Bİlgİlerİ
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#address" data-toggle="tab">
+                                                <div class="icon-circle">
+                                                    <i class="ti-map"></i>
+                                                </div>
+                                                Öğretmen Bİlgİlerİ
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#ders" data-toggle="tab">
+                                                <div class="icon-circle">
+                                                    <i class="ti-map"></i>
+                                                </div>
+                                                Ders Seçimi
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="tab-content">
+                                    <div class="tab-pane" id="about">
+                                        <div class="row">
+                                            <h5 class="info-text">Okul bİlgİlerİ</h5>
+                                            <div class="col-sm-4 col-sm-offset-1">
+                                            </div>
+                                            <h5 class="info-text">
+                                                Öğrencinin okul bilgileri, adı, sınıfı ve kayıtlı olduğu eğitim kurumunun adı gibi temel bilgileri içerir; bu bilgilerin doğru ve eksiksiz şekilde girilmesi, belgelerin resmi geçerliliğini sağlar. Yanlış veya eksik bilgi girişi, hem öğrencinin akademik işlemlerinde sorunlara neden olabilir hem de belge düzenleyen kurumun sorumluluğunu artırabilir.
+                                            </h5>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>İl</label>
+                                                    <select class="form-control" id="ddlil">
+                                                        <option value="...">...</option>
+                                                        @foreach (var item in ViewBag.iller)
+                                                        {
+                                                            <option value="@item.ID">@item.IL</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>İlçe</label>
+                                                    <select name="country" class="form-control" id="ddlilce">
+                                                        <option value="">...</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label>Okul</label>
+                                                    <select name="country" class="form-control" id="ddlokul">
+                                                        <option value="">...</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label>Dönem</label>
+                                                    <input id="txtDonem" type="text" class="form-control" placeholder="Dönem">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="account">
+                                        <h5 class="info-text"> Öğrencinin Öğrenim Bilgileri </h5>
+                                        <h5 class="info-text"> Öğrenci bilgilerinin doğru girilmesi, öğrencinin almak istediği derslerin programıyla uyumlu olmasını ve ders seçim sürecinin sorunsuz ilerlemesini sağlar. Yanlış veya eksik girilen bilgiler, öğrencinin seçmek istediği derslerin atlanmasına ya da yanlış derslerin atanmasına neden olabilir ve bu durum akademik planlamayı olumsuz etkileyebilir. </h5>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Adı</label>
+                                                    <input id="txtadi" type="text" class="form-control" placeholder="Adı">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Soy Adı</label>
+                                                    <input id="txtsoyadi" type="text" class="form-control" placeholder="Soy Adı">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Eğitim Düzeyi</label>
+                                                    <select class="form-control" id="ddlegitimduzeyi">
+                                                        <option value="">...</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Sınıf</label>
+                                                    <select class="form-control" id="ddlsinif">
+                                                        <option value="">...</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Öğrenci Velisi</label>
+                                                    <input id="txtOgrenciVelisi" type="text" class="form-control" placeholder="Öğrenci Velisi">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Sınıf Düzeyi</label>
+                                                    <select class="form-control" id="ddlsinifduzeyi">
+                                                        <option value="">...</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="address">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <h5 class="info-text"> Öğrencİnİn öğretmen Bilgilerini Giriniz.</h5>
+                                                <h5 class="info-text"> Oluşturulacak BEP dokümanında imza alanlarının doğru şekilde doldurulması için öğretmen bilgilerinin doğru şekilde girilmesi önemlidir.</h5>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Sınıf Rehber Öğretmeni</label>
+                                                    <input id="txtSinifRehberOgretmeni" type="text" class="form-control" placeholder="Sınıf Rehber Öğretmeni">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Branş Öğretmeni</label>
+                                                    <input id="txtBransOgretmeni" type="text" class="form-control" placeholder="Branş Öğretmeni">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Rehber Öğretmeni</label>
+                                                    <input id="txtRehberOgretmeni" type="text" class="form-control" placeholder="Rehbet Öğretmeni">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Uygulayıcı</label>
+                                                    <input id="txtUygulayici" type="text" class="form-control" placeholder="Uygulayıcı">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Müdür</label>
+                                                    <input id="txtMudur" type="text" class="form-control" placeholder="Müdür">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="ders">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <h5 class="info-text">Öğrencinin ders seçimini yapabilirsiniz.</h5>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label>Ders</label><br>
+                                                    <select id="ddldersler" class="form-control">
+                                                        <option value="...">...</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="wizard-footer">
+                                    <div class="pull-right">
+                                        <input type='button' class='btn btn-next btn-fill btn-warning btn-wd' name='next' value='İleri' />
+                                        <input type='button' class='btn btn-finish btn-fill btn-warning btn-wd' name='finish' value='Finish' />
+                                    </div>
+                                    <div class="pull-left">
+                                        <input type='button' class='btn btn-previous btn-default btn-wd' name='previous' value='Geri' />
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Content/assets/js/jquery-2.2.4.min.js" type="text/javascript"></script>
+    <script src="~/Content/assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="~/Content/assets/js/jquery.bootstrap.wizard.js" type="text/javascript"></script>
+    <script src="~/Content/assets/js/demo.js" type="text/javascript"></script>
+    <script src="~/Content/assets/js/paper-bootstrap-wizard.js" type="text/javascript"></script>
+    <script src="~/Content/assets/js/jquery.validate.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $("#ddlil").on("change", function () {
+            ilgetir();
+            EgitimDuzeyiListele();
+            SinifDuzeyiListele();
+        });
+
+        $(document).ready(function () {
+            DersleriListele();
+        });
+
+        function ilgetir() {
+            $('#ddlilce').find("option").remove();
+            $("#ddlilce").append('<option>...</option>');
+            $.ajax({
+                url: '/Bep/ilcegetir',
+                data: JSON.stringify({ ilid: $("#ddlil").val() }),
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    data.forEach(function (seri) {
+                        $("#ddlilce").append('<option value=' + seri.ID + '>' + seri.ILCE + '</option>');
+                    });
+                },
+            });
+        }
+
+        $("#ddlilce").on("change", function () {
+            Okulgetir($("#ddlil").val(), $(this).val());
+        });
+
+        function Okulgetir(ilid, ilceid) {
+            $('#ddlokul').find("option").remove();
+            $("#ddlokul").append('<option>...</option>');
+            $.ajax({
+                url: '/Bep/okulgetir',
+                data: JSON.stringify({ ilceid: ilceid, ilid: ilid }),
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    data.forEach(function (seri) {
+                        $("#ddlokul").append('<option value=' + seri.ID + '>' + seri.OKUL + '</option>');
+                    });
+                },
+            });
+        }
+
+        function EgitimDuzeyiListele() {
+            $('#ddlegitimduzeyi').find("option").remove();
+            $("#ddlegitimduzeyi").append('<option>...</option>');
+            $.ajax({
+                url: '/Bep/egitimduzeylerigetir',
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    data.forEach(function (seri) {
+                        $("#ddlegitimduzeyi").append('<option value=' + seri.ID + '>' + seri.EgitimDuzeyi + '</option>');
+                    });
+                },
+            });
+        }
+
+        $("#ddlegitimduzeyi").on("change", function () {
+            SinifListele();
+        });
+
+        function SinifListele() {
+            $('#ddlsinif').find("option").remove();
+            $("#ddlsinif").append('<option>...</option>');
+            $.ajax({
+                url: '/Bep/siniflarigetir',
+                type: 'POST',
+                data: JSON.stringify({ egitimduzeyid: $("#ddlegitimduzeyi").val() }),
+                contentType: 'application/json',
+                success: function (data) {
+                    data.forEach(function (seri) {
+                        $("#ddlsinif").append('<option value=' + seri.ID + '>' + seri.Sinif + '</option>');
+                    });
+
+                },
+            });
+        }
+
+        function SinifDuzeyiListele() {
+            $('#ddlsinifduzeyi').find("option").remove();
+            $("#ddlsinifduzeyi").append('<option>...</option>');
+            $.ajax({
+                url: '/Bep/SinifDuzeyiGetir',
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    data.forEach(function (seri) {
+                        $("#ddlsinifduzeyi").append('<option value=' + seri.ID + '>' + seri.SinifDuzeyi + '</option>');
+                    });
+                },
+            });
+        }
+
+        function DersleriListele() {
+            $('#ddldersler').find("option").remove();
+            $("#ddldersler").append('<option>...</option>');
+            $.ajax({
+                url: '/Bep/DersGetir',
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    data.forEach(function (seri) {
+                        $("#ddldersler").append('<option value=' + seri.ID + '>' + seri.Ders + '</option>');
+                    });
+                },
+            });
+        }
+
+
+        $("#btnkaydet").on("click", function () {
+            var data = {
+                ilid: $("#ddlilid").val(),
+                ilceid: $("#ddlilceid").val(),
+                okulid: $("#ddlokul").val(),
+                donem: $("#txtDonem").val(),
+                adi: $("#txtadi").val(),
+                soyadi: $("#txtsoyadi").val(),
+                egitimduzeyi: $("#ddlegitimduzeyi").val(),
+                sinif: $("#ddlsinif").val(),
+                ogrencivelisi: $("#txtOgrenciVelisi").val(),
+                sinifduzeyi: $("#ddlsinifduzeyi").val(),
+                sinifrehberogretmeni: $("#txtSinifRehberOgretmeni").val(),
+                bransogretmeni: $("#txtBransOgretmeni").val(),
+                rehberogretmeni: $("#txtRehberOgretmeni").val(),
+                uygulayici: $("#txtUygulayici").val(),
+                mudur: $("#txtMudur").val(),
+                dersler: $("#ddldersler").val(),
+            }
+            $.ajax({
+                url: '/Bep/BepKaydet',
+                data: data,
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    $("#txtSinif").val("");
+                },
+            });
+        });
+        $('#openBtn').on('click', function () {
+            $('#modal1').fullModal('open');
+        });
+    </script>
+</body>
+</html>
+

@@ -47,22 +47,6 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="~/Tema/plugins/custom/tinymce/tinymce.min.js"></script>
     <script>
-
-        $(document).ready(function () {
-            var AciklamaEditorOptions = {
-                selector: "#Aciklama",
-                height: 200,
-                promotion: false
-            };
-            if (typeof KTThemeMode !== 'undefined') {
-                if (KTThemeMode.getMode() === "dark") {
-                    AciklamaEditorOptions["skin"] = "oxide-dark";
-                    AciklamaEditorOptions["content_css"] = "dark";
-                }
-            }
-            tinymce.init(AciklamaEditorOptions);
-        });
-
         var id = "";
         $("#btnkaydet").on("click", function () {
             $.ajax({
@@ -71,7 +55,7 @@
                 type: 'POST',
                 contentType: 'application/json',
                 success: function (data) {
-                    $("#txtSinifDuzeyi").val("");
+                    $("#txtDers").val("");
                     Listele();
                 },
             });
@@ -86,7 +70,6 @@
             $.ajax({
                 url: '/Bep/DersGetir',
                 type: 'POST',
-                data: JSON.stringify({ SinifDuzeyi: $("#txtSinifDuzeyi").val(), id: id }),
                 contentType: 'application/json',
                 success: function (data) {
                     data.forEach(function (seri) {

@@ -81,22 +81,6 @@
     <script src="~/Tema/plugins/custom/tinymce/tinymce.min.js"></script>
     <script>
 
-        $(document).ready(function () {
-            var AciklamaEditorOptions = {
-                selector: "#Aciklama",
-                height: 200,
-                promotion: false
-            };
-            if (typeof KTThemeMode !== 'undefined') {
-                if (KTThemeMode.getMode() === "dark") {
-                    AciklamaEditorOptions["skin"] = "oxide-dark";
-                    AciklamaEditorOptions["content_css"] = "dark";
-                }
-            }
-            // tinyMCE init
-            tinymce.init(AciklamaEditorOptions);
-        });
-
         var id = "";
         $(document).ready(function () {
             ilgetir();
@@ -132,9 +116,7 @@
 
                         var options = '';
                         var butongroup = "";
-
                         butongroup += '<tr data-id=' + seri.ID + ' data-text=' + seri.ILCE + '>';
-
                         butongroup += '<td class="align-items-center p-0">';
                         butongroup += '<a href="" class="text-gray-600 text-hover-primary">' + seri.ILCE + '</a>';
                         butongroup += '</td>';
@@ -150,8 +132,6 @@
 
                         butongroup += '</td>';
                         butongroup += '</tr>';
-
-
                         $("#tblliste tbody").append(butongroup);
                     });
 
