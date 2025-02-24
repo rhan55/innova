@@ -1,4 +1,4 @@
-﻿         using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -315,7 +315,8 @@ namespace YKPortal.Controllers
                 Response.Redirect(redirectUrl, false);
                 HttpContext.ApplicationInstance.CompleteRequest();
             }
-            if (ConfigurationManager.AppSettings["IlkAcilisSayfasi"] != "")
+
+            if (ConfigurationManager.AppSettings["IlkAcilisSayfasi"] != "" && Request.QueryString["Durum"] != "1")
             {
                 return Redirect(ConfigurationManager.AppSettings["IlkAcilisSayfasi"]);
             }
@@ -696,7 +697,7 @@ namespace YKPortal.Controllers
                 entity.HTMLPrint = Encoding.Default.GetBytes(Convert.ToString(ds.Tables[0].Rows[0]["Aciklama"]));
                 entity.Aciklama = Convert.ToString(ds.Tables[0].Rows[0]["Aciklama"]);
                 string dosya = "2024-12-02 0155 - 30f07377-3f2a-4be7-b2a6-70c9174a6f9e.png";// IDDizayn.DizaynIslemleri.DizaynKaydet(ds, ConfigurationManager.AppSettings["Klasor"]);
-                entity.Aciklama2 = ConfigurationManager.AppSettings["WebSiteUrl"]+"/Temp/"+dosya;
+                entity.Aciklama2 = ConfigurationManager.AppSettings["WebSiteUrl"] + "/Temp/" + dosya;
             }
             else
             {
@@ -761,7 +762,7 @@ namespace YKPortal.Controllers
                 cmd.Parameters.AddWithValue("@KullaniciAdi", KullaniciAdi);
                 cmd.Parameters.AddWithValue("@Parola", Parola);
 
-                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);               
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
 
                 if (dt.Rows.Count > 0)
@@ -952,7 +953,7 @@ namespace YKPortal.Controllers
         public JsonResult LisansKontrol(
                     string _bulunduguDizin,
                     string _modul,
-                    string _dosyaOlusturmaTarihi, 
+                    string _dosyaOlusturmaTarihi,
                     string _bilgisayarAdi,
                     string _icIp,
                     string _disIp,

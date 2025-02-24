@@ -553,9 +553,6 @@
     <script src="~/Tema/plugins/custom/signature/jquery.ui.touch-punch.js"></script>
     -->
     <script>
-
-
-
         //SELECT2 fONKSİYONU
     function select2Options(url) {
             return {
@@ -595,7 +592,6 @@
             }
         }
 
-
     function toastr(title = "", description = "") {
         const toastElement = document.getElementById('kt_docs_toast_toggle');
         $(toastElement).find('[data-element="toast-title"]').html(title);
@@ -606,7 +602,7 @@
         toast.show();
     }
 
-     function loader() {
+    function loader() {
          var toggle = () => {
              document.querySelector('.custom-page-loader').classList.toggle('hidden');
          }
@@ -624,7 +620,7 @@
          }
         }
 
-        function sweetalert(message = "", type = "success") {
+    function sweetalert(message = "", type = "success") {
             Swal.fire({
                 text: message,
                 icon: type,
@@ -636,14 +632,14 @@
             });
         }
 
-     const anaSayfaBilgileri = {
+    const anaSayfaBilgileri = {
          Cari: 0,
          Stok: 0,
          Belge: 0,
          YeniOkunmamisMesaj: 0
      }
 
-     function AnaSayfaBilgileriGetir() {
+    function AnaSayfaBilgileriGetir() {
          $.ajax({
              url: "/YK/AnaSayfaBilgileriGetir",
              method: 'POST',
@@ -663,7 +659,7 @@
          })
      }
 
-     function YeniOkunmamisMesajEkle(ekle = null) {
+    function YeniOkunmamisMesajEkle(ekle = null) {
          if (ekle == null) {
              if (anaSayfaBilgileri.YeniOkunmamisMesaj > 0) {
                  $('[data-id="YeniOkunmamisMesaj"]').html(anaSayfaBilgileri.YeniOkunmamisMesaj);
@@ -680,7 +676,7 @@
 
      }
 
-     function bildirimHubBaglantisi() {
+    function bildirimHubBaglantisi() {
          var bildirimHub = $.connection.bildirimHub;
 
          bildirimHub.client.receiveNotification = function (bosIcerik) {
@@ -708,7 +704,7 @@
          })
         }
 
-        function setDateTimeInput(input, date = null) {
+    function setDateTimeInput(input, date = null) {
             var now = date ? new Date(date) : new Date();
             var year = now.getFullYear();
             var month = ('0' + (now.getMonth() + 1)).slice(-2); // Ayı 2 haneli formatla
@@ -723,7 +719,6 @@
         }
 
      $(document).ready(function () {
-
 
          loader().hide();
 
@@ -872,7 +867,6 @@
                                                        </div>
                                                    </div>`
          }
-
          function buildNavigation(navigationList) {
              return navigationList.map(navigation => {
                  let menus = navigation.items.map(navigationMenu => {
@@ -890,7 +884,6 @@
                  return createNavigation(navigation, menus);
              })
          }
-
          searchInNavigation.addEventListener("input", function (event) {
              let filteredNavigation = [];
              if (event.target.value == "") {
@@ -915,20 +908,17 @@
 
              navigationContainer.innerHTML = filteredNavigation.join("")
          });
-
      });
 
      $(document).ready(function () {
          AnaSayfaBilgileriGetir();
          bildirimHubBaglantisi();
-
      })
 
     </script>
-    @RenderSection("Scripts", required: false)
+     @RenderSection("Scripts", required: false)
     <!--end::Custom Javascript-->
     <!--end::Javascript-->
 </body>
 <!--end::Body-->
-
 </html>

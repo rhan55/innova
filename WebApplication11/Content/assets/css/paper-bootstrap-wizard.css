@@ -1196,7 +1196,7 @@ input[type="button"]:focus {
 
 .wizard-card {
   min-height: 410px;
-  box-shadow: 0 20px 16px -15px rgba(0, 0, 0, 0.57);
+
 }
 .wizard-card .picture-container {
   position: relative;
@@ -1208,7 +1208,7 @@ input[type="button"]:focus {
   border: 3px solid #F3F2EE;
   text-align: center;
   border-radius: 50%;
-  color: rgba(0, 0, 0, 0.2);
+  color: #000;
   font-weight: 600;
   width: 70px;
   height: 70px;
@@ -1303,10 +1303,10 @@ input[type="button"]:focus {
   background-color: #F3BB45;
 }
 .wizard-card[data-color="orange"] .nav-pills > li.active > a {
-  color: #F3BB45;
+  color: #000;
 }
 .wizard-card[data-color="orange"] .nav-pills .icon-circle.checked {
-  border-color: #F3BB45;
+  border-color: #0000;
 }
 .wizard-card[data-color="orange"] .choice.active .card-checkboxes {
   color: #F3BB45;
