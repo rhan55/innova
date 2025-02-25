@@ -27,6 +27,37 @@
     <link href="~/Content/assets/css/themify-icons.css" rel="stylesheet">
 
     <style>
+        .checklist .checkbox {
+            position: relative;
+            display: block;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+            .checklist .checkbox + .checkbox {
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+
+        .checkbox {
+            color: red;
+        }
+
+        .well {
+            min-width: 250px;
+        }
+
+        .checklist .checkbox {
+            position: relative;
+            display: block;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+            .checklist .checkbox + .checkbox {
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
 
         .modal.right .modal-body {
             padding: 15px 15px 80px;
@@ -322,6 +353,10 @@
             height: 1.5rem;
             transition: opacity .3s;
             cursor: pointer;
+        }
+
+        .myCheckbox {
+            text-align: center;
         }
     </style>
     <style>
@@ -671,280 +706,43 @@
                                         <div class="row">
                                             <h5 class="info-text">Uzun Dönem ve Kısa Dönem Hedefler</h5>
                                         </div>
-                                        <div class="col-md-12">
-                                            <div class="ant-collapse ant-collapse-icon-position-start ant-collapse-borderless bep-collapse w-full" role="tablist" bis_skin_checked="1">
-                                                <div class="ant-collapse-item ant-collapse-item-active shadow-sm shadow-[#3D5B81]/5" bis_skin_checked="1">
-                                                    <div class="ant-collapse-header" role="tab" aria-expanded="true" aria-disabled="false" tabindex="0" bis_skin_checked="1">
-                                                        <div class="ant-collapse-expand-icon" bis_skin_checked="1">
-                                                            <span role="img" class="anticon ant-collapse-arrow">
-                                                                <svg class="bep-icon" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path class="bep-icon-primary" d="M539.667 66.6665H260.333C139 66.6665 66.6667 139 66.6667 260.333V539.333C66.6667 661 139 733.333 260.333 733.333H539.333C660.667 733.333 733 661 733 539.667V260.333C733.333 139 661 66.6665 539.667 66.6665Z"></path>
-                                                                    <path class="bep-icon-secondary" d="M533.333 425H266.667C253 425 241.667 413.667 241.667 400C241.667 386.333 253 375 266.667 375H533.333C547 375 558.333 386.333 558.333 400C558.333 413.667 547 425 533.333 425Z">
-                                                                    </path>
-                                                                </svg>
-                                                            </span>
-                                                        </div>
-                                                        <span class="ant-collapse-header-text">Alıcı Dil Gelişimini Tamamlar. </span>
-                                                    </div>
-                                                    <div class="ant-collapse-content ant-collapse-content-active" role="tabpanel" style="" bis_skin_checked="1">
-                                                        <div class="ant-collapse-content-box" bis_skin_checked="1">
-                                                            <div class="ant-list ant-list-split" bis_skin_checked="1">
-                                                                <div class="ant-spin-nested-loading" bis_skin_checked="1">
-                                                                    <div class="ant-spin-container" bis_skin_checked="1">
-                                                                        <ul class="ant-list-items">
-                                                                            <li class="ant-list-item bep-list-item">
-                                                                                <div class="ant-list-item-meta" bis_skin_checked="1">
-                                                                                    <div class="ant-list-item-meta-content" bis_skin_checked="1">
-                                                                                        <h4 class="ant-list-item-meta-title">Dikkat ve Ayırt Etme </h4>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="ant-radio-group ant-radio-group-solid bep-radio-group" bis_skin_checked="1">
-                                                                                    <label class="ant-radio-button-wrapper bep-radio-button">
-                                                                                        <span class="ant-radio-button">
-                                                                                            <input class="ant-radio-button-input" type="radio" value="true">
-                                                                                            <span class="ant-radio-button-inner"></span>
-                                                                                        </span>
-                                                                                        <span>
-                                                                                            <span role="img" class="anticon w-5">
-                                                                                                <svg class="bep-icon" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                                    <path class="bep-icon-primary" d="M721.699 334.667C708.699 316 685.699 305.333 659.365 305.333H522.699C513.699 305.333 505.365 301.667 499.699 295C493.699 288.333 491.365 279 492.699 269.333L509.699 160C517.032 127.333 495.365 90.6667 462.7 79.6667C432.367 68.3333 396.7 83.6667 382.367 105.333L242.033 314.333L238.033 321V615.666L243.033 620.666L348.7 702.332C362.7 716.332 394.367 723.999 416.7 723.999H546.699C591.365 723.999 636.365 690.332 646.365 649.332L728.365 399.667C736.699 376 734.365 352.667 721.699 334.667Z"></path>
-                                                                                                    <path class="bep-icon-secondary" d="M173.687 213.003H139.353C87.6866 213.003 66.6867 233.003 66.6867 282.337V617.337C66.6867 666.67 87.6866 686.67 139.353 686.67H173.687C225.353 686.67 246.353 666.67 246.353 617.337V282.003C246.353 233.003 225.353 213.003 173.687 213.003Z"></path>
-                                                                                                </svg>
-                                                                                            </span>
-                                                                                        </span>
-                                                                                    </label>
-                                                                                    <label class="ant-radio-button-wrapper bep-radio-button">
-                                                                                        <span class="ant-radio-button">
-                                                                                            <
-                                                                                            input class="ant-radio-button-input" type="radio" value="false">
-                                                                                            <span class="ant-radio-button-inner"></span>
-                                                                                        </span><span>
-                                                                                            <span role="img" class="anticon w-5">
-                                                                                                <svg class="bep-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                                    <path class="bep-icon-primary" d="M2.34904 13.96C2.73904 14.52 3.42904 14.84 4.21904 14.84H8.31904C8.58904 14.84 8.83904 14.95 9.00904 15.15C9.18904 15.35 9.25904 15.63 9.21904 15.92L8.70904 19.2C8.48904 20.18 9.13904 21.28 10.119 21.61C11.029 21.95 12.099 21.49 12.529 20.84L16.739 14.57L16.859 14.37V5.53003L16.709 5.38003L13.539 2.93003C13.119 2.51003 12.169 2.28003 11.499 2.28003H7.59904C6.25904 2.28003 4.90904 3.29003 4.60904 4.52003L2.14904 12.01C1.89904 12.72 1.96904 13.42 2.34904 13.96Z"></path>
-                                                                                                    <path class="bep-icon-secondary" d="M18.7894 17.6099H19.8194C21.3694 17.6099 21.9994 17.0099 21.9994 15.5299V5.4799C21.9994 3.9999 21.3694 3.3999 19.8194 3.3999H18.7894C17.2394 3.3999 16.6094 3.9999 16.6094 5.4799V15.5399C16.6094 17.0099 17.2394 17.6099 18.7894 17.6099Z"></path>
-                                                                                                </svg>
-                                                                                            </span>
-                                                                                        </span>
-                                                                                    </label>
-                                                                                </div>
-                                                                            </li>
-                                                                            <li class="ant-list-item bep-list-item">
-                                                                                <div class="ant-list-item-meta" bis_skin_checked="1">
-                                                                                    <div class="ant-list-item-meta-content" bis_skin_checked="1">
-                                                                                        <h4 class="ant-list-item-meta-title">Dikkat ve Ayırt Etme </h4>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="ant-radio-group ant-radio-group-solid bep-radio-group" bis_skin_checked="1">
-                                                                                    <label class="ant-radio-button-wrapper bep-radio-button">
-                                                                                        <span class="ant-radio-button">
-                                                                                            <input class="ant-radio-button-input" type="radio" value="true">
-                                                                                            <span class="ant-radio-button-inner"></span>
-                                                                                        </span><span>
-                                                                                            <span role="img" class="anticon w-5">
-                                                                                                <svg class="bep-icon" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                                    <path class="bep-icon-primary" d="M721.699 334.667C708.699 316 685.699 305.333 659.365 305.333H522.699C513.699 305.333 505.365 301.667 499.699 295C493.699 288.333 491.365 279 492.699 269.333L509.699 160C517.032 127.333 495.365 90.6667 462.7 79.6667C432.367 68.3333 396.7 83.6667 382.367 105.333L242.033 314.333L238.033 321V615.666L243.033 620.666L348.7 702.332C362.7 716.332 394.367 723.999 416.7 723.999H546.699C591.365 723.999 636.365 690.332 646.365 649.332L728.365 399.667C736.699 376 734.365 352.667 721.699 334.667Z"></path>
-                                                                                                    <path class="bep-icon-secondary" d="M173.687 213.003H139.353C87.6866 213.003 66.6867 233.003 66.6867 282.337V617.337C66.6867 666.67 87.6866 686.67 139.353 686.67H173.687C225.353 686.67 246.353 666.67 246.353 617.337V282.003C246.353 233.003 225.353 213.003 173.687 213.003Z"></path>
-                                                                                                </svg>
-                                                                                            </span>
-                                                                                        </span>
-                                                                                    </label><label class="ant-radio-button-wrapper bep-radio-button"><span class="ant-radio-button"><input class="ant-radio-button-input" type="radio" value="false"><span class="ant-radio-button-inner"></span></span><span><span role="img" class="anticon w-5"><svg class="bep-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path class="bep-icon-primary" d="M2.34904 13.96C2.73904 14.52 3.42904 14.84 4.21904 14.84H8.31904C8.58904 14.84 8.83904 14.95 9.00904 15.15C9.18904 15.35 9.25904 15.63 9.21904 15.92L8.70904 19.2C8.48904 20.18 9.13904 21.28 10.119 21.61C11.029 21.95 12.099 21.49 12.529 20.84L16.739 14.57L16.859 14.37V5.53003L16.709 5.38003L13.539 2.93003C13.119 2.51003 12.169 2.28003 11.499 2.28003H7.59904C6.25904 2.28003 4.90904 3.29003 4.60904 4.52003L2.14904 12.01C1.89904 12.72 1.96904 13.42 2.34904 13.96Z"></path><path class="bep-icon-secondary" d="M18.7894 17.6099H19.8194C21.3694 17.6099 21.9994 17.0099 21.9994 15.5299V5.4799C21.9994 3.9999 21.3694 3.3999 19.8194 3.3999H18.7894C17.2394 3.3999 16.6094 3.9999 16.6094 5.4799V15.5399C16.6094 17.0099 17.2394 17.6099 18.7894 17.6099Z"></path></svg></span></span></label>
-                                                                                </div>
-                                                                            </li>
-                                                                            <li class="ant-list-item bep-list-item">
-                                                                                <div class="ant-list-item-meta" bis_skin_checked="1">
-                                                                                    <div class="ant-list-item-meta-content" bis_skin_checked="1">
-                                                                                        <h4 class="ant-list-item-meta-title">Sözel Olmayan İletişimi Anlama</h4>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="ant-radio-group ant-radio-group-solid bep-radio-group" bis_skin_checked="1">
-                                                                                    <label class="ant-radio-button-wrapper bep-radio-button">
-                                                                                        <span class="ant-radio-button">
-                                                                                            <input class="ant-radio-button-input" type="radio" value="true">
-                                                                                            <span class="ant-radio-button-inner"></span>
-                                                                                        </span>
-                                                                                        <span>
-                                                                                            <span role="img" class="anticon w-5">
-                                                                                                <svg class="bep-icon" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                                    <path class="bep-icon-primary" d="M721.699 334.667C708.699 316 685.699 305.333 659.365 305.333H522.699C513.699 305.333 505.365 301.667 499.699 295C493.699 288.333 491.365 279 492.699 269.333L509.699 160C517.032 127.333 495.365 90.6667 462.7 79.6667C432.367 68.3333 396.7 83.6667 382.367 105.333L242.033 314.333L238.033 321V615.666L243.033 620.666L348.7 702.332C362.7 716.332 394.367 723.999 416.7 723.999H546.699C591.365 723.999 636.365 690.332 646.365 649.332L728.365 399.667C736.699 376 734.365 352.667 721.699 334.667Z"></path>
-                                                                                                    <path class="bep-icon-secondary" d="M173.687 213.003H139.353C87.6866 213.003 66.6867 233.003 66.6867 282.337V617.337C66.6867 666.67 87.6866 686.67 139.353 686.67H173.687C225.353 686.67 246.353 666.67 246.353 617.337V282.003C246.353 233.003 225.353 213.003 173.687 213.003Z"></path>
-                                                                                                </svg>
-                                                                                            </span>
-                                                                                        </span>
-                                                                                    </label><label class="ant-radio-button-wrapper bep-radio-button">
-                                                                                        <span class="ant-radio-button">
-                                                                                            <input class="ant-radio-button-input" type="radio" value="false">
-                                                                                            <span class="ant-radio-button-inner"></span>
-                                                                                        </span>
-                                                                                        <span>
-                                                                                            <span role="img" class="anticon w-5">
-                                                                                                <svg class="bep-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                                    <path class="bep-icon-primary" d="M2.34904 13.96C2.73904 14.52 3.42904 14.84 4.21904 14.84H8.31904C8.58904 14.84 8.83904 14.95 9.00904 15.15C9.18904 15.35 9.25904 15.63 9.21904 15.92L8.70904 19.2C8.48904 20.18 9.13904 21.28 10.119 21.61C11.029 21.95 12.099 21.49 12.529 20.84L16.739 14.57L16.859 14.37V5.53003L16.709 5.38003L13.539 2.93003C13.119 2.51003 12.169 2.28003 11.499 2.28003H7.59904C6.25904 2.28003 4.90904 3.29003 4.60904 4.52003L2.14904 12.01C1.89904 12.72 1.96904 13.42 2.34904 13.96Z"></path>
-                                                                                                    <path class="bep-icon-secondary" d="M18.7894 17.6099H19.8194C21.3694 17.6099 21.9994 17.0099 21.9994 15.5299V5.4799C21.9994 3.9999 21.3694 3.3999 19.8194 3.3999H18.7894C17.2394 3.3999 16.6094 3.9999 16.6094 5.4799V15.5399C16.6094 17.0099 17.2394 17.6099 18.7894 17.6099Z"></path>
-                                                                                                </svg>
-                                                                                            </span>
-                                                                                        </span>
-                                                                                    </label>
-                                                                                </div>
-                                                                            </li>
-                                                                            <li class="ant-list-item bep-list-item">
-                                                                                <div class="ant-list-item-meta" bis_skin_checked="1">
-                                                                                    <div class="ant-list-item-meta-content" bis_skin_checked="1">
-                                                                                        <h4 class="ant-list-item-meta-title">Anlam Gelişimi</h4>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="ant-radio-group ant-radio-group-solid bep-radio-group" bis_skin_checked="1">
-                                                                                    <label class="ant-radio-button-wrapper bep-radio-button">
-                                                                                        <span class="ant-radio-button">
-                                                                                            <input class="ant-radio-button-input" type="radio" value="true">
-                                                                                            <span class="ant-radio-button-inner"></span>
-                                                                                        </span>
-                                                                                        <span>
-                                                                                            <span role="img" class="anticon w-5">
-                                                                                                <svg class="bep-icon" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                                    <path class="bep-icon-primary" d="M721.699 334.667C708.699 316 685.699 305.333 659.365 305.333H522.699C513.699 305.333 505.365 301.667 499.699 295C493.699 288.333 491.365 279 492.699 269.333L509.699 160C517.032 127.333 495.365 90.6667 462.7 79.6667C432.367 68.3333 396.7 83.6667 382.367 105.333L242.033 314.333L238.033 321V615.666L243.033 620.666L348.7 702.332C362.7 716.332 394.367 723.999 416.7 723.999H546.699C591.365 723.999 636.365 690.332 646.365 649.332L728.365 399.667C736.699 376 734.365 352.667 721.699 334.667Z"></path>
-                                                                                                    <path class="bep-icon-secondary" d="M173.687 213.003H139.353C87.6866 213.003 66.6867 233.003 66.6867 282.337V617.337C66.6867 666.67 87.6866 686.67 139.353 686.67H173.687C225.353 686.67 246.353 666.67 246.353 617.337V282.003C246.353 233.003 225.353 213.003 173.687 213.003Z"></path>
-                                                                                                </svg>
-                                                                                            </span>
-                                                                                        </span>
-                                                                                    </label>
-                                                                                    <label class="ant-radio-button-wrapper bep-radio-button">
-                                                                                        <span class="ant-radio-button">
-                                                                                            <input class="ant-radio-button-input" type="radio" value="false">
-                                                                                            <span class="ant-radio-button-inner"></span>
-                                                                                        </span>
-                                                                                        <span>
-                                                                                            <span role="img" class="anticon w-5">
-                                                                                                <svg class="bep-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                                    <path class="bep-icon-primary" d="M2.34904 13.96C2.73904 14.52 3.42904 14.84 4.21904 14.84H8.31904C8.58904 14.84 8.83904 14.95 9.00904 15.15C9.18904 15.35 9.25904 15.63 9.21904 15.92L8.70904 19.2C8.48904 20.18 9.13904 21.28 10.119 21.61C11.029 21.95 12.099 21.49 12.529 20.84L16.739 14.57L16.859 14.37V5.53003L16.709 5.38003L13.539 2.93003C13.119 2.51003 12.169 2.28003 11.499 2.28003H7.59904C6.25904 2.28003 4.90904 3.29003 4.60904 4.52003L2.14904 12.01C1.89904 12.72 1.96904 13.42 2.34904 13.96Z"></path>
-                                                                                                    <path class="bep-icon-secondary" d="M18.7894 17.6099H19.8194C21.3694 17.6099 21.9994 17.0099 21.9994 15.5299V5.4799C21.9994 3.9999 21.3694 3.3999 19.8194 3.3999H18.7894C17.2394 3.3999 16.6094 3.9999 16.6094 5.4799V15.5399C16.6094 17.0099 17.2394 17.6099 18.7894 17.6099Z"></path>
-                                                                                                </svg>
-                                                                                            </span>
-                                                                                        </span>
-                                                                                    </label>
-                                                                                </div>
-                                                                            </li>
-                                                                            <li class="ant-list-item bep-list-item">
-                                                                                <div class="ant-list-item-meta" bis_skin_checked="1">
-                                                                                    <div class="ant-list-item-meta-content" bis_skin_checked="1">
-                                                                                        <h4 class="ant-list-item-meta-title">Anlam Gelişimi</h4>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="ant-radio-group ant-radio-group-solid bep-radio-group" bis_skin_checked="1">
-                                                                                    <label class="ant-radio-button-wrapper bep-radio-button">
-                                                                                        <span class="ant-radio-button">
-                                                                                            <input class="ant-radio-button-input" type="radio" value="true">
-                                                                                            <span class="ant-radio-button-inner"></span>
-                                                                                        </span>
-                                                                                        <span>
-                                                                                            <span role="img" class="anticon w-5">
-                                                                                                <svg class="bep-icon" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                                    <path class="bep-icon-primary" d="M721.699 334.667C708.699 316 685.699 305.333 659.365 305.333H522.699C513.699 305.333 505.365 301.667 499.699 295C493.699 288.333 491.365 279 492.699 269.333L509.699 160C517.032 127.333 495.365 90.6667 462.7 79.6667C432.367 68.3333 396.7 83.6667 382.367 105.333L242.033 314.333L238.033 321V615.666L243.033 620.666L348.7 702.332C362.7 716.332 394.367 723.999 416.7 723.999H546.699C591.365 723.999 636.365 690.332 646.365 649.332L728.365 399.667C736.699 376 734.365 352.667 721.699 334.667Z"></path>
-                                                                                                    <path class="bep-icon-secondary" d="M173.687 213.003H139.353C87.6866 213.003 66.6867 233.003 66.6867 282.337V617.337C66.6867 666.67 87.6866 686.67 139.353 686.67H173.687C225.353 686.67 246.353 666.67 246.353 617.337V282.003C246.353 233.003 225.353 213.003 173.687 213.003Z"></path>
-                                                                                                </svg>
-                                                                                            </span>
-                                                                                        </span>
-                                                                                    </label><label class="ant-radio-button-wrapper bep-radio-button"><span class="ant-radio-button"><input class="ant-radio-button-input" type="radio" value="false"><span class="ant-radio-button-inner"></span></span><span><span role="img" class="anticon w-5"><svg class="bep-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path class="bep-icon-primary" d="M2.34904 13.96C2.73904 14.52 3.42904 14.84 4.21904 14.84H8.31904C8.58904 14.84 8.83904 14.95 9.00904 15.15C9.18904 15.35 9.25904 15.63 9.21904 15.92L8.70904 19.2C8.48904 20.18 9.13904 21.28 10.119 21.61C11.029 21.95 12.099 21.49 12.529 20.84L16.739 14.57L16.859 14.37V5.53003L16.709 5.38003L13.539 2.93003C13.119 2.51003 12.169 2.28003 11.499 2.28003H7.59904C6.25904 2.28003 4.90904 3.29003 4.60904 4.52003L2.14904 12.01C1.89904 12.72 1.96904 13.42 2.34904 13.96Z"></path><path class="bep-icon-secondary" d="M18.7894 17.6099H19.8194C21.3694 17.6099 21.9994 17.0099 21.9994 15.5299V5.4799C21.9994 3.9999 21.3694 3.3999 19.8194 3.3999H18.7894C17.2394 3.3999 16.6094 3.9999 16.6094 5.4799V15.5399C16.6094 17.0099 17.2394 17.6099 18.7894 17.6099Z"></path></svg></span></span></label>
-                                                                                </div>
-                                                                            </li>
-                                                                            <li class="ant-list-item bep-list-item">
-                                                                                <div class="ant-list-item-meta" bis_skin_checked="1">
-                                                                                    <div class="ant-list-item-meta-content" bis_skin_checked="1">
-                                                                                        <h4 class="ant-list-item-meta-title">Sözel Olmayan İletişimi Anlama</h4>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="ant-radio-group ant-radio-group-solid bep-radio-group" bis_skin_checked="1">
-                                                                                    <label class="ant-radio-button-wrapper bep-radio-button">
-                                                                                        <span class="ant-radio-button">
-                                                                                            <input class="ant-radio-button-input" type="radio" value="true">
-                                                                                            <span class="ant-radio-button-inner">
-                                                                                            </span>
-                                                                                        </span>
-                                                                                        <span>
-                                                                                            <span role="img" class="anticon w-5">
-                                                                                                <svg class="bep-icon" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                                    <path class="bep-icon-primary" d="M721.699 334.667C708.699 316 685.699 305.333 659.365 305.333H522.699C513.699 305.333 505.365 301.667 499.699 295C493.699 288.333 491.365 279 492.699 269.333L509.699 160C517.032 127.333 495.365 90.6667 462.7 79.6667C432.367 68.3333 396.7 83.6667 382.367 105.333L242.033 314.333L238.033 321V615.666L243.033 620.666L348.7 702.332C362.7 716.332 394.367 723.999 416.7 723.999H546.699C591.365 723.999 636.365 690.332 646.365 649.332L728.365 399.667C736.699 376 734.365 352.667 721.699 334.667Z"></path>
-                                                                                                    <path class="bep-icon-secondary" d="M173.687 213.003H139.353C87.6866 213.003 66.6867 233.003 66.6867 282.337V617.337C66.6867 666.67 87.6866 686.67 139.353 686.67H173.687C225.353 686.67 246.353 666.67 246.353 617.337V282.003C246.353 233.003 225.353 213.003 173.687 213.003Z"></path>
-                                                                                                </svg>
-                                                                                            </span>
-                                                                                        </span>
-                                                                                    </label><label class="ant-radio-button-wrapper bep-radio-button"><span class="ant-radio-button"><input class="ant-radio-button-input" type="radio" value="false"><span class="ant-radio-button-inner"></span></span><span><span role="img" class="anticon w-5"><svg class="bep-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path class="bep-icon-primary" d="M2.34904 13.96C2.73904 14.52 3.42904 14.84 4.21904 14.84H8.31904C8.58904 14.84 8.83904 14.95 9.00904 15.15C9.18904 15.35 9.25904 15.63 9.21904 15.92L8.70904 19.2C8.48904 20.18 9.13904 21.28 10.119 21.61C11.029 21.95 12.099 21.49 12.529 20.84L16.739 14.57L16.859 14.37V5.53003L16.709 5.38003L13.539 2.93003C13.119 2.51003 12.169 2.28003 11.499 2.28003H7.59904C6.25904 2.28003 4.90904 3.29003 4.60904 4.52003L2.14904 12.01C1.89904 12.72 1.96904 13.42 2.34904 13.96Z"></path><path class="bep-icon-secondary" d="M18.7894 17.6099H19.8194C21.3694 17.6099 21.9994 17.0099 21.9994 15.5299V5.4799C21.9994 3.9999 21.3694 3.3999 19.8194 3.3999H18.7894C17.2394 3.3999 16.6094 3.9999 16.6094 5.4799V15.5399C16.6094 17.0099 17.2394 17.6099 18.7894 17.6099Z"></path></svg></span></span></label>
-                                                                                </div>
-                                                                            </li>
-                                                                            <li class="ant-list-item bep-list-item">
-                                                                                <div class="ant-list-item-meta" bis_skin_checked="1">
-                                                                                    <div class="ant-list-item-meta-content" bis_skin_checked="1">
-                                                                                        <h4 class="ant-list-item-meta-title">Anlam Gelişimi </h4>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="ant-radio-group ant-radio-group-solid bep-radio-group" bis_skin_checked="1">
-                                                                                    <label class="ant-radio-button-wrapper bep-radio-button">
-                                                                                        <span class="ant-radio-button">
-                                                                                            <input class="ant-radio-button-input" type="radio" value="true">
-                                                                                            <span class="ant-radio-button-inner"></span>
-                                                                                        </span><span>
-                                                                                            <span role="img" class="anticon w-5">
-                                                                                                <svg class="bep-icon" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg"><path class="bep-icon-primary" d="M721.699 334.667C708.699 316 685.699 305.333 659.365 305.333H522.699C513.699 305.333 505.365 301.667 499.699 295C493.699 288.333 491.365 279 492.699 269.333L509.699 160C517.032 127.333 495.365 90.6667 462.7 79.6667C432.367 68.3333 396.7 83.6667 382.367 105.333L242.033 314.333L238.033 321V615.666L243.033 620.666L348.7 702.332C362.7 716.332 394.367 723.999 416.7 723.999H546.699C591.365 723.999 636.365 690.332 646.365 649.332L728.365 399.667C736.699 376 734.365 352.667 721.699 334.667Z"></path><path class="bep-icon-secondary" d="M173.687 213.003H139.353C87.6866 213.003 66.6867 233.003 66.6867 282.337V617.337C66.6867 666.67 87.6866 686.67 139.353 686.67H173.687C225.353 686.67 246.353 666.67 246.353 617.337V282.003C246.353 233.003 225.353 213.003 173.687 213.003Z"></path></svg>
-                                                                                            </span>
-                                                                                        </span>
-                                                                                    </label><label class="ant-radio-button-wrapper bep-radio-button"><span class="ant-radio-button"><input class="ant-radio-button-input" type="radio" value="false"><span class="ant-radio-button-inner"></span></span><span><span role="img" class="anticon w-5"><svg class="bep-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path class="bep-icon-primary" d="M2.34904 13.96C2.73904 14.52 3.42904 14.84 4.21904 14.84H8.31904C8.58904 14.84 8.83904 14.95 9.00904 15.15C9.18904 15.35 9.25904 15.63 9.21904 15.92L8.70904 19.2C8.48904 20.18 9.13904 21.28 10.119 21.61C11.029 21.95 12.099 21.49 12.529 20.84L16.739 14.57L16.859 14.37V5.53003L16.709 5.38003L13.539 2.93003C13.119 2.51003 12.169 2.28003 11.499 2.28003H7.59904C6.25904 2.28003 4.90904 3.29003 4.60904 4.52003L2.14904 12.01C1.89904 12.72 1.96904 13.42 2.34904 13.96Z"></path><path class="bep-icon-secondary" d="M18.7894 17.6099H19.8194C21.3694 17.6099 21.9994 17.0099 21.9994 15.5299V5.4799C21.9994 3.9999 21.3694 3.3999 19.8194 3.3999H18.7894C17.2394 3.3999 16.6094 3.9999 16.6094 5.4799V15.5399C16.6094 17.0099 17.2394 17.6099 18.7894 17.6099Z"></path></svg></span></span></label>
-                                                                                </div>
-                                                                            </li>
-                                                                            <li class="ant-list-item bep-list-item">
-                                                                                <div class="ant-list-item-meta" bis_skin_checked="1">
-                                                                                    <div class="ant-list-item-meta-content" bis_skin_checked="1">
-                                                                                        <h4 class="ant-list-item-meta-title">Dil Bilgisi Yapıları </h4>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="ant-radio-group ant-radio-group-solid bep-radio-group" bis_skin_checked="1">
-                                                                                    <label class="ant-radio-button-wrapper bep-radio-button">
-                                                                                        <span class="ant-radio-button">
-                                                                                            <input class="ant-radio-button-input" type="radio" value="true">
-                                                                                            <span class="ant-radio-button-inner"></span>
-                                                                                        </span>
-                                                                                        <span>
-                                                                                            <span role="img" class="anticon w-5">
-                                                                                                <svg class="bep-icon" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                                    <path class="bep-icon-primary" d="M721.699 334.667C708.699 316 685.699 305.333 659.365 305.333H522.699C513.699 305.333 505.365 301.667 499.699 295C493.699 288.333 491.365 279 492.699 269.333L509.699 160C517.032 127.333 495.365 90.6667 462.7 79.6667C432.367 68.3333 396.7 83.6667 382.367 105.333L242.033 314.333L238.033 321V615.666L243.033 620.666L348.7 702.332C362.7 716.332 394.367 723.999 416.7 723.999H546.699C591.365 723.999 636.365 690.332 646.365 649.332L728.365 399.667C736.699 376 734.365 352.667 721.699 334.667Z"></path>
-                                                                                                    <path class="bep-icon-secondary" d="M173.687 213.003H139.353C87.6866 213.003 66.6867 233.003 66.6867 282.337V617.337C66.6867 666.67 87.6866 686.67 139.353 686.67H173.687C225.353 686.67 246.353 666.67 246.353 617.337V282.003C246.353 233.003 225.353 213.003 173.687 213.003Z"></path>
-                                                                                                </svg>
-                                                                                            </span>
-                                                                                        </span>
-                                                                                    </label>
-                                                                                    <label class="ant-radio-button-wrapper bep-radio-button">
-                                                                                        <span class="ant-radio-button">
-                                                                                            <input class="ant-radio-button-input" type="radio" value="false">
-                                                                                            <span class="ant-radio-button-inner"></span>
-                                                                                        </span>
-                                                                                        <span>
-                                                                                            <span role="img" class="anticon w-5">
-                                                                                                <svg class="bep-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                                    <path class="bep-icon-primary" d="M2.34904 13.96C2.73904 14.52 3.42904 14.84 4.21904 14.84H8.31904C8.58904 14.84 8.83904 14.95 9.00904 15.15C9.18904 15.35 9.25904 15.63 9.21904 15.92L8.70904 19.2C8.48904 20.18 9.13904 21.28 10.119 21.61C11.029 21.95 12.099 21.49 12.529 20.84L16.739 14.57L16.859 14.37V5.53003L16.709 5.38003L13.539 2.93003C13.119 2.51003 12.169 2.28003 11.499 2.28003H7.59904C6.25904 2.28003 4.90904 3.29003 4.60904 4.52003L2.14904 12.01C1.89904 12.72 1.96904 13.42 2.34904 13.96Z"></path>
-                                                                                                    <path class="bep-icon-secondary" d="M18.7894 17.6099H19.8194C21.3694 17.6099 21.9994 17.0099 21.9994 15.5299V5.4799C21.9994 3.9999 21.3694 3.3999 19.8194 3.3999H18.7894C17.2394 3.3999 16.6094 3.9999 16.6094 5.4799V15.5399C16.6094 17.0099 17.2394 17.6099 18.7894 17.6099Z">
-                                                                                                    </path>
-                                                                                                </svg>
-                                                                                            </span>
-                                                                                        </span>
-                                                                                    </label>
-                                                                                </div>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <table class="table table-bordered" id="tblhedefler">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col" class="col-10"></th>
+                                                            <th scope="col" style="width: 10%;">Yapar</th>
+                                                            <th scope="col" style="width: 10%;">Yapamaz</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="aragerecler">
-                                        <h5 class="info-text"> Öğrencinin Öğrenim Bilgileri </h5>
-                                        <h5 class="info-text"> Öğrenci bilgilerinin doğru girilmesi, öğrencinin almak istediği derslerin programıyla uyumlu olmasını ve ders seçim sürecinin sorunsuz ilerlemesini sağlar. Yanlış veya eksik girilen bilgiler, öğrencinin seçmek istediği derslerin atlanmasına ya da yanlış derslerin atanmasına neden olabilir ve bu durum akademik planlamayı olumsuz etkileyebilir. </h5>
-                                        <div class="row"></div>
+                                        <div class="row">
+                                            <h5 class="info-text"></h5>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="row checklist" id="divaracgerecler">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="tab-pane" id="yontemler">
-                                        <div class="row"></div>
+                                        <div class="row">
+                                            <h5 class="info-text"></h5>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="row checklist" id="divyontemler">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -964,7 +762,44 @@
     <script src="~/Content/assets/js/modal.js"></script>
     <script type="text/javascript">
 
+        function YontemGetir(dersid) {
+            $("#divyontemler").html("");
+            var data = {
+                dersid: dersid,
+            }
+            $.ajax({
+                url: '/Bep/YontemTeknikGetir',
+                data: JSON.stringify({ dersid: dersid }),
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    data.forEach(function (seri) {
+                        $("#divyontemler").append("<div class='row checklist'><div class='checkbox col-xs-6 col-sm-4 col-md-3 col-lg-2''><label style='white-space: nowrap;'><input type='checkbox'>" + seri.YontemTeknik + "</label></div></div>");
+                    });
+                },
+            });
+        };
+
+        function AracGerecGetir(dersid) {
+            $("#divaracgerecler").html("");
+            var data = {
+                dersid: dersid,
+            }
+            $.ajax({
+                url: '/Bep/AracGerecGetir',
+                data: JSON.stringify({ dersid: dersid }),
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    data.forEach(function (seri) {
+                        $("#divaracgerecler").append("<div class='row checklist'><div class='checkbox col-xs-6 col-sm-4 col-md-3 col-lg-2''><label style='white-space: nowrap;'><input type='checkbox'>" + seri.AracGerec + "</label></div></div>");
+                    });
+                },
+            });
+        };
+
         function SorulariGetir(dersid) {
+            $("#tblhedefler > tbody > tr").remove();
             var data = {
                 dersid: dersid,
             }
@@ -975,14 +810,18 @@
                 contentType: 'application/json',
                 success: function (data) {
                     console.log(data);
+                    data.forEach(function (seri) {
+                        $("#tblhedefler > tbody").append("<tr><td>" + seri.Soru + "</td><td class='myCheckbox'><input type='checkbox' style='text-align:center' /></td><td class='myCheckbox'><input type='checkbox' style='text-align:center' /></td>");
+                    });
+                    $('#infoModal').modal('show');
                 },
             });
         }
 
         $("#ddldersler").on("change", function () {
             SorulariGetir($(this).val());
-            $('#infoModal').modal('show');
-
+            AracGerecGetir($(this).val());
+            YontemGetir($(this).val());
         })
 
         $("#ddlil").on("change", function () {
@@ -1126,7 +965,6 @@
                 },
             });
         });
-
 
     </script>
 </body>
