@@ -457,6 +457,7 @@
     <Content Include="Content\assets\css\themify-icons.css" />
     <Content Include="Content\assets\fonts\themify.svg" />
     <Content Include="Content\assets\img\apple-icon.png" />
+    <Content Include="Content\assets\img\bep.jpg" />
     <Content Include="Content\assets\img\default-avatar.jpg" />
     <Content Include="Content\assets\img\favicon.png" />
     <Content Include="Content\assets\img\new_logo.png" />

@@ -44,36 +44,36 @@ $(document).ready(function () {
     // Code for the Validator
     var $validator = $('.wizard-card form').validate({
         rules: {
-            //firstname: {
-            //    required: true,
-            //},
-            //lastname: {
-            //    required: true,
-            //},
-            //email: {
-            //    required: true
-            //},
-            //ddlil: {
-            //    required: true
-            //},
-            //ddlilce: {
-            //    required: true
-            //},
-            //ddlokul: {
-            //    required: true
-            //},
-            //ddlokul: {
-            //    required: true
-            //},
-            //ddlegitimduzeyi: {
-            //    required: true
-            //},
-            //txtDonem: {
-            //    required: true
-            //},
-            //txtOgrenciVelisi: {
-            //    required: true
-            //},    
+            firstname: {
+                required: true,
+            },
+            lastname: {
+                required: true,
+            },
+            email: {
+                required: true
+            },
+            ddlil: {
+                required: true
+            },
+            ddlilce: {
+                required: true
+            },
+            ddlokul: {
+                required: true
+            },
+            ddlokul: {
+                required: true
+            },
+            ddlegitimduzeyi: {
+                required: true
+            },
+            txtDonem: {
+                required: true
+            },
+            txtOgrenciVelisi: {
+                required: true
+            },    
         },
         messages: {
             firstname:"Bu bilgi gereklidir.",
