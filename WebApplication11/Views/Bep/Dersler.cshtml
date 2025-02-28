@@ -9,18 +9,18 @@
         <div class="col-lg-12">
             <div class="d-flex flex-column scroll-y px-5 px-lg-10  mt-10">
                 <div class="row mb-7">
-                    <div class="col-lg-8">
+                    <div class="col-lg-12">
                         <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Ders</label>
-                        <input type="text" id="txtDers" value="" style="width:400px;" />
+                        <input type="text" id="txtDers" value="" style="width:1000px;" />
+                    </div>
+                    <div class="col-lg-8">
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Sıra</label>
+                        <input type="text" id="txtSira" style="width:50px;text-align:right;" />
                     </div>
                     <div class="col-lg-8">
                         <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width: 100px;"></label>
                         <button type="submit" class="btn btn-primary btn-sm" id="btnkaydet">
                             <span class="indicator-label">Kaydet</span>
-                            <span class="indicator-progress">
-                                Lütfen Bekleyin...
-                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                            </span>
                         </button>
                     </div>
                 </div>
@@ -28,9 +28,10 @@
         </div>
     </div>
     <div class="card card-flush mt-4 scroll-x">
-        <table class="table align-middle table-row-dashed fs-6" id="tblliste" style="width:400px;">
+        <table class="table align-middle table-row-dashed fs-6" id="tblliste" style="width:100%">
             <thead>
                 <tr class="text-start" style="font-size:15px;">
+                    <th class="min-w-125px"><strong>Sıra</strong></th>
                     <th class="min-w-125px"><strong>Dersler</strong></th>
                     <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
                 </tr>
@@ -51,11 +52,13 @@
         $("#btnkaydet").on("click", function () {
             $.ajax({
                 url: '/Bep/DersKaydet',
-                data: JSON.stringify({ ders: $("#txtDers").val(), id: id }),
+                data: JSON.stringify({ ders: $("#txtDers").val(), id: id, Sira: $("#txtSira").val() }),
                 type: 'POST',
                 contentType: 'application/json',
                 success: function (data) {
                     $("#txtDers").val("");
+                    $("#txtSira").val("");
+                    id = "";
                     Listele();
                 },
             });
@@ -73,8 +76,14 @@
                 contentType: 'application/json',
                 success: function (data) {
                     data.forEach(function (seri) {
+
                         var butongroup = "";
-                        butongroup += '<tr data-id=' + seri.ID + ' data-text=' + seri.Ders + '>';
+
+                        butongroup += '<tr data-sira="' + seri.Sira + '" data-id="' + seri.ID + '" data-text="' + seri.Ders + '">';
+                        butongroup += '<td class="align-items-center p-0">';
+                        butongroup += seri.Sira;
+                        butongroup += '</td>';
+
                         butongroup += '<td class="align-items-center p-0">';
                         butongroup += seri.Ders;
                         butongroup += '</td>';
@@ -97,6 +106,7 @@
                     $(".btnduzenle").on("click", function () {
                         id = $(this).closest("tr").attr("data-id");
                         $("#txtDers").val($(this).closest("tr").attr("data-text"));
+                        $("#txtSira").val($(this).closest("tr").attr("data-sira"));
                     });
 
                     $(".btnsil").on("click", function () {

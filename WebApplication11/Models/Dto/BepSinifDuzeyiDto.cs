@@ -9,6 +9,7 @@ namespace YKPortal.Models.Dto
     {
         public string ID;
         public string SinifDuzeyi;
+        public string Sira;
         public string KayitTarihi;
         public string KayitYapanKullanici;
     }

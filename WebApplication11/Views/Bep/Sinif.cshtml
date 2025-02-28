@@ -27,13 +27,13 @@
                         <input type="text" id="txtSinif" value="" style="width:400px;" />
                     </div>
                     <div class="col-lg-8">
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Sıra</label>
+                        <input type="text" id="txtSira" value="" style="width:50px;text-align:right;" />
+                    </div>
+                    <div class="col-lg-8">
                         <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width: 100px;"></label>
                         <button type="submit" class="btn btn-primary btn-sm" id="btnkaydet">
                             <span class="indicator-label">Kaydet</span>
-                            <span class="indicator-progress">
-                                Lütfen Bekleyin...
-                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                            </span>
                         </button>
                     </div>
                 </div>
@@ -45,7 +45,8 @@
         <table class="table align-middle table-row-dashed fs-6" id="tblliste" style="width:400px;">
             <thead>
                 <tr class="text-start" style="font-size:15px;">
-                    <th class="min-w-125px"><strong>Eğitim Düzeyi</strong></th>
+                    <th class="min-w-125px"><strong>Sıra</strong></th>
+                    <th class="min-w-125px"><strong>Sınıf</strong></th>
                     <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
                 </tr>
             </thead>
@@ -58,19 +59,18 @@
 
 
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="~/Tema/plugins/custom/tinymce/tinymce.min.js"></script>
     <script>
 
         var id = "";
         $("#btnkaydet").on("click", function () {
             $.ajax({
                 url: '/Bep/SinifKaydet',
-                data: JSON.stringify({ id: id, sinif: $("#txtSinif").val(), egitimduzeyid: $("#ddlegitimduzeyi").val() }),
+                data: JSON.stringify({ id: id, sinif: $("#txtSinif").val(), egitimduzeyid: $("#ddlegitimduzeyi").val(), sira: $("#txtSira").val() }),
                 type: 'POST',
                 contentType: 'application/json',
                 success: function (data) {
                     $("#txtSinif").val("");
+                    $("#txtSira").val("");    
                     id = "";
                     Listele();
                 },
@@ -91,7 +91,12 @@
                 success: function (data) {
                     data.forEach(function (seri) {
                         var butongroup = "";
-                        butongroup += '<tr data-id=' + seri.ID + ' data-text=' + seri.Sinif + ' data-egitimduzeyid=' + seri.EgitimDuzeyId + '>';
+                        butongroup += '<tr data-id="' + seri.ID + '" data-text="' + seri.Sinif + '" data-egitimduzeyid="' + seri.EgitimDuzeyId + '" data-sira="' + seri.Sira + '">';
+
+                        butongroup += '<td class="align-items-center p-0">';
+                        butongroup += seri.Sira;
+                        butongroup += '</td>';
+
                         butongroup += '<td class="align-items-center p-0">';
                         butongroup += seri.Sinif;
                         butongroup += '</td>';
@@ -115,6 +120,7 @@
                         id = $(this).closest("tr").attr("data-id");
                         $("#txtSinif").val($(this).closest("tr").attr("data-text"));
                         $("#ddlegitimduzeyi").val($(this).closest("tr").attr("data-egitimduzeyid"));
+                        $("#txtSira").val($(this).closest("tr").attr("data-sira"));
                     });
 
                     $(".btnsil").on("click", function () {

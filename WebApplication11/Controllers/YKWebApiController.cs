@@ -1674,7 +1674,7 @@ Select @ID as ID
                 #region Xml
                 if (true)
                 {
-                    string dosyaadi = "DESADV"+ Header.PurchaseOrderNumber + ".xml";
+                    string dosyaadi = "DESADV" + Header.PurchaseOrderNumber + ".xml";
                     FileInfo info = new FileInfo(ConfigurationManager.AppSettings["Klasor"] + dosyaadi);
                     _sira = "7";
                     if (!info.Exists)
@@ -1709,10 +1709,10 @@ Select @ID as ID
                             foreach (var item in Items)
                             {
                                 writer.WriteLine("    <LineLevel>");
-                                writer.WriteLine("      <LineID>"+item.LineId+"</LineID>");
+                                writer.WriteLine("      <LineID>" + item.LineId + "</LineID>");
                                 writer.WriteLine("      <References>");
                                 writer.WriteLine("        <SuppliersOrderReference>");
-                                writer.WriteLine("          <DocumentID>"+ Convert.ToString(dt3.Rows[0]["SIPARIS_NO"]) + "</DocumentID>");
+                                writer.WriteLine("          <DocumentID>" + Convert.ToString(dt3.Rows[0]["SIPARIS_NO"]) + "</DocumentID>");
                                 writer.WriteLine("          <LineID>" + item.LineId + "</LineID>");
                                 writer.WriteLine("        </SuppliersOrderReference>");
                                 writer.WriteLine("        <BuyerOrderReference>");
@@ -1722,16 +1722,16 @@ Select @ID as ID
                                 writer.WriteLine("      </References>");
                                 writer.WriteLine("      <Article>");
                                 writer.WriteLine("        <ArticleIdentification>");
-                                writer.WriteLine("          <BuyersArticleID>"+ Convert.ToString(dt3.Rows[0]["URETICI_KODU"]) + "</BuyersArticleID>");
+                                writer.WriteLine("          <BuyersArticleID>" + Convert.ToString(dt3.Rows[0]["URETICI_KODU"]) + "</BuyersArticleID>");
                                 writer.WriteLine("        </ArticleIdentification>");
                                 writer.WriteLine("        <ArticleDescription>");
-                                writer.WriteLine("          <ArticleDescriptionText>"+ Convert.ToString(dt3.Rows[0]["STOK_ADI"])+ "</ArticleDescriptionText>");
+                                writer.WriteLine("          <ArticleDescriptionText>" + Convert.ToString(dt3.Rows[0]["STOK_ADI"]) + "</ArticleDescriptionText>");
                                 writer.WriteLine("        </ArticleDescription>");
                                 writer.WriteLine("        <DespatchedQuantity>");
                                 _sira = "7.4";
                                 writer.WriteLine("          <QuantityValue>" + Convert.ToString(dt3.Rows[0]["MIKTAR"]) + "</QuantityValue>");
                                 _sira = "7.5";
-                                writer.WriteLine("          <MeasureUnitCode>"+ Convert.ToString(dt3.Rows[0]["OLCU_BR"]) + "</MeasureUnitCode>");
+                                writer.WriteLine("          <MeasureUnitCode>" + Convert.ToString(dt3.Rows[0]["OLCU_BR"]) + "</MeasureUnitCode>");
                                 writer.WriteLine("        </DespatchedQuantity>");
                                 writer.WriteLine("      </Article>");
                                 writer.WriteLine("    </LineLevel>");
@@ -1783,6 +1783,101 @@ Select @ID as ID
         }
         #endregion
 
+        [HttpPost]
+        public PirelliSiparisResponseDto CREATEORDERR(SupplierOrders  data)
+        {
+            string _sira = "";
+            PirelliSiparisResponseDto result1 = new PirelliSiparisResponseDto();
+            try
+            {
+                _sira = "0";
+                //SupplierOrders Header = data["Header"].ToObject<SupplierOrders>();
+                //List<SupplierOrderProductsList> Items = data["Items"].ToObject<List<SupplierOrderProductsList>>();
+                int sira = 1;
+                //foreach (var item in Items)
+                //{
+                //    item.ConfirmedQuantity = item.RequestedQuantity;
+                //    item.ConfirmedDeliveryDatetime = item.RequestedDeliveryDatetime;
+                //}
+                _sira = "1";
+                //List<PirelliNotes> Notes = new List<PirelliNotes>();
+                //try
+                //{
+                //    Notes = data["Notes"].ToObject<List<PirelliNotes>>();
+                //}
+                //catch (Exception err)
+                //{
+                //    ;
+                //}
+                //string aciklama1 = "";
+                //if (Notes.Count >= 1)
+                //{
+                //    aciklama1 = Notes[0].Text;
+                //}
+                _sira = "2";
+                //SqlCommand cmd = new SqlCommand();
+                //cmd.CommandText = "p_PirelliOrderSave";
+                //cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.Parameters.AddWithValue("@TrackingId", Header.TrackingId);
+                //cmd.Parameters.AddWithValue("@BuyerCode", Header.BuyerCode);
+                //cmd.Parameters.AddWithValue("@CariKodu", Header.Customer.Code);
+                //cmd.Parameters.AddWithValue("@CariAdi", Header.Customer.Name);
+                //cmd.Parameters.AddWithValue("@Adres", Header.Customer.Address.Street[0]);
+                //cmd.Parameters.AddWithValue("@Ilce", Header.Customer.Address.District);
+                //cmd.Parameters.AddWithValue("@Il", Header.Customer.Address.City);
+                //cmd.Parameters.AddWithValue("@SiparisNumarasi", Header.PurchaseOrderNumber);
+                //cmd.Parameters.AddWithValue("@Tarih", Convert.ToDateTime(Header.RequestedDatetime));
+                //cmd.Parameters.AddWithValue("@Aciklama1", aciklama1);
+                //DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                _sira = "3";
+                //foreach (var item in Items)
+                //{
+                //    //cmd.Parameters.Clear();
+                //    //cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                //    //cmd.CommandText = "p_PirelliOrderLineSave";
+                //    //cmd.Parameters.AddWithValue("@LineId", item.LineId);
+                //    //cmd.Parameters.AddWithValue("@TrackingId", Header.TrackingId);
+                //    //cmd.Parameters.AddWithValue("@ProductCode", item.ProductCode);
+                //    //cmd.Parameters.AddWithValue("@RequestedDeliveryDatetime", Convert.ToDateTime(item.RequestedDeliveryDatetime));
+                //    //cmd.Parameters.AddWithValue("@RequestedQuantity", item.RequestedQuantity);
+                //    //cmd.Parameters.AddWithValue("@Price", Convert.ToDecimal(item.Price));
+                //    //cmd.Parameters.AddWithValue("@ConfirmedDeliveryDatetime", Convert.ToDateTime(item.ConfirmedDeliveryDatetime));
+                //    //cmd.Parameters.AddWithValue("@ConfirmedQuantity", item.ConfirmedQuantity);
+                //    //cmd.Parameters.AddWithValue("@SiparisNumarasi", dt.Rows[0]["SIPARIS_NO"]);
+                //    //DataTable dt2 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                //    //item.ConfirmedDeliveryDatetime = DateTime.Now.ToString("yyyy-MM-dd") + "T03:00:00+03:00";
+                //    //item.RequestedDeliveryDatetime = Convert.ToDateTime(item.RequestedDeliveryDatetime).ToString("yyyy-MM-dd") + "T03:00:00+03:00";
+                //}
+
+                _sira = "4";
+                //cmd.Parameters.Clear();
+                //cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                //cmd.CommandText = "p_PirelliOrderComplate";
+                ////cmd.Parameters.AddWithValue("@CariKodu", Header.Customer.Code);
+                ////cmd.Parameters.AddWithValue("@TrackingId", Header.TrackingId);
+                //cmd.Parameters.AddWithValue("@SiparisNumarasi", dt.Rows[0]["SIPARIS_NO"]);
+                //DataTable dt3 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                _sira = "5";
+                //Header.BuyerCode = "2400001349";
+                //Header.SalesOrderNumber = Convert.ToString(dt3.Rows[0]["SIPARIS_NO"]);
+                //Header.RequestedDatetime = Convert.ToDateTime(dt3.Rows[0]["TARIH"]).ToString("yyyy-MM-dd") + "T03:00:00+03:00";
+                //result1.Header = Header;
+                //result1.Items = Items;
+                ////result1.Notes = Notes;
+                //_sira = "6";
+                return result1;
+            }
+            catch (Exception err)
+            {
+                result1.Notes = new List<PirelliNotes>();
+                result1.Notes.Add(new PirelliNotes() { Text = _sira + " - " + err.Message });
+            }
+            finally
+            {
+
+            }
+            return result1;
+        }
         #region Whatsapp Api
 
         public IDJsonResult WPMesajBilgisiOlustur([FromBody] JObject data)
@@ -2136,8 +2231,36 @@ END
             }
             return result;
         }
-
         #endregion
+    }
+    public class SupplierOrders
+    {
+        public string OrderNumber { get; set; }
+        public string SupplierOrderNumber { get; set; }
+        public string OrderStatus { get; set; }
+        public string StatusDescription { get; set; }
+        public string TotalAmount { get; set; }
+        public string CompanyName { get; set; }
+        public string TaxNumber { get; set; }
+        public string OrderDate { get; set; }
+        public string DeliveryDate { get; set; }
+        public string Description { get; set; }
+        public int TotalCount { get; set; }
+        
+        public List<SupplierOrderProductsList> SupplierOrderProductsList { get; set; }
+
+    }
+
+    public class SupplierOrderProductsList
+    {
+        public string ProductName { get; set; }
+        public string ProductCode { get; set; }
+        public string ProductBarcode { get; set; }
+        public string Quantity { get; set; }
+        public string Price { get; set; }
+        public string Unit { get; set; }
+        public string TotalAmount { get; set; }
+        public string Description { get; set; }
     }
 
     #region Pirelli Class
@@ -2149,7 +2272,6 @@ END
         public string RequestedDatetime { get; set; }
         public PirelliHeaderCustomer Customer { get; set; }
         public string SalesOrderNumber { get; set; }
-
 
     }
     public class PirelliHeaderCustomer

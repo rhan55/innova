@@ -7,62 +7,43 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <!--begin::Form-->
-            <!--begin::Scroll-->
             <div class="d-flex flex-column scroll-y px-5 px-lg-10  mt-10">
-                <input type="hidden" name="ID" value="@ViewBag.ID" />
-                <!--begin::Row Input group-->
                 <div class="row mb-7">
-                    <!--begin::Input group-->
                     <div class="col-lg-8">
-                        <!--begin::Label-->
-                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2">İl &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                        <!--end::Label-->
-                        <!--begin::texarea-->
-                        <select id="ddlil">
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:50px;">il</label>
+                        <select id="ddlil" style="width:300px;">
                             @foreach (var item in ViewBag.iller)
                             {
                                 <option value="@item.ID">@item.IL</option>
                             }
                         </select>
-                        <!--end::Input-->
                     </div>
-
                     <div class="col-lg-8">
-                        <!--begin::Label-->
-                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2">İLÇE</label>
-                        <!--end::Label-->
-                        <!--begin::texarea-->
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:50px;">İlçe</label>
                         <input type="text" id="txtilce" value="" style="width:300px;" />
-                        <!--end::Input-->
                     </div>
 
                     <div class="col-lg-8">
-                        <!--begin::Label-->
-                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2">&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                        <!--end::Label-->
-                        <!--begin::texarea-->
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:50px;">Sıra</label>
+                        <input type="text" id="txtSira" style="width:50px;text-align:right;" />
+                    </div>
+
+                    <div class="col-lg-8">
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:50px;"></label>
                         <button type="submit" class="btn btn-primary btn-sm" id="btnkaydet">
                             <span class="indicator-label">Kaydet</span>
-                            <span class="indicator-progress">
-                                Lütfen Bekleyin...
-                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                            </span>
                         </button>
-                        <!--end::Input-->
                     </div>
                 </div>
-                <!--end::Actions-->
             </div>
         </div>
-        <!--end::Scroll-->
     </div>
 
     <div class="card card-flush mt-4 scroll-x">
-        <!--begin::Table-->
-        <table class="table align-middle table-row-dashed fs-6" id="tblliste" style="width:300px;">
+        <table class="table align-middle table-row-dashed fs-6" id="tblliste" style="width:500px;">
             <thead>
                 <tr class="text-start" style="font-size:15px;">
+                    <th class="min-w-125px"><strong>Sıra</strong></th>
                     <th class="min-w-125px"><strong>İlçe</strong></th>
                     <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
                 </tr>
@@ -70,55 +51,44 @@
             <tbody class="text-gray-600 fw-semibold">
             </tbody>
         </table>
-        <!--end::Table-->
     </div>
 </div>
 
 
 
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="~/Tema/plugins/custom/tinymce/tinymce.min.js"></script>
-    <script>
 
+
+    <script type="text/javascript">
         var id = "";
-        $(document).ready(function () {
-            ilgetir();
-        });
+        //$(document).ready(function () {
+        //    ilgetir();
+        //});
 
         $("#ddlil").on("change", function () {
             ilgetir();
-        });
-
-        $("#btnkaydet").on("click", function () {
-            $.ajax({
-                url: '/Bep/ilcekaydet',
-                data: JSON.stringify({ ilid: $("#ddlil").val(), ilceid: id, ilce: $("#txtilce").val() }),
-                type: 'POST',
-                contentType: 'application/json',
-                success: function (data) {
-                    id = "";
-                    $("#txtilce").val("");
-                    ilgetir();
-                },
-            });
         });
 
         function ilgetir() {
             $('#tblliste > tbody > tr').remove();
             $.ajax({
                 url: '/Bep/ilcegetir',
+                type:"POST",
                 data: JSON.stringify({ ilid: $("#ddlil").val() }),
-                type: 'POST',
                 contentType: 'application/json',
                 success: function (data) {
                     data.forEach(function (seri) {
 
                         var options = '';
                         var butongroup = "";
-                        butongroup += '<tr data-id=' + seri.ID + ' data-text=' + seri.ILCE + '>';
+                        butongroup += '<tr data-id="' + seri.ID + '" data-text="' + seri.ilce + '" data-sira="' + seri.Sira + '">';
+
                         butongroup += '<td class="align-items-center p-0">';
-                        butongroup += '<a href="" class="text-gray-600 text-hover-primary">' + seri.ILCE + '</a>';
+                        butongroup += '<a href="" class="text-gray-600 text-hover-primary">' + seri.Sira + '</a>';
+                        butongroup += '</td>';
+
+                        butongroup += '<td class="align-items-center p-0">';
+                        butongroup += '<a href="" class="text-gray-600 text-hover-primary">' + seri.ilce + '</a>';
                         butongroup += '</td>';
 
                         butongroup += '<td class="text-end py-1">';
@@ -132,12 +102,14 @@
 
                         butongroup += '</td>';
                         butongroup += '</tr>';
+
                         $("#tblliste tbody").append(butongroup);
                     });
 
                     $(".btnduzenle").on("click", function () {
                         id = $(this).closest("tr").attr("data-id");
                         $("#txtilce").val($(this).closest("tr").attr("data-text"));
+                        $("#txtSira").val($(this).closest("tr").attr("data-sira"));
                     });
 
                     $(".btnsil").on("click", function () {
@@ -171,6 +143,23 @@
                 },
             });
         }
+
+        $("#btnkaydet").on("click", function () {
+            $.ajax({
+                url: '/Bep/ilcekaydet',
+                data: JSON.stringify({ ilid: $("#ddlil").val(), ilceid: id, ilce: $("#txtilce").val(), Sira: $("#txtSira").val() }),
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    id = "";
+                    $("#txtilce").val("");
+                    $("#txtSira").val("");
+                    ilgetir();
+                },
+            });
+        });
+
+
     </script>
 }
 
