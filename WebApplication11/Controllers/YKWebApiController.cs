@@ -19,7 +19,6 @@ using YKPortal.Models.YKClasses;
 
 namespace YKPortal.Controllers
 {
-
     public class YKWebApiController : ApiController
     {
 
@@ -1380,8 +1379,6 @@ and ACIKLAMA1 LIKE '%" + hareket.EvrakNo + "%' and TUTAR = @Tutar";
             return response;
         }
 
-
-
         [HttpPost]
         public IDJsonResult PersonelCalismaKaydet([FromBody] JObject data)
         {
@@ -1423,6 +1420,7 @@ Select @ID as ID
             }
             return result;
         }
+        
         [HttpPost]
         public IDJsonResult PersonelCalismaTamamla([FromBody] JObject data)
         {

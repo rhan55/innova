@@ -686,7 +686,6 @@ namespace YKPortal.Controllers
         public JsonResult FiyatGorGetirHTML(string Barkod)
         {
             StokDto entity = new StokDto();
-
             SqlCommand cmd2 = new SqlCommand();
             cmd2.CommandText = "p_StokFiyatGor";
             cmd2.CommandType = System.Data.CommandType.StoredProcedure;
@@ -996,8 +995,5 @@ values
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
-
-
     }
 }

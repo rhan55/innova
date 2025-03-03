@@ -25,7 +25,6 @@
     <link href="https://netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="~/Content/assets/css/themify-icons.css" rel="stylesheet">
-
     <style>
         .checklist .checkbox {
             position: relative;
@@ -361,8 +360,6 @@
     </style>
     <style>
 
-
-
         /* The switch - the box around the slider */
         .switch {
             position: relative;
@@ -371,12 +368,10 @@
             height: 34px;
             float: right;
         }
-
-            /* Hide default HTML checkbox */
-            .switch input {
+        /* Hide default HTML checkbox */
+        .switch input {
                 display: none;
             }
-
         /* The slider */
         .slider {
             position: absolute;
@@ -390,7 +385,7 @@
             transition: .4s;
         }
 
-            .slider:before {
+        .slider:before {
                 position: absolute;
                 content: "";
                 height: 26px;
@@ -441,19 +436,17 @@
             border-radius: 34px;
         }
 
-            .slider.round:before {
+        .slider.round:before {
                 border-radius: 50%;
             }
         .wizard-container {
         padding-top:0px;
         }
     </style>
-
 </head>
 <body>
     <div class="image-container set-full-height" style="background-image: url('assets/img/paper-1.jpeg')">
         <div class="container">
-
             <div class="row">
                 <div class="col-sm-12">
                     <div class="center" style="margin: 0 auto; text-align: center; width: 800px; ">
@@ -519,8 +512,7 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label>İl</label>
-                                                    <select class="form-control" id="ddlil" name="ddlil">
-                                                        <option value="...">...</option>
+                                                    <select class="form-control custom-select" id="ddlil" name="ddlil">
                                                         @foreach (var item in ViewBag.iller)
                                                         {
                                                             <option value="@item.ID">@item.IL</option>
@@ -647,7 +639,6 @@
                                                 <div class="form-group">
                                                     <label>Ders</label><br>
                                                     <select id="ddldersler" name="ddldersler" class="form-control">
-                                                        <option value="...">...</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -671,8 +662,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Second nested Modal -->
     <div class="modal right fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" style="width: 50%;">
@@ -771,7 +760,158 @@
     <script src="~/Content/assets/js/paper-bootstrap-wizard.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Content/assets/js/jquery.validate.min.js" type="text/javascript"></script>
     <script src="~/Content/assets/js/modal.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
     <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("select").select2();
+            DersleriListele();
+        });
+
+        $("#ddldersler").on("change", function () {
+            SorulariGetir($(this).val());
+            AracGerecGetir($(this).val());
+            YontemGetir($(this).val());
+        });
+
+        $("#ddlil").on("change", function () {
+            ilgetir();
+            EgitimDuzeyiListele();
+            SinifDuzeyiListele();
+        });
+
+        $("#ddlilce").on("change", function () {
+            Okulgetir($("#ddlil").val(), $(this).val());
+        });
+
+        $("#ddlegitimduzeyi").on("change", function () {
+            SinifListele();
+        });
+
+        $("#btnkaydet").on("click", function () {
+            var data = {
+                ilid: $("#ddlilid").val(),
+                ilceid: $("#ddlilceid").val(),
+                okulid: $("#ddlokul").val(),
+                donem: $("#txtDonem").val(),
+                adi: $("#txtadi").val(),
+                soyadi: $("#txtsoyadi").val(),
+                egitimduzeyi: $("#ddlegitimduzeyi").val(),
+                sinif: $("#ddlsinif").val(),
+                ogrencivelisi: $("#txtOgrenciVelisi").val(),
+                sinifduzeyi: $("#ddlsinifduzeyi").val(),
+                sinifrehberogretmeni: $("#txtSinifRehberOgretmeni").val(),
+                bransogretmeni: $("#txtBransOgretmeni").val(),
+                rehberogretmeni: $("#txtRehberOgretmeni").val(),
+                uygulayici: $("#txtUygulayici").val(),
+                mudur: $("#txtMudur").val(),
+                dersler: $("#ddldersler").val(),
+            }
+            $.ajax({
+                url: '/Bep/BepKaydet',
+                data: data,
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    $("#txtSinif").val("");
+                },
+            });
+        });
+
+        function ilgetir() {
+            $('#ddlilce').find("option").remove();
+            $("#ddlilce").append('<option>...</option>');
+            $.ajax({
+                url: '/Bep/ilcegetir',
+                data: JSON.stringify({ ilid: $("#ddlil").val() }),
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    data.forEach(function (seri) {
+                        $("#ddlilce").append('<option value=' + seri.ID + '>' + seri.ilce + '</option>');
+                    });
+                },
+            });
+        }
+
+        function Okulgetir(ilid, ilceid) {
+            $('#ddlokul').find("option").remove();
+            $("#ddlokul").append('<option>...</option>');
+            $.ajax({
+                url: '/Bep/okulgetir',
+                data: JSON.stringify({ ilceid: ilceid, ilid: ilid }),
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    data.forEach(function (seri) {
+                        $("#ddlokul").append('<option value=' + seri.ID + '>' + seri.OKUL + '</option>');
+                    });
+                },
+            });
+        }
+
+        function EgitimDuzeyiListele() {
+            $('#ddlegitimduzeyi').find("option").remove();
+            $("#ddlegitimduzeyi").append('<option>...</option>');
+            $.ajax({
+                url: '/Bep/egitimduzeylerigetir',
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    data.forEach(function (seri) {
+                        $("#ddlegitimduzeyi").append('<option value=' + seri.ID + '>' + seri.EgitimDuzeyi + '</option>');
+                    });
+                },
+            });
+        }
+
+        function SinifListele() {
+            $('#ddlsinif').find("option").remove();
+            $("#ddlsinif").append('<option>...</option>');
+            $.ajax({
+                url: '/Bep/siniflarigetir',
+                type: 'POST',
+                data: JSON.stringify({ egitimduzeyid: $("#ddlegitimduzeyi").val() }),
+                contentType: 'application/json',
+                success: function (data) {
+                    data.forEach(function (seri) {
+                        $("#ddlsinif").append('<option value=' + seri.ID + '>' + seri.Sinif + '</option>');
+                    });
+
+                },
+            });
+        }
+
+        function SinifDuzeyiListele() {
+            $('#ddlsinifduzeyi').find("option").remove();
+            $("#ddlsinifduzeyi").append('<option>...</option>');
+            $.ajax({
+                url: '/Bep/SinifDuzeyiGetir',
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    data.forEach(function (seri) {
+                        $("#ddlsinifduzeyi").append('<option value=' + seri.ID + '>' + seri.SinifDuzeyi + '</option>');
+                    });
+                },
+            });
+        }
+
+        function DersleriListele() {
+            $('#ddldersler').find("option").remove();
+            $("#ddldersler").append('<option>...</option>');
+            $.ajax({
+                url: '/Bep/DersGetir',
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    data.forEach(function (seri) {
+                        $("#ddldersler").append('<option value=' + seri.ID + '>' + seri.Ders + '</option>');
+                    });
+                },
+            });
+        }
 
         function YontemGetir(dersid) {
             $("#divyontemler").html("");
@@ -828,154 +968,6 @@
                 },
             });
         }
-
-        $("#ddldersler").on("change", function () {
-            SorulariGetir($(this).val());
-            AracGerecGetir($(this).val());
-            YontemGetir($(this).val());
-        })
-
-        $("#ddlil").on("change", function () {
-            ilgetir();
-            EgitimDuzeyiListele();
-            SinifDuzeyiListele();
-        });
-
-        $(document).ready(function () {
-            DersleriListele();
-        });
-
-        function ilgetir() {
-            $('#ddlilce').find("option").remove();
-            $("#ddlilce").append('<option>...</option>');
-            $.ajax({
-                url: '/Bep/ilcegetir',
-                data: JSON.stringify({ ilid: $("#ddlil").val() }),
-                type: 'POST',
-                contentType: 'application/json',
-                success: function (data) {
-                    data.forEach(function (seri) {
-                        $("#ddlilce").append('<option value=' + seri.ID + '>' + seri.ILCE + '</option>');
-                    });
-                },
-            });
-        }
-
-        $("#ddlilce").on("change", function () {
-            Okulgetir($("#ddlil").val(), $(this).val());
-        });
-
-        function Okulgetir(ilid, ilceid) {
-            $('#ddlokul').find("option").remove();
-            $("#ddlokul").append('<option>...</option>');
-            $.ajax({
-                url: '/Bep/okulgetir',
-                data: JSON.stringify({ ilceid: ilceid, ilid: ilid }),
-                type: 'POST',
-                contentType: 'application/json',
-                success: function (data) {
-                    data.forEach(function (seri) {
-                        $("#ddlokul").append('<option value=' + seri.ID + '>' + seri.OKUL + '</option>');
-                    });
-                },
-            });
-        }
-
-        function EgitimDuzeyiListele() {
-            $('#ddlegitimduzeyi').find("option").remove();
-            $("#ddlegitimduzeyi").append('<option>...</option>');
-            $.ajax({
-                url: '/Bep/egitimduzeylerigetir',
-                type: 'POST',
-                contentType: 'application/json',
-                success: function (data) {
-                    data.forEach(function (seri) {
-                        $("#ddlegitimduzeyi").append('<option value=' + seri.ID + '>' + seri.EgitimDuzeyi + '</option>');
-                    });
-                },
-            });
-        }
-
-        $("#ddlegitimduzeyi").on("change", function () {
-            SinifListele();
-        });
-
-        function SinifListele() {
-            $('#ddlsinif').find("option").remove();
-            $("#ddlsinif").append('<option>...</option>');
-            $.ajax({
-                url: '/Bep/siniflarigetir',
-                type: 'POST',
-                data: JSON.stringify({ egitimduzeyid: $("#ddlegitimduzeyi").val() }),
-                contentType: 'application/json',
-                success: function (data) {
-                    data.forEach(function (seri) {
-                        $("#ddlsinif").append('<option value=' + seri.ID + '>' + seri.Sinif + '</option>');
-                    });
-
-                },
-            });
-        }
-
-        function SinifDuzeyiListele() {
-            $('#ddlsinifduzeyi').find("option").remove();
-            $("#ddlsinifduzeyi").append('<option>...</option>');
-            $.ajax({
-                url: '/Bep/SinifDuzeyiGetir',
-                type: 'POST',
-                contentType: 'application/json',
-                success: function (data) {
-                    data.forEach(function (seri) {
-                        $("#ddlsinifduzeyi").append('<option value=' + seri.ID + '>' + seri.SinifDuzeyi + '</option>');
-                    });
-                },
-            });
-        }
-
-        function DersleriListele() {
-            $('#ddldersler').find("option").remove();
-            $("#ddldersler").append('<option>...</option>');
-            $.ajax({
-                url: '/Bep/DersGetir',
-                type: 'POST',
-                contentType: 'application/json',
-                success: function (data) {
-                    data.forEach(function (seri) {
-                        $("#ddldersler").append('<option value=' + seri.ID + '>' + seri.Ders + '</option>');
-                    });
-                },
-            });
-        }
-
-        $("#btnkaydet").on("click", function () {
-            var data = {
-                ilid: $("#ddlilid").val(),
-                ilceid: $("#ddlilceid").val(),
-                okulid: $("#ddlokul").val(),
-                donem: $("#txtDonem").val(),
-                adi: $("#txtadi").val(),
-                soyadi: $("#txtsoyadi").val(),
-                egitimduzeyi: $("#ddlegitimduzeyi").val(),
-                sinif: $("#ddlsinif").val(),
-                ogrencivelisi: $("#txtOgrenciVelisi").val(),
-                sinifduzeyi: $("#ddlsinifduzeyi").val(),
-                sinifrehberogretmeni: $("#txtSinifRehberOgretmeni").val(),
-                bransogretmeni: $("#txtBransOgretmeni").val(),
-                rehberogretmeni: $("#txtRehberOgretmeni").val(),
-                uygulayici: $("#txtUygulayici").val(),
-                mudur: $("#txtMudur").val(),
-                dersler: $("#ddldersler").val(),
-            }
-            $.ajax({
-                url: '/Bep/BepKaydet',
-                data: data,
-                type: 'POST',
-                contentType: 'application/json',
-                success: function (data) {
-                    $("#txtSinif").val("");
-                },
-            });
-        });
 
     </script>
 </body>

@@ -77,6 +77,10 @@
             });
         });
 
+        $("#ddlegitimduzeyi").on("change", function () {
+            Listele();
+        });
+
         $(document).ready(function () {
             Listele();
         });
@@ -86,7 +90,7 @@
             $.ajax({
                 url: '/Bep/siniflarigetir',
                 type: 'POST',
-                data: JSON.stringify({ EgitimDuzeyi: $("#txtEgitimDuzeyi").val(), id: id }),
+                data: JSON.stringify({ egitimduzeyid: $("#ddlegitimduzeyi").val(), id: id }),
                 contentType: 'application/json',
                 success: function (data) {
                     data.forEach(function (seri) {

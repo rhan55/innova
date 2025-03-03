@@ -283,7 +283,6 @@ namespace YKPortal.Controllers
             return RedirectToAction("Liste");
         }
 
-
         public ActionResult Profil(string Mesaj = "")
         {
             if (!AutoGirisKontrol())
