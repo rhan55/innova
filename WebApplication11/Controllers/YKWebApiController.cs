@@ -10,6 +10,9 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using YKPortal.Models;
@@ -21,7 +24,147 @@ namespace YKPortal.Controllers
 {
     public class YKWebApiController : ApiController
     {
+        #region Subabase.com İşlemleri
 
+        private static readonly string supabaseUrl = "https://fvkgptxqequznptzszvz.supabase.co";
+        private static readonly string apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2a2dwdHhxZXF1em5wdHpzenZ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAyMjEyMTYsImV4cCI6MjA1NTc5NzIxNn0.eINWQ43tKukWFwy3Y4bawKF4smyN--OPhi8dguxhTjA";
+
+        [HttpPost]
+        public async Task<IDJsonResult> InsertLogIslem([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                string clientIp = HttpContext.Current?.Request.UserHostAddress ?? "IP Bulunamadı";
+
+                var newRecord = new
+                {
+                    created_at = DateTime.UtcNow,
+                    Sirket = Convert.ToString(data["Sirket"]),
+                    Program = Convert.ToString(data["Program"]),
+                    Modul = Convert.ToString(data["Modul"]),
+                    Islem = Convert.ToString(data["Islem"]),
+                    Baslik = Convert.ToString(data["Baslik"]),
+                    Deger = Convert.ToString(data["Deger"]),
+                    Kullanici = Convert.ToString(data["Kullanici"]),
+                    IP = clientIp
+                };
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("apikey", apiKey);
+                    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+
+                    string json = JsonConvert.SerializeObject(newRecord);
+                    StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage response = await client.PostAsync($"{supabaseUrl}/rest/v1/LOG_IT_Islemler", content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        //Console.WriteLine("✅ Kayıt başarıyla eklendi.");
+                    }
+                    else
+                    {
+                        string error = await response.Content.ReadAsStringAsync();
+                        //Console.WriteLine($"❌ Hata: {error}");
+                    }
+                }
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                return result;
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        [HttpPost]
+        public async Task<IDJsonResult> Subabase_Kullanicilar([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+                client.DefaultRequestHeaders.Add("apikey", apiKey);
+
+                string tableName = "PR_DEMO_Kullanicilar";
+                string kullaniciIdBaslangic = "1000";
+                string kullaniciIdBitis = "1000";
+                //string requestUrl = $"{supabaseUrl}/rest/v1/{tableName}?select=*"; // Tüm verileri çekmek için select=*
+                //string requestUrl = $"{supabaseUrl}/rest/v1/{tableName}?id=eq.{kullaniciId}&select=*";
+                string requestUrl = $"{supabaseUrl}/rest/v1/{tableName}?id=gte.{kullaniciIdBaslangic}&id=lte.{kullaniciIdBitis}&select=*";
+
+                HttpResponseMessage response = await client.GetAsync(requestUrl);
+                string resultJson = await response.Content.ReadAsStringAsync();
+
+                result.Data = resultJson;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                return result;
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        [HttpPost]
+        public async Task<IDJsonResult> Subabase_KullaniciKaydet([FromBody] JArray data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+                client.DefaultRequestHeaders.Add("apikey", apiKey);
+
+                string tableName = "PR_DEMO_Kullanicilar"; // Tablo adı hassas!
+                string requestUrl = $"{supabaseUrl}/rest/v1/{tableName}";
+
+                // JSON verisini oluştur
+                for (int i = 0; i < 100000; i++)
+                {
+                    string jsonBody = data.ToString(); // Gelen JSON verisini direkt body olarak kullan
+
+                    HttpContent content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PostAsync(requestUrl, content);
+                    string resultJson = await response.Content.ReadAsStringAsync();
+
+                    result.Data = resultJson;
+                    result.SonucKodu = response.IsSuccessStatusCode ? 1 : -1;
+                    result.Sonuc = response.IsSuccessStatusCode ? "Başarılı" : "Başarısız";
+                }
+                return result;
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+                return result;
+            }
+        }
+        #endregion 
         [HttpPost]
         public IDJsonResult LogKaydet_KullaniciGirisi([FromBody] JObject data)
         {
@@ -1781,6 +1924,87 @@ Select @ID as ID
         }
         #endregion
 
+        #region İmece Web Api
+
+        [HttpPost]
+        public List<SupplierOrder> ImaceSiparisKaydi([FromBody] JObject data)
+        {
+            string _sira = "";
+            List<SupplierOrder> result1 = new List<SupplierOrder>();
+            try
+            {
+                _sira = "0";
+                List<SupplierOrder> Headers = data["SupplierOrders"].ToObject<List<SupplierOrder>>();
+
+                int sira = 1;
+                foreach (SupplierOrder Header in Headers)
+                {
+                    _sira = "1";
+                    _sira = "2";
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandText = "p_ImeceOrderSave";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@OrderNumber", Header.OrderNumber);
+                    cmd.Parameters.AddWithValue("@SupplierOrderNumber", Header.SupplierOrderNumber);
+                    cmd.Parameters.AddWithValue("@OrderStatus", Header.OrderStatus);
+                    cmd.Parameters.AddWithValue("@StatusDescription", Header.StatusDescription);
+                    cmd.Parameters.AddWithValue("@TotalAmount", Header.TotalAmount);
+                    cmd.Parameters.AddWithValue("@CompanyName", Header.CompanyName);
+                    cmd.Parameters.AddWithValue("@TaxNumber", Header.TaxNumber);
+                    cmd.Parameters.AddWithValue("@OrderDate", Header.OrderDate);
+                    cmd.Parameters.AddWithValue("@DeliveryDate", Header.DeliveryDate);
+                    cmd.Parameters.AddWithValue("@Description", Header.Description);
+
+                    DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                    _sira = "3";
+                    foreach (SupplierOrderProducts satir in Header.SupplierOrderProductsList)
+                    {
+                        cmd.Parameters.Clear();
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.CommandText = "p_ImeceOrderLineSave";
+                        cmd.Parameters.AddWithValue("@ProductName", satir.ProductName);
+                        cmd.Parameters.AddWithValue("@ProductCode", satir.ProductCode);
+                        cmd.Parameters.AddWithValue("@ProductBarcode", satir.ProductBarcode);
+                        cmd.Parameters.AddWithValue("@Quantity", satir.Quantity);
+                        cmd.Parameters.AddWithValue("@Price", satir.Price);
+                        cmd.Parameters.AddWithValue("@TotalAmount", satir.TotalAmount);
+                        cmd.Parameters.AddWithValue("@SiparisNumarasi", dt.Rows[0]["SIPARIS_NO"]);
+                        DataTable dt2 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                        //item.ConfirmedDeliveryDatetime = DateTime.Now.ToString("yyyy-MM-dd") + "T03:00:00+03:00";
+                    }
+
+                    _sira = "4";
+                    cmd.Parameters.Clear();
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "p_ImeceOrderComplate";
+                    cmd.Parameters.AddWithValue("@SiparisNumarasi", dt.Rows[0]["SIPARIS_NO"]);
+                    DataTable dt3 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+
+                }
+                _sira = "5";
+                result1 = Headers;
+                //result1.Notes = Notes;
+
+                _sira = "6";
+
+                return result1;
+            }
+            catch (Exception err)
+            {
+                foreach (var item in result1)
+                {
+                    item.Bilgi = err.Message;
+                }
+            }
+            finally
+            {
+
+            }
+            return result1;
+        }
+        #endregion
+
         [HttpPost]
         public PirelliSiparisResponseDto CREATEORDERR(SupplierOrders  data)
         {
@@ -2333,6 +2557,47 @@ END
     }
 
     #endregion
+
+    #region İmave Plastik Class
+
+    public class SupplierOrders
+    {
+        public List<SupplierOrder> SupplierOrder { get; set; }
+        public int TotalCount { get; set; }
+    }
+
+    public class SupplierOrder
+    {
+        public string OrderNumber { get; set; }
+        public string SupplierOrderNumber { get; set; }
+        public int OrderStatus { get; set; }
+        public string StatusDescription { get; set; }
+        public float TotalAmount { get; set; }
+        public string CompanyName { get; set; }
+        public string TaxNumber { get; set; }
+        public string OrderDate { get; set; }
+        public string DeliveryDate { get; set; }
+        public string Description { get; set; }
+        public string Bilgi { get; set; }
+
+        public List<SupplierOrderProducts> SupplierOrderProductsList { get; set; }
+
+    }
+
+    public class SupplierOrderProducts
+    {
+        public string ProductName { get; set; }
+        public string ProductCode { get; set; }
+        public string ProductBarcode { get; set; }
+        public float Quantity { get; set; }
+        public float Price { get; set; }
+        public string Unit { get; set; }
+        public float TotalAmount { get; set; }
+        public string[] Description { get; set; }
+
+    }
+
+    #endregion 
 
     public class IDJsonResult
     {

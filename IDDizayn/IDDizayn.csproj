@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C873DFC7-77EC-457C-880E-330C9E76A28C}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>IDDizayn</RootNamespace>
     <AssemblyName>IDDizayn</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
