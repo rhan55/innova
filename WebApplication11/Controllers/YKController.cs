@@ -315,7 +315,7 @@ namespace YKPortal.Controllers
                 Response.Redirect(redirectUrl, false);
                 HttpContext.ApplicationInstance.CompleteRequest();
             }
-            if (ConfigurationManager.AppSettings["IlkAcilisSayfasi"] != "")
+            if (ConfigurationManager.AppSettings["IlkAcilisSayfasi"] != "" && Request.QueryString["Durum"] != "1")
             {
                 return Redirect(ConfigurationManager.AppSettings["IlkAcilisSayfasi"]);
             }

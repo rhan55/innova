@@ -421,6 +421,7 @@
     <Compile Include="Models\Dto\GrupKoduDto.cs" />
     <Compile Include="Models\Dto\KullaniciEkleDto.cs" />
     <Compile Include="Models\IDVeritabani.cs" />
+    <Compile Include="Models\SupabaseClass\LogITIslemler.cs" />
     <Compile Include="Models\WebApiModels\FinekraCari.cs" />
     <Compile Include="Models\WebApiModels\FinekraCariHareket.cs" />
     <Compile Include="Models\YKClasses\YKModelKullanici.cs" />
