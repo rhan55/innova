@@ -685,7 +685,6 @@ namespace YKPortal.Controllers
         public JsonResult FiyatGorGetirHTML(string Barkod)
         {
             StokDto entity = new StokDto();
-
             SqlCommand cmd2 = new SqlCommand();
             cmd2.CommandText = "p_StokFiyatGor";
             cmd2.CommandType = System.Data.CommandType.StoredProcedure;
@@ -695,19 +694,78 @@ namespace YKPortal.Controllers
             {
                 entity.HTMLPrint = Encoding.Default.GetBytes(Convert.ToString(ds.Tables[0].Rows[0]["Aciklama"]));
                 entity.Aciklama = Convert.ToString(ds.Tables[0].Rows[0]["Aciklama"]);
-                string dosya = "2024-12-02 0155 - 30f07377-3f2a-4be7-b2a6-70c9174a6f9e.png";// IDDizayn.DizaynIslemleri.DizaynKaydet(ds, ConfigurationManager.AppSettings["Klasor"]);
+                string dosya = IDDizayn.DizaynIslemleri.DizaynKaydet(ds, ConfigurationManager.AppSettings["Klasor"]);
+                //string dosya = "2024-12-02 0155 - 30f07377-3f2a-4be7-b2a6-70c9174a6f9e.png";// IDDizayn.DizaynIslemleri.DizaynKaydet(ds, ConfigurationManager.AppSettings["Klasor"]);
                 entity.Aciklama2 = ConfigurationManager.AppSettings["WebSiteUrl"]+"/Temp/"+dosya;
             }
             else
             {
                 entity.HTMLPrint = Encoding.Default.GetBytes("DENEME");
                 entity.Aciklama = "DENEME";
-                string dosya = "2024-12-02 0155 - 30f07377-3f2a-4be7-b2a6-70c9174a6f9e.png";// IDDizayn.DizaynIslemleri.DizaynKaydet(ds, ConfigurationManager.AppSettings["Klasor"]);
-                entity.Aciklama2 = ConfigurationManager.AppSettings["WebSiteUrl"] + "/Temp/" + dosya;
+                string dosya = IDDizayn.DizaynIslemleri.DizaynKaydet(ds, ConfigurationManager.AppSettings["Klasor"]);
+                //string dosya = "2024-12-02 0155 - 30f07377-3f2a-4be7-b2a6-70c9174a6f9e.png";// IDDizayn.DizaynIslemleri.DizaynKaydet(ds, ConfigurationManager.AppSettings["Klasor"]);
+                entity.Aciklama2 = ConfigurationManager.AppSettings["WebSiteUrl"] + "/Temp2/" + dosya;
                 //entity.Kod = "ÜRÜN BULUNAMADI!";
             }
             return Json(entity, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult FiyatGorGetirHTML2(string Barkod)
+        {
+            StokDto dto = new StokDto();
+            SqlCommand cmd = new SqlCommand
+            {
+                CommandText = "p_StokFiyatGor2",
+                CommandType = CommandType.StoredProcedure
+            };
+            cmd.Parameters.AddWithValue("@Barkod", Barkod);
+            DataSet set = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
+            if (set.Tables[0].Rows.Count > 0)
+            {
+                dto.HTMLPrint = Encoding.Default.GetBytes(Convert.ToString(set.Tables[0].Rows[0]["Aciklama"]));
+                dto.Aciklama = Convert.ToString(set.Tables[0].Rows[0]["Aciklama"]);
+                string str = "";
+                str = IDDizayn.DizaynIslemleri.DizaynKaydet(set, ConfigurationManager.AppSettings["Klasor3"]);
+                dto.Aciklama2 = ConfigurationManager.AppSettings["WebSiteUrl"] + "/Temp3/" + str;
+            }
+            else
+            {
+                dto.Aciklama = "ÜRÜN BULUNAMADI!";
+                dto.Aciklama2 = "";
+                dto.Kod = "ÜRÜN BULUNAMADI!";
+            }
+            return base.Json(dto, 0);
+        }
+
+        public JsonResult FiyatGorGetirHTML3(string Barkod)
+        {
+            StokDto dto = new StokDto();
+            SqlCommand cmd = new SqlCommand
+            {
+                CommandText = "p_StokFiyatGor",
+                CommandType = CommandType.StoredProcedure
+            };
+            cmd.Parameters.AddWithValue("@Barkod", Barkod);
+            DataSet set = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
+            if (set.Tables[0].Rows.Count > 0)
+            {
+                dto.HTMLPrint = Encoding.Default.GetBytes(Convert.ToString(set.Tables[0].Rows[0]["Aciklama"]));
+                dto.Aciklama = Convert.ToString(set.Tables[0].Rows[0]["Aciklama"]);
+                string str = "";
+                str = IDDizayn.DizaynIslemleri.DizaynKaydet(set, ConfigurationManager.AppSettings["Klasor4"]);
+                dto.Aciklama2 = ConfigurationManager.AppSettings["WebSiteUrl"] + "/Temp4/" + str;
+            }
+            else
+            {
+                dto.Aciklama = "ÜRÜN BULUNAMADI!";
+                dto.Aciklama2 = "";
+                dto.Kod = "ÜRÜN BULUNAMADI!";
+            }
+            return base.Json(dto, 0);
+        }
+
+
+
 
         public JsonResult FiyatGorGetir(string Barkod)
         {

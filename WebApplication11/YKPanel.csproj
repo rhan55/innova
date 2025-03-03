@@ -6743,6 +6743,10 @@
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IDDizayn\IDDizayn.csproj">
+      <Project>{c873dfc7-77ec-457c-880e-330c9e76a28c}</Project>
+      <Name>IDDizayn</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YKEFaturaEntegrasyon\YKEFaturaEntegrasyon.csproj">
       <Project>{f133a1fc-8137-4679-a47f-2b0c22359596}</Project>
       <Name>YKEFaturaEntegrasyon</Name>
