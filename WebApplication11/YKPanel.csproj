@@ -458,6 +458,7 @@
     <Content Include="Content\assets\css\themify-icons.css" />
     <Content Include="Content\assets\fonts\themify.svg" />
     <Content Include="Content\assets\img\apple-icon.png" />
+    <Content Include="Content\assets\img\bep.jpg" />
     <Content Include="Content\assets\img\default-avatar.jpg" />
     <Content Include="Content\assets\img\favicon.png" />
     <Content Include="Content\assets\img\new_logo.png" />
@@ -471,8 +472,10 @@
     <Content Include="Content\assets\js\bootstrap.min.js" />
     <Content Include="Content\assets\js\demo.js" />
     <Content Include="Content\assets\js\jquery-2.2.4.min.js" />
+    <Content Include="Content\assets\js\jquery.autocomplete.js" />
     <Content Include="Content\assets\js\jquery.bootstrap.wizard.js" />
     <Content Include="Content\assets\js\jquery.validate.min.js" />
+    <Content Include="Content\assets\js\modal.js" />
     <Content Include="Content\assets\js\paper-bootstrap-wizard.js" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />

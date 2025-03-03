@@ -26,15 +26,448 @@
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="~/Content/assets/css/themify-icons.css" rel="stylesheet">
 
+    <style>
+        .checklist .checkbox {
+            position: relative;
+            display: block;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+            .checklist .checkbox + .checkbox {
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+
+        .checkbox {
+            color: red;
+        }
+
+        .well {
+            min-width: 250px;
+        }
+
+        .checklist .checkbox {
+            position: relative;
+            display: block;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+            .checklist .checkbox + .checkbox {
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+
+        .modal.right .modal-body {
+            padding: 15px 15px 80px;
+        }
+
+        .modal.right.fade .modal-dialog {
+            /*
+            right: -480px;*/
+            -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+            -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+            -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+            transition: opacity 0.3s linear, left 0.3s ease-out;
+        }
+
+        .modal.right.fade.show .modal-dialog {
+            right: 0;
+        }
+
+        .modal-dialog {
+            position: fixed;
+            margin: auto;
+            width: 320px;
+            height: 100%;
+            right: 0px;
+        }
+
+        .modal-content {
+            height: 100%;
+        }
+
+
+        .ant-list .ant-list-items {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .ant-list [class^="ant-list"], .ant-list [class*=" ant-list"] {
+            box-sizing: border-box;
+        }
+
+
+        .ant-list * {
+            outline: none;
+        }
+
+        .ant-list .ant-list-item .ant-list-item-meta {
+            display: flex;
+            flex: 1;
+            align-items: flex-start;
+            max-width: 100%;
+        }
+
+        .ant-list [class^="ant-list"], .ant-list [class*=" ant-list"] {
+            box-sizing: border-box;
+        }
+
+        .ant-list .ant-list-item .ant-list-item-meta .ant-list-item-meta-content {
+            flex: 1 0;
+            width: 0;
+            color: rgba(0, 0, 0, 0.88);
+        }
+
+        .ant-list .bep-list-item.ant-list-item .ant-list-item-meta .ant-list-item-meta-title, .bep-collapse.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+            --tw-text-opacity: 1;
+            color: rgb(41 50 65 / var(--tw-text-opacity, 1));
+        }
+
+
+        .ant-list .ant-list-item .ant-list-item-meta .ant-list-item-meta-title {
+            margin: 0 0 4px 0;
+            color: rgba(0, 0, 0, 0.88);
+            font-size: 14px;
+            line-height: 1.5714285714285714;
+        }
+
+
+        .ant-collapse-borderless {
+            background-color: rgba(0, 0, 0, 0.02);
+            border: 0;
+        }
+
+        .ant-collapse {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            color: rgba(0, 0, 0, 0.88);
+            font-size: 14px;
+            line-height: 1.5714285714285714;
+            list-style: none;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+            background-color: rgba(0, 0, 0, 0.02);
+            border: 1px solid #d9d9d9;
+            border-radius: 8px;
+        }
+
+
+        .ant-collapse-borderless > .ant-collapse-item {
+            border-bottom: 1px solid #d9d9d9;
+        }
+
+
+        .ant-collapse > .ant-collapse-item {
+            border-bottom: 1px solid #d9d9d9;
+        }
+
+        .ant-collapse [class^="ant-collapse"], .ant-collapse [class*=" ant-collapse"] {
+            box-sizing: border-box;
+        }
+
+        .shadow-\[\#3D5B81\]\/5 {
+            --tw-shadow-color: rgba(61, 91, 129, .05);
+            --tw-shadow: var(--tw-shadow-colored);
+        }
+
+        .shadow-sm {
+            --tw-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05);
+            --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+        }
+
+        .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+            position: relative;
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: flex-start;
+            padding: 12px 16px;
+            color: rgba(0, 0, 0, 0.88);
+            line-height: 1.5714285714285714;
+            cursor: pointer;
+            transition: all 0.3s, visibility 0s;
+        }
+
+        .ant-collapse [class^="ant-collapse"], .ant-collapse [class*=" ant-collapse"] {
+            box-sizing: border-box;
+        }
+
+        .ant-collapse > .ant-collapse-item > .ant-collapse-header .ant-collapse-header-text {
+            margin-inline-end: auto;
+        }
+
+        .ant-collapse > .ant-collapse-item > .ant-collapse-header > .ant-collapse-header-text {
+            flex: auto;
+        }
+
+
+        .ant-collapse [class^="ant-collapse"], .ant-collapse [class*=" ant-collapse"] {
+            box-sizing: border-box;
+        }
+
+        .ant-collapse-borderless > .ant-collapse-item > .ant-collapse-content > .ant-collapse-content-box {
+            padding-top: 4px;
+        }
+
+        .ant-collapse .ant-collapse-content > .ant-collapse-content-box {
+            padding: 16px 16px;
+        }
+
+
+        .ant-collapse [class^="ant-collapse"], .ant-collapse [class*=" ant-collapse"] {
+            box-sizing: border-box;
+        }
+
+        .ant-list {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            color: rgba(0, 0, 0, 0.88);
+            font-size: 14px;
+            line-height: 1.5714285714285714;
+            list-style: none;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+            position: relative;
+        }
+
+            .ant-list * {
+                outline: none;
+            }
+
+
+        .ant-spin-nested-loading {
+            position: relative;
+        }
+
+            .ant-spin-nested-loading .ant-spin-container {
+                position: relative;
+                transition: opacity 0.3s;
+            }
+
+
+        .ant-list * {
+            outline: none;
+        }
+
+        .ant-list .ant-list-items {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .ant-list * {
+            outline: none;
+        }
+
+        .ant-radio-group {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            color: rgba(0, 0, 0, 0.88);
+            font-size: 0;
+            line-height: 1.5714285714285714;
+            list-style: none;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+            display: inline-block;
+        }
+
+        .bep-radio-group .ant-radio-button-wrapper, .bep-radio-group .ant-radio-button-wrapper:first-child {
+            border-color: rgb(61 91 129 / var(--tw-border-opacity, 1));
+            --tw-border-opacity: 0.2;
+        }
+
+        .ant-radio-button-wrapper:first-child {
+            border-inline-start: 1px solid #d9d9d9;
+            border-start-start-radius: 6px;
+            border-end-start-radius: 6px;
+        }
+
+        .ant-radio-button-wrapper > .ant-radio-button {
+            position: absolute;
+            inset-block-start: 0;
+            inset-inline-start: 0;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+        }
+
+        .anticon {
+            display: inline-flex;
+            align-items: center;
+            color: inherit;
+            font-style: normal;
+            line-height: 0;
+            text-align: center;
+            text-transform: none;
+            vertical-align: -0.125em;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .ant-radio-button-wrapper:last-child {
+            border-start-end-radius: 6px;
+            border-end-end-radius: 6px;
+        }
+
+        [class^="ant-radio"] [class^="ant-radio"], [class*=" ant-radio"] [class^="ant-radio"], [class^="ant-radio"] [class*=" ant-radio"], [class*=" ant-radio"] [class*=" ant-radio"] {
+            box-sizing: border-box;
+        }
+
+        .bep-radio-group .ant-radio-button-wrapper, .bep-radio-group .ant-radio-button-wrapper:first-child {
+            border-color: rgb(61 91 129 / var(--tw-border-opacity, 1));
+            --tw-border-opacity: 0.2;
+        }
+
+        .anticon svg {
+            display: inline-block;
+        }
+
+        .anticon svg {
+            display: inline-block;
+        }
+
+
+        .anticon svg {
+            display: inline-block;
+        }
+
+
+        .anticon > * {
+            line-height: 1;
+        }
+
+        .ant-list * {
+            outline: none;
+        }
+
+        .anticon > * {
+            line-height: 1;
+        }
+
+        .bep-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            transition: opacity .3s;
+            cursor: pointer;
+        }
+
+        .myCheckbox {
+            text-align: center;
+        }
+    </style>
+    <style>
+
+
+
+        /* The switch - the box around the slider */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            float: right;
+        }
+
+            /* Hide default HTML checkbox */
+            .switch input {
+                display: none;
+            }
+
+        /* The slider */
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+        input.default:checked + .slider {
+            background-color: #444;
+        }
+
+        input.primary:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input.success:checked + .slider {
+            background-color: #8bc34a;
+        }
+
+        input.info:checked + .slider {
+            background-color: #3de0f5;
+        }
+
+        input.warning:checked + .slider {
+            background-color: #FFC107;
+        }
+
+        input.danger:checked + .slider {
+            background-color: #f44336;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+            .slider.round:before {
+                border-radius: 50%;
+            }
+        .wizard-container {
+        padding-top:0px;
+        }
+    </style>
+
 </head>
 <body>
     <div class="image-container set-full-height" style="background-image: url('assets/img/paper-1.jpeg')">
         <div class="container">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="center" style="margin: 0 auto; text-align: center; width: 800px; ">
+                        <img src="~/Content/assets/img/bep.jpg" width="220" height="200" />
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-sm-12">
                     <div class="wizard-container">
+                        <form>
+                        </form>
                         <div class="card wizard-card" data-color="orange" id="wizardProfile">
-                            <form action="">
+                            <form action="" method="">
                                 <div class="wizard-navigation">
                                     <div class="progress-with-circle">
                                         <div class="progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3" style="width: 21%;"></div>
@@ -86,7 +519,7 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label>İl</label>
-                                                    <select class="form-control" id="ddlil">
+                                                    <select class="form-control" id="ddlil" name="ddlil">
                                                         <option value="...">...</option>
                                                         @foreach (var item in ViewBag.iller)
                                                         {
@@ -98,7 +531,7 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label>İlçe</label>
-                                                    <select name="country" class="form-control" id="ddlilce">
+                                                    <select name="ddlilce" class="form-control" id="ddlilce">
                                                         <option value="">...</option>
                                                     </select>
                                                 </div>
@@ -106,7 +539,7 @@
                                             <div class="col-sm-12">
                                                 <div class="form-group">
                                                     <label>Okul</label>
-                                                    <select name="country" class="form-control" id="ddlokul">
+                                                    <select id="ddlokul" name="ddlokul" class="form-control">
                                                         <option value="">...</option>
                                                     </select>
                                                 </div>
@@ -114,7 +547,7 @@
                                             <div class="col-sm-3">
                                                 <div class="form-group">
                                                     <label>Dönem</label>
-                                                    <input id="txtDonem" type="text" class="form-control" placeholder="Dönem">
+                                                    <input id="txtDonem" name="txtDonem" type="text" class="form-control" placeholder="Dönem">
                                                 </div>
                                             </div>
                                         </div>
@@ -126,19 +559,19 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label>Adı</label>
-                                                    <input id="txtadi" type="text" class="form-control" placeholder="Adı">
+                                                    <input id="txtadi" name="firstname" type="text" class="form-control" placeholder="Adı">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label>Soy Adı</label>
-                                                    <input id="txtsoyadi" type="text" class="form-control" placeholder="Soy Adı">
+                                                    <input id="txtsoyadi" name="lastname" type="text" class="form-control" placeholder="Soy Adı">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label>Eğitim Düzeyi</label>
-                                                    <select class="form-control" id="ddlegitimduzeyi">
+                                                    <select class="form-control" name="ddlegitimduzeyi" id="ddlegitimduzeyi">
                                                         <option value="">...</option>
                                                     </select>
                                                 </div>
@@ -146,7 +579,7 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label>Sınıf</label>
-                                                    <select class="form-control" id="ddlsinif">
+                                                    <select class="form-control" id="ddlsinif" name="ddlsinif">
                                                         <option value="">...</option>
                                                     </select>
                                                 </div>
@@ -154,13 +587,13 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label>Öğrenci Velisi</label>
-                                                    <input id="txtOgrenciVelisi" type="text" class="form-control" placeholder="Öğrenci Velisi">
+                                                    <input id="txtOgrenciVelisi" name="txtOgrenciVelisi" type="text" class="form-control" placeholder="Öğrenci Velisi">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label>Sınıf Düzeyi</label>
-                                                    <select class="form-control" id="ddlsinifduzeyi">
+                                                    <select class="form-control" id="ddlsinifduzeyi" name="ddlsinifduzeyi">
                                                         <option value="">...</option>
                                                     </select>
                                                 </div>
@@ -176,31 +609,31 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label>Sınıf Rehber Öğretmeni</label>
-                                                    <input id="txtSinifRehberOgretmeni" type="text" class="form-control" placeholder="Sınıf Rehber Öğretmeni">
+                                                    <input id="txtSinifRehberOgretmeni" name="txtSinifRehberOgretmeni" type="text" class="form-control" placeholder="Sınıf Rehber Öğretmeni">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label>Branş Öğretmeni</label>
-                                                    <input id="txtBransOgretmeni" type="text" class="form-control" placeholder="Branş Öğretmeni">
+                                                    <input id="txtBransOgretmeni" name="txtBransOgretmeni" type="text" class="form-control" placeholder="Branş Öğretmeni">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label>Rehber Öğretmeni</label>
-                                                    <input id="txtRehberOgretmeni" type="text" class="form-control" placeholder="Rehbet Öğretmeni">
+                                                    <input id="txtRehberOgretmeni" name="txtRehberOgretmeni" type="text" class="form-control" placeholder="Rehbet Öğretmeni">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label>Uygulayıcı</label>
-                                                    <input id="txtUygulayici" type="text" class="form-control" placeholder="Uygulayıcı">
+                                                    <input id="txtUygulayici" name="txtUygulayici" type="text" class="form-control" placeholder="Uygulayıcı">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label>Müdür</label>
-                                                    <input id="txtMudur" type="text" class="form-control" placeholder="Müdür">
+                                                    <input id="txtMudur" name="txtMudur" type="text" class="form-control" placeholder="Müdür">
                                                 </div>
                                             </div>
                                         </div>
@@ -213,7 +646,7 @@
                                             <div class="col-sm-12">
                                                 <div class="form-group">
                                                     <label>Ders</label><br>
-                                                    <select id="ddldersler" class="form-control">
+                                                    <select id="ddldersler" name="ddldersler" class="form-control">
                                                         <option value="...">...</option>
                                                     </select>
                                                 </div>
@@ -239,13 +672,169 @@
         </div>
     </div>
 
+    <!-- Second nested Modal -->
+    <div class="modal right fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" style="width: 50%;">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <div class="wizard-container" style="padding-top: 0px;">
+                            <div class="card wizard-card" data-color="orange" id="123">
+                                <div class="wizard-navigation">
+                                    <div class="progress-with-circle">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3"></div>
+                                    </div>
+                                    <ul>
+                                        <li>
+                                            <a href="#hedefler" data-toggle="tab">
+                                                <div class="icon-circle">
+                                                    <i class="ti-user"></i>
+                                                </div>
+                                                Uzun Dönem Hedefler
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#aragerecler" data-toggle="tab">
+                                                <div class="icon-circle">
+                                                    <i class="ti-settings"></i>
+                                                </div>
+                                                Araç Gereçler
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#yontemler" data-toggle="tab">
+                                                <div class="icon-circle">
+                                                    <i class="ti-map"></i>
+                                                </div>
+                                                Yöntemler Ve Teknikler
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="tab-content">
+                                    <div class="tab-pane" id="hedefler">
+                                        <div class="row">
+                                            <h5 class="info-text">Uzun Dönem ve Kısa Dönem Hedefler</h5>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <table class="table table-bordered" id="tblhedefler">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col" class="col-10"></th>
+                                                            <th scope="col" style="width: 10%;">Yapar</th>
+                                                            <th scope="col" style="width: 10%;">Yapamaz</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="aragerecler">
+                                        <div class="row">
+                                            <h5 class="info-text"></h5>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="row checklist" id="divaracgerecler">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="yontemler">
+                                        <div class="row">
+                                            <h5 class="info-text"></h5>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="row checklist" id="divyontemler">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="~/Content/assets/js/jquery-2.2.4.min.js" type="text/javascript"></script>
     <script src="~/Content/assets/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="~/Content/assets/js/jquery.bootstrap.wizard.js" type="text/javascript"></script>
     <script src="~/Content/assets/js/demo.js" type="text/javascript"></script>
-    <script src="~/Content/assets/js/paper-bootstrap-wizard.js" type="text/javascript"></script>
+    <script src="~/Content/assets/js/paper-bootstrap-wizard.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/Content/assets/js/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="~/Content/assets/js/modal.js"></script>
     <script type="text/javascript">
+
+        function YontemGetir(dersid) {
+            $("#divyontemler").html("");
+            var data = {
+                dersid: dersid,
+            }
+            $.ajax({
+                url: '/Bep/YontemTeknikGetir',
+                data: JSON.stringify({ dersid: dersid }),
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    data.forEach(function (seri) {
+                        $("#divyontemler").append("<div class='row checklist'><div class='checkbox col-xs-6 col-sm-4 col-md-3 col-lg-2''><label style='white-space: nowrap;'><input type='checkbox'>" + seri.YontemTeknik + "</label></div></div>");
+                    });
+                },
+            });
+        };
+
+        function AracGerecGetir(dersid) {
+            $("#divaracgerecler").html("");
+            var data = {
+                dersid: dersid,
+            }
+            $.ajax({
+                url: '/Bep/AracGerecGetir',
+                data: JSON.stringify({ dersid: dersid }),
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    data.forEach(function (seri) {
+                        $("#divaracgerecler").append("<div class='row checklist'><div class='checkbox col-xs-6 col-sm-4 col-md-3 col-lg-2''><label style='white-space: nowrap;'><input type='checkbox'>" + seri.AracGerec + "</label></div></div>");
+                    });
+                },
+            });
+        };
+
+        function SorulariGetir(dersid) {
+            $("#tblhedefler > tbody > tr").remove();
+            var data = {
+                dersid: dersid,
+            }
+            $.ajax({
+                url: '/Bep/SorulariGetir',
+                data: JSON.stringify({ dersid: dersid }),
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    console.log(data);
+                    data.forEach(function (seri) {
+                        $("#tblhedefler > tbody").append("<tr><td>" + seri.Soru + "</td><td class='myCheckbox'><input type='checkbox' style='text-align:center' /></td><td class='myCheckbox'><input type='checkbox' style='text-align:center' /></td>");
+                    });
+                    $('#infoModal').modal('show');
+                },
+            });
+        }
+
+        $("#ddldersler").on("change", function () {
+            SorulariGetir($(this).val());
+            AracGerecGetir($(this).val());
+            YontemGetir($(this).val());
+        })
+
         $("#ddlil").on("change", function () {
             ilgetir();
             EgitimDuzeyiListele();
@@ -358,7 +947,6 @@
             });
         }
 
-
         $("#btnkaydet").on("click", function () {
             var data = {
                 ilid: $("#ddlilid").val(),
@@ -388,9 +976,7 @@
                 },
             });
         });
-        $('#openBtn').on('click', function () {
-            $('#modal1').fullModal('open');
-        });
+
     </script>
 </body>
 </html>

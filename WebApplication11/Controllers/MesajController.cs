@@ -16,8 +16,6 @@ namespace YKPortal.Controllers
 {
     public class MesajController : Controller
     {
-
-
         [HttpGet]
         public ActionResult Chat(string kullaniciId = "")
         {
@@ -25,14 +23,11 @@ namespace YKPortal.Controllers
                 return Redirect("~/YK/Giris");
 
             ViewBag.KullaniciID = GetCookie("KullaniciID");
-
             return View();
         }
 
-
         [HttpPost]
-
-        public JsonResult MesajSil(string id)       
+        public JsonResult MesajSil(string id)
         {
             // Mesajın ve karşı kullanıcının ID'si boşsa hata döndür
             if (id == null)
@@ -47,7 +42,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@ID", id);
 
-         
+
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek);
 
             return Json(new IDJsonResult { Sonuc = "Başarılı", SonucKodu = 200 });
@@ -113,7 +108,7 @@ namespace YKPortal.Controllers
                     Dosya.SaveAs(dosyaYolu);
 
                     // Dosya yolunu mesaj kaydına ekliyoruz
-                   cmd.Parameters.AddWithValue("@Dosya", dosyaAdi);
+                    cmd.Parameters.AddWithValue("@Dosya", dosyaAdi);
                 }
                 catch (Exception ex)
                 {
@@ -123,7 +118,7 @@ namespace YKPortal.Controllers
             }
             else
             {
-               cmd.Parameters.AddWithValue("@Dosya", DBNull.Value);
+                cmd.Parameters.AddWithValue("@Dosya", DBNull.Value);
             }
 
             // Veritabanına sorgu gönderiliyor
@@ -132,9 +127,6 @@ namespace YKPortal.Controllers
             // Başarılı sonuç dön
             return Json(new IDJsonResult { Sonuc = "Başarılı", SonucKodu = 200 });
         }
-
-
-
         public JsonResult MesajListesiGetir()
         {
             SqlCommand cmd = new SqlCommand();
@@ -146,7 +138,8 @@ namespace YKPortal.Controllers
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             var mesajListesi = new List<MesajlasmaDto>();
 
-            for (int i = 0;i < dt.Rows.Count; i++) {
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
                 mesajListesi.Add(new MesajlasmaDto
                 {
                     ID = Guid.Parse(Convert.ToString(dt.Rows[i]["ID"])),
@@ -160,9 +153,6 @@ namespace YKPortal.Controllers
 
             return Json(mesajListesi, JsonRequestBehavior.AllowGet);
         }
-
-      
-
         public JsonResult KullaniciGetir(string aranacakKelime = "")
         {
 
@@ -172,11 +162,11 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             cmd.Parameters.AddWithValue("@AranacakKelime", aranacakKelime);
-   
+
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             var kullaniciListesi = new List<KullaniciEkleDto>();
 
-          
+
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 kullaniciListesi.Add(new KullaniciEkleDto
@@ -194,9 +184,6 @@ namespace YKPortal.Controllers
 
             return Json(kullaniciListesi, JsonRequestBehavior.AllowGet);
         }
-
-
-
         public bool AutoGirisKontrol()
         {
             bool GirisKontrol = false;
@@ -239,7 +226,6 @@ namespace YKPortal.Controllers
 
             return GirisKontrol;
         }
-
         private void CreateCookie(string name, string value)
         {
             HttpCookie cookieVisitor = new HttpCookie(name, Server.UrlEncode(value));
@@ -268,19 +254,15 @@ namespace YKPortal.Controllers
             return null;
         }
     }
-
-
-
 }
 
-         
-         
-
-           
 
 
 
-        // GET: Mesaj
 
 
-    
+
+
+// GET: Mesaj
+
+

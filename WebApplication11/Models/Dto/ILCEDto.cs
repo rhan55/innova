@@ -8,7 +8,9 @@ namespace YKPortal.Models.Dto
     public class ILCEDto
     {
         public string ID;
-        public string ILCE;
+        public string ILID;
+        public string ilce;
+        public string Sira;
         public string KayitTarihi;
         public string KayitYapanKullanici;
     }

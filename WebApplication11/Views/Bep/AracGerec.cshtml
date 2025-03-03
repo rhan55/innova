@@ -7,32 +7,28 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <div class="d-flex flex-column scroll-y px-5 px-lg-10  mt-10">
-                <div class="row mb-7">
-                    <div class="col-lg-8">
-                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Ders</label>
-                        <select id="ddlders" style="width: 200px;">
-                            @foreach (var item in ViewBag.iller)
-                            {
-                                <option value="@item.ID">@item.Ders</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="col-lg-8">
-                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Araç Gereç</label>
-                        <input type="text" id="txtAracGerec" value="" style="width:400px;" />
-                    </div>
-                    <div class="col-lg-8">
-                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width: 100px;"></label>
-                        <button type="submit" class="btn btn-primary btn-sm" id="btnkaydet">
-                            <span class="indicator-label">Kaydet</span>
-                            <span class="indicator-progress">
-                                Lütfen Bekleyin...
-                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                            </span>
-                        </button>
-                    </div>
-                </div>
+            <div class="col-lg-12">
+                <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Ders</label>
+                <select id="ddlders" class="select2-single" style="width: 900px;">
+                    @foreach (var item in ViewBag.iller)
+                    {
+                        <option value="@item.ID">@item.Ders</option>
+                    }
+                </select>
+            </div>
+            <div class="col-lg-12">
+                <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Araç Gereç</label>
+                <input type="text" id="txtAracGerec" value="" style="width:900px;" />
+            </div>
+            <div class="col-lg-12">
+                <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Sıra</label>
+                <input type="text" id="txtSira" style="width:50px;text-align:right;" />
+            </div>
+            <div class="col-lg-12">
+                <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width: 100px;"></label>
+                <button type="submit" class="btn btn-primary btn-sm" id="btnkaydet">
+                    <span class="indicator-label">Kaydet</span>
+                </button>
             </div>
         </div>
     </div>
@@ -40,6 +36,7 @@
         <table class="table align-middle table-row-dashed fs-6" id="tblliste" style="width:400px;">
             <thead>
                 <tr class="text-start" style="font-size:15px;">
+                    <th class="min-w-125px"><strong>Sıra</strong></th>
                     <th class="min-w-125px"><strong>Dersler</strong></th>
                     <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
                 </tr>
@@ -49,36 +46,30 @@
         </table>
     </div>
 </div>
+
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="~/Tema/plugins/custom/tinymce/tinymce.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.js"></script>
     <script>
 
-        $(document).ready(function () {
-            var AciklamaEditorOptions = {
-                selector: "#Aciklama",
-                height: 200,
-                promotion: false
-            };
-            if (typeof KTThemeMode !== 'undefined') {
-                if (KTThemeMode.getMode() === "dark") {
-                    AciklamaEditorOptions["skin"] = "oxide-dark";
-                    AciklamaEditorOptions["content_css"] = "dark";
-                }
-            }
-            tinymce.init(AciklamaEditorOptions);
+        var placeholder = "Select a State";
+
+        $(".select2-single, .select2-multiple").select2({
+            placeholder: placeholder,
+            width: 900,
+            containerCssClass: ':all:'
         });
 
         var id = "";
         $("#btnkaydet").on("click", function () {
             $.ajax({
                 url: '/Bep/AracGerecKaydet',
-                data: JSON.stringify({ id: id, dersid: $("#ddlders").val(),aracgerec:$("#txtAracGerec").val() }),
+                data: JSON.stringify({ id: id, dersid: $("#ddlders").val(), aracgerec: $("#txtAracGerec").val(), Sira: $("#txtSira").val() }),
                 type: 'POST',
                 contentType: 'application/json',
                 success: function (data) {
-                    id="";
+                    id = "";
                     $("#txtAracGerec").val("");
+                    $("#txtSira").val("");
                     Listele();
                 },
             });
@@ -97,8 +88,14 @@
                 contentType: 'application/json',
                 success: function (data) {
                     data.forEach(function (seri) {
+
                         var butongroup = "";
-                        butongroup += '<tr data-id=' + seri.ID + ' data-dersid=' + seri.DersId + ' data-text=' + seri.AracGerec + '>';
+                        butongroup += '<tr data-id="' + seri.ID + '" data-dersid="' + seri.DersId + '" data-text="' + seri.AracGerec + '" data-sira="' + seri.Sira + '">';
+
+                        butongroup += '<td class="align-items-center p-0">';
+                        butongroup += seri.Sira;
+                        butongroup += '</td>';
+
                         butongroup += '<td class="align-items-center p-0">';
                         butongroup += seri.AracGerec;
                         butongroup += '</td>';
@@ -121,6 +118,7 @@
                     $(".btnduzenle").on("click", function () {
                         id = $(this).closest("tr").attr("data-id");
                         $("#txtAracGerec").val($(this).closest("tr").attr("data-text"));
+                        $("#txtSira").val($(this).closest("tr").attr("data-sira"));
                     });
 
                     $(".btnsil").on("click", function () {
@@ -154,6 +152,7 @@
                 },
             });
         }
+
     </script>
 }
 

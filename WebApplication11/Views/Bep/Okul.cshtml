@@ -36,15 +36,14 @@
                         <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:40px;">Okul</label>
                         <input type="text" id="txtokul" value="" style="width:400px;" />
                     </div>
-
+                    <div class="col-lg-8">
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:40px;">Sıra</label>
+                        <input type="text" id="txtSira" style="width:50px;text-align:right;" />
+                    </div>
                     <div class="col-lg-8">
                         <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:40px;"></label>
                         <button type="submit" class="btn btn-primary btn-sm" id="btnkaydet">
                             <span class="indicator-label">Kaydet</span>
-                            <span class="indicator-progress">
-                                Lütfen Bekleyin...
-                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                            </span>
                         </button>
                     </div>
                 </div>
@@ -56,6 +55,7 @@
         <table class="table align-middle table-row-dashed fs-6" id="tblliste" style="width:400px;">
             <thead>
                 <tr class="text-start" style="font-size:15px;">
+                    <th class="min-w-125px"><strong>Sıra</strong></th>
                     <th class="min-w-125px"><strong>Okul</strong></th>
                     <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
                 </tr>
@@ -85,12 +85,13 @@
         $("#btnkaydet").on("click", function () {
             $.ajax({
                 url: '/Bep/okulkaydet',
-                data: JSON.stringify({ id: id, ilid: $("#ddlil").val(), ilceid: $("#ddlilce").val(), okul: $("#txtokul").val() }),
+                data: JSON.stringify({ id: id, ilid: $("#ddlil").val(), ilceid: $("#ddlilce").val(), okul: $("#txtokul").val(), Sira: $("#txtSira").val() }),
                 type: 'POST',
                 contentType: 'application/json',
                 success: function (data) {
                     id = "";
                     $("#txtokul").val("");
+                    $("#txtSira").val("");
                     Okulgetir($("#ddlil").val(), $("#ddlilce").val());
                 },
             });
@@ -106,7 +107,7 @@
                 contentType: 'application/json',
                 success: function (data) {
                     data.forEach(function (seri) {
-                        $("#ddlilce").append('<option value=' + seri.ID + '>' + seri.ILCE + '</option>');
+                        $("#ddlilce").append('<option value=' + seri.ID + '>' + seri.ilce + '</option>');
                     });
                 },
             });
@@ -128,7 +129,11 @@
                     data.forEach(function (seri) {
                         var options = '';
                         var butongroup = "";
-                        butongroup += '<tr data-id=' + seri.ID + ' data-ilid=' + seri.ILID + ' data-ilceid=' + seri.ILCEID + ' data-text=' + seri.OKUL + '>';
+                        butongroup += '<tr data-id="' + seri.ID + '" data-ilid="' + seri.ILID + '" data-ilceid="' + seri.ILCEID + '" data-text="' + seri.OKUL + '" data-sira="' + seri.Sira + '">';
+
+                        butongroup += '<td class="align-items-center p-0">';
+                        butongroup += '<a href="" class="text-gray-600 text-hover-primary">' + seri.Sira + '</a>';
+                        butongroup += '</td>';
 
                         butongroup += '<td class="align-items-center p-0">';
                         butongroup += '<a href="" class="text-gray-600 text-hover-primary">' + seri.OKUL + '</a>';
@@ -156,6 +161,7 @@
                         $("#txtokul").val($(this).closest("tr").attr("data-text"));
                         $("#ddlil").val($(this).closest("tr").attr("data-ilid"));
                         $("#ddlilce").val($(this).closest("tr").attr("data-ilceid"));
+                        $("#txtSira").val($(this).closest("tr").attr("data-sira"));
                     });
 
                     $(".btnsil").on("click", function () {
