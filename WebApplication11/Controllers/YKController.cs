@@ -315,7 +315,7 @@ namespace YKPortal.Controllers
                 Response.Redirect(redirectUrl, false);
                 HttpContext.ApplicationInstance.CompleteRequest();
             }
-            if (ConfigurationManager.AppSettings["IlkAcilisSayfasi"] != "")
+            if (ConfigurationManager.AppSettings["IlkAcilisSayfasi"] != "" && Request.QueryString["Durum"] != "1")
             {
                 return Redirect(ConfigurationManager.AppSettings["IlkAcilisSayfasi"]);
             }
@@ -632,7 +632,7 @@ namespace YKPortal.Controllers
             cmd2.CommandText = "p_Uyelik";
             cmd2.CommandType = System.Data.CommandType.StoredProcedure;
             cmd2.Parameters.AddWithValue("@ID", uyelikDto.ID);
-            DataTable dt2 = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tadblo);
+            DataTable dt2 = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
 
             return View(dt2);
 
@@ -694,7 +694,7 @@ namespace YKPortal.Controllers
                 entity.HTMLPrint = Encoding.Default.GetBytes(Convert.ToString(ds.Tables[0].Rows[0]["Aciklama"]));
                 entity.Aciklama = Convert.ToString(ds.Tables[0].Rows[0]["Aciklama"]);
                 string dosya = "2024-12-02 0155 - 30f07377-3f2a-4be7-b2a6-70c9174a6f9e.png";// IDDizayn.DizaynIslemleri.DizaynKaydet(ds, ConfigurationManager.AppSettings["Klasor"]);
-                entity.Aciklama2 = ConfigurationManager.AppSettings["WebSiteUrl"]+"/Temp/"+dosya;
+                entity.Aciklama2 = ConfigurationManager.AppSettings["WebSiteUrl"] + "/Temp/" + dosya;
             }
             else
             {
