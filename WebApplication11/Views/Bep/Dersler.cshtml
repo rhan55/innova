@@ -9,6 +9,26 @@
         <div class="col-lg-12">
             <div class="d-flex flex-column scroll-y px-5 px-lg-10  mt-10">
                 <div class="row mb-7">
+                    <div class="col-lg-8">
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Sınıf</label>
+                        <select id="ddlSinif" style="width:400px;">
+                            @if (ViewBag.Sinif != null)
+                            {
+                                foreach (var item in ViewBag.Sinif)
+                                {
+                                    <option value="@item.ID">@item.Sinif</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-lg-8">
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Eğitim Düzeyi</label>
+                        <select id="ddlegitimduzeyi" style="width:400px;"></select>
+                    </div>
+                    <div class="col-lg-8">
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Sınıf Düzeyi</label>
+                        <select id="ddlsinifduzeyi" style="width:400px;"></select>
+                    </div>
                     <div class="col-lg-12">
                         <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Ders</label>
                         <input type="text" id="txtDers" value="" style="width:1000px;" />
@@ -45,9 +65,9 @@
 
 
 @section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="~/Tema/plugins/custom/tinymce/tinymce.min.js"></script>
-    <script>
+
+    <script type="text/javascript">
+
         var id = "";
         $("#btnkaydet").on("click", function () {
             $.ajax({
@@ -56,9 +76,9 @@
                 type: 'POST',
                 contentType: 'application/json',
                 success: function (data) {
+                    id = "";
                     $("#txtDers").val("");
                     $("#txtSira").val("");
-                    id = "";
                     Listele();
                 },
             });
@@ -67,6 +87,48 @@
         $(document).ready(function () {
             Listele();
         });
+
+        $("#ddlSinif").on("change", function () {
+            alert('1');
+        });
+
+        function egitimduzeyigetir() {
+            $.ajax({
+                url: '/Bep/egitimduzeylerigetir',
+                type: 'POST',
+                data: JSON.stringify({ ders: $("#txtDers").val(), id: id, Sira: $("#txtSira").val() }),
+                contentType: 'application/json',
+                success: function (data) {
+                    data.forEach(function (seri) {
+
+                        var butongroup = "";
+                        butongroup += '<tr data-id="' + seri.ID + '" data-sira="' + seri.Sira + '" data-text="' + seri.Ders + '">';
+
+                        butongroup += '<td class="align-items-center p-0">';
+                        butongroup += seri.Sira;
+                        butongroup += '</td>';
+
+                        butongroup += '<td class="align-items-center p-0">';
+                        butongroup += seri.Ders;
+                        butongroup += '</td>';
+
+                        butongroup += '<td class="text-end py-1">';
+                        butongroup += '<div class="menu-item p-0" style="float: left;">';
+                        butongroup += '<a href="javascript:void(0);" class="menu-link px-2 py-0 btnduzenle">Düzenle</a>';
+                        butongroup += '</div>';
+
+                        butongroup += '<div class="menu-item p-0" style="float: left;">';
+                        butongroup += '<a href="javascript:void(0);" class="menu-link px-2 py-0 btnsil">Sil</a>';
+                        butongroup += '</div>';
+
+                        butongroup += '</td>';
+                        butongroup += '</tr>';
+
+                        $("#tblliste tbody").append(butongroup);
+                    });
+                },
+            });
+        }
 
         function Listele() {
             $('#tblliste > tbody').find("tr").remove();
@@ -78,8 +140,8 @@
                     data.forEach(function (seri) {
 
                         var butongroup = "";
+                        butongroup += '<tr data-id="' + seri.ID + '" data-sira="' + seri.Sira + '" data-text="' + seri.Ders + '">';
 
-                        butongroup += '<tr data-sira="' + seri.Sira + '" data-id="' + seri.ID + '" data-text="' + seri.Ders + '">';
                         butongroup += '<td class="align-items-center p-0">';
                         butongroup += seri.Sira;
                         butongroup += '</td>';
@@ -90,7 +152,7 @@
 
                         butongroup += '<td class="text-end py-1">';
                         butongroup += '<div class="menu-item p-0" style="float: left;">';
-                        butongroup += '<a href="javascript:void(0);" class="menu-link px-2 py-0 btnduzenle" >Düzenle</a>';
+                        butongroup += '<a href="javascript:void(0);" class="menu-link px-2 py-0 btnduzenle">Düzenle</a>';
                         butongroup += '</div>';
 
                         butongroup += '<div class="menu-item p-0" style="float: left;">';
@@ -140,6 +202,7 @@
                 },
             });
         }
+
     </script>
 }
 

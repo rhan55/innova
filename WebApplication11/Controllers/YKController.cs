@@ -356,7 +356,6 @@ namespace YKPortal.Controllers
 
                     if (Convert.ToString(dt.Rows[0]["AcilisSayfasi"]).Trim().Length > 0)
                     {
-
                         return Redirect(Convert.ToString(dt.Rows[0]["AcilisSayfasi"]).Trim());
                     }
 
@@ -411,7 +410,7 @@ namespace YKPortal.Controllers
                             <td>
                                 <table border=""0"" style=""padding: 16px 24px;width: 100%;text-align: center;max-width: 600px;margin-left: auto;margin-right: auto;"" >
                                     <tbody>
-                                        <tr >
+                                        <tr>
                                             <td><img width=""80px"" style=""margin-left: auto;margin-right: auto;padding-bottom: 16px;"" src=""https://app.ykyazilim.com.tr/Tema/media/Logolar/orijinal.png""/></td>
                                         </tr>
                                         <tr>
@@ -633,7 +632,7 @@ namespace YKPortal.Controllers
             cmd2.CommandText = "p_Uyelik";
             cmd2.CommandType = System.Data.CommandType.StoredProcedure;
             cmd2.Parameters.AddWithValue("@ID", uyelikDto.ID);
-            DataTable dt2 = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
+            DataTable dt2 = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tadblo);
 
             return View(dt2);
 
@@ -762,9 +761,6 @@ namespace YKPortal.Controllers
             }
             return base.Json(dto, 0);
         }
-
-
-
 
         public JsonResult FiyatGorGetir(string Barkod)
         {

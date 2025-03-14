@@ -7,8 +7,6 @@ using System.Web;
 using System.Web.Mvc;
 using YKPortal.Models;
 using YKPortal.Models.Dto;
-using System.Drawing;
-using YKEFaturaEntegrasyon.EFaturaEDM;
 
 namespace YKPortal.Controllers
 {
@@ -394,7 +392,7 @@ namespace YKPortal.Controllers
         public JsonResult siniflarigetir(string egitimduzeyid)
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "SELECT * FROM BepSinif WITH(NOLOCK) WHERE EgitimDuzeyId=@EgitimDuzeyId";
+            cmd.CommandText = "SELECT * FROM BepSinif WITH(NOLOCK) WHERE EgitimDuzeyId=@EgitimDuzeyId ORDER BY Sira ASC";
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("@EgitimDuzeyId", egitimduzeyid);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
@@ -493,6 +491,23 @@ namespace YKPortal.Controllers
 
             string UyelikID = GetCookie("UyelikID");
             string KullaniciID = GetCookie("KullaniciID");
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "SELECT * FROM BepSinif WITH(NOLOCK) ORDER BY Sira ASC";
+            cmd.CommandType = CommandType.Text;
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            var liste = new List<BepSinifDto>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                liste.Add(new BepSinifDto
+                {
+                    ID = Convert.ToString(dt.Rows[i]["ID"]),
+                    Sinif = Convert.ToString(dt.Rows[i]["Sinif"]),
+                    EgitimDuzeyId = Convert.ToString(dt.Rows[i]["EgitimDuzeyId"]),
+                    Sira = Convert.ToString(dt.Rows[i]["Sira"]),
+                });
+            }
+            ViewBag.Sinif = liste;
             return View();
         }
         public JsonResult DersGetir()
