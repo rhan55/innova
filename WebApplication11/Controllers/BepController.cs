@@ -6,9 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using YKPortal.Models;
-using YKEFaturaEntegrasyon.EFaturaEDM;
 using YKPortal.Models.Dto;
-using System.Drawing;
 
 namespace YKPortal.Controllers
 {
@@ -27,7 +25,7 @@ namespace YKPortal.Controllers
         {
 
             SqlCommand cmdil = new SqlCommand();
-            cmdil.CommandText = "select * from BepIL With(nolock)";
+            cmdil.CommandText = "select * from BepIL With(nolock)  ORDER BY Sira ASC";
             cmdil.CommandType = System.Data.CommandType.Text;
             DataTable stokGrupKod1DataTable = (DataTable)IDVeritabani.Sorgula(cmdil, SorgulaTuru.Tablo);
             List<ILDto> entities = new List<ILDto>();
@@ -36,7 +34,6 @@ namespace YKPortal.Controllers
                 ILDto entity = new ILDto();
                 entity.ID = Convert.ToString(stokGrupKod1DataTable.Rows[i]["ID"]);
                 entity.IL = Convert.ToString(stokGrupKod1DataTable.Rows[i]["IL"]);
-                entity.KayitYapanKullanici = Convert.ToString(stokGrupKod1DataTable.Rows[i]["KayitYapanKullanici"]);
                 entities.Add(entity);
             }
             ViewBag.iller = entities;
@@ -107,9 +104,8 @@ namespace YKPortal.Controllers
         public JsonResult il_getir(string aranacakkelime)
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "SELECT * FROM BepIL WITH(NOLOCK) where  IL Like @Ara";
+            cmd.CommandText = "SELECT * FROM BepIL WITH(NOLOCK) WHERE IL Like @Ara";
             cmd.Parameters.AddWithValue("@Ara", "%" + aranacakkelime + "%");
-
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             var liste = new List<ILDto>();
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -321,7 +317,7 @@ namespace YKPortal.Controllers
         public JsonResult egitimduzeylerigetir()
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "SELECT * FROM BepEgitimDuzeyi WITH(NOLOCK) ORDER BY ISNULL(Sira,-1) ASC";
+            cmd.CommandText = "SELECT * FROM BepEgitimDuzeyi WITH(NOLOCK) ORDER BY Sira ASC";
             cmd.CommandType = CommandType.Text;
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
@@ -391,24 +387,27 @@ namespace YKPortal.Controllers
             }
             return Json(ilcelistesi, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
         public JsonResult siniflarigetir(string egitimduzeyid)
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "SELECT * FROM BepSinif WITH(NOLOCK) WHERE EgitimDuzeyId=@EgitimDuzeyId";
+            cmd.CommandText = "SELECT * FROM BepSinif WITH(NOLOCK) WHERE EgitimDuzeyId=@EgitimDuzeyId ORDER BY Sira ASC";
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("@EgitimDuzeyId", egitimduzeyid);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-            var ilcelistesi = new List<BepSinifDto>();
+            var list = new List<BepSinifDto>();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                ilcelistesi.Add(new BepSinifDto
+                list.Add(new BepSinifDto
                 {
                     ID = Convert.ToString(dt.Rows[i]["ID"]),
                     Sinif = Convert.ToString(dt.Rows[i]["Sinif"]),
+                    Sira = Convert.ToString(dt.Rows[i]["Sira"]),
                     EgitimDuzeyId = Convert.ToString(dt.Rows[i]["EgitimDuzeyId"]),
                 });
             }
-            return Json(ilcelistesi, JsonRequestBehavior.AllowGet);
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -492,6 +491,23 @@ namespace YKPortal.Controllers
 
             string UyelikID = GetCookie("UyelikID");
             string KullaniciID = GetCookie("KullaniciID");
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "SELECT * FROM BepSinif WITH(NOLOCK) ORDER BY Sira ASC";
+            cmd.CommandType = CommandType.Text;
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            var liste = new List<BepSinifDto>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                liste.Add(new BepSinifDto
+                {
+                    ID = Convert.ToString(dt.Rows[i]["ID"]),
+                    Sinif = Convert.ToString(dt.Rows[i]["Sinif"]),
+                    EgitimDuzeyId = Convert.ToString(dt.Rows[i]["EgitimDuzeyId"]),
+                    Sira = Convert.ToString(dt.Rows[i]["Sira"]),
+                });
+            }
+            ViewBag.Sinif = liste;
             return View();
         }
         public JsonResult DersGetir()

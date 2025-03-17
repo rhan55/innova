@@ -23,7 +23,6 @@ using YKPortal.Models.YKClasses;
 
 namespace YKPortal.Controllers
 {
-
     public class YKWebApiController : ApiController
     {
         #region Subabase.com İşlemleri
@@ -1738,8 +1737,6 @@ and ACIKLAMA1 LIKE '%" + hareket.EvrakNo + "%' and TUTAR = @Tutar";
             return response;
         }
 
-
-
         [HttpPost]
         public IDJsonResult PersonelCalismaKaydet([FromBody] JObject data)
         {
@@ -1781,6 +1778,7 @@ Select @ID as ID
             }
             return result;
         }
+
         [HttpPost]
         public IDJsonResult PersonelCalismaTamamla([FromBody] JObject data)
         {
@@ -2227,6 +2225,7 @@ Select @ID as ID
         [HttpPost]
         public PirelliSiparisResponseDto CREATEORDERR(SupplierOrders data)
         {
+            IDJsonResult result = new IDJsonResult();
             string _sira = "";
             PirelliSiparisResponseDto result1 = new PirelliSiparisResponseDto();
             try
@@ -2306,7 +2305,7 @@ Select @ID as ID
                 //result1.Items = Items;
                 ////result1.Notes = Notes;
                 //_sira = "6";
-                return result1;
+                return result;
             }
             catch (Exception err)
             {
@@ -2317,8 +2316,9 @@ Select @ID as ID
             {
 
             }
-            return result1;
+            return result;
         }
+
         #region Whatsapp Api
 
         public IDJsonResult WPMesajBilgisiOlustur([FromBody] JObject data)
@@ -2687,8 +2687,7 @@ END
         public string DeliveryDate { get; set; }
         public string Description { get; set; }
         public int TotalCount { get; set; }
-        public List<SupplierOrder> SupplierOrder { get; set; } //İmece için eklendi
-
+        
         public List<SupplierOrderProductsList> SupplierOrderProductsList { get; set; }
 
     }
@@ -2780,6 +2779,11 @@ END
 
     #region İmace Plastik Class
 
+    public class SupplierOrders
+    {
+        public List<SupplierOrder> SupplierOrder { get; set; }
+        public int TotalCount { get; set; }
+    }
 
     public class SupplierOrder
     {

@@ -315,7 +315,7 @@ namespace YKPortal.Controllers
                 Response.Redirect(redirectUrl, false);
                 HttpContext.ApplicationInstance.CompleteRequest();
             }
-            if (ConfigurationManager.AppSettings["IlkAcilisSayfasi"] != "")
+            if (ConfigurationManager.AppSettings["IlkAcilisSayfasi"] != "" && Request.QueryString["Durum"] != "1")
             {
                 return Redirect(ConfigurationManager.AppSettings["IlkAcilisSayfasi"]);
             }
@@ -356,7 +356,6 @@ namespace YKPortal.Controllers
 
                     if (Convert.ToString(dt.Rows[0]["AcilisSayfasi"]).Trim().Length > 0)
                     {
-
                         return Redirect(Convert.ToString(dt.Rows[0]["AcilisSayfasi"]).Trim());
                     }
 
@@ -411,7 +410,7 @@ namespace YKPortal.Controllers
                             <td>
                                 <table border=""0"" style=""padding: 16px 24px;width: 100%;text-align: center;max-width: 600px;margin-left: auto;margin-right: auto;"" >
                                     <tbody>
-                                        <tr >
+                                        <tr>
                                             <td><img width=""80px"" style=""margin-left: auto;margin-right: auto;padding-bottom: 16px;"" src=""https://app.ykyazilim.com.tr/Tema/media/Logolar/orijinal.png""/></td>
                                         </tr>
                                         <tr>
@@ -695,7 +694,7 @@ namespace YKPortal.Controllers
                 entity.HTMLPrint = Encoding.Default.GetBytes(Convert.ToString(ds.Tables[0].Rows[0]["Aciklama"]));
                 entity.Aciklama = Convert.ToString(ds.Tables[0].Rows[0]["Aciklama"]);
                 string dosya = "2024-12-02 0155 - 30f07377-3f2a-4be7-b2a6-70c9174a6f9e.png";// IDDizayn.DizaynIslemleri.DizaynKaydet(ds, ConfigurationManager.AppSettings["Klasor"]);
-                entity.Aciklama2 = ConfigurationManager.AppSettings["WebSiteUrl"]+"/Temp/"+dosya;
+                entity.Aciklama2 = ConfigurationManager.AppSettings["WebSiteUrl"] + "/Temp/" + dosya;
             }
             else
             {
@@ -762,9 +761,6 @@ namespace YKPortal.Controllers
             }
             return base.Json(dto, 0);
         }
-
-
-
 
         public JsonResult FiyatGorGetir(string Barkod)
         {
@@ -1052,8 +1048,5 @@ values
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
-
-
     }
 }

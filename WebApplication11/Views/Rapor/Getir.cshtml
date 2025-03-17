@@ -114,44 +114,44 @@
     </div>
 </div>
 
-                    @section scripts {
+@section scripts {
 
-                        <script type="text/javascript">
+    <script type="text/javascript">
 
-                            document.addEventListener('DOMContentLoaded', () => {
-                                const table = document.getElementById('filterTable');
-                                const filters = table.querySelectorAll('thead input[type="text"]');
+        document.addEventListener('DOMContentLoaded', () => {
+            const table = document.getElementById('filterTable');
+            const filters = table.querySelectorAll('thead input[type="text"]');
 
-                                filters.forEach((input, colIndex) => {
-                                    input.addEventListener('input', () => {
-                                        const filterValue = input.value.toLowerCase();
-                                        const rows = table.querySelectorAll('tbody tr');
+            filters.forEach((input, colIndex) => {
+                input.addEventListener('input', () => {
+                    const filterValue = input.value.toLowerCase();
+                    const rows = table.querySelectorAll('tbody tr');
 
-                                        rows.forEach(row => {
-                                            const cell = row.cells[colIndex];
-                                            if (cell) {
-                                                const cellText = cell.textContent.toLowerCase();
-                                                row.style.display = cellText.includes(filterValue) ? '' : 'none';
-                                            }
-                                        });
+                    rows.forEach(row => {
+                        const cell = row.cells[colIndex];
+                        if (cell) {
+                            const cellText = cell.textContent.toLowerCase();
+                            row.style.display = cellText.includes(filterValue) ? '' : 'none';
+                        }
+                    });
 
-                                        // Tüm filtrelerin birlikte çalışması için diğer filtreleri tekrar kontrol et
-                                        filters.forEach((otherInput, otherIndex) => {
-                                            if (otherInput.value) {
-                                                const otherValue = otherInput.value.toLowerCase();
-                                                rows.forEach(row => {
-                                                    const otherCell = row.cells[otherIndex];
-                                                    if (otherCell) {
-                                                        const otherCellText = otherCell.textContent.toLowerCase();
-                                                        if (!otherCellText.includes(otherValue)) {
-                                                            row.style.display = 'none';
-                                                        }
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    });
-                                });
+                    // Tüm filtrelerin birlikte çalışması için diğer filtreleri tekrar kontrol et
+                    filters.forEach((otherInput, otherIndex) => {
+                        if (otherInput.value) {
+                            const otherValue = otherInput.value.toLowerCase();
+                            rows.forEach(row => {
+                                const otherCell = row.cells[otherIndex];
+                                if (otherCell) {
+                                    const otherCellText = otherCell.textContent.toLowerCase();
+                                    if (!otherCellText.includes(otherValue)) {
+                                        row.style.display = 'none';
+                                    }
+                                }
                             });
-                        </script>
-                    }
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+}

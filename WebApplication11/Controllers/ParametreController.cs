@@ -38,6 +38,7 @@ namespace YKPortal.Controllers
 
             return View();
         }
+      
         [HttpPost]
         public ActionResult MailAyarlari(MailAyarlariDto mailAyarlari)
         {
@@ -72,17 +73,14 @@ namespace YKPortal.Controllers
             return View(); 
         }
 
-
         private List<ParametreDto> ParametreleriGetir()
         {
-
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_Parametreler";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
             var entities = new List<ParametreDto>();
 
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -168,7 +166,6 @@ namespace YKPortal.Controllers
 
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
-
         public bool AutoGirisKontrol()
         {
             bool GirisKontrol = false;
@@ -211,7 +208,6 @@ namespace YKPortal.Controllers
 
             return GirisKontrol;
         }
-
         private void CreateCookie(string name, string value)
         {
             HttpCookie cookieVisitor = new HttpCookie(name, Server.UrlEncode(value));

@@ -46,8 +46,6 @@
                 </li>
                 <span class="position-absolute z-index-1 bottom-0 w-100 h-4px bg-light rounded"></span>
             </ul>
-
-
             <div class="tab-content">
                 <div class="tab-pane fade  show active" id="tab_b2b" style="margin:10px;">
                     <div class="container mt-10">
@@ -259,20 +257,15 @@
     <script>
 
         $(document).ready(function () {
-
-
-
             // B2B formunu submit ettiğimizde
             $('#b2bForm').on('submit', function (e) {
                 e.preventDefault(); // Formun normal submit olmasını engelle
-
                 // Form verilerini topla
                 var formData = {
                     B2BLogoKullaniciAdi: $('#B2BLogoKullaniciAdi').val(),
                     B2BLogoSirket: $('#B2BLogoSirket').val(),
                     B2BLogoParola: $('#B2BLogoParola').val()
                 };
-
                 $.ajax({
                     url: '/Ayarlar/B2BAyarlari', // Metodun adresi
                     type: 'POST',
@@ -287,12 +280,9 @@
                     }
                 });
             });
-
-
             // B2B formunu submit ettiğimizde
             $('#seoForm').on('submit', function (e) {
                 e.preventDefault(); // Formun normal submit olmasını engelle
-
                 // Form verilerini topla
                 var formData = {
                     SeoDescription: $('#SeoDescription').val(),
@@ -303,15 +293,12 @@
                     IlkUyelikdeKullaniciyiOnayliYap: $('#IlkUyelikdeKullaniciyiOnayliYap').is(":checked"),
                     YeniUyelikKaydi: $('#YeniUyelikKaydi').is(":checked"),
                     SifremiUnuttum: $('#SifremiUnuttum').is(":checked"),
-
                 };
-
                 $.ajax({
                     url: '/Ayarlar/SeoAyarlari',
                     type: 'POST',
                     data: formData,
                     success: function (response) {
-
                         alert("SEO Ayarları başarıyla kaydedildi.");
                     },
                     error: function (xhr, status, error) {
@@ -319,30 +306,22 @@
                     }
                 });
             });
-
-
             // B2B formunu submit ettiğimizde
             $('#smsForm').on('submit', function (e) {
                 e.preventDefault(); // Formun normal submit olmasını engelle
-
-
                 var formData = {
                     SmsKullaniciAdi: $('#SmsKullaniciAdi').val(),
                     SmsParola: $('#SmsParola').val(),
                     SmsIsim: $('#SmsIsim').val(),
-
                 };
-
                 $.ajax({
                     url: '/Ayarlar/SmsAyarlari',
                     type: 'POST',
                     data: formData,
                     success: function (response) {
-
                         alert("SMS Ayarları başarıyla kaydedildi.");
                     },
                     error: function (xhr, status, error) {
-
                         alert("Bir hata oluştu: " + error);
                     }
                 });
