@@ -23,6 +23,7 @@ using YKPortal.Models.YKClasses;
 
 namespace YKPortal.Controllers
 {
+
     public class YKWebApiController : ApiController
     {
         #region Subabase.com İşlemleri
@@ -31,7 +32,7 @@ namespace YKPortal.Controllers
         private static readonly string apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2a2dwdHhxZXF1em5wdHpzenZ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAyMjEyMTYsImV4cCI6MjA1NTc5NzIxNn0.eINWQ43tKukWFwy3Y4bawKF4smyN--OPhi8dguxhTjA";
 
         [HttpPost]
-        public async Task<IDJsonResult> InsertLogIslem([FromBody] JObject data, [FromUri] string LisansKodu="")
+        public async Task<IDJsonResult> InsertLogIslem([FromBody] JObject data, [FromUri] string LisansKodu = "")
         {
             IDJsonResult result = new IDJsonResult();
             try
@@ -91,7 +92,7 @@ namespace YKPortal.Controllers
 
         #region Lisans İşlemleri 
         [HttpPost]
-        public async Task<IDJsonResult> Subabase_Lisans_LisansKaydet([FromBody] JArray data, [FromUri]string LisansKodu = "")
+        public async Task<IDJsonResult> Subabase_Lisans_LisansKaydet([FromBody] JArray data, [FromUri] string LisansKodu = "")
         {
             IDJsonResult result = new IDJsonResult();
             try
@@ -310,7 +311,7 @@ namespace YKPortal.Controllers
         #region Kullanıcı İşlemleri
 
         [HttpPost]
-        public async Task<IDJsonResult> Subabase_KullaniciKontrol([FromBody] JObject data, [FromUri] string LisansKodu="")
+        public async Task<IDJsonResult> Subabase_KullaniciKontrol([FromBody] JObject data, [FromUri] string LisansKodu = "")
         {
             IDJsonResult result = new IDJsonResult();
             try
@@ -338,7 +339,7 @@ namespace YKPortal.Controllers
                 string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
                 string Parola = Convert.ToString(data["Parola"]);
                 string Program = Convert.ToString(data["Program"]);
-                
+
 
                 HttpClient client = new HttpClient();
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
@@ -1737,6 +1738,8 @@ and ACIKLAMA1 LIKE '%" + hareket.EvrakNo + "%' and TUTAR = @Tutar";
             return response;
         }
 
+
+
         [HttpPost]
         public IDJsonResult PersonelCalismaKaydet([FromBody] JObject data)
         {
@@ -1778,7 +1781,6 @@ Select @ID as ID
             }
             return result;
         }
-
         [HttpPost]
         public IDJsonResult PersonelCalismaTamamla([FromBody] JObject data)
         {
@@ -2005,7 +2007,7 @@ Select @ID as ID
                     DataTable dt2 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                     item.RequestedDeliveryDatetime = Convert.ToDateTime(item.RequestedDeliveryDatetime).ToString("yyyy-MM-ddTHH:mm:sszzz").ToString();
                     item.ConfirmedDeliveryDatetime = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz").ToString();
-                    
+
 
                 }
 
@@ -2225,7 +2227,6 @@ Select @ID as ID
         [HttpPost]
         public PirelliSiparisResponseDto CREATEORDERR(SupplierOrders data)
         {
-            IDJsonResult result = new IDJsonResult();
             string _sira = "";
             PirelliSiparisResponseDto result1 = new PirelliSiparisResponseDto();
             try
@@ -2305,7 +2306,7 @@ Select @ID as ID
                 //result1.Items = Items;
                 ////result1.Notes = Notes;
                 //_sira = "6";
-                return result;
+                return result1;
             }
             catch (Exception err)
             {
@@ -2316,9 +2317,8 @@ Select @ID as ID
             {
 
             }
-            return result;
+            return result1;
         }
-
         #region Whatsapp Api
 
         public IDJsonResult WPMesajBilgisiOlustur([FromBody] JObject data)
@@ -2687,7 +2687,8 @@ END
         public string DeliveryDate { get; set; }
         public string Description { get; set; }
         public int TotalCount { get; set; }
-        
+        public List<SupplierOrder> SupplierOrder { get; set; } //İmece için eklendi
+
         public List<SupplierOrderProductsList> SupplierOrderProductsList { get; set; }
 
     }
@@ -2779,11 +2780,6 @@ END
 
     #region İmace Plastik Class
 
-    public class SupplierOrders
-    {
-        public List<SupplierOrder> SupplierOrder { get; set; }
-        public int TotalCount { get; set; }
-    }
 
     public class SupplierOrder
     {
