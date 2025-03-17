@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -31,7 +32,7 @@ namespace YKPortal.Controllers
         private static readonly string apiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2a2dwdHhxZXF1em5wdHpzenZ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAyMjEyMTYsImV4cCI6MjA1NTc5NzIxNn0.eINWQ43tKukWFwy3Y4bawKF4smyN--OPhi8dguxhTjA";
 
         [HttpPost]
-        public async Task<IDJsonResult> InsertLogIslem([FromBody] JObject data)
+        public async Task<IDJsonResult> InsertLogIslem([FromBody] JObject data, [FromUri] string LisansKodu="")
         {
             IDJsonResult result = new IDJsonResult();
             try
@@ -89,8 +90,9 @@ namespace YKPortal.Controllers
             return result;
         }
 
+        #region Lisans İşlemleri 
         [HttpPost]
-        public async Task<IDJsonResult> Subabase_Kullanicilar([FromBody] JObject data)
+        public async Task<IDJsonResult> Subabase_Lisans_LisansKaydet([FromBody] JArray data, [FromUri]string LisansKodu = "")
         {
             IDJsonResult result = new IDJsonResult();
             try
@@ -99,38 +101,165 @@ namespace YKPortal.Controllers
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
                 client.DefaultRequestHeaders.Add("apikey", apiKey);
 
-                string tableName = "PR_DEMO_Kullanicilar";
-                string kullaniciIdBaslangic = "1000";
-                string kullaniciIdBitis = "1000";
-                //string requestUrl = $"{supabaseUrl}/rest/v1/{tableName}?select=*"; // Tüm verileri çekmek için select=*
-                //string requestUrl = $"{supabaseUrl}/rest/v1/{tableName}?id=eq.{kullaniciId}&select=*";
-                string requestUrl = $"{supabaseUrl}/rest/v1/{tableName}?id=gte.{kullaniciIdBaslangic}&id=lte.{kullaniciIdBitis}&select=*";
+                string tableName = "Lisanslar";
+                string insertUrl = $"{supabaseUrl}/rest/v1/{tableName}";
 
-                HttpResponseMessage response = await client.GetAsync(requestUrl);
-                string resultJson = await response.Content.ReadAsStringAsync();
+                List<dynamic> newRecords = new List<dynamic>();
+                List<dynamic> updateRecords = new List<dynamic>();
 
-                result.Data = resultJson;
+                foreach (var item in data)
+                {
+                    // ID'yi kontrol et (null ise 0 yapma, kontrolsüz bırak!)
+                    var idToken = item["id"];
+                    if (idToken == null || idToken.Type == JTokenType.Null)
+                    {
+                        newRecords.Add(item); // Yeni kayıt ekle
+                    }
+                    else
+                    {
+                        int id = idToken.Value<int>();
+                        updateRecords.Add(item); // Güncelleme listesine ekle
+                    }
+                }
+
+                // 🟢 1. INSERT İşlemi (Yeni Kayıt)
+                if (newRecords.Count > 0)
+                {
+                    string insertBody = JsonConvert.SerializeObject(newRecords);
+                    HttpContent insertContent = new StringContent(insertBody, Encoding.UTF8, "application/json");
+                    HttpResponseMessage insertResponse = await client.PostAsync(insertUrl, insertContent);
+                    string insertResultJson = await insertResponse.Content.ReadAsStringAsync();
+
+                    if (!insertResponse.IsSuccessStatusCode)
+                    {
+                        result.SonucKodu = -1;
+                        result.Sonuc = "INSERT Hatası!";
+                        result.Hata = insertResultJson;
+                        return result;
+                    }
+                }
+
+                // 🟢 2. UPDATE İşlemi (Güncelleme)
+                foreach (var updateItem in updateRecords)
+                {
+                    int id = updateItem["id"] != null ? Convert.ToInt32(updateItem["id"]) : 0;
+
+                    if (id > 0)
+                    {
+                        string updateBody = JsonConvert.SerializeObject(updateItem);
+                        HttpContent updateContent = new StringContent(updateBody, Encoding.UTF8, "application/json");
+
+                        HttpRequestMessage request = new HttpRequestMessage(new HttpMethod("PATCH"), $"{supabaseUrl}/rest/v1/{tableName}?id=eq.{id}");
+                        request.Content = updateContent;
+
+                        HttpResponseMessage updateResponse = await client.SendAsync(request);
+                        string updateResultJson = await updateResponse.Content.ReadAsStringAsync();
+
+                        if (!updateResponse.IsSuccessStatusCode)
+                        {
+                            result.SonucKodu = -1;
+                            result.Sonuc = "UPDATE Hatası!";
+                            result.Hata = updateResultJson;
+                            return result;
+                        }
+                    }
+                }
+
+                result.Data = "";
                 result.SonucKodu = 1;
                 result.Sonuc = "Başarılı";
                 return result;
-
-
             }
             catch (Exception err)
             {
                 result.SonucKodu = -1;
                 result.Sonuc = "HATA!";
                 result.Hata = err.Message;
+                return result;
             }
-            finally
-            {
+        }
 
+        [HttpPost]
+        public async Task<IDJsonResult> Subabase_Lisans_Lisanslar([FromBody] JObject data, [FromUri] string LisansKodu = "", string id = "")
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+                client.DefaultRequestHeaders.Add("apikey", apiKey);
+
+                string tableName = "Lisanslar";
+                string filtreID = "";
+                if (id != "")
+                {
+                    filtreID = "&id=eq." + id;
+                }
+
+                int limit = 100; // Her seferinde çekilecek kayıt sayısı
+                int offset = 0;  // Sayfalama için offset
+                bool hasMoreData = true; // Sayfaların olup olmadığını kontrol etmek için bir bayrak
+
+                List<dynamic> allLisanslar = new List<dynamic>(); // Tüm kayıtları tutacak liste
+
+                while (hasMoreData)
+                {
+                    // İlgili sayfa verisini çekme
+                    string requestUrl = $"{supabaseUrl}/rest/v1/{tableName}?{filtreID}&select=*&order=Baslangic.desc&limit={limit}&offset={offset}";
+
+                    HttpResponseMessage response = await client.GetAsync(requestUrl);
+                    string resultJson = await response.Content.ReadAsStringAsync();
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var lisanslar = JsonConvert.DeserializeObject<List<dynamic>>(resultJson);
+                        if (lisanslar.Count > 0)
+                        {
+                            // Veriyi listeye ekleyin
+                            allLisanslar.AddRange(lisanslar);
+
+                            // Eğer çekilen kayıt sayısı `limit` kadar ise, daha fazla veri olduğunu varsayabiliriz
+                            if (lisanslar.Count == limit)
+                            {
+                                offset += limit; // Bir sonraki sayfa için offset'i arttırıyoruz
+                            }
+                            else
+                            {
+                                hasMoreData = false; // Eğer çekilen kayıt sayısı limitten az ise, daha fazla veri yok
+                            }
+                        }
+                        else
+                        {
+                            hasMoreData = false; // Eğer veri yoksa, döngüyü bitir
+                        }
+                    }
+                    else
+                    {
+                        // API isteği başarısız olursa hata mesajını döndür
+                        result.SonucKodu = -1;
+                        result.Sonuc = "HATA!";
+                        result.Hata = resultJson;
+                        return result;
+                    }
+                }
+
+                // Tüm lisansları sonuç olarak döndürüyoruz
+                result.Data = JsonConvert.SerializeObject(allLisanslar);
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                return result;
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
             }
             return result;
         }
 
-        [HttpPost]
-        public async Task<IDJsonResult> Subabase_KullaniciKaydet([FromBody] JArray data)
+
+        public async Task<IDJsonResult> Subabase_Lisans_LisansSil([FromBody] JObject data, [FromUri] string LisansKodu = "")
         {
             IDJsonResult result = new IDJsonResult();
             try
@@ -139,22 +268,32 @@ namespace YKPortal.Controllers
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
                 client.DefaultRequestHeaders.Add("apikey", apiKey);
 
-                string tableName = "PR_DEMO_Kullanicilar"; // Tablo adı hassas!
-                string requestUrl = $"{supabaseUrl}/rest/v1/{tableName}";
+                string tableName = "Lisanslar";
+                int id = data["id"] != null ? Convert.ToInt32(data["id"]) : 0;
 
-                // JSON verisini oluştur
-                for (int i = 0; i < 100000; i++)
+                if (id == 0)
                 {
-                    string jsonBody = data.ToString(); // Gelen JSON verisini direkt body olarak kullan
-
-                    HttpContent content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
-                    HttpResponseMessage response = await client.PostAsync(requestUrl, content);
-                    string resultJson = await response.Content.ReadAsStringAsync();
-
-                    result.Data = resultJson;
-                    result.SonucKodu = response.IsSuccessStatusCode ? 1 : -1;
-                    result.Sonuc = response.IsSuccessStatusCode ? "Başarılı" : "Başarısız";
+                    result.SonucKodu = -1;
+                    result.Sonuc = "HATA! Geçersiz id";
+                    return result;
                 }
+
+                string deleteUrl = $"{supabaseUrl}/rest/v1/{tableName}?id=eq.{id}";
+
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, deleteUrl);
+                HttpResponseMessage response = await client.SendAsync(request);
+                string responseJson = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    result.SonucKodu = -1;
+                    result.Sonuc = "DELETE Hatası!";
+                    result.Hata = responseJson;
+                    return result;
+                }
+
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarıyla Silindi";
                 return result;
             }
             catch (Exception err)
@@ -165,7 +304,83 @@ namespace YKPortal.Controllers
                 return result;
             }
         }
-        #endregion 
+
+
+        #endregion
+
+        #region Kullanıcı İşlemleri
+
+        [HttpPost]
+        public async Task<IDJsonResult> Subabase_KullaniciKontrol([FromBody] JObject data, [FromUri] string LisansKodu="")
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+
+                if (data["KullaniciAdi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! KullaniciAdi bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Parola"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Parola bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Program"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Program bilgisi boş olamaz.";
+                    return result;
+                }
+
+                string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
+                string Parola = Convert.ToString(data["Parola"]);
+                string Program = Convert.ToString(data["Program"]);
+                
+
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+                client.DefaultRequestHeaders.Add("apikey", apiKey);
+
+                string tableName = "Kullanicilar";
+                // Burada kullanıcı adı ve parolayı filtreliyoruz
+                string requestUrl = $"{supabaseUrl}/rest/v1/{tableName}?KullaniciAdi=eq.{KullaniciAdi}&Parola=eq.{Parola}&Program=eq.{Program}";
+
+                HttpResponseMessage response = await client.GetAsync(requestUrl);
+                string resultJson = await response.Content.ReadAsStringAsync();
+
+                if (response.IsSuccessStatusCode && !string.IsNullOrEmpty(resultJson) && resultJson != "[]")
+                {
+                    // Kullanıcı bulundu
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Kullanıcı doğrulandı";
+                    result.Data = resultJson;
+                }
+                else
+                {
+                    // Kullanıcı yok
+                    result.SonucKodu = -1;
+                    result.Sonuc = "Kullanıcı bulunamadı";
+                    result.Data = resultJson;
+                }
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+
+            return result;
+        }
+
+        #endregion
+
+        #endregion
+
         [HttpPost]
         public IDJsonResult LogKaydet_KullaniciGirisi([FromBody] JObject data)
         {
@@ -1700,7 +1915,7 @@ Select @ID as ID
                     if (dt.Rows.Count > 0)
                     {
                         PirelliResponseDto et = new PirelliResponseDto();
-                        et.DeliveryDatetime = Convert.ToDateTime(dt.Rows[0]["TeslimTarihi"]).ToString("yyyy-MM-dd") + "T03:00:00+03:00";
+                        et.DeliveryDatetime = Convert.ToDateTime(dt.Rows[0]["TeslimTarihi"]).ToString("yyyy-MM-ddTHH:mm:sszzz").ToString();
                         et.Manufacturer = Convert.ToString(dt.Rows[0]["Uretici"]);
                         et.ProductCode = Convert.ToString(dt.Rows[0]["StokKodu"]);
                         et.ProductDescription = Convert.ToString(dt.Rows[0]["StokAdi"]);
@@ -1790,8 +2005,9 @@ Select @ID as ID
                     cmd.Parameters.AddWithValue("@ConfirmedQuantity", item.ConfirmedQuantity);
                     cmd.Parameters.AddWithValue("@SiparisNumarasi", dt.Rows[0]["SIPARIS_NO"]);
                     DataTable dt2 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-                    item.ConfirmedDeliveryDatetime = DateTime.Now.ToString("yyyy-MM-dd") + "T03:00:00+03:00";
-                    item.RequestedDeliveryDatetime = Convert.ToDateTime(item.RequestedDeliveryDatetime).ToString("yyyy-MM-dd") + "T03:00:00+03:00";
+                    item.RequestedDeliveryDatetime = Convert.ToDateTime(item.RequestedDeliveryDatetime).ToString("yyyy-MM-ddTHH:mm:sszzz").ToString();
+                    item.ConfirmedDeliveryDatetime = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz").ToString();
+                    
 
                 }
 
@@ -1807,7 +2023,7 @@ Select @ID as ID
                 _sira = "5";
                 //Header.BuyerCode = "2400001349";
                 Header.SalesOrderNumber = Convert.ToString(dt3.Rows[0]["SIPARIS_NO"]);
-                Header.RequestedDatetime = Convert.ToDateTime(dt3.Rows[0]["TARIH"]).ToString("yyyy-MM-dd") + "T03:00:00+03:00";
+                Header.RequestedDatetime = Convert.ToDateTime(dt3.Rows[0]["TARIH"]).ToString("yyyy-MM-ddTHH:mm:sszzz").ToString();
                 result1.Header = Header;
                 result1.Items = Items;
                 //result1.Notes = Notes;
@@ -1933,10 +2149,10 @@ Select @ID as ID
         {
             string _sira = "";
             List<SupplierOrder> result1 = new List<SupplierOrder>();
+            List<SupplierOrder> Headers = data["SupplierOrders"].ToObject<List<SupplierOrder>>();
             try
             {
                 _sira = "0";
-                List<SupplierOrder> Headers = data["SupplierOrders"].ToObject<List<SupplierOrder>>();
 
                 int sira = 1;
                 foreach (SupplierOrder Header in Headers)
@@ -1994,6 +2210,7 @@ Select @ID as ID
             }
             catch (Exception err)
             {
+                result1 = Headers;
                 foreach (var item in result1)
                 {
                     item.Bilgi = err.Message;
@@ -2008,7 +2225,7 @@ Select @ID as ID
         #endregion
 
         [HttpPost]
-        public PirelliSiparisResponseDto CREATEORDERR(SupplierOrders  data)
+        public PirelliSiparisResponseDto CREATEORDERR(SupplierOrders data)
         {
             string _sira = "";
             PirelliSiparisResponseDto result1 = new PirelliSiparisResponseDto();
@@ -2470,7 +2687,8 @@ END
         public string DeliveryDate { get; set; }
         public string Description { get; set; }
         public int TotalCount { get; set; }
-        
+        public List<SupplierOrder> SupplierOrder { get; set; } //İmece için eklendi
+
         public List<SupplierOrderProductsList> SupplierOrderProductsList { get; set; }
 
     }
@@ -2560,13 +2778,8 @@ END
 
     #endregion
 
-    #region İmave Plastik Class
+    #region İmace Plastik Class
 
-    public class SupplierOrders
-    {
-        public List<SupplierOrder> SupplierOrder { get; set; }
-        public int TotalCount { get; set; }
-    }
 
     public class SupplierOrder
     {

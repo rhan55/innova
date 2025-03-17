@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using YKPortal.Models;
@@ -54,9 +55,77 @@ namespace YKPortal.Controllers
             cmd.CommandText = Sorgu;
             cmd.Parameters.AddWithValue("@ID", id);
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            ViewBag.id = id;
+
             return View(dt);
         }
+        public ActionResult GetirExcel(string id)
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/YK/Giris");
 
+            string UyelikID = GetCookie("UyelikID");
+            string KullaniciID = GetCookie("KullaniciID");
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.CommandText = "Select Sorgu From Raporlar WITH(NOLOCK) Where ID = @ID";
+            cmd.Parameters.AddWithValue("@ID", id);
+            string Sorgu = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+
+            cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.CommandText = "Select Isim From Raporlar WITH(NOLOCK) Where ID = @ID";
+            cmd.Parameters.AddWithValue("@ID", id);
+            ViewBag.Isim = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+
+            cmd = new SqlCommand();
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.CommandText = Sorgu;
+            cmd.Parameters.AddWithValue("@ID", id);
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+
+            // 2️⃣ XML Başlangıcı
+            StringBuilder xml = new StringBuilder();
+            xml.Append("<?xml version=\"1.0\"?>");
+            xml.Append("<?mso-application progid=\"Excel.Sheet\"?>");
+            xml.Append("<Workbook xmlns=\"urn:schemas-microsoft-com:office:spreadsheet\"");
+            xml.Append(" xmlns:o=\"urn:schemas-microsoft-com:office:office\"");
+            xml.Append(" xmlns:x=\"urn:schemas-microsoft-com:office:excel\"");
+            xml.Append(" xmlns:ss=\"urn:schemas-microsoft-com:office:spreadsheet\">");
+            xml.Append("<Worksheet ss:Name=\"Siparişler\">");
+            xml.Append("<Table>");
+
+            // 3️⃣ Başlık Satırını Ekleyelim
+            xml.Append("<Row>");
+            foreach (DataColumn column in dt.Columns)
+            {
+                xml.AppendFormat("<Cell><Data ss:Type='String'>{0}</Data></Cell>", column.ColumnName);
+            }
+            xml.Append("</Row>");
+
+            // 4️⃣ Satırları Ekleyelim
+            foreach (DataRow row in dt.Rows)
+            {
+                xml.Append("<Row>");
+                foreach (DataColumn column in dt.Columns)
+                {
+                    string value = row[column].ToString();
+                    xml.AppendFormat("<Cell><Data ss:Type='String'>{0}</Data></Cell>", value);
+                }
+                xml.Append("</Row>");
+            }
+
+            // 5️⃣ XML Kapatma
+            xml.Append("</Table>");
+            xml.Append("</Worksheet>");
+            xml.Append("</Workbook>");
+
+            // 6️⃣ Dosyayı Kullanıcıya İndirtelim
+            byte[] fileBytes = Encoding.UTF8.GetBytes(xml.ToString());
+            return File(fileBytes, "application/vnd.ms-excel", "Rapor.xls");
+        }
 
         public ActionResult SebatIsEmriRaporu(DateTime? Baslangic= null, DateTime? Bitis=null)
         {

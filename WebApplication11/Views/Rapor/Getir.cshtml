@@ -10,7 +10,8 @@
         <div class="col-lg-12 p-0">
             <div class="content d-flex justify-center flex-column flex-column-fluid p-0" id="kt_content">
                 <h2>@ViewBag.Isim</h2>
-                <!--begin::Post-->
+                <!--begin::Post-->                    
+                <a href="@Url.Action("GetirExcel","Rapor", new { id =  ViewBag.id })">Excel'e Aktar</a>
                 <div class="post d-flex flex-column-fluid" id="kt_post">
                     <!--begin::Container-->
                     <div id="kt_content_container" class="container-fluid p-0 m-0" style="background-color:white;">

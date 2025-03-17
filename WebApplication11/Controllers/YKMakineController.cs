@@ -240,7 +240,7 @@ Order by StokGarantiTarihleri.SeriNo ";
 
             if (Baslangic == "")
             {
-                Baslangic = ("2024-01-01");
+                Baslangic = (DateTime.Today.Year+"-01-01");
             }
             if (Bitis == "")
             {
