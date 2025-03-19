@@ -11,6 +11,9 @@ namespace YKPortal.Models.Dto
         public string ID;
         public string Ders;
         public string Sira;
+        public string SinifId;
+        public string EgitimDuzeyId;
+        
         public string KayitTarihi;
         public string KayitYapanKullanici;
     }

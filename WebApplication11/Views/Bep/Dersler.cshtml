@@ -10,24 +10,23 @@
             <div class="d-flex flex-column scroll-y px-5 px-lg-10  mt-10">
                 <div class="row mb-7">
                     <div class="col-lg-8">
-                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Sınıf</label>
-                        <select id="ddlSinif" style="width:400px;">
-                            @if (ViewBag.Sinif != null)
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Eğitim Düzeyi</label>
+                        <select id="ddlegitimduzeyi" style="width:400px;">
+
+                            @if (ViewBag.EgitimDuzeyi != null)
                             {
-                                foreach (var item in ViewBag.Sinif)
+                                foreach (var item in ViewBag.EgitimDuzeyi)
                                 {
-                                    <option value="@item.ID">@item.Sinif</option>
+                                    <option value="@item.ID">@item.EgitimDuzeyi</option>
                                 }
                             }
                         </select>
                     </div>
                     <div class="col-lg-8">
-                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Eğitim Düzeyi</label>
-                        <select id="ddlegitimduzeyi" style="width:400px;"></select>
-                    </div>
-                    <div class="col-lg-8">
-                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Sınıf Düzeyi</label>
-                        <select id="ddlsinifduzeyi" style="width:400px;"></select>
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Sınıf</label>
+                        <select id="ddlSinif" style="width:400px;">
+
+                        </select>
                     </div>
                     <div class="col-lg-12">
                         <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Ders</label>
@@ -88,43 +87,20 @@
             Listele();
         });
 
-        $("#ddlSinif").on("change", function () {
-            alert('1');
+        $("#ddlegitimduzeyi").on("change", function () {
+            egitimduzeyigetir();
         });
 
         function egitimduzeyigetir() {
+            $("#ddlSinif").find("option").remove();
             $.ajax({
-                url: '/Bep/egitimduzeylerigetir',
+                url: '/Bep/egitimduzeylerisinifgetir',
                 type: 'POST',
-                data: JSON.stringify({ ders: $("#txtDers").val(), id: id, Sira: $("#txtSira").val() }),
+                data: JSON.stringify({ egitimduzeyid: $("#ddlegitimduzeyi").val() }),
                 contentType: 'application/json',
                 success: function (data) {
                     data.forEach(function (seri) {
-
-                        var butongroup = "";
-                        butongroup += '<tr data-id="' + seri.ID + '" data-sira="' + seri.Sira + '" data-text="' + seri.Ders + '">';
-
-                        butongroup += '<td class="align-items-center p-0">';
-                        butongroup += seri.Sira;
-                        butongroup += '</td>';
-
-                        butongroup += '<td class="align-items-center p-0">';
-                        butongroup += seri.Ders;
-                        butongroup += '</td>';
-
-                        butongroup += '<td class="text-end py-1">';
-                        butongroup += '<div class="menu-item p-0" style="float: left;">';
-                        butongroup += '<a href="javascript:void(0);" class="menu-link px-2 py-0 btnduzenle">Düzenle</a>';
-                        butongroup += '</div>';
-
-                        butongroup += '<div class="menu-item p-0" style="float: left;">';
-                        butongroup += '<a href="javascript:void(0);" class="menu-link px-2 py-0 btnsil">Sil</a>';
-                        butongroup += '</div>';
-
-                        butongroup += '</td>';
-                        butongroup += '</tr>';
-
-                        $("#tblliste tbody").append(butongroup);
+                        $("#ddlSinif").append("<option value=" + seri.ID + ">" + seri.Sinif +"</option>");
                     });
                 },
             });
@@ -137,10 +113,11 @@
                 type: 'POST',
                 contentType: 'application/json',
                 success: function (data) {
+
                     data.forEach(function (seri) {
 
                         var butongroup = "";
-                        butongroup += '<tr data-id="' + seri.ID + '" data-sira="' + seri.Sira + '" data-text="' + seri.Ders + '">';
+                        butongroup += '<tr data-id="' + seri.ID + '" data-sira="' + seri.Sira + '" data-egitimduzeyid="' + seri.EgitimDuzeyId + '" data-sinifid="' + seri.SinifId + '" data-text="' + seri.Ders + '">';
 
                         butongroup += '<td class="align-items-center p-0">';
                         butongroup += seri.Sira;
@@ -169,6 +146,9 @@
                         id = $(this).closest("tr").attr("data-id");
                         $("#txtDers").val($(this).closest("tr").attr("data-text"));
                         $("#txtSira").val($(this).closest("tr").attr("data-sira"));
+                        $("#ddlegitimduzeyi").val($(this).closest("tr").attr("data-egitimduzeyid"));
+                        $("#ddlSinif").val($(this).closest("tr").attr("data-sinifid"));
+                        
                     });
 
                     $(".btnsil").on("click", function () {

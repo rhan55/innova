@@ -333,6 +333,27 @@ namespace YKPortal.Controllers
             }
             return Json(list, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult egitimduzeylerisinifgetir(string egitimduzeyid)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "SELECT * FROM BepSinif WITH(NOLOCK) WHERE EgitimDuzeyId=@egitimduzeyid";
+            cmd.Parameters.AddWithValue("@egitimduzeyid", egitimduzeyid);
+            cmd.CommandType = CommandType.Text;
+
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            var list = new List<BepSinifDto>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                list.Add(new BepSinifDto
+                {
+                    ID = Convert.ToString(dt.Rows[i]["ID"]),
+                    Sinif = Convert.ToString(dt.Rows[i]["Sinif"]),
+                    EgitimDuzeyId = Convert.ToString(dt.Rows[i]["EgitimDuzeyId"]),
+                    Sira = Convert.ToString(dt.Rows[i]["Sira"]),
+                });
+            }
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult EgitimDuzeyiSil(string id)
         {
             SqlCommand cmd = new SqlCommand();
@@ -352,7 +373,7 @@ namespace YKPortal.Controllers
 
 
             SqlCommand cmdil = new SqlCommand();
-            cmdil.CommandText = "select * from BepEgitimDuzeyi With(nolock)";
+            cmdil.CommandText = "SELECT * FROM BepEgitimDuzeyi WITH(NOLOCK) ORDER BY Sira ASC";
             cmdil.CommandType = System.Data.CommandType.Text;
             DataTable stokGrupKod1DataTable = (DataTable)IDVeritabani.Sorgula(cmdil, SorgulaTuru.Tablo);
             List<BepEgitimDuzeyi> entities = new List<BepEgitimDuzeyi>();
@@ -486,28 +507,23 @@ namespace YKPortal.Controllers
         }
         public ActionResult Dersler()
         {
-            //if (!AutoGirisKontrol())
-            //    return Redirect("~/YK/Giris");
-
             string UyelikID = GetCookie("UyelikID");
             string KullaniciID = GetCookie("KullaniciID");
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "SELECT * FROM BepSinif WITH(NOLOCK) ORDER BY Sira ASC";
+            cmd.CommandText = "SELECT * FROM BepEgitimDuzeyi WITH(NOLOCK) ORDER BY Sira ASC";
             cmd.CommandType = CommandType.Text;
-
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-            var liste = new List<BepSinifDto>();
+            var liste = new List<BepEgitimDuzeyi>();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                liste.Add(new BepSinifDto
+                liste.Add(new BepEgitimDuzeyi
                 {
                     ID = Convert.ToString(dt.Rows[i]["ID"]),
-                    Sinif = Convert.ToString(dt.Rows[i]["Sinif"]),
-                    EgitimDuzeyId = Convert.ToString(dt.Rows[i]["EgitimDuzeyId"]),
+                    EgitimDuzeyi = Convert.ToString(dt.Rows[i]["EgitimDuzeyi"]),
                     Sira = Convert.ToString(dt.Rows[i]["Sira"]),
                 });
             }
-            ViewBag.Sinif = liste;
+            ViewBag.EgitimDuzeyi = liste;
             return View();
         }
         public JsonResult DersGetir()
@@ -524,6 +540,8 @@ namespace YKPortal.Controllers
                 {
                     ID = Convert.ToString(dt.Rows[i]["ID"]),
                     Ders = Convert.ToString(dt.Rows[i]["Ders"]),
+                    EgitimDuzeyId = Convert.ToString(dt.Rows[i]["EgitimDuzeyId"]),
+                    SinifId = Convert.ToString(dt.Rows[i]["SinifId"]),
                     Sira = Convert.ToString(dt.Rows[i]["Sira"]),
                 });
             }
