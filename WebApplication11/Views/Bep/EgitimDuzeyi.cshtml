@@ -5,6 +5,7 @@
 }
 
 <div class="container">
+  
     <div class="row">
         <div class="col-lg-12">
             <div class="d-flex flex-column scroll-y px-5 px-lg-10  mt-10">
@@ -41,12 +42,14 @@
             </tbody>
         </table>
     </div>
+
 </div>
 
 
 
 @section Scripts {
     <script>
+
         var id = "";
         $("#btnkaydet").on("click", function () {
             $.ajax({
@@ -83,11 +86,9 @@
                         butongroup += '<a href="" class="text-gray-600 text-hover-primary">' + seri.Sira + '</a>';
                         butongroup += '</td>';
 
-
                         butongroup += '<td class="align-items-center p-0">';
                         butongroup += seri.EgitimDuzeyi;
                         butongroup += '</td>';
-
 
                         butongroup += '<td class="text-end py-1">';
                         butongroup += '<div class="menu-item p-0" style="float: left;">';
@@ -141,6 +142,7 @@
                 },
             });
         }
+
     </script>
 }
 

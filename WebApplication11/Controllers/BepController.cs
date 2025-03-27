@@ -529,7 +529,11 @@ namespace YKPortal.Controllers
         public JsonResult DersGetir()
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "SELECT * FROM BepDers WITH(NOLOCK) ORDER BY Sira ASC";
+            cmd.CommandText = @"SELECT b.Id,b.Sira,b.Ders,s.Sinif,e.EgitimDuzeyi,b.EgitimDuzeyId,b.SinifId FROM BepDers as b WITH(NOLOCK) 
+                                INNER JOIN BepSinif as s WITH(NOLOCK)
+                                ON s.Id=b.SinifId
+                                INNER JOIN BepEgitimDuzeyi as E WITH(NOLOCK)
+                                ON s.EgitimDuzeyId=e.ID ORDER BY B.Sira ASC";
             cmd.CommandType = CommandType.Text;
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
@@ -542,6 +546,8 @@ namespace YKPortal.Controllers
                     Ders = Convert.ToString(dt.Rows[i]["Ders"]),
                     EgitimDuzeyId = Convert.ToString(dt.Rows[i]["EgitimDuzeyId"]),
                     SinifId = Convert.ToString(dt.Rows[i]["SinifId"]),
+                    Sinif = Convert.ToString(dt.Rows[i]["Sinif"]),
+                    EgitimDuzeyi = Convert.ToString(dt.Rows[i]["EgitimDuzeyi"]),
                     Sira = Convert.ToString(dt.Rows[i]["Sira"]),
                 });
             }
@@ -549,7 +555,7 @@ namespace YKPortal.Controllers
         }
 
         [HttpPost]
-        public JsonResult DersKaydet(string ders, string id, string Sira)
+        public JsonResult DersKaydet(string ders, string id, string egitimduzeyid, string sinifId, string Sira)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_BepDersKaydet";
@@ -557,6 +563,8 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@ID", id);
             cmd.Parameters.AddWithValue("@Ders", ders);
             cmd.Parameters.AddWithValue("@Sira", Sira);
+            cmd.Parameters.AddWithValue("@EgitimDuzeyId", egitimduzeyid);
+            cmd.Parameters.AddWithValue("@SinifId", sinifId);
             cmd.Parameters.AddWithValue("@KayitYapanKullanici", GetCookie("UyelikID"));
             IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
             return Json("", JsonRequestBehavior.AllowGet);
@@ -593,22 +601,46 @@ namespace YKPortal.Controllers
             ViewBag.iller = ilcelistesi;
             return View();
         }
-        public JsonResult SorulariGetir(string dersid)
+
+        public ActionResult Hedefler()
+        {
+            //if (!AutoGirisKontrol())
+            //    return Redirect("~/YK/Giris");
+            string UyelikID = GetCookie("UyelikID");
+            string KullaniciID = GetCookie("KullaniciID");
+
+            SqlCommand cmdil = new SqlCommand();
+            cmdil.CommandText = "select * from BepDers With(nolock)";
+            cmdil.CommandType = System.Data.CommandType.Text;
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmdil, SorgulaTuru.Tablo);
+            var ilcelistesi = new List<BepDers>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                ilcelistesi.Add(new BepDers
+                {
+                    ID = Convert.ToString(dt.Rows[i]["ID"]),
+                    Ders = Convert.ToString(dt.Rows[i]["Ders"]),
+                });
+            }
+            ViewBag.iller = ilcelistesi;
+            return View();
+        }
+        public JsonResult HedefleriGetir(string dersid)
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "SELECT * FROM BepSoru WITH(NOLOCK) where DersId=@DersId ORDER BY Sira ASC";
+            cmd.CommandText = "SELECT * FROM BepHedef WITH(NOLOCK) where DersId=@DersId ORDER BY Sira ASC";
             cmd.Parameters.AddWithValue("@DersId", dersid);
             cmd.CommandType = CommandType.Text;
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-            var liste = new List<BepSoru>();
+            var liste = new List<BepHedef>();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                liste.Add(new BepSoru
+                liste.Add(new BepHedef
                 {
                     ID = Convert.ToString(dt.Rows[i]["ID"]),
                     DERSID = Convert.ToString(dt.Rows[i]["DERSID"]),
-                    Soru = Convert.ToString(dt.Rows[i]["Soru"]),
+                    Hedef = Convert.ToString(dt.Rows[i]["Hedef"]),
                     Sira = Convert.ToString(dt.Rows[i]["Sira"]),
                 });
             }
@@ -616,23 +648,23 @@ namespace YKPortal.Controllers
         }
 
         [HttpPost]
-        public JsonResult SoruKaydet(string soru, string id, string dersid, string sira)
+        public JsonResult HedefKaydet(string hedef, string id, string dersid, string sira)
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "p_BepSoruKaydet";
+            cmd.CommandText = "p_BepHedefKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@ID", id);
-            cmd.Parameters.AddWithValue("@Soru", soru);
+            cmd.Parameters.AddWithValue("@Hedef", hedef);
             cmd.Parameters.AddWithValue("@DersId", dersid);
             cmd.Parameters.AddWithValue("@Sira", sira);
             cmd.Parameters.AddWithValue("@KayitYapanKullanici", GetCookie("UyelikID"));
             IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
             return Json("", JsonRequestBehavior.AllowGet);
         }
-        public JsonResult SoruSil(string id)
+        public JsonResult HedefSil(string id)
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "delete from BepSoru WHERE ID=@ID";
+            cmd.CommandText = "delete from BepHedef WHERE ID=@ID";
             cmd.CommandType = CommandType.Text;
             cmd.Parameters.AddWithValue("@ID", id);
             IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
@@ -732,7 +764,7 @@ namespace YKPortal.Controllers
         public JsonResult YontemTeknikGetir(string dersid)
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "SELECT * FROM BepYontemTeknik WITH(NOLOCK) where DersId=@DersId";
+            cmd.CommandText = "SELECT * FROM BepYontemTeknik WITH(NOLOCK) where DersId=@DersId Order by Sira ASC";
             cmd.Parameters.AddWithValue("@DersId", dersid);
             cmd.CommandType = CommandType.Text;
 
@@ -792,30 +824,83 @@ namespace YKPortal.Controllers
             string rehberogretmeni,
             string uygulayici,
             string mudur,
-            string dersler
+            string dersler,
+            string hedefler,
+            string yontemler,
+            string aracgerec
             )
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_BepKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@ilid", ilid);
-            cmd.Parameters.AddWithValue("@ilceid", ilceid);
-            cmd.Parameters.AddWithValue("@okulid", okulid);
-            cmd.Parameters.AddWithValue("@donem", donem);
-            cmd.Parameters.AddWithValue("@adi", adi);
-            cmd.Parameters.AddWithValue("@soyadi", soyadi);
-            cmd.Parameters.AddWithValue("@egitimduzeyi", egitimduzeyi);
-            cmd.Parameters.AddWithValue("@sinif", sinif);
-            cmd.Parameters.AddWithValue("@ogrencivelisi", ogrencivelisi);
-            cmd.Parameters.AddWithValue("@sinifduzeyi", sinifduzeyi);
-            cmd.Parameters.AddWithValue("@sinifrehberogretmeni", sinifrehberogretmeni);
-            cmd.Parameters.AddWithValue("@bransogretmeni", bransogretmeni);
-            cmd.Parameters.AddWithValue("@rehberogretmeni", rehberogretmeni);
-            cmd.Parameters.AddWithValue("@uygulayici", uygulayici);
-            cmd.Parameters.AddWithValue("@mudur", mudur);
-            cmd.Parameters.AddWithValue("@dersler", dersler);
-            cmd.Parameters.AddWithValue("@KayitYapanKullanici", GetCookie("UyelikID"));
-            IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+            cmd.Parameters.AddWithValue("@IlId", ilid);
+            cmd.Parameters.AddWithValue("@IlceId", ilceid);
+            cmd.Parameters.AddWithValue("@OkulId", okulid);
+            cmd.Parameters.AddWithValue("@Donem", donem);
+            cmd.Parameters.AddWithValue("@Adi", adi);
+            cmd.Parameters.AddWithValue("@Soyadi", soyadi);
+            cmd.Parameters.AddWithValue("@EgitimDuzeyId", egitimduzeyi);
+            cmd.Parameters.AddWithValue("@SinifId", sinif);
+            cmd.Parameters.AddWithValue("@OgrenciVelisi", ogrencivelisi);
+            cmd.Parameters.AddWithValue("@SinifDuzeyId", sinifduzeyi);
+            cmd.Parameters.AddWithValue("@SinifRehberOgretmeni", sinifrehberogretmeni);
+            cmd.Parameters.AddWithValue("@BransOgretmeni", bransogretmeni);
+            cmd.Parameters.AddWithValue("@RehberOgretmeni", rehberogretmeni);
+            cmd.Parameters.AddWithValue("@Uygulayici", uygulayici);
+            cmd.Parameters.AddWithValue("@Mudur", mudur);
+            cmd.Parameters.AddWithValue("@Dersler", dersler);
+            String Id = IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek).ToString();
+            List<String> _hedefler = hedefler.Split('&').ToList();
+            List<String> _yontemler = yontemler.Split('&').ToList();
+            List<String> _aracgerec = aracgerec.Split('&').ToList();
+            for (int i = 0; i < _hedefler.Count; i++)
+            {
+                if (_hedefler[i] != "")
+                {
+                    string hedef = _hedefler[i].ToString().Split('|')[0];
+                    string durum = _hedefler[i].ToString().Split('|')[1];
+
+                    SqlCommand cmd1 = new SqlCommand();
+                    cmd1.CommandText = "INSERT INTO BepHedefler (BepId,HedefId,Durum)values(@BepId,@HedefId,@Durum)";
+                    cmd1.CommandType = System.Data.CommandType.Text;
+                    cmd1.Parameters.AddWithValue("@BepId", Id);
+                    cmd1.Parameters.AddWithValue("@HedefId", hedef);
+                    cmd1.Parameters.AddWithValue("@Durum", durum);
+                    IDVeritabani.Sorgula(cmd1, SorgulaTuru.Bos);
+                }
+            }
+            for (int i = 0; i < _yontemler.Count; i++)
+            {
+                if (_yontemler[i] != "")
+                {
+                    string yontem = _yontemler[i].ToString().Split('|')[0];
+                    string durum = _yontemler[i].ToString().Split('|')[1];
+
+                    SqlCommand cmd1 = new SqlCommand();
+                    cmd1.CommandText = "INSERT INTO BepYontemler (BepId,YontemId,Durum)values(@BepId,@YontemId,@Durum)";
+                    cmd1.CommandType = System.Data.CommandType.Text;
+                    cmd1.Parameters.AddWithValue("@BepId", Id);
+                    cmd1.Parameters.AddWithValue("@YontemId", yontem);
+                    cmd1.Parameters.AddWithValue("@Durum", durum);
+                    IDVeritabani.Sorgula(cmd1, SorgulaTuru.Bos);
+                }
+            }
+            for (int i = 0; i < _aracgerec.Count; i++)
+            {
+                if (_aracgerec[i] != "")
+                {
+                    string yontem = _aracgerec[i].ToString().Split('|')[0];
+                    string durum = _aracgerec[i].ToString().Split('|')[1];
+
+                    SqlCommand cmd1 = new SqlCommand();
+                    cmd1.CommandText = "INSERT INTO BepAracGerecler (BepId,AracGerecId,Durum)values(@BepId,@AracGerecId,@Durum)";
+                    cmd1.CommandType = System.Data.CommandType.Text;
+                    cmd1.Parameters.AddWithValue("@BepId", Id);
+                    cmd1.Parameters.AddWithValue("@AracGerecId", yontem);
+                    cmd1.Parameters.AddWithValue("@Durum", durum);
+                    IDVeritabani.Sorgula(cmd1, SorgulaTuru.Bos);
+                }
+            }
             return Json("", JsonRequestBehavior.AllowGet);
         }
         public bool AutoGirisKontrol()

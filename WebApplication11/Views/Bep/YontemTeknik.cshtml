@@ -90,7 +90,7 @@
                     data.forEach(function (seri) {
 
                         var butongroup = "";
-                        butongroup += '<tr data-id="' + seri.ID + '" data-dersid="' + seri.DersId + '" data-text="' + seri.YontemTeknik + '">';
+                        butongroup += '<tr data-id="' + seri.ID + '" data-dersid="' + seri.DersId + '" data-sira="' + seri.Sira + '" data-text="' + seri.YontemTeknik + '">';
                         butongroup += '<td class="align-items-center p-0">';
                         butongroup += seri.Sira;
                         butongroup += '</td>';
@@ -117,6 +117,7 @@
                     $(".btnduzenle").on("click", function () {
                         id = $(this).closest("tr").attr("data-id");
                         $("#txtYontemTeknik").val($(this).closest("tr").attr("data-text"));
+                        $("#txtSira").val($(this).closest("tr").attr("data-sira"));
                     });
 
                     $(".btnsil").on("click", function () {

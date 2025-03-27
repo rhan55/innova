@@ -21,8 +21,8 @@
                         </select>
                     </div>
                     <div class="col-lg-8">
-                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width: 40px; ">Soru</label>
-                        <input type="text" id="txtSoru" value="" style="width:400px;" />
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width: 40px; ">Hedef</label>
+                        <input type="text" id="txtHedef" value="" style="width:400px;" />
                     </div>
                     <div class="col-lg-8">
                         <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width: 40px;">Sıra</label>
@@ -61,12 +61,12 @@
         var id = "";
         $("#btnkaydet").on("click", function () {
             $.ajax({
-                url: '/Bep/SoruKaydet',
-                data: JSON.stringify({ dersid: $("#ddlders").val(), id: id, soru: $("#txtSoru").val(), sira: $("#txtSira").val() }),
+                url: '/Bep/HedefKaydet',
+                data: JSON.stringify({ dersid: $("#ddlders").val(), id: id, hedef: $("#txtHedef").val(), sira: $("#txtSira").val() }),
                 type: 'POST',
                 contentType: 'application/json',
                 success: function (data) {
-                    $("#txtSoru").val("");
+                    $("#txtHedef").val("");
                     $("#txtSira").val("");
                     Listele();
                 },
@@ -83,21 +83,21 @@
             if ($("#ddlders").val() != "-1") {
 
                 $.ajax({
-                    url: '/Bep/SorulariGetir',
+                    url: '/Bep/HedefleriGetir',
                     type: 'POST',
                     data: JSON.stringify({ DersId: $("#ddlders").val(), id: id }),
                     contentType: 'application/json',
                     success: function (data) {
                         data.forEach(function (seri) {
                             var butongroup = "";
-                            butongroup += '<tr  data-sira="' + seri.Sira + '" data-id="' + seri.ID + '" data-text="' + seri.Soru + '">';
+                            butongroup += '<tr  data-sira="' + seri.Sira + '" data-id="' + seri.ID + '" data-text="' + seri.Hedef + '">';
 
                             butongroup += '<td class="align-items-center p-0">';
                             butongroup += seri.Sira;
                             butongroup += '</td>';
 
                             butongroup += '<td class="align-items-center p-0">';
-                            butongroup += seri.Soru;
+                            butongroup += seri.Hedef;
                             butongroup += '</td>';
 
                             butongroup += '<td class="text-end py-1">';
@@ -117,7 +117,7 @@
 
                         $(".btnduzenle").on("click", function () {
                             id = $(this).closest("tr").attr("data-id");
-                            $("#txtSoru").val($(this).closest("tr").attr("data-text"));
+                            $("#txtHedef").val($(this).closest("tr").attr("data-text"));
                             $("#txtSira").val($(this).closest("tr").attr("data-sira"));
                         });
 
@@ -138,7 +138,7 @@
                                 if (result.isConfirmed) {
                                     var secilisatir = $(this).closest("tr");
                                     $.ajax({
-                                        url: '/Bep/SoruSil',
+                                        url: '/Bep/HedefSil',
                                         data: JSON.stringify({ id: secilisatir.attr("data-id") }),
                                         type: 'POST',
                                         contentType: 'application/json',

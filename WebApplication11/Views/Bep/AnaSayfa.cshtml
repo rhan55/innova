@@ -12,16 +12,13 @@
     <link rel="icon" type="image/png" href="/Content/assets/img/favicon.png" />
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
-
     <link rel="canonical" href="https://www.creative-tim.com/product/paper-bootstrap-wizard" />
     <meta itemprop="name" content="Paper Bootstrap Wizard by Creative Tim">
     <meta itemprop="description" content="Paper Bootstrap Wizard is a fully responsive wizard that is inspired by our famous Paper Kit  and comes with 3 useful examples and 5 colors.">
     <meta itemprop="image" content="https://s3.amazonaws.com/creativetim_bucket/products/49/opt_pbw_thumbnail.jpg">
-
     <link href="~/Content/assets/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/assets/css/paper-bootstrap-wizard.css" rel="stylesheet" />
     <link href="~/Content/assets/css/demo.css" rel="stylesheet" />
-
     <link href="https://netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Muli:400,300' rel='stylesheet' type='text/css'>
     <link href="~/Content/assets/css/themify-icons.css" rel="stylesheet">
@@ -368,8 +365,8 @@
             height: 34px;
             float: right;
         }
-        /* Hide default HTML checkbox */
-        .switch input {
+            /* Hide default HTML checkbox */
+            .switch input {
                 display: none;
             }
         /* The slider */
@@ -385,7 +382,7 @@
             transition: .4s;
         }
 
-        .slider:before {
+            .slider:before {
                 position: absolute;
                 content: "";
                 height: 26px;
@@ -436,11 +433,12 @@
             border-radius: 34px;
         }
 
-        .slider.round:before {
+            .slider.round:before {
                 border-radius: 50%;
             }
+
         .wizard-container {
-        padding-top:0px;
+            padding-top: 0px;
         }
     </style>
 </head>
@@ -457,8 +455,6 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="wizard-container">
-                        <form>
-                        </form>
                         <div class="card wizard-card" data-color="orange" id="wizardProfile">
                             <form action="" method="">
                                 <div class="wizard-navigation">
@@ -504,8 +500,7 @@
                                     <div class="tab-pane" id="about">
                                         <div class="row">
                                             <h5 class="info-text">Okul bİlgİlerİ</h5>
-                                            <div class="col-sm-4 col-sm-offset-1">
-                                            </div>
+                                            <div class="col-sm-4 col-sm-offset-1"></div>
                                             <h5 class="info-text">
                                                 Öğrencinin okul bilgileri, adı, sınıfı ve kayıtlı olduğu eğitim kurumunun adı gibi temel bilgileri içerir; bu bilgilerin doğru ve eksiksiz şekilde girilmesi, belgelerin resmi geçerliliğini sağlar. Yanlış veya eksik bilgi girişi, hem öğrencinin akademik işlemlerinde sorunlara neden olabilir hem de belge düzenleyen kurumun sorumluluğunu artırabilir.
                                             </h5>
@@ -524,7 +519,6 @@
                                                 <div class="form-group">
                                                     <label>İlçe</label>
                                                     <select name="ddlilce" class="form-control" id="ddlilce">
-                                                        <option value="">...</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -532,7 +526,6 @@
                                                 <div class="form-group">
                                                     <label>Okul</label>
                                                     <select id="ddlokul" name="ddlokul" class="form-control">
-                                                        <option value="">...</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -563,16 +556,16 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label>Eğitim Düzeyi</label>
-                                                    <select class="form-control" name="ddlegitimduzeyi" id="ddlegitimduzeyi">
-                                                        <option value="">...</option>
+                                                    <select name="ddlegitimduzeyi" id="ddlegitimduzeyi" class="form-control" style="width: 100%;">
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label>Sınıf</label>
-                                                    <select class="form-control" id="ddlsinif" name="ddlsinif">
-                                                        <option value="">...</option>
+                                                    <select id="ddlsinif" name="ddlsinif" class="form-control" style="width: 100%;">
+                                                        >
+
                                                     </select>
                                                 </div>
                                             </div>
@@ -585,8 +578,7 @@
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label>Sınıf Düzeyi</label>
-                                                    <select class="form-control" id="ddlsinifduzeyi" name="ddlsinifduzeyi">
-                                                        <option value="">...</option>
+                                                    <select id="ddlsinifduzeyi" name="ddlsinifduzeyi" class="form-control" style="width: 100%;">
                                                     </select>
                                                 </div>
                                             </div>
@@ -637,13 +629,16 @@
                                             </div>
                                             <div class="col-sm-12">
                                                 <div class="form-group">
-                                                    <label>Ders</label><br>
-                                                    <select id="ddldersler" name="ddldersler" class="form-control">
+                                                    <label>Ders</label>
+                                                    <select id="ddldersler" name="ddldersler" class="form-control" style="width:100%;">
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
+
+
                                 </div>
                                 <div class="wizard-footer">
                                     <div class="pull-right">
@@ -657,13 +652,14 @@
                                 </div>
                             </form>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal right fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel"
-         aria-hidden="true">
+
+    <div class="modal right fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
         <div class="modal-dialog" style="width: 50%;">
             <div class="modal-content">
                 <div class="modal-body">
@@ -729,6 +725,21 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="row checklist" id="divaracgerecler">
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <table class="table table-bordered" id="tblaracgerec">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col" class="col-10"></th>
+                                                                        <th scope="col" style="width: 10%;">Yapar</th>
+                                                                        <th scope="col" style="width: 10%;">Yapamaz</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -740,13 +751,33 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="row checklist" id="divyontemler">
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <table class="table table-bordered" id="tblyontemler">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col" class="col-10"></th>
+                                                                        <th scope="col" style="width: 10%;">Yapar</th>
+                                                                        <th scope="col" style="width: 10%;">Yapamaz</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="pull-right">
+                                <input type='button' id="btnKaydet" class='btn btn-next btn-default btn-wd' value='Kaydet' />
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -762,15 +793,27 @@
     <script src="~/Content/assets/js/modal.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript">
+        function sweetalert(message = "", type = "success") {
+            Swal.fire({
+                text: message,
+                icon: type,
+                buttonsStyling: false,
+                confirmButtonText: "Tamam!",
+                customClass: {
+                    confirmButton: "btn btn-primary"
+                }
+            });
+        }
 
         $(document).ready(function () {
-            $("select").select2();
             DersleriListele();
+            $("select").select2();
         });
 
         $("#ddldersler").on("change", function () {
-            SorulariGetir($(this).val());
+            HedefleriGetir($(this).val());
             AracGerecGetir($(this).val());
             YontemGetir($(this).val());
         });
@@ -789,39 +832,9 @@
             SinifListele();
         });
 
-        $("#btnkaydet").on("click", function () {
-            var data = {
-                ilid: $("#ddlilid").val(),
-                ilceid: $("#ddlilceid").val(),
-                okulid: $("#ddlokul").val(),
-                donem: $("#txtDonem").val(),
-                adi: $("#txtadi").val(),
-                soyadi: $("#txtsoyadi").val(),
-                egitimduzeyi: $("#ddlegitimduzeyi").val(),
-                sinif: $("#ddlsinif").val(),
-                ogrencivelisi: $("#txtOgrenciVelisi").val(),
-                sinifduzeyi: $("#ddlsinifduzeyi").val(),
-                sinifrehberogretmeni: $("#txtSinifRehberOgretmeni").val(),
-                bransogretmeni: $("#txtBransOgretmeni").val(),
-                rehberogretmeni: $("#txtRehberOgretmeni").val(),
-                uygulayici: $("#txtUygulayici").val(),
-                mudur: $("#txtMudur").val(),
-                dersler: $("#ddldersler").val(),
-            }
-            $.ajax({
-                url: '/Bep/BepKaydet',
-                data: data,
-                type: 'POST',
-                contentType: 'application/json',
-                success: function (data) {
-                    $("#txtSinif").val("");
-                },
-            });
-        });
-
         function ilgetir() {
             $('#ddlilce').find("option").remove();
-            $("#ddlilce").append('<option>...</option>');
+
             $.ajax({
                 url: '/Bep/ilcegetir',
                 data: JSON.stringify({ ilid: $("#ddlil").val() }),
@@ -837,7 +850,7 @@
 
         function Okulgetir(ilid, ilceid) {
             $('#ddlokul').find("option").remove();
-            $("#ddlokul").append('<option>...</option>');
+
             $.ajax({
                 url: '/Bep/okulgetir',
                 data: JSON.stringify({ ilceid: ilceid, ilid: ilid }),
@@ -853,7 +866,6 @@
 
         function EgitimDuzeyiListele() {
             $('#ddlegitimduzeyi').find("option").remove();
-            $("#ddlegitimduzeyi").append('<option>...</option>');
             $.ajax({
                 url: '/Bep/egitimduzeylerigetir',
                 type: 'POST',
@@ -862,13 +874,13 @@
                     data.forEach(function (seri) {
                         $("#ddlegitimduzeyi").append('<option value=' + seri.ID + '>' + seri.EgitimDuzeyi + '</option>');
                     });
+                    $("#ddlegitimduzeyi").select2();
                 },
             });
         }
 
         function SinifListele() {
             $('#ddlsinif').find("option").remove();
-            $("#ddlsinif").append('<option>...</option>');
             $.ajax({
                 url: '/Bep/siniflarigetir',
                 type: 'POST',
@@ -878,7 +890,7 @@
                     data.forEach(function (seri) {
                         $("#ddlsinif").append('<option value=' + seri.ID + '>' + seri.Sinif + '</option>');
                     });
-
+                    $("#ddlsinif").select2();
                 },
             });
         }
@@ -914,7 +926,7 @@
         }
 
         function YontemGetir(dersid) {
-            $("#divyontemler").html("");
+            $("#tblyontemler > tbody > tr").remove();
             var data = {
                 dersid: dersid,
             }
@@ -925,14 +937,26 @@
                 contentType: 'application/json',
                 success: function (data) {
                     data.forEach(function (seri) {
-                        $("#divyontemler").append("<div class='row checklist'><div class='checkbox col-xs-6 col-sm-4 col-md-3 col-lg-2''><label style='white-space: nowrap;'><input type='checkbox'>" + seri.YontemTeknik + "</label></div></div>");
+                        $("#tblyontemler > tbody").append("<tr data-id='" + seri.ID + "'><td>" + seri.YontemTeknik + "</td><td class='myCheckbox'><input type='checkbox' class='chkevet' style='text-align:center' /></td><td class='myCheckbox'><input type='checkbox' class='chkhayir'  style='text-align:center' /></td>");
+                    });
+
+                    $('.chkevet').change(function () {
+                        if (this.checked) {
+                            $(this).closest("tr").find(".chkhayir").prop('checked', false);
+                        }
+                    });
+
+                    $('.chkhayir').change(function () {
+                        if (this.checked) {
+                            $(this).closest("tr").find(".chkevet").prop('checked', false);
+                        }
                     });
                 },
             });
         };
 
         function AracGerecGetir(dersid) {
-            $("#divaracgerecler").html("");
+            $("#tblaracgerec > tbody > tr").remove();
             var data = {
                 dersid: dersid,
             }
@@ -943,31 +967,129 @@
                 contentType: 'application/json',
                 success: function (data) {
                     data.forEach(function (seri) {
-                        $("#divaracgerecler").append("<div class='row checklist'><div class='checkbox col-xs-6 col-sm-4 col-md-3 col-lg-2''><label style='white-space: nowrap;'><input type='checkbox'>" + seri.AracGerec + "</label></div></div>");
+                        $("#tblaracgerec > tbody").append("<tr data-id='" + seri.ID + "'><td>" + seri.AracGerec + "</td><td class='myCheckbox'><input type='checkbox' class='chkevet' style='text-align:center' /></td><td class='myCheckbox'><input type='checkbox' class='chkhayir'  style='text-align:center' /></td>");
+                    });
+                    $('.chkevet').change(function () {
+                        if (this.checked) {
+                            $(this).closest("tr").find(".chkhayir").prop('checked', false);
+                        }
+
+                    });
+                    $('.chkhayir').change(function () {
+                        if (this.checked) {
+                            $(this).closest("tr").find(".chkevet").prop('checked', false);
+                        }
                     });
                 },
             });
         };
 
-        function SorulariGetir(dersid) {
+        function HedefleriGetir(dersid) {
             $("#tblhedefler > tbody > tr").remove();
-            var data = {
-                dersid: dersid,
-            }
             $.ajax({
-                url: '/Bep/SorulariGetir',
+                url: '/Bep/HedefleriGetir',
                 data: JSON.stringify({ dersid: dersid }),
                 type: 'POST',
                 contentType: 'application/json',
                 success: function (data) {
-                    console.log(data);
                     data.forEach(function (seri) {
-                        $("#tblhedefler > tbody").append("<tr><td>" + seri.Soru + "</td><td class='myCheckbox'><input type='checkbox' style='text-align:center' /></td><td class='myCheckbox'><input type='checkbox' style='text-align:center' /></td>");
+                        $("#tblhedefler > tbody").append("<tr data-id='" + seri.ID + "'><td>" + seri.Hedef + "</td><td class='myCheckbox'><input type='checkbox' class='chkevet' style='text-align:center' /></td><td class='myCheckbox'><input type='checkbox' class='chkhayir'  style='text-align:center' /></td>");
+                    });
+                    $('.chkevet').change(function () {
+                        if (this.checked) {
+                            $(this).closest("tr").find(".chkhayir").prop('checked', false);
+                        }
+
+                    });
+                    $('.chkhayir').change(function () {
+                        if (this.checked) {
+                            $(this).closest("tr").find(".chkevet").prop('checked', false);
+                        }
                     });
                     $('#infoModal').modal('show');
                 },
             });
         }
+
+
+
+        $("#btnKaydet").on("click", function () {
+
+            var hedefler = "";
+            var yontemler = "";
+            var aracgerec = "";
+
+            $("#tblhedefler tbody tr").each(function () {
+                hedefler += $(this).attr("data-id") + "|" + $(this).find(".chkevet").is(':checked') + "&";
+            });
+
+            $("#tblyontemler tbody tr").each(function () {
+                yontemler += $(this).attr("data-id") + "|" + $(this).find(".chkevet").is(':checked') + "&";
+            });
+
+            $("#tblaracgerec tbody tr").each(function () {
+                aracgerec += $(this).attr("data-id") + "|" + $(this).find(".chkevet").is(':checked') + "&";
+            });
+
+
+
+            var data = {
+                ilid: $("#ddlil").val(),
+                ilceid: $("#ddlilce").val(),
+                okulid: $("#ddlokul").val(),
+                donem: $("#txtDonem").val(),
+                adi: $("#txtadi").val(),
+                soyadi: $("#txtsoyadi").val(),
+                egitimduzeyi: $("#ddlegitimduzeyi").val(),
+                sinif: $("#ddlsinif").val(),
+                ogrencivelisi: $("#txtOgrenciVelisi").val(),
+                sinifduzeyi: $("#ddlsinifduzeyi").val(),
+                sinifrehberogretmeni: $("#txtSinifRehberOgretmeni").val(),
+                bransogretmeni: $("#txtBransOgretmeni").val(),
+                rehberogretmeni: $("#txtRehberOgretmeni").val(),
+                uygulayici: $("#txtUygulayici").val(),
+                mudur: $("#txtMudur").val(),
+                dersler: $("#ddldersler").val(),
+                hedefler: hedefler,
+                yontemler: yontemler,
+                aracgerec: aracgerec,
+            }
+            console.log(hedefler);
+            console.log(yontemler);
+            console.log(aracgerec);
+            console.log(data);
+            $.ajax({
+                url: '/Bep/BepKaydet',
+                data: JSON.stringify({
+                    ilid: $("#ddlil").val(),
+                    ilceid: $("#ddlilce").val(),
+                    okulid: $("#ddlokul").val(),
+                    donem: $("#txtDonem").val(),
+                    adi: $("#txtadi").val(),
+                    soyadi: $("#txtsoyadi").val(),
+                    egitimduzeyi: $("#ddlegitimduzeyi").val(),
+                    sinif: $("#ddlsinif").val(),
+                    ogrencivelisi: $("#txtOgrenciVelisi").val(),
+                    sinifduzeyi: $("#ddlsinifduzeyi").val(),
+                    sinifrehberogretmeni: $("#txtSinifRehberOgretmeni").val(),
+                    bransogretmeni: $("#txtBransOgretmeni").val(),
+                    rehberogretmeni: $("#txtRehberOgretmeni").val(),
+                    uygulayici: $("#txtUygulayici").val(),
+                    mudur: $("#txtMudur").val(),
+                    dersler: $("#ddldersler").val(),
+                    hedefler: hedefler,
+                    yontemler: yontemler,
+                    aracgerec: aracgerec
+                }),
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (data) {
+                    $("#infoModal").modal("hide");
+                    sweetalert("Bep Kaydedildi", "success");
+                },
+            });
+        });
+
 
     </script>
 </body>
