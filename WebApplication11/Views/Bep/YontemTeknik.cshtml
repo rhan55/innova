@@ -10,30 +10,44 @@
             <div class="d-flex flex-column scroll-y px-5 px-lg-10  mt-10">
                 <div class="row mb-7">
                     <div class="col-lg-8">
-                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Ders</label>
-                        <select id="ddlders" style="width: 200px;">
-                            @foreach (var item in ViewBag.iller)
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Eğitim Düzeyi</label>
+                        <select id="ddlegitimduzeyi" style="width:400px;">
+                            @if (ViewBag.EgitimDuzeyi != null)
                             {
-                                <option value="@item.ID">@item.Ders</option>
+                                foreach (var item in ViewBag.EgitimDuzeyi)
+                                {
+                                    <option value="@item.ID">@item.EgitimDuzeyi</option>
+                                }
                             }
                         </select>
                     </div>
                     <div class="col-lg-8">
-                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Yöntem Teknik</label>
-                        <input type="text" id="txtYontemTeknik" value="" style="width:400px;" />
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Sınıf</label>
+                        <select id="ddlSinif" style="width:400px;">
+                        </select>
                     </div>
                     <div class="col-lg-8">
-                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width: 100px;">Sıra</label>
-                        <input type="text" id="txtSira" value="" style="width:50px;text-align:right;" />
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Sınıf Düzeyi</label>
+                        <select id="ddlSinifDuzeyi" style="width:400px;">
+                        </select>
+                    </div>
+                    <div class="col-lg-12">
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Ders</label>
+                        <select id="ddlders" style="width:400px;">
+                        </select>
+                    </div>
+                    <div class="col-lg-8">
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Yöntem Teknik</label>
+                        <input type="text" id="txtYontemTeknik" value="" style="width:600px;" />
+                    </div>
+                    <div class="col-lg-8">
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Sıra</label>
+                        <input type="text" id="txtSira" style="width:50px;text-align:right;" />
                     </div>
                     <div class="col-lg-8">
                         <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width: 100px;"></label>
                         <button type="submit" class="btn btn-primary btn-sm" id="btnkaydet">
                             <span class="indicator-label">Kaydet</span>
-                            <span class="indicator-progress">
-                                Lütfen Bekleyin...
-                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-                            </span>
                         </button>
                     </div>
                 </div>
@@ -41,12 +55,13 @@
         </div>
     </div>
     <div class="card card-flush mt-4 scroll-x">
-        <table class="table align-middle table-row-dashed fs-6" id="tblliste" style="width:400px;">
+        <table class="table align-middle table-row-dashed fs-6" id="tblliste" style="width:100%">
             <thead>
                 <tr class="text-start" style="font-size:15px;">
                     <th class="min-w-125px"><strong>Sıra</strong></th>
-                    <th class="min-w-125px"><strong>Yöntem  teknik
-                         </strong></th>
+                    <th class="min-w-125px"><strong>Eğitim Düzeyi</strong></th>
+                    <th class="min-w-125px"><strong>Sınıf</strong></th>
+                    <th class="min-w-125px"><strong>Dersler</strong></th>
                     <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
                 </tr>
             </thead>
@@ -55,38 +70,150 @@
         </table>
     </div>
 </div>
+
+
+
+@*<div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="d-flex flex-column scroll-y px-5 px-lg-10  mt-10">
+                    <div class="row mb-7">
+                        <div class="col-lg-8">
+                            <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Ders</label>
+                            <select id="ddlders" style="width: 600px;">
+                                @foreach (var item in ViewBag.iller)
+                                {
+                                    <option value="@item.ID">@item.Ders</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-lg-8">
+                            <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Yöntem Teknik</label>
+                            <input type="text" id="txtYontemTeknik" value="" style="width:600px;" />
+                        </div>
+                        <div class="col-lg-8">
+                            <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width: 100px;">Sıra</label>
+                            <input type="text" id="txtSira" value="" style="width:50px;text-align:right;" />
+                        </div>
+                        <div class="col-lg-8">
+                            <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width: 100px;"></label>
+                            <button type="submit" class="btn btn-primary btn-sm" id="btnkaydet">
+                                <span class="indicator-label">Kaydet</span>
+                                <span class="indicator-progress">
+                                    Lütfen Bekleyin...
+                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-flush mt-4 scroll-x">
+            <table class="table align-middle table-row-dashed fs-6" id="tblliste" style="width:400px;">
+                <thead>
+                    <tr class="text-start" style="font-size:15px;">
+                        <th class="min-w-125px"><strong>Sıra</strong></th>
+                        <th class="min-w-125px"><strong>Yöntem  teknik
+                             </strong></th>
+                        <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-600 fw-semibold">
+                </tbody>
+            </table>
+        </div>
+    </div>*@
 @section Scripts {
 
-    <script>
+    <script type="text/javascript">
+
         var id = "";
         $("#btnkaydet").on("click", function () {
             $.ajax({
                 url: '/Bep/YontemTeknikKaydet',
-                data: JSON.stringify({ id: id, dersid: $("#ddlders").val(), yontemteknik: $("#txtYontemTeknik").val(), sira: $("#txtSira").val() }),
+                data: JSON.stringify({
+                    id: id,
+                    dersid: $("#ddlders").val(),
+                    yontemteknik: $("#txtYontemTeknik").val(),
+                    sira: $("#txtSira").val()
+                }),
                 type: 'POST',
                 contentType: 'application/json',
                 success: function (data) {
-                    id="";
+                    Listele();
+                    id = "";
                     $("#txtYontemTeknik").val("");
                     $("#txtSira").val("");
-                    
-                    Listele();
                 },
             });
         });
 
+
+        (function ($) {
+            $.update_notifications = function (options) {
+                alert('1');
+                //   console.log('test');
+            };
+        }(jQuery));
+
+
         $(document).ready(function () {
-            Listele();
+            update_notifications({
+                1
+                });
+            Listele("0");
+
+
+            $(function () {
+
+                const mouseenter = function () {
+                    alert('1');
+                };
+            });
         });
 
-        function Listele() {
+        $("#ddlegitimduzeyi").on("change", function () {
+            sinifgetir($(this).val(), "");
+        });
+
+        $("#ddlsinif").on("change", function () {
+            sinifgetir($(this).val(), "");
+        });
+
+        $("#ddlSinifDuzeyi").on("change", function () {
+            DersleriGetir(, $(this).val());
+        });
+
+        function sinifgetir(egitimduzeyid, secilisinif) {
+            $("#ddlSinif").find("option").remove();
+            $.ajax({
+                url: '/Bep/egitimduzeylerisinifgetir',
+                type: 'POST',
+                data: JSON.stringify({ egitimduzeyid: egitimduzeyid }),
+                contentType: 'application/json',
+                success: function (data) {
+                    data.forEach(function (seri) {
+                        if (secilisinif == seri.ID) {
+                            $("#ddlSinif").append("<option value=" + seri.ID + " selected=''>" + seri.Sinif + "</option>");
+                        }
+                        else {
+                            $("#ddlSinif").append("<option value=" + seri.ID + ">" + seri.Sinif + "</option>");
+                        }
+                    });
+                },
+            });
+        }
+
+        function Listele(DersId) {
             $('#tblliste > tbody').find("tr").remove();
             $.ajax({
                 url: '/Bep/YontemTeknikGetir',
                 type: 'POST',
-                data: JSON.stringify({ DersId: $("#ddlders").val() }),
+                data: JSON.stringify({ DersId: DersId }),
                 contentType: 'application/json',
                 success: function (data) {
+
                     data.forEach(function (seri) {
 
                         var butongroup = "";
@@ -101,7 +228,7 @@
 
                         butongroup += '<td class="text-end py-1">';
                         butongroup += '<div class="menu-item p-0" style="float: left;">';
-                        butongroup += '<a href="javascript:void(0);" class="menu-link px-2 py-0 btnduzenle" >Düzenle</a>';
+                        butongroup += '<a href="javascript:void(0);" class="menu-link px-2 py-0 btnduzenle">Düzenle</a>';
                         butongroup += '</div>';
 
                         butongroup += '<div class="menu-item p-0" style="float: left;">';
@@ -151,6 +278,11 @@
                 },
             });
         }
+
+        function DersleriGetir(SinifId, SeciliDersId) {
+
+        }
+
     </script>
 }
 

@@ -740,32 +740,30 @@ namespace YKPortal.Controllers
         }
         public ActionResult YontemTeknik()
         {
-            //if (!AutoGirisKontrol())
-            //    return Redirect("~/YK/Giris");
             string UyelikID = GetCookie("UyelikID");
             string KullaniciID = GetCookie("KullaniciID");
-
-            SqlCommand cmdil = new SqlCommand();
-            cmdil.CommandText = "select * from BepDers With(nolock)";
-            cmdil.CommandType = System.Data.CommandType.Text;
-            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmdil, SorgulaTuru.Tablo);
-            var ilcelistesi = new List<BepDers>();
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "SELECT * FROM BepEgitimDuzeyi WITH(NOLOCK) ORDER BY Sira ASC";
+            cmd.CommandType = CommandType.Text;
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            var liste = new List<BepEgitimDuzeyi>();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                ilcelistesi.Add(new BepDers
+                liste.Add(new BepEgitimDuzeyi
                 {
                     ID = Convert.ToString(dt.Rows[i]["ID"]),
-                    Ders = Convert.ToString(dt.Rows[i]["Ders"]),
+                    EgitimDuzeyi = Convert.ToString(dt.Rows[i]["EgitimDuzeyi"]),
+                    Sira = Convert.ToString(dt.Rows[i]["Sira"]),
                 });
             }
-            ViewBag.iller = ilcelistesi;
+            ViewBag.EgitimDuzeyi = liste;
             return View();
         }
         public JsonResult YontemTeknikGetir(string dersid)
         {
             SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = "SELECT * FROM BepYontemTeknik WITH(NOLOCK) where DersId=@DersId Order by Sira ASC";
-            cmd.Parameters.AddWithValue("@DersId", dersid);
+            cmd.CommandText = "SELECT * FROM BepYontemTeknik WITH(NOLOCK) Order by Sira ASC";
+            //cmd.Parameters.AddWithValue("@DersId", dersid);
             cmd.CommandType = CommandType.Text;
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
