@@ -27,6 +27,11 @@
                         <select id="ddlSinif" style="width:400px;">
                         </select>
                     </div>
+                    <div class="col-lg-8">
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Sınıf Düzeyi</label>
+                        <select id="ddlSinifDuzeyi" style="width:400px;">
+                        </select>
+                    </div>
                     <div class="col-lg-12">
                         <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Ders</label>
                         <input type="text" id="txtDers" value="" style="width:1000px;" />
@@ -49,11 +54,12 @@
         <table class="table align-middle table-row-dashed fs-6" id="tblliste" style="width:100%">
             <thead>
                 <tr class="text-start" style="font-size:15px;">
-                    <th class="min-w-125px"><strong>Sıra</strong></th>
-                    <th class="min-w-125px"><strong>Eğitim Düzeyi</strong></th>
-                    <th class="min-w-125px"><strong>Sınıf</strong></th>
-                    <th class="min-w-125px"><strong>Dersler</strong></th>
-                    <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
+                    <th><strong>Sıra</strong></th>
+                    <th><strong>Eğitim Düzeyi</strong></th>
+                    <th><strong>Sınıf</strong></th>
+                    <th><strong>Sınıf Düzeyi</strong></th>
+                    <th><strong>Dersler</strong></th>
+                    <th><strong>İşlemler</strong></th>
                 </tr>
             </thead>
             <tbody class="text-gray-600 fw-semibold">
@@ -61,8 +67,6 @@
         </table>
     </div>
 </div>
-
-
 
 @section Scripts {
 
@@ -77,6 +81,7 @@
                     id: id,
                     egitimduzeyid: $("#ddlegitimduzeyi").val(),
                     sinifId: $("#ddlSinif").val(),
+                    sinifduzeyId: $("#ddlSinifDuzeyi").val(),
                     Sira: $("#txtSira").val()
                 }),
                 type: 'POST',
@@ -92,13 +97,41 @@
 
         $(document).ready(function () {
             Listele();
+            sinifgetir($("#ddlegitimduzeyi").val());
         });
 
         $("#ddlegitimduzeyi").on("change", function () {
-            sinifgetir($(this).val());
+            sinifgetir($("#ddlegitimduzeyi").val());
         });
 
-        function sinifgetir(egitimduzeyid,secilisinif) {
+        $("#ddlSinif").on("change", function () {
+            Page.SinifDuzeyiGetir($("#ddlSinif").val(), "");
+        });
+
+        const Page = {
+            SinifDuzeyiGetir: function (sinifId, seciliid) {
+                $("#ddlSinifDuzeyi").find("option").remove();
+                $.ajax({
+                    url: '/Bep/sinifduzeyigetir',
+                    type: 'POST',
+                    data: JSON.stringify({ sinifId: sinifId }),
+                    contentType: 'application/json',
+                    success: function (data) {
+                        data.forEach(function (seri) {
+                            if (seciliid == seri.ID) {
+                                $("#ddlSinifDuzeyi").append("<option value=" + seri.ID + " selected=''>" + seri.SinifDuzeyi + "</option>");
+                            }
+                            else {
+                                $("#ddlSinifDuzeyi").append("<option value=" + seri.ID + ">" + seri.SinifDuzeyi + "</option>");
+                            }
+                        });
+                        Page.SinifDuzeyiDersleriniGetir($("#ddlSinifDuzeyi").val(), "");
+                    },
+                });
+            },
+        }
+
+        function sinifgetir(egitimduzeyid, secilisinif) {
             $("#ddlSinif").find("option").remove();
             $.ajax({
                 url: '/Bep/egitimduzeylerisinifgetir',
@@ -114,6 +147,8 @@
                             $("#ddlSinif").append("<option value=" + seri.ID + ">" + seri.Sinif + "</option>");
                         }
                     });
+
+                    Page.SinifDuzeyiGetir($("#ddlSinif").val(), "");
                 },
             });
         }
@@ -129,7 +164,7 @@
                     data.forEach(function (seri) {
 
                         var butongroup = "";
-                        butongroup += '<tr data-id="' + seri.ID + '" data-sira="' + seri.Sira + '" data-egitimduzeyid="' + seri.EgitimDuzeyId + '" data-sinifid="' + seri.SinifId + '" data-text="' + seri.Ders + '">';
+                        butongroup += '<tr data-id="' + seri.ID + '" data-sira="' + seri.Sira + '" data-egitimduzeyid="' + seri.EgitimDuzeyId + '" data-sinifid="' + seri.SinifId + '" data-sinifduzeyId="' + seri.SinifDuzeyId + '" data-text="' + seri.Ders + '">';
 
                         butongroup += '<td class="align-items-center p-0">';
                         butongroup += seri.Sira;
@@ -141,6 +176,10 @@
 
                         butongroup += '<td class="align-items-center p-0">';
                         butongroup += seri.Sinif;
+                        butongroup += '</td>';
+
+                        butongroup += '<td class="align-items-center p-0">';
+                        butongroup += seri.SinifDuzeyi;
                         butongroup += '</td>';
 
                         butongroup += '<td class="align-items-center p-0">';
@@ -167,6 +206,10 @@
                         $("#ddlegitimduzeyi").val($(this).closest("tr").attr("data-egitimduzeyid"));
                         sinifgetir($(this).closest("tr").attr("data-egitimduzeyid"), $(this).closest("tr").attr("data-sinifid"));
                         $("#ddlSinif").val($(this).closest("tr").attr("data-sinifid"));
+
+
+                        Page.SinifDuzeyiGetir($(this).closest("tr").attr("data-sinifid"), $(this).closest("tr").attr("data-sinifduzeyId"));
+
                         $("#txtDers").val($(this).closest("tr").attr("data-text"));
                         $("#txtSira").val($(this).closest("tr").attr("data-sira"));
                     });

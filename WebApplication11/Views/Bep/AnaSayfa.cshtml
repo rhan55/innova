@@ -795,6 +795,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript">
+
         function sweetalert(message = "", type = "success") {
             Swal.fire({
                 text: message,
@@ -808,7 +809,10 @@
         }
 
         $(document).ready(function () {
+            ilcegetir();
+            EgitimDuzeyiListele();
             DersleriListele();
+
             $("select").select2();
         });
 
@@ -819,8 +823,12 @@
         });
 
         $("#ddlil").on("change", function () {
-            ilgetir();
+            ilcegetir();
             EgitimDuzeyiListele();
+
+        });
+
+        $("#ddlsinif").on("change", function () {
             SinifDuzeyiListele();
         });
 
@@ -832,9 +840,8 @@
             SinifListele();
         });
 
-        function ilgetir() {
+        function ilcegetir() {
             $('#ddlilce').find("option").remove();
-
             $.ajax({
                 url: '/Bep/ilcegetir',
                 data: JSON.stringify({ ilid: $("#ddlil").val() }),
@@ -844,6 +851,8 @@
                     data.forEach(function (seri) {
                         $("#ddlilce").append('<option value=' + seri.ID + '>' + seri.ilce + '</option>');
                     });
+
+                    Okulgetir($("#ddlil").val(), $("#ddlilce").val());
                 },
             });
         }
@@ -875,6 +884,7 @@
                         $("#ddlegitimduzeyi").append('<option value=' + seri.ID + '>' + seri.EgitimDuzeyi + '</option>');
                     });
                     $("#ddlegitimduzeyi").select2();
+                    SinifListele();
                 },
             });
         }
@@ -891,16 +901,17 @@
                         $("#ddlsinif").append('<option value=' + seri.ID + '>' + seri.Sinif + '</option>');
                     });
                     $("#ddlsinif").select2();
+                    SinifDuzeyiListele();
                 },
             });
         }
 
         function SinifDuzeyiListele() {
             $('#ddlsinifduzeyi').find("option").remove();
-            $("#ddlsinifduzeyi").append('<option>...</option>');
             $.ajax({
                 url: '/Bep/SinifDuzeyiGetir',
                 type: 'POST',
+                data: JSON.stringify({ sinifId: $("#ddlsinif").val() }),
                 contentType: 'application/json',
                 success: function (data) {
                     data.forEach(function (seri) {
@@ -912,7 +923,6 @@
 
         function DersleriListele() {
             $('#ddldersler').find("option").remove();
-            $("#ddldersler").append('<option>...</option>');
             $.ajax({
                 url: '/Bep/DersGetir',
                 type: 'POST',
@@ -1011,8 +1021,6 @@
             });
         }
 
-
-
         $("#btnKaydet").on("click", function () {
 
             var hedefler = "";
@@ -1089,7 +1097,6 @@
                 },
             });
         });
-
 
     </script>
 </body>

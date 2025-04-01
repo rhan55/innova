@@ -11,40 +11,62 @@
                 <div class="row mb-7">
 
                     <div class="col-lg-8">
-                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:40px;">Ders</label>
-                        <select id="ddlders" style="width: 200px;">
-
-                            @foreach (var item in ViewBag.iller)
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Eğitim Düzeyi</label>
+                        <select id="ddlegitimduzeyi" style="width:400px;">
+                            @if (ViewBag.EgitimDuzeyi != null)
                             {
-                                <option value="@item.ID">@item.Ders</option>
+                                foreach (var item in ViewBag.EgitimDuzeyi)
+                                {
+                                    <option value="@item.ID">@item.EgitimDuzeyi</option>
+                                }
                             }
                         </select>
                     </div>
                     <div class="col-lg-8">
-                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width: 40px; ">Hedef</label>
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Sınıf</label>
+                        <select id="ddlSinif" style="width:400px;">
+                        </select>
+                    </div>
+                    <div class="col-lg-8">
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Sınıf Düzeyi</label>
+                        <select id="ddlSinifDuzeyi" style="width:400px;">
+                        </select>
+                    </div>
+                    <div class="col-lg-12">
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width:100px;">Ders</label>
+                        <select id="ddlders" style="width:400px;">
+                        </select>
+                    </div>
+                    <div class="col-lg-8">
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width: 100px; ">Hedef</label>
                         <input type="text" id="txtHedef" value="" style="width:400px;" />
                     </div>
                     <div class="col-lg-8">
-                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width: 40px;">Sıra</label>
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width: 100px;">Sıra</label>
                         <input type="text" id="txtSira" value="" style="width:50px;text-align:right;" />
                     </div>
                     <div class="col-lg-8">
-                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width: 40px; "></label>
+                        <label for="Aciklama" class="fw-bold text-gray-600 fs-6 mb-2" style="width: 100px; "></label>
                         <button type="submit" class="btn btn-primary btn-sm" id="btnkaydet">
                             <span class="indicator-label">Kaydet</span>
                         </button>
                     </div>
+             
                 </div>
             </div>
         </div>
     </div>
     <div class="card card-flush mt-4 scroll-x">
-        <table class="table align-middle table-row-dashed fs-6" id="tblliste" style="width:400px;">
+        <table class="table align-middle table-row-dashed fs-6" id="tblliste">
             <thead>
                 <tr class="text-start" style="font-size:15px;">
-                    <th class="min-w-125px"><strong>Sıra</strong></th>
-                    <th class="min-w-125px"><strong>Sorular</strong></th>
-                    <th class="text-end min-w-100px no-export"><strong>İşlemler</strong></th>
+                    <th><strong>Sıra</strong></th>
+                    <th><strong>Eğitim Düzeyi</strong></th>
+                    <th><strong>Sınıf</strong></th>
+                    <th><strong>Sınıf Düzeyi</strong></th>
+                    <th><strong>Ders</strong></th>
+                    <th><strong>Hedefler</strong></th>
+                    <th><strong>İşlemler</strong></th>
                 </tr>
             </thead>
             <tbody class="text-gray-600 fw-semibold">
@@ -53,50 +75,104 @@
     </div>
 </div>
 
-
-
 @section Scripts {
     <script>
 
         var id = "";
         $("#btnkaydet").on("click", function () {
-            $.ajax({
-                url: '/Bep/HedefKaydet',
-                data: JSON.stringify({ dersid: $("#ddlders").val(), id: id, hedef: $("#txtHedef").val(), sira: $("#txtSira").val() }),
-                type: 'POST',
-                contentType: 'application/json',
-                success: function (data) {
-                    $("#txtHedef").val("");
-                    $("#txtSira").val("");
-                    Listele();
-                },
-            });
+            Page.Kaydet();
         });
 
         $(document).ready(function () {
-            Listele();
+            Page.Listele();
+            Page.SinifGetir($("#ddlegitimduzeyi").val(), "");
         });
 
+        $("#ddlSinif").on("change", function () {
+            Page.SinifDuzeyiGetir($("#ddlSinif").val(), "");
+        });
 
-        function Listele() {
-            $('#tblliste > tbody').find("tr").remove();
-            if ($("#ddlders").val() != "-1") {
+        $("#ddlSinifDuzeyi").on("change", function () {
+            Page.SinifDuzeyiDersleriniGetir($("#ddlSinifDuzeyi").val(), "");
+        });
 
+        $("#ddlegitimduzeyi").on("change", function () {
+            Page.SinifGetir($(this).val(), "");
+        });
+
+        const Page = {
+            SinifGetir: function (egitimduzeyid, secilisinif) {
+                $("#ddlSinif").find("option").remove();
+                $.ajax({
+                    url: '/Bep/egitimduzeylerisinifgetir',
+                    type: 'POST',
+                    data: JSON.stringify({ egitimduzeyid: egitimduzeyid }),
+                    contentType: 'application/json',
+                    success: function (data) {
+                        data.forEach(function (seri) {
+                            if (secilisinif == seri.ID) {
+                                $("#ddlSinif").append("<option value=" + seri.ID + " selected=''>" + seri.Sinif + "</option>");
+                            }
+                            else {
+                                $("#ddlSinif").append("<option value=" + seri.ID + ">" + seri.Sinif + "</option>");
+                            }
+                        });
+                        Page.SinifDuzeyiGetir($("#ddlSinif").val(), "");
+                    },
+                });
+            },
+            SinifDuzeyiGetir: function (sinifId, seciliid) {
+                $("#ddlSinifDuzeyi").find("option").remove();
+                $.ajax({
+                    url: '/Bep/sinifduzeyigetir',
+                    type: 'POST',
+                    data: JSON.stringify({ sinifId: sinifId }),
+                    contentType: 'application/json',
+                    success: function (data) {
+                        data.forEach(function (seri) {
+                            if (seciliid == seri.ID) {
+                                $("#ddlSinifDuzeyi").append("<option value=" + seri.ID + " selected=''>" + seri.SinifDuzeyi + "</option>");
+                            }
+                            else {
+                                $("#ddlSinifDuzeyi").append("<option value=" + seri.ID + ">" + seri.SinifDuzeyi + "</option>");
+                            }
+                        });
+                        Page.SinifDuzeyiDersleriniGetir($("#ddlSinifDuzeyi").val(), "");
+                    },
+                });
+            },
+            Listele: function () {
+                $('#tblliste > tbody').find("tr").remove();
                 $.ajax({
                     url: '/Bep/HedefleriGetir',
                     type: 'POST',
-                    data: JSON.stringify({ DersId: $("#ddlders").val(), id: id }),
                     contentType: 'application/json',
                     success: function (data) {
                         data.forEach(function (seri) {
                             var butongroup = "";
-                            butongroup += '<tr  data-sira="' + seri.Sira + '" data-id="' + seri.ID + '" data-text="' + seri.Hedef + '">';
+                            butongroup += '<tr  data-sira="' + seri.Sira + '" data-id="' + seri.ID + '" data-text="' + seri.Hedef + '" data-egitimduzeyId="' + seri.EgitimDuzeyId + '" data-sinifId="' + seri.SinifId + '" data-sinifduzeyId="' + seri.SinifDuzeyId + '" data-dersid="' + seri.DersId + '">';
 
-                            butongroup += '<td class="align-items-center p-0">';
+                            butongroup += '<td>';
                             butongroup += seri.Sira;
                             butongroup += '</td>';
 
-                            butongroup += '<td class="align-items-center p-0">';
+                            butongroup += '<td>';
+                            butongroup += seri.EgitimDuzeyi == null ? "" : seri.EgitimDuzeyi;
+                            butongroup += '</td>';
+
+                            butongroup += '<td>';
+                            butongroup += seri.Sinif == null ? "" : seri.Sinif;
+                            butongroup += '</td>';
+
+                            butongroup += '<td>';
+                            butongroup += seri.SinifDuzeyi == null ? "" : seri.SinifDuzeyi;
+                            butongroup += '</td>';
+
+                            butongroup += '<td>';
+                            butongroup += seri.Ders == null ? "" : seri.Ders;
+                            butongroup += '</td>';
+
+                            butongroup += '<td>';
                             butongroup += seri.Hedef;
                             butongroup += '</td>';
 
@@ -119,6 +195,17 @@
                             id = $(this).closest("tr").attr("data-id");
                             $("#txtHedef").val($(this).closest("tr").attr("data-text"));
                             $("#txtSira").val($(this).closest("tr").attr("data-sira"));
+                            if ($(this).closest("tr").attr("data-egitimduzeyId") != "") {
+                                $("#ddlegitimduzeyi").val($(this).closest("tr").attr("data-egitimduzeyId"));
+                                Page.SinifGetir($(this).closest("tr").attr("data-egitimduzeyId"), $(this).closest("tr").attr("data-sinifId"));
+                                Page.SinifDuzeyiGetir($(this).closest("tr").attr("data-egitimduzeyId"), $(this).closest("tr").attr("data-sinifduzeyId"));
+                                Page.SinifDuzeyiDersleriniGetir($(this).closest("tr").attr("data-sinifduzeyId"), $(this).closest("tr").attr("data-dersid"));
+                            }
+                            else {
+                                Page.SinifGetir($("#ddlegitimduzeyi").val(), "");
+                                Page.SinifDuzeyiGetir($("#ddlSinif").val(), "");
+                                Page.SinifDuzeyiDersleriniGetir($("#ddlSinifDuzeyi").val(), "");
+                            }
                         });
 
                         $(".btnsil").on("click", function () {
@@ -151,8 +238,49 @@
                         });
                     },
                 });
+            },
+            SinifDuzeyiDersleriniGetir: function (sinifduzeyId, seciliid) {
+                $("#ddlders").find("option").remove();
+                $.ajax({
+                    url: '/Bep/SinifDuzeyiDesleriniListele',
+                    type: 'POST',
+                    data: JSON.stringify({ sinifduzeyId: sinifduzeyId }),
+                    contentType: 'application/json',
+                    success: function (data) {
+                        data.forEach(function (seri) {
+                            if (seciliid == seri.ID) {
+                                $("#ddlders").append("<option value=" + seri.ID + " selected=''>" + seri.Ders + "</option>");
+                            }
+                            else {
+                                $("#ddlders").append("<option value=" + seri.ID + ">" + seri.Ders + "</option>");
+                            }
+                        });
+                    },
+                });
+            },
+            Kaydet: function () {
+                $.ajax({
+                    url: '/Bep/HedefKaydet',
+                    data: JSON.stringify({
+                        id: id,
+                        EgitimDuzeyId: $("#ddlegitimduzeyi").val(),
+                        SinifId: $("#ddlSinif").val(),
+                        SinifDuzeyId: $("#ddlSinifDuzeyi").val(),
+                        DersId: $("#ddlders").val(),
+                        hedef: $("#txtHedef").val(),
+                        sira: $("#txtSira").val()
+                    }),
+                    type: 'POST',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        $("#txtHedef").val("");
+                        $("#txtSira").val("");
+                        Page.Listele();
+                    },
+                });
             }
         }
+
     </script>
 }
 
