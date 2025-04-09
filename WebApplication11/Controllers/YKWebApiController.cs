@@ -86,6 +86,279 @@ namespace YKPortal.Controllers
             }
             return result;
         }
+
+        public IDJsonResult Sabit_Listeler([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                //if (data["LisansNumarasi"] == null)
+                //{
+                //    result.SonucKodu = 0;
+                //    result.Hata = "UYARI! LisansNumarasi bilgisi boş olamaz.";
+                //    return result;
+                //}
+                //string LisansNumarasi = Convert.ToString(data["LisansNumarasi"]);
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Sube_Kodu = Convert.ToString(data["Sube_Kodu"]);
+                string Donem_Kodu = Convert.ToString(data["Donem_Kodu"]);
+                string Islem_Tipi = Convert.ToString(data["Islem_Tipi"]);
+                string Kisit = Convert.ToString(data["Kisit"]);
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                if (Uygulama == "NETSIS")
+                {
+                    if (Islem_Tipi == "Cariler")
+                    {
+                        cmd.CommandText = "SELECT TOP 50 CARI_KOD AS ID, CARI_KOD AS Kod, CARI_ISIM AS Isim ";
+                        cmd.CommandText += " FROM OYG_NV_CARI_KART ";
+                        cmd.CommandText += " WHERE 'Cari' = 'Cari'";
+                        if (Kisit != "")
+                        {
+                            cmd.CommandText += Kisit;
+                        }
+                    }
+                    if (Islem_Tipi == "Stoklar")
+                    {
+                        cmd.CommandText = "SELECT TOP 50 STOK_KODU AS ID, STOK_KODU AS Kod, STOK_ADI AS Isim ";
+                        cmd.CommandText += " FROM OYG_NV_STOK_KART ";
+                        cmd.CommandText += " WHERE 'Stok' = 'Stok'";
+                        if (Kisit != "")
+                        {
+                            cmd.CommandText += Kisit;
+                        }
+                    }
+                    if (Islem_Tipi == "Depolar")
+                    {
+                        cmd.CommandText = "SELECT TOP 50 DEPO_KODU AS ID, DEPO_KODU AS Kod, DEPO_ISMI AS Isim ";
+                        cmd.CommandText += " FROM OYG_NV_DEPOLAR ";
+                        cmd.CommandText += " WHERE 'Depo' = 'Depo'";
+                        if (Kisit != "")
+                        {
+                            cmd.CommandText += Kisit;
+                        }
+                    }
+                    if (Islem_Tipi == "Hucreler")
+                    {
+                        cmd.CommandText = "SELECT TOP 50 HUCREKODU AS ID, HUCREKODU AS Kod, Ad as Isim ";
+                        cmd.CommandText += " FROM OYG_NV_HUCRELER ";
+                        cmd.CommandText += " WHERE 'Hucre' = 'Hucre' ";
+                        if (Kisit != "")
+                        {
+                            cmd.CommandText += Kisit;
+                        }
+                    }
+                    if (Islem_Tipi == "StokHucreBakiye")
+                    {
+                        cmd.CommandText = "SELECT TOP 50 HUCREKODU AS ID, STOK_KODU AS Kod, STOK_ADI as Isim ";
+                        cmd.CommandText += " , ISNULL(NETBAKIYE,0) AS BAKIYE ";
+                        cmd.CommandText += " FROM OYG_NV_HUCRESERI_BAKIYE ";
+                        cmd.CommandText += " WHERE 'Hucre' = 'Hucre' ";
+                        if (Kisit != "")
+                        {
+                            cmd.CommandText += Kisit;
+                        }
+                    }
+                }
+                if (Uygulama == "LOGO")
+                {
+                    if (Islem_Tipi == "Depolar")
+                    {
+                        cmd.CommandText = "SELECT DEPO_KODU AS ID, DEPO_KODU AS Kod, DEPO_ISMI AS Isim FROM OYG_NV_DEPOLAR WHERE 'Depo' = 'Depo'";
+                    }
+                    if (Islem_Tipi == "Hucreler")
+                    {
+                        cmd.CommandText = "SELECT * FROM OYG_NV_HUCRELER WHERE 'Hucre' = 'Hucre' ";
+                    }
+                }
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.ID = Convert.ToString(satir["ID"]);
+                        entity.Kod = Convert.ToString(satir["Kod"]);
+                        entity.Isim = Convert.ToString(satir["Isim"]);
+
+                        if (Islem_Tipi == "StokHucreBakiye")
+                        {
+                            entity.Bakiye = Convert.ToString(satir["BAKIYE"]);
+                        }
+                        
+                        entities.Add(entity);
+                    }
+                    #endregion
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    return result;
+                }
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        #region Netsis Hücre Transferi Kaydet
+        public IDJsonResult Netsis_Hucre_Tra_Kaydet([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["LisansNumarasi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! LisansNumarasi bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Tarih"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Tarih bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Cikan_Depo_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Çıkan Depo_Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Giren_Depo_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Giren Depo_Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Cikan_Hucre_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Çıkan Hücre bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Giren_Hucre_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Giren Hücre bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Stok_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Stok_Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Miktar"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Miktar bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici bilgisi boş olamaz.";
+                    return result;
+                }
+                string LisansNumarasi = Convert.ToString(data["LisansNumarasi"]);
+              
+                string Belge_No = Convert.ToString(data["Belge_No"]);
+                DateTime Tarih = Convert.ToDateTime(data["Tarih"]);
+                string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
+                string Cikan_Depo_Kodu = Convert.ToString(data["Cikan_Depo_Kodu"]);
+                string Cikan_Hucre_Kodu = Convert.ToString(data["Cikan_Hucre_Kodu"]);
+                string Giren_Depo_Kodu = Convert.ToString(data["Giren_Depo_Kodu"]);
+                string Giren_Hucre_Kodu = Convert.ToString(data["Giren_Hucre_Kodu"]);
+                decimal Miktar = Convert.ToDecimal(data["Miktar"]);
+                string Kullanici = Convert.ToString(data["Kullanici"]);
+
+                string Tip = "HT";
+                if (Cikan_Depo_Kodu != Giren_Depo_Kodu)
+                {
+                    Tip = "HTDAT";
+                }
+
+                string _sorgu = "";
+                _sorgu += " INSERT INTO INNOVA.DBO.[TBLBELGE_KAYIT]";
+                _sorgu += " ( ";
+                _sorgu += " BELGE_NO, FTIRSIP, CARI_KODU ";
+                _sorgu += " , STOK_REF, [STOK_KODU], MIKTAR, SIRA, ADET ";
+                _sorgu += " , HUCRE_KODU, SERI_NO, GCKOD ";
+                _sorgu += " , TARIH, FIYAT ";
+                _sorgu += " , GIT_SUBE_KODU, GIT_DEPO_KODU ";
+                _sorgu += " , SUBE_KODU, DEPO_KODU, PROJE_KODU ";
+                _sorgu += " , UST_ACIKLAMA1, UST_ACIKLAMA2 ";
+                _sorgu += " , KAYIT_KULLANICI, KAYIT_TARIHI ";
+                _sorgu += " ) ";
+                _sorgu += " SELECT '" + Belge_No + "' BELGE_NO, '" + Tip + "' FTIRSIP, 'HT' CARI_KODU ";
+                _sorgu += " , '0' STOK_REF, '" + Stok_Kodu + "' STOK_KODU, REPLACE('" + Miktar + "',',','.') MIKTAR, 1 SIRA, 1 ADET ";
+                _sorgu += " , '" + Cikan_Hucre_Kodu + "' HUCRE_KODU, '' SERI_NO, 'C' GCKOD ";
+                _sorgu += " , '" + Tarih.ToString("yyyy.MM.dd") + "' TARIH, 0 FIYAT ";
+                _sorgu += " , '0' GIT_SUBE_KODU, '0' GIT_DEPO_KODU ";
+                _sorgu += " , '0' SUBE_KODU, '" + Cikan_Depo_Kodu + "' DEPO_KODU, '' PROJE_KODU";
+                _sorgu += " , '' UST_ACIKLAMA1, '' UST_ACIKLAMA2 ";
+                _sorgu += " , '" + Kullanici + "' KAYIT_KULLANICI, GETDATE() KAYIT_TARIHI ";
+                _sorgu += " UNION ALL ";
+                _sorgu += " SELECT '" + Belge_No + "' BELGE_NO, '" + Tip + "' FTIRSIP, 'HT' CARI_KODU ";
+                _sorgu += " , '0' STOK_REF, '" + Stok_Kodu + "' STOK_KODU, REPLACE('" + Miktar + "',',','.') MIKTAR, 1 SIRA, 1 ADET ";
+                _sorgu += " , '" + Giren_Hucre_Kodu + "' HUCRE_KODU, '' SERI_NO, 'G' GCKOD ";
+                _sorgu += " , '" + Tarih.ToString("yyyy.MM.dd") + "' TARIH, 0 FIYAT ";
+                _sorgu += " , '0' GIT_SUBE_KODU, '0' GIT_DEPO_KODU ";
+                _sorgu += " , '0' SUBE_KODU, '" + Giren_Depo_Kodu + "' DEPO_KODU, '' PROJE_KODU";
+                _sorgu += " , '' UST_ACIKLAMA1, '' UST_ACIKLAMA2 ";
+                _sorgu += " , '" + Kullanici + "' KAYIT_KULLANICI, GETDATE() KAYIT_TARIHI ";
+
+                _sorgu += " EXEC DBO.INN_PR_BELGE_KAYIT '" + Belge_No + "', 'HT' , '" + Tip + "', 'H' ";
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = _sorgu;
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                return result;
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        #endregion
+
         public IDJsonResult Depolar([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
