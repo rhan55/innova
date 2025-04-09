@@ -233,6 +233,57 @@ Order by StokGarantiTarihleri.SeriNo ";
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult ArizalarGecmis(string Baslangic = "", string Bitis = "", string Durum = "", string Teknisyen = "", string Cari = "", string SeriNo = "", string EvrakNo = "")
+        {
+            if (!AutoGirisKontrol())
+                return Redirect("~/Kullanici/Giris");
+
+            if (Baslangic == "")
+            {
+                Baslangic = DateTime.Today.AddDays(-7).ToString("yyyy-MM-dd");
+            }
+            if (Bitis == "")
+            {
+                Bitis = DateTime.Today.AddDays(1).ToString("yyyy-MM-dd");
+            }
+
+            ViewBag.Baslangic = Baslangic;
+            ViewBag.Bitis = Bitis;
+            ViewBag.Durum = Durum;
+            ViewBag.Teknisyen = Teknisyen;
+            ViewBag.Cari = Cari;
+            ViewBag.SeriNo = SeriNo;
+            ViewBag.EvrakNo = EvrakNo;
+
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = "p_ArizaListesiGecmis";
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            cmd.Parameters.AddWithValue("@Baslangic", Baslangic);
+            cmd.Parameters.AddWithValue("@Bitis", Bitis);
+            cmd.Parameters.AddWithValue("@Durum", Durum);
+            cmd.Parameters.AddWithValue("@Teknisyen", Teknisyen);
+            cmd.Parameters.AddWithValue("@Cari", Cari);
+            cmd.Parameters.AddWithValue("@SeriNo", SeriNo);
+            cmd.Parameters.AddWithValue("@EvrakNo", EvrakNo);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
+
+            SqlCommand cmd2 = new SqlCommand();
+            cmd2.CommandText = "select CariKodu,CariAdi from w_Cariler Group by CariKodu,CariAdi order by CariAdi";
+            cmd2.CommandType = System.Data.CommandType.Text;
+            ViewBag.dtCariler = (DataTable)IDVeritabani.Sorgula(cmd2, SorgulaTuru.Tablo);
+
+            cmd.Parameters.Clear();
+            cmd.CommandText = "select ID,Ad+' '+Soyad as Isim from Kullanicilar WITH(NOLOCK) Where Aktif = 1 and UyelikID = @UyelikID ";
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
+            ViewBag.Teknisyenler = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+
+
+            return View(ds);
+        }
+
         public ActionResult Arizalar(string Baslangic = "", string Bitis = "", string Durum = "", string Teknisyen = "", string Cari = "", string SeriNo = "", string EvrakNo = "")
         {
             if (!AutoGirisKontrol())
@@ -240,7 +291,7 @@ Order by StokGarantiTarihleri.SeriNo ";
 
             if (Baslangic == "")
             {
-                Baslangic = (DateTime.Today.Year+"-01-01");
+                Baslangic = (DateTime.Today.Year + "-01-01");
             }
             if (Bitis == "")
             {
@@ -283,7 +334,6 @@ Order by StokGarantiTarihleri.SeriNo ";
 
             return View(ds);
         }
-
         public ActionResult ArizaKaydet(string CariKodu, string SeriNo, string Sikayet)
         {
             SqlCommand cmd = new SqlCommand();
@@ -341,7 +391,9 @@ Select @EvrakNo
             string StokKodu,
             string SeriNo,
             string ArizayiBildiren, string ArizayiBildirenTelefon, string EMail, string BulunduguYer,
-            string Imza)
+            string Imza,
+            string Kategori,
+            string ArizaKaynagi)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_ArizaGuncelle";
@@ -361,6 +413,8 @@ Select @EvrakNo
             cmd.Parameters.AddWithValue("@EMail", EMail);
             cmd.Parameters.AddWithValue("@BulunduguYer", BulunduguYer);
             cmd.Parameters.AddWithValue("@Imza", Imza);
+            cmd.Parameters.AddWithValue("@Kategori", Kategori); 
+            cmd.Parameters.AddWithValue("@ArizaKaynagi", ArizaKaynagi); 
             cmd.Parameters.AddWithValue("@KullaniciAdi", GetCookie("KullaniciAdi"));
 
 
@@ -574,7 +628,15 @@ ArizayiBildirenTelefon : " + ArizayiBildirenTelefon + @" <br>
             cmd.CommandText = "select CariKodu,CariAdi from w_Cariler Group by CariKodu,CariAdi order by CariAdi";
             cmd.CommandType = System.Data.CommandType.Text;
             ViewBag.dtCariler = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
+            cmd.Parameters.Clear();
+            cmd.CommandText = "SELECT     ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM            GrupKodlari WHERE        (Kod = 'ArizaKategorisi')";
+            cmd.CommandType = System.Data.CommandType.Text;
+            ViewBag.dtKategoriler = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            cmd.Parameters.Clear();
+            cmd.CommandText = "SELECT     ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM            GrupKodlari WHERE        (Kod = 'ArizaKaynagi')";
+            cmd.CommandType = System.Data.CommandType.Text;
+            ViewBag.dtArizaKaynagi = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+            
             return View(ds);
         }
 

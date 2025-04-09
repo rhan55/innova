@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Management.Instrumentation;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -23,9 +24,385 @@ using YKPortal.Models.YKClasses;
 
 namespace YKPortal.Controllers
 {
-
     public class YKWebApiController : ApiController
     {
+
+        #region Mobile App Metodları
+
+        public IDJsonResult Subeler([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["LisansNumarasi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! LisansNumarasi bilgisi boş olamaz.";
+                    return result;
+                }
+                string LisansNumarasi = Convert.ToString(data["LisansNumarasi"]);
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandText = "OYP_Subeler";
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.ID = Convert.ToString(satir["ID"]);
+                        entity.Kod = Convert.ToString(satir["Kod"]);
+                        entity.Isim = Convert.ToString(satir["Isim"]);
+                        entities.Add(entity);
+                    }
+                    #endregion
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    return result;
+                }
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        public IDJsonResult Depolar([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["LisansNumarasi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! LisansNumarasi bilgisi boş olamaz.";
+                    return result;
+                }
+                string LisansNumarasi = Convert.ToString(data["LisansNumarasi"]);
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandText = "OYP_Depolar";
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.ID = Convert.ToString(satir["ID"]);
+                        entity.Kod = Convert.ToString(satir["Kod"]);
+                        entity.Isim = Convert.ToString(satir["Isim"]);
+                        entities.Add(entity);
+                    }
+                    #endregion
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    return result;
+                }
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        public IDJsonResult StokAra([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["LisansNumarasi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! LisansNumarasi bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["AranacakKelime"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! AranacakKelime bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["SubeKodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! SubeKodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["DepoKodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! DepoKodu bilgisi boş olamaz.";
+                    return result;
+                }
+                string LisansNumarasi = Convert.ToString(data["LisansNumarasi"]);
+                string SubeKodu = Convert.ToString(data["SubeKodu"]);
+                string DepoKodu = Convert.ToString(data["DepoKodu"]);
+                string AranacakKelime = Convert.ToString(data["AranacakKelime"]);
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandText = "OYP_Stoklar";
+                cmd.Parameters.AddWithValue("@SubeKodu", SubeKodu);
+                cmd.Parameters.AddWithValue("@DepoKodu", DepoKodu);
+                cmd.Parameters.AddWithValue("@AranacakKelime", AranacakKelime);
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.ID = Convert.ToString(satir["ID"]);
+                        entity.Kod = Convert.ToString(satir["Kod"]);
+                        entity.Isim = Convert.ToString(satir["Isim"]);
+                        entity.Isim = Convert.ToString(satir["OlcuBirimi"]);
+                        entity.Bakiye = Convert.ToString(satir["Bakiye"]);
+                        entities.Add(entity);
+                    }
+                    #endregion
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    return result;
+                }
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        public IDJsonResult SayimListesi([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["LisansNumarasi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! LisansNumarasi bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Tarih"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Tarih bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["SubeKodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! SubeKodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["DepoKodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! DepoKodu bilgisi boş olamaz.";
+                    return result;
+                }
+                string LisansNumarasi = Convert.ToString(data["LisansNumarasi"]);
+                string Tarih = Convert.ToString(data["Tarih"]);
+                string SubeKodu = Convert.ToString(data["SubeKodu"]);
+                string DepoKodu = Convert.ToString(data["DepoKodu"]);
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandText = "OYP_SayimListesi";
+                cmd.Parameters.AddWithValue("@Tarih", Tarih);
+                cmd.Parameters.AddWithValue("@SubeKodu", SubeKodu);
+                cmd.Parameters.AddWithValue("@DepoKodu", DepoKodu);
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.ID = Convert.ToString(satir["ID"]);
+                        entity.Kod = Convert.ToString(satir["Kod"]);
+                        entity.Isim = Convert.ToString(satir["Isim"]);
+                        entity.Isim = Convert.ToString(satir["OlcuBirimi"]);
+                        entity.Miktar = Convert.ToString(satir["Miktar"]);
+                        entity.Bakiye = Convert.ToString(satir["Bakiye"]);
+                        entities.Add(entity);
+                    }
+                    #endregion
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    return result;
+                }
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        public IDJsonResult SayimKaydet([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["LisansNumarasi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! LisansNumarasi bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Tarih"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Tarih bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["SubeKodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! SubeKodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["DepoKodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! DepoKodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["StokKodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! StokKodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Miktar"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Miktar bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici bilgisi boş olamaz.";
+                    return result;
+                }
+                string LisansNumarasi = Convert.ToString(data["LisansNumarasi"]);
+                DateTime Tarih = Convert.ToDateTime(data["Tarih"]);
+                string SubeKodu = Convert.ToString(data["SubeKodu"]);
+                string DepoKodu = Convert.ToString(data["DepoKodu"]);
+                string StokKodu = Convert.ToString(data["StokKodu"]);
+                decimal Miktar = Convert.ToDecimal(data["Miktar"]);
+                string Kullanici = Convert.ToString(data["Kullanici"]);
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandText = "OYP_SayimKaydet";
+                cmd.Parameters.AddWithValue("@Tarih", Tarih);
+                cmd.Parameters.AddWithValue("@SubeKodu", SubeKodu);
+                cmd.Parameters.AddWithValue("@DepoKodu", DepoKodu);
+                cmd.Parameters.AddWithValue("@StokKodu", StokKodu);
+                cmd.Parameters.AddWithValue("@Miktar", Miktar);
+                cmd.Parameters.AddWithValue("@Kullanici", Kullanici);
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                return result;
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        #endregion
+
         #region Subabase.com İşlemleri
 
         private static readonly string supabaseUrl = "https://fvkgptxqequznptzszvz.supabase.co";
@@ -381,322 +758,7 @@ namespace YKPortal.Controllers
 
         #endregion
 
-        [HttpPost]
-        public IDJsonResult LogKaydet_KullaniciGirisi([FromBody] JObject data)
-        {
-            IDJsonResult result = new IDJsonResult();
-            try
-            {
-                string ProgramAdi = Convert.ToString(data["ProgramAdi"]);
-                string Sirket = Convert.ToString(data["Sirket"]);
-                string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
-                string Parola = Convert.ToString(data["Parola"]);
-                string IP = Convert.ToString(data["IP"]);
-
-                YKUtils.LogKaydet_KullaniciGirisi(ProgramAdi,
-                        Sirket,
-                        KullaniciAdi,
-                        Parola,
-                        IP
-                        );
-
-                result.SonucKodu = 1;
-                result.Sonuc = "Başarılı";
-                return result;
-
-
-            }
-            catch (Exception err)
-            {
-                result.SonucKodu = -1;
-                result.Sonuc = "HATA!";
-                result.Hata = err.Message;
-            }
-            finally
-            {
-
-            }
-            return result;
-        }
-
-        [HttpPost]
-        public IDJsonResult KullaniciGirisi([FromBody] JObject data)
-        {
-            IDJsonResult result = new IDJsonResult();
-            try
-            {
-                if (data["KullaniciAdi"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! KullaniciAdi bilgisi boş olamaz.";
-                    return result;
-                }
-                if (data["Parola"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! KullaniciAdi bilgisi boş olamaz.";
-                    return result;
-                }
-                string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
-                string Parola = Convert.ToString(data["Parola"]);
-
-                YKModelKullanici entity = new YKModelKullanici();
-
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "p_KullaniciGirisi";
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@KullaniciAdi", KullaniciAdi);
-                cmd.Parameters.AddWithValue("@Parola", Parola);
-                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
-                if (dt.Rows.Count > 0)
-                {
-                    string Bilgi = Convert.ToString(dt.Rows[0]["Bilgi"]);
-                    if (!Bilgi.StartsWith("UYARI!"))
-                    {
-                        #region Cookie İşlemleri
-                        entity.Isim = Convert.ToString(dt.Rows[0]["Ad"]) + " " + Convert.ToString(dt.Rows[0]["Soyad"]);
-                        entity.KullaniciID = Convert.ToString(dt.Rows[0]["ID"]);
-                        entity.UyelikIsim = Convert.ToString(dt.Rows[0]["UyelikIsim"]);
-                        entity.UyelikID = Convert.ToString(dt.Rows[0]["UyelikID"]);
-                        entity.KullaniciAdi = Convert.ToString(dt.Rows[0]["KullaniciAdi"]);
-                        entity.Parola = Convert.ToString(dt.Rows[0]["Parola"]);
-                        entity.Resim = Convert.ToString(dt.Rows[0]["Resim"]);
-
-                        #endregion
-
-                        result.Data = entity;
-                        result.SonucKodu = 1;
-                        result.Sonuc = "Başarılı";
-                        return result;
-                    }
-                    else
-                    {
-                        result.SonucKodu = 0;
-                        result.Hata = Bilgi;
-                        return result;
-                    }
-                }
-                else
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Kullanıcı bulunamadı!";
-                    return result;
-                }
-            }
-            catch (Exception err)
-            {
-                result.SonucKodu = -1;
-                result.Sonuc = "HATA!";
-                result.Hata = err.Message;
-            }
-            finally
-            {
-
-            }
-            return result;
-        }
-
-        [HttpPost]
-        public IDJsonResult KullaniciListesi([FromBody] JObject data)
-        {
-            IDJsonResult result = new IDJsonResult();
-            try
-            {
-
-                if (data["KullaniciAdi"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! KullaniciAdi bilgisi boş olamaz.";
-                    return result;
-                }
-                if (data["Parola"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Parola bilgisi boş olamaz.";
-                    return result;
-                }
-                if (data["UyelikID"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! UyelikID bilgisi boş olamaz.";
-                    return result;
-                }
-                string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
-                string Parola = Convert.ToString(data["Parola"]);
-                string UyelikID = Convert.ToString(data["UyelikID"]);
-
-                if (KullaniciAdi == "info@ykyazilim.com.tr" && Parola == "4jtj2jsmv")
-                {
-
-                    List<dynamic> entities = new List<dynamic>();
-
-                    SqlCommand cmd = new SqlCommand();
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "p_KullaniciListesi";
-                    cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
-                    cmd.Parameters.AddWithValue("@AranacakKelime", "");
-                    DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
-                    if (dt.Rows.Count > 0)
-                    {
-                        #region Cookie İşlemleri
-                        foreach (DataRow satir in dt.Rows)
-                        {
-                            dynamic entity = new System.Dynamic.ExpandoObject();
-                            entity.ID = Convert.ToString(satir["ID"]);
-                            entity.UyelikID = Convert.ToString(satir["UyelikID"]);
-                            entity.KullaniciAdi = Convert.ToString(satir["KullaniciAdi"]);
-                            entity.Parola = Convert.ToString(satir["Parola"]);
-                            entity.Ad = Convert.ToString(satir["Ad"]);
-                            entity.Soyad = Convert.ToString(satir["Soyad"]);
-                            entity.Telefon = Convert.ToString(satir["Telefon"]);
-                            entity.Adres = Convert.ToString(satir["Adres"]);
-                            entity.Il = Convert.ToString(satir["Il"]);
-                            entity.Ilce = Convert.ToString(satir["Ilce"]);
-                            entity.Aktif = Convert.ToString(satir["Aktif"]);
-                            entity.Aciklama1 = Convert.ToString(satir["Aciklama1"]);
-                            entity.Aciklama2 = Convert.ToString(satir["Aciklama2"]);
-                            entity.Aciklama3 = Convert.ToString(satir["Aciklama3"]);
-                            entity.Tarih = Convert.ToString(satir["Tarih"]);
-                            entity.Resim = Convert.ToString(satir["Resim"]);
-                            entity.KayitTarihi = Convert.ToString(satir["KayitTarihi"]);
-                            entity.KayitYapanKullanici = Convert.ToString(satir["KayitYapanKullanici"]);
-                            entity.DuzenlemeTarihi = Convert.ToString(satir["DuzenlemeTarihi"]);
-                            entity.DuzenlemeYapanKullanici = Convert.ToString(satir["DuzenlemeYapanKullanici"]);
-                            entity.Silindi = Convert.ToString(satir["Silindi"]);
-                            entity.SilinenTarih = Convert.ToString(satir["SilinenTarih"]);
-                            entity.SilenKullanici = Convert.ToString(satir["SilenKullanici"]);
-                            entity.Onay = Convert.ToString(satir["Onay"]);
-                            entities.Add(entity);
-                        }
-                        #endregion
-                        result.Data = entities;
-                        result.SonucKodu = 1;
-                        result.Sonuc = "Başarılı";
-                        return result;
-                    }
-                    else
-                    {
-                        result.SonucKodu = 0;
-                        result.Hata = "UYARI! Kayıt bulunamadı!";
-                        return result;
-                    }
-                }
-                else
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Kullanıcı adı veya parola yanlış!";
-                    return result;
-                }
-
-            }
-            catch (Exception err)
-            {
-                result.SonucKodu = -1;
-                result.Sonuc = "HATA!";
-                result.Hata = err.Message;
-            }
-            finally
-            {
-
-            }
-            return result;
-        }
-
-        [HttpPost]
-        public IDJsonResult UyelikListesi([FromBody] JObject data)
-        {
-            IDJsonResult result = new IDJsonResult();
-            try
-            {
-
-                if (data["KullaniciAdi"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! KullaniciAdi bilgisi boş olamaz.";
-                    return result;
-                }
-                if (data["Parola"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! KullaniciAdi bilgisi boş olamaz.";
-                    return result;
-                }
-                string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
-                string Parola = Convert.ToString(data["Parola"]);
-
-                if (KullaniciAdi == "info@ykyazilim.com.tr" && Parola == "4jtj2jsmv")
-                {
-
-                    List<dynamic> entities = new List<dynamic>();
-
-                    SqlCommand cmd = new SqlCommand();
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = "p_UyelikListesi";
-                    cmd.Parameters.AddWithValue("@AranacakKelime", "");
-                    DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
-                    if (dt.Rows.Count > 0)
-                    {
-                        #region Cookie İşlemleri
-                        foreach (DataRow satir in dt.Rows)
-                        {
-                            dynamic entity = new System.Dynamic.ExpandoObject();
-                            entity.ID = Convert.ToString(satir["ID"]);
-                            entity.Isim = Convert.ToString(satir["Isim"]);
-                            entity.Unvan = Convert.ToString(satir["Unvan"]);
-                            entity.VergiNumarasi = Convert.ToString(satir["VergiNumarasi"]);
-                            entity.VergiDairesi = Convert.ToString(satir["VergiDairesi"]);
-                            entity.Adres = Convert.ToString(satir["Adres"]);
-                            entity.Iletisim = Convert.ToString(satir["Iletisim"]);
-                            entity.Email = Convert.ToString(satir["Email"]);
-                            entity.UyelikBaslangicTarihi = Convert.ToString(satir["UyelikBaslangicTarihi"]);
-                            entity.UyelikBitisTarihi = Convert.ToString(satir["UyelikBitisTarihi"]);
-                            entity.KayitTarihi = Convert.ToString(satir["KayitTarihi"]);
-                            entity.KayitYapanKullanici = Convert.ToString(satir["KayitYapanKullanici"]);
-                            entity.DuzenlemeTarihi = Convert.ToString(satir["DuzenlemeTarihi"]);
-                            entity.DuzenlemeYapanKullanici = Convert.ToString(satir["DuzenlemeYapanKullanici"]);
-                            entity.Silindi = Convert.ToString(satir["Silindi"]);
-                            entity.SilinenTarih = Convert.ToString(satir["SilinenTarih"]);
-                            entity.SilenKullanici = Convert.ToString(satir["SilenKullanici"]);
-                            entity.ApiUrl = Convert.ToString(satir["ApiUrl"]);
-                            entities.Add(entity);
-                        }
-                        #endregion
-                        result.Data = entities;
-                        result.SonucKodu = 1;
-                        result.Sonuc = "Başarılı";
-                        return result;
-                    }
-                    else
-                    {
-                        result.SonucKodu = 0;
-                        result.Hata = "UYARI! Kayıt bulunamadı!";
-                        return result;
-                    }
-                }
-                else
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Kullanıcı adı veya parola yanlış!";
-                    return result;
-                }
-
-            }
-            catch (Exception err)
-            {
-                result.SonucKodu = -1;
-                result.Sonuc = "HATA!";
-                result.Hata = err.Message;
-            }
-            finally
-            {
-
-            }
-            return result;
-        }
-
+        #region Destek Metodları
         [HttpPost]
         public IDJsonResult DestekTipleri([FromBody] JObject data)
         {
@@ -1204,6 +1266,7 @@ namespace YKPortal.Controllers
             }
             return result;
         }
+        #endregion
 
         #region Finekra Api
 
@@ -1929,6 +1992,7 @@ Select @ID as ID
             }
             catch (Exception err)
             {
+
                 PirelliResponseDto et = new PirelliResponseDto();
                 et.ProductCode = City;
                 et.ProductDescription = err.Message;
@@ -1943,7 +2007,7 @@ Select @ID as ID
 
 
         [HttpPost]
-        public PirelliSiparisResponseDto CREATEORDER([FromBody] JObject data)
+        public dynamic CREATEORDER([FromBody] JObject data)
         {
             string _sira = "";
             PirelliSiparisResponseDto result1 = new PirelliSiparisResponseDto();
@@ -1985,30 +2049,117 @@ Select @ID as ID
                 cmd.Parameters.AddWithValue("@Ilce", Header.Customer.Address.District);
                 cmd.Parameters.AddWithValue("@Il", Header.Customer.Address.City);
                 cmd.Parameters.AddWithValue("@SiparisNumarasi", Header.PurchaseOrderNumber);
-                cmd.Parameters.AddWithValue("@Tarih", Convert.ToDateTime(Header.RequestedDatetime));
+                cmd.Parameters.AddWithValue("@Tarih", DateTimeOffset.Parse(Header.RequestedDatetime));
                 cmd.Parameters.AddWithValue("@Aciklama1", aciklama1);
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                 _sira = "3";
                 foreach (var item in Items)
                 {
-
                     cmd.Parameters.Clear();
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "p_PirelliOrderLineSave";
                     cmd.Parameters.AddWithValue("@LineId", item.LineId);
                     cmd.Parameters.AddWithValue("@TrackingId", Header.TrackingId);
                     cmd.Parameters.AddWithValue("@ProductCode", item.ProductCode);
-                    cmd.Parameters.AddWithValue("@RequestedDeliveryDatetime", Convert.ToDateTime(item.RequestedDeliveryDatetime));
+                    cmd.Parameters.AddWithValue("@RequestedDeliveryDatetime", DateTimeOffset.Parse(item.RequestedDeliveryDatetime));
                     cmd.Parameters.AddWithValue("@RequestedQuantity", item.RequestedQuantity);
                     cmd.Parameters.AddWithValue("@Price", Convert.ToDecimal(item.Price));
-                    cmd.Parameters.AddWithValue("@ConfirmedDeliveryDatetime", Convert.ToDateTime(item.ConfirmedDeliveryDatetime));
-                    cmd.Parameters.AddWithValue("@ConfirmedQuantity", item.ConfirmedQuantity);
+                    cmd.Parameters.AddWithValue("@ConfirmedDeliveryDatetime", null);
+                    cmd.Parameters.AddWithValue("@ConfirmedQuantity", 0);
                     cmd.Parameters.AddWithValue("@SiparisNumarasi", dt.Rows[0]["SIPARIS_NO"]);
                     DataTable dt2 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-                    item.RequestedDeliveryDatetime = Convert.ToDateTime(item.RequestedDeliveryDatetime).ToString("yyyy-MM-ddTHH:mm:sszzz").ToString();
-                    item.ConfirmedDeliveryDatetime = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz").ToString();
+                    item.RequestedDeliveryDatetime = DateTimeOffset.Parse(item.RequestedDeliveryDatetime).ToString("yyyy-MM-ddTHH:mm:sszzz").ToString();
 
+                    item.ConfirmedDeliveryDatetime = DateTimeOffset.Parse(item.RequestedDeliveryDatetime).ToString("yyyy-MM-ddTHH:mm:sszzz").ToString();
 
+                    item.ConfirmedQuantity = item.RequestedQuantity;
+                    SqlCommand cmd11 = new SqlCommand();
+                    cmd11.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd11.CommandText = "p_PirelliStockCheck";
+                    cmd11.Parameters.AddWithValue("@StokKodu", item.ProductCode);
+                    cmd11.Parameters.AddWithValue("@City", Header.Customer.Address.City);
+                    DataTable dt11 = (DataTable)IDVeritabani.Sorgula(cmd11, SorgulaTuru.Tablo);
+                    if (dt11.Rows.Count > 0)
+                    {
+                        item.ConfirmedDeliveryDatetime = DateTimeOffset.Parse(dt11.Rows[0]["TeslimTarihi"].ToString()).ToString("yyyy-MM-ddTHH:mm:sszzz").ToString();
+                        if (Convert.ToInt32(dt11.Rows[0]["Miktar"]) <= 0)
+                        {
+                            //HAta
+                            Header.RequestedDatetime = DateTimeOffset.Parse(Header.RequestedDatetime).ToString("yyyy-MM-ddTHH:mm:sszzz").ToString();
+
+                            result1.Header = null;
+                            result1.Items = null;
+                            result1.Notes = new List<PirelliNotes>();
+                            result1.Notes.Add(new PirelliNotes()
+                            {
+                                Code = null,
+                                Type = null,
+                                Text = "The requested product " + item.ProductCode + " cannot be delivered on the requested delivery date. The requested delivery date should be after the " + Header.RequestedDatetime
+                            });
+                            return result1;
+                        }
+
+                        if (item.RequestedQuantity <= 0)
+                        {
+                            Header.RequestedDatetime = DateTimeOffset.Parse(Header.RequestedDatetime).ToString("yyyy-MM-ddTHH:mm:sszzz").ToString();
+
+                            result1.Header = null;
+                            result1.Items = null;
+                            result1.Notes = new List<PirelliNotes>();
+                            result1.Notes.Add(new PirelliNotes()
+                            {
+                                Code = null,
+                                Type = null,
+                                Text = "Stock quantity cannot be 0!! Product : " + item.ProductCode + ""
+                            });
+                            return result1;
+
+                        }
+                        if (item.RequestedQuantity > 10000)
+                        {
+                            Header.RequestedDatetime = DateTimeOffset.Parse(Header.RequestedDatetime).ToString("yyyy-MM-ddTHH:mm:sszzz").ToString();
+
+                            result1.Header = null;
+                            result1.Items = null;
+                            result1.Notes = new List<PirelliNotes>();
+                            result1.Notes.Add(new PirelliNotes()
+                            {
+                                Code = null,
+                                Type = null,
+                                Text = "The stock quantity cannot exceed 10,000! Product : " + item.ProductCode + ""
+                            });
+                            return result1;
+
+                        }
+                        if (item.RequestedQuantity > Convert.ToInt32(dt11.Rows[0]["Miktar"]))
+                        {
+                            Header.RequestedDatetime = DateTimeOffset.Parse(Header.RequestedDatetime).ToString("yyyy-MM-ddTHH:mm:sszzz").ToString();
+
+                            result1.Header = null;
+                            result1.Items = null;
+                            result1.Notes = new List<PirelliNotes>();
+                            result1.Notes.Add(new PirelliNotes()
+                            {
+                                Code = null,
+                                Type = null,
+                                Text = "Insufficient stock! Product : " + item.ProductCode + ""
+                            });
+                            return result1;
+                        }
+                    }
+                    else
+                    {
+                        result1.Header = null;
+                        result1.Items = null;
+                        result1.Notes = new List<PirelliNotes>();
+                        result1.Notes.Add(new PirelliNotes()
+                        {
+                            Code = null,
+                            Type = null,
+                            Text = "Stock not found! Product : " + item.ProductCode + ""
+                        });
+                        return result1;
+                    }
                 }
 
                 _sira = "4";
@@ -2023,7 +2174,8 @@ Select @ID as ID
                 _sira = "5";
                 //Header.BuyerCode = "2400001349";
                 Header.SalesOrderNumber = Convert.ToString(dt3.Rows[0]["SIPARIS_NO"]);
-                Header.RequestedDatetime = Convert.ToDateTime(dt3.Rows[0]["TARIH"]).ToString("yyyy-MM-ddTHH:mm:sszzz").ToString();
+                Header.RequestedDatetime = DateTimeOffset.Parse(Header.RequestedDatetime).ToString("yyyy-MM-ddTHH:mm:sszzz").ToString();
+
                 result1.Header = Header;
                 result1.Items = Items;
                 //result1.Notes = Notes;
@@ -2051,11 +2203,11 @@ Select @ID as ID
                             writer.WriteLine("  <NumberOfMessages>1</NumberOfMessages>");
                             writer.WriteLine("  <desadv>");
                             _sira = "7.4";
-                            writer.WriteLine("    <IssueDate>" + Convert.ToDateTime(dt3.Rows[0]["TARIH"]).ToString("yyyy-MM-dd") + "</IssueDate>");
+                            writer.WriteLine("    <IssueDate>" + DateTimeOffset.Parse(dt3.Rows[0]["TARIH"].ToString()).ToString("yyyy-MM-dd") + "</IssueDate>");
                             _sira = "7.4.1";
                             writer.WriteLine("    <DocumentNumber>" + (Header.PurchaseOrderNumber) + "</DocumentNumber>");
-                            writer.WriteLine("    <DespatchDate>" + Convert.ToDateTime(dt3.Rows[0]["TARIH"]).ToString("yyyy-MM-dd") + "</DespatchDate>");
-                            writer.WriteLine("    <ArrivalDate>" + Convert.ToDateTime(dt3.Rows[0]["TARIH"]).ToString("yyyy-MM-dd") + "</ArrivalDate>");
+                            writer.WriteLine("    <DespatchDate>" + DateTimeOffset.Parse(dt3.Rows[0]["TARIH"].ToString()).ToString("yyyy-MM-dd") + "</DespatchDate>");
+                            writer.WriteLine("    <ArrivalDate>" + DateTimeOffset.Parse(dt3.Rows[0]["TARIH"].ToString()).ToString("yyyy-MM-dd") + "</ArrivalDate>");
                             writer.WriteLine("    <BuyerParty>");
                             writer.WriteLine("      <PartyID>2400001085</PartyID>");
                             writer.WriteLine("      <AgencyCode>92</AgencyCode>");
@@ -2131,8 +2283,15 @@ Select @ID as ID
             }
             catch (Exception err)
             {
+                result1.Header = null;
+                result1.Items = null;
                 result1.Notes = new List<PirelliNotes>();
-                result1.Notes.Add(new PirelliNotes() { Text = _sira + " - " + err.Message });
+                result1.Notes.Add(new PirelliNotes()
+                {
+                    Code = null,
+                    Type = null,
+                    Text = _sira + " - " + err.Message
+                });
             }
             finally
             {
@@ -2224,101 +2383,6 @@ Select @ID as ID
         }
         #endregion
 
-        [HttpPost]
-        public PirelliSiparisResponseDto CREATEORDERR(SupplierOrders data)
-        {
-            string _sira = "";
-            PirelliSiparisResponseDto result1 = new PirelliSiparisResponseDto();
-            try
-            {
-                _sira = "0";
-                //SupplierOrders Header = data["Header"].ToObject<SupplierOrders>();
-                //List<SupplierOrderProductsList> Items = data["Items"].ToObject<List<SupplierOrderProductsList>>();
-                int sira = 1;
-                //foreach (var item in Items)
-                //{
-                //    item.ConfirmedQuantity = item.RequestedQuantity;
-                //    item.ConfirmedDeliveryDatetime = item.RequestedDeliveryDatetime;
-                //}
-                _sira = "1";
-                //List<PirelliNotes> Notes = new List<PirelliNotes>();
-                //try
-                //{
-                //    Notes = data["Notes"].ToObject<List<PirelliNotes>>();
-                //}
-                //catch (Exception err)
-                //{
-                //    ;
-                //}
-                //string aciklama1 = "";
-                //if (Notes.Count >= 1)
-                //{
-                //    aciklama1 = Notes[0].Text;
-                //}
-                _sira = "2";
-                //SqlCommand cmd = new SqlCommand();
-                //cmd.CommandText = "p_PirelliOrderSave";
-                //cmd.CommandType = CommandType.StoredProcedure;
-                //cmd.Parameters.AddWithValue("@TrackingId", Header.TrackingId);
-                //cmd.Parameters.AddWithValue("@BuyerCode", Header.BuyerCode);
-                //cmd.Parameters.AddWithValue("@CariKodu", Header.Customer.Code);
-                //cmd.Parameters.AddWithValue("@CariAdi", Header.Customer.Name);
-                //cmd.Parameters.AddWithValue("@Adres", Header.Customer.Address.Street[0]);
-                //cmd.Parameters.AddWithValue("@Ilce", Header.Customer.Address.District);
-                //cmd.Parameters.AddWithValue("@Il", Header.Customer.Address.City);
-                //cmd.Parameters.AddWithValue("@SiparisNumarasi", Header.PurchaseOrderNumber);
-                //cmd.Parameters.AddWithValue("@Tarih", Convert.ToDateTime(Header.RequestedDatetime));
-                //cmd.Parameters.AddWithValue("@Aciklama1", aciklama1);
-                //DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-                _sira = "3";
-                //foreach (var item in Items)
-                //{
-                //    //cmd.Parameters.Clear();
-                //    //cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                //    //cmd.CommandText = "p_PirelliOrderLineSave";
-                //    //cmd.Parameters.AddWithValue("@LineId", item.LineId);
-                //    //cmd.Parameters.AddWithValue("@TrackingId", Header.TrackingId);
-                //    //cmd.Parameters.AddWithValue("@ProductCode", item.ProductCode);
-                //    //cmd.Parameters.AddWithValue("@RequestedDeliveryDatetime", Convert.ToDateTime(item.RequestedDeliveryDatetime));
-                //    //cmd.Parameters.AddWithValue("@RequestedQuantity", item.RequestedQuantity);
-                //    //cmd.Parameters.AddWithValue("@Price", Convert.ToDecimal(item.Price));
-                //    //cmd.Parameters.AddWithValue("@ConfirmedDeliveryDatetime", Convert.ToDateTime(item.ConfirmedDeliveryDatetime));
-                //    //cmd.Parameters.AddWithValue("@ConfirmedQuantity", item.ConfirmedQuantity);
-                //    //cmd.Parameters.AddWithValue("@SiparisNumarasi", dt.Rows[0]["SIPARIS_NO"]);
-                //    //DataTable dt2 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-                //    //item.ConfirmedDeliveryDatetime = DateTime.Now.ToString("yyyy-MM-dd") + "T03:00:00+03:00";
-                //    //item.RequestedDeliveryDatetime = Convert.ToDateTime(item.RequestedDeliveryDatetime).ToString("yyyy-MM-dd") + "T03:00:00+03:00";
-                //}
-
-                _sira = "4";
-                //cmd.Parameters.Clear();
-                //cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                //cmd.CommandText = "p_PirelliOrderComplate";
-                ////cmd.Parameters.AddWithValue("@CariKodu", Header.Customer.Code);
-                ////cmd.Parameters.AddWithValue("@TrackingId", Header.TrackingId);
-                //cmd.Parameters.AddWithValue("@SiparisNumarasi", dt.Rows[0]["SIPARIS_NO"]);
-                //DataTable dt3 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-                _sira = "5";
-                //Header.BuyerCode = "2400001349";
-                //Header.SalesOrderNumber = Convert.ToString(dt3.Rows[0]["SIPARIS_NO"]);
-                //Header.RequestedDatetime = Convert.ToDateTime(dt3.Rows[0]["TARIH"]).ToString("yyyy-MM-dd") + "T03:00:00+03:00";
-                //result1.Header = Header;
-                //result1.Items = Items;
-                ////result1.Notes = Notes;
-                //_sira = "6";
-                return result1;
-            }
-            catch (Exception err)
-            {
-                result1.Notes = new List<PirelliNotes>();
-                result1.Notes.Add(new PirelliNotes() { Text = _sira + " - " + err.Message });
-            }
-            finally
-            {
-
-            }
-            return result1;
-        }
         #region Whatsapp Api
 
         public IDJsonResult WPMesajBilgisiOlustur([FromBody] JObject data)
@@ -2673,6 +2737,418 @@ END
             return result;
         }
         #endregion
+
+        [HttpPost]
+        public PirelliSiparisResponseDto CREATEORDERR(SupplierOrders data)
+        {
+            string _sira = "";
+            PirelliSiparisResponseDto result1 = new PirelliSiparisResponseDto();
+            try
+            {
+                _sira = "0";
+                //SupplierOrders Header = data["Header"].ToObject<SupplierOrders>();
+                //List<SupplierOrderProductsList> Items = data["Items"].ToObject<List<SupplierOrderProductsList>>();
+                int sira = 1;
+                //foreach (var item in Items)
+                //{
+                //    item.ConfirmedQuantity = item.RequestedQuantity;
+                //    item.ConfirmedDeliveryDatetime = item.RequestedDeliveryDatetime;
+                //}
+                _sira = "1";
+                //List<PirelliNotes> Notes = new List<PirelliNotes>();
+                //try
+                //{
+                //    Notes = data["Notes"].ToObject<List<PirelliNotes>>();
+                //}
+                //catch (Exception err)
+                //{
+                //    ;
+                //}
+                //string aciklama1 = "";
+                //if (Notes.Count >= 1)
+                //{
+                //    aciklama1 = Notes[0].Text;
+                //}
+                _sira = "2";
+                //SqlCommand cmd = new SqlCommand();
+                //cmd.CommandText = "p_PirelliOrderSave";
+                //cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.Parameters.AddWithValue("@TrackingId", Header.TrackingId);
+                //cmd.Parameters.AddWithValue("@BuyerCode", Header.BuyerCode);
+                //cmd.Parameters.AddWithValue("@CariKodu", Header.Customer.Code);
+                //cmd.Parameters.AddWithValue("@CariAdi", Header.Customer.Name);
+                //cmd.Parameters.AddWithValue("@Adres", Header.Customer.Address.Street[0]);
+                //cmd.Parameters.AddWithValue("@Ilce", Header.Customer.Address.District);
+                //cmd.Parameters.AddWithValue("@Il", Header.Customer.Address.City);
+                //cmd.Parameters.AddWithValue("@SiparisNumarasi", Header.PurchaseOrderNumber);
+                //cmd.Parameters.AddWithValue("@Tarih", Convert.ToDateTime(Header.RequestedDatetime));
+                //cmd.Parameters.AddWithValue("@Aciklama1", aciklama1);
+                //DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                _sira = "3";
+                //foreach (var item in Items)
+                //{
+                //    //cmd.Parameters.Clear();
+                //    //cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                //    //cmd.CommandText = "p_PirelliOrderLineSave";
+                //    //cmd.Parameters.AddWithValue("@LineId", item.LineId);
+                //    //cmd.Parameters.AddWithValue("@TrackingId", Header.TrackingId);
+                //    //cmd.Parameters.AddWithValue("@ProductCode", item.ProductCode);
+                //    //cmd.Parameters.AddWithValue("@RequestedDeliveryDatetime", Convert.ToDateTime(item.RequestedDeliveryDatetime));
+                //    //cmd.Parameters.AddWithValue("@RequestedQuantity", item.RequestedQuantity);
+                //    //cmd.Parameters.AddWithValue("@Price", Convert.ToDecimal(item.Price));
+                //    //cmd.Parameters.AddWithValue("@ConfirmedDeliveryDatetime", Convert.ToDateTime(item.ConfirmedDeliveryDatetime));
+                //    //cmd.Parameters.AddWithValue("@ConfirmedQuantity", item.ConfirmedQuantity);
+                //    //cmd.Parameters.AddWithValue("@SiparisNumarasi", dt.Rows[0]["SIPARIS_NO"]);
+                //    //DataTable dt2 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                //    //item.ConfirmedDeliveryDatetime = DateTime.Now.ToString("yyyy-MM-dd") + "T03:00:00+03:00";
+                //    //item.RequestedDeliveryDatetime = Convert.ToDateTime(item.RequestedDeliveryDatetime).ToString("yyyy-MM-dd") + "T03:00:00+03:00";
+                //}
+
+                _sira = "4";
+                //cmd.Parameters.Clear();
+                //cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                //cmd.CommandText = "p_PirelliOrderComplate";
+                ////cmd.Parameters.AddWithValue("@CariKodu", Header.Customer.Code);
+                ////cmd.Parameters.AddWithValue("@TrackingId", Header.TrackingId);
+                //cmd.Parameters.AddWithValue("@SiparisNumarasi", dt.Rows[0]["SIPARIS_NO"]);
+                //DataTable dt3 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                _sira = "5";
+                //Header.BuyerCode = "2400001349";
+                //Header.SalesOrderNumber = Convert.ToString(dt3.Rows[0]["SIPARIS_NO"]);
+                //Header.RequestedDatetime = Convert.ToDateTime(dt3.Rows[0]["TARIH"]).ToString("yyyy-MM-dd") + "T03:00:00+03:00";
+                //result1.Header = Header;
+                //result1.Items = Items;
+                ////result1.Notes = Notes;
+                //_sira = "6";
+                return result1;
+            }
+            catch (Exception err)
+            {
+                result1.Notes = new List<PirelliNotes>();
+                result1.Notes.Add(new PirelliNotes() { Text = _sira + " - " + err.Message });
+            }
+            finally
+            {
+
+            }
+            return result1;
+        }
+        [HttpPost]
+        public IDJsonResult LogKaydet_KullaniciGirisi([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                string ProgramAdi = Convert.ToString(data["ProgramAdi"]);
+                string Sirket = Convert.ToString(data["Sirket"]);
+                string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
+                string Parola = Convert.ToString(data["Parola"]);
+                string IP = Convert.ToString(data["IP"]);
+
+                YKUtils.LogKaydet_KullaniciGirisi(ProgramAdi,
+                        Sirket,
+                        KullaniciAdi,
+                        Parola,
+                        IP
+                        );
+
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                return result;
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        [HttpPost]
+        public IDJsonResult KullaniciGirisi([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["KullaniciAdi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! KullaniciAdi bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Parola"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! KullaniciAdi bilgisi boş olamaz.";
+                    return result;
+                }
+                string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
+                string Parola = Convert.ToString(data["Parola"]);
+
+                YKModelKullanici entity = new YKModelKullanici();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_KullaniciGirisi";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@KullaniciAdi", KullaniciAdi);
+                cmd.Parameters.AddWithValue("@Parola", Parola);
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    string Bilgi = Convert.ToString(dt.Rows[0]["Bilgi"]);
+                    if (!Bilgi.StartsWith("UYARI!"))
+                    {
+                        #region Cookie İşlemleri
+                        entity.Isim = Convert.ToString(dt.Rows[0]["Ad"]) + " " + Convert.ToString(dt.Rows[0]["Soyad"]);
+                        entity.KullaniciID = Convert.ToString(dt.Rows[0]["ID"]);
+                        entity.UyelikIsim = Convert.ToString(dt.Rows[0]["UyelikIsim"]);
+                        entity.UyelikID = Convert.ToString(dt.Rows[0]["UyelikID"]);
+                        entity.KullaniciAdi = Convert.ToString(dt.Rows[0]["KullaniciAdi"]);
+                        entity.Parola = Convert.ToString(dt.Rows[0]["Parola"]);
+                        entity.Resim = Convert.ToString(dt.Rows[0]["Resim"]);
+
+                        #endregion
+
+                        result.Data = entity;
+                        result.SonucKodu = 1;
+                        result.Sonuc = "Başarılı";
+                        return result;
+                    }
+                    else
+                    {
+                        result.SonucKodu = 0;
+                        result.Hata = Bilgi;
+                        return result;
+                    }
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanıcı bulunamadı!";
+                    return result;
+                }
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        [HttpPost]
+        public IDJsonResult KullaniciListesi([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+
+                if (data["KullaniciAdi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! KullaniciAdi bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Parola"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Parola bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["UyelikID"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! UyelikID bilgisi boş olamaz.";
+                    return result;
+                }
+                string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
+                string Parola = Convert.ToString(data["Parola"]);
+                string UyelikID = Convert.ToString(data["UyelikID"]);
+
+                if (KullaniciAdi == "info@ykyazilim.com.tr" && Parola == "4jtj2jsmv")
+                {
+
+                    List<dynamic> entities = new List<dynamic>();
+
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "p_KullaniciListesi";
+                    cmd.Parameters.AddWithValue("@UyelikID", UyelikID);
+                    cmd.Parameters.AddWithValue("@AranacakKelime", "");
+                    DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        #region Cookie İşlemleri
+                        foreach (DataRow satir in dt.Rows)
+                        {
+                            dynamic entity = new System.Dynamic.ExpandoObject();
+                            entity.ID = Convert.ToString(satir["ID"]);
+                            entity.UyelikID = Convert.ToString(satir["UyelikID"]);
+                            entity.KullaniciAdi = Convert.ToString(satir["KullaniciAdi"]);
+                            entity.Parola = Convert.ToString(satir["Parola"]);
+                            entity.Ad = Convert.ToString(satir["Ad"]);
+                            entity.Soyad = Convert.ToString(satir["Soyad"]);
+                            entity.Telefon = Convert.ToString(satir["Telefon"]);
+                            entity.Adres = Convert.ToString(satir["Adres"]);
+                            entity.Il = Convert.ToString(satir["Il"]);
+                            entity.Ilce = Convert.ToString(satir["Ilce"]);
+                            entity.Aktif = Convert.ToString(satir["Aktif"]);
+                            entity.Aciklama1 = Convert.ToString(satir["Aciklama1"]);
+                            entity.Aciklama2 = Convert.ToString(satir["Aciklama2"]);
+                            entity.Aciklama3 = Convert.ToString(satir["Aciklama3"]);
+                            entity.Tarih = Convert.ToString(satir["Tarih"]);
+                            entity.Resim = Convert.ToString(satir["Resim"]);
+                            entity.KayitTarihi = Convert.ToString(satir["KayitTarihi"]);
+                            entity.KayitYapanKullanici = Convert.ToString(satir["KayitYapanKullanici"]);
+                            entity.DuzenlemeTarihi = Convert.ToString(satir["DuzenlemeTarihi"]);
+                            entity.DuzenlemeYapanKullanici = Convert.ToString(satir["DuzenlemeYapanKullanici"]);
+                            entity.Silindi = Convert.ToString(satir["Silindi"]);
+                            entity.SilinenTarih = Convert.ToString(satir["SilinenTarih"]);
+                            entity.SilenKullanici = Convert.ToString(satir["SilenKullanici"]);
+                            entity.Onay = Convert.ToString(satir["Onay"]);
+                            entities.Add(entity);
+                        }
+                        #endregion
+                        result.Data = entities;
+                        result.SonucKodu = 1;
+                        result.Sonuc = "Başarılı";
+                        return result;
+                    }
+                    else
+                    {
+                        result.SonucKodu = 0;
+                        result.Hata = "UYARI! Kayıt bulunamadı!";
+                        return result;
+                    }
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanıcı adı veya parola yanlış!";
+                    return result;
+                }
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        [HttpPost]
+        public IDJsonResult UyelikListesi([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+
+                if (data["KullaniciAdi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! KullaniciAdi bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Parola"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! KullaniciAdi bilgisi boş olamaz.";
+                    return result;
+                }
+                string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
+                string Parola = Convert.ToString(data["Parola"]);
+
+                if (KullaniciAdi == "info@ykyazilim.com.tr" && Parola == "4jtj2jsmv")
+                {
+
+                    List<dynamic> entities = new List<dynamic>();
+
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "p_UyelikListesi";
+                    cmd.Parameters.AddWithValue("@AranacakKelime", "");
+                    DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        #region Cookie İşlemleri
+                        foreach (DataRow satir in dt.Rows)
+                        {
+                            dynamic entity = new System.Dynamic.ExpandoObject();
+                            entity.ID = Convert.ToString(satir["ID"]);
+                            entity.Isim = Convert.ToString(satir["Isim"]);
+                            entity.Unvan = Convert.ToString(satir["Unvan"]);
+                            entity.VergiNumarasi = Convert.ToString(satir["VergiNumarasi"]);
+                            entity.VergiDairesi = Convert.ToString(satir["VergiDairesi"]);
+                            entity.Adres = Convert.ToString(satir["Adres"]);
+                            entity.Iletisim = Convert.ToString(satir["Iletisim"]);
+                            entity.Email = Convert.ToString(satir["Email"]);
+                            entity.UyelikBaslangicTarihi = Convert.ToString(satir["UyelikBaslangicTarihi"]);
+                            entity.UyelikBitisTarihi = Convert.ToString(satir["UyelikBitisTarihi"]);
+                            entity.KayitTarihi = Convert.ToString(satir["KayitTarihi"]);
+                            entity.KayitYapanKullanici = Convert.ToString(satir["KayitYapanKullanici"]);
+                            entity.DuzenlemeTarihi = Convert.ToString(satir["DuzenlemeTarihi"]);
+                            entity.DuzenlemeYapanKullanici = Convert.ToString(satir["DuzenlemeYapanKullanici"]);
+                            entity.Silindi = Convert.ToString(satir["Silindi"]);
+                            entity.SilinenTarih = Convert.ToString(satir["SilinenTarih"]);
+                            entity.SilenKullanici = Convert.ToString(satir["SilenKullanici"]);
+                            entity.ApiUrl = Convert.ToString(satir["ApiUrl"]);
+                            entities.Add(entity);
+                        }
+                        #endregion
+                        result.Data = entities;
+                        result.SonucKodu = 1;
+                        result.Sonuc = "Başarılı";
+                        return result;
+                    }
+                    else
+                    {
+                        result.SonucKodu = 0;
+                        result.Hata = "UYARI! Kayıt bulunamadı!";
+                        return result;
+                    }
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanıcı adı veya parola yanlış!";
+                    return result;
+                }
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
     }
     public class SupplierOrders
     {
@@ -2744,7 +3220,6 @@ END
         public string RequestedDeliveryDatetime { get; set; }
         public int RequestedQuantity { get; set; }
         public string Price { get; set; }
-
         public string ConfirmedDeliveryDatetime { get; set; }
         public int ConfirmedQuantity { get; set; }
     }

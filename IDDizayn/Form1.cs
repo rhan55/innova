@@ -20,7 +20,7 @@ namespace IDDizayn
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+           
             SqlCommand cmd2 = new SqlCommand();
             cmd2.CommandText = "p_StokFiyatGor";
             cmd2.CommandType = System.Data.CommandType.StoredProcedure;
@@ -28,7 +28,7 @@ namespace IDDizayn
             DataSet ds = (DataSet)ID.Sorgula(cmd2, SorgulaTuru.DataSet);
           
                 string url = IDDizayn.DizaynIslemleri.DizaynKaydet(ds, Application.StartupPath);
-            MessageBox.Show(url);
+           
             //DataSet ds = new DataSet();
             //SqlCommand cmd = new SqlCommand();
             //cmd.CommandType = System.Data.CommandType.StoredProcedure;

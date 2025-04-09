@@ -18,7 +18,7 @@ namespace YKPortal.Models
                 if (Baglanti.State == System.Data.ConnectionState.Closed)
                     Baglanti.Open();
                 cmd.Connection = Baglanti;
-
+                cmd.CommandTimeout = 100000;
                 switch (tur)
                 {
                     case SorgulaTuru.Bos:

@@ -5,7 +5,10 @@
 
     DataTable dtTeknisyenler = ViewBag.Teknisyenler as DataTable;
     DataTable dtYedekParcalar = ViewBag.YedekParcalar as DataTable;
-    DataTable dtCariler = ViewBag.dtCariler as DataTable;
+    DataTable dtKategoriler = ViewBag.dtKategoriler as DataTable;
+    DataTable dtArizaKaynagi = ViewBag.dtArizaKaynagi as DataTable;
+    
+DataTable dtCariler = ViewBag.dtCariler as DataTable;
     DataTable dtStoklar = ViewBag.dtStoklar as DataTable;
 
     int sira = 0;
@@ -66,7 +69,6 @@
                 <td><strong>Garanti Bitiş Tarihi</strong></td>
                 <td>
                     <input type="date" name="GarantiBitisTarihi" id="GarantiBitisTarihi" value="@(Model.Tables[0].Rows[0]["GarantiBitisTarihi"] == DBNull.Value ? "" : Convert.ToDateTime(Model.Tables[0].Rows[0]["GarantiBitisTarihi"]).ToString("yyyy-MM-dd"))" />
-
                 </td>
             </tr>
             <tr>
@@ -159,8 +161,31 @@
             </tr>
             <tr>
                 <td>
+                    Arıza Çağrı Nedeni
+                    <select class="form-control" name="Kategori" id="Kategori">
+                        <option value=""></option>
+                        @foreach (DataRow satir in dtKategoriler.Rows)
+                        {
+                            <option value="@satir["Kategori"]" @(Convert.ToString(Model.Tables[0].Rows[0]["Kategori"]) == Convert.ToString(satir["Kategori"]) ? "selected" : "")>@satir["Kategori"]</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
                     Açıklama<br />
                     <input type="text" name="Aciklama" id="Aciklama" value="@Model.Tables[0].Rows[0]["Aciklama"]" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Arıza Kaynağı
+                    <select class="form-control" name="ArizaKaynagi" id="ArizaKaynagi">
+                        @foreach (DataRow satir in dtArizaKaynagi.Rows)
+                        {
+                            <option value="@satir["Kategori"]" @(Convert.ToString(Model.Tables[0].Rows[0]["Kategori"]) == Convert.ToString(satir["Kategori"]) ? "selected" : "")>@satir["Kategori"]</option>
+                        }
+                    </select>
                 </td>
             </tr>
             <tr>
@@ -357,12 +382,7 @@
             //////$("#Imza").val(sigAriza.signature('toJSON'));
 
             document.getElementById("myForm").submit();
-
         }
-
-
-
-
     </script>
 
     <!--
@@ -377,7 +397,6 @@
          #reader {
              width: 350px;
          }
-
          #result {
              text-align: center;
              font-size: 1.5rem;

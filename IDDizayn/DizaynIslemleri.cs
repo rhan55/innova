@@ -25,7 +25,7 @@ namespace IDDizayn
                 
                 string dosyaadi = DateTime.Now.ToString("yyyy-MM-dd ssmm") + " - " + Guid.NewGuid().ToString() + ".png";
                 string dosya = KaydedilecekKlasor + dosyaadi;
-                if (true)
+                if (false)
                 {
                     rapor.ExportToImage(dosya);
                     return dosyaadi;

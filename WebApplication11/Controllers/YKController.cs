@@ -693,7 +693,7 @@ namespace YKPortal.Controllers
             {
                 entity.HTMLPrint = Encoding.Default.GetBytes(Convert.ToString(ds.Tables[0].Rows[0]["Aciklama"]));
                 entity.Aciklama = Convert.ToString(ds.Tables[0].Rows[0]["Aciklama"]);
-                string dosya = "2024-12-02 0155 - 30f07377-3f2a-4be7-b2a6-70c9174a6f9e.png";// IDDizayn.DizaynIslemleri.DizaynKaydet(ds, ConfigurationManager.AppSettings["Klasor"]);
+                string dosya = IDDizayn.DizaynIslemleri.DizaynKaydet(ds, ConfigurationManager.AppSettings["Klasor"]);
                 entity.Aciklama2 = ConfigurationManager.AppSettings["WebSiteUrl"] + "/Temp/" + dosya;
             }
             else
@@ -762,6 +762,32 @@ namespace YKPortal.Controllers
             return base.Json(dto, 0);
         }
 
+        public JsonResult FiyatGorGetirHTML5(string Barkod)
+        {
+            StokDto dto = new StokDto();
+            SqlCommand cmd = new SqlCommand
+            {
+                CommandText = "p_StokFiyatGor",
+                CommandType = CommandType.StoredProcedure
+            };
+            cmd.Parameters.AddWithValue("@Barkod", Barkod);
+            DataSet set = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
+            if (set.Tables[0].Rows.Count > 0)
+            {
+                dto.HTMLPrint = Encoding.Default.GetBytes(Convert.ToString(set.Tables[0].Rows[0]["Aciklama"]));
+                dto.Aciklama = Convert.ToString(set.Tables[0].Rows[0]["Aciklama"]);
+                string str = "";
+                str = IDDizayn.DizaynIslemleri.DizaynKaydet(set, ConfigurationManager.AppSettings["Klasor5"]);
+                dto.Aciklama2 = ConfigurationManager.AppSettings["WebSiteUrl"] + "/Temp5/" + str;
+            }
+            else
+            {
+                dto.Aciklama = "ÜRÜN BULUNAMADI!";
+                dto.Aciklama2 = "";
+                dto.Kod = "ÜRÜN BULUNAMADI!";
+            }
+            return base.Json(dto, 0);
+        }
         public JsonResult FiyatGorGetir(string Barkod)
         {
             StokDto entity = new StokDto();
