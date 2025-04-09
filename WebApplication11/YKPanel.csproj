@@ -362,7 +362,7 @@
     <Compile Include="Models\Dto\Belge.cs" />
     <Compile Include="Models\Dto\BepYontemTeknik.cs" />
     <Compile Include="Models\Dto\BepAracGerec.cs" />
-    <Compile Include="Models\Dto\BepSoru.cs" />
+    <Compile Include="Models\Dto\BepHedef.cs" />
     <Compile Include="Models\Dto\BepDers.cs" />
     <Compile Include="Models\Dto\BelgeDto.cs" />
     <Compile Include="Models\Dto\BelgeKalemDto.cs" />
@@ -6609,11 +6609,9 @@
     <Content Include="Views\Bep\Sinif.cshtml" />
     <Content Include="Views\Bep\SinifDuzeyi.cshtml" />
     <Content Include="Views\Bep\Dersler.cshtml" />
-    <Content Include="Views\Bep\Sorular.cshtml" />
     <Content Include="Views\Bep\AracGerec.cshtml" />
     <Content Include="Views\Bep\YontemTeknik.cshtml" />
     <Content Include="Views\Bep\AnaSayfa.cshtml" />
-    <Content Include="Views\YKMakine\ArizalarGecmis.cshtml" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>

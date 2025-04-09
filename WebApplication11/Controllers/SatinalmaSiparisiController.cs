@@ -100,8 +100,6 @@ namespace YKPortal.Controllers
             return View(model);
         }
 
-
-
         [HttpGet]
         public ActionResult Detay()
         {

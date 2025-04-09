@@ -71,7 +71,6 @@ namespace YKPortal.Controllers
             return View();
         }
       
-
         [HttpGet]
         public ActionResult Ekle()
         {
@@ -172,10 +171,8 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@TamamlayanKullaniciID", ziyaretDto.TamamlayanKullaniciID);
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
             return RedirectToAction("Liste");
         }
-
 
         [HttpPost]
         public ActionResult Sil(ZiyaretDto ziyaretDto)
@@ -189,12 +186,10 @@ namespace YKPortal.Controllers
             }
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_ZiyaretSil";
-
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@ID", ziyaretDto.ID);
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
-
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
             //if(System.IO.File.Exists("excel-no-2.xlsx"))
@@ -249,6 +244,7 @@ namespace YKPortal.Controllers
             }
             return new CariDto { };
         }
+  
         #region Cookie İşlemleri
 
         public bool AutoGirisKontrol()
@@ -380,6 +376,4 @@ namespace YKPortal.Controllers
         #endregion
 
     }
-
-
 }

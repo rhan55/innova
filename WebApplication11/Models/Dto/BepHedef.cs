@@ -6,11 +6,10 @@ using YKEFaturaEntegrasyon.EFaturaEDM;
 
 namespace YKPortal.Models.Dto
 {
-    public class BepAracGerec
+    public class BepHedef
     {
         public string ID;
         public string DersId;
-        public string Sira;
         public string Ders;
         public string EgitimDuzeyi;
         public string EgitimDuzeyId;
@@ -18,7 +17,8 @@ namespace YKPortal.Models.Dto
         public string Sinif;
         public string SinifDuzeyId;
         public string SinifDuzeyi;
-        public string AracGerec;
+        public string Hedef;
+        public string Sira;
         public string KayitTarihi;
         public string KayitYapanKullanici;
     }
