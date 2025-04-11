@@ -257,12 +257,3 @@ namespace YKPortal.Controllers
 }
 
 
-
-
-
-
-
-
-// GET: Mesaj
-
-

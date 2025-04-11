@@ -55,6 +55,7 @@ namespace YKPortal.Controllers
             {
                 belgeDto.BitisTarihi = now.AddDays(1);
             }
+          
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.CommandText = "p_BelgeListesi";
@@ -289,8 +290,6 @@ namespace YKPortal.Controllers
             result.Data = entities;
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
-
         public JsonResult SelectStokSeriliGiris(string StokID)
         {
             JsonResult result = new JsonResult();
@@ -405,8 +404,6 @@ namespace YKPortal.Controllers
             result.Data = entities;
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
-
         public bool AutoGirisKontrol()
         {
             bool GirisKontrol = false;
@@ -455,8 +452,6 @@ namespace YKPortal.Controllers
             // cookieVisitor.Expires = DateTime.Now.AddDays(2);
             Response.Cookies.Add(cookieVisitor);
         }
-
-
         private string GetCookie(string name)
         {
             //Böyle bir cookie mevcut mu kontrol ediyoruz
@@ -478,7 +473,5 @@ namespace YKPortal.Controllers
                 Response.Cookies[name].Expires = DateTime.Now.AddDays(-1);
             }
         }
-
-
     }
 }
