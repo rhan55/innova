@@ -16,6 +16,10 @@ namespace YKPortal.Models.YKClasses
         private string _UyelikIsim;
         private string _UyelikID;
         private string _Resim;
+        private string _Uygulama;
+        private string _Uygulama_Sube;
+        private string _Uygulama_Db;
+
 
         public string ID { get; set; }
         public string KullaniciID { get { return _KullaniciID ?? ""; } set { _KullaniciID = value; } }
@@ -26,6 +30,9 @@ namespace YKPortal.Models.YKClasses
         public string UyelikIsim { get { return _UyelikIsim ?? ""; } set { _UyelikIsim = value; } }
         public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; } }
         public string Resim { get { return _Resim ?? ""; } set { _Resim = value; } }
- 
+        public string Uygulama { get { return _Uygulama ?? ""; } set { _Uygulama = value; } }
+        public string Uygulama_Db { get { return _Uygulama_Db ?? ""; } set { _Uygulama_Db = value; } }
+        public string Uygulama_Sube { get { return _Uygulama_Sube ?? ""; } set { _Uygulama_Sube = value; } }
+
     }
 }

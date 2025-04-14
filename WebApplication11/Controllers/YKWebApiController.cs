@@ -3187,7 +3187,9 @@ END
                         entity.KullaniciAdi = Convert.ToString(dt.Rows[0]["KullaniciAdi"]);
                         entity.Parola = Convert.ToString(dt.Rows[0]["Parola"]);
                         entity.Resim = Convert.ToString(dt.Rows[0]["Resim"]);
-
+                        entity.Uygulama = Convert.ToString(dt.Rows[0]["Uygulama"]);
+                        entity.Uygulama_Db = Convert.ToString(dt.Rows[0]["Uygulama_Db"]);
+                        entity.Uygulama_Sube = Convert.ToString(dt.Rows[0]["Uygulama_Sube"]);
                         #endregion
 
                         result.Data = entity;
