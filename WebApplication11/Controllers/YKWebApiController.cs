@@ -104,7 +104,7 @@ namespace YKPortal.Controllers
                 string Donem_Kodu = Convert.ToString(data["Donem_Kodu"]);
                 string Islem_Tipi = Convert.ToString(data["Islem_Tipi"]);
                 string Kisit = Convert.ToString(data["Kisit"]);
-
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
                 List<dynamic> entities = new List<dynamic>();
 
                 SqlCommand cmd = new SqlCommand();
@@ -114,7 +114,7 @@ namespace YKPortal.Controllers
                     if (Islem_Tipi == "Cariler")
                     {
                         cmd.CommandText = "SELECT TOP 50 CARI_KOD AS ID, CARI_KOD AS Kod, CARI_ISIM AS Isim ";
-                        cmd.CommandText += " FROM OYG_NV_CARI_KART ";
+                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].OYG_NV_CARI_KART ";
                         cmd.CommandText += " WHERE 'Cari' = 'Cari'";
                         if (Kisit != "")
                         {
@@ -124,7 +124,7 @@ namespace YKPortal.Controllers
                     if (Islem_Tipi == "Stoklar")
                     {
                         cmd.CommandText = "SELECT TOP 50 STOK_KODU AS ID, STOK_KODU AS Kod, STOK_ADI AS Isim ";
-                        cmd.CommandText += " FROM OYG_NV_STOK_KART ";
+                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].OYG_NV_STOK_KART ";
                         cmd.CommandText += " WHERE 'Stok' = 'Stok'";
                         if (Kisit != "")
                         {
@@ -134,7 +134,7 @@ namespace YKPortal.Controllers
                     if (Islem_Tipi == "Depolar")
                     {
                         cmd.CommandText = "SELECT TOP 50 DEPO_KODU AS ID, DEPO_KODU AS Kod, DEPO_ISMI AS Isim ";
-                        cmd.CommandText += " FROM OYG_NV_DEPOLAR ";
+                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].OYG_NV_DEPOLAR ";
                         cmd.CommandText += " WHERE 'Depo' = 'Depo'";
                         if (Kisit != "")
                         {
@@ -144,7 +144,7 @@ namespace YKPortal.Controllers
                     if (Islem_Tipi == "Hucreler")
                     {
                         cmd.CommandText = "SELECT TOP 50 HUCREKODU AS ID, HUCREKODU AS Kod, Ad as Isim ";
-                        cmd.CommandText += " FROM OYG_NV_HUCRELER ";
+                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].OYG_NV_HUCRELER ";
                         cmd.CommandText += " WHERE 'Hucre' = 'Hucre' ";
                         if (Kisit != "")
                         {
@@ -155,7 +155,7 @@ namespace YKPortal.Controllers
                     {
                         cmd.CommandText = "SELECT TOP 50 HUCREKODU AS ID, STOK_KODU AS Kod, STOK_ADI as Isim ";
                         cmd.CommandText += " , ISNULL(NETBAKIYE,0) AS BAKIYE ";
-                        cmd.CommandText += " FROM OYG_NV_HUCRESERI_BAKIYE ";
+                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].OYG_NV_HUCRESERI_BAKIYE ";
                         cmd.CommandText += " WHERE 'Hucre' = 'Hucre' ";
                         if (Kisit != "")
                         {
@@ -190,7 +190,7 @@ namespace YKPortal.Controllers
                         {
                             entity.Bakiye = Convert.ToString(satir["BAKIYE"]);
                         }
-                        
+
                         entities.Add(entity);
                     }
                     #endregion
@@ -281,7 +281,7 @@ namespace YKPortal.Controllers
                     return result;
                 }
                 string LisansNumarasi = Convert.ToString(data["LisansNumarasi"]);
-              
+
                 string Belge_No = Convert.ToString(data["Belge_No"]);
                 DateTime Tarih = Convert.ToDateTime(data["Tarih"]);
                 string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
