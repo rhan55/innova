@@ -2482,7 +2482,7 @@ Select @ID as ID
                             writer.WriteLine("    <DespatchDate>" + DateTimeOffset.Parse(dt3.Rows[0]["TARIH"].ToString()).ToString("yyyy-MM-dd") + "</DespatchDate>");
                             writer.WriteLine("    <ArrivalDate>" + DateTimeOffset.Parse(dt3.Rows[0]["TARIH"].ToString()).ToString("yyyy-MM-dd") + "</ArrivalDate>");
                             writer.WriteLine("    <BuyerParty>");
-                            writer.WriteLine("      <PartyID>2400001085</PartyID>");
+                            writer.WriteLine("      <PartyID>" + Convert.ToString(dt3.Rows[0]["PartyId"]) + "</PartyID>");
                             writer.WriteLine("      <AgencyCode>92</AgencyCode>");
                             writer.WriteLine("    </BuyerParty>");
                             writer.WriteLine("    <Consignee>");
