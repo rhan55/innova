@@ -151,6 +151,26 @@ namespace YKPortal.Controllers
                             cmd.CommandText += Kisit;
                         }
                     }
+                    if (Islem_Tipi == "ZimDemirbas")
+                    {
+                        cmd.CommandText = "SELECT TOP 50 DEMIRBAS_KODU AS ID, DEMIRBAS_KODU AS Kod, DEMIRBAS_ADI as Isim ";
+                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].OYG_NV_ZIMDEMIRBASLAR ";
+                        cmd.CommandText += " WHERE 'Hucre' = 'Hucre' ";
+                        if (Kisit != "")
+                        {
+                            cmd.CommandText += Kisit;
+                        }
+                    }
+                    if (Islem_Tipi == "ZimPersonel")
+                    {
+                        cmd.CommandText = "SELECT TOP 50 PERSONEL_KODU AS ID, PERSONEL_KODU AS Kod, PERSONEL_ADI as Isim ";
+                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].OYG_NV_ZIMPERSONELLER ";
+                        cmd.CommandText += " WHERE 'Hucre' = 'Hucre' ";
+                        if (Kisit != "")
+                        {
+                            cmd.CommandText += Kisit;
+                        }
+                    }
                     if (Islem_Tipi == "StokHucreBakiye")
                     {
                         cmd.CommandText = "SELECT TOP 50 HUCREKODU AS ID, STOK_KODU AS Kod, STOK_ADI as Isim ";
