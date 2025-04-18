@@ -301,6 +301,12 @@ namespace YKPortal.Controllers
                     return result;
                 }
                 string LisansNumarasi = Convert.ToString(data["LisansNumarasi"]);
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Sube_Kodu = Convert.ToString(data["Sube_Kodu"]);
+                string Donem_Kodu = Convert.ToString(data["Donem_Kodu"]);
+                string Islem_Tipi = Convert.ToString(data["Islem_Tipi"]);
+                
 
                 string Belge_No = Convert.ToString(data["Belge_No"]);
                 DateTime Tarih = Convert.ToDateTime(data["Tarih"]);
@@ -348,7 +354,7 @@ namespace YKPortal.Controllers
                 _sorgu += " , '' UST_ACIKLAMA1, '' UST_ACIKLAMA2 ";
                 _sorgu += " , '" + Kullanici + "' KAYIT_KULLANICI, GETDATE() KAYIT_TARIHI ";
 
-                _sorgu += " EXEC DBO.INN_PR_BELGE_KAYIT '" + Belge_No + "', 'HT' , '" + Tip + "', 'H' ";
+                _sorgu += " EXEC [" + Uygulama_Db + "].[dbo].INN_PR_BELGE_KAYIT '" + Belge_No + "', 'HT' , '" + Tip + "', 'H' ";
 
                 List<dynamic> entities = new List<dynamic>();
 
