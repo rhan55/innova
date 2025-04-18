@@ -611,7 +611,112 @@ namespace YKPortal.Controllers
             }
             return result;
         }
+        public IDJsonResult ZimmetKaydet([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["LisansNumarasi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! LisansNumarasi bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Tarih"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Tarih bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["PersonelKodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Personel Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["StokKodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! StokKodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Miktar"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Miktar bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Gc"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Miktar bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici bilgisi boş olamaz.";
+                    return result;
+                }
+                string LisansNumarasi = Convert.ToString(data["LisansNumarasi"]);
+                DateTime _Tarih = Convert.ToDateTime(data["Tarih"]);
+                string _Belge_No = Convert.ToString(data["Belge_No"]);
+                string _Islem_Tipi = Convert.ToString(data["Islem_Tipi"]);
+                string _CariKodu = Convert.ToString(data["Cari_Kodu"]);
+                string _StokKodu = Convert.ToString(data["Stok_Kodu"]);
+                decimal _Miktar = Convert.ToDecimal(data["Miktar"]);
+                string _GcKodu = Convert.ToString(data["GcKodu"]);
+                string _KayitYapanKullanici = Convert.ToString(data["KayitYapanKullanici"]);
 
+                string _sorgu = "";
+                _sorgu += " INSERT INTO OYGROUP.DBO.[ZimmetHareketleri] ";
+                _sorgu += " ( ";
+                _sorgu += "   [UyelikID] ";
+                _sorgu += " , [BelgeNo], [Tarih], [HareketTipi] ";
+                _sorgu += " , [CariKodu], [StokKodu] ";
+                _sorgu += " , [GcKodu], [Miktar] ";
+                _sorgu += " , KayitYapanKullanici ";
+                _sorgu += " ) ";
+                _sorgu += " SELECT ";
+                _sorgu += "   '" + LisansNumarasi + "' [UyelikID] ";
+                _sorgu += " , '" + _Belge_No + "' BELGE_NO, '" + _Tarih.ToString("yyyy.MM.dd") + "' TARIH, '" + _Islem_Tipi + "' AS HareketTipi ";
+                _sorgu += " , '" + _CariKodu + "' AS [CariKodu], '" + _StokKodu + "' AS [StokKodu] ";
+                _sorgu += " , '" + _GcKodu + "' AS [GcKodu], '" + _Miktar + "' AS [Miktar] ";
+                _sorgu += " , KayitYapanKullanici ";
+
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = _sorgu;
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                return result;
+
+
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        #endregion
+
+        #region SayimKaydet
         public IDJsonResult SayimKaydet([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
