@@ -628,16 +628,22 @@ namespace YKPortal.Controllers
                     result.Hata = "UYARI! Tarih bilgisi boş olamaz.";
                     return result;
                 }
-                if (data["PersonelKodu"] == null)
+                if (data["CikisPersonelKodu"] == null)
                 {
                     result.SonucKodu = 0;
-                    result.Hata = "UYARI! Personel Kodu bilgisi boş olamaz.";
+                    result.Hata = "UYARI! Çıkış Personel Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["GirisPersonelKodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Giriş Personel Kodu bilgisi boş olamaz.";
                     return result;
                 }
                 if (data["StokKodu"] == null)
                 {
                     result.SonucKodu = 0;
-                    result.Hata = "UYARI! StokKodu bilgisi boş olamaz.";
+                    result.Hata = "UYARI! Stok_Kodu bilgisi boş olamaz.";
                     return result;
                 }
                 if (data["Miktar"] == null)
@@ -646,13 +652,13 @@ namespace YKPortal.Controllers
                     result.Hata = "UYARI! Miktar bilgisi boş olamaz.";
                     return result;
                 }
-                if (data["Gc"] == null)
+                if (data["GcKodu"] == null)
                 {
                     result.SonucKodu = 0;
-                    result.Hata = "UYARI! Miktar bilgisi boş olamaz.";
+                    result.Hata = "UYARI! Gc Kodu bilgisi boş olamaz.";
                     return result;
                 }
-                if (data["Kullanici"] == null)
+                if (data["KayitYapanKullanici"] == null)
                 {
                     result.SonucKodu = 0;
                     result.Hata = "UYARI! Kullanici bilgisi boş olamaz.";
@@ -662,8 +668,9 @@ namespace YKPortal.Controllers
                 DateTime _Tarih = Convert.ToDateTime(data["Tarih"]);
                 string _Belge_No = Convert.ToString(data["Belge_No"]);
                 string _Islem_Tipi = Convert.ToString(data["Islem_Tipi"]);
-                string _CariKodu = Convert.ToString(data["Cari_Kodu"]);
-                string _StokKodu = Convert.ToString(data["Stok_Kodu"]);
+                string _CikisPersonelKodu = Convert.ToString(data["CikisPersonelKodu"]);
+                string _GirisPersonelKodu = Convert.ToString(data["GirisPersonelKodu"]);
+                string _StokKodu = Convert.ToString(data["StokKodu"]);
                 decimal _Miktar = Convert.ToDecimal(data["Miktar"]);
                 string _GcKodu = Convert.ToString(data["GcKodu"]);
                 string _KayitYapanKullanici = Convert.ToString(data["KayitYapanKullanici"]);
@@ -680,10 +687,18 @@ namespace YKPortal.Controllers
                 _sorgu += " SELECT ";
                 _sorgu += "   '" + LisansNumarasi + "' [UyelikID] ";
                 _sorgu += " , '" + _Belge_No + "' BELGE_NO, '" + _Tarih.ToString("yyyy.MM.dd") + "' TARIH, '" + _Islem_Tipi + "' AS HareketTipi ";
-                _sorgu += " , '" + _CariKodu + "' AS [CariKodu], '" + _StokKodu + "' AS [StokKodu] ";
-                _sorgu += " , '" + _GcKodu + "' AS [GcKodu], '" + _Miktar + "' AS [Miktar] ";
-                _sorgu += " , KayitYapanKullanici ";
-
+                _sorgu += " , '" + _CikisPersonelKodu + "' AS [CariKodu], '" + _StokKodu + "' AS [StokKodu] ";
+                _sorgu += " , 'C' AS [GcKodu], '" + _Miktar + "' AS [Miktar] ";
+                _sorgu += " , '" + _KayitYapanKullanici + "' AS KayitYapanKullanici ";
+                _sorgu += " WHERE '" + _CikisPersonelKodu + "' != '' ";
+                _sorgu += " UNION ALL ";
+                _sorgu += " SELECT ";
+                _sorgu += "   '" + LisansNumarasi + "' [UyelikID] ";
+                _sorgu += " , '" + _Belge_No + "' BELGE_NO, '" + _Tarih.ToString("yyyy.MM.dd") + "' TARIH, '" + _Islem_Tipi + "' AS HareketTipi ";
+                _sorgu += " , '" + _GirisPersonelKodu + "' AS [CariKodu], '" + _StokKodu + "' AS [StokKodu] ";
+                _sorgu += " , 'G' AS [GcKodu], '" + _Miktar + "' AS [Miktar] ";
+                _sorgu += " , '" + _KayitYapanKullanici + "' AS KayitYapanKullanici ";
+                _sorgu += " WHERE '" + _CikisPersonelKodu + "' != '' ";
 
                 List<dynamic> entities = new List<dynamic>();
 
