@@ -131,6 +131,16 @@ namespace YKPortal.Controllers
                             cmd.CommandText += Kisit;
                         }
                     }
+                    if (Islem_Tipi == "Subeler")
+                    {
+                        cmd.CommandText = "SELECT TOP 50 SUBE_KODU AS ID, SUBE_KODU AS Kod, UNVAN AS Isim ";
+                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].INN_VW_SUBELER ";
+                        cmd.CommandText += " WHERE 'Sube' = 'Sube'";
+                        if (Kisit != "")
+                        {
+                            cmd.CommandText += Kisit;
+                        }
+                    }
                     if (Islem_Tipi == "Depolar")
                     {
                         cmd.CommandText = "SELECT TOP 50 DEPO_KODU AS ID, DEPO_KODU AS Kod, DEPO_ISMI AS Isim ";
