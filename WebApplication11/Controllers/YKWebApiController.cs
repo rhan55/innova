@@ -2404,15 +2404,15 @@ Select @ID as ID
                     cmd.Parameters.AddWithValue("@StokKodu", entity.ProductCode);
                     cmd.Parameters.AddWithValue("@City", City);
                     DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-                    if (dt.Rows.Count > 0)
+                    foreach (DataRow item in dt.Rows)
                     {
                         PirelliResponseDto et = new PirelliResponseDto();
-                        et.DeliveryDatetime = Convert.ToDateTime(dt.Rows[0]["TeslimTarihi"]).ToString("yyyy-MM-ddTHH:mm:sszzz").ToString();
-                        et.Manufacturer = Convert.ToString(dt.Rows[0]["Uretici"]);
-                        et.ProductCode = Convert.ToString(dt.Rows[0]["StokKodu"]);
-                        et.ProductDescription = Convert.ToString(dt.Rows[0]["StokAdi"]);
-                        et.ProductionDate = Convert.ToString(dt.Rows[0]["UretimYili"]);
-                        et.Quantity = Convert.ToInt32(dt.Rows[0]["Miktar"]);
+                        et.DeliveryDatetime = Convert.ToDateTime(item["TeslimTarihi"]).ToString("yyyy-MM-ddTHH:mm:sszzz").ToString();
+                        et.Manufacturer = Convert.ToString(item["Uretici"]);
+                        et.ProductCode = Convert.ToString(item["StokKodu"]);
+                        et.ProductDescription = Convert.ToString(item["StokAdi"]);
+                        et.ProductionDate = Convert.ToString(item["UretimYili"]);
+                        et.Quantity = Convert.ToInt32(item["Miktar"]);
                         result1.Add(et);
                     }
                 }
