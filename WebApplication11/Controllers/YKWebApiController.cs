@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using iText.Commons.Bouncycastle.Asn1.X509;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Renci.SshNet;
 using System;
@@ -2484,6 +2485,15 @@ Select @ID as ID
                 _sira = "3";
                 foreach (var item in Items)
                 {
+                    if (Convert.ToDecimal(item.Price) <= 0)
+                    {
+                        return new PirelliNotes()
+                        {
+                            Code = null,
+                            Type = null,
+                            Text = "Product price cannot be zero. Product Code : " + item.ProductCode
+                        };
+                    }
                     cmd.Parameters.Clear();
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "p_PirelliOrderLineSave";
@@ -2519,13 +2529,13 @@ Select @ID as ID
                             result1.Header = null;
                             result1.Items = null;
                             result1.Notes = new List<PirelliNotes>();
-                            result1.Notes.Add(new PirelliNotes()
+                            //result1.Notes.Add();
+                            return new PirelliNotes()
                             {
                                 Code = null,
                                 Type = null,
                                 Text = "The requested product " + item.ProductCode + " cannot be delivered on the requested delivery date. The requested delivery date should be after the " + Header.RequestedDatetime
-                            });
-                            return result1;
+                            };
                         }
 
                         if (item.RequestedQuantity <= 0)
@@ -2535,13 +2545,13 @@ Select @ID as ID
                             result1.Header = null;
                             result1.Items = null;
                             result1.Notes = new List<PirelliNotes>();
-                            result1.Notes.Add(new PirelliNotes()
+                            //result1.Notes.Add();
+                            return new PirelliNotes()
                             {
                                 Code = null,
                                 Type = null,
                                 Text = "Stock quantity cannot be 0!! Product : " + item.ProductCode + ""
-                            });
-                            return result1;
+                            };
 
                         }
                         if (item.RequestedQuantity > 10000)
@@ -2551,13 +2561,13 @@ Select @ID as ID
                             result1.Header = null;
                             result1.Items = null;
                             result1.Notes = new List<PirelliNotes>();
-                            result1.Notes.Add(new PirelliNotes()
+                            //result1.Notes.Add();
+                            return new PirelliNotes()
                             {
                                 Code = null,
                                 Type = null,
                                 Text = "The stock quantity cannot exceed 10,000! Product : " + item.ProductCode + ""
-                            });
-                            return result1;
+                            };
 
                         }
                         if (item.RequestedQuantity > Convert.ToInt32(dt11.Rows[0]["Miktar"]))
@@ -2567,13 +2577,13 @@ Select @ID as ID
                             result1.Header = null;
                             result1.Items = null;
                             result1.Notes = new List<PirelliNotes>();
-                            result1.Notes.Add(new PirelliNotes()
+                            //result1.Notes.Add();
+                            return new PirelliNotes()
                             {
                                 Code = null,
                                 Type = null,
                                 Text = "Insufficient stock! Product : " + item.ProductCode + ""
-                            });
-                            return result1;
+                            };
                         }
                     }
                     else
@@ -2581,13 +2591,13 @@ Select @ID as ID
                         result1.Header = null;
                         result1.Items = null;
                         result1.Notes = new List<PirelliNotes>();
-                        result1.Notes.Add(new PirelliNotes()
+                        //result1.Notes.Add();
+                        return new PirelliNotes()
                         {
                             Code = null,
                             Type = null,
                             Text = "Stock not found! Product : " + item.ProductCode + ""
-                        });
-                        return result1;
+                        };
                     }
                 }
 
@@ -2634,7 +2644,7 @@ Select @ID as ID
                             _sira = "7.4";
                             writer.WriteLine("    <IssueDate>" + DateTimeOffset.Parse(dt3.Rows[0]["TARIH"].ToString()).ToString("yyyy-MM-dd") + "</IssueDate>");
                             _sira = "7.4.1";
-                            writer.WriteLine("    <DocumentNumber>" + (Header.PurchaseOrderNumber) + "</DocumentNumber>");
+                            writer.WriteLine("    <DocumentNumber>" + dt.Rows[0]["SIPARIS_NO"] + "</DocumentNumber>");
                             writer.WriteLine("    <DespatchDate>" + DateTimeOffset.Parse(dt3.Rows[0]["TARIH"].ToString()).ToString("yyyy-MM-dd") + "</DespatchDate>");
                             writer.WriteLine("    <ArrivalDate>" + DateTimeOffset.Parse(dt3.Rows[0]["TARIH"].ToString()).ToString("yyyy-MM-dd") + "</ArrivalDate>");
                             writer.WriteLine("    <BuyerParty>");
@@ -2642,36 +2652,37 @@ Select @ID as ID
                             writer.WriteLine("      <AgencyCode>92</AgencyCode>");
                             writer.WriteLine("    </BuyerParty>");
                             writer.WriteLine("    <Consignee>");
-                            writer.WriteLine("      <PartyID>4003220</PartyID>");
+                            writer.WriteLine("      <PartyID>"+ Header.Customer.Code + "</PartyID>");
                             writer.WriteLine("      <AgencyCode>92</AgencyCode>");
                             writer.WriteLine("    </Consignee>");
                             _sira = "7.5";
-                            foreach (var item in Items)
+
+                            foreach (DataRow item in dt3.Rows)
                             {
                                 writer.WriteLine("    <LineLevel>");
-                                writer.WriteLine("      <LineID>" + item.LineId + "</LineID>");
+                                writer.WriteLine("      <LineID>" + item["LineId"] + "</LineID>");
                                 writer.WriteLine("      <References>");
                                 writer.WriteLine("        <SuppliersOrderReference>");
                                 writer.WriteLine("          <DocumentID>" + Convert.ToString(dt3.Rows[0]["SIPARIS_NO"]) + "</DocumentID>");
-                                writer.WriteLine("          <LineID>" + item.LineId + "</LineID>");
+                                writer.WriteLine("          <LineID>" + item["LineId"] + "</LineID>");
                                 writer.WriteLine("        </SuppliersOrderReference>");
                                 writer.WriteLine("        <BuyerOrderReference>");
                                 writer.WriteLine("          <DocumentID>" + Convert.ToString(dt3.Rows[0]["SIPARIS_NO"]) + "</DocumentID>");
-                                writer.WriteLine("          <LineID>" + item.LineId + "</LineID>");
+                                writer.WriteLine("          <LineID>" + item["LineId"] + "</LineID>");
                                 writer.WriteLine("        </BuyerOrderReference>");
                                 writer.WriteLine("      </References>");
                                 writer.WriteLine("      <Article>");
                                 writer.WriteLine("        <ArticleIdentification>");
-                                writer.WriteLine("          <BuyersArticleID>" + Convert.ToString(dt3.Rows[0]["URETICI_KODU"]) + "</BuyersArticleID>");
+                                writer.WriteLine("          <BuyersArticleID>" + Convert.ToString(item["URETICI_KODU"]) + "</BuyersArticleID>");
                                 writer.WriteLine("        </ArticleIdentification>");
                                 writer.WriteLine("        <ArticleDescription>");
-                                writer.WriteLine("          <ArticleDescriptionText>" + Convert.ToString(dt3.Rows[0]["STOK_ADI"]) + "</ArticleDescriptionText>");
+                                writer.WriteLine("          <ArticleDescriptionText>" + Convert.ToString(item["STOK_ADI"]) + "</ArticleDescriptionText>");
                                 writer.WriteLine("        </ArticleDescription>");
                                 writer.WriteLine("        <DespatchedQuantity>");
                                 _sira = "7.4";
-                                writer.WriteLine("          <QuantityValue>" + Convert.ToString(dt3.Rows[0]["MIKTAR"]) + "</QuantityValue>");
+                                writer.WriteLine("          <QuantityValue>" + String.Format("{0:N0}", Convert.ToDecimal(item["MIKTAR"])) + "</QuantityValue>");
                                 _sira = "7.5";
-                                writer.WriteLine("          <MeasureUnitCode>" + Convert.ToString(dt3.Rows[0]["OLCU_BR"]) + "</MeasureUnitCode>");
+                                writer.WriteLine("          <MeasureUnitCode>" + Convert.ToString(item["OLCU_BR"]) + "</MeasureUnitCode>");
                                 writer.WriteLine("        </DespatchedQuantity>");
                                 writer.WriteLine("      </Article>");
                                 writer.WriteLine("    </LineLevel>");
@@ -2684,7 +2695,7 @@ Select @ID as ID
                         }
                     }
                     _sira = "8";
-                    if (true) //sftp
+                    if (true) //sftp    2025-04-24 tarihinde ayrı metod haline getirildi - Yunus KÖSE
                     {
                         _sira = "9";
                         var client = new SftpClient("mfttest.pirelli.com", 22, "Sertglobal_test", "mA8CD5eZ5mth"); // You can aslo use a private key file
@@ -2715,12 +2726,13 @@ Select @ID as ID
                 result1.Header = null;
                 result1.Items = null;
                 result1.Notes = new List<PirelliNotes>();
-                result1.Notes.Add(new PirelliNotes()
+                //result1.Notes.Add();
+                return new PirelliNotes()
                 {
                     Code = null,
                     Type = null,
                     Text = _sira + " - " + err.Message
-                });
+                };
             }
             finally
             {
@@ -2728,6 +2740,136 @@ Select @ID as ID
             }
             return result1;
         }
+
+
+        /// <summary>
+        /// DOMAINNNN.com/api/YKWebApi/ComplateOrder/?CariKodu=XXXXXXXXX&SiparisNo=YYYYYYYY&TrackingId=ZZZZZZ
+        /// </summary>
+        /// <param name="CariKodu"></param>
+        /// <param name="SiparisNo"></param>
+        /// <param name="TrackingId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public dynamic ComplateOrder(string CariKodu, string SiparisNo)
+        {
+            string _sira = "";
+            _sira = "4";
+            SqlCommand cmd = new SqlCommand();
+
+            cmd.Parameters.Clear();
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.CommandText = "p_PirelliOrderComplate";
+            cmd.Parameters.AddWithValue("@CariKodu", CariKodu);
+            cmd.Parameters.AddWithValue("@TrackingId", "");
+            cmd.Parameters.AddWithValue("@SiparisNumarasi", SiparisNo);
+            DataTable dt3 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+            _sira = "5";
+
+            if (true)
+            {
+                string dosyaadi = "DESADV" + SiparisNo + ".xml";
+                FileInfo info = new FileInfo(ConfigurationManager.AppSettings["Klasor"] + dosyaadi);
+                _sira = "7";
+                if (!info.Exists)
+                {
+                    _sira = "7.1";
+                    using (StreamWriter writer = info.CreateText())
+                    {
+                        writer.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+                        writer.WriteLine("<ew:desadv_list xmlns:ew=\"http://www.reifen.net\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">");
+                        writer.WriteLine("  <DocumentID>B2</DocumentID>");
+                        writer.WriteLine("  <Variant>2</Variant>");
+                        writer.WriteLine("  <ErrorHead>");
+                        writer.WriteLine("    <ErrorCode>0</ErrorCode>");
+                        writer.WriteLine("  </ErrorHead>");
+                        writer.WriteLine("  <NumberOfMessages>1</NumberOfMessages>");
+                        writer.WriteLine("  <desadv>");
+                        _sira = "7.4";
+                        writer.WriteLine("    <IssueDate>" + DateTimeOffset.Parse(dt3.Rows[0]["TARIH"].ToString()).ToString("yyyy-MM-dd") + "</IssueDate>");
+                        _sira = "7.4.1";
+                        writer.WriteLine("    <DocumentNumber>" + SiparisNo + "</DocumentNumber>");
+                        writer.WriteLine("    <DespatchDate>" + DateTimeOffset.Parse(dt3.Rows[0]["TARIH"].ToString()).ToString("yyyy-MM-dd") + "</DespatchDate>");
+                        writer.WriteLine("    <ArrivalDate>" + DateTimeOffset.Parse(dt3.Rows[0]["TARIH"].ToString()).ToString("yyyy-MM-dd") + "</ArrivalDate>");
+                        writer.WriteLine("    <BuyerParty>");
+                        writer.WriteLine("      <PartyID>" + Convert.ToString(dt3.Rows[0]["PartyId"]) + "</PartyID>");
+                        writer.WriteLine("      <AgencyCode>92</AgencyCode>");
+                        writer.WriteLine("    </BuyerParty>");
+                        writer.WriteLine("    <Consignee>");
+                        writer.WriteLine("      <PartyID>" + CariKodu + "</PartyID>");
+                        writer.WriteLine("      <AgencyCode>92</AgencyCode>");
+                        writer.WriteLine("    </Consignee>");
+                        _sira = "7.5";
+                        foreach (DataRow item in dt3.Rows)
+                        {
+                            writer.WriteLine("    <LineLevel>");
+                            writer.WriteLine("      <LineID>" + Convert.ToString(item["LineID"]) + "</LineID>");
+                            writer.WriteLine("      <References>");
+                            writer.WriteLine("        <SuppliersOrderReference>");
+                            writer.WriteLine("          <DocumentID>" + Convert.ToString(item["SIPARIS_NO"]) + "</DocumentID>");
+                            writer.WriteLine("          <LineID>" + Convert.ToString(item["LineID"]) + "</LineID>");
+                            writer.WriteLine("        </SuppliersOrderReference>");
+                            writer.WriteLine("        <BuyerOrderReference>");
+                            writer.WriteLine("          <DocumentID>" + Convert.ToString(item["SIPARIS_NO"]) + "</DocumentID>");
+                            writer.WriteLine("          <LineID>" + Convert.ToString(item["LineID"]) + "</LineID>");
+                            writer.WriteLine("        </BuyerOrderReference>");
+                            writer.WriteLine("      </References>");
+                            writer.WriteLine("      <Article>");
+                            writer.WriteLine("        <ArticleIdentification>");
+                            writer.WriteLine("          <BuyersArticleID>" + Convert.ToString(item["URETICI_KODU"]) + "</BuyersArticleID>");
+                            writer.WriteLine("        </ArticleIdentification>");
+                            writer.WriteLine("        <ArticleDescription>");
+                            writer.WriteLine("          <ArticleDescriptionText>" + Convert.ToString(item["STOK_ADI"]) + "</ArticleDescriptionText>");
+                            writer.WriteLine("        </ArticleDescription>");
+                            writer.WriteLine("        <DespatchedQuantity>");
+                            _sira = "7.4";
+                            writer.WriteLine("          <QuantityValue>" + String.Format("{0:N0}", Convert.ToDecimal(item["MIKTAR"])) + "</QuantityValue>");
+                            _sira = "7.5";
+                            writer.WriteLine("          <MeasureUnitCode>" + Convert.ToString(item["OLCU_BR"]) + "</MeasureUnitCode>");
+                            writer.WriteLine("        </DespatchedQuantity>");
+                            writer.WriteLine("      </Article>");
+                            writer.WriteLine("    </LineLevel>");
+                        }
+                        _sira = "7.6";
+                        writer.WriteLine("  </desadv>");
+                        writer.WriteLine("</ew:desadv_list>");
+                        _sira = "7.7";
+
+                    }
+                }
+                _sira = "8";
+                if (true) //sftp
+                {
+                    _sira = "9";
+                    var client = new SftpClient("mfttest.pirelli.com", 22, "Sertglobal_test", "mA8CD5eZ5mth"); // You can aslo use a private key file
+                    _sira = "10";
+                    var fileStream = new FileStream(ConfigurationManager.AppSettings["Klasor"] + dosyaadi, FileMode.Open);
+                    _sira = "10.1";
+                    client.Connect();
+                    _sira = "10.2";
+                    client.UploadFile(fileStream, "/LD/TR/SERTGLOBAL/from/DeliveryStatus/" + dosyaadi);
+                    _sira = "11";
+                    //client.DownloadFile("/documents/document2.docx", stream);
+                    _sira = "12";
+                    //client.Delete("/documents/document1.docx");
+                    _sira = "13";
+                    client.Disconnect();
+                    _sira = "14";
+                    client.Dispose();
+                    _sira = "15";
+                }
+
+            }
+
+            return new PirelliNotes()
+            {
+                Code = null,
+                Type = null,
+                Text = "Complated."
+            };
+
+        }
+
         #endregion
 
         #region İmece Web Api
