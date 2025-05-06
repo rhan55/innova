@@ -251,7 +251,183 @@ namespace YKPortal.Controllers
             return result;
         }
 
-        #region Netsis Hücre Transferi Kaydet
+
+        #region Netsis_Uretim_Lokasyon_Liste
+        public IDJsonResult Netsis_Uretim_Lokasyon_Liste([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Islem_Tipi = Convert.ToString(data["Islem_Tipi"]);
+               
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                if (Uygulama == "NETSIS")
+                {
+                    if (Islem_Tipi == "Lokasyon")
+                    {
+                        cmd.CommandText = " SELECT TOP 10 FISNO ID, BARKOD Kod, KAYIT_TARIHI Isim FROM INNOVA..TBLOKUTMA WITH (NOLOCK) WHERE 1=1 and  DBNAME= 'Uretim_Lokasyon' ORDER BY ID DESC  ";
+                      
+                    }
+                    
+                }
+                if (Uygulama == "LOGO")
+                {
+                    if (Islem_Tipi == "Lokasyon")
+                    {
+                        cmd.CommandText = " SELECT TOP 10 FISNO ID, BARKOD Kod, KAYIT_TARIHI Isim FROM INNOVA..TBLOKUTMA WITH (NOLOCK) WHERE 1=1 and  DBNAME= 'Uretim_Lokasyon' ORDER BY ID DESC  ";
+                    }
+                }
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.ID = Convert.ToString(satir["ID"]);
+                        entity.Kod = Convert.ToString(satir["Kod"]);
+                        entity.Isim = Convert.ToString(satir["Isim"]);
+
+                        entities.Add(entity);
+                    }
+                    #endregion
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    return result;
+                }
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        #endregion Netsis_Uretim_Lokasyon_Liste
+
+        #region Netsis_Uretim_Lokasyon_Kaydet
+        public IDJsonResult Netsis_Uretim_Lokasyon_Atama([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Lokasyon_Barkod"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Lokasyon_Barkod bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Lokasyon_Adresi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Lokasyon_Adresi bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici bilgisi boş olamaz.";
+                    return result;
+                }
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string _Lokasyon_Barkod = Convert.ToString(data["Lokasyon_Barkod"]);
+                string _Lokasyon_Adresi = Convert.ToString(data["Lokasyon_Adresi"]);
+                string Kullanici = Convert.ToString(data["Kullanici"]);
+
+
+                string _srg = "INSERT INTO INNOVA..TBLOKUTMA ";
+                _srg += " \r\n (DBNAME, TARIH, FISNO, FISNO2, BARKOD ";
+                _srg += " \r\n  , MIKTAR, KAYIT_YAPAN, KAYIT_TARIHI, VERSIYON ) ";
+                _srg += " \r\n SELECT 'Uretim_Lokasyon' , GETDATE(), '" + _Lokasyon_Barkod + "' FISNO, '0' FISNO2, '" + _Lokasyon_Adresi + "' BARKOD  ";
+                _srg += " \r\n , 1 MIKTAR, '" + Kullanici + "' AS KAYIT_YAPAN, GETDATE() KAYIT_TARIHI, '240703' AS VERSIYON  ";
+
+                _srg += " \r\n UPDATE " + Uygulama_Db + ".DBO.TBLCONFIGTRA SET LOKASYON = '" + _Lokasyon_Adresi + "' WHERE CAST(INCKEYNO AS NVARCHAR(15)) = '" + _Lokasyon_Barkod + "' ";
+
+
+                _srg += " \r\n exec " + Uygulama_Db + "..[INN_PR_MOBILYA_01_URETIM_KAYIT] ";
+                _srg += "  'TAKIM' ";
+                _srg += " , '" + _Lokasyon_Barkod + "' ";
+                _srg += " , '1' ";
+                _srg += " , 'Web' ";
+                _srg += " , '500'";
+                _srg += " , '' ";
+
+                
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = _srg;
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                return result;
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        #endregion
+
+        #region Netsis_Uretim_Lokasyon_Kaydet
         public IDJsonResult Netsis_Hucre_Tra_Kaydet([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
