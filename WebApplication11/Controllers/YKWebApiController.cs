@@ -2542,7 +2542,8 @@ Select @ID as ID
                     if (true) //sftp    2025-04-24 tarihinde ayrı metod haline getirildi - Yunus KÖSE
                     {
                         _sira = "9";
-                        var client = new SftpClient("mfttest.pirelli.com", 22, "Sertglobal_test", "mA8CD5eZ5mth"); // You can aslo use a private key file
+                        var client = new SftpClient("mft.pirelli.com", 22, "Sertglobal_prod", "wFdEPr38UDEH"); // Canlı
+                        //var client = new SftpClient("mfttest.pirelli.com", 22, "Sertglobal_test", "mA8CD5eZ5mth"); // Test
                         _sira = "10";
                         var fileStream = new FileStream(ConfigurationManager.AppSettings["Klasor"] + dosyaadi, FileMode.Open);
                         _sira = "10.1";

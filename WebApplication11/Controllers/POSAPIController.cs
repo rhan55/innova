@@ -54,7 +54,6 @@ namespace YKPortal.Controllers
     public class POSAPIController : Controller
     {
 
-
         // GET: POSAPI
         [HttpGet]
         public ActionResult UyelikPaketleri()
@@ -129,7 +128,7 @@ namespace YKPortal.Controllers
                         _sonuc += "|" + item + ":" + Request.Form.GetValues(item)[0];
                     }
                 }
-                if (Convert.ToInt32(TURKPOS_RETVAL_Sonuc) > 0)
+                if (Convert.ToInt32(TURKPOS_RETVAL_Sonuc) <= 0)
                 {
                     sonuc = "Ödeme başarısız. <br />İşlem Açıklaması : " + TURKPOS_RETVAL_Sonuc_Str + " ";
 
