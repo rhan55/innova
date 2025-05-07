@@ -282,7 +282,7 @@ namespace YKPortal.Controllers
                 {
                     if (Islem_Tipi == "Lokasyon")
                     {
-                        cmd.CommandText = " SELECT TOP 10 FISNO ID, BARKOD Kod, KAYIT_TARIHI Isim FROM INNOVA..TBLOKUTMA WITH (NOLOCK) WHERE 1=1 and  DBNAME= 'Uretim_Lokasyon' ORDER BY ID DESC  ";
+                        cmd.CommandText = " SELECT TOP 10 LEFT(FISNO,10) ID, BARKOD Kod, CONVERT(nvarchar, KAYIT_TARIHI,108) as Isim FROM INNOVA..TBLOKUTMA WITH (NOLOCK) WHERE 1=1 and  DBNAME= 'Uretim_Lokasyon' ORDER BY ID DESC  ";
                       
                     }
                     
@@ -291,7 +291,7 @@ namespace YKPortal.Controllers
                 {
                     if (Islem_Tipi == "Lokasyon")
                     {
-                        cmd.CommandText = " SELECT TOP 10 FISNO ID, BARKOD Kod, KAYIT_TARIHI Isim FROM INNOVA..TBLOKUTMA WITH (NOLOCK) WHERE 1=1 and  DBNAME= 'Uretim_Lokasyon' ORDER BY ID DESC  ";
+                        cmd.CommandText = " SELECT TOP 10 LEFT(FISNO,10) ID, BARKOD Kod, CONVERT(nvarchar, KAYIT_TARIHI,108) as Isim FROM INNOVA..TBLOKUTMA WITH (NOLOCK) WHERE 1=1 and  DBNAME= 'Uretim_Lokasyon' ORDER BY ID DESC  ";
                     }
                 }
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
