@@ -186,6 +186,8 @@ namespace YKPortal.Controllers
                     {
                         cmd.CommandText = "SELECT TOP 50 HUCREKODU AS ID, STOK_KODU AS Kod, STOK_ADI as Isim ";
                         cmd.CommandText += " , ISNULL(NETBAKIYE,0) AS BAKIYE ";
+                        cmd.CommandText += " , ISNULL(HUCREKODU,'') AS HUCREKODU ";
+                        cmd.CommandText += " , ISNULL(OLCU_BR1,'') AS OLCU_BR1 ";
                         cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].OYG_NV_HUCRESERI_BAKIYE ";
                         cmd.CommandText += " WHERE 'Hucre' = 'Hucre' ";
                         if (Kisit != "")
@@ -219,7 +221,9 @@ namespace YKPortal.Controllers
 
                         if (Islem_Tipi == "StokHucreBakiye")
                         {
+                            entity.OlcuBr = Convert.ToString(satir["OLCU_BR1"]);
                             entity.Bakiye = Convert.ToString(satir["BAKIYE"]);
+                            entity.HucreKodu = Convert.ToString(satir["HUCREKODU"]);
                         }
 
                         entities.Add(entity);
