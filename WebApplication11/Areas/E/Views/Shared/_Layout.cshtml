@@ -376,7 +376,8 @@
                                 <h4 class="widget-title">İLETİŞİM BİLGİLERİ</h4>
                                 <ul class="contact-info">
                                     <li>
-                                        <span class="contact-info-label">Adres:</span>@ViewBag.ETicaretAdres[0].Deger
+                                        <span class="contact-info-label">Adres:</span>@(ViewBag.ETicaretAdres.Count > 0 ? ViewBag.ETicaretAdres[0].Deger : "")
+
                                     </li>
                                     @foreach (YKPortal.Models.Dto.GrupKoduDto grupKodu in ViewBag.ETicaretTelefon)
                                     {
@@ -469,7 +470,7 @@
                 <div class="footer-bottom">
                     <div class="container d-sm-flex align-items-center">
                         <div class="footer-left">
-                            <span class="footer-copyright">@(ViewBag.ETicaretFirmaAdi[0].Deger). @DateTime.Now.Year. Tüm Hakları Saklıdır</span>
+                            <span class="footer-copyright">@(ViewBag.ETicaretFirmaAdi.Count > 0 ? ViewBag.ETicaretFirmaAdi[0].Deger : ""). @DateTime.Now.Year. Tüm Hakları Saklıdır</span>
                         </div>
 
                         @*<div class="footer-right ml-auto mt-1 mt-sm-0"> ODEME İKONLARI
