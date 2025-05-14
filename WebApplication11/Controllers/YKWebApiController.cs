@@ -920,6 +920,9 @@ namespace YKPortal.Controllers
             }
             return result;
         }
+       
+        
+        
         #endregion
 
         #region SayimKaydet
