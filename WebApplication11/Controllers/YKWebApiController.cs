@@ -87,6 +87,89 @@ namespace YKPortal.Controllers
             }
             return result;
         }
+        public IDJsonResult Netsis_StokEkBilgi_Duzenleme([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                //if (data["LisansNumarasi"] == null)
+                //{
+                //    result.SonucKodu = 0;
+                //    result.Hata = "UYARI! LisansNumarasi bilgisi boş olamaz.";
+                //    return result;
+                //}
+                //string LisansNumarasi = Convert.ToString(data["LisansNumarasi"]);
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Sube_Kodu = Convert.ToString(data["Sube_Kodu"]);
+                string Donem_Kodu = Convert.ToString(data["Donem_Kodu"]);
+                string Islem_Tipi = Convert.ToString(data["Islem_Tipi"]);
+                string Kisit = Convert.ToString(data["Kisit"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Kullanici_Guid = Convert.ToString(data["Kullanici_Guid"]);
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                {
+                    {
+                        cmd.CommandText = "SELECT TOP 50 CARI_KOD AS ID, CARI_KOD AS Kod, CARI_ISIM AS Isim ";
+                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].OYG_NV_CARI_KART ";
+                        cmd.CommandText += " WHERE 'Cari' = 'Cari'";
+                        if (Kisit != "")
+                        {
+                            cmd.CommandText += Kisit;
+                        }
+                    }
+                   
+                }
+               
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.ID = Convert.ToString(satir["ID"]);
+                        entity.Kod = Convert.ToString(satir["Kod"]);
+                        entity.Isim = Convert.ToString(satir["Isim"]);
+
+                        if (Islem_Tipi == "StokHucreBakiye")
+                        {
+                            entity.OlcuBr = Convert.ToString(satir["OLCU_BR1"]);
+                            entity.Bakiye = Convert.ToString(satir["BAKIYE"]);
+                            entity.HucreKodu = Convert.ToString(satir["HUCREKODU"]);
+                        }
+
+                        entities.Add(entity);
+                    }
+                    #endregion
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    return result;
+                }
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
 
         public IDJsonResult Sabit_Listeler([FromBody] JObject data)
         {
