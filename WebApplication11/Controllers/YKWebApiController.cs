@@ -360,7 +360,7 @@ namespace YKPortal.Controllers
                 string Uygulama = Convert.ToString(data["Uygulama"]);
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
                 string Islem_Tipi = Convert.ToString(data["Islem_Tipi"]);
-               
+
                 List<dynamic> entities = new List<dynamic>();
 
                 SqlCommand cmd = new SqlCommand();
@@ -370,9 +370,9 @@ namespace YKPortal.Controllers
                     if (Islem_Tipi == "Lokasyon")
                     {
                         cmd.CommandText = " SELECT TOP 10 LEFT(FISNO,10) ID, BARKOD Kod, CONVERT(nvarchar, KAYIT_TARIHI,108) as Isim FROM INNOVA..TBLOKUTMA WITH (NOLOCK) WHERE 1=1 and  DBNAME= 'Uretim_Lokasyon' ORDER BY ID DESC  ";
-                      
+
                     }
-                    
+
                 }
                 if (Uygulama == "LOGO")
                 {
@@ -484,7 +484,7 @@ namespace YKPortal.Controllers
                 _srg += " , '500'";
                 _srg += " , '' ";
 
-                
+
                 List<dynamic> entities = new List<dynamic>();
 
                 SqlCommand cmd = new SqlCommand();
@@ -580,7 +580,7 @@ namespace YKPortal.Controllers
                 string Sube_Kodu = Convert.ToString(data["Sube_Kodu"]);
                 string Donem_Kodu = Convert.ToString(data["Donem_Kodu"]);
                 string Islem_Tipi = Convert.ToString(data["Islem_Tipi"]);
-                
+
 
                 string Belge_No = Convert.ToString(data["Belge_No"]);
                 DateTime Tarih = Convert.ToDateTime(data["Tarih"]);
@@ -716,7 +716,6 @@ namespace YKPortal.Controllers
             }
             return result;
         }
-
         public IDJsonResult StokAra([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
@@ -800,7 +799,6 @@ namespace YKPortal.Controllers
             }
             return result;
         }
-
         public IDJsonResult SayimListesi([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
@@ -1003,6 +1001,60 @@ namespace YKPortal.Controllers
             }
             return result;
         }
+        public IDJsonResult MobilYetkiler([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                string _sorgu = "";
+                _sorgu += @"select  distinct s1.MenuID,s2.Menu,s1.Gor,s1.Duzenle,s1.Sil,s1.KullaniciID,s2.UstID 
+                          from Yetkiler as s1 with(nolock) 
+                          inner join Menuler as s2 
+                          on s1.MenuId=s2.ID
+                          where s1.Gor=1 and s1.KullaniciID='" + Convert.ToString(data["KullaniciId"]) + "'";
+                List<dynamic> entities = new List<dynamic>();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = _sorgu;
+                cmd.CommandType = System.Data.CommandType.Text;
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.MenuID = Convert.ToString(satir["MenuID"]);
+                        entity.Menu = Convert.ToString(satir["Menu"]);
+                        entity.UstID = Convert.ToString(satir["UstID"]);
+                        entities.Add(entity);
+                    }
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    return result;
+                }
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+
+
+
         #endregion
 
         #region SayimKaydet
@@ -2915,7 +2967,7 @@ Select @ID as ID
                             writer.WriteLine("      <AgencyCode>92</AgencyCode>");
                             writer.WriteLine("    </BuyerParty>");
                             writer.WriteLine("    <Consignee>");
-                            writer.WriteLine("      <PartyID>"+ Header.Customer.Code + "</PartyID>");
+                            writer.WriteLine("      <PartyID>" + Header.Customer.Code + "</PartyID>");
                             writer.WriteLine("      <AgencyCode>92</AgencyCode>");
                             writer.WriteLine("    </Consignee>");
                             _sira = "7.5";
