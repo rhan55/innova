@@ -342,6 +342,7 @@
     <Compile Include="Controllers\SubeController.cs" />
     <Compile Include="Controllers\TanimlamalarController.cs" />
     <Compile Include="Controllers\WebSiteController.cs" />
+    <Compile Include="Controllers\XmlController.cs" />
     <Compile Include="Controllers\YKController.cs" />
     <Compile Include="Controllers\AyarlarController.cs" />
     <Compile Include="Controllers\YKMakineController.cs" />
@@ -6712,6 +6713,7 @@
     <Folder Include="Tema\ETicaret\assets\images\demoes\demo35\products\zoom\" />
     <Folder Include="Uploads\Dosyalar\" />
     <Folder Include="Uploads\ETicaret\" />
+    <Folder Include="Views\Xml\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

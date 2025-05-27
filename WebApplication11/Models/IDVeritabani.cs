@@ -50,9 +50,6 @@ namespace YKPortal.Models
             }
             return "";
         }
-
-
-
     }
 
     public enum SorgulaTuru
