@@ -28,6 +28,12 @@ namespace YKPortal.Controllers
     public class YKWebApiController : ApiController
     {
 
+        #region Mobile App Sipariş Metodları
+
+
+
+        #endregion
+
         #region Mobile App Metodları
 
         public IDJsonResult Subeler([FromBody] JObject data)
@@ -2798,7 +2804,7 @@ Select @ID as ID
                 _sira = "6";
 
                 #region Xml
-                if (true)
+                if (false)
                 {
                     string dosyaadi = "DESADV" + Header.PurchaseOrderNumber + ".xml";
                     FileInfo info = new FileInfo(ConfigurationManager.AppSettings["Klasor"] + dosyaadi);
@@ -3018,7 +3024,7 @@ Select @ID as ID
                 if (true) //sftp
                 {
                     _sira = "9";
-                    var client = new SftpClient("mfttest.pirelli.com", 22, "Sertglobal_test", "mA8CD5eZ5mth"); // You can aslo use a private key file
+                    var client = new SftpClient("mft.pirelli.com", 22, "Sertglobal_prod", "wFdEPr38UDEH"); // Canlı
                     _sira = "10";
                     var fileStream = new FileStream(ConfigurationManager.AppSettings["Klasor"] + dosyaadi, FileMode.Open);
                     _sira = "10.1";
@@ -3046,7 +3052,102 @@ Select @ID as ID
             };
 
         }
+ [HttpPost]
+        public PirelliSiparisResponseDto CREATEORDERR(SupplierOrders data)
+        {
+            string _sira = "";
+            PirelliSiparisResponseDto result1 = new PirelliSiparisResponseDto();
+            try
+            {
+                _sira = "0";
+                //SupplierOrders Header = data["Header"].ToObject<SupplierOrders>();
+                //List<SupplierOrderProductsList> Items = data["Items"].ToObject<List<SupplierOrderProductsList>>();
+                int sira = 1;
+                //foreach (var item in Items)
+                //{
+                //    item.ConfirmedQuantity = item.RequestedQuantity;
+                //    item.ConfirmedDeliveryDatetime = item.RequestedDeliveryDatetime;
+                //}
+                _sira = "1";
+                //List<PirelliNotes> Notes = new List<PirelliNotes>();
+                //try
+                //{
+                //    Notes = data["Notes"].ToObject<List<PirelliNotes>>();
+                //}
+                //catch (Exception err)
+                //{
+                //    ;
+                //}
+                //string aciklama1 = "";
+                //if (Notes.Count >= 1)
+                //{
+                //    aciklama1 = Notes[0].Text;
+                //}
+                _sira = "2";
+                //SqlCommand cmd = new SqlCommand();
+                //cmd.CommandText = "p_PirelliOrderSave";
+                //cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.Parameters.AddWithValue("@TrackingId", Header.TrackingId);
+                //cmd.Parameters.AddWithValue("@BuyerCode", Header.BuyerCode);
+                //cmd.Parameters.AddWithValue("@CariKodu", Header.Customer.Code);
+                //cmd.Parameters.AddWithValue("@CariAdi", Header.Customer.Name);
+                //cmd.Parameters.AddWithValue("@Adres", Header.Customer.Address.Street[0]);
+                //cmd.Parameters.AddWithValue("@Ilce", Header.Customer.Address.District);
+                //cmd.Parameters.AddWithValue("@Il", Header.Customer.Address.City);
+                //cmd.Parameters.AddWithValue("@SiparisNumarasi", Header.PurchaseOrderNumber);
+                //cmd.Parameters.AddWithValue("@Tarih", Convert.ToDateTime(Header.RequestedDatetime));
+                //cmd.Parameters.AddWithValue("@Aciklama1", aciklama1);
+                //DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                _sira = "3";
+                //foreach (var item in Items)
+                //{
+                //    //cmd.Parameters.Clear();
+                //    //cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                //    //cmd.CommandText = "p_PirelliOrderLineSave";
+                //    //cmd.Parameters.AddWithValue("@LineId", item.LineId);
+                //    //cmd.Parameters.AddWithValue("@TrackingId", Header.TrackingId);
+                //    //cmd.Parameters.AddWithValue("@ProductCode", item.ProductCode);
+                //    //cmd.Parameters.AddWithValue("@RequestedDeliveryDatetime", Convert.ToDateTime(item.RequestedDeliveryDatetime));
+                //    //cmd.Parameters.AddWithValue("@RequestedQuantity", item.RequestedQuantity);
+                //    //cmd.Parameters.AddWithValue("@Price", Convert.ToDecimal(item.Price));
+                //    //cmd.Parameters.AddWithValue("@ConfirmedDeliveryDatetime", Convert.ToDateTime(item.ConfirmedDeliveryDatetime));
+                //    //cmd.Parameters.AddWithValue("@ConfirmedQuantity", item.ConfirmedQuantity);
+                //    //cmd.Parameters.AddWithValue("@SiparisNumarasi", dt.Rows[0]["SIPARIS_NO"]);
+                //    //DataTable dt2 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                //    //item.ConfirmedDeliveryDatetime = DateTime.Now.ToString("yyyy-MM-dd") + "T03:00:00+03:00";
+                //    //item.RequestedDeliveryDatetime = Convert.ToDateTime(item.RequestedDeliveryDatetime).ToString("yyyy-MM-dd") + "T03:00:00+03:00";
+                //}
 
+                _sira = "4";
+                //cmd.Parameters.Clear();
+                //cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                //cmd.CommandText = "p_PirelliOrderComplate";
+                ////cmd.Parameters.AddWithValue("@CariKodu", Header.Customer.Code);
+                ////cmd.Parameters.AddWithValue("@TrackingId", Header.TrackingId);
+                //cmd.Parameters.AddWithValue("@SiparisNumarasi", dt.Rows[0]["SIPARIS_NO"]);
+                //DataTable dt3 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                _sira = "5";
+                //Header.BuyerCode = "2400001349";
+                //Header.SalesOrderNumber = Convert.ToString(dt3.Rows[0]["SIPARIS_NO"]);
+                //Header.RequestedDatetime = Convert.ToDateTime(dt3.Rows[0]["TARIH"]).ToString("yyyy-MM-dd") + "T03:00:00+03:00";
+                //result1.Header = Header;
+                //result1.Items = Items;
+                ////result1.Notes = Notes;
+                //_sira = "6";
+                return result1;
+            }
+            catch (Exception err)
+            {
+                result1.Notes = new List<PirelliNotes>();
+                result1.Notes.Add(new PirelliNotes() { Text = _sira + " - " + err.Message });
+            }
+            finally
+            {
+
+            }
+            return result1;
+        }
+      
         #endregion
 
         #region İmece Web Api
@@ -3486,102 +3587,7 @@ END
         }
         #endregion
 
-        [HttpPost]
-        public PirelliSiparisResponseDto CREATEORDERR(SupplierOrders data)
-        {
-            string _sira = "";
-            PirelliSiparisResponseDto result1 = new PirelliSiparisResponseDto();
-            try
-            {
-                _sira = "0";
-                //SupplierOrders Header = data["Header"].ToObject<SupplierOrders>();
-                //List<SupplierOrderProductsList> Items = data["Items"].ToObject<List<SupplierOrderProductsList>>();
-                int sira = 1;
-                //foreach (var item in Items)
-                //{
-                //    item.ConfirmedQuantity = item.RequestedQuantity;
-                //    item.ConfirmedDeliveryDatetime = item.RequestedDeliveryDatetime;
-                //}
-                _sira = "1";
-                //List<PirelliNotes> Notes = new List<PirelliNotes>();
-                //try
-                //{
-                //    Notes = data["Notes"].ToObject<List<PirelliNotes>>();
-                //}
-                //catch (Exception err)
-                //{
-                //    ;
-                //}
-                //string aciklama1 = "";
-                //if (Notes.Count >= 1)
-                //{
-                //    aciklama1 = Notes[0].Text;
-                //}
-                _sira = "2";
-                //SqlCommand cmd = new SqlCommand();
-                //cmd.CommandText = "p_PirelliOrderSave";
-                //cmd.CommandType = CommandType.StoredProcedure;
-                //cmd.Parameters.AddWithValue("@TrackingId", Header.TrackingId);
-                //cmd.Parameters.AddWithValue("@BuyerCode", Header.BuyerCode);
-                //cmd.Parameters.AddWithValue("@CariKodu", Header.Customer.Code);
-                //cmd.Parameters.AddWithValue("@CariAdi", Header.Customer.Name);
-                //cmd.Parameters.AddWithValue("@Adres", Header.Customer.Address.Street[0]);
-                //cmd.Parameters.AddWithValue("@Ilce", Header.Customer.Address.District);
-                //cmd.Parameters.AddWithValue("@Il", Header.Customer.Address.City);
-                //cmd.Parameters.AddWithValue("@SiparisNumarasi", Header.PurchaseOrderNumber);
-                //cmd.Parameters.AddWithValue("@Tarih", Convert.ToDateTime(Header.RequestedDatetime));
-                //cmd.Parameters.AddWithValue("@Aciklama1", aciklama1);
-                //DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-                _sira = "3";
-                //foreach (var item in Items)
-                //{
-                //    //cmd.Parameters.Clear();
-                //    //cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                //    //cmd.CommandText = "p_PirelliOrderLineSave";
-                //    //cmd.Parameters.AddWithValue("@LineId", item.LineId);
-                //    //cmd.Parameters.AddWithValue("@TrackingId", Header.TrackingId);
-                //    //cmd.Parameters.AddWithValue("@ProductCode", item.ProductCode);
-                //    //cmd.Parameters.AddWithValue("@RequestedDeliveryDatetime", Convert.ToDateTime(item.RequestedDeliveryDatetime));
-                //    //cmd.Parameters.AddWithValue("@RequestedQuantity", item.RequestedQuantity);
-                //    //cmd.Parameters.AddWithValue("@Price", Convert.ToDecimal(item.Price));
-                //    //cmd.Parameters.AddWithValue("@ConfirmedDeliveryDatetime", Convert.ToDateTime(item.ConfirmedDeliveryDatetime));
-                //    //cmd.Parameters.AddWithValue("@ConfirmedQuantity", item.ConfirmedQuantity);
-                //    //cmd.Parameters.AddWithValue("@SiparisNumarasi", dt.Rows[0]["SIPARIS_NO"]);
-                //    //DataTable dt2 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-                //    //item.ConfirmedDeliveryDatetime = DateTime.Now.ToString("yyyy-MM-dd") + "T03:00:00+03:00";
-                //    //item.RequestedDeliveryDatetime = Convert.ToDateTime(item.RequestedDeliveryDatetime).ToString("yyyy-MM-dd") + "T03:00:00+03:00";
-                //}
-
-                _sira = "4";
-                //cmd.Parameters.Clear();
-                //cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                //cmd.CommandText = "p_PirelliOrderComplate";
-                ////cmd.Parameters.AddWithValue("@CariKodu", Header.Customer.Code);
-                ////cmd.Parameters.AddWithValue("@TrackingId", Header.TrackingId);
-                //cmd.Parameters.AddWithValue("@SiparisNumarasi", dt.Rows[0]["SIPARIS_NO"]);
-                //DataTable dt3 = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-                _sira = "5";
-                //Header.BuyerCode = "2400001349";
-                //Header.SalesOrderNumber = Convert.ToString(dt3.Rows[0]["SIPARIS_NO"]);
-                //Header.RequestedDatetime = Convert.ToDateTime(dt3.Rows[0]["TARIH"]).ToString("yyyy-MM-dd") + "T03:00:00+03:00";
-                //result1.Header = Header;
-                //result1.Items = Items;
-                ////result1.Notes = Notes;
-                //_sira = "6";
-                return result1;
-            }
-            catch (Exception err)
-            {
-                result1.Notes = new List<PirelliNotes>();
-                result1.Notes.Add(new PirelliNotes() { Text = _sira + " - " + err.Message });
-            }
-            finally
-            {
-
-            }
-            return result1;
-        }
-        [HttpPost]
+         [HttpPost]
         public IDJsonResult LogKaydet_KullaniciGirisi([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
