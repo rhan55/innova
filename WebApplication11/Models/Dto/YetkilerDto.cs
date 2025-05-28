@@ -21,6 +21,7 @@ namespace YKPortal.Models.Dto
         private bool _Sil;
 
         private List<YetkilerDto> _AltListe;
+        private List<YetkilerDto> _Alt1Liste;
 
         public string UyelikID { get { return _UyelikID ?? ""; } set { _UyelikID = value; } }
         public string KullaniciID { get { return _KullaniciID ?? ""; } set { _KullaniciID = value; } }
@@ -33,6 +34,7 @@ namespace YKPortal.Models.Dto
         public bool Duzenle { get { return _Duzenle == null ? false : _Duzenle; } set { _Duzenle = value; } }
         public bool Sil { get { return _Sil == null ? false : _Sil; } set { _Sil = value; } }
         public List<YetkilerDto> AltListe { get { return _AltListe == null ? new List<YetkilerDto>() : _AltListe; } set { _AltListe = value; } }
+        public List<YetkilerDto> Alt1Liste { get { return _Alt1Liste == null ? new List<YetkilerDto>() : _Alt1Liste; } set { _Alt1Liste = value; } }
     }
 }
 
