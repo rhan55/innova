@@ -118,7 +118,7 @@ namespace YKPortal.Controllers
                     result.Hata = "UYARI! Stok_Kodu bilgisi boş olamaz.";
                     return result;
                 }
-            
+
                 if (data["Kullanici_Adi"] == null)
                 {
                     result.SonucKodu = 0;
@@ -138,7 +138,7 @@ namespace YKPortal.Controllers
                 string Kullanici_Adi = Convert.ToString(data["Kullanici_Adi"]);
 
 
-                string _srg = "UPDATE "+ Uygulama_Db + ".[dbo].[TBLSTSABITEK] ";
+                string _srg = "UPDATE " + Uygulama_Db + ".[dbo].[TBLSTSABITEK] ";
                 _srg += " \r\n SET ";
                 _srg += " \r\n KULL1S = left('" + _Kull1s + "',50) ";
                 if (_Kull2s != "")
@@ -149,15 +149,15 @@ namespace YKPortal.Controllers
                 {
                     _srg += " , \r\n KULL3S = left('" + _Kull3s + "',50) ";
                 }
-                _srg += " \r\n , DUZELTMEYAPANKUL = left('"+ Kullanici_Adi + "',8), DUZELTMETARIHI = getdate()  ";
-                _srg += " \r\n WHERE STOK_KODU = '"+ _Stok_Kodu + "' ";
+                _srg += " \r\n , DUZELTMEYAPANKUL = left('" + Kullanici_Adi + "',8), DUZELTMETARIHI = getdate()  ";
+                _srg += " \r\n WHERE STOK_KODU = '" + _Stok_Kodu + "' ";
 
                 _srg += " \r\n UPDATE " + Uygulama_Db + ".[dbo].[TBLSTSABIT] ";
                 _srg += " \r\n SET ";
                 _srg += " \r\n BARKOD1 = left('" + _Barkod1 + "',50) ";
                 if (_Barkod2 != "")
                 {
-                     _srg += " , \r\n BARKOD2 = left('" + _Barkod2 + "',50) ";
+                    _srg += " , \r\n BARKOD2 = left('" + _Barkod2 + "',50) ";
                 }
                 if (_Barkod3 != "")
                 {
@@ -174,7 +174,7 @@ namespace YKPortal.Controllers
                 _srg += " , KULLANICI ";
                 _srg += " , BILGI, ISLEM, KAYNAK) ";
                 _srg += " \r\n SELECT 'Web Servis', getdate(), '" + _Stok_Kodu + "' ";
-                _srg += " \r\n , '"+ Kullanici_Adi + "' AS KULLANICI ";
+                _srg += " \r\n , '" + Kullanici_Adi + "' AS KULLANICI ";
                 _srg += " \r\n , '" + _Kull1s + ':' + _Kull2s + ':' + _Kull3s + "' BILGI, 'Kullanici Güncellemesi' as ISLEM, 'Netsis_StokEkBilgi_Kaydet' AS KAYNAK ";
                 _srg += " \r\n UNION ALL ";
                 _srg += " \r\n SELECT 'Web Servis', getdate(), '" + _Stok_Kodu + "' ";
@@ -211,7 +211,7 @@ namespace YKPortal.Controllers
             }
             return result;
         }
-      
+
         public IDJsonResult Netsis_StokEkBilgi_Listele([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
@@ -228,7 +228,7 @@ namespace YKPortal.Controllers
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
                 string Kisit = Convert.ToString(data["Kisit"]);
                 string _Belge_Barkod = Convert.ToString(data["Barkod"]);
-                
+
                 string Kullanici_Guid = Convert.ToString(data["Kullanici_Guid"]);
                 List<dynamic> entities = new List<dynamic>();
 
@@ -243,7 +243,7 @@ namespace YKPortal.Controllers
                         _srg += " INNER JOIN " + Uygulama_Db + "..TBLSTSABITEK EK WITH (NOLOCK) ON ST.STOK_KODU = EK.STOK_KODU ";
                         _srg += " WHERE 'Netsis_StokEk_250526' = 'Netsis_StokEk_250526'";
                         _srg += " AND (ST.STOK_KODU = '" + _Belge_Barkod + "' or ST.BARKOD1 = '" + _Belge_Barkod + "' or ST.BARKOD2 = '" + _Belge_Barkod + "' or ST.BARKOD3 = '" + _Belge_Barkod + "' OR URETICI_KODU = '" + _Belge_Barkod + "' )";
-                       
+
 
                         cmd.CommandText = _srg;
                         if (Kisit != "")
@@ -251,9 +251,9 @@ namespace YKPortal.Controllers
                             cmd.CommandText += Kisit;
                         }
                     }
-                   
+
                 }
-               
+
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
                 if (dt.Rows.Count > 0)
@@ -1185,7 +1185,35 @@ namespace YKPortal.Controllers
             return result;
         }
 
+        [HttpPost]
+        public dynamic MobilAlisIrsaliyeKaydet([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                IrsaliyeUst UstBilgi = data["UstBilgi"].ToObject<IrsaliyeUst>();
+                List<IrsaliyeKalemler> Kalemler = data["Kalemler"].ToObject<List<IrsaliyeKalemler>>();
+                foreach (var kalem in Kalemler)
+                {
+                    //item.ConfirmedQuantity = item.RequestedQuantity;
+                    //item.ConfirmedDeliveryDatetime = item.RequestedDeliveryDatetime;
+                }
 
+                result.SonucKodu = 1;
+                result.Hata = "Irsaliye Kaydedildi.";
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
 
 
         #endregion
@@ -3318,7 +3346,7 @@ Select @ID as ID
             };
 
         }
- [HttpPost]
+        [HttpPost]
         public PirelliSiparisResponseDto CREATEORDERR(SupplierOrders data)
         {
             string _sira = "";
@@ -3413,7 +3441,7 @@ Select @ID as ID
             }
             return result1;
         }
-      
+
         #endregion
 
         #region İmece Web Api
@@ -3853,7 +3881,7 @@ END
         }
         #endregion
 
-         [HttpPost]
+        [HttpPost]
         public IDJsonResult LogKaydet_KullaniciGirisi([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
@@ -4063,7 +4091,6 @@ END
                     result.Hata = "UYARI! Kullanıcı adı veya parola yanlış!";
                     return result;
                 }
-
             }
             catch (Exception err)
             {
@@ -4186,7 +4213,6 @@ END
         public string Description { get; set; }
         public int TotalCount { get; set; }
         public List<SupplierOrder> SupplierOrder { get; set; } //İmece için eklendi
-
         public List<SupplierOrderProductsList> SupplierOrderProductsList { get; set; }
 
     }
@@ -4328,4 +4354,19 @@ END
         public string EvrakNumarasi { get; set; }
     }
 
+
+    public class IrsaliyeUst
+    {
+        public string BelgeNo { get; set; }
+        public string Tarih { get; set; }
+        public string CariKodu { get; set; }
+    }
+
+    public class IrsaliyeKalemler
+    {
+        public string StokKodu { get; set; }
+        public string Fiyat { get; set; }
+        public string Miktar { get; set; }
+        public string Tutar { get; set; }
+    }
 }

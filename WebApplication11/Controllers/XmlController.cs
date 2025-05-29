@@ -13,6 +13,9 @@ namespace YKPortal.Controllers
 {
     public class XmlController : Controller
     {
+        static string url = "ftp://www.server.com/httpdocs/ProductImages/Grid/";
+        static string username = "motocomt";
+        static string password = "9M##vRiQtxmc3jv2";
         SqlConnection Baglanti = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString);
         public JsonResult OtoSentezxml()
         {
