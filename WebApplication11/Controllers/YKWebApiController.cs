@@ -3207,7 +3207,7 @@ Select @ID as ID
 
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.CommandText = "p_PirelliOrderComplate";
+            cmd.CommandText = "p_PirelliOrderDelivery";
             cmd.Parameters.AddWithValue("@CariKodu", CariKodu);
             cmd.Parameters.AddWithValue("@TrackingId", "");
             cmd.Parameters.AddWithValue("@SiparisNumarasi", SiparisNo);
@@ -3237,7 +3237,7 @@ Select @ID as ID
                         _sira = "7.4";
                         writer.WriteLine("    <IssueDate>" + DateTimeOffset.Parse(dt3.Rows[0]["TARIH"].ToString()).ToString("yyyy-MM-dd") + "</IssueDate>");
                         _sira = "7.4.1";
-                        writer.WriteLine("    <DocumentNumber>" + SiparisNo + "</DocumentNumber>");
+                        writer.WriteLine("    <DocumentNumber>" + Convert.ToString(dt3.Rows[0]["IRSALIYE_NO"]) + "</DocumentNumber>");
                         writer.WriteLine("    <DespatchDate>" + DateTimeOffset.Parse(dt3.Rows[0]["TARIH"].ToString()).ToString("yyyy-MM-dd") + "</DespatchDate>");
                         writer.WriteLine("    <ArrivalDate>" + DateTimeOffset.Parse(dt3.Rows[0]["TARIH"].ToString()).ToString("yyyy-MM-dd") + "</ArrivalDate>");
                         writer.WriteLine("    <BuyerParty>");
