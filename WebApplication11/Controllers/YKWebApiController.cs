@@ -3799,12 +3799,14 @@ Select @ID as ID
                         writer.WriteLine("    <DocumentNumber>" + Convert.ToString(dt3.Rows[0]["IRSALIYE_NO"]) + "</DocumentNumber>");
                         writer.WriteLine("    <DespatchDate>" + DateTimeOffset.Parse(dt3.Rows[0]["TARIH"].ToString()).ToString("yyyy-MM-dd") + "</DespatchDate>");
                         writer.WriteLine("    <ArrivalDate>" + DateTimeOffset.Parse(dt3.Rows[0]["TARIH"].ToString()).ToString("yyyy-MM-dd") + "</ArrivalDate>");
+                        _sira = "7.4.2";
                         writer.WriteLine("    <BuyerParty>");
                         writer.WriteLine("      <PartyID>" + Convert.ToString(dt3.Rows[0]["PartyId"]) + "</PartyID>");
                         writer.WriteLine("      <AgencyCode>92</AgencyCode>");
                         writer.WriteLine("    </BuyerParty>");
+                        _sira = "7.4.3";
                         writer.WriteLine("    <Consignee>");
-                        writer.WriteLine("      <PartyID>" + CariKodu + "</PartyID>");
+                        writer.WriteLine("      <PartyID>" + Convert.ToString(dt3.Rows[0]["TESLIM_CARI_KODU"]) + "</PartyID>");
                         writer.WriteLine("      <AgencyCode>92</AgencyCode>");
                         writer.WriteLine("    </Consignee>");
                         _sira = "7.5";
