@@ -26,7 +26,7 @@ namespace YKPortal.Controllers
             //if (!YetkiKontrolu("/Kullanici/Liste", "Gor"))
             //{
             //    return Redirect("~/YK/Anasayfa");
-           // }
+            // }
 
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_KullaniciListesi";
@@ -490,7 +490,7 @@ namespace YKPortal.Controllers
         public JsonResult YetkiKaydet(List<YetkilerDto> yetkiler)
         {
             if (!AutoGirisKontrol())
-                return Json(new YKJsonResult { SonucKodu = "403"});
+                return Json(new YKJsonResult { SonucKodu = "403" });
 
 
             if (yetkiler.Count == 0)
@@ -743,16 +743,18 @@ namespace YKPortal.Controllers
 
         public void YetkiYapisiniOlustur(List<YetkilerDto> yetkiler)
         {
-            var enUstMenuler = yetkiler.Where(m => m.UstID == string.Empty).ToList();
-
+            List<YetkilerDto> enUstMenuler = yetkiler.Where(m => m.UstID == string.Empty).ToList();
             enUstMenuler.ForEach(m =>
             {
-
                 m.AltListe = yetkiler.Where(x => x.UstID == m.MenuID).ToList();
-
                 m.AltListe.ForEach(t =>
                 {
                     t.AltListe = yetkiler.Where(x => x.UstID == t.MenuID).ToList();
+                    t.AltListe.ForEach(k =>
+                    {
+                        k.Alt1Liste = yetkiler.Where(x => x.UstID == k.MenuID).ToList();
+
+                    });
                 });
             });
             ViewBag.Yetkiler = enUstMenuler;
