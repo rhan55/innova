@@ -1792,7 +1792,7 @@ namespace YKPortal.Controllers
         }
 
         [HttpPost]
-        public dynamic MobilMAlKabulKalemler([FromBody] JObject data)
+        public dynamic MobilMAlKabulSiparisListesi([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
             try
