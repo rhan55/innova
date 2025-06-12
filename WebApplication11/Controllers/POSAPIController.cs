@@ -20,7 +20,6 @@ using YKPortal.YKPARAMPOS;
 
 namespace YKPortal.Controllers
 {
-
     public class ParamPosService
     {
         private readonly HttpClient _httpClient;
@@ -50,10 +49,8 @@ namespace YKPortal.Controllers
         }
     }
 
-
     public class POSAPIController : Controller
     {
-
         // GET: POSAPI
         [HttpGet]
         public ActionResult UyelikPaketleri()
@@ -283,7 +280,6 @@ namespace YKPortal.Controllers
             }
         }
 
-
         #region Cookie İşlemleri
 
         public bool AutoGirisKontrol()
@@ -432,9 +428,6 @@ namespace YKPortal.Controllers
             return context.Request.ServerVariables["REMOTE_ADDR"];
         }
     }
-
-
-
 }
 
 

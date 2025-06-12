@@ -1,4 +1,5 @@
 ﻿using iText.Commons.Bouncycastle.Asn1.X509;
+using iText.StyledXmlParser.Jsoup.Nodes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Renci.SshNet;
@@ -302,8 +303,6 @@ namespace YKPortal.Controllers
             return result;
         }
         #endregion
-
-
         public IDJsonResult Sabit_Listeler([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
@@ -1117,10 +1116,6 @@ namespace YKPortal.Controllers
                 result.SonucKodu = 1;
                 result.Sonuc = "Başarılı";
                 return result;
-
-
-
-
             }
             catch (Exception err)
             {
@@ -1198,7 +1193,6 @@ namespace YKPortal.Controllers
                     //item.ConfirmedQuantity = item.RequestedQuantity;
                     //item.ConfirmedDeliveryDatetime = item.RequestedDeliveryDatetime;
                 }
-
                 result.SonucKodu = 1;
                 result.Hata = "Irsaliye Kaydedildi.";
             }
@@ -1215,6 +1209,119 @@ namespace YKPortal.Controllers
             return result;
         }
 
+        [HttpPost]
+        public dynamic StokFiyatGetir([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string StokKodu = Convert.ToString(data["StokKodu"]);
+
+                List<dynamic> entities = new List<dynamic>();
+                SqlCommand cmd = new SqlCommand();
+                if (Uygulama == "NETSIS")
+                {
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = "SELECT SATIS_FIAT1 FROM TBLSTSABIT WHERE STOK_KODU='" + StokKodu + "'";
+                }
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.Fiyat = Convert.ToString(satir["ID"]);
+                        entities.Add(entity);
+                    }
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    return result;
+                }
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        [HttpPost]
+        public dynamic MobilMAlKabulKalemler([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string StokKodu = Convert.ToString(data["CariKodu"]);
+                List<dynamic> entities = new List<dynamic>();
+                for (int i = 0; i < 10; i++)
+                {
+                    dynamic entity = new System.Dynamic.ExpandoObject();
+                    entity.Tarih = "2025-08-12";
+                    entity.BelgeNo = "ABC-" + i.ToString();
+                    entity.Tutar = 100.12;
+                    entities.Add(entity);
+                }
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                return result;
+
+                //SqlCommand cmd = new SqlCommand();
+                //if (Uygulama == "NETSIS")
+                //{
+                //    cmd.CommandType = System.Data.CommandType.Text;
+                //    cmd.CommandText = "";
+                //}
+                //DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                //if (dt.Rows.Count > 0)
+                //{
+                //    foreach (DataRow satir in dt.Rows)
+                //    {
+                //        dynamic entity = new System.Dynamic.ExpandoObject();
+                //        entity.Fiyat = Convert.ToString(satir["ID"]);
+                //        entities.Add(entity);
+                //    }
+                //    result.Data = entities;
+                //    result.SonucKodu = 1;
+                //    result.Sonuc = "Başarılı";
+                //    return result;
+                //}
+                //else
+                //{
+                //    result.SonucKodu = 0;
+                //    result.Hata = "UYARI! Kayıt bulunamadı!";
+                //    return result;
+                //}
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
 
         #endregion
 
@@ -3235,7 +3342,7 @@ Select @ID as ID
 
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.CommandText = "p_PirelliOrderComplate";
+            cmd.CommandText = "p_PirelliOrderDelivery";//p_PirelliOrderComplate
             cmd.Parameters.AddWithValue("@CariKodu", CariKodu);
             cmd.Parameters.AddWithValue("@TrackingId", "");
             cmd.Parameters.AddWithValue("@SiparisNumarasi", SiparisNo);
@@ -3346,6 +3453,7 @@ Select @ID as ID
             };
 
         }
+
         [HttpPost]
         public PirelliSiparisResponseDto CREATEORDERR(SupplierOrders data)
         {
@@ -4367,6 +4475,7 @@ END
         public string StokKodu { get; set; }
         public string Fiyat { get; set; }
         public string Miktar { get; set; }
+        public string SeriNo { get; set; }
         public string Tutar { get; set; }
     }
 }

@@ -12,7 +12,6 @@ namespace YKPortal.Controllers
 {
     public class RaporController : Controller
     {
-
         public ActionResult RaporIsimleri()
         {
             if (!AutoGirisKontrol())
@@ -29,7 +28,6 @@ namespace YKPortal.Controllers
 
             return View(dt);
         }
-
         public ActionResult Getir(string id)
         {
             if (!AutoGirisKontrol())
@@ -126,7 +124,6 @@ namespace YKPortal.Controllers
             byte[] fileBytes = Encoding.UTF8.GetBytes(xml.ToString());
             return File(fileBytes, "application/vnd.ms-excel", "Rapor.xls");
         }
-
         public ActionResult SebatIsEmriRaporu(DateTime? Baslangic= null, DateTime? Bitis=null)
         {
             if (!AutoGirisKontrol())
@@ -155,8 +152,6 @@ namespace YKPortal.Controllers
         }
 
         #region Cookie İşlemleri
-
-
         public bool AutoGirisKontrol()
         {
             bool GirisKontrol = false;
