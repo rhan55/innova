@@ -1807,6 +1807,7 @@ namespace YKPortal.Controllers
                     entity.Tarih = "2025-08-12";
                     entity.BelgeNo = "ABC-" + i.ToString();
                     entity.Tutar = 100.12;
+                    //
                     entities.Add(entity);
                 }
                 result.Data = entities;
