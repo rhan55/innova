@@ -634,6 +634,7 @@ namespace YKPortal.Controllers
                     _srg += " , DBO.TRK1(SR.ACIK3) as RAFNO ";
                     _srg += " , DBO.TRK1(SR.ACIKLAMA_4) as RAFSIRA ";
                     _srg += " , SON_KULLANMA_TARIHI as SON_KULLANMA_TARIHI ";
+                    _srg += " , 0 as BAKIYE ";
                     _srg += " FROM " + Uygulama_Db + ".[dbo].[TBLSERITRA] SR WITH (NOLOCK) ";
                     _srg += " INNER JOIN " + Uygulama_Db + ".[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ON SR.STOK_KODU = ST.STOK_KODU ";
                     _srg += " LEFT OUTER JOIN " + Uygulama_Db + ".[dbo].[TBLCASABIT] CS WITH (NOLOCK) ON CS.CARI_KOD = SR.HARACIK ";
@@ -660,6 +661,7 @@ namespace YKPortal.Controllers
                         entity.Seri_RafNo = Convert.ToString(satir["RAFNO"]);
                         entity.Seri_RafSira = Convert.ToString(satir["RAFSIRA"]);
                         entity.Seri_Skt = Convert.ToString(satir["SON_KULLANMA_TARIHI"]);
+                        entity.Seri_Bakiye = Convert.ToString(satir["BAKIYE"]);
                         entities.Add(entity);
                     }
                     #endregion
