@@ -1911,6 +1911,144 @@ namespace YKPortal.Controllers
 
 
         #endregion
+        #region SayimKaydet
+        public IDJsonResult Sayim_Kayit([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Sube_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Sube Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Depo_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! DepoKodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Stok_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Stok_Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Tarih"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Tarih bilgisi boş olamaz.";
+                    return result;
+                }
+
+                if (data["Miktar"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Miktar bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["KullaniciID"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici Idsi bilgisi boş olamaz.";
+                    return result;
+                }
+
+                string LisansNumarasi = Convert.ToString(data["LisansNumarasi"]);
+                DateTime Tarih = Convert.ToDateTime(data["Tarih"]);
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Belge_No = Convert.ToString(data["Belge_No"]);
+                string Sube_Kodu = Convert.ToString(data["Sube_Kodu"]);
+                string Depo_Kodu = Convert.ToString(data["Depo_Kodu"]);
+                string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
+                string Seri_No = Convert.ToString(data["Seri_No"]);
+                decimal Miktar = Convert.ToDecimal(data["Miktar"]);
+                string Aciklama = Convert.ToString(data["Aciklama"]);
+                string Kullanici = Convert.ToString(data["Kullanici"]);
+                string KullaniciId = Convert.ToString(data["KullaniciId"]);
+                List<dynamic> entities = new List<dynamic>();
+
+                if (Uygulama == "IYB")
+                {
+                    string _sorgu = "";
+
+                    _sorgu += " EXEC [" + Uygulama_Db + "].[dbo].[IYB_PR_SAYIM_KAYIT] ";
+                    _sorgu += "  '" + Sube_Kodu + "' ";
+                    _sorgu += " , '" + Depo_Kodu + "' ";
+                    _sorgu += " , '" + Convert.ToDateTime(Tarih).ToString("yyyy.MM.dd") + "' ";
+                    _sorgu += " , '" + Stok_Kodu + "' ";
+                    _sorgu += " , '" + Seri_No + "' ";
+                    _sorgu += " , '" + (Miktar).ToString().Replace(",", ".") + "' ";
+                    _sorgu += " , '" + Aciklama + "' ";
+                    _sorgu += " , '" + Belge_No + "' ";
+                    _sorgu += " , '" + Kullanici + "' ";
+
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _sorgu;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                }
+                if (Uygulama == "NETSIS")
+                {
+                    string _sorgu = "";
+
+                    _sorgu += " EXEC [" + Uygulama_Db + "].[dbo].[IYB_NP_SAYIM_KAYIT] ";
+                    _sorgu += "  '" + Sube_Kodu + "' ";
+                    _sorgu += " , '" + Depo_Kodu + "' ";
+                    _sorgu += " , '" + Convert.ToDateTime(Tarih).ToString("yyyy.MM.dd") + "' ";
+                    _sorgu += " , '" + Stok_Kodu + "' ";
+                    _sorgu += " , '" + Seri_No + "' ";
+                    _sorgu += " , '" + ( Miktar).ToString().Replace(",", ".") + "' ";
+                    _sorgu += " , '" + Aciklama + "' ";
+                    _sorgu += " , '" + Belge_No + "' ";
+                    _sorgu += " , '" + Kullanici + "' ";
+
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _sorgu;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                }
+                if (Uygulama == "LOGO")
+                {
+
+                }
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                return result;
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        #endregion
 
         #region SayimKaydet
         public IDJsonResult SayimKaydet([FromBody] JObject data)
