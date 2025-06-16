@@ -770,6 +770,7 @@ namespace YKPortal.Controllers
                 string Sube_Kodu = Convert.ToString(data["Sube_Kodu"]);
                 string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
                 string Seri_Lot = Convert.ToString(data["Seri_No"]);
+                string Seri_TicAdi = Convert.ToString(data["Ticari_Adi"]);
                 string Seri_Tedarikci = Convert.ToString(data["Tedarikci_Kodu"]);
                 string Seri_Skt = Convert.ToString(data["Seri_Skt"]);
                 string Seri_Ambalaj = Convert.ToString(data["Seri_Ambalaj"]);
@@ -4680,6 +4681,67 @@ END
                     result.Hata = "UYARI! Kullanıcı bulunamadı!";
                     return result;
                 }
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        [HttpPost]
+        public IDJsonResult KullaniciKisitlari([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["KullaniciID"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici bilgisi boş olamaz.";
+                    return result;
+                }
+                string KullaniciId = Convert.ToString(data["KullaniciID"]);
+
+                
+
+                    List<dynamic> entities = new List<dynamic>();
+
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = System.Data.CommandType.Text; 
+                    cmd.CommandText = "select * from [dbo].[KullaniciKisitlari] with (nolock) where KullaniciId =  '"+ KullaniciId + "' ";
+                    DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        #region Cookie İşlemleri
+                        foreach (DataRow satir in dt.Rows)
+                        {
+                            dynamic entity = new System.Dynamic.ExpandoObject();
+                            entity.KisitId = Convert.ToString(satir["KisitId"]);
+                            entity.KisitTuru = Convert.ToString(satir["KisitTuru"]);
+                            entity.Kisit = Convert.ToString(satir["Kisit"]);
+                            entities.Add(entity);
+                        }
+                        #endregion
+                        result.Data = entities;
+                        result.SonucKodu = 1;
+                        result.Sonuc = "Başarılı";
+                        return result;
+                    }
+                    else
+                    {
+                        result.SonucKodu = 0;
+                        result.Hata = "UYARI! Kayıt bulunamadı!";
+                        return result;
+                    }
+                
+             
             }
             catch (Exception err)
             {
