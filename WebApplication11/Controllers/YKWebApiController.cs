@@ -791,7 +791,7 @@ namespace YKPortal.Controllers
                     _srg += " , DBO.TRK1(SR.ACIK2) as AMBALAJ ";
                     _srg += " , DBO.TRK1(SR.ACIK3) as RAFNO ";
                     _srg += " , DBO.TRK1(SR.ACIKLAMA_4) as RAFSIRA ";
-                    _srg += " , SON_KULLANMA_TARIHI as SON_KULLANMA_TARIHI ";
+                    _srg += " , CONVERT(nvarchar, SON_KULLANMA_TARIHI,102) AS SON_KULLANMA_TARIHI, SON_KULLANMA_TARIHI as SON_KULLANMA_TARIHI_ORJ ";
                     _srg += " , 0 as BAKIYE ";
                     _srg += " FROM " + Uygulama_Db + ".[dbo].[TBLSERITRA] SR WITH (NOLOCK) ";
                     _srg += " INNER JOIN " + Uygulama_Db + ".[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ON SR.STOK_KODU = ST.STOK_KODU ";
@@ -890,7 +890,7 @@ namespace YKPortal.Controllers
                 cmd.CommandType = System.Data.CommandType.Text;
                 if (Uygulama == "NETSIS")
                 {
-                    _srg = " SELECT SR.STOK_KODU, DBO.TRK1(STOK_ADI) AS STOK_ADI ";
+                    _srg = " SELECT top 50 SR.STOK_KODU, DBO.TRK1(STOK_ADI) AS STOK_ADI ";
                     _srg += " , SR.SERI_NO AS SERI_NO ";
                     _srg += " , SR.SUBE_KODU AS SUBE_KODU ";
                     _srg += " , HARACIK as TEDARIKCI_KODU, DBO.TRK1(CS.CARI_ISIM) AS TEDARIKCI_ADI ";
@@ -898,7 +898,7 @@ namespace YKPortal.Controllers
                     _srg += " , DBO.TRK1(SR.ACIK2) as AMBALAJ ";
                     _srg += " , DBO.TRK1(SR.ACIK3) as RAFNO ";
                     _srg += " , DBO.TRK1(SR.ACIKLAMA_4) as RAFSIRA ";
-                    _srg += " , SON_KULLANMA_TARIHI as SON_KULLANMA_TARIHI ";
+                    _srg += " , CONVERT(nvarchar, SON_KULLANMA_TARIHI,102) AS SON_KULLANMA_TARIHI, SON_KULLANMA_TARIHI as SON_KULLANMA_TARIHI_ORJ ";
                     _srg += " , 0 as BAKIYE ";
                     _srg += " FROM " + Uygulama_Db + ".[dbo].[TBLSERITRA] SR WITH (NOLOCK) ";
                     _srg += " INNER JOIN " + Uygulama_Db + ".[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ON SR.STOK_KODU = ST.STOK_KODU ";
@@ -1110,6 +1110,11 @@ namespace YKPortal.Controllers
                 string Seri_Lot = Convert.ToString(data["Seri_No"]);
                 string Cari_Kodu = Convert.ToString(data["Cari_Kodu"]);
                 string Seri_Miktar = Convert.ToString(data["Miktar"]);
+                string Seri_Adet = Convert.ToString(data["Adet"]);
+                if (Seri_Adet == "")
+                {
+                    Seri_Adet = "0";
+                }
                 string GcKodu = Convert.ToString(data["GcKodu"]);
                 string Seri_Skt = Convert.ToString(data["Seri_Skt"]);
                 string Seri_Ambalaj = Convert.ToString(data["Seri_Ambalaj"]);
@@ -1123,7 +1128,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n ( FTIRSIP, SUBE_KODU, BELGE_NO ";
                     _srg += " \r\n , CARI_KODU, TARIH ";
                     _srg += " \r\n , STOK_KODU, STOK_ADI ";
-                    _srg += " \r\n , MIKTAR ";
+                    _srg += " \r\n , MIKTAR, ADET ";
                     _srg += " \r\n , SERI_NO ";
                     _srg += " \r\n , GCKOD ";
                     _srg += " \r\n , KAYIT_KULLANICI, KAYIT_TARIHI ";
@@ -1132,6 +1137,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n , '" + Cari_Kodu + "' AS CARI_KODU, '"+ Belge_Tarihi + "' AS TARIH ";
                     _srg += " \r\n , '" + Stok_Kodu + "' AS STOK_KODU, '' as STOK_ADI  ";
                     _srg += " \r\n , '"+ Seri_Miktar + "' MIKTAR ";
+                    _srg += " \r\n , '" + Seri_Adet + "' AS ADET  ";
                     _srg += " \r\n , '"+ Seri_Lot + "' AS SERI_NO ";
                     _srg += " \r\n , '"+ GcKodu + "' AS GCKOD ";
                     _srg += " \r\n , '" + Kullanici + "' AS KAYIT_KULLANICI, GETDATE() KAYIT_TARIHI ";
