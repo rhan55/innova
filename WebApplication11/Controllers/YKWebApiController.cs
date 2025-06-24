@@ -961,6 +961,136 @@ namespace YKPortal.Controllers
 
         #endregion Belge_Listele
 
+        #region Belge_Detaylari
+        public IDJsonResult Belge_Detaylari([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Belge_No"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Belge Numarası bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Belge_Türü"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Belge Türü bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici bilgisi boş olamaz.";
+                    return result;
+                }
+                string _srg = "";
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Sube_Kodu = Convert.ToString(data["Sube_Kodu"]);
+                string Belge_Türü = Convert.ToString(data["Belge_Türü"]);
+                string Belge_No = Convert.ToString(data["Belge_No"]);
+                string Tarih_Bas = Convert.ToString(data["Tarih_Bas"]);
+                string Tarih_Bit = Convert.ToString(data["Tarih_Bit"]);
+                string Kullanici = Convert.ToString(data["Kullanici"]);
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                if (Uygulama == "NETSIS")
+                {
+
+                    _srg = " SELECT SH.STOK_KODU, DBO.TRK1(STOK_ADI) AS STOK_ADI ";
+                    _srg += " \r\n , SH.STHAR_GCMIK AS MIKTAR ";
+                    _srg += " \r\n , SH.STHAR_BF AS BRUT_FIYAT ";
+                    _srg += " \r\n , SH.STHAR_NF AS NET_FIYAT ";
+
+                    _srg += " \r\n , SH.STHAR_KDV AS KDV_ORANI ";
+                    _srg += " \r\n , SH.SUBE_KODU AS SUBE_KODU ";
+                    _srg += " \r\n , SH.FISNO AS BELGE_NO, SH.STHAR_TARIH AS TARIH ";
+                    _srg += " \r\n , SH.STHAR_ACIKLAMA AS CARI_KODU, DBO.TRK1(CS.CARI_ISIM) AS CARI_ADI ";
+                    _srg += " FROM " + Uygulama_Db + ".[dbo].[TBLSTHAR] SH WITH (NOLOCK) ";
+                    _srg += " LEFT OUTER JOIN " + Uygulama_Db + ".[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ON ST.STOK_KODU = SH.STOK_KODU ";
+                    _srg += " LEFT OUTER JOIN " + Uygulama_Db + ".[dbo].[TBLCASABIT] CS WITH (NOLOCK) ON CS.CARI_KOD = SH.STHAR_ACIKLAMA ";
+                    _srg += " WHERE 250624=250624 ";
+                    if (Belge_Türü != "")
+                    {
+                        _srg += " AND STHAR_FTIRSIP = '" + Belge_Türü + "' ";
+                    }
+                    if (Belge_No != "")
+                    {
+                        _srg += " AND SH.FISNO = '" + Belge_No + "' ";
+                    }
+                    _srg += " ORDER BY SH.INCKEYNO ";
+
+                }
+                cmd.CommandText = _srg;
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.Stok_Kodu = Convert.ToString(satir["STOK_KODU"]);
+                        entity.Stok_Adi = Convert.ToString(satir["STOK_ADI"]);
+                        entity.Miktar = Convert.ToString(satir["MIKTAR"]);
+                        entity.Kdv_Orani = Convert.ToString(satir["KDV_ORANI"]);
+                        entity.Brut_Fiyat = Convert.ToString(satir["BRUT_FIYAT"]);
+
+                        entity.Net_Fiyat = Convert.ToString(satir["NET_FIYAT"]);
+                        entity.Belge_No = Convert.ToString(satir["BELGE_NO"]);
+                        entity.Cari_Kodu = Convert.ToString(satir["CARI_KODU"]);
+                        entity.Cari_Adi = Convert.ToString(satir["CARI_ADI"]);
+                        entity.Tarih = Convert.ToString(satir["TARIH"]);
+                        entity.Sube_Kodu = Convert.ToString(satir["SUBE_KODU"]);
+                        entities.Add(entity);
+                    }
+                    #endregion
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    return result;
+                }
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        #endregion Belge_Detaylari
+
 
         #region Netsis_Wms_Qr_TumListe
         public IDJsonResult Netsis_Wms_Qr_TumListe([FromBody] JObject data)
