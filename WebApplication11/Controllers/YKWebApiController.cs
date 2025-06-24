@@ -812,8 +812,9 @@ namespace YKPortal.Controllers
                         entity.Stok_Kodu = Convert.ToString(satir["STOK_KODU"]);
                         entity.Stok_Adi = Convert.ToString(satir["STOK_ADI"]);
                         entity.Seri_No = Convert.ToString(satir["SERI_NO"]);
-                        entity.Seri_Ticari_Adi = Convert.ToString(satir["STOK_TICARI_ADI"]);
+                        entity.Seri_Ticari_Adi = Encoding.UTF8.GetString(Encoding.Default.GetBytes(satir["STOK_TICARI_ADI"].ToString().Trim()));
                         entity.Seri_Tedarikci = Convert.ToString(satir["TEDARIKCI_KODU"]);
+                        entity.Seri_Tedarikci_Adi = Encoding.UTF8.GetString(Encoding.Default.GetBytes(satir["TEDARIKCI_ADI"].ToString().Trim()));
                         entity.Seri_Tedarikci_Adi = Convert.ToString(satir["TEDARIKCI_ADI"]);
                         entity.Seri_Ambalaj = Convert.ToString(satir["AMBALAJ"]);
                         entity.Seri_RafNo = Convert.ToString(satir["RAFNO"]);
@@ -922,9 +923,10 @@ namespace YKPortal.Controllers
                         entity.Stok_Kodu = Convert.ToString(satir["STOK_KODU"]);
                         entity.Stok_Adi = Convert.ToString(satir["STOK_ADI"]);
                         entity.Seri_No = Convert.ToString(satir["SERI_NO"]);
-                        entity.Seri_Ticari_Adi = Convert.ToString(satir["STOK_TICARI_ADI"]);
+                        entity.Seri_Ticari_Adi = Encoding.UTF8.GetString(Encoding.Default.GetBytes(satir["STOK_TICARI_ADI"].ToString().Trim()));
                         entity.Seri_Tedarikci = Convert.ToString(satir["TEDARIKCI_KODU"]);
                         entity.Seri_Tedarikci_Adi = Convert.ToString(satir["TEDARIKCI_ADI"]);
+                        entity.Seri_Tedarikci_Adi = Encoding.UTF8.GetString(Encoding.Default.GetBytes(satir["TEDARIKCI_ADI"].ToString().Trim()));
                         entity.Seri_Ambalaj = Convert.ToString(satir["AMBALAJ"]);
                         entity.Seri_RafNo = Convert.ToString(satir["RAFNO"]);
                         entity.Seri_RafSira = Convert.ToString(satir["RAFSIRA"]);
