@@ -322,9 +322,9 @@ namespace YKPortal.Controllers
                 string Kisit = Convert.ToString(data["Kisit"]);
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
                 List<dynamic> entities = new List<dynamic>();
-
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = System.Data.CommandType.Text;
+          
                 if (Uygulama == "NETSIS")
                 {
                     if (Islem_Tipi == "Cariler")
@@ -411,6 +411,7 @@ namespace YKPortal.Controllers
                         }
                     }
                 }
+
                 if (Uygulama == "LOGO")
                 {
                     if (Islem_Tipi == "Depolar")
@@ -422,8 +423,8 @@ namespace YKPortal.Controllers
                         cmd.CommandText = "SELECT * FROM OYG_NV_HUCRELER WHERE 'Hucre' = 'Hucre' ";
                     }
                 }
-                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                 if (dt.Rows.Count > 0)
                 {
                     #region Cookie İşlemleri
@@ -455,7 +456,6 @@ namespace YKPortal.Controllers
                     result.Hata = "UYARI! Kayıt bulunamadı!";
                     return result;
                 }
-
             }
             catch (Exception err)
             {
@@ -469,6 +469,7 @@ namespace YKPortal.Controllers
             }
             return result;
         }
+
         #region Netsis_Wms_Qr_Olustur
         public IDJsonResult Netsis_Wms_Qr_Olustur([FromBody] JObject data)
         {
@@ -850,7 +851,6 @@ namespace YKPortal.Controllers
         }
 
         #endregion Netsis_Wms_Qr_Listele
-
 
         #region Netsis_Wms_Qr_TumListe
         public IDJsonResult Netsis_Wms_Qr_TumListe([FromBody] JObject data)
@@ -2135,6 +2135,7 @@ namespace YKPortal.Controllers
         }
 
         #endregion
+
         #region SayimKaydet
         public IDJsonResult Sayim_Kayit([FromBody] JObject data)
         {
@@ -4962,8 +4963,6 @@ END
                 result.SonucKodu = 1;
                 result.Sonuc = "Başarılı";
                 return result;
-
-
             }
             catch (Exception err)
             {
@@ -4998,16 +4997,13 @@ END
                 }
                 string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
                 string Parola = Convert.ToString(data["Parola"]);
-
                 YKModelKullanici entity = new YKModelKullanici();
-
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "p_KullaniciGirisi";
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@KullaniciAdi", KullaniciAdi);
                 cmd.Parameters.AddWithValue("@Parola", Parola);
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
                 if (dt.Rows.Count > 0)
                 {
                     string Bilgi = Convert.ToString(dt.Rows[0]["Bilgi"]);
@@ -5025,7 +5021,6 @@ END
                         entity.Uygulama_Db = Convert.ToString(dt.Rows[0]["Uygulama_Db"]);
                         entity.Uygulama_Sube = Convert.ToString(dt.Rows[0]["Uygulama_Sube"]);
                         #endregion
-
                         result.Data = entity;
                         result.SonucKodu = 1;
                         result.Sonuc = "Başarılı";
@@ -5064,15 +5059,11 @@ END
             IDJsonResult result = new IDJsonResult();
             try
             {
-              
-
                 List<dynamic> entities = new List<dynamic>();
-
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.CommandText = "select GETDATE() AS TARIH ";
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
                 if (dt.Rows.Count > 0)
                 {
                     #region Cookie İşlemleri
@@ -5094,8 +5085,6 @@ END
                     result.Hata = "UYARI! Kayıt bulunamadı!";
                     return result;
                 }
-
-
             }
             catch (Exception err)
             {

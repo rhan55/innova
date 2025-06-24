@@ -78,6 +78,7 @@ namespace YKPortal.Controllers
                              
             return RedirectToAction("Liste");
         }
+      
         [HttpGet]
         public ActionResult Duzenle(string id)
         {
@@ -96,9 +97,9 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@ID", id);
 
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
             return View(dt);
         }
+      
         [HttpPost]
         public ActionResult Duzenle(DepoDto depoDto)
         {
