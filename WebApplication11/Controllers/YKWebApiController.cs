@@ -593,6 +593,7 @@ namespace YKPortal.Controllers
             IDJsonResult result = new IDJsonResult();
             try
             {
+                #region Kontroller
                 if (data["Uygulama"] == null)
                 {
                     result.SonucKodu = 0;
@@ -641,6 +642,7 @@ namespace YKPortal.Controllers
                     result.Hata = "UYARI! Kullanici bilgisi boş olamaz.";
                     return result;
                 }
+                #endregion Kontroller
                 string _srg = "";
                 string Uygulama = Convert.ToString(data["Uygulama"]);
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
@@ -679,16 +681,27 @@ namespace YKPortal.Controllers
                     _srg += " \r\n SELECT '" + Sube_Kodu + "' AS SUBE_KODU, '" + Stok_Kodu + "' as STOK_KODU, '" + Depo_Kodu + "' AS DEPOKOD ";
                     _srg += " \r\n , '" + Seri_Lot + "' AS SERI_NO ";
                     _srg += " \r\n , '" + Seri_Bakiye.Replace(",", ".") + "' AS MIKTAR, 'G' AS GCKOD, '" + Belge_Tarihi + "' TARIH,  '"+ _SayimFisno + "' as SAYIM_FISNO ";
-                    _srg += " \r\n , ISNULL((SELECT TOP 1 IC.INCKEYNO FROM [" + Uygulama_Db + "].[dbo].[TBLSAYIM] IC WHERE IC.SAYIM_FISNO = '"+ _SayimFisno + "' AND IC.STOK_KODU = '" + Stok_Kodu + "' ORDER BY IC.INCKEYNO DESC),0) AS STRA_INC ";
+                    _srg += " \r\n , ISNULL((SELECT TOP 1 IC.INCKEYNO FROM [" + Uygulama_Db + "].[dbo].[TBLSAYIM] IC WITH (NOLOCK) WHERE IC.SAYIM_FISNO = '"+ _SayimFisno + "' AND IC.STOK_KODU = '" + Stok_Kodu + "' ORDER BY IC.INCKEYNO DESC),0) AS STRA_INC ";
                     _srg += " \r\n , 'A' AS KAYIT_TIPI ";
                     _srg += " \r\n ";
+
+                    _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].[TBLSTHAR] ";
+                    _srg += " \r\n ( ";
+                    _srg += " \r\n  SUBE_KODU, STOK_KODU, DEPO_KODU, MIKTAR, STHAR_TARIH, FISNO ";
+                    _srg += " \r\n , STHAR_HTUR, STHAR_GCKOD ";
+                    _srg += " \r\n ) ";
+                    _srg += " \r\n SELECT '" + Sube_Kodu + "' AS SUBE_KODU, '" + Stok_Kodu + "' as STOK_KODU, '" + Depo_Kodu + "' AS DEPO_KODU ";
+                    _srg += " \r\n   '" + Seri_Bakiye.Replace(",", ".") + "' MIKTAR, '" + Belge_Tarihi + "' STHAR_TARIH, '" + _SayimFisno + "' as FISNO ";
+                    _srg += " \r\n , 'A' AS STHAR_HTUR, 'C' STHAR_GCKOD ";
+
+                    _srg += " \r\n ";
                     _srg += " \r\n INSERT INTO INNOVA..TBLLOGUSER ";
-                    _srg += " \r\n ( FORM, TARIH, KAYITID ";
+                    _srg += " \r\n ( FORM, TARIH, KAYITID, BELGE_NO ";
                     _srg += " \r\n , KULLANICI, CARI_KODU ";
                     _srg += " \r\n , BILGI, ISLEM, KAYNAK) ";
-                    _srg += " \r\n SELECT 'Web Servis Wms Qr tanımlama', getdate(), '" + Stok_Kodu + "' ";
+                    _srg += " \r\n SELECT 'Web Servis Wms 05 Qr Seri Kontrol', getdate(), '" + Stok_Kodu + "' AS KAYITID, '" + Seri_Lot + "' AS BELGE_NO ";
                     _srg += " \r\n , '" + Kullanici + "' AS KULLANICI, '" + Depo_Kodu + "' AS CARI_KODU ";
-                    _srg += " \r\n , '" + Seri_Lot + ':' + Depo_Kodu + "' BILGI, 'Kullanici Güncellemesi' as ISLEM, 'Netsis_Wms_Qr_Sayim' AS KAYNAK ";
+                    _srg += " \r\n , '" + Seri_Lot + ':' + Depo_Kodu + "' BILGI, 'Kullanici Güncellemesi' as ISLEM, 'Netsis_Wms_Qr_Stok_Bak_Kontrol' AS KAYNAK ";
                 }
                 if (Uygulama == "LOGO")
                 {
@@ -1449,7 +1462,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n , '" + Stok_Kodu + "' BILGI, 'Kullanici Güncellemesi' as ISLEM, 'Netsis_Wms_Qr_Olustur' AS KAYNAK ";
                     _srg += " \r\n ";
 
-                    _srg = " SELECT top 50 SR.STOK_KODU, [" + Uygulama_Db + "].[dbo].TRK1(STOK_ADI) AS STOK_ADI ";
+                    _srg += " SELECT top 50 SR.STOK_KODU, [" + Uygulama_Db + "].[dbo].TRK1(STOK_ADI) AS STOK_ADI ";
                     _srg += " \r\n , [" + Uygulama_Db + "].[dbo].TRK1(SR.SERI_NO) AS SERI_NO ";
                     _srg += " \r\n , SR.SUBE_KODU AS SUBE_KODU ";
                     _srg += " \r\n , HARACIK as TEDARIKCI_KODU, [" + Uygulama_Db + "].[dbo].TRK1(CS.CARI_ISIM) AS TEDARIKCI_ADI ";
@@ -1600,6 +1613,7 @@ namespace YKPortal.Controllers
                 result.Data = entities;
                 result.SonucKodu = 1;
                 result.Sonuc = "Başarılı";
+                result.Sonuc_Versiyon = 250702;
                 return result;
 
 
@@ -1736,6 +1750,7 @@ namespace YKPortal.Controllers
                 result.Data = entities;
                 result.SonucKodu = 1;
                 result.Sonuc = "Başarılı";
+                result.Sonuc_Versiyon = 250702;
                 return result;
 
 
@@ -1834,6 +1849,7 @@ namespace YKPortal.Controllers
                 result.Data = entities;
                 result.SonucKodu = 1;
                 result.Sonuc = "Başarılı";
+                result.Sonuc_Versiyon = 250702;
                 return result;
 
 
@@ -1913,6 +1929,7 @@ namespace YKPortal.Controllers
                     result.Data = entities;
                     result.SonucKodu = 1;
                     result.Sonuc = "Başarılı";
+                    result.Sonuc_Versiyon = 250702;
                     return result;
                 }
                 else
@@ -2605,7 +2622,7 @@ namespace YKPortal.Controllers
             IDJsonResult result = new IDJsonResult();
             try
             {
-
+                #region Kontroller
                 if (data["Uygulama"] == null)
                 {
                     result.SonucKodu = 0;
@@ -2655,6 +2672,7 @@ namespace YKPortal.Controllers
                     result.Hata = "UYARI! Kullanici Idsi bilgisi boş olamaz.";
                     return result;
                 }
+                #endregion Kontroller
 
                 string LisansNumarasi = Convert.ToString(data["LisansNumarasi"]);
                 DateTime Tarih = Convert.ToDateTime(data["Tarih"]);
@@ -2720,6 +2738,7 @@ namespace YKPortal.Controllers
                 result.Data = entities;
                 result.SonucKodu = 1;
                 result.Sonuc = "Başarılı";
+                result.Sonuc_Versiyon = 250702;
                 return result;
 
 
