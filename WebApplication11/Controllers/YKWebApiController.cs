@@ -783,7 +783,7 @@ namespace YKPortal.Controllers
                 cmd.CommandType = System.Data.CommandType.Text;
                 if (Uygulama == "NETSIS")
                 {
-                    _srg = " SELECT TOP 1 SR.STOK_KODU, DBO.TRK1(STOK_ADI) AS STOK_ADI ";
+                    _srg = "SELECT TOP 1 SR.STOK_KODU, " + Uygulama_Db + ".[dbo].TRK1(STOK_ADI) AS STOK_ADI";
                     _srg += " , SR.SERI_NO AS SERI_NO ";
                     _srg += " , SR.SUBE_KODU AS SUBE_KODU ";
                     _srg += " , HARACIK as TEDARIKCI_KODU, DBO.TRK1(CS.CARI_ISIM) AS TEDARIKCI_ADI ";
@@ -798,11 +798,9 @@ namespace YKPortal.Controllers
                     _srg += " LEFT OUTER JOIN " + Uygulama_Db + ".[dbo].[TBLCASABIT] CS WITH (NOLOCK) ON CS.CARI_KOD = SR.HARACIK ";
                     _srg += " WHERE 1=1 and SR.KAYIT_TIPI= 'A' AND SR.SERI_NO = '" + Seri_Lot + "' ";
                     _srg += " ORDER BY SR.SIRA_NO DESC  ";
-
                 }
                 cmd.CommandText = _srg;
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
                 if (dt.Rows.Count > 0)
                 {
                     #region Cookie İşlemleri
@@ -835,8 +833,6 @@ namespace YKPortal.Controllers
                     result.Hata = "UYARI! Kayıt bulunamadı!";
                     return result;
                 }
-
-
             }
             catch (Exception err)
             {
@@ -890,7 +886,7 @@ namespace YKPortal.Controllers
                 cmd.CommandType = System.Data.CommandType.Text;
                 if (Uygulama == "NETSIS")
                 {
-                    _srg = " SELECT top 50 SR.STOK_KODU, DBO.TRK1(STOK_ADI) AS STOK_ADI ";
+                    _srg = " SELECT top 50 SR.STOK_KODU, " + Uygulama_Db + ".[dbo].TRK1(STOK_ADI) AS STOK_ADI ";
                     _srg += " , SR.SERI_NO AS SERI_NO ";
                     _srg += " , SR.SUBE_KODU AS SUBE_KODU ";
                     _srg += " , HARACIK as TEDARIKCI_KODU, DBO.TRK1(CS.CARI_ISIM) AS TEDARIKCI_ADI ";
