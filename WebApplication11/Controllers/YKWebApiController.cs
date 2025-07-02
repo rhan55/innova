@@ -529,11 +529,11 @@ namespace YKPortal.Controllers
                     _srg += " \r\n , MIKTAR, SON_KULLANMA_TARIHI, BARKOD ";
                     _srg += " \r\n , GCKOD, BELGENO, BELGETIP ";
                     _srg += " \r\n ) ";
-                    _srg += " \r\n SELECT 'A' AS KAYIT_TIPI, '"+ Sube_Kodu + "' SUBE_KODU, '"+ Seri_Lot + "' AS SERI_NO, '"+ Stok_Kodu + "' AS STOK_KODU  ";
+                    _srg += " \r\n SELECT 'D' AS KAYIT_TIPI, '"+ Sube_Kodu + "' SUBE_KODU, '"+ Seri_Lot + "' AS SERI_NO, '"+ Stok_Kodu + "' AS STOK_KODU  ";
                     _srg += " \r\n , '"+ Seri_Tedarikci + "' AS HARACIK, CONVERT(nvarchar, GETDATE(),102) AS TARIH ";
                     _srg += " \r\n , LEFT('" + Seri_TicariAdi + "',50) as ACIK1, LEFT('" + Seri_Ambalaj + "',50) as ACIK2, LEFT('"+ Seri_RafNo + "',50) as ACIK3, '"+ Seri_RafSire + "' as ACIKLAMA_4, 'Wms_Seri' as ACIKLAMA_5 ";
                     _srg += " \r\n , 0 MIKTAR, '"+ Seri_Skt + "' SON_KULLANMA_TARIHI, '"+ Seri_Lot + "' AS BARKOD  ";
-                    _srg += " \r\n , 'G' AS GCKOD, left('"+ Kullanici + "',15) BELGENO, 'A' AS BELGETIP ";
+                    _srg += " \r\n , 'G' AS GCKOD, left('"+ Kullanici + "',15) BELGENO, NULL AS BELGETIP ";
 
                     _srg += " \r\n INSERT INTO INNOVA..TBLLOGUSER ";
                     _srg += " \r\n ( FORM, TARIH, KAYITID ";
@@ -785,21 +785,21 @@ namespace YKPortal.Controllers
                 cmd.CommandType = System.Data.CommandType.Text;
                 if (Uygulama == "NETSIS")
                 {
-                    _srg = " SELECT TOP 1 SR.STOK_KODU, DBO.TRK1(STOK_ADI) AS STOK_ADI ";
-                    _srg += " , DBO.TRK1(SR.SERI_NO) AS SERI_NO ";
-                    _srg += " , SR.SUBE_KODU AS SUBE_KODU ";
-                    _srg += " , DBO.TRK1(HARACIK) as TEDARIKCI_KODU, DBO.TRK1(CS.CARI_ISIM) AS TEDARIKCI_ADI ";
-                    _srg += " , DBO.TRK1(SR.ACIK1) as STOK_TICARI_ADI ";
-                    _srg += " , DBO.TRK1(SR.ACIK2) as AMBALAJ ";
-                    _srg += " , DBO.TRK1(SR.ACIK3) as RAFNO ";
-                    _srg += " , DBO.TRK1(SR.ACIKLAMA_4) as RAFSIRA ";
-                    _srg += " , CONVERT(nvarchar, SON_KULLANMA_TARIHI,102) AS SON_KULLANMA_TARIHI, SON_KULLANMA_TARIHI as SON_KULLANMA_TARIHI_ORJ ";
-                    _srg += " , 0 as BAKIYE ";
-                    _srg += " FROM " + Uygulama_Db + ".[dbo].[TBLSERITRA] SR WITH (NOLOCK) ";
-                    _srg += " INNER JOIN " + Uygulama_Db + ".[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ON SR.STOK_KODU = ST.STOK_KODU ";
-                    _srg += " LEFT OUTER JOIN " + Uygulama_Db + ".[dbo].[TBLCASABIT] CS WITH (NOLOCK) ON CS.CARI_KOD = SR.HARACIK ";
-                    _srg += " WHERE 1=1 and SR.KAYIT_TIPI= 'A' AND SR.SERI_NO = '" + Seri_Lot + "' ";
-                    _srg += " ORDER BY SR.SIRA_NO DESC  ";
+                    _srg = " SELECT TOP 1 DBO.TRK1(SR.STOK_KODU) as STOK_KODU, DBO.TRK1(STOK_ADI) AS STOK_ADI ";
+                    _srg += " \r\n , DBO.TRK1(SR.SERI_NO) AS SERI_NO ";
+                    _srg += " \r\n , SR.SUBE_KODU AS SUBE_KODU ";
+                    _srg += " \r\n , DBO.TRK1(HARACIK) as TEDARIKCI_KODU, DBO.TRK1(CS.CARI_ISIM) AS TEDARIKCI_ADI ";
+                    _srg += " \r\n , DBO.TRK1(SR.ACIK1) as STOK_TICARI_ADI ";
+                    _srg += " \r\n , DBO.TRK1(SR.ACIK2) as AMBALAJ ";
+                    _srg += " \r\n , DBO.TRK1(SR.ACIK3) as RAFNO ";
+                    _srg += " \r\n , DBO.TRK1(SR.ACIKLAMA_4) as RAFSIRA ";
+                    _srg += " \r\n , CONVERT(nvarchar, SON_KULLANMA_TARIHI,102) AS SON_KULLANMA_TARIHI, SON_KULLANMA_TARIHI as SON_KULLANMA_TARIHI_ORJ ";
+                    _srg += " \r\n , 0 as BAKIYE ";
+                    _srg += " \r\n FROM " + Uygulama_Db + ".[dbo].[TBLSERITRA] SR WITH (NOLOCK) ";
+                    _srg += " \r\n INNER JOIN " + Uygulama_Db + ".[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ON SR.STOK_KODU = ST.STOK_KODU ";
+                    _srg += " \r\n LEFT OUTER JOIN " + Uygulama_Db + ".[dbo].[TBLCASABIT] CS WITH (NOLOCK) ON CS.CARI_KOD = SR.HARACIK ";
+                    _srg += " \r\n WHERE 1=1 and SR.KAYIT_TIPI= 'D' AND SR.SERI_NO = '" + Seri_Lot + "' ";
+                    _srg += " \r\n ORDER BY SR.SIRA_NO DESC  ";
 
                 }
                 cmd.CommandText = _srg;
@@ -822,12 +822,14 @@ namespace YKPortal.Controllers
                         entity.Seri_RafSira = Convert.ToString(satir["RAFSIRA"]);
                         entity.Seri_Skt = Convert.ToString(satir["SON_KULLANMA_TARIHI"]);
                         entity.Seri_Bakiye = Convert.ToString(satir["BAKIYE"]);
+                        entity.Servis_Versiyon = 250624;
                         entities.Add(entity);
                     }
                     #endregion
                     result.Data = entities;
                     result.SonucKodu = 1;
                     result.Sonuc = "Başarılı";
+                    result.Sonuc_Versiyon = 250624;
                     return result;
                 }
                 else
@@ -1130,19 +1132,19 @@ namespace YKPortal.Controllers
                 if (Uygulama == "NETSIS")
                 {
                     _srg = " SELECT top 50 SR.STOK_KODU, DBO.TRK1(STOK_ADI) AS STOK_ADI ";
-                    _srg += " , SR.SERI_NO AS SERI_NO ";
-                    _srg += " , SR.SUBE_KODU AS SUBE_KODU ";
-                    _srg += " , HARACIK as TEDARIKCI_KODU, DBO.TRK1(CS.CARI_ISIM) AS TEDARIKCI_ADI ";
-                    _srg += " , DBO.TRK1(SR.ACIK1) as STOK_TICARI_ADI ";
-                    _srg += " , DBO.TRK1(SR.ACIK2) as AMBALAJ ";
-                    _srg += " , DBO.TRK1(SR.ACIK3) as RAFNO ";
-                    _srg += " , DBO.TRK1(SR.ACIKLAMA_4) as RAFSIRA ";
-                    _srg += " , CONVERT(nvarchar, SON_KULLANMA_TARIHI,102) AS SON_KULLANMA_TARIHI, SON_KULLANMA_TARIHI as SON_KULLANMA_TARIHI_ORJ ";
-                    _srg += " , 0 as BAKIYE ";
-                    _srg += " FROM " + Uygulama_Db + ".[dbo].[TBLSERITRA] SR WITH (NOLOCK) ";
-                    _srg += " INNER JOIN " + Uygulama_Db + ".[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ON SR.STOK_KODU = ST.STOK_KODU ";
-                    _srg += " LEFT OUTER JOIN " + Uygulama_Db + ".[dbo].[TBLCASABIT] CS WITH (NOLOCK) ON CS.CARI_KOD = SR.HARACIK ";
-                    _srg += " WHERE 1=1 and SR.KAYIT_TIPI= 'A' ";
+                    _srg += " \r\n , DBO.TRK1(SR.SERI_NO) AS SERI_NO ";
+                    _srg += " \r\n , SR.SUBE_KODU AS SUBE_KODU ";
+                    _srg += " \r\n , HARACIK as TEDARIKCI_KODU, DBO.TRK1(CS.CARI_ISIM) AS TEDARIKCI_ADI ";
+                    _srg += " \r\n , DBO.TRK1(SR.ACIK1) as STOK_TICARI_ADI ";
+                    _srg += " \r\n , DBO.TRK1(SR.ACIK2) as AMBALAJ ";
+                    _srg += " \r\n , DBO.TRK1(SR.ACIK3) as RAFNO ";
+                    _srg += " \r\n , DBO.TRK1(SR.ACIKLAMA_4) as RAFSIRA ";
+                    _srg += " \r\n , CONVERT(nvarchar, SON_KULLANMA_TARIHI,102) AS SON_KULLANMA_TARIHI, SON_KULLANMA_TARIHI as SON_KULLANMA_TARIHI_ORJ ";
+                    _srg += " \r\n , 0 as BAKIYE ";
+                    _srg += " \r\n FROM " + Uygulama_Db + ".[dbo].[TBLSERITRA] SR WITH (NOLOCK) ";
+                    _srg += " \r\n INNER JOIN " + Uygulama_Db + ".[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ON SR.STOK_KODU = ST.STOK_KODU ";
+                    _srg += " \r\n LEFT OUTER JOIN " + Uygulama_Db + ".[dbo].[TBLCASABIT] CS WITH (NOLOCK) ON CS.CARI_KOD = SR.HARACIK ";
+                    _srg += " \r\n WHERE 1=1 and SR.KAYIT_TIPI= 'D' ";
                     if (Stok_Kodu != "")
                     {
                         _srg += " AND SR.STOK_KODU = '" + Stok_Kodu + "' ";
@@ -1170,6 +1172,7 @@ namespace YKPortal.Controllers
                         entity.Seri_RafSira = Convert.ToString(satir["RAFSIRA"]);
                         entity.Seri_Skt = Convert.ToString(satir["SON_KULLANMA_TARIHI"]);
                         entity.Seri_Bakiye = Convert.ToString(satir["BAKIYE"]);
+                        entity.Servis_Versiyon = 250624;
                         entities.Add(entity);
                     }
                     #endregion
@@ -5648,6 +5651,7 @@ END
         public int SonucKodu { get; set; }
         public string Sonuc { get; set; }
         public string Hata { get; set; }
+        public int Sonuc_Versiyon { get; set; }
     }
 
     public class IslemBilgisi
