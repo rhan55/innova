@@ -470,6 +470,7 @@ namespace YKPortal.Controllers
             }
             return result;
         }
+   
         #region Netsis_Wms_Qr_Olustur
         public IDJsonResult Netsis_Wms_Qr_Olustur([FromBody] JObject data)
         {
@@ -785,7 +786,7 @@ namespace YKPortal.Controllers
                 cmd.CommandType = System.Data.CommandType.Text;
                 if (Uygulama == "NETSIS")
                 {
-                    _srg = " SELECT TOP 1 DBO.TRK1(SR.STOK_KODU) as STOK_KODU, DBO.TRK1(STOK_ADI) AS STOK_ADI ";
+                    _srg = " SELECT TOP 1 DBO.TRK1(SR.STOK_KODU) as STOK_KODU, " + Uygulama_Db + ".DBO.TRK1(STOK_ADI) AS STOK_ADI ";
                     _srg += " \r\n , DBO.TRK1(SR.SERI_NO) AS SERI_NO ";
                     _srg += " \r\n , SR.SUBE_KODU AS SUBE_KODU ";
                     _srg += " \r\n , DBO.TRK1(HARACIK) as TEDARIKCI_KODU, DBO.TRK1(CS.CARI_ISIM) AS TEDARIKCI_ADI ";
@@ -855,7 +856,6 @@ namespace YKPortal.Controllers
         }
 
         #endregion Netsis_Wms_Qr_Listele
-
 
         #region Belge_Listele
         public IDJsonResult Belge_Listele([FromBody] JObject data)
@@ -1093,7 +1093,6 @@ namespace YKPortal.Controllers
 
         #endregion Belge_Detaylari
 
-
         #region Netsis_Wms_Qr_TumListe
         public IDJsonResult Netsis_Wms_Qr_TumListe([FromBody] JObject data)
         {
@@ -1131,7 +1130,7 @@ namespace YKPortal.Controllers
                 cmd.CommandType = System.Data.CommandType.Text;
                 if (Uygulama == "NETSIS")
                 {
-                    _srg = " SELECT top 50 SR.STOK_KODU, DBO.TRK1(STOK_ADI) AS STOK_ADI ";
+                    _srg = " SELECT top 50 SR.STOK_KODU, " + Uygulama_Db + ".DBO.TRK1(STOK_ADI) AS STOK_ADI ";
                     _srg += " \r\n , DBO.TRK1(SR.SERI_NO) AS SERI_NO ";
                     _srg += " \r\n , SR.SUBE_KODU AS SUBE_KODU ";
                     _srg += " \r\n , HARACIK as TEDARIKCI_KODU, DBO.TRK1(CS.CARI_ISIM) AS TEDARIKCI_ADI ";
@@ -2270,6 +2269,7 @@ namespace YKPortal.Controllers
 
 
         #endregion
+     
         #region SayimKaydet
         public IDJsonResult Sayim_Kayit([FromBody] JObject data)
         {
