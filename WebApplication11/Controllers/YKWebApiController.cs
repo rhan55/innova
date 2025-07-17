@@ -795,6 +795,7 @@ namespace YKPortal.Controllers
                     result.Hata = "UYARI! Sube_Kodu bilgisi boş olamaz.";
                     return result;
                 }
+
                 if (data["Depo_Kodu"] == null)
                 {
                     result.SonucKodu = 0;
@@ -838,6 +839,7 @@ namespace YKPortal.Controllers
                 {
                     Depo_Kodu = "0";
                 }
+                string Belge_No = Convert.ToString(data["Belge_No"]);
                 string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
                 string Seri_Lot = Convert.ToString(data["Seri_No"]);
                 string Belge_Tarihi = Convert.ToString(data["Belge_Tarihi"]);
@@ -849,7 +851,7 @@ namespace YKPortal.Controllers
                 string Seri_RafSire = Convert.ToString(data["Seri_RafSira"]);
                 string Kullanici = Convert.ToString(data["Kullanici"]);
 
-                string _SayimFisno = "Red" + DateTime.Now.ToString("MddHHmmssfff");
+                string _SayimFisno = Convert.ToString( "Red" + DateTime.Now.ToString("MddHHmmssfff")).Substring(0,15);
 
                 if (Uygulama == "NETSIS")
                 {
