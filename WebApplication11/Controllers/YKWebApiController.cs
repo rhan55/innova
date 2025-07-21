@@ -2692,7 +2692,6 @@ namespace YKPortal.Controllers
             {
                 string _sorgu = "";
                 _sorgu += @"select * from KullaniciKisayollari with(nolock) where  KullaniciID='" + Convert.ToString(data["KullaniciId"]) + "'";
-
                 List<dynamic> entities = new List<dynamic>();
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = System.Data.CommandType.Text;

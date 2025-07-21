@@ -485,3 +485,40 @@ $RECYCLE.BIN/
 /WebApplication11/Areas/Depo/Controllers/NetsisDepoController.cs
 /WebApplication11/Areas/Depo/DepoAreaRegistration.cs
 /WebApplication11/YKPanel.csproj
+
+
+
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.cache
+*.dbmdl
+*.VC.db
+
+# Build klasörleri
+bin/
+obj/
+[Bb]uild/
+[Bb]uilds/
+
+# Yayınlanmış dosyalar
+*.zip
+*.tar.gz
+*.log
+
+# Kendi özel dosyan
+WebApplication11/bin.zip
+
+# Diğer yaygın dışlamalar
+*.exe
+*.dll
+*.pdb
+*.appx
+*.appxbundle
+*.msi
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
