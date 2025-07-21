@@ -2685,6 +2685,55 @@ namespace YKPortal.Controllers
             return result;
         }
 
+        public IDJsonResult Kullanici_Kisayollari([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                string _sorgu = "";
+                _sorgu += @"select * from KullaniciKisayollari with(nolock) where  KullaniciID='" + Convert.ToString(data["KullaniciId"]) + "'";
+
+                List<dynamic> entities = new List<dynamic>();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = _sorgu;
+                cmd.CommandType = System.Data.CommandType.Text;
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.Id = Convert.ToString(satir["Id"]);
+                        entity.KullaniciId = Convert.ToString(satir["KullaniciId"]);
+                        entity.Menu = Convert.ToString(satir["Menu"]);
+                        entity.Icon = Convert.ToString(satir["Icon"]);
+                        entities.Add(entity);
+                    }
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    return result;
+                }
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
         [HttpPost]
         public dynamic MobilAlisIrsaliyeKaydet([FromBody] JObject data)
         {
@@ -5640,19 +5689,15 @@ END
                 string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
                 string Parola = Convert.ToString(data["Parola"]);
                 string IP = Convert.ToString(data["IP"]);
-
                 YKUtils.LogKaydet_KullaniciGirisi(ProgramAdi,
                         Sirket,
                         KullaniciAdi,
                         Parola,
                         IP
                         );
-
                 result.SonucKodu = 1;
                 result.Sonuc = "Başarılı";
                 return result;
-
-
             }
             catch (Exception err)
             {
