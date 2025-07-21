@@ -2695,8 +2695,9 @@ namespace YKPortal.Controllers
 
                 List<dynamic> entities = new List<dynamic>();
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = _sorgu;
                 cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = _sorgu;
+   
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                 if (dt.Rows.Count > 0)
                 {
