@@ -524,9 +524,10 @@ WebApplication11/bin.zip
 *.sln.iml
 
 
-git lfs install
-git lfs track "*.zip"
-git add .gitattributes
-git add xyz.zip
-git commit -m "Use Git LFS for large file"
-git push
+*.zip
+/bin/
+/obj/
+*.zip
+*.exe
+*.dll
+*.pdb
