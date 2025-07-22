@@ -2638,7 +2638,7 @@ namespace YKPortal.Controllers
             {
                 string _sorgu = "";
                 _sorgu += @"select  distinct s1.MenuID,s2.Menu,s1.Gor,s1.Duzenle,s1.Sil,s1.KullaniciID,s2.UstID 
-                          from Yetkiler as s1 with(nolock) 
+                          from   Yetkiler as s1 with(nolock) 
                           inner join Menuler as s2 
                           on s1.MenuId=s2.ID
                           where s1.Gor=1 and s1.KullaniciID='" + Convert.ToString(data["KullaniciId"]) + "'  order by MenuID  ";
