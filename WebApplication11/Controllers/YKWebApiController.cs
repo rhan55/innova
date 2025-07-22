@@ -1,4 +1,5 @@
 ﻿using iText.Commons.Bouncycastle.Asn1.X509;
+using iText.IO.Util;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Renci.SshNet;
@@ -2687,7 +2688,7 @@ namespace YKPortal.Controllers
             try
             {
                 string _sorgu = "";
-                _sorgu += @"select * from KullaniciKisayollari with(nolock) where  KullaniciID='" + Convert.ToString(data["KullaniciId"]) + "'";
+                _sorgu += @"select * from KullaniciKisayollari with(nolock) where  KullaniciId='" + Convert.ToString(data["KullaniciId"]) + "'";
                 List<dynamic> entities = new List<dynamic>();
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = System.Data.CommandType.Text;
@@ -2701,8 +2702,8 @@ namespace YKPortal.Controllers
                         dynamic entity = new System.Dynamic.ExpandoObject();
                         entity.Id = Convert.ToString(satir["Id"]);
                         entity.KullaniciId = Convert.ToString(satir["KullaniciId"]);
-                        entity.Menu = Convert.ToString(satir["Menu"]);
-                        entity.Icon = Convert.ToString(satir["Icon"]);
+                        entity.Baslik = Convert.ToString(satir["Baslik"]);
+                        entity.Ikon = Convert.ToString(satir["Ikon"]);
                         entities.Add(entity);
                     }
                     result.Data = entities;
@@ -2738,10 +2739,16 @@ namespace YKPortal.Controllers
             {
                 foreach (var kisayol in request.Kisayollar)
                 {
-                    Console.WriteLine($"- {kisayol.Baslik} ({kisayol.Ikon}) ({request.KullaniciId})");
+                    SqlCommand cmd = new SqlCommand("pKisayolKaydet");
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.AddWithValue("@KullaniciId", kisayol.KullaniciId);
+                    cmd.Parameters.AddWithValue("@Baslik",kisayol.Baslik);
+                    cmd.Parameters.AddWithValue("@Icon", kisayol.Ikon);
                 }
-                result.SonucKodu = 0;
-                result.Hata = "UYARI! Kayıt bulunamadı!";
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                result.Hata = "Kısayol Kaydedildi.";
                 return result;
             }
             catch (Exception err)

@@ -522,3 +522,11 @@ WebApplication11/bin.zip
 # Rider / JetBrains
 .idea/
 *.sln.iml
+
+
+git lfs install
+git lfs track "*.zip"
+git add .gitattributes
+git add xyz.zip
+git commit -m "Use Git LFS for large file"
+git push
