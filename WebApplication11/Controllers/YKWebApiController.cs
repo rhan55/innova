@@ -529,9 +529,22 @@ namespace YKPortal.Controllers
                 string Seri_RafSire = Convert.ToString(data["Seri_RafSira"]);
                 string Kullanici = Convert.ToString(data["Kullanici"]);
 
+                if (Stok_Kodu == "")
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Stok Kodu boş gönderilemez";
+                    return result;
+                }
+                if (Seri_Lot == "")
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Seri_Lot boş gönderilemez";
+                    return result;
+                }
+
                 if (Uygulama == "NETSIS")
                 {
-                    _srg = "INSERT INTO [" + Uygulama_Db + "].[dbo].[TBLSERITRA] ";
+                    _srg = "INSERT INTO ["+ Uygulama_Db + "].[dbo].[TBLSERITRA] ";
                     _srg += " \r\n ( KAYIT_TIPI, SUBE_KODU, SERI_NO, STOK_KODU ";
                     _srg += " \r\n , HARACIK, TARIH ";
                     _srg += " \r\n , ACIK1, ACIK2, ACIK3, ACIKLAMA_4, ACIKLAMA_5 ";
@@ -544,6 +557,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n , 0 MIKTAR, '" + Seri_Skt + "' SON_KULLANMA_TARIHI, '" + Seri_Lot + "' AS BARKOD  ";
                     _srg += " \r\n , 'G' AS GCKOD, '" + Depo_Kodu + "' AS DEPOKOD, left('" + Kullanici + "',15) AS BELGENO, NULL AS BELGETIP ";
 
+                    _srg += " \r\n  -- Logla ";
                     _srg += " \r\n INSERT INTO INNOVA.[dbo].TBLLOGUSER ";
                     _srg += " \r\n ( FORM, TARIH, KAYITID, BELGE_NO ";
                     _srg += " \r\n , KULLANICI, CARI_KODU ";
@@ -590,7 +604,7 @@ namespace YKPortal.Controllers
         #region Netsis_Wms_Qr_Stok_Bak_Kontrol
         public IDJsonResult Netsis_Wms_Qr_Stok_Bak_Kontrol([FromBody] JObject data)
         {
-            string _Procedure_Versiyon = "250708";
+            string _Procedure_Versiyon = "250719";
             IDJsonResult result = new IDJsonResult();
             try
             {
@@ -665,20 +679,38 @@ namespace YKPortal.Controllers
                 string Kullanici = Convert.ToString(data["Kullanici"]);
 
                 string _SayimFisno = DateTime.Now.ToString("yyMMddHHmmssfff");
+
+                if (Stok_Kodu == "")
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Stok Kodu boş gönderilemez";
+                    return result;
+                }
+                if (Seri_No == "")
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Seri_No boş gönderilemez";
+                    return result;
+                }
+
                 if (Uygulama == "NETSIS")
                 {
                     _srg = "";
+                    _srg += " \r\n  -- Netsis_Wms_Qr_Stok_Bak_Kontrol ";
+                    _srg += " \r\n  -- Kontrol ";
+                    _srg += " \r\n SELECT '" + Stok_Kodu + "' as STOK_KODU, '" + Seri_No + "' AS SERI_NO, '" + Belge_Tarihi + "' TARIH, '" + Sube_Kodu + "' AS SUBE_KODU, '" + Depo_Kodu + "' AS DEPO_KODU, '" + Seri_Sayim.Replace(",", ".") + "' AS MIKTAR  ";
+
                     _srg += " \r\n  -- Sayim Kaydi ";
                     _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].[TBLSAYIM] ";
                     _srg += " \r\n ( SUBE_KODU, STOK_KODU, DEPO_KODU, MIKTAR, SAYIM_FIAT, TARIH, SAYIM_FISNO ";
-                    _srg += " \r\n , KAYITYAPANKUL, KAYITTARIHI, SAYIM_FISNO ";
+                    _srg += " \r\n , KAYITYAPANKUL, KAYITTARIHI, SAYIM_KODU ";
                     _srg += " \r\n , SAYIM_ACIKLAMA ";
                     _srg += " \r\n ) ";
                     _srg += " \r\n SELECT '" + Sube_Kodu + "' AS SUBE_KODU, '" + Stok_Kodu + "' as STOK_KODU, '" + Depo_Kodu + "' AS DEPO_KODU ";
                     _srg += " \r\n , '" + Seri_Sayim.Replace(",", ".") + "' MIKTAR ";
                     _srg += " \r\n , '" + Seri_Bakiye.Replace(",", ".") + "' SAYIM_FIAT ";
-                    _srg += " \r\n , '" + Belge_Tarihi + "' TARIH, '" + _SayimFisno + "' as SAYIM_FISNO ";
-                    _srg += " \r\n , left('" + Kullanici + "',8) as  KAYITYAPANKUL, getdate() KAYITTARIHI, '" + _Procedure_Versiyon + "' AS SAYIM_FISNO ";
+                    _srg += " \r\n , '" + Belge_Tarihi + "' TARIH, '"+ _SayimFisno + "' as SAYIM_FISNO ";
+                    _srg += " \r\n , left('"+ Kullanici + "',8) as  KAYITYAPANKUL, getdate() KAYITTARIHI, '"+ _Procedure_Versiyon + "' AS SAYIM_FISNO ";
                     _srg += " \r\n , left('Wms Stok Kontrol',35) as SAYIM_ACIKLAMA ";
                     _srg += " \r\n ";
 
@@ -774,6 +806,7 @@ namespace YKPortal.Controllers
         #region Netsis_Wms_Qr_Stok_Red
         public IDJsonResult Netsis_Wms_Qr_Stok_Red([FromBody] JObject data)
         {
+            string _Procedure_Versiyon = "250719";
             IDJsonResult result = new IDJsonResult();
             try
             {
@@ -853,21 +886,35 @@ namespace YKPortal.Controllers
 
                 string _SayimFisno = Convert.ToString("Red" + DateTime.Now.ToString("MddHHmmssfff")).Substring(0, 15);
 
+                //if (Stok_Kodu == "")
+                //{
+                //    result.SonucKodu = 0;
+                //    result.Hata = "UYARI! Stok Kodu boş gönderilemez";
+                //    return result;
+                //}
+                //if (Seri_Lot == "")
+                //{
+                //    result.SonucKodu = 0;
+                //    result.Hata = "UYARI! Seri_Lot boş gönderilemez";
+                //    return result;
+                //}
+
                 if (Uygulama == "NETSIS")
                 {
                     _srg = "";
+                    _srg += " \r\n  -- Netsis_Wms_Qr_Stok_Red ";
                     _srg += " \r\n  -- Sayim Kaydi ";
                     _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].[TBLSAYIM] ";
                     _srg += " \r\n ( SUBE_KODU, STOK_KODU, DEPO_KODU, MIKTAR, SAYIM_FIAT, TARIH, SAYIM_FISNO ";
                     _srg += " \r\n , KAYITYAPANKUL, KAYITTARIHI ";
-                    _srg += " \r\n , SAYIM_ACIKLAMA ";
+                    _srg += " \r\n , SAYIM_ACIKLAMA, SAYIM_KODU ";
                     _srg += " \r\n ) ";
                     _srg += " \r\n SELECT '" + Sube_Kodu + "' AS SUBE_KODU, '" + Stok_Kodu + "' as STOK_KODU, '" + Depo_Kodu + "' AS DEPO_KODU ";
                     _srg += " \r\n , '" + Seri_Sayim.Replace(",", ".") + "' MIKTAR ";
                     _srg += " \r\n , '" + Seri_Bakiye.Replace(",", ".") + "' SAYIM_FIAT ";
                     _srg += " \r\n , '" + Belge_Tarihi + "' TARIH, right( '" + _SayimFisno + "',15) as SAYIM_FISNO ";
                     _srg += " \r\n , left('" + Kullanici + "',8) as  KAYITYAPANKUL, getdate() KAYITTARIHI ";
-                    _srg += " \r\n , left('" + Seri_Red_Aciklama + "',35) as SAYIM_ACIKLAMA ";
+                    _srg += " \r\n , left('" + Seri_Red_Aciklama + "',35) as SAYIM_ACIKLAMA, '"+ _Procedure_Versiyon + "' AS SAYIM_KODU  ";
                     _srg += " \r\n ";
 
                     _srg += " \r\n  -- Sayim Seri Kaydi ";
@@ -1176,6 +1223,7 @@ namespace YKPortal.Controllers
                 if (Uygulama == "NETSIS")
                 {
                     _srg = " ";
+                    _srg += " \r\n  -- Netsis_Wms_Qr_Listele ";
                     _srg += " \r\n INSERT INTO INNOVA.[dbo].TBLLOGUSER ";
                     _srg += " \r\n ( FORM, TARIH, KAYITID, BELGE_NO ";
                     _srg += " \r\n , KULLANICI, CARI_KODU ";
