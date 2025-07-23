@@ -903,6 +903,9 @@ namespace YKPortal.Controllers
                 {
                     _srg = "";
                     _srg += " \r\n  -- Netsis_Wms_Qr_Stok_Red ";
+                    _srg += " \r\n  -- Kontrol ";
+                    _srg += " \r\n SELECT '" + Stok_Kodu + "' as STOK_KODU, '" + Seri_Lot + "' AS SERI_NO, '" + Belge_Tarihi + "' TARIH, '" + Sube_Kodu + "' AS SUBE_KODU, '" + Depo_Kodu + "' AS DEPO_KODU, '" + Seri_Sayim.Replace(",", ".") + "' AS MIKTAR  ";
+
                     _srg += " \r\n  -- Sayim Kaydi ";
                     _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].[TBLSAYIM] ";
                     _srg += " \r\n ( SUBE_KODU, STOK_KODU, DEPO_KODU, MIKTAR, SAYIM_FIAT, TARIH, SAYIM_FISNO ";
@@ -1224,6 +1227,9 @@ namespace YKPortal.Controllers
                 {
                     _srg = " ";
                     _srg += " \r\n  -- Netsis_Wms_Qr_Listele ";
+                    _srg += " \r\n  -- Kontrol ";
+                    _srg += " \r\n SELECT '" + Stok_Kodu + "' as STOK_KODU, '" + Seri_Lot + "' AS SERI_NO, '" + Seri_Skt + "' TARIH, '" + Sube_Kodu + "' AS SUBE_KODU, '" + Depo_Kodu + "' AS DEPO_KODU, '1' AS MIKTAR  ";
+
                     _srg += " \r\n INSERT INTO INNOVA.[dbo].TBLLOGUSER ";
                     _srg += " \r\n ( FORM, TARIH, KAYITID, BELGE_NO ";
                     _srg += " \r\n , KULLANICI, CARI_KODU ";
