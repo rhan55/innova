@@ -2768,7 +2768,7 @@ namespace YKPortal.Controllers
                         entity.Id = Convert.ToString(satir["Id"]);
                         entity.KullaniciId = Convert.ToString(satir["KullaniciId"]);
                         entity.Baslik = Convert.ToString(satir["Baslik"]);
-                        entity.Ikon = Convert.ToInt32(satir["Ikon"]);
+                        entity.Ikon = Convert.ToString(satir["Ikon"]);
                         entities.Add(entity);
                     }
                     result.Data = entities;
@@ -6360,7 +6360,7 @@ END
     #endregion 
     public class KisayolModel
     {
-        public int Ikon { get; set; }
+        public string Ikon { get; set; }
         public string KullaniciId { get; set; }
         public string Baslik { get; set; } = string.Empty;
     }
