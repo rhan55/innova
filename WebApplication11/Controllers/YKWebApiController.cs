@@ -2687,13 +2687,24 @@ namespace YKPortal.Controllers
             IDJsonResult result = new IDJsonResult();
             try
             {
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string kullaniciIdStr = Convert.ToString(data["kullaniciId"]);
+
+                if (!Guid.TryParse(kullaniciIdStr, out Guid kullaniciId))
+                {
+                    result.SonucKodu = -1;
+                    result.Sonuc = "HATA!";
+                    result.Hata = "Geçersiz Kullanıcı ID (GUID değil)";
+                    return result;
+                }
+
                 string _sorgu = "";
-                _sorgu += @"select * from KullaniciKisayollari with(nolock) where  KullaniciId='" + Convert.ToString(data["KullaniciId"]) + "'";
+                _sorgu += @"select * from KullaniciKisayollari with(nolock) where KullaniciId='" + kullaniciIdStr.ToString() + "'";
                 List<dynamic> entities = new List<dynamic>();
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.CommandText = _sorgu;
-
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                 if (dt.Rows.Count > 0)
                 {
@@ -2703,7 +2714,7 @@ namespace YKPortal.Controllers
                         entity.Id = Convert.ToString(satir["Id"]);
                         entity.KullaniciId = Convert.ToString(satir["KullaniciId"]);
                         entity.Baslik = Convert.ToString(satir["Baslik"]);
-                        entity.Ikon = Convert.ToString(satir["Ikon"]);
+                        entity.Ikon = Convert.ToInt32(satir["Ikon"]);
                         entities.Add(entity);
                     }
                     result.Data = entities;
@@ -2730,26 +2741,50 @@ namespace YKPortal.Controllers
             }
             return result;
         }
-
-
-        public IDJsonResult Kisayol_Kaydet([FromBody] KisayolRequest request)
+        public IDJsonResult Kisayol_Kaydet([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
             try
             {
-                foreach (var kisayol in request.Kisayollar)
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+
+                string kullaniciIdStr = Convert.ToString(data["kullaniciId"]);
+
+                if (!Guid.TryParse(kullaniciIdStr, out Guid kullaniciId))
                 {
-                    SqlCommand cmd = new SqlCommand("pKisayolKaydet");
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.Parameters.Clear();
-                    cmd.Parameters.AddWithValue("@KullaniciId", kisayol.KullaniciId);
-                    cmd.Parameters.AddWithValue("@Baslik",kisayol.Baslik);
-                    cmd.Parameters.AddWithValue("@Icon", kisayol.Ikon);
+                    result.SonucKodu = -1;
+                    result.Sonuc = "HATA!";
+                    result.Hata = "Geçersiz Kullanıcı ID (GUID değil)";
+                    return result;
                 }
+                string _sorgu = "";
+                //    _sorgu += @"delete from [" + Uygulama_Db + "].[dbo].KullaniciKisayollari where KullaniciId='" + Convert.ToString(data["KullaniciId"]) + "'";
+                _sorgu += @"delete from KullaniciKisayollari where KullaniciId='" + kullaniciId.ToString() + "'";
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _sorgu;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                }
+                _sorgu = "";
+                List<KisayolModel> kisayollar = data["kisayollar"].ToObject<List<KisayolModel>>();
+                foreach (var kisayol in kisayollar)
+                {
+                    //  _sorgu += " EXEC [" + Uygulama_Db + "].[dbo].[pKisayolKaydet]";
+                    _sorgu += " exec pKisayolKaydet";
+                    _sorgu += "  '" + kullaniciId.ToString() + "'";
+                    _sorgu += " , '" + kisayol.Baslik + "'";
+                    _sorgu += " , '" + kisayol.Ikon + "'";
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _sorgu;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                }
+
                 result.SonucKodu = 1;
                 result.Sonuc = "Başarılı";
                 result.Hata = "Kısayol Kaydedildi.";
-                return result;
             }
             catch (Exception err)
             {
@@ -2757,13 +2792,8 @@ namespace YKPortal.Controllers
                 result.Sonuc = "HATA!";
                 result.Hata = err.Message;
             }
-            finally
-            {
-
-            }
             return result;
         }
-
 
         [HttpPost]
         public dynamic MobilAlisIrsaliyeKaydet([FromBody] JObject data)
@@ -2778,7 +2808,6 @@ namespace YKPortal.Controllers
                     //item.ConfirmedQuantity = item.RequestedQuantity;
                     //item.ConfirmedDeliveryDatetime = item.RequestedDeliveryDatetime;
                 }
-
                 result.SonucKodu = 1;
                 result.Hata = "Irsaliye Kaydedildi.";
             }
@@ -5876,7 +5905,6 @@ END
             return result;
         }
 
-
         [HttpPost]
         public IDJsonResult KullaniciKisitlari([FromBody] JObject data)
         {
@@ -6276,8 +6304,6 @@ END
     }
 
     #endregion 
-
-
     public class KisayolModel
     {
         public int Ikon { get; set; }
@@ -6297,7 +6323,6 @@ END
         public string Hata { get; set; }
         public int Sonuc_Versiyon { get; set; }
     }
-
     public class IslemBilgisi
     {
         public int SonDurumu { get; set; }
@@ -6306,15 +6331,12 @@ END
         public string EkBilgi3 { get; set; }
         public string EvrakNumarasi { get; set; }
     }
-
-
     public class IrsaliyeUst
     {
         public string BelgeNo { get; set; }
         public string Tarih { get; set; }
         public string CariKodu { get; set; }
     }
-
     public class IrsaliyeKalemler
     {
         public string StokKodu { get; set; }
