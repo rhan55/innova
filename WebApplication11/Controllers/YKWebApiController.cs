@@ -698,7 +698,7 @@ namespace YKPortal.Controllers
                     _srg = "";
                     _srg += " \r\n  -- Netsis_Wms_Qr_Stok_Bak_Kontrol ";
                     _srg += " \r\n  -- Kontrol ";
-                    _srg += " \r\n SELECT '" + Stok_Kodu + "' as STOK_KODU, '" + Seri_No + "' AS SERI_NO, '" + Sube_Kodu + "' AS SUBE_KODU, '" + Depo_Kodu + "' AS DEPO_KODU, '" + Seri_Sayim.Replace(",", ".") + "' AS MIKTAR  ";
+                    _srg += " \r\n SELECT '" + Stok_Kodu + "' as STOK_KODU, '" + Seri_No + "' AS SERI_NO, '" + Belge_Tarihi + "' TARIH, '" + Sube_Kodu + "' AS SUBE_KODU, '" + Depo_Kodu + "' AS DEPO_KODU, '" + Seri_Sayim.Replace(",", ".") + "' AS MIKTAR  ";
 
                     _srg += " \r\n  -- Sayim Kaydi ";
                     _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].[TBLSAYIM] ";
