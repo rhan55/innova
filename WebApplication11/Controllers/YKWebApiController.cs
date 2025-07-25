@@ -546,9 +546,11 @@ namespace YKPortal.Controllers
                 if (Uygulama == "NETSIS")
                 {
                     _srg = "";
-                    _srg += " \r\n  -- Netsis_Wms_Qr_Stok_Bak_Kontrol ";
+                    _srg += " \r\n  -- Netsis_Wms_Qr_Olustur ";
                     _srg += " \r\n  -- Kontrol ";
-                    _srg += " \r\n SELECT 'Netsis_Wms_Qr_Stok_Bak_Kontrol' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu, '" + Stok_Kodu + "' as STOK_KODU, '" + Seri_Lot + "' AS SERI_NO, GETDATE() TARIH, '" + Sube_Kodu + "' AS SUBE_KODU, '" + Depo_Kodu + "' AS DEPO_KODU, '0' AS MIKTAR  ";
+                    _srg += " \r\n SELECT 'Netsis_Wms_Qr_Stok_Bak_Kontrol' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
+                    _srg += " \r\n , '" + Stok_Kodu + "' as STOK_KODU, '" + Seri_Lot + "' AS SERI_NO, '" + Seri_Skt + "' TARIH, '1' AS MIKTAR  ";
+                    _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '" + Depo_Kodu + "' as Depo_Kodu  ";
 
                     _srg += " \r\n  -- Kontrol ";
                     _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].[TBLSERITRA] ";
@@ -705,7 +707,9 @@ namespace YKPortal.Controllers
                     _srg = "";
                     _srg += " \r\n  -- Netsis_Wms_Qr_Stok_Bak_Kontrol ";
                     _srg += " \r\n  -- Kontrol ";
-                    _srg += " \r\n SELECT 'Netsis_Wms_Qr_Stok_Bak_Kontrol' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu, '" + Stok_Kodu + "' as STOK_KODU, '" + Seri_No + "' AS SERI_NO, '" + Belge_Tarihi + "' TARIH, '" + Sube_Kodu + "' AS SUBE_KODU, '" + Depo_Kodu + "' AS DEPO_KODU, '" + Seri_Sayim.Replace(",", ".") + "' AS MIKTAR  ";
+                    _srg += " \r\n SELECT 'Netsis_Wms_Qr_Stok_Bak_Kontrol' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
+                    _srg += " \r\n , '" + Stok_Kodu + "' as STOK_KODU, '" + Seri_No + "' AS Seri_No, '" + Belge_Tarihi + "' Belge_Tarihi, '" + Seri_Sayim.Replace(",", ".") + "' AS MIKTAR  ";
+                    _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '" + Depo_Kodu + "' as Depo_Kodu  ";
 
                     _srg += " \r\n  -- Sayim Kaydi ";
                     _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].[TBLSAYIM] ";
@@ -881,7 +885,7 @@ namespace YKPortal.Controllers
                 }
                 string Belge_No = Convert.ToString(data["Belge_No"]);
                 string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
-                string Seri_Lot = Convert.ToString(data["Seri_No"]);
+                string _Seri_No = Convert.ToString(data["Seri_No"]);
                 string Belge_Tarihi = Convert.ToString(data["Belge_Tarihi"]);
                 string Seri_Bakiye = Convert.ToString(data["Seri_Bakiye"]);
                 string Seri_Sayim = "0"; // Convert.ToString(data["Seri_Sayim"]);
@@ -911,7 +915,9 @@ namespace YKPortal.Controllers
                     _srg = "";
                     _srg += " \r\n  -- Netsis_Wms_Qr_Stok_Red ";
                     _srg += " \r\n  -- Kontrol ";
-                    _srg += " \r\n SELECT 'Netsis_Wms_Qr_Stok_Red' as Servis_Adi, '" + _Procedure_Versiyon + "' as Procedure_Versiyonu, '" + Stok_Kodu + "' as STOK_KODU, '" + Seri_Lot + "' AS SERI_NO, '" + Belge_Tarihi + "' TARIH, '" + Sube_Kodu + "' AS SUBE_KODU, '" + Depo_Kodu + "' AS DEPO_KODU, '" + Seri_Sayim.Replace(",", ".") + "' AS MIKTAR  ";
+                    _srg += " \r\n SELECT 'Netsis_Wms_Qr_Stok_Red' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
+                    _srg += " \r\n , '" + Stok_Kodu + "' as STOK_KODU, '" + _Seri_No + "' AS Seri_No, '" + Belge_Tarihi + "' Belge_Tarihi, '" + Seri_Sayim.Replace(",", ".") + "' AS MIKTAR  ";
+                    _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '" + Depo_Kodu + "' as Depo_Kodu  ";
 
                     _srg += " \r\n  -- Sayim Kaydi ";
                     _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].[TBLSAYIM] ";
@@ -935,7 +941,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n , STRA_INC, KAYIT_TIPI ";
                     _srg += " \r\n ) ";
                     _srg += " \r\n SELECT '" + Sube_Kodu + "' AS SUBE_KODU, '" + Stok_Kodu + "' as STOK_KODU, '" + Depo_Kodu + "' AS DEPOKOD ";
-                    _srg += " \r\n , '" + Seri_Lot + "' AS SERI_NO ";
+                    _srg += " \r\n , '" + _Seri_No + "' AS SERI_NO ";
                     _srg += " \r\n , '" + Seri_Sayim.Replace(",", ".") + "' AS MIKTAR, 'G' AS GCKOD, '" + Belge_Tarihi + "' TARIH,  right( '" + _SayimFisno + "',15)  as SAYIM_FISNO ";
                     _srg += " \r\n , ISNULL((SELECT TOP 1 IC.INCKEYNO FROM [" + Uygulama_Db + "].[dbo].[TBLSAYIM] IC WITH (NOLOCK) WHERE IC.SAYIM_FISNO = '" + _SayimFisno + "' AND IC.STOK_KODU = '" + Stok_Kodu + "' ORDER BY IC.INCKEYNO DESC),0) AS STRA_INC ";
                     _srg += " \r\n , 'A' AS KAYIT_TIPI ";
@@ -947,9 +953,9 @@ namespace YKPortal.Controllers
                     _srg += " \r\n ( FORM, TARIH, KAYITID, BELGE_NO ";
                     _srg += " \r\n , KULLANICI, CARI_KODU ";
                     _srg += " \r\n , BILGI, ISLEM, KAYNAK) ";
-                    _srg += " \r\n SELECT 'Web Servis Wms 05 Qr Seri Kontrol', getdate(), '" + Stok_Kodu + "' AS KAYITID, '" + Seri_Lot + "' AS BELGE_NO ";
+                    _srg += " \r\n SELECT 'Web Servis Wms 05 Qr Seri Kontrol', getdate(), '" + Stok_Kodu + "' AS KAYITID, '" + _Seri_No + "' AS BELGE_NO ";
                     _srg += " \r\n , '" + Kullanici + "' AS KULLANICI, '" + Depo_Kodu + "' AS CARI_KODU ";
-                    _srg += " \r\n , '" + Seri_Lot + ':' + Depo_Kodu + "' BILGI, 'Kullanici Güncellemesi' as ISLEM, 'Netsis_Wms_Qr_Stok_Red' AS KAYNAK ";
+                    _srg += " \r\n , '" + _Seri_No + ':' + Depo_Kodu + "' BILGI, 'Kullanici Güncellemesi' as ISLEM, 'Netsis_Wms_Qr_Stok_Red' AS KAYNAK ";
 
                     _srg += " \r\n  -- Seri Hareket Kaydi ";
                     _srg += " \r\n ";
@@ -1180,6 +1186,7 @@ namespace YKPortal.Controllers
         #region Netsis_Wms_Qr_Listele
         public IDJsonResult Netsis_Wms_Qr_Listele([FromBody] JObject data)
         {
+            string _Procedure_Versiyon = "250725";
             IDJsonResult result = new IDJsonResult();
             try
             {
@@ -1235,8 +1242,10 @@ namespace YKPortal.Controllers
                     _srg = " ";
                     _srg += " \r\n  -- Netsis_Wms_Qr_Listele ";
                     _srg += " \r\n  -- Kontrol ";
-                    _srg += " \r\n SELECT '" + Stok_Kodu + "' as STOK_KODU, '" + Seri_Lot + "' AS SERI_NO, '" + Seri_Skt + "' TARIH, '" + Sube_Kodu + "' AS SUBE_KODU, '" + Depo_Kodu + "' AS DEPO_KODU, '1' AS MIKTAR  ";
-                   
+                    _srg += " \r\n SELECT 'Netsis_Wms_Qr_Listele' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
+                    _srg += " \r\n , '" + Stok_Kodu + "' as STOK_KODU, '" + Seri_Lot + "' AS SERI_NO, '" + Seri_Skt + "' TARIH, '1' AS MIKTAR  ";
+                    _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '" + Depo_Kodu + "' as Depo_Kodu  ";
+
                     _srg += " \r\n  -- Log Kaydi ";
                     _srg += " \r\n INSERT INTO INNOVA.[dbo].TBLLOGUSER ";
                     _srg += " \r\n ( FORM, TARIH, KAYITID, BELGE_NO ";
@@ -1596,6 +1605,7 @@ namespace YKPortal.Controllers
                 string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
                 string Kullanici = Convert.ToString(data["Kullanici"]);
 
+
                 List<dynamic> entities = new List<dynamic>();
 
                 SqlCommand cmd = new SqlCommand();
@@ -1603,8 +1613,11 @@ namespace YKPortal.Controllers
                 if (Uygulama == "NETSIS")
                 {
                     _srg = " ";
+                    _srg += " \r\n  -- Netsis_Wms_Qr_TumListe ";
                     _srg += " \r\n  -- Kontrol ";
-                    _srg += " \r\n SELECT  'Netsis_Wms_Qr_TumListe' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu, '" + Stok_Kodu + "' as STOK_KODU, '' AS SERI_NO, getdate() TARIH, '" + Sube_Kodu + "' AS SUBE_KODU, '0' AS DEPO_KODU, '0' AS MIKTAR  ";
+                    _srg += " \r\n SELECT 'Netsis_Wms_Qr_TumListe' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
+                    _srg += " \r\n , '" + Stok_Kodu + "' as STOK_KODU, '' AS Seri_No, getdate() Belge_Tarihi, '' AS MIKTAR  ";
+                    _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '0' as Depo_Kodu  ";
 
                     _srg += " \r\n  -- Listele ";
                     _srg += " \r\n INSERT INTO INNOVA.[dbo].TBLLOGUSER ";
@@ -1616,7 +1629,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n , '" + Stok_Kodu + "' BILGI, 'Kullanici Güncellemesi' as ISLEM, 'Netsis_Wms_Qr_TumListe' AS KAYNAK ";
                     _srg += " \r\n ";
 
-                    _srg += " SELECT top 50 SR.STOK_KODU, [" + Uygulama_Db + "].[dbo].TRK1(STOK_ADI) AS STOK_ADI ";
+                    _srg += " \r\n SELECT top 50 SR.STOK_KODU, [" + Uygulama_Db + "].[dbo].TRK1(STOK_ADI) AS STOK_ADI ";
                     _srg += " \r\n , [" + Uygulama_Db + "].[dbo].TRK1(SR.SERI_NO) AS SERI_NO ";
                     _srg += " \r\n , SR.SUBE_KODU AS SUBE_KODU ";
                     _srg += " \r\n , HARACIK as TEDARIKCI_KODU, [" + Uygulama_Db + "].[dbo].TRK1(CS.CARI_ISIM) AS TEDARIKCI_ADI ";
@@ -1740,8 +1753,11 @@ namespace YKPortal.Controllers
                 if (Uygulama == "NETSIS")
                 {
                     _srg = " ";
+                    _srg += " \r\n  -- Netsis_Wms_Qr_Yazdir ";
                     _srg += " \r\n  -- Kontrol ";
-                    _srg += " \r\n SELECT  'Netsis_Wms_Qr_Yazdir' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu, '" + Stok_Kodu + "' as STOK_KODU, '' AS SERI_NO, getdate() TARIH, '" + Sube_Kodu + "' AS SUBE_KODU, '0' AS DEPO_KODU, '0' AS MIKTAR  ";
+                    _srg += " \r\n SELECT 'Netsis_Wms_Qr_TumListe' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
+                    _srg += " \r\n , '" + Stok_Kodu + "' as STOK_KODU, '" + Seri_Lot + "' AS Seri_No, getdate() Belge_Tarihi, '' AS MIKTAR  ";
+                    _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '0' as Depo_Kodu  ";
 
                     _srg += " \r\n  -- Yazdir ";
                     _srg += " \r\n INSERT INTO INNOVA.[dbo].[TBLBELGE_YAZDIR] ";
@@ -1884,9 +1900,12 @@ namespace YKPortal.Controllers
                 if (Uygulama == "NETSIS")
                 {
                     _srg = " ";
+                    _srg += " \r\n  -- Netsis_Wms_Stok_Girisi_Kalem ";
                     _srg += " \r\n  -- Kontrol ";
-                    _srg += " \r\n SELECT  'Netsis_Wms_Stok_Girisi_Kalem' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu, '" + Stok_Kodu + "' as STOK_KODU, '' AS SERI_NO, getdate() TARIH, '" + Sube_Kodu + "' AS SUBE_KODU, '0' AS DEPO_KODU, '0' AS MIKTAR  ";
-
+                    _srg += " \r\n SELECT 'Netsis_Wms_Stok_Girisi_Kalem' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
+                    _srg += " \r\n , '" + Stok_Kodu + "' as STOK_KODU, '" + Seri_Lot + "' AS Seri_No, '" + Belge_Tarihi + "' as Belge_Tarihi, '' AS MIKTAR  ";
+                    _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '" + Depo_Kodu + "' as Depo_Kodu  ";
+               
                     _srg += " \r\n  -- Belge Kayıt Tablosuna Ekle ";
                     _srg += " \r\n INSERT INTO [INNOVA].[dbo].[TBLBELGE_KAYIT] ";
                     _srg += " \r\n ( FTIRSIP, SUBE_KODU, BELGE_NO ";
@@ -2006,8 +2025,11 @@ namespace YKPortal.Controllers
                 if (Uygulama == "NETSIS")
                 {
                     _srg = " ";
+                    _srg += " \r\n  -- Netsis_Wms_Stok_Girisi_Tamamla ";
                     _srg += " \r\n  -- Kontrol ";
-                    _srg += " \r\n SELECT  'Netsis_Wms_Stok_Girisi_Tamamla' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu, '" + Belge_No + "' as Belge_No, '" + Belge_Tipi + "' AS Belge_Tipi, getdate() TARIH, '" + Sube_Kodu + "' AS SUBE_KODU, '0' AS DEPO_KODU, '0' AS MIKTAR  ";
+                    _srg += " \r\n SELECT 'Netsis_Wms_Stok_Girisi_Kalem' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
+                    _srg += " \r\n , '" + Cari_Kodu + "' as Cari_Kodu, '" + Belge_No + "' AS Belge_No, '" + Belge_Tarihi + "' as Belge_Tarihi, '' AS MIKTAR  ";
+                    _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '0' as Depo_Kodu  ";
 
                     _srg += " \r\n  -- Islem ";
                     _srg += " \r\nEXEC " + Uygulama_Db + ".[dbo].INN_PR_BELGE_KAYIT '" + Belge_No + "', '" + Cari_Kodu + "', '" + Belge_Tipi + "', 'H'  ";
