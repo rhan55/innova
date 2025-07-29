@@ -293,6 +293,7 @@ Order by StokGarantiTarihleri.SeriNo ";
             {
                 Baslangic = (DateTime.Today.Year + "-01-01");
             }
+
             if (Bitis == "")
             {
                 Bitis = DateTime.Today.AddDays(1).ToString("yyyy-MM-dd");
@@ -329,8 +330,6 @@ Order by StokGarantiTarihleri.SeriNo ";
             cmd.CommandType = System.Data.CommandType.Text;
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             ViewBag.Teknisyenler = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
-
 
             return View(ds);
         }

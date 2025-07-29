@@ -2871,6 +2871,57 @@ namespace YKPortal.Controllers
             }
             return result;
         }
+        public IDJsonResult MobilAriza_Teknisyenler([FromBody] JObject data)
+        {
+
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                string kullaniciId = Convert.ToString(data["kullaniciId"]);
+                List<dynamic> entities = new List<dynamic>();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = "select ID,Ad+' '+Soyad as Isim from Kullanicilar WITH(NOLOCK) Where Aktif = 1 and UyelikID = @UyelikID";
+                cmd.Parameters.AddWithValue("@UyelikID", kullaniciId);
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.ID = Convert.ToString(satir["ID"]);
+                        entity.Isim = Convert.ToString(satir["Isim"]);
+                        entities.Add(entity);
+                    }
+                    #endregion
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    return result;
+                }
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+
+        }
 
         #endregion
 
@@ -3338,7 +3389,6 @@ namespace YKPortal.Controllers
             return result;
         }
 
-
         public async Task<IDJsonResult> Subabase_Lisans_LisansSil([FromBody] JObject data, [FromUri] string LisansKodu = "")
         {
             IDJsonResult result = new IDJsonResult();
@@ -3384,7 +3434,6 @@ namespace YKPortal.Controllers
                 return result;
             }
         }
-
 
         #endregion
 
