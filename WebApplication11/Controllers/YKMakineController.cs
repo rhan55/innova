@@ -631,6 +631,7 @@ ArizayiBildirenTelefon : " + ArizayiBildirenTelefon + @" <br>
             cmd.CommandText = "SELECT     ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM            GrupKodlari WHERE        (Kod = 'ArizaKategorisi')";
             cmd.CommandType = System.Data.CommandType.Text;
             ViewBag.dtKategoriler = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
             cmd.Parameters.Clear();
             cmd.CommandText = "SELECT     ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM            GrupKodlari WHERE        (Kod = 'ArizaKaynagi')";
             cmd.CommandType = System.Data.CommandType.Text;
