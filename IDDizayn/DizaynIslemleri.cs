@@ -14,18 +14,18 @@ namespace IDDizayn
     public class DizaynIslemleri
     {
         
-        public static string DizaynKaydet(DataSet ds, string KaydedilecekKlasor)
+        public static string DizaynKaydet(DataSet ds, string KaydedilecekKlasor, bool tsc = false)
         {
 
             XtraReport rapor = new XtraReport();
 
             {
-                rapor.LoadLayout(KaydedilecekKlasor + "\\Barkod.repx");
+                rapor.LoadLayout(KaydedilecekKlasor + "\\"+(tsc == true ? "TSC" : "") +"Barkod.repx");
                 rapor.DataSource = ds;
                 
                 string dosyaadi = DateTime.Now.ToString("yyyy-MM-dd ssmm") + " - " + Guid.NewGuid().ToString() + ".png";
                 string dosya = KaydedilecekKlasor + dosyaadi;
-                if (false)
+                if (true)
                 {
                     rapor.ExportToImage(dosya);
                     return dosyaadi;

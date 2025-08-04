@@ -735,7 +735,7 @@ namespace YKPortal.Controllers
             return base.Json(dto, 0);
         }
 
-        public JsonResult FiyatGorGetirHTML3(string Barkod)
+        public JsonResult FiyatGorGetirHTML3(string Barkod, bool tsc = false)
         {
             StokDto dto = new StokDto();
             SqlCommand cmd = new SqlCommand
@@ -750,8 +750,11 @@ namespace YKPortal.Controllers
                 dto.HTMLPrint = Encoding.Default.GetBytes(Convert.ToString(set.Tables[0].Rows[0]["Aciklama"]));
                 dto.Aciklama = Convert.ToString(set.Tables[0].Rows[0]["Aciklama"]);
                 string str = "";
-                str = IDDizayn.DizaynIslemleri.DizaynKaydet(set, ConfigurationManager.AppSettings["Klasor4"]);
-                dto.Aciklama2 = ConfigurationManager.AppSettings["WebSiteUrl"] + "/Temp4/" + str;
+                if (tsc == true)
+                    str = IDDizayn.DizaynIslemleri.DizaynKaydet(set, ConfigurationManager.AppSettings["Klasor4TSC"], tsc);
+                else
+                    str = IDDizayn.DizaynIslemleri.DizaynKaydet(set, ConfigurationManager.AppSettings["Klasor4"]);
+                dto.Aciklama2 = ConfigurationManager.AppSettings["WebSiteUrl"] + "/Temp4"+(tsc == true ? "TSC" : "") +"/" + str;
             }
             else
             {
