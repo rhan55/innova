@@ -17,7 +17,8 @@ namespace YKPortal.Models.YKClasses
         private string _UyelikID;
         private string _Resim;
         private string _Uygulama;
-        private string _Uygulama_Sube;
+        private string _Uygulama_Sube_Kodu = "0";
+        private string _Uygulama_Depo_Kodu = "0";
         private string _Uygulama_Db;
 
 
@@ -32,7 +33,8 @@ namespace YKPortal.Models.YKClasses
         public string Resim { get { return _Resim ?? ""; } set { _Resim = value; } }
         public string Uygulama { get { return _Uygulama ?? ""; } set { _Uygulama = value; } }
         public string Uygulama_Db { get { return _Uygulama_Db ?? ""; } set { _Uygulama_Db = value; } }
-        public string Uygulama_Sube { get { return _Uygulama_Sube ?? ""; } set { _Uygulama_Sube = value; } }
+        public string Uygulama_Sube_Kodu { get { return _Uygulama_Sube_Kodu ?? "0"; } set { _Uygulama_Sube_Kodu = value; } }
+        public string Uygulama_Depo_Kodu { get { return _Uygulama_Depo_Kodu ?? "0"; } set { _Uygulama_Depo_Kodu = value; } }
 
     }
 }

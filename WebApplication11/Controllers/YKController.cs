@@ -121,8 +121,6 @@ namespace YKPortal.Controllers
             return View();
         }
 
-
-
         [HttpPost]
         public ActionResult TakvimKaydet(AnasayfaTakvimKaydetDto anasayfaTakvimKaydetDto)
         {

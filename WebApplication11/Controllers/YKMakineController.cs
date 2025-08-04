@@ -293,6 +293,7 @@ Order by StokGarantiTarihleri.SeriNo ";
             {
                 Baslangic = (DateTime.Today.Year + "-01-01");
             }
+
             if (Bitis == "")
             {
                 Bitis = DateTime.Today.AddDays(1).ToString("yyyy-MM-dd");
@@ -329,8 +330,6 @@ Order by StokGarantiTarihleri.SeriNo ";
             cmd.CommandType = System.Data.CommandType.Text;
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             ViewBag.Teknisyenler = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
-
 
             return View(ds);
         }
@@ -632,6 +631,7 @@ ArizayiBildirenTelefon : " + ArizayiBildirenTelefon + @" <br>
             cmd.CommandText = "SELECT     ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM            GrupKodlari WHERE        (Kod = 'ArizaKategorisi')";
             cmd.CommandType = System.Data.CommandType.Text;
             ViewBag.dtKategoriler = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
             cmd.Parameters.Clear();
             cmd.CommandText = "SELECT     ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM            GrupKodlari WHERE        (Kod = 'ArizaKaynagi')";
             cmd.CommandType = System.Data.CommandType.Text;

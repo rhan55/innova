@@ -142,7 +142,6 @@ namespace YKPortal.Controllers
 
             return RedirectToAction("Liste");
         }
-
         public bool AutoGirisKontrol()
         {
             bool GirisKontrol = false;
@@ -185,7 +184,6 @@ namespace YKPortal.Controllers
 
             return GirisKontrol;
         }
-
         private void CreateCookie(string name, string value)
         {
             HttpCookie cookieVisitor = new HttpCookie(name, Server.UrlEncode(value));

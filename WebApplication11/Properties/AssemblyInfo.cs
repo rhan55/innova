@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("YKPortal")]
-[assembly: AssemblyCopyright("YK YAZILIM - Tüm Haklar Saklıdır. ©  2024")]
+[assembly: AssemblyCopyright("YK YAZILIM - Tüm Haklar Saklıdır. ©  2008 - 2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // Tüm değerleri belirtebilir veya Gözden Geçirme ve Yapı Numaralarını varsayılan değerlerine döndürebilirsiniz
 // gösterildiği gibi '*' ile varsayılan değer atayabilirsiniz:
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("25.06.16.0")]
+[assembly: AssemblyFileVersion("25.06.16.0")]

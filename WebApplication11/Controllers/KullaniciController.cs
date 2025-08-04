@@ -516,7 +516,6 @@ namespace YKPortal.Controllers
             return Json(new YKJsonResult { SonucKodu = "Yetki yok", Data = new { KullaniciID = yetkiler[0].KullaniciID } });
         }
 
-
         [HttpGet]
         public ActionResult UretimYetkiler(YetkilerDto yetkilerDto)
         {
@@ -645,8 +644,6 @@ namespace YKPortal.Controllers
                 Response.Cookies[name].Expires = DateTime.Now.AddDays(-1);
             }
         }
-
-
         private string GetCookie(string name)
         {
             //Böyle bir cookie mevcut mu kontrol ediyoruz
@@ -657,13 +654,10 @@ namespace YKPortal.Controllers
             }
             return null;
         }
-
         private class KullaniciListesi
         {
 
         }
-
-
         #endregion
 
         private bool YetkiKontrolu(string YetkiUrl, string Tip = "Gor")
@@ -714,7 +708,6 @@ namespace YKPortal.Controllers
                 return false;
             }
         }
-
         public void IlListesiniOlustur()
         {
             // GrupKodu1 Listesi oluşturma 
@@ -740,7 +733,6 @@ namespace YKPortal.Controllers
             }
             ViewBag.Iller = entities;
         }
-
         public void YetkiYapisiniOlustur(List<YetkilerDto> yetkiler)
         {
             List<YetkilerDto> enUstMenuler = yetkiler.Where(m => m.UstID == string.Empty).ToList();

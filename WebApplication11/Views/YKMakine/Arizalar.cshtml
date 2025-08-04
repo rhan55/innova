@@ -55,8 +55,6 @@
         </div>
     }
 
-
-
     <form action="@Url.Action("Arizalar","YKMakine",null)" method="get">
         <table>
             <tr>
@@ -132,7 +130,6 @@
         <tbody>
             @foreach (DataRow satir in Model.Tables[0].Rows)
             {
-
                 string renk = "";
                 string IDclass = "";
                 if (Convert.ToString(satir["Durum"]) == "" || Convert.ToString(satir["Durum"]) == "Beklemede")
