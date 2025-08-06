@@ -249,10 +249,10 @@ namespace YKPortal.Controllers
                     result.Hata = "UYARI! Miktar bilgisi boş olamaz.";
                     return result;
                 }
-                if (data["Kullanici_Adi"] == null)
+                if (data["Kullanici"] == null)
                 {
                     result.SonucKodu = 0;
-                    result.Hata = "UYARI! Kullanici_Adi bilgisi boş olamaz.";
+                    result.Hata = "UYARI! Kullanici bilgisi boş olamaz.";
                     return result;
                 }
                 string Uygulama = Convert.ToString(data["Uygulama"]);
@@ -296,7 +296,7 @@ namespace YKPortal.Controllers
                 _srg += " \r\n , 'G' AS GCKOD ";
                 _srg += " \r\n ";
 
-                _srg += " \r\n EXEC [" + Uygulama_Db + "].[dbo].[INN_PR_URETIM_KAYDET] '" + _GuidKey + "', '" + _Stok_Kodu + "' ";
+                _srg += " \r\n EXEC [" + Uygulama_Db + "].[dbo].[INN_PR_URETIM_KAYDET_REC] '" + _GuidKey + "', '" + _Stok_Kodu + "' ";
 
 
                 _srg += " \r\n INSERT INTO [INNOVA].[dbo].[TBLLOGUSER] ";
@@ -306,6 +306,8 @@ namespace YKPortal.Controllers
                 _srg += " \r\n SELECT 'Üretim Kaydı', getdate(), '" + _Stok_Kodu + "' ";
                 _srg += " \r\n , '" + Kullanici_Adi + "' AS KULLANICI ";
                 _srg += " \r\n , '" + _Stok_Kodu + "' BILGI, 'Üretim Kaydı' as ISLEM, 'Netsis_Wms_Basit_Uretim_Kaydet' AS KAYNAK ";
+
+              
 
                 List<dynamic> entities = new List<dynamic>();
 
@@ -337,6 +339,98 @@ namespace YKPortal.Controllers
             return result;
         }
         #endregion Netsis_Wms_Basit_Uretim_Kaydet
+        #region Netsis_Wms_Basit_Uretim_Listele
+        public IDJsonResult Netsis_Wms_Basit_Uretim_Listele([FromBody] JObject data)
+        {
+            string _Procedure_Versiyon = "250806";
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Sube_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Sube Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici bilgisi boş olamaz.";
+                    return result;
+                }
+                string _srg = "";
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Sube_Kodu = Convert.ToString(data["Sube_Kodu"]);
+                string Depo_Kodu = Convert.ToString(data["Depo_Kodu"]);
+                if (Depo_Kodu == "")
+                {
+                    Depo_Kodu = "0";
+                }
+                string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
+                string Kullanici = Convert.ToString(data["Kullanici"]);
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                if (Uygulama == "NETSIS")
+                {
+                    _srg = " ";
+                    _srg += " \r\n  -- Netsis_Wms_Qr_Listele ";
+                    _srg += " \r\n SELECT TOP 10 UR.URETSON_MAMUL as STOK_KODU, DBO.TRK1( ST.STOK_ADI) STOK_ADI, URETSON_MIKTAR, URETSON_FISNO ";
+                    _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].[TBLSTOKURS] UR WITH (NOLOCK) ";
+                    _srg += " \r\n INNER JOIN [" + Uygulama_Db + "].[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ON ST.STOK_KODU = UR.URETSON_MAMUL ";
+                    _srg += " \r\n ORDER BY UR.URETSON_TARIH DESC, URETSON_FISNO DESC ";
+                
+                }
+                cmd.CommandText = _srg;
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                  
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    result.Sonuc_Versiyon = 250806;
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    return result;
+                }
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        #endregion Netsis_Wms_Basit_Uretim_Listele
 
 
         #region Netsis_Wms_Stok_Ara
