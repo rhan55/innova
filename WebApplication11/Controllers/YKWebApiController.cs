@@ -231,6 +231,12 @@ namespace YKPortal.Controllers
                     result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
                     return result;
                 }
+                if (data["Sube_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Sube Kodu bilgisi boş olamaz.";
+                    return result;
+                }
                 if (data["Stok_Kodu"] == null)
                 {
                     result.SonucKodu = 0;
@@ -337,16 +343,22 @@ namespace YKPortal.Controllers
         public IDJsonResult Netsis_Wms_Stok_Ara([FromBody] JObject data)
         {
             string _Procedure_Versiyon = "250806";
+            string _srg = "";
             IDJsonResult result = new IDJsonResult();
             try
             {
-                //if (data["LisansNumarasi"] == null)
-                //{
-                //    result.SonucKodu = 0;
-                //    result.Hata = "UYARI! LisansNumarasi bilgisi boş olamaz.";
-                //    return result;
-                //}
-                //string LisansNumarasi = Convert.ToString(data["LisansNumarasi"]);
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
                 string Uygulama = Convert.ToString(data["Uygulama"]);
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
                 string Barkod = Convert.ToString(data["Barkod"]);
@@ -356,7 +368,7 @@ namespace YKPortal.Controllers
                     Depo_Kodu = "0";
                 }
 
-                string Kullanici_Guid = Convert.ToString(data["Kullanici_Guid"]);
+                string Kullanici = Convert.ToString(data["Kullanici"]);
                 List<dynamic> entities = new List<dynamic>();
 
                 SqlCommand cmd = new SqlCommand();
@@ -364,11 +376,11 @@ namespace YKPortal.Controllers
                 {
                     if (Uygulama == "NETSIS")
                     {
-                        string _srg = " EXEC ["+ Uygulama_Db + "].[dbo].[INN_PR_STOK_BILGI_GETIR] '" + Barkod + "', '', '"+ Depo_Kodu + "' ";
+                        _srg = " EXEC ["+ Uygulama_Db + "].[dbo].[INN_PR_STOK_BILGI_GETIR] '" + Barkod + "', '', '"+ Depo_Kodu + "' ";
                     }
 
                 }
-
+                cmd.CommandText = _srg;
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
                 if (dt.Rows.Count > 0)
@@ -381,7 +393,7 @@ namespace YKPortal.Controllers
                         entity.Stok_Adi = Convert.ToString(satir["STOK_ADI"]);
                         entity.Birim = Convert.ToString(satir["BIRIM"]);
                         entity.KDV_ORANI = Convert.ToString(satir["KDV_ORANI"]);
-                        entity.MIKTAR = Convert.ToString(satir["MIKTAR"]);
+                        entity.Miktar = Convert.ToString(satir["MIKTAR"]);
                         entity.TARTI = Convert.ToString(satir["TARTI"]);
                         entity.Barkod = Convert.ToString(Barkod);
 
