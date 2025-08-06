@@ -3150,6 +3150,312 @@ namespace YKPortal.Controllers
             return result;
         }
 
+        [HttpPost]
+        public IDJsonResult Ariza_Teknisyenler([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                string kullaniciId = Convert.ToString(data["kullaniciId"]);
+                List<dynamic> entities = new List<dynamic>();
+
+                dynamic entity1 = new System.Dynamic.ExpandoObject();
+                entity1.ID = "001";
+                entity1.Isim = "Ahmet";
+                entities.Add(entity1);
+
+                dynamic entity2 = new System.Dynamic.ExpandoObject();
+                entity2.ID = "002";
+                entity2.Isim = "Mehmet";
+                entities.Add(entity2);
+
+                dynamic entity3 = new System.Dynamic.ExpandoObject();
+                entity3.ID = "003";
+                entity3.Isim = "Ayşe";
+                entities.Add(entity3);
+
+                dynamic entity4 = new System.Dynamic.ExpandoObject();
+                entity4.ID = "004";
+                entity4.Isim = "Fatma";
+                entities.Add(entity4);
+
+                dynamic entity5 = new System.Dynamic.ExpandoObject();
+                entity5.ID = "005";
+                entity5.Isim = "Ali";
+                entities.Add(entity5);
+
+                dynamic entity6 = new System.Dynamic.ExpandoObject();
+                entity6.ID = "006";
+                entity6.Isim = "Veli";
+                entities.Add(entity6);
+
+                dynamic entity7 = new System.Dynamic.ExpandoObject();
+                entity7.ID = "007";
+                entity7.Isim = "Zeynep";
+                entities.Add(entity7);
+
+                dynamic entity8 = new System.Dynamic.ExpandoObject();
+                entity8.ID = "008";
+                entity8.Isim = "Hüseyin";
+                entities.Add(entity8);
+
+                dynamic entity9 = new System.Dynamic.ExpandoObject();
+                entity9.ID = "009";
+                entity9.Isim = "Emine";
+                entities.Add(entity9);
+
+                dynamic entity10 = new System.Dynamic.ExpandoObject();
+                entity10.ID = "010";
+                entity10.Isim = "Can";
+                entities.Add(entity10);
+
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                return result;
+
+
+                //SqlCommand cmd = new SqlCommand();
+                //cmd.CommandType = System.Data.CommandType.Text;
+                //cmd.CommandText = "select ID,Ad+' '+Soyad as Isim from Kullanicilar WITH(NOLOCK) Where Aktif = 1 and UyelikID = @UyelikID";
+                //cmd.Parameters.AddWithValue("@UyelikID", kullaniciId);
+                //DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                //if (dt.Rows.Count > 0)
+                //{
+                //    #region Cookie İşlemleri
+                //    foreach (DataRow satir in dt.Rows)
+                //    {
+                //        dynamic entity = new System.Dynamic.ExpandoObject();
+                //        entity.ID = Convert.ToString(satir["ID"]);
+                //        entity.Isim = Convert.ToString(satir["Isim"]);
+                //        entities.Add(entity);
+                //    }
+                //    #endregion
+                //    result.Data = entities;
+                //    result.SonucKodu = 1;
+                //    result.Sonuc = "Başarılı";
+                //    return result;
+                //}
+                //else
+                //{
+                //    result.SonucKodu = 0;
+                //    result.Hata = "UYARI! Kayıt bulunamadı!";
+                //    return result;
+                //}
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+
+        }
+
+        [HttpPost]
+        public IDJsonResult Ariza_Listesi([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                List<dynamic> entities = new List<dynamic>();
+
+                dynamic m1 = new System.Dynamic.ExpandoObject();
+                m1.Durum = "99";
+                m1.Tarih = "2025-07-29";
+                m1.EvrakNo = "MN001";
+                m1.TeknisyenAdi = "Hüseyin Usta";
+                m1.CariAdi = "Test Müşteri A";
+                m1.StokAdi = "Kompresör";
+                m1.SeriNo = "SN001";
+                m1.Aciklama = "Manuel kayıt - kompresör arızası";
+                entities.Add(m1);
+
+                dynamic m2 = new System.Dynamic.ExpandoObject();
+                m2.Durum = "98";
+                m2.Tarih = "2025-07-28";
+                m2.EvrakNo = "MN002";
+                m2.TeknisyenAdi = "Ahmet Yılmaz";
+                m2.CariAdi = "Demo Firma";
+                m2.StokAdi = "Vakum Pompası";
+                m2.SeriNo = "SN002";
+                m2.Aciklama = "Manuel kayıt - bakım tamamlandı";
+                entities.Add(m2);
+
+                dynamic m3 = new System.Dynamic.ExpandoObject();
+                m3.Durum = "97";
+                m3.Tarih = "2025-07-27";
+                m3.EvrakNo = "MN003";
+                m3.TeknisyenAdi = "Elif Kaya";
+                m3.CariAdi = "Firma XYZ";
+                m3.StokAdi = "Fan Motoru";
+                m3.SeriNo = "SN003";
+                m3.Aciklama = "Manuel kayıt - değişim yapıldı";
+                entities.Add(m3);
+
+                dynamic m4 = new System.Dynamic.ExpandoObject();
+                m4.Durum = "96";
+                m4.Tarih = "2025-07-26";
+                m4.EvrakNo = "MN004";
+                m4.TeknisyenAdi = "Ali Can";
+                m4.CariAdi = "Örnek Müşteri B";
+                m4.StokAdi = "PLC Ünitesi";
+                m4.SeriNo = "SN004";
+                m4.Aciklama = "Manuel kayıt - kontrol edildi";
+                entities.Add(m4);
+
+                dynamic m5 = new System.Dynamic.ExpandoObject();
+                m5.Durum = "95";
+                m5.Tarih = "2025-07-25";
+                m5.EvrakNo = "MN005";
+                m5.TeknisyenAdi = "Zeynep Koç";
+                m5.CariAdi = "Makine Sanayi";
+                m5.StokAdi = "Sensor Kartı";
+                m5.SeriNo = "SN005";
+                m5.Aciklama = "Manuel kayıt - onay bekliyor";
+                entities.Add(m5);
+
+                dynamic m6 = new System.Dynamic.ExpandoObject();
+                m6.Durum = "94";
+                m6.Tarih = "2025-07-24";
+                m6.EvrakNo = "MN006";
+                m6.TeknisyenAdi = "Müdür Hüseyin";
+                m6.CariAdi = "Gizli Firma";
+                m6.StokAdi = "Isıtıcı Modül";
+                m6.SeriNo = "SN006";
+                m6.Aciklama = "Manuel kayıt - müdür ekledi";
+                entities.Add(m6);
+
+                dynamic m7 = new System.Dynamic.ExpandoObject();
+                m7.Durum = "93";
+                m7.Tarih = "2025-07-23";
+                m7.EvrakNo = "MN007";
+                m7.TeknisyenAdi = "Serhat Demir";
+                m7.CariAdi = "Beta Elektrik";
+                m7.StokAdi = "Voltaj Regülatörü";
+                m7.SeriNo = "SN007";
+                m7.Aciklama = "Manuel kayıt - arıza giderildi";
+                entities.Add(m7);
+
+                dynamic m8 = new System.Dynamic.ExpandoObject();
+                m8.Durum = "92";
+                m8.Tarih = "2025-07-22";
+                m8.EvrakNo = "MN008";
+                m8.TeknisyenAdi = "Fatma Gül";
+                m8.CariAdi = "Gamma Endüstri";
+                m8.StokAdi = "Konveyör Motoru";
+                m8.SeriNo = "SN008";
+                m8.Aciklama = "Manuel kayıt - test aşamasında";
+                entities.Add(m8);
+
+                dynamic m9 = new System.Dynamic.ExpandoObject();
+                m9.Durum = "91";
+                m9.Tarih = "2025-07-21";
+                m9.EvrakNo = "MN009";
+                m9.TeknisyenAdi = "Burak Aksoy";
+                m9.CariAdi = "Omega Teknik";
+                m9.StokAdi = "Termal Sensör";
+                m9.SeriNo = "SN009";
+                m9.Aciklama = "Manuel kayıt - değişim bekliyor";
+                entities.Add(m9);
+
+                dynamic m10 = new System.Dynamic.ExpandoObject();
+                m10.Durum = "90";
+                m10.Tarih = "2025-07-20";
+                m10.EvrakNo = "MN010";
+                m10.TeknisyenAdi = "Yasemin Tekin";
+                m10.CariAdi = "Delta Mühendislik";
+                m10.StokAdi = "İzolasyon Paneli";
+                m10.SeriNo = "SN010";
+                m10.Aciklama = "Manuel kayıt - arıza tekrarladı";
+                entities.Add(m10);
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                return result;
+
+
+                //string kullaniciId = Convert.ToString(data["kullaniciId"]);
+                //string Baslangic = Convert.ToString(data["kullaniciId"]);
+                //string Bitis = Convert.ToString(data["kullaniciId"]);
+                //string Durum = Convert.ToString(data["kullaniciId"]);
+                //string Teknisyen = Convert.ToString(data["kullaniciId"]);
+                //string Cari = Convert.ToString(data["kullaniciId"]);
+                //string SeriNo = Convert.ToString(data["kullaniciId"]);
+                //string EvrakNo = Convert.ToString(data["kullaniciId"]);
+
+                //if (Baslangic == "")
+                //{
+                //    Baslangic = (DateTime.Today.Year + "-01-01");
+                //}
+
+                //if (Bitis == "")
+                //{
+                //    Bitis = DateTime.Today.AddDays(1).ToString("yyyy-MM-dd");
+                //}
+                //SqlCommand cmd = new SqlCommand();
+                //cmd.CommandText = "p_ArizaListesi";
+                //cmd.Parameters.AddWithValue("@UyelikID", kullaniciId);
+                //cmd.Parameters.AddWithValue("@Baslangic", Baslangic);
+                //cmd.Parameters.AddWithValue("@Bitis", Bitis);
+                //cmd.Parameters.AddWithValue("@Durum", Durum);
+                //cmd.Parameters.AddWithValue("@Teknisyen", Teknisyen);
+                //cmd.Parameters.AddWithValue("@Cari", Cari);
+                //cmd.Parameters.AddWithValue("@SeriNo", SeriNo);
+                //cmd.Parameters.AddWithValue("@EvrakNo", EvrakNo);
+                //cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                //DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
+                //DataTable dt = ds.Tables[0];
+     
+                //if (dt.Rows.Count > 0)
+                //{
+                //    #region Cookie İşlemleri
+                //    foreach (DataRow satir in dt.Rows)
+                //    {
+                //        dynamic entity = new System.Dynamic.ExpandoObject();
+                //        entity.Durum = Convert.ToString(satir["ID"]);
+                //        entity.Tarih = Convert.ToString(satir["Tarih"]);
+                //        entity.EvrakNo = Convert.ToString(satir["EvrakNo"]);
+                //        entity.TeknisyenAdi = Convert.ToString(satir["TeknisyenAdi"]);
+                //        entity.CariAdi = Convert.ToString(satir["CariAdi"]);
+                //        entity.StokAdi = Convert.ToString(satir["StokAdi"]);
+                //        entity.SeriNo = Convert.ToString(satir["SeriNo"]);
+                //        entity.Aciklama = Convert.ToString(satir["Aciklama"]);
+                //        entities.Add(entity);
+                //    }
+                //    #endregion
+                //    result.Data = entities;
+                //    result.SonucKodu = 1;
+                //    result.Sonuc = "Başarılı";
+                //    return result;
+                //}
+                //else
+                //{
+                //    result.SonucKodu = 0;
+                //    result.Hata = "UYARI! Kayıt bulunamadı!";
+                //    return result;
+                //}
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+
+        }
         #endregion
 
         #region SayimKaydet
@@ -3616,7 +3922,6 @@ namespace YKPortal.Controllers
             return result;
         }
 
-
         public async Task<IDJsonResult> Subabase_Lisans_LisansSil([FromBody] JObject data, [FromUri] string LisansKodu = "")
         {
             IDJsonResult result = new IDJsonResult();
@@ -3662,7 +3967,6 @@ namespace YKPortal.Controllers
                 return result;
             }
         }
-
 
         #endregion
 
@@ -6120,7 +6424,6 @@ END
                 string Parola = Convert.ToString(data["Parola"]);
 
                 YKModelKullanici entity = new YKModelKullanici();
-
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "p_KullaniciGirisi";
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
@@ -6185,15 +6488,11 @@ END
             IDJsonResult result = new IDJsonResult();
             try
             {
-
-
                 List<dynamic> entities = new List<dynamic>();
-
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.CommandText = "select GETDATE() AS TARIH ";
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
                 if (dt.Rows.Count > 0)
                 {
                     #region Cookie İşlemleri
@@ -6215,8 +6514,6 @@ END
                     result.Hata = "UYARI! Kayıt bulunamadı!";
                     return result;
                 }
-
-
             }
             catch (Exception err)
             {
@@ -6244,11 +6541,7 @@ END
                     return result;
                 }
                 string KullaniciId = Convert.ToString(data["KullaniciID"]);
-
-
-
                 List<dynamic> entities = new List<dynamic>();
-
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.CommandText = "select * from [dbo].[KullaniciKisitlari] with (nolock) where KullaniciId =  '" + KullaniciId + "' ";
@@ -6277,8 +6570,6 @@ END
                     result.Hata = "UYARI! Kayıt bulunamadı!";
                     return result;
                 }
-
-
             }
             catch (Exception err)
             {
@@ -6299,7 +6590,6 @@ END
             IDJsonResult result = new IDJsonResult();
             try
             {
-
                 if (data["KullaniciAdi"] == null)
                 {
                     result.SonucKodu = 0;
