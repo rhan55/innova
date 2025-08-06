@@ -393,6 +393,11 @@ namespace YKPortal.Controllers
                     _srg += " \r\n SELECT TOP 10 UR.URETSON_MAMUL as STOK_KODU, DBO.TRK1( ST.STOK_ADI) STOK_ADI, URETSON_MIKTAR, URETSON_FISNO ";
                     _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].[TBLSTOKURS] UR WITH (NOLOCK) ";
                     _srg += " \r\n INNER JOIN [" + Uygulama_Db + "].[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ON ST.STOK_KODU = UR.URETSON_MAMUL ";
+                    _srg += " \r\n WHERE 1=1 ";
+                    if (Sube_Kodu != "")
+                    {
+                        _srg += " \r\n AND UR.SUBE_KODU = '"+ Sube_Kodu + "' ";
+                    }
                     _srg += " \r\n ORDER BY UR.URETSON_TARIH DESC, URETSON_FISNO DESC ";
                 
                 }
@@ -401,7 +406,18 @@ namespace YKPortal.Controllers
 
                 if (dt.Rows.Count > 0)
                 {
-                  
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.Stok_Kodu = Convert.ToString(satir["STOK_KODU"]);
+                        entity.Stok_Adi = Convert.ToString(satir["STOK_ADI"]);
+                        entity.Miktar = Convert.ToString(satir["URETSON_MIKTAR"]);
+                        entity.Fisno = Convert.ToString(satir["URETSON_FISNO"]);
+                        entity.Servis_Versiyon = 250624;
+                        entities.Add(entity);
+                    }
+                    #endregion
                     result.Data = entities;
                     result.SonucKodu = 1;
                     result.Sonuc = "Başarılı";
