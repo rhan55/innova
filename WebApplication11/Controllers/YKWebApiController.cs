@@ -1771,10 +1771,112 @@ namespace YKPortal.Controllers
 
         #endregion Sabit_Listeler_Stok_Kart_Bilgileri
 
+
+        #region Netsis_Wms_Qr_KayitlariListele
+        public IDJsonResult Netsis_Wms_Qr_KayitlariListele([FromBody] JObject data)
+        {
+            string _Procedure_Versiyon = "250808";
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Seri_No"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Seri_No bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici bilgisi boş olamaz.";
+                    return result;
+                }
+                string _srg = "";
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+
+                string Seri_No = Convert.ToString(data["Okutma_No"]);
+                string Kullanici = Convert.ToString(data["Kullanici"]);
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                if (Uygulama == "NETSIS")
+                {
+                    _srg += " \r\n SELECT SERI_NO,TARIH, MIKTAR, SON_KULLANMA_TARIHI  ";
+                    _srg += " \r\n , ID.SUBE_KODU AS SUBE_KODU ";
+                    _srg += " \r\n , [" + Uygulama_Db + "].DBO.TRK1(HARACIK) as TEDARIKCI_KODU, [" + Uygulama_Db + "].DBO.TRK1(CS.CARI_ISIM) AS TEDARIKCI_ADI ";
+                    _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].[TBLSERITRA] IC WITH (NOLOCK) ";
+                    _srg += " \r\n LEFT OUTER JOIN " + Uygulama_Db + ".[dbo].[TBLCASABIT] CS WITH (NOLOCK) ON CS.CARI_KOD = IC.HARACIK ";
+                    _srg += " \r\n WHERE IC.SERI_NO = '" + Seri_No + "' AND IC.KAYIT_TIPI= 'D' ";
+                 
+                }
+                cmd.CommandText = _srg;
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.Seri_No = Convert.ToString(satir["SERI_NO"]);
+                        entity.Tarih = Convert.ToString(satir["TARIH"]);
+                        entity.Miktar = Convert.ToString(satir["MIKTAR"]);
+                        entity.Son_Kul_Tarihi = Convert.ToString(satir["SON_KULLANMA_TARIHI"]);
+                        entity.Seri_Tedarikci = Convert.ToString(satir["TEDARIKCI_KODU"]);
+                        entity.Seri_Tedarikci_Adi = Convert.ToString(satir["TEDARIKCI_ADI"]);
+                        entity.Servis_Versiyon = 250808;
+                        entities.Add(entity);
+                    }
+                    #endregion
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    result.Sonuc_Versiyon = 250806;
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    return result;
+                }
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        #endregion Netsis_Wms_Qr_KayitlariListele
+
         #region Netsis_Wms_Qr_Listele
         public IDJsonResult Netsis_Wms_Qr_Listele([FromBody] JObject data)
         {
-            string _Procedure_Versiyon = "250728";
+            string _Procedure_Versiyon = "250808";
             IDJsonResult result = new IDJsonResult();
             try
             {
@@ -1860,6 +1962,8 @@ namespace YKPortal.Controllers
                     }
                     _srg += " \r\n           ),2) ";
                     _srg += " \r\n   , 0 ) as BAKIYE ";
+                    _srg += " \r\n , SR.SIRA_NO ";
+                    _srg += " \r\n , (SELECT COUNT(IC.SIRA_NO) AS SAY FROM [" + Uygulama_Db + "].[dbo].[TBLSERITRA] IC WITH (NOLOCK) WHERE IC.SERI_NO = SR.SERI_NO AND IC.KAYIT_TIPI= 'D'  ) AS KAYIT_SAYISI  ";
                     _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].[TBLSERITRA] SR WITH (NOLOCK) ";
                     _srg += " \r\n INNER JOIN " + Uygulama_Db + ".[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ON SR.STOK_KODU = ST.STOK_KODU ";
                     _srg += " \r\n LEFT OUTER JOIN " + Uygulama_Db + ".[dbo].[TBLCASABIT] CS WITH (NOLOCK) ON CS.CARI_KOD = SR.HARACIK ";
@@ -1883,6 +1987,7 @@ namespace YKPortal.Controllers
                     foreach (DataRow satir in dt.Rows)
                     {
                         dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.Sira_No = Convert.ToString(satir["SIRA_NO"]);
                         entity.Stok_Kodu = Convert.ToString(satir["STOK_KODU"]);
                         entity.Stok_Adi = Convert.ToString(satir["STOK_ADI"]);
                         entity.Seri_No = Convert.ToString(satir["SERI_NO"]);
@@ -1894,8 +1999,9 @@ namespace YKPortal.Controllers
                         entity.Seri_RafSira = Convert.ToString(satir["RAFSIRA"]);
                         entity.Seri_Skt = Convert.ToString(satir["SON_KULLANMA_TARIHI"]);
                         entity.Seri_Bakiye = Convert.ToString(satir["BAKIYE"]);
+                        entity.Seri_KayitSayisi = Convert.ToString(satir["KAYIT_SAYISI"]);
                         entity.Bilgi = "Olcu Birimi ayriyeten çekiliyor";
-                        entity.Servis_Versiyon = 250624;
+                        entity.Servis_Versiyon = 250808;
                         entities.Add(entity);
                     }
                     #endregion
