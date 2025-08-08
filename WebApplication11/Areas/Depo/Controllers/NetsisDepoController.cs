@@ -293,7 +293,7 @@ ORder by TBLSTHAR.DEPO_KODU";
         }
 
         [HttpGet]
-        public ActionResult Innova_Uretim_Okutma(string Belge_Fis_Numarasi = "")
+        public ActionResult Mobile_Tasindi_Innova_Uretim_Okutma(string Belge_Fis_Numarasi = "")
         {
             if (Belge_Fis_Numarasi == "")
             {
@@ -325,7 +325,7 @@ ORder by TBLSTHAR.DEPO_KODU";
 
 
         [HttpPost]
-        public ActionResult Innova_Uretim_Okutma_Bilgisi(string Okutma_Fisno, string Okutma_Barkod)
+        public ActionResult Mobile_Tasindi_Innova_Uretim_Okutma_Bilgisi(string Okutma_Fisno, string Okutma_Barkod)
         {
             string _srg = "INSERT INTO INNOVA..TBLOKUTMA ";
             _srg += " ( FISNO, FISNO2, BARKOD ) ";
