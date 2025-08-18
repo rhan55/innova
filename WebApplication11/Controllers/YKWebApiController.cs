@@ -1816,7 +1816,7 @@ namespace YKPortal.Controllers
                 cmd.CommandType = System.Data.CommandType.Text;
                 if (Uygulama == "NETSIS")
                 {
-                    _srg += " \r\n SELECT IC.SIRA_NO, SERI_NO,TARIH, MIKTAR, SON_KULLANMA_TARIHI  ";
+                    _srg += " \r\n SELECT IC.SIRA_NO SERI_SIRA_NO, SERI_NO,TARIH, MIKTAR, SON_KULLANMA_TARIHI  ";
                     _srg += " \r\n , IC.SUBE_KODU AS SUBE_KODU ";
                     _srg += " \r\n , [" + Uygulama_Db + "].DBO.TRK1(HARACIK) as TEDARIKCI_KODU, [" + Uygulama_Db + "].DBO.TRK1(CS.CARI_ISIM) AS TEDARIKCI_ADI ";
                     _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].[TBLSERITRA] IC WITH (NOLOCK) ";
@@ -1833,7 +1833,7 @@ namespace YKPortal.Controllers
                     foreach (DataRow satir in dt.Rows)
                     {
                         dynamic entity = new System.Dynamic.ExpandoObject();
-                        entity.Sira_No = Convert.ToString(satir["SIRA_NO"]);
+                        entity.Seri_Sira_No = Convert.ToString(satir["SERI_SIRA_NO"]);
                         entity.Seri_No = Convert.ToString(satir["SERI_NO"]);
                         entity.Tarih = Convert.ToString(satir["TARIH"]);
                         entity.Miktar = Convert.ToString(satir["MIKTAR"]);
@@ -1915,6 +1915,7 @@ namespace YKPortal.Controllers
                     Depo_Kodu = "0";
                 }
                 string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
+                string Seri_Sira_No = Convert.ToString(data["SERI_SIRA_NO"]);
                 string Seri_No = Convert.ToString(data["Seri_No"]);
                 string Seri_TicAdi = Convert.ToString(data["Ticari_Adi"]);
                 string Seri_Tedarikci = Convert.ToString(data["Tedarikci_Kodu"]);
@@ -1970,7 +1971,11 @@ namespace YKPortal.Controllers
                     _srg += " \r\n LEFT OUTER JOIN " + Uygulama_Db + ".[dbo].[TBLCASABIT] CS WITH (NOLOCK) ON CS.CARI_KOD = SR.HARACIK ";
                     _srg += " \r\n WHERE 1=1 and SR.KAYIT_TIPI= 'D' ";
                     _srg += " \r\n AND SR.SERI_NO = '" + Seri_No + "' ";
-                    //_srg += " \r\n AND SR.STOK_KODU = '" + Stok_Kodu + "' ";
+                    if (Seri_Sira_No != "")
+                    {
+                        _srg += " \r\n AND SR.SIRA_NO = '" + Seri_Sira_No + "' ";
+                    }
+               
                     // stok gelmiyor, seri tek olmalı
                     _srg += " \r\n ORDER BY SR.SIRA_NO DESC  ";
 
