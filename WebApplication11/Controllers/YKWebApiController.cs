@@ -539,7 +539,7 @@ namespace YKPortal.Controllers
                 _srg += " \r\n , KALEM_ACIKLAMA1, KALEM_ACIKLAMA2 ";
                 _srg += " \r\n , KAYIT_KULLANICI, KAYIT_TARIHI ";
                 _srg += " \r\n , TIP, TIP_ACIKLAMA ";
-                _srg += " \r\n , GCKOD ";
+                _srg += " \r\n , GCKOD  ";
                 _srg += " \r\n ) ";
                 _srg += " \r\n SELECT '" + _GuidKey + "' [GUIDID], '" + Sube_Kodu + "' SUBE_KODU, LEFT('" + _GuidKey + "',15) BELGE_NO, 'U' FTIRSIP, '' CARI_KODU, '" + _Stok_Kodu + "' AS STOK_KODU ";
                 _srg += " \r\n , replace(replace('" + _Miktar + "','.',''),',','.') MIKTAR, replace(replace('" + _Miktar + "','.',''),',','.') MIKTAR2, 0 MIKTAR3 , 1 ADET ";
