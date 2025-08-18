@@ -1472,7 +1472,7 @@ namespace YKPortal.Controllers
                 string Belge_No = Convert.ToString(data["Belge_No"]);
                 string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
                 string _Seri_No = Convert.ToString(data["Seri_No"]);
-                string Seri_Sira_No = Convert.ToString(data["SERI_SIRA_NO"]);
+                string Seri_Sira_No = Convert.ToString(data["Seri_Sira_No"]);
                 string Belge_Tarihi = Convert.ToString(data["Belge_Tarihi"]);
                 string Seri_Bakiye = Convert.ToString(data["Seri_Bakiye"]);
                 string Seri_Sayim = "0"; // Convert.ToString(data["Seri_Sayim"]);
@@ -1573,17 +1573,16 @@ namespace YKPortal.Controllers
                     _srg += " \r\n ";
                     if (Seri_Sira_No != "")
                     {
-                        _srg += " \r\n AND SR.SIRA_NO = '" + Seri_Sira_No + "' ";
+                        _srg += " \r\n AND SY.SIRA_NO = '" + Seri_Sira_No + "' ";
                     }
 
                     _srg += " \r\n  -- Kontrol ";
                     _srg += " \r\n SELECT 'Netsis_Wms_Qr_Stok_Red' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
                     _srg += " \r\n , '" + Stok_Kodu + "' as STOK_KODU, '" + _Seri_No + "' AS Seri_No, '" + Belge_Tarihi + "' Belge_Tarihi, '" + Seri_Sayim.Replace(",", ".") + "' AS MIKTAR  ";
                     _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '" + Depo_Kodu + "' as Depo_Kodu  ";
-
-                    _srg += " \r\n  -- Seriyi Red Olarak İşaretle ";
                     _srg += " \r\n  ";
-                    _srg += " \r\n UPDATE [" + Uygulama_Db + "].[dbo].TBLSAYIMSERI ";
+                    _srg += " \r\n  -- Seriyi Red Olarak İşaretle ";
+                    _srg += " \r\n UPDATE [" + Uygulama_Db + "].[dbo].TBLSERITRA ";
                     _srg += " \r\n SET KAYIT_TIPI = 'R' ";
                     _srg += " \r\n WHERE SERI_NO = '" + _Seri_No + "' ";
                     if (Seri_Sira_No != "")
