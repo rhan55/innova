@@ -2453,12 +2453,18 @@ namespace YKPortal.Controllers
                 if (Uygulama == "NETSIS")
                 {
                     _srg = " ";
-                    _srg += " \r\n  -- Netsis_Wms_Qr_Yazdir ";
+                    _srg += " \r\n SELECT SIRA_NO ";
+                    _srg += " \r\n FROM " + Uygulama_Db + ".[dbo].[TBLSERITRA] SR WITH (NOLOCK) ";
+                    _srg += " \r\n WHERE SERI_NO = '" + Seri_Lot + "' ";
 
-
-                    if (true)
+                    SqlCommand cmdKont = new SqlCommand();
+                    cmdKont.CommandType = System.Data.CommandType.Text;
+                    cmdKont.CommandText = _srg;
+                    DataTable dtKont = (DataTable)IDVeritabani.Sorgula(cmdKont, SorgulaTuru.Tablo);
+                    if (dtKont.Rows.Count > 0)
                     {
-
+                        _srg = " ";
+                        _srg += " \r\n  -- Netsis_Wms_Qr_Yazdir ";
                         _srg += " \r\n  -- Yazdir ";
                         _srg += " \r\n INSERT INTO INNOVA.[dbo].[TBLBELGE_YAZDIR] ";
                         _srg += " \r\n ( DBNAME,SUBE_KODU, FTIRSIP, BELGE_NO, CARI_KODU ";
