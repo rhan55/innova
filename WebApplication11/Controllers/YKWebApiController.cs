@@ -707,7 +707,7 @@ namespace YKPortal.Controllers
 
 
         #region Netsis_Wms_Stok_Ara
-        public IDJsonResult Netsis_Wms_Stok_Ara([FromBody] JObject data)
+        public IDJsonResult Netsis_Wms_00_Stok_Ara([FromBody] JObject data)
         {
             string _Procedure_Versiyon = "250806";
             string _srg = "";
@@ -1055,7 +1055,7 @@ namespace YKPortal.Controllers
         }
 
         #region Netsis_Wms_Qr_Olustur
-        public IDJsonResult Netsis_Wms_Qr_Olustur([FromBody] JObject data)
+        public IDJsonResult Netsis_Wms_01_Qr_Olustur([FromBody] JObject data)
         {
             string _Procedure_Versiyon = "250725";
             IDJsonResult result = new IDJsonResult();
@@ -1195,7 +1195,7 @@ namespace YKPortal.Controllers
         #endregion Netsis_Wms_Qr_Olustur
 
         #region Netsis_Wms_Qr_Stok_Bak_Kontrol
-        public IDJsonResult Netsis_Wms_Qr_Stok_Bak_Kontrol([FromBody] JObject data)
+        public IDJsonResult Netsis_Wms_06_Qr_Stok_Bak_Kontrol([FromBody] JObject data)
         {
             string _Procedure_Versiyon = "250725";
             IDJsonResult result = new IDJsonResult();
@@ -1401,7 +1401,7 @@ namespace YKPortal.Controllers
         #endregion Netsis_Wms_Qr_StokKontrol
 
         #region Netsis_Wms_Qr_Stok_Red
-        public IDJsonResult Netsis_Wms_Qr_Stok_Red([FromBody] JObject data)
+        public IDJsonResult Netsis_Wms_07_Qr_Stok_Red([FromBody] JObject data)
         {
             string _Procedure_Versiyon = "250719";
             IDJsonResult result = new IDJsonResult();
@@ -1773,7 +1773,7 @@ namespace YKPortal.Controllers
 
 
         #region Netsis_Wms_Qr_KayitlariListele
-        public IDJsonResult Netsis_Wms_Qr_KayitlariListele([FromBody] JObject data)
+        public IDJsonResult Netsis_Wms_03_Qr_KayitlariListele([FromBody] JObject data)
         {
             string _Procedure_Versiyon = "250808";
             IDJsonResult result = new IDJsonResult();
@@ -1807,7 +1807,7 @@ namespace YKPortal.Controllers
                 string Uygulama = Convert.ToString(data["Uygulama"]);
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
 
-                string Seri_No = Convert.ToString(data["Okutma_No"]);
+                string Seri_No = Convert.ToString(data["Seri_No"]);
                 string Kullanici = Convert.ToString(data["Kullanici"]);
 
                 List<dynamic> entities = new List<dynamic>();
@@ -1816,8 +1816,8 @@ namespace YKPortal.Controllers
                 cmd.CommandType = System.Data.CommandType.Text;
                 if (Uygulama == "NETSIS")
                 {
-                    _srg += " \r\n SELECT SERI_NO,TARIH, MIKTAR, SON_KULLANMA_TARIHI  ";
-                    _srg += " \r\n , ID.SUBE_KODU AS SUBE_KODU ";
+                    _srg += " \r\n SELECT IC.SIRA_NO, SERI_NO,TARIH, MIKTAR, SON_KULLANMA_TARIHI  ";
+                    _srg += " \r\n , IC.SUBE_KODU AS SUBE_KODU ";
                     _srg += " \r\n , [" + Uygulama_Db + "].DBO.TRK1(HARACIK) as TEDARIKCI_KODU, [" + Uygulama_Db + "].DBO.TRK1(CS.CARI_ISIM) AS TEDARIKCI_ADI ";
                     _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].[TBLSERITRA] IC WITH (NOLOCK) ";
                     _srg += " \r\n LEFT OUTER JOIN " + Uygulama_Db + ".[dbo].[TBLCASABIT] CS WITH (NOLOCK) ON CS.CARI_KOD = IC.HARACIK ";
@@ -1833,6 +1833,7 @@ namespace YKPortal.Controllers
                     foreach (DataRow satir in dt.Rows)
                     {
                         dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.Sira_No = Convert.ToString(satir["SIRA_NO"]);
                         entity.Seri_No = Convert.ToString(satir["SERI_NO"]);
                         entity.Tarih = Convert.ToString(satir["TARIH"]);
                         entity.Miktar = Convert.ToString(satir["MIKTAR"]);
@@ -1874,7 +1875,7 @@ namespace YKPortal.Controllers
         #endregion Netsis_Wms_Qr_KayitlariListele
 
         #region Netsis_Wms_Qr_Listele
-        public IDJsonResult Netsis_Wms_Qr_Listele([FromBody] JObject data)
+        public IDJsonResult Netsis_Wms_02_Qr_Listele([FromBody] JObject data)
         {
             string _Procedure_Versiyon = "250808";
             IDJsonResult result = new IDJsonResult();
@@ -2272,7 +2273,7 @@ namespace YKPortal.Controllers
         #endregion Belge_Detaylari
 
         #region Netsis_Wms_Qr_TumListe
-        public IDJsonResult Netsis_Wms_Qr_TumListe([FromBody] JObject data)
+        public IDJsonResult Netsis_Wms_04_Qr_TumListe([FromBody] JObject data)
         {
             string _Procedure_Versiyon = "250728";
             IDJsonResult result = new IDJsonResult();
@@ -2404,7 +2405,7 @@ namespace YKPortal.Controllers
         #endregion Netsis_Wms_Qr_TumListe
 
         #region Netsis_Wms_Qr_Yazdir
-        public IDJsonResult Netsis_Wms_Qr_Yazdir([FromBody] JObject data)
+        public IDJsonResult Netsis_Wms_90_Qr_Yazdir([FromBody] JObject data)
         {
             string _Procedure_Versiyon = "250725";
             IDJsonResult result = new IDJsonResult();
@@ -2451,42 +2452,61 @@ namespace YKPortal.Controllers
 
                 if (Uygulama == "NETSIS")
                 {
-                    _srg = " ";
-                    _srg += " \r\n  -- Netsis_Wms_Qr_Yazdir ";
-           
-
-                    _srg += " \r\n  -- Yazdir ";
-                    _srg += " \r\n INSERT INTO INNOVA.[dbo].[TBLBELGE_YAZDIR] ";
-                    _srg += " \r\n ( DBNAME,SUBE_KODU, FTIRSIP, BELGE_NO, CARI_KODU ";
-                    _srg += " \r\n , DIZAYN_ADI ";
-                    _srg += " \r\n , KAYIT_KULLANICI, KAYIT_TARIHI ";
-                    _srg += " \r\n ) ";
-                    _srg += " \r\n SELECT top 1 '" + Uygulama_Db + "' AS DBNAME, '" + Sube_Kodu + "' AS SUBE_KODU, 'Wms_Seri' AS FTIRSIP, '" + Stok_Kodu + "' BELGE_NO, '" + Seri_Lot + "' AS CARI_KODU ";
-                    _srg += " \r\n , 'WMS_SERI_BASIMI' AS DIZAYN_ADI ";
-                    _srg += " \r\n , '" + Kullanici + "' AS KAYIT_KULLANICI, GETDATE() AS KAYIT_TARIHI ";
+                    _srg = " \r\n ";
+                    _srg += " \r\n SELECT SIRA_NO ";
                     _srg += " \r\n FROM " + Uygulama_Db + ".[dbo].[TBLSERITRA] SR WITH (NOLOCK) ";
                     _srg += " \r\n WHERE SERI_NO = '" + Seri_Lot + "' ";
-                    _srg += " \r\n ORDER BY SIRA_NO ";
 
-                    _srg += " \r\n -- Logla ";
-                    _srg += " \r\n INSERT INTO INNOVA..TBLLOGUSER ";
-                    _srg += " \r\n ( FORM, TARIH, KAYITID, BELGE_NO ";
-                    _srg += " \r\n , KULLANICI, CARI_KODU ";
-                    _srg += " \r\n , BILGI, ISLEM, KAYNAK) ";
-                    _srg += " \r\n SELECT 'Web Servis Wms 02 Qr Yazdır' AS FORM, getdate(), '" + Stok_Kodu + "' AS KAYITID, '" + Seri_Lot + "' AS BELGE_NO ";
-                    _srg += " \r\n , '" + Kullanici + "' AS KULLANICI, '" + Seri_Lot + "' AS CARI_KODU ";
-                    _srg += " \r\n , '" + Seri_Lot + ':' + Seri_Lot + "' BILGI, 'Kullanici Güncellemesi' as ISLEM, 'Netsis_Wms_Qr_Yazdir' AS KAYNAK ";
+                    SqlCommand cmdKont = new SqlCommand();
+                    cmdKont.CommandType = System.Data.CommandType.Text;
+                    cmdKont.CommandText = _srg;
+                    DataTable dtKont = (DataTable)IDVeritabani.Sorgula(cmdKont, SorgulaTuru.Tablo);
 
-                    _srg += " \r\n -- Seriyi Güncelle Yazdırma";
-                    _srg += " \r\n UPDATE [" + Uygulama_Db + "].[dbo].[TBLSERITRA] SET YEDEK4 = ISNULL(YEDEK4,0) + 1 ";
-                    _srg += " \r\n WHERE STOK_KODU = '" + Stok_Kodu + "' AND SERI_NO = '" + Seri_Lot + "' ";
-                    _srg += " \r\n ";
+                    if (dtKont.Rows.Count > 0)
+                    {
 
-                    _srg += " \r\n  -- Kontrol ";
-                    _srg += " \r\n SELECT 'Netsis_Wms_Qr_TumListe' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
-                    _srg += " \r\n , '" + Stok_Kodu + "' as STOK_KODU, '" + Seri_Lot + "' AS Seri_No, getdate() Belge_Tarihi, '' AS MIKTAR  ";
-                    _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '0' as Depo_Kodu  ";
+                        _srg = " ";
+                        _srg += " \r\n  -- Netsis_Wms_Qr_Yazdir ";
 
+
+                        _srg += " \r\n  -- Yazdir ";
+                        _srg += " \r\n INSERT INTO INNOVA.[dbo].[TBLBELGE_YAZDIR] ";
+                        _srg += " \r\n ( DBNAME,SUBE_KODU, FTIRSIP, BELGE_NO, CARI_KODU ";
+                        _srg += " \r\n , DIZAYN_ADI ";
+                        _srg += " \r\n , KAYIT_KULLANICI, KAYIT_TARIHI ";
+                        _srg += " \r\n ) ";
+                        _srg += " \r\n SELECT top 1 '" + Uygulama_Db + "' AS DBNAME, '" + Sube_Kodu + "' AS SUBE_KODU, 'Wms_Seri' AS FTIRSIP, '" + Stok_Kodu + "' BELGE_NO, '" + Seri_Lot + "' AS CARI_KODU ";
+                        _srg += " \r\n , 'WMS_SERI_BASIMI' AS DIZAYN_ADI ";
+                        _srg += " \r\n , '" + Kullanici + "' AS KAYIT_KULLANICI, GETDATE() AS KAYIT_TARIHI ";
+                        _srg += " \r\n FROM " + Uygulama_Db + ".[dbo].[TBLSERITRA] SR WITH (NOLOCK) ";
+                        _srg += " \r\n WHERE SERI_NO = '" + Seri_Lot + "' ";
+                        _srg += " \r\n ORDER BY SIRA_NO ";
+
+                        _srg += " \r\n -- Logla ";
+                        _srg += " \r\n INSERT INTO INNOVA..TBLLOGUSER ";
+                        _srg += " \r\n ( FORM, TARIH, KAYITID, BELGE_NO ";
+                        _srg += " \r\n , KULLANICI, CARI_KODU ";
+                        _srg += " \r\n , BILGI, ISLEM, KAYNAK) ";
+                        _srg += " \r\n SELECT 'Web Servis Wms 02 Qr Yazdır' AS FORM, getdate(), '" + Stok_Kodu + "' AS KAYITID, '" + Seri_Lot + "' AS BELGE_NO ";
+                        _srg += " \r\n , '" + Kullanici + "' AS KULLANICI, '" + Seri_Lot + "' AS CARI_KODU ";
+                        _srg += " \r\n , '" + Seri_Lot + ':' + Seri_Lot + "' BILGI, 'Kullanici Güncellemesi' as ISLEM, 'Netsis_Wms_Qr_Yazdir' AS KAYNAK ";
+
+                        _srg += " \r\n -- Seriyi Güncelle Yazdırma";
+                        _srg += " \r\n UPDATE [" + Uygulama_Db + "].[dbo].[TBLSERITRA] SET YEDEK4 = ISNULL(YEDEK4,0) + 1 ";
+                        _srg += " \r\n WHERE STOK_KODU = '" + Stok_Kodu + "' AND SERI_NO = '" + Seri_Lot + "' ";
+                        _srg += " \r\n ";
+
+                        _srg += " \r\n  -- Kontrol ";
+                        _srg += " \r\n SELECT 'Netsis_Wms_Qr_TumListe' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
+                        _srg += " \r\n , '" + Stok_Kodu + "' as STOK_KODU, '" + Seri_Lot + "' AS Seri_No, getdate() Belge_Tarihi, '' AS MIKTAR  ";
+                        _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '0' as Depo_Kodu  ";
+                    }
+                    else
+                    {
+                        result.SonucKodu = 0;
+                        result.Hata = "UYARI! Seri Kodu Bulunamadı.";
+                        return result;
+                    }
                 }
                 if (Uygulama == "LOGO")
                 {
@@ -2524,7 +2544,7 @@ namespace YKPortal.Controllers
         #endregion Netsis_Wms_Qr_Yazdir
 
         #region Netsis_Wms_Stok_Girisi_Kalem
-        public IDJsonResult Netsis_Wms_Stok_Girisi_Kalem([FromBody] JObject data)
+        public IDJsonResult Netsis_Wms_10_Stok_Girisi_Kalem([FromBody] JObject data)
         {
             string _Procedure_Versiyon = "250725";
             IDJsonResult result = new IDJsonResult();
@@ -2671,7 +2691,7 @@ namespace YKPortal.Controllers
         #endregion Netsis_Wms_Stok_Girisi_Kalem
 
         #region Netsis_Wms_Stok_Girisi_Tamamla
-        public IDJsonResult Netsis_Wms_Stok_Girisi_Tamamla([FromBody] JObject data)
+        public IDJsonResult Netsis_Wms_11_Stok_Girisi_Tamamla([FromBody] JObject data)
         {
             string _Procedure_Versiyon = "250725";
             IDJsonResult result = new IDJsonResult();
