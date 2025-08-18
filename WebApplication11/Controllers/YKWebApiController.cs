@@ -1581,7 +1581,8 @@ namespace YKPortal.Controllers
                     _srg += " \r\n , '" + Stok_Kodu + "' as STOK_KODU, '" + _Seri_No + "' AS Seri_No, '" + Belge_Tarihi + "' Belge_Tarihi, '" + Seri_Sayim.Replace(",", ".") + "' AS MIKTAR  ";
                     _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '" + Depo_Kodu + "' as Depo_Kodu  ";
 
-                    _srg += " \r\n , ";
+                    _srg += " \r\n  -- Seriyi Red Olarak İşaretle ";
+                    _srg += " \r\n  ";
                     _srg += " \r\n UPDATE [" + Uygulama_Db + "].[dbo].TBLSAYIMSERI ";
                     _srg += " \r\n SET KAYIT_TIPI = 'R' ";
                     _srg += " \r\n WHERE SERI_NO = '" + _Seri_No + "' ";
@@ -1589,7 +1590,7 @@ namespace YKPortal.Controllers
                     {
                         _srg += " \r\n AND SIRA_NO = '" + Seri_Sira_No + "' ";
                     }
-                    
+                    _srg += " \r\n ";
                 }
                 if (Uygulama == "LOGO")
                 {
