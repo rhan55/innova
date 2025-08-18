@@ -2454,9 +2454,11 @@ namespace YKPortal.Controllers
                 {
                     _srg = " ";
                     _srg += " \r\n  -- Netsis_Wms_Qr_Yazdir ";
-           
+
 
                     if (true)
+                    {
+
                         _srg += " \r\n  -- Yazdir ";
                         _srg += " \r\n INSERT INTO INNOVA.[dbo].[TBLBELGE_YAZDIR] ";
                         _srg += " \r\n ( DBNAME,SUBE_KODU, FTIRSIP, BELGE_NO, CARI_KODU ";
