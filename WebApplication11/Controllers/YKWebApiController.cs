@@ -4165,6 +4165,109 @@ namespace YKPortal.Controllers
             }
             return result;
         }
+
+        public IDJsonResult IMobile_Sayim_Kaydet([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Sube_Kodu = Convert.ToString(data["Sube_Kodu"]);
+                if (Sube_Kodu == "")
+                {
+                    Sube_Kodu = "0";
+                }
+                string Depo_Kodu = Convert.ToString(data["Depo_Kodu"]);
+                if (Depo_Kodu == "")
+                {
+                    Depo_Kodu = "0";
+                }
+                if (data["Tarih"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Tarih bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["SubeKodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! SubeKodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["DepoKodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! DepoKodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["StokKodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! StokKodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Miktar"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Miktar bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici bilgisi boş olamaz.";
+                    return result;
+                }
+                string LisansNumarasi = Convert.ToString(data["LisansNumarasi"]);
+                DateTime Tarih = Convert.ToDateTime(data["Tarih"]);
+                string SubeKodu = Convert.ToString(data["SubeKodu"]);
+                string DepoKodu = Convert.ToString(data["DepoKodu"]);
+                string StokKodu = Convert.ToString(data["StokKodu"]);
+                decimal Miktar = Convert.ToDecimal(data["Miktar"]);
+                string Kullanici = Convert.ToString(data["Kullanici"]);
+
+                List<dynamic> entities = new List<dynamic>();
+
+                if (Uygulama == "NETSIS")
+                {
+                    
+                }
+                if (Uygulama == "Pi")
+                {
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.CommandText = "OYP_SayimKaydet";
+                    cmd.Parameters.AddWithValue("@Tarih", Tarih);
+                    cmd.Parameters.AddWithValue("@SubeKodu", SubeKodu);
+                    cmd.Parameters.AddWithValue("@DepoKodu", DepoKodu);
+                    cmd.Parameters.AddWithValue("@StokKodu", StokKodu);
+                    cmd.Parameters.AddWithValue("@Miktar", Miktar);
+                    cmd.Parameters.AddWithValue("@Kullanici", Kullanici);
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                }
+               
+
+
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                return result;
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
         #endregion
 
         #region Subabase.com İşlemleri
@@ -6925,6 +7028,8 @@ END
                         entity.Uygulama_Db = Convert.ToString(dt.Rows[0]["Uygulama_Db"]);
                         entity.Uygulama_Sube_Kodu = Convert.ToString(dt.Rows[0]["Uygulama_Sube_Kodu"]);
                         entity.Uygulama_Depo_Kodu = Convert.ToString(dt.Rows[0]["Uygulama_Depo_Kodu"]);
+                        entity.UyelikBitisTarihi = Convert.ToDateTime(dt.Rows[0]["UyelikBitisTarihi"]);
+                        entity.UyelikBitisGunu = Convert.ToString(dt.Rows[0]["UyelikBitisGunu"]);
                         #endregion
 
                         result.Data = entity;
