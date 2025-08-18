@@ -1403,7 +1403,7 @@ namespace YKPortal.Controllers
         #region Netsis_Wms_Qr_Stok_Red
         public IDJsonResult Netsis_Wms_07_Qr_Stok_Red([FromBody] JObject data)
         {
-            string _Procedure_Versiyon = "250719";
+            string _Procedure_Versiyon = "250818";
             IDJsonResult result = new IDJsonResult();
             try
             {
