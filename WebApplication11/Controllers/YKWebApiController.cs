@@ -1771,7 +1771,6 @@ namespace YKPortal.Controllers
 
         #endregion Sabit_Listeler_Stok_Kart_Bilgileri
 
-
         #region Netsis_Wms_Qr_KayitlariListele
         public IDJsonResult Netsis_Wms_Qr_KayitlariListele([FromBody] JObject data)
         {
@@ -3773,7 +3772,7 @@ namespace YKPortal.Controllers
                     foreach (DataRow satir in dt.Rows)
                     {
                         dynamic entity = new System.Dynamic.ExpandoObject();
-                        entity.ID  = Convert.ToString(satir["ID"]);
+                        entity.ID = Convert.ToString(satir["ID"]);
                         entity.Kategori = Convert.ToString(satir["Kategori"]);
                         entities.Add(entity);
                     }
@@ -3813,7 +3812,7 @@ namespace YKPortal.Controllers
                 string kullaniciId = Convert.ToString(data["kullaniciId"]);
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari";
-              //  cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari WHERE (Kod = 'ArizaKaynagi')";
+                //  cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari WHERE (Kod = 'ArizaKaynagi')";
                 cmd.CommandType = System.Data.CommandType.Text;
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                 if (dt.Rows.Count > 0)
