@@ -1,5 +1,6 @@
 ﻿using iText.Commons.Bouncycastle.Asn1.X509;
 using iText.IO.Util;
+using iText.StyledXmlParser.Jsoup.Nodes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Renci.SshNet;
@@ -1425,7 +1426,6 @@ namespace YKPortal.Controllers
                     result.Hata = "UYARI! Sube_Kodu bilgisi boş olamaz.";
                     return result;
                 }
-
                 if (data["Depo_Kodu"] == null)
                 {
                     result.SonucKodu = 0;
@@ -1456,6 +1456,7 @@ namespace YKPortal.Controllers
                     result.Hata = "UYARI! Kullanici bilgisi boş olamaz.";
                     return result;
                 }
+              
                 string _srg = "";
                 string Uygulama = Convert.ToString(data["Uygulama"]);
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
@@ -1481,7 +1482,6 @@ namespace YKPortal.Controllers
                 string Seri_RafNo = Convert.ToString(data["Seri_RafNo"]);
                 string Seri_RafSire = Convert.ToString(data["Seri_RafSira"]);
                 string Kullanici = Convert.ToString(data["Kullanici"]);
-
                 string _SayimFisno = Convert.ToString("Red" + DateTime.Now.ToString("MddHHmmssfff")).Substring(0, 15);
 
                 //if (Stok_Kodu == "")
@@ -1589,27 +1589,24 @@ namespace YKPortal.Controllers
                     {
                         _srg += " \r\n AND SIRA_NO = '" + Seri_Sira_No + "' ";
                     }
-                    _srg += " \r\n ";
+                    
                 }
                 if (Uygulama == "LOGO")
                 {
 
                 }
+              
                 List<dynamic> entities = new List<dynamic>();
 
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.CommandText = _srg;
                 IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
-
-
                 result.Data = entities;
                 result.SonucKodu = 1;
                 result.Sonuc = "Başarılı";
                 result.Sonuc_Versiyon = 250707;
                 return result;
-
-
             }
             catch (Exception err)
             {
@@ -1783,7 +1780,6 @@ namespace YKPortal.Controllers
         }
 
         #endregion Sabit_Listeler_Stok_Kart_Bilgileri
-
 
         #region Netsis_Wms_Qr_KayitlariListele
         public IDJsonResult Netsis_Wms_03_Qr_KayitlariListele([FromBody] JObject data)
@@ -1990,7 +1986,7 @@ namespace YKPortal.Controllers
                     {
                         _srg += " \r\n AND SR.SIRA_NO = '" + Seri_Sira_No + "' ";
                     }
-               
+
                     // stok gelmiyor, seri tek olmalı
                     _srg += " \r\n ORDER BY SR.SIRA_NO DESC  ";
 
@@ -3811,7 +3807,7 @@ namespace YKPortal.Controllers
                     foreach (DataRow satir in dt.Rows)
                     {
                         dynamic entity = new System.Dynamic.ExpandoObject();
-                        entity.ID  = Convert.ToString(satir["ID"]);
+                        entity.ID = Convert.ToString(satir["ID"]);
                         entity.Kategori = Convert.ToString(satir["Kategori"]);
                         entities.Add(entity);
                     }
@@ -3851,7 +3847,7 @@ namespace YKPortal.Controllers
                 string kullaniciId = Convert.ToString(data["kullaniciId"]);
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari";
-              //  cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari WHERE (Kod = 'ArizaKaynagi')";
+                //  cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari WHERE (Kod = 'ArizaKaynagi')";
                 cmd.CommandType = System.Data.CommandType.Text;
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                 if (dt.Rows.Count > 0)
@@ -3922,6 +3918,170 @@ namespace YKPortal.Controllers
                     result.Hata = "UYARI! Kayıt bulunamadı!";
                     return result;
                 }
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+
+        }
+
+        [HttpPost]
+        public IDJsonResult Ariza_Kaydet([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                int id = Convert.ToInt32(data["id"]);
+                string EvrakNo = Convert.ToString(data["EvrakNo"]);
+                DateTime Tarih = Convert.ToDateTime(data["Tarih"]);
+                DateTime? GarantiBitisTarihi = Convert.ToDateTime(data["GarantiBitisTarihi"]);
+
+                string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
+                string CariKodu = Convert.ToString(data["CariKodu"]);
+                string Teknisyen = Convert.ToString(data["Teknisyen"]);
+                string Durum = Convert.ToString(data["Durum"]);
+                string Aciklama = Convert.ToString(data["Aciklama"]);
+                string DegisenParcalar = Convert.ToString(data["DegisenParcalar"]);
+                string StokKodu = Convert.ToString(data["StokKodu"]);
+                string SeriNo = Convert.ToString(data["SeriNo"]);
+                string ArizayiBildiren = Convert.ToString(data["ArizayiBildiren"]);
+                string ArizayiBildirenTelefon = Convert.ToString(data["ArizayiBildirenTelefon"]);
+                string EMail = Convert.ToString(data["EMail"]);
+                string BulunduguYer = Convert.ToString(data["BulunduguYer"]);
+                string Imza = Convert.ToString(data["Imza"]);
+                string Kategori = Convert.ToString(data["Kategori"]);
+                string ArizaKaynagi = Convert.ToString(data["ArizaKaynagi"]);
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_ArizaGuncelle";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id", id);
+                cmd.Parameters.AddWithValue("@EvrakNo", EvrakNo);
+                cmd.Parameters.AddWithValue("@Tarih", Tarih);
+                cmd.Parameters.AddWithValue("@GarantiBitisTarihi", GarantiBitisTarihi);
+                cmd.Parameters.AddWithValue("@CariKodu", CariKodu);
+                cmd.Parameters.AddWithValue("@Teknisyen", Teknisyen);
+                cmd.Parameters.AddWithValue("@Durum", Durum);
+                cmd.Parameters.AddWithValue("@Aciklama", Aciklama);
+                cmd.Parameters.AddWithValue("@StokKodu", StokKodu);
+                cmd.Parameters.AddWithValue("@SeriNo", SeriNo);
+                cmd.Parameters.AddWithValue("@ArizayiBildiren", ArizayiBildiren);
+                cmd.Parameters.AddWithValue("@ArizayiBildirenTelefon", ArizayiBildirenTelefon);
+                cmd.Parameters.AddWithValue("@EMail", EMail);
+                cmd.Parameters.AddWithValue("@BulunduguYer", BulunduguYer);
+                cmd.Parameters.AddWithValue("@Imza", Imza);
+                cmd.Parameters.AddWithValue("@Kategori", Kategori);
+                cmd.Parameters.AddWithValue("@ArizaKaynagi", ArizaKaynagi);
+                cmd.Parameters.AddWithValue("@KullaniciAdi", KullaniciAdi);
+                string EvrakNumarasi = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos));
+
+                cmd.Parameters.Clear();
+                cmd.CommandText = "Delete From ServisDegisenParcalar Where ServisID = @ServisID";
+                cmd.CommandType = CommandType.Text;
+                cmd.Parameters.AddWithValue("@ServisID", id);
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                foreach (string stokkodu in DegisenParcalar.Trim().Split(','))
+                {
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "Insert Into ServisDegisenParcalar (ServisID,StokKodu) values (@ServisID,@StokKodu)";
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("@ServisID", id);
+                    cmd.Parameters.AddWithValue("@StokKodu", stokkodu.Trim());
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                }
+
+                try
+                {
+                    string telefon = "";
+                    cmd.Parameters.Clear();
+                    cmd.CommandText = "Select Telefon From Kullanicilar WITH(NOLOCK) Where ID = @ID";
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("@ID", Teknisyen);
+                    telefon = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+                    if (telefon.Trim().Length > 0 && Durum == "Beklemede")
+                    {
+                        string teknisyenIsim = "";
+                        cmd.Parameters.Clear();
+                        cmd.CommandText = "Select Isim From Kullanicilar WITH(NOLOCK) Where ID = @ID";
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.AddWithValue("@ID", Teknisyen);
+                        teknisyenIsim = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+
+                        string url = @"http://idyazilim.com/Site/SmsGonder/?telefon=" + telefon + "&" +
+                            "KullaniciAdi=" + ConfigurationManager.AppSettings["SmsKullaniciAdi"] + "&" +
+                            "Parola=" + ConfigurationManager.AppSettings["SmsParola"] + "&" +
+                            "Isim=" + ConfigurationManager.AppSettings["SmsIsim"] + "&" +
+                            "Sirket=Schiller&" +
+                            "Program=" + "IDERP-App" + "&" +
+                            "mesaj=" + "Yenni Arıza Kaydı! Cari: " + CariKodu + ", Seri: " + SeriNo + ", Yer: " + BulunduguYer + ", Teknisyen: " + teknisyenIsim + ", Bildiren: " + ArizayiBildiren + ", Telefon: " + ArizayiBildirenTelefon;
+                        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                        var sonuc = request.GetResponse();
+                    }
+                }
+                catch (Exception err)
+                {
+                    ;
+                }
+
+                /*
+                if (Durum.EndsWith("Yapıldı"))
+                {
+                    #region Mail Gönderimi
+                    string mail = EMail; //+ ";cigdem@schillerturkiye.com;info@ykyazilim.com.tr";
+
+                    string Icerik = @"
+                        Değerli iş ortağımız,<br>
+                        Aşağıda yer alan bilgiler doğrultusunda teknik ekibimiz tarafından yapılan işlemleri bilgilerinize sunarız.<br><br>
+                        Durum : " + Durum + @" <br>
+                        İsim : " + CariKodu + @" <br>
+                        SeriNo : " + SeriNo + @" <br>
+                        BulunduguYer : " + BulunduguYer + @" <br>
+                        Teknisyen : " + Teknisyen + @" <br>
+                        Aciklama : " + Aciklama + @" <br>
+                        ArizayiBildiren : " + ArizayiBildiren + @" <br>
+                        ArizayiBildirenTelefon : " + ArizayiBildirenTelefon + @" <br>
+                        İyi günler, iyi çalışmalar diliyoruz. Sevgi ve saygılarımla.<br>
+                        ";
+                    YKUtils.MailGonder(CariKodu + " YAPILAN MÜDAHALELER HAKKINDA", Icerik, mail, "", null, "Teknik");
+
+                    #endregion
+                }
+                else if (Durum.EndsWith("İade Alındı"))
+                {
+                    #region Mail Gönderimi
+                    string mail = EMail;//+ ";cigdem@schillerturkiye.com;info@ykyazilim.com.tr";
+
+                    string Icerik = @"
+                    Değerli iş ortağımız,<br>
+                    Aşağıda yer alan bilgiler doğrultusunda teknik ekibimiz tarafından yapılan işlemleri bilgilerinize sunarım.<br>
+                    Durum : " + Durum + @" <br>
+                    İsim : " + CariKodu + @" <br>
+                    SeriNo : " + SeriNo + @" <br>
+                    BulunduguYer : " + BulunduguYer + @" <br>
+                    Teknisyen : " + Teknisyen + @" <br>
+                    Aciklama : " + Aciklama + @" <br>
+                    ArizayiBildiren : " + ArizayiBildiren + @" <br>
+                    ArizayiBildirenTelefon : " + ArizayiBildirenTelefon + @" <br>
+                    İyi günler, iyi çalışmalar diliyorum. Sevgi ve saygılarımla.<br>
+                    ";
+                    YKUtils.MailGonder(CariKodu + " YAPILAN MÜDAHALELER HAKKINDA", Icerik, mail, "", null, "Teknik");
+
+                    #endregion
+                }
+
+                */
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                return result;
             }
             catch (Exception err)
             {

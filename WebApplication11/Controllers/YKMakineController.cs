@@ -378,7 +378,8 @@ Select @EvrakNo
 
             return Redirect("~/YKMakine/Arizalar/?Bilgi=Kayıt başarıyla silindi.");
         }
-        public ActionResult ArizaGuncelle(int id,
+        public ActionResult ArizaGuncelle(
+            int id,
             string EvrakNo,
             DateTime Tarih,
             DateTime? GarantiBitisTarihi,
@@ -389,7 +390,10 @@ Select @EvrakNo
             string DegisenParcalar,
             string StokKodu,
             string SeriNo,
-            string ArizayiBildiren, string ArizayiBildirenTelefon, string EMail, string BulunduguYer,
+            string ArizayiBildiren, 
+            string ArizayiBildirenTelefon, 
+            string EMail, 
+            string BulunduguYer,
             string Imza,
             string Kategori,
             string ArizaKaynagi)
@@ -416,12 +420,12 @@ Select @EvrakNo
             cmd.Parameters.AddWithValue("@ArizaKaynagi", ArizaKaynagi); 
             cmd.Parameters.AddWithValue("@KullaniciAdi", GetCookie("KullaniciAdi"));
 
-
             bool ResimYuklendi = false;
             bool ResimYuklendi2 = false;
             bool ResimYuklendi3 = false;
             bool ResimYuklendi4 = false;
             bool ResimYuklendi5 = false;
+
             if (Request.Files.Count > 0)
             {
                 foreach (string resimAdi in Request.Files)
