@@ -1138,15 +1138,15 @@ namespace YKPortal.Controllers
 
                     _srg += " \r\n  -- Kontrol ";
                     _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].[TBLSERITRA] ";
-                    _srg += " \r\n ( KAYIT_TIPI, SUBE_KODU, SERI_NO, STOK_KODU ";
+                    _srg += " \r\n ( KAYIT_TIPI, SUBE_KODU, SERI_NO, ACIK1, STOK_KODU ";
                     _srg += " \r\n , HARACIK, TARIH ";
-                    _srg += " \r\n , ACIK1, ACIK2, ACIK3, ACIKLAMA_4, ACIKLAMA_5 ";
+                    _srg += " \r\n , ACIK2, ACIK3, ACIKLAMA_4, ACIKLAMA_5 ";
                     _srg += " \r\n , MIKTAR, SON_KULLANMA_TARIHI, BARKOD ";
                     _srg += " \r\n , GCKOD, DEPOKOD, BELGENO, BELGETIP ";
                     _srg += " \r\n ) ";
-                    _srg += " \r\n SELECT 'D' AS KAYIT_TIPI, '" + Sube_Kodu + "' SUBE_KODU, '" + Seri_Lot + "' AS SERI_NO, '" + Stok_Kodu + "' AS STOK_KODU  ";
+                    _srg += " \r\n SELECT 'D' AS KAYIT_TIPI, '" + Sube_Kodu + "' SUBE_KODU, '" + Stok_Kodu + "' AS SERI_NO, '" + Seri_Lot + "' AS ACIK1, '" + Stok_Kodu + "' AS STOK_KODU  ";
                     _srg += " \r\n , '" + Seri_Tedarikci + "' AS HARACIK, CONVERT(nvarchar, GETDATE(),102) AS TARIH ";
-                    _srg += " \r\n , LEFT('" + Seri_TicariAdi + "',50) as ACIK1, LEFT('" + Seri_Ambalaj + "',50) as ACIK2, LEFT('" + Seri_RafNo + "',50) as ACIK3, '" + Seri_RafSire + "' as ACIKLAMA_4, 'Wms_Seri' as ACIKLAMA_5 ";
+                    _srg += " \r\n , LEFT('" + Seri_Ambalaj + "',50) as ACIK2, LEFT('" + Seri_RafNo + "',50) as ACIK3, '" + Seri_RafSire + "' as ACIKLAMA_4, LEFT('" + Seri_TicariAdi + "',50) as ACIKLAMA_5 ";
                     _srg += " \r\n , 0 MIKTAR, '" + Seri_Skt + "' SON_KULLANMA_TARIHI, '" + Seri_Lot + "' AS BARKOD  ";
                     _srg += " \r\n , 'G' AS GCKOD, '" + Depo_Kodu + "' AS DEPOKOD, left('" + Kullanici + "',15) AS BELGENO, NULL AS BELGETIP ";
 
@@ -1829,7 +1829,7 @@ namespace YKPortal.Controllers
                 cmd.CommandType = System.Data.CommandType.Text;
                 if (Uygulama == "NETSIS")
                 {
-                    _srg += " \r\n SELECT IC.SIRA_NO SERI_SIRA_NO, SERI_NO,TARIH, MIKTAR, SON_KULLANMA_TARIHI  ";
+                    _srg += " \r\n SELECT IC.SIRA_NO SERI_SIRA_NO, STOK_KODU, [" + Uygulama_Db + "].DBO.TRK1(SERI_NO) AS SERI_NO, [" + Uygulama_Db + "].DBO.TRK1(ACIK1) AS SERI_NO2,TARIH, MIKTAR, SON_KULLANMA_TARIHI  ";
                     _srg += " \r\n , IC.SUBE_KODU AS SUBE_KODU ";
                     _srg += " \r\n , [" + Uygulama_Db + "].DBO.TRK1(HARACIK) as TEDARIKCI_KODU, [" + Uygulama_Db + "].DBO.TRK1(CS.CARI_ISIM) AS TEDARIKCI_ADI ";
                     _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].[TBLSERITRA] IC WITH (NOLOCK) ";
@@ -1848,6 +1848,7 @@ namespace YKPortal.Controllers
                         dynamic entity = new System.Dynamic.ExpandoObject();
                         entity.Seri_Sira_No = Convert.ToString(satir["SERI_SIRA_NO"]);
                         entity.Seri_No = Convert.ToString(satir["SERI_NO"]);
+                        entity.Seri_No2 = Convert.ToString(satir["SERI_NO2"]);
                         entity.Tarih = Convert.ToString(satir["TARIH"]);
                         entity.Miktar = Convert.ToString(satir["MIKTAR"]);
                         entity.Son_Kul_Tarihi = Convert.ToString(satir["SON_KULLANMA_TARIHI"]);
@@ -1961,9 +1962,10 @@ namespace YKPortal.Controllers
                     _srg += " \r\n  -- Donecek Veri ";
                     _srg += " \r\n SELECT TOP 1 [" + Uygulama_Db + "].DBO.TRK1(SR.STOK_KODU) as STOK_KODU, [" + Uygulama_Db + "].DBO.TRK1(STOK_ADI) AS STOK_ADI ";
                     _srg += " \r\n , [" + Uygulama_Db + "].DBO.TRK1(SR.SERI_NO) AS SERI_NO ";
+                    _srg += " \r\n , [" + Uygulama_Db + "].DBO.TRK1(SR.ACIK1) AS SERI_NO2 ";
                     _srg += " \r\n , SR.SUBE_KODU AS SUBE_KODU ";
                     _srg += " \r\n , [" + Uygulama_Db + "].DBO.TRK1(HARACIK) as TEDARIKCI_KODU, DBO.TRK1(CS.CARI_ISIM) AS TEDARIKCI_ADI ";
-                    _srg += " \r\n , [" + Uygulama_Db + "].DBO.TRK1(SR.ACIK1) as STOK_TICARI_ADI ";
+                    _srg += " \r\n , [" + Uygulama_Db + "].DBO.TRK1(SR.ACIKLAMA_5) as STOK_TICARI_ADI ";
                     _srg += " \r\n , [" + Uygulama_Db + "].DBO.TRK1(SR.ACIK2) as AMBALAJ ";
                     _srg += " \r\n , [" + Uygulama_Db + "].DBO.TRK1(SR.ACIK3) as RAFNO ";
                     _srg += " \r\n , [" + Uygulama_Db + "].DBO.TRK1(SR.ACIKLAMA_4) as RAFSIRA ";
@@ -1978,7 +1980,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n           ),2) ";
                     _srg += " \r\n   , 0 ) as BAKIYE ";
                     _srg += " \r\n , SR.SIRA_NO ";
-                    _srg += " \r\n , (SELECT COUNT(IC.SIRA_NO) AS SAY FROM [" + Uygulama_Db + "].[dbo].[TBLSERITRA] IC WITH (NOLOCK) WHERE IC.SERI_NO = SR.SERI_NO AND IC.KAYIT_TIPI= 'D'  ) AS KAYIT_SAYISI  ";
+                    _srg += " \r\n , (SELECT COUNT(IC.SIRA_NO) AS SAY FROM [" + Uygulama_Db + "].[dbo].[TBLSERITRA] IC WITH (NOLOCK) WHERE (IC.SERI_NO = SR.SERI_NO OR IC.SERI_NO = SR.ACIK1) AND IC.KAYIT_TIPI= 'D'  ) AS KAYIT_SAYISI  ";
                     _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].[TBLSERITRA] SR WITH (NOLOCK) ";
                     _srg += " \r\n INNER JOIN " + Uygulama_Db + ".[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ON SR.STOK_KODU = ST.STOK_KODU ";
                     _srg += " \r\n LEFT OUTER JOIN " + Uygulama_Db + ".[dbo].[TBLCASABIT] CS WITH (NOLOCK) ON CS.CARI_KOD = SR.HARACIK ";
@@ -2332,7 +2334,6 @@ namespace YKPortal.Controllers
                     _srg = " ";
                     _srg += " \r\n  -- Netsis_Wms_Qr_TumListe ";
 
-
                     _srg += " \r\n  -- Listele ";
                     _srg += " \r\n INSERT INTO INNOVA.[dbo].TBLLOGUSER ";
                     _srg += " \r\n ( FORM, TARIH, KAYITID, BELGE_NO ";
@@ -2345,9 +2346,10 @@ namespace YKPortal.Controllers
 
                     _srg += " \r\n SELECT top 50 SR.STOK_KODU, [" + Uygulama_Db + "].[dbo].TRK1(STOK_ADI) AS STOK_ADI ";
                     _srg += " \r\n , [" + Uygulama_Db + "].[dbo].TRK1(SR.SERI_NO) AS SERI_NO ";
+                    _srg += " \r\n , [" + Uygulama_Db + "].[dbo].TRK1(SR.ACIK1) AS SERI_NO2 ";
                     _srg += " \r\n , SR.SUBE_KODU AS SUBE_KODU ";
                     _srg += " \r\n , HARACIK as TEDARIKCI_KODU, [" + Uygulama_Db + "].[dbo].TRK1(CS.CARI_ISIM) AS TEDARIKCI_ADI ";
-                    _srg += " \r\n , [" + Uygulama_Db + "].[dbo].TRK1(SR.ACIK1) as STOK_TICARI_ADI ";
+                    _srg += " \r\n , [" + Uygulama_Db + "].[dbo].TRK1(SR.ACIKLAMA_5) as STOK_TICARI_ADI ";
                     _srg += " \r\n , [" + Uygulama_Db + "].[dbo].TRK1(SR.ACIK2) as AMBALAJ ";
                     _srg += " \r\n , [" + Uygulama_Db + "].[dbo].TRK1(SR.ACIK3) as RAFNO ";
                     _srg += " \r\n , [" + Uygulama_Db + "].[dbo].TRK1(SR.ACIKLAMA_4) as RAFSIRA ";
@@ -2380,6 +2382,7 @@ namespace YKPortal.Controllers
                         entity.Stok_Kodu = Convert.ToString(satir["STOK_KODU"]);
                         entity.Stok_Adi = Convert.ToString(satir["STOK_ADI"]);
                         entity.Seri_No = Convert.ToString(satir["SERI_NO"]);
+                        entity.Seri_No2 = Convert.ToString(satir["SERI_NO2"]);
                         entity.Seri_Ticari_Adi = Convert.ToString(satir["STOK_TICARI_ADI"]);
                         entity.Seri_Tedarikci = Convert.ToString(satir["TEDARIKCI_KODU"]);
                         entity.Seri_Tedarikci_Adi = Convert.ToString(satir["TEDARIKCI_ADI"]);
@@ -2453,6 +2456,7 @@ namespace YKPortal.Controllers
                     result.Hata = "UYARI! Seri_No bilgisi boş olamaz.";
                     return result;
                 }
+              
                 if (data["Kullanici"] == null)
                 {
                     result.SonucKodu = 0;
@@ -2473,7 +2477,7 @@ namespace YKPortal.Controllers
                     _srg = " ";
                     _srg += " \r\n SELECT SIRA_NO ";
                     _srg += " \r\n FROM " + Uygulama_Db + ".[dbo].[TBLSERITRA] SR WITH (NOLOCK) ";
-                    _srg += " \r\n WHERE SERI_NO = '" + Seri_Lot + "' ";
+                    _srg += " \r\n WHERE (SERI_NO = '" + Seri_Lot + "' OR ACIK1 = '" + Seri_Lot + "') ";
 
                     SqlCommand cmdKont = new SqlCommand();
                     cmdKont.CommandType = System.Data.CommandType.Text;
@@ -2493,9 +2497,9 @@ namespace YKPortal.Controllers
                         _srg += " \r\n , 'WMS_SERI_BASIMI' AS DIZAYN_ADI ";
                         _srg += " \r\n , '" + Kullanici + "' AS KAYIT_KULLANICI, GETDATE() AS KAYIT_TARIHI ";
                         _srg += " \r\n FROM " + Uygulama_Db + ".[dbo].[TBLSERITRA] SR WITH (NOLOCK) ";
-                        _srg += " \r\n WHERE SERI_NO = '" + Seri_Lot + "' ";
-                        _srg += " \r\n ORDER BY SIRA_NO ";
-
+                        _srg += " \r\n WHERE (SERI_NO = '" + Seri_Lot + "' OR ACIK1 = '" + Seri_Lot + "') ";
+                        _srg += " \r\n ORDER BY SR.KAYIT_TIPI DESC, SIRA_NO ";
+                        _srg += " \r\n  ";
                         _srg += " \r\n -- Logla ";
                         _srg += " \r\n INSERT INTO INNOVA..TBLLOGUSER ";
                         _srg += " \r\n ( FORM, TARIH, KAYITID, BELGE_NO ";
@@ -2507,7 +2511,7 @@ namespace YKPortal.Controllers
 
                         _srg += " \r\n -- Seriyi Güncelle Yazdırma";
                         _srg += " \r\n UPDATE [" + Uygulama_Db + "].[dbo].[TBLSERITRA] SET YEDEK4 = ISNULL(YEDEK4,0) + 1 ";
-                        _srg += " \r\n WHERE STOK_KODU = '" + Stok_Kodu + "' AND SERI_NO = '" + Seri_Lot + "' ";
+                        _srg += " \r\n WHERE STOK_KODU = '" + Stok_Kodu + "' AND (SERI_NO = '" + Seri_Lot + "' OR ACIK1 = '" + Seri_Lot + "') ";
                         _srg += " \r\n ";
 
                         _srg += " \r\n  -- Kontrol ";
