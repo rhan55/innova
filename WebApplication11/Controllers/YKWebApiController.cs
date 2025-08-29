@@ -2950,14 +2950,15 @@ namespace YKPortal.Controllers
 
                 _srg += " \r\n UPDATE " + Uygulama_Db + ".DBO.TBLCONFIGTRA SET LOKASYON = '" + _Lokasyon_Adresi + "' WHERE CAST(INCKEYNO AS NVARCHAR(15)) = '" + _Lokasyon_Barkod + "' ";
 
-
-                _srg += " \r\n exec " + Uygulama_Db + "..[INN_PR_MOBILYA_01_URETIM_KAYIT] ";
-                _srg += "  'TAKIM' ";
-                _srg += " , '" + _Lokasyon_Barkod + "' ";
-                _srg += " , '1' ";
-                _srg += " , 'Web' ";
-                _srg += " , '500'";
-                _srg += " , '' ";
+                // 2025 SADECE LOKASYON YAZMAK İÇİN KKULLANILACAK
+                // ÜRETİM KAYITLARI OTOMATİK JOB İLE GELECEK
+                //_srg += " \r\n exec " + Uygulama_Db + "..[INN_PR_MOBILYA_01_URETIM_KAYIT] ";
+                //_srg += "  'TAKIM' ";
+                //_srg += " , '" + _Lokasyon_Barkod + "' ";
+                //_srg += " , '1' ";
+                //_srg += " , 'Web' ";
+                //_srg += " , '500'";
+                //_srg += " , '' ";
 
 
                 List<dynamic> entities = new List<dynamic>();
