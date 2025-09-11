@@ -3134,7 +3134,35 @@ namespace YKPortal.Controllers
             return result;
         }
         #endregion
+  
+        [HttpPost]
+        public dynamic MobilAlisIrsaliyeKaydet([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                IrsaliyeUst UstBilgi = data["UstBilgi"].ToObject<IrsaliyeUst>();
+                List<IrsaliyeKalemler> Kalemler = data["Kalemler"].ToObject<List<IrsaliyeKalemler>>();
+                foreach (var kalem in Kalemler)
+                {
+                    //item.ConfirmedQuantity = item.RequestedQuantity;
+                    //item.ConfirmedDeliveryDatetime = item.RequestedDeliveryDatetime;
+                }
+                result.SonucKodu = 1;
+                result.Hata = "Irsaliye Kaydedildi.";
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
 
+            }
+            return result;
+        }
         public IDJsonResult Depolar([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
@@ -3637,35 +3665,6 @@ namespace YKPortal.Controllers
                 result.SonucKodu = -1;
                 result.Sonuc = "HATA!";
                 result.Hata = err.Message;
-            }
-            return result;
-        }
-
-        [HttpPost]
-        public dynamic MobilAlisIrsaliyeKaydet([FromBody] JObject data)
-        {
-            IDJsonResult result = new IDJsonResult();
-            try
-            {
-                IrsaliyeUst UstBilgi = data["UstBilgi"].ToObject<IrsaliyeUst>();
-                List<IrsaliyeKalemler> Kalemler = data["Kalemler"].ToObject<List<IrsaliyeKalemler>>();
-                foreach (var kalem in Kalemler)
-                {
-                    //item.ConfirmedQuantity = item.RequestedQuantity;
-                    //item.ConfirmedDeliveryDatetime = item.RequestedDeliveryDatetime;
-                }
-                result.SonucKodu = 1;
-                result.Hata = "Irsaliye Kaydedildi.";
-            }
-            catch (Exception err)
-            {
-                result.SonucKodu = -1;
-                result.Sonuc = "HATA!";
-                result.Hata = err.Message;
-            }
-            finally
-            {
-
             }
             return result;
         }
