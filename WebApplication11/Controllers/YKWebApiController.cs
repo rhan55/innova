@@ -1310,12 +1310,12 @@ namespace YKPortal.Controllers
                     _srg += " \r\n  -- Sayim Seri Kaydi ";
                     _srg += " \r\n INSERT INTO " + Uygulama_Db + ".[dbo].[TBLSAYIMSERI] ";
                     _srg += " \r\n ( SUBE_KODU, STOK_KODU, DEPOKOD ";
-                    _srg += " \r\n , SERI_NO ";
+                    _srg += " \r\n , SERI_NO, ACIK1 ";
                     _srg += " \r\n , MIKTAR, GCKOD, TARIH, BELGENO ";
                     _srg += " \r\n , STRA_INC, KAYIT_TIPI ";
                     _srg += " \r\n ) ";
                     _srg += " \r\n SELECT '" + Sube_Kodu + "' AS SUBE_KODU, '" + Stok_Kodu + "' as STOK_KODU, '" + Depo_Kodu + "' AS DEPOKOD ";
-                    _srg += " \r\n , '" + Seri_No + "' AS SERI_NO ";
+                    _srg += " \r\n , '" + Stok_Kodu + "' AS SERI_NO, '" + Seri_No + "' AS ACIK1 ";
                     _srg += " \r\n , '" + Seri_Sayim.Replace(",", ".") + "' AS MIKTAR, 'G' AS GCKOD, '" + Belge_Tarihi + "' TARIH,  '" + _SayimFisno + "' as SAYIM_FISNO ";
                     _srg += " \r\n , ISNULL((SELECT TOP 1 IC.INCKEYNO FROM [" + Uygulama_Db + "].[dbo].[TBLSAYIM] IC WITH (NOLOCK) WHERE IC.SAYIM_FISNO = '" + _SayimFisno + "' AND IC.STOK_KODU = '" + Stok_Kodu + "' ORDER BY IC.INCKEYNO DESC),0) AS STRA_INC ";
                     _srg += " \r\n , 'A' AS KAYIT_TIPI ";
@@ -1333,10 +1333,10 @@ namespace YKPortal.Controllers
                     _srg += " \r\n ";
                     _srg += " \r\n  -- Seri Harekete Kayit ";
                     _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].TBLSERITRA  ";
-                    _srg += " \r\n (KAYIT_TIPI, SERI_NO, STOK_KODU, SUBE_KODU, DEPOKOD, TARIH ";
+                    _srg += " \r\n (KAYIT_TIPI, SERI_NO, ACIK1, STOK_KODU, SUBE_KODU, DEPOKOD, TARIH ";
                     _srg += " \r\n 	, MIKTAR, MIKTAR2, GCKOD ";
                     _srg += " \r\n 	, BELGETIP, BELGENO, HARACIK) ";
-                    _srg += " \r\n SELECT 'A' KAYIT_TIPI, SERI_NO, STOK_KODU, SUBE_KODU, DEPOKOD, TARIH ";
+                    _srg += " \r\n SELECT 'A' KAYIT_TIPI, SERI_NO, '" + Seri_No + "' AS ACIK1, STOK_KODU, SUBE_KODU, DEPOKOD, TARIH ";
                     _srg += " \r\n 	, ABS( SAYIM - BAKIYE) AS MIKTAR, MIKTAR2,  CASE WHEN SAYIM - BAKIYE < 0 THEN 'C' ELSE 'G' END AS GCKOD  ";
                     _srg += " \r\n 	, 'A' BELGETIP, BELGENO BELGENO, 'SAYIM' AS HARACIK ";
                     _srg += " \r\n FROM ( ";
@@ -1968,7 +1968,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n , CONVERT(nvarchar, SON_KULLANMA_TARIHI,102) AS SON_KULLANMA_TARIHI, SON_KULLANMA_TARIHI as SON_KULLANMA_TARIHI_ORJ ";
                     _srg += " \r\n , ISNULL( ";
                     _srg += " \r\n           ROUND((SELECT SUM(CASE WHEN ICSR.GCKOD = 'G' THEN ICSR.MIKTAR ELSE ICSR.MIKTAR * -1 END) AS BAK FROM [" + Uygulama_Db + "].[dbo].[TBLSERITRA] ICSR WITH (NOLOCK) ";
-                    _srg += " \r\n            WHERE ICSR.SERI_NO = SR.SERI_NO AND ICSR.SUBE_KODU = '" + Sube_Kodu + "' ";
+                    _srg += " \r\n            WHERE ICSR.STOK_KODU = SR.STOK_KODU AND ( ICSR.SERI_NO = SR.SERI_NO OR ICSR.SERI_NO = SR.ACIK1 ) AND ICSR.SUBE_KODU = '" + Sube_Kodu + "' ";
                     if (Depo_Kodu != "")
                     {
                         _srg += " \r\n        AND ICSR.DEPOKOD = '" + Depo_Kodu + "' ";
@@ -1976,7 +1976,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n           ),2) ";
                     _srg += " \r\n   , 0 ) as BAKIYE ";
                     _srg += " \r\n , SR.SIRA_NO ";
-                    _srg += " \r\n , (SELECT COUNT(IC.SIRA_NO) AS SAY FROM [" + Uygulama_Db + "].[dbo].[TBLSERITRA] IC WITH (NOLOCK) WHERE (IC.SERI_NO = SR.SERI_NO OR IC.SERI_NO = SR.ACIK1) AND IC.KAYIT_TIPI= 'D'  ) AS KAYIT_SAYISI  ";
+                    _srg += " \r\n , (SELECT COUNT(IC.SIRA_NO) AS SAY FROM [" + Uygulama_Db + "].[dbo].[TBLSERITRA] IC WITH (NOLOCK) WHERE IC.STOK_KODU = SR.STOK_KODU AND (IC.SERI_NO = SR.SERI_NO OR IC.SERI_NO = SR.ACIK1) AND IC.KAYIT_TIPI= 'D'  ) AS KAYIT_SAYISI  ";
                     _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].[TBLSERITRA] SR WITH (NOLOCK) ";
                     _srg += " \r\n INNER JOIN " + Uygulama_Db + ".[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ON SR.STOK_KODU = ST.STOK_KODU ";
                     _srg += " \r\n LEFT OUTER JOIN " + Uygulama_Db + ".[dbo].[TBLCASABIT] CS WITH (NOLOCK) ON CS.CARI_KOD = SR.HARACIK ";
@@ -2648,6 +2648,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n , STOK_KODU, STOK_ADI ";
                     _srg += " \r\n , MIKTAR, ADET ";
                     _srg += " \r\n , SERI_NO ";
+                    _srg += " \r\n , SERI_NO2, LOT_NO ";
                     _srg += " \r\n , GCKOD, DEPO_KODU ";
                     _srg += " \r\n , KAYIT_KULLANICI, KAYIT_TARIHI ";
                     _srg += " \r\n ) ";
@@ -2656,7 +2657,8 @@ namespace YKPortal.Controllers
                     _srg += " \r\n , '" + Stok_Kodu + "' AS STOK_KODU, '' as STOK_ADI  ";
                     _srg += " \r\n , '" + Seri_Miktar + "' MIKTAR ";
                     _srg += " \r\n , '" + Seri_Adet + "' AS ADET  ";
-                    _srg += " \r\n , '" + Seri_Lot + "' AS SERI_NO ";
+                    _srg += " \r\n , '" + Stok_Kodu + "' AS SERI_NO ";
+                    _srg += " \r\n , '" + Seri_Lot + "' AS SERI_NO2, '" + Seri_Lot + "' AS LOT_NO ";
                     _srg += " \r\n , '" + GcKodu + "' AS GCKOD, '" + Depo_Kodu + "' AS DEPO_KODU ";
                     _srg += " \r\n , '" + Kullanici + "' AS KAYIT_KULLANICI, GETDATE() KAYIT_TARIHI ";
 
