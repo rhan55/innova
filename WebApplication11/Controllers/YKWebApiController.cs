@@ -3136,7 +3136,35 @@ namespace YKPortal.Controllers
             return result;
         }
         #endregion
+  
+        [HttpPost]
+        public dynamic MobilAlisIrsaliyeKaydet([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                IrsaliyeUst UstBilgi = data["UstBilgi"].ToObject<IrsaliyeUst>();
+                List<IrsaliyeKalemler> Kalemler = data["Kalemler"].ToObject<List<IrsaliyeKalemler>>();
+                foreach (var kalem in Kalemler)
+                {
+                    //item.ConfirmedQuantity = item.RequestedQuantity;
+                    //item.ConfirmedDeliveryDatetime = item.RequestedDeliveryDatetime;
+                }
+                result.SonucKodu = 1;
+                result.Hata = "Irsaliye Kaydedildi.";
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
 
+            }
+            return result;
+        }
         public IDJsonResult Depolar([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
@@ -3644,20 +3672,59 @@ namespace YKPortal.Controllers
         }
 
         [HttpPost]
-        public dynamic MobilAlisIrsaliyeKaydet([FromBody] JObject data)
+        public IDJsonResult Ariza_KayitSayisi([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
+            List<dynamic> entities = new List<dynamic>();
             try
             {
-                IrsaliyeUst UstBilgi = data["UstBilgi"].ToObject<IrsaliyeUst>();
-                List<IrsaliyeKalemler> Kalemler = data["Kalemler"].ToObject<List<IrsaliyeKalemler>>();
-                foreach (var kalem in Kalemler)
-                {
-                    //item.ConfirmedQuantity = item.RequestedQuantity;
-                    //item.ConfirmedDeliveryDatetime = item.RequestedDeliveryDatetime;
-                }
-                result.SonucKodu = 1;
-                result.Hata = "Irsaliye Kaydedildi.";
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string kullaniciIdStr = Convert.ToString(data["kullaniciId"]);
+                string Baslangic = Convert.ToString(data["Baslangic"]);
+                string Bitis = Convert.ToString(data["Bitis"]);
+                string Durum = Convert.ToString(data["Durum"]);
+                string Teknisyen = Convert.ToString(data["Teknisyen"]);
+                string Cari = Convert.ToString(data["Cari"]);
+                string SeriNo = Convert.ToString(data["SeriNo"]);
+                string EvrakNo = Convert.ToString(data["EvrakNo"]);
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "[BravoKahve].[dbo].[p_ArizaListesi]";
+                cmd.Parameters.AddWithValue("@UyelikID", kullaniciIdStr);
+                cmd.Parameters.AddWithValue("@Baslangic", Baslangic);
+                cmd.Parameters.AddWithValue("@Bitis", Bitis);
+                cmd.Parameters.AddWithValue("@Durum", Durum);
+                cmd.Parameters.AddWithValue("@Teknisyen", Teknisyen);
+                cmd.Parameters.AddWithValue("@Cari", Cari);
+                cmd.Parameters.AddWithValue("@SeriNo", SeriNo);
+                cmd.Parameters.AddWithValue("@EvrakNo", EvrakNo);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
+                DataTable dt = ds.Tables[1];
+                //if (dt.Rows.Count > 0)
+                //{
+                //    foreach (DataRow satir in dt.Rows)
+                //    {
+                //        dynamic entity = new System.Dynamic.ExpandoObject();
+                //        var dict = (IDictionary<string, object>)entity;
+                //        foreach (DataColumn col in dt.Columns)
+                //        {
+                //            dict[col.ColumnName] = Convert.ToString(satir[col]);
+                //        }
+                //        entities.Add(entity);
+                //    }
+                //    result.Data = entities;
+                //    result.SonucKodu = 1;
+                //    result.Sonuc = "Başarılı";
+                //    return result;
+                //}
+                //else
+                //{
+                //    result.SonucKodu = 0;
+                //    result.Hata = "UYARI! Kayıt bulunamadı!";
+                //    return result;
+                //}
             }
             catch (Exception err)
             {
@@ -7532,6 +7599,7 @@ END
         }
 
     }
+
     public class SupplierOrders
     {
         public string OrderNumber { get; set; }
@@ -7549,7 +7617,6 @@ END
         public List<SupplierOrderProductsList> SupplierOrderProductsList { get; set; }
 
     }
-
     public class SupplierOrderProductsList
     {
         public string ProductName { get; set; }
