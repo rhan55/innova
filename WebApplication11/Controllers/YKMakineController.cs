@@ -347,7 +347,6 @@ Order by StokGarantiTarihleri.SeriNo ";
             cmd.Parameters.AddWithValue("@SeriNo", "");
             cmd.Parameters.AddWithValue("@Aciklama", Sikayet);
             string SonID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
-
             return Redirect("~/YKMakine/ArizaDetay/" + SonID);
         }
 
@@ -612,7 +611,7 @@ ArizayiBildirenTelefon : " + ArizayiBildirenTelefon + @" <br>
             DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
 
             cmd.Parameters.Clear();
-            cmd.CommandText = "select ID,Ad+' '+Soyad as Isim from Kullanicilar WITH(NOLOCK) Where Aktif = 1 and UyelikID = @UyelikID ";
+            cmd.CommandText = "select ID,Ad+' '+Soyad as Isim from Kullanicilar WITH(NOLOCK) Where Aktif = 1 and UyelikID = @UyelikID";
             cmd.CommandType = System.Data.CommandType.Text;
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             ViewBag.Teknisyenler = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);

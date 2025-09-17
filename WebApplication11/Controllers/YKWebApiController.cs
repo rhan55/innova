@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Management.Instrumentation;
@@ -1456,7 +1457,7 @@ namespace YKPortal.Controllers
                     result.Hata = "UYARI! Kullanici bilgisi boş olamaz.";
                     return result;
                 }
-              
+
                 string _srg = "";
                 string Uygulama = Convert.ToString(data["Uygulama"]);
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
@@ -1589,15 +1590,14 @@ namespace YKPortal.Controllers
                     {
                         _srg += " \r\n AND SIRA_NO = '" + Seri_Sira_No + "' ";
                     }
-                    
+
                 }
                 if (Uygulama == "LOGO")
                 {
 
                 }
-              
-                List<dynamic> entities = new List<dynamic>();
 
+                List<dynamic> entities = new List<dynamic>();
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.CommandText = _srg;
@@ -2452,7 +2452,7 @@ namespace YKPortal.Controllers
                     result.Hata = "UYARI! Seri_No bilgisi boş olamaz.";
                     return result;
                 }
-              
+
                 if (data["Kullanici"] == null)
                 {
                     result.SonucKodu = 0;
@@ -3134,7 +3134,7 @@ namespace YKPortal.Controllers
             return result;
         }
         #endregion
-  
+
         [HttpPost]
         public dynamic MobilAlisIrsaliyeKaydet([FromBody] JObject data)
         {
@@ -3688,7 +3688,7 @@ namespace YKPortal.Controllers
                 string EvrakNo = Convert.ToString(data["EvrakNo"]);
 
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "[BravoKahve].[dbo].[p_ArizaListesi]";
+                cmd.CommandText = "p_ArizaListesi";
                 cmd.Parameters.AddWithValue("@UyelikID", kullaniciIdStr);
                 cmd.Parameters.AddWithValue("@Baslangic", Baslangic);
                 cmd.Parameters.AddWithValue("@Bitis", Bitis);
@@ -3700,6 +3700,7 @@ namespace YKPortal.Controllers
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
                 DataTable dt = ds.Tables[1];
+
                 //if (dt.Rows.Count > 0)
                 //{
                 //    foreach (DataRow satir in dt.Rows)
@@ -3723,6 +3724,43 @@ namespace YKPortal.Controllers
                 //    result.Hata = "UYARI! Kayıt bulunamadı!";
                 //    return result;
                 //}
+
+                // Manuel kayıt ekleme
+                dynamic entity = new System.Dynamic.ExpandoObject();
+                entity.Durum = "Arıza Yapıldı";
+                entity.Miktar = "1";
+                entities.Add(entity);
+
+                dynamic entity2 = new System.Dynamic.ExpandoObject();
+                entity2.Durum = "Beklemede";
+                entity2.Miktar = "5";
+                entities.Add(entity2);
+
+                dynamic entity3 = new System.Dynamic.ExpandoObject();
+                entity3.Durum = "Arıza Yapıldı";
+                entity3.Miktar = "3";
+                entities.Add(entity3);
+
+                dynamic entity4 = new System.Dynamic.ExpandoObject();
+                entity4.Durum = "İptal";
+                entity4.Miktar = "3";
+                entities.Add(entity4);
+
+                dynamic entity5 = new System.Dynamic.ExpandoObject();
+                entity5.Durum = "Kurulum";
+                entity5.Miktar = "4";
+                entities.Add(entity5);
+
+                dynamic entity6 = new System.Dynamic.ExpandoObject();
+                entity6.Durum = "Toplama";
+                entity6.Miktar = "10";
+                entities.Add(entity6);
+
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                return result;
+
             }
             catch (Exception err)
             {
@@ -3756,7 +3794,7 @@ namespace YKPortal.Controllers
                 string EvrakNo = Convert.ToString(data["EvrakNo"]);
 
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "[BravoKahve].[dbo].[p_ArizaListesi]";
+                cmd.CommandText = "p_ArizaListesi";
                 cmd.Parameters.AddWithValue("@UyelikID", kullaniciIdStr);
                 cmd.Parameters.AddWithValue("@Baslangic", Baslangic);
                 cmd.Parameters.AddWithValue("@Bitis", Bitis);
@@ -3866,8 +3904,8 @@ namespace YKPortal.Controllers
                 List<dynamic> entities = new List<dynamic>();
                 string kullaniciId = Convert.ToString(data["kullaniciId"]);
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari";
-                //cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari WHERE (Kod = 'ArizaKaynagi')";
+                //cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari";
+                cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari WHERE (Kod = 'ArizaKaynagi')";
                 cmd.CommandType = System.Data.CommandType.Text;
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                 if (dt.Rows.Count > 0)
@@ -3914,8 +3952,8 @@ namespace YKPortal.Controllers
                 List<dynamic> entities = new List<dynamic>();
                 string kullaniciId = Convert.ToString(data["kullaniciId"]);
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari";
-                //  cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari WHERE (Kod = 'ArizaKaynagi')";
+                //cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari";
+                cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari WHERE (Kod = 'ArizaKaynagi')";
                 cmd.CommandType = System.Data.CommandType.Text;
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                 if (dt.Rows.Count > 0)
@@ -3962,8 +4000,8 @@ namespace YKPortal.Controllers
                 List<dynamic> entities = new List<dynamic>();
                 string kullaniciId = Convert.ToString(data["kullaniciId"]);
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari";
-                //  cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari WHERE (Kod = 'ArizaKaynagi')";
+                //cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari";
+                cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari WHERE (Kod = 'ArizaKaynagi')";
                 cmd.CommandType = System.Data.CommandType.Text;
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                 if (dt.Rows.Count > 0)
@@ -4003,6 +4041,57 @@ namespace YKPortal.Controllers
 
         [HttpPost]
         public IDJsonResult Ariza_Kaydet([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            List<dynamic> entities = new List<dynamic>();
+            try
+            {
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string kullaniciId = Convert.ToString(data["kullaniciId"]);
+                string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
+                string CariKodu = Convert.ToString(data["CariKodu"]);
+                string Sikayet = Convert.ToString(data["Sikayet"]);
+                string SeriNo = Convert.ToString(data["SeriNo"]);
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_ArizaKaydet";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Tarih", DateTime.Now);
+                cmd.Parameters.AddWithValue("@KullaniciID", kullaniciId);
+                cmd.Parameters.AddWithValue("@KullaniciAdi", KullaniciAdi);
+                cmd.Parameters.AddWithValue("@PlasiyerKodu", "");
+                cmd.Parameters.AddWithValue("@CariKodu", CariKodu);
+                cmd.Parameters.AddWithValue("@StokKodu", SeriNo);
+                cmd.Parameters.AddWithValue("@SeriNo", "");
+                cmd.Parameters.AddWithValue("@Aciklama", Sikayet);
+                string SonID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+                dynamic entity = new System.Dynamic.ExpandoObject();
+                if (Convert.ToInt32(SonID) > 0)
+                {
+                    entity.Id = SonID;
+                    entities.Add(entity);
+                }
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                return result;
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        [HttpPost]
+        public IDJsonResult Ariza_Guncelle([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
             try
@@ -4147,6 +4236,7 @@ namespace YKPortal.Controllers
                 }
 
                 */
+
                 result.SonucKodu = 1;
                 result.Sonuc = "Başarılı";
                 return result;
@@ -4463,7 +4553,7 @@ namespace YKPortal.Controllers
 
                 if (Uygulama == "NETSIS")
                 {
-                    
+
                 }
                 if (Uygulama == "Pi")
                 {
@@ -4478,7 +4568,7 @@ namespace YKPortal.Controllers
                     cmd.Parameters.AddWithValue("@Kullanici", Kullanici);
                     IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
                 }
-               
+
 
 
                 result.Data = entities;
@@ -7234,7 +7324,6 @@ END
                 }
                 string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
                 string Parola = Convert.ToString(data["Parola"]);
-
                 YKModelKullanici entity = new YKModelKullanici();
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "p_KullaniciGirisi";
@@ -7242,7 +7331,6 @@ END
                 cmd.Parameters.AddWithValue("@KullaniciAdi", KullaniciAdi);
                 cmd.Parameters.AddWithValue("@Parola", Parola);
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
                 if (dt.Rows.Count > 0)
                 {
                     string Bilgi = Convert.ToString(dt.Rows[0]["Bilgi"]);
@@ -7263,7 +7351,6 @@ END
                         entity.UyelikBitisTarihi = Convert.ToDateTime(dt.Rows[0]["UyelikBitisTarihi"]);
                         entity.UyelikBitisGunu = Convert.ToString(dt.Rows[0]["UyelikBitisGunu"]);
                         #endregion
-
                         result.Data = entity;
                         result.SonucKodu = 1;
                         result.Sonuc = "Başarılı";
@@ -7595,7 +7682,6 @@ END
             }
             return result;
         }
-
     }
 
     public class SupplierOrders
