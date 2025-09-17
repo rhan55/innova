@@ -6526,7 +6526,7 @@ Select @ID as ID
         /// <param name="TrackingId"></param>
         /// <returns></returns>
         [HttpGet]
-        public dynamic ComplateOrder(string CariKodu, string SiparisNo)
+        public dynamic Pirelli_ComplateOrder(string CariKodu, string SiparisNo)
         {
             string _sira = "";
             _sira = "4";
