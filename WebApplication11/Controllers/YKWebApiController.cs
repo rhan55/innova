@@ -391,6 +391,7 @@ namespace YKPortal.Controllers
         }
 
         #endregion Netsis_Plastik_Okutma_Listele
+    
         #region Netsis_Plastik_Okutma_Kaydet
         public IDJsonResult Netsis_Plastik_Okutma_Kaydet([FromBody] JObject data)
         {
@@ -469,7 +470,6 @@ namespace YKPortal.Controllers
             return result;
         }
         #endregion Netsis_Plastik_Okutma_Kaydet
-
 
         #region Netsis_Wms_Basit_Uretim_Kaydet
         public IDJsonResult Netsis_Wms_Basit_Uretim_Kaydet([FromBody] JObject data)
@@ -598,6 +598,7 @@ namespace YKPortal.Controllers
             return result;
         }
         #endregion Netsis_Wms_Basit_Uretim_Kaydet
+       
         #region Netsis_Wms_Basit_Uretim_Listele
         public IDJsonResult Netsis_Wms_Basit_Uretim_Listele([FromBody] JObject data)
         {
@@ -707,7 +708,6 @@ namespace YKPortal.Controllers
 
         #endregion Netsis_Wms_Basit_Uretim_Listele
 
-
         #region Netsis_Wms_Stok_Ara
         public IDJsonResult Netsis_Wms_00_Stok_Ara([FromBody] JObject data)
         {
@@ -797,7 +797,6 @@ namespace YKPortal.Controllers
             return result;
         }
         #endregion Netsis_Wms_Stok_Ara
-
 
         public IDJsonResult Netsis_StokEkBilgi_Listele([FromBody] JObject data)
         {
