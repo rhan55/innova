@@ -842,7 +842,10 @@ values
                     _srg += " \r\n ";
                     _srg += " \r\n       , ISNULL( ( select SUM(CASE WHEN IOCODE IN (1,2) THEN AMOUNT ELSE AMOUNT * -1 END) AS BAKIYE ";
                     _srg += " \r\n           FROM [" + Uygulama_Db + "].DBO.LG_" + Firma_Kodu + "_" + Donem_Kodu + "_STLINE SH WITH (NOLOCK) ";
-                    _srg += " \r\n           WHERE SH.STOCKREF = ST.LOGICALREF AND SH.SOURCEINDEX = '" + Depo_Kodu + "' AND SH.CANCELLED = 0 AND SH.DATE_ <= '" + _Sayim_Tarihi + "' ),0) BAKIYE ";
+                    _srg += " \r\n           WHERE SH.STOCKREF = ST.LOGICALREF AND SH.SOURCEINDEX = '" + Depo_Kodu + "' ";
+                    _srg += " \r\n           AND SH.CANCELLED = 0 ";
+                    _srg += " \r\n           AND SH.DATE_ <= '" + _Sayim_Tarihi + "' ) ";
+                    _srg += " \r\n          ,0) BAKIYE ";
                     _srg += " \r\n FROM INNOVA..TBLSAYIM SY WITH (NOLOCK) ";
                     _srg += " \r\n INNER JOIN [" + Uygulama_Db + "].dbo.LG_" + Firma_Kodu + "_ITEMS ST ON SY.STOK_KODU collate SQL_Latin1_General_CP1254_CI_AS = ST.CODE collate SQL_Latin1_General_CP1254_CI_AS ";
                     _srg += " \r\n WHERE TARIH = '" + _Sayim_Tarihi + "' ";
