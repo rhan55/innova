@@ -638,6 +638,286 @@ values
             return result;
         }
 
+        #region Netsis_Stok_Bilgi_Duzenle
+        public IDJsonResult Iyb_Stok_Bilgi_Duzenle([FromBody] JObject data)
+        {
+            string _Procedure_Versiyon = "250920";
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Stok_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Stok_Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+
+                if (data["Kullanici_Adi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici_Adi bilgisi boş olamaz.";
+                    return result;
+                }
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Sube_Kodu = Convert.ToString(data["Sube_Kodu"]);
+                string Firma_Kodu = Convert.ToString(data["Firma_Kodu"]);
+                string Donem_Kodu = Convert.ToString(data["Donem_Kodu"]);
+                string Depo_Kodu = Convert.ToString(data["Depo_Kodu"]);
+                if (Depo_Kodu == "")
+                {
+                    Depo_Kodu = "0";
+                }
+                string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
+                string _Barkod1 = Convert.ToString(data["BARKOD1"]);
+                string _Stok_Kod2 = Convert.ToString(data["KOD_2"]);
+
+                string _Miktar = Convert.ToString(data["Miktar"]);
+                string Kullanici_Adi = Convert.ToString(data["Kullanici_Adi"]);
+
+                string _Sayim_Fisno = DateTime.Now.ToString("yyMMddHHmmssfff");
+                string _Sayim_Tarihi = DateTime.Now.ToString("yyyy.MM.dd");
+                string _srg = "";
+                if (Uygulama == "NETSIS")
+                {
+                    _srg = "";
+                    _srg += " \r\n  -- Netsis_Stok_Bilgi_Duzenle ";
+                    _srg += " \r\n  -- Kontrol ";
+                    _srg += " \r\n SELECT 'Netsis_Stok_Bilgi_Duzenle' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
+                    _srg += " \r\n , '" + Stok_Kodu + "' as STOK_KODU, '' AS Seri_No, '" + _Sayim_Tarihi + "' Belge_Tarihi, '" + _Miktar.Replace(",", ".") + "' AS MIKTAR  ";
+                    _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '" + Depo_Kodu + "' as Depo_Kodu  ";
+
+                    _srg += " UPDATE " + Uygulama_Db + ".[dbo].[TBLSTSABITEK] ";
+                    _srg += " \r\n SET ";
+                    _srg += " \r\n  DUZELTMEYAPANKUL = left('" + Kullanici_Adi + "',8), DUZELTMETARIHI = getdate()  ";
+                    _srg += " \r\n WHERE STOK_KODU = '" + Stok_Kodu + "' ";
+
+                    _srg += " \r\n UPDATE " + Uygulama_Db + ".[dbo].[TBLSTSABIT] ";
+                    _srg += " \r\n SET ";
+                    _srg += " \r\n BARKOD1 = left('" + _Barkod1 + "',50) ";
+                    _srg += " \r\n , KOD_2 = left('" + _Stok_Kod2 + "',8) ";
+                    _srg += " \r\n WHERE STOK_KODU = '" + Stok_Kodu + "' ";
+
+
+                    _srg += " \r\n  -- Sayim Kaydi ";
+                    _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].[TBLSAYIM] ";
+                    _srg += " \r\n ( SUBE_KODU, STOK_KODU, DEPO_KODU, MIKTAR, SAYIM_FIAT, TARIH, SAYIM_FISNO ";
+                    _srg += " \r\n , KAYITYAPANKUL, KAYITTARIHI, SAYIM_KODU ";
+                    _srg += " \r\n , ACIKLAMA ";
+                    _srg += " \r\n , SAYIM_ACIKLAMA ";
+                    _srg += " \r\n ) ";
+                    _srg += " \r\n SELECT '" + Sube_Kodu + "' AS SUBE_KODU, '" + Stok_Kodu + "' as STOK_KODU, '" + Depo_Kodu + "' AS DEPO_KODU ";
+                    _srg += " \r\n , '" + _Miktar.Replace(",", ".") + "' MIKTAR ";
+                    _srg += " \r\n , '" + _Miktar.Replace(",", ".") + "' SAYIM_FIAT ";
+                    _srg += " \r\n , '" + _Sayim_Tarihi + "' TARIH, '" + _Sayim_Fisno + "' as SAYIM_FISNO ";
+                    _srg += " \r\n , left('" + Kullanici_Adi + "',8) as  KAYITYAPANKUL, getdate() KAYITTARIHI, '" + _Procedure_Versiyon + "' AS SAYIM_FISNO ";
+                    _srg += " \r\n , left('Iyb Stok Kontrol',35) as ACIKLAMA ";
+                    _srg += " \r\n , left('Iyb Stok Kontrol',35) as SAYIM_ACIKLAMA ";
+                    _srg += " \r\n ";
+
+                    _srg += " \r\n  -- Stok Harekete Kayit ";
+                    _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].TBLSTHAR ";
+                    _srg += " \r\n (STOK_KODU, FISNO, SUBE_KODU, DEPO_KODU, STHAR_HTUR, STHAR_TARIH ";
+                    _srg += " \r\n  , STHAR_GCKOD, STHAR_GCMIK, STHAR_GCMIK2 ";
+                    _srg += " \r\n  , EKALAN, STHAR_ACIKLAMA ";
+                    _srg += " \r\n  , STHAR_ODEGUN) ";
+                    _srg += " \r\n SELECT STOK_KODU, BELGENO, SUBE_KODU, DEPO_KODU, 'A' AS STHAR_HTUR, TARIH ";
+                    _srg += " \r\n  , CASE WHEN SAYIM - BAKIYE < 0 THEN 'C' ELSE 'G' END AS GCKOD, ABS( SAYIM - BAKIYE) AS MIKTAR , ISNULL(BAKIYE,0) AS MIKTAR2 ";
+                    _srg += " \r\n  , '' SERI_NO, LEFT( 'SAYIM (' +  CAST( CAST(BAKIYE AS FLOAT) AS NVARCHAR(25)) + ')', 35) AS STHAR_ACIKLAMA ";
+                    _srg += " \r\n  , 0 STHAR_ODEGUN ";
+                    _srg += " \r\n FROM ( ";
+                    _srg += " \r\n  SELECT STOK_KODU, SAYIM_FISNO AS BELGENO, SUBE_KODU, DEPO_KODU, 'A' AS STHAR_HTUR, TARIH ";
+                    _srg += " \r\n  	, SY.MIKTAR SAYIM ";
+                    _srg += " \r\n  	, ISNULL((SELECT SUM(CASE WHEN SH.STHAR_GCKOD = 'G' THEN STHAR_GCMIK ELSE STHAR_GCMIK * -1 END ) ";
+                    _srg += " \r\n       FROM [" + Uygulama_Db + "].[dbo].TBLSTHAR SH WITH (NOLOCK) ";
+                    _srg += " \r\n       WHERE SH.STOK_KODU = SY.STOK_KODU ";
+                    _srg += " \r\n       AND DEPO_KODU = '" + Depo_Kodu + "' ), 0) AS BAKIYE ";
+                    _srg += " \r\n   FROM [" + Uygulama_Db + "].[dbo].TBLSAYIM SY WITH (NOLOCK) ";
+                    _srg += " \r\n  WHERE SAYIM_FISNO = '" + _Sayim_Fisno + "' ";
+                    _srg += " \r\n ) SAYIM_FARKI ";
+                    _srg += " \r\n WHERE ABS( SAYIM - BAKIYE) <> 0 ";
+
+                    _srg += " \r\n  -- Log Kaydi ";
+                    _srg += " \r\n INSERT INTO INNOVA..TBLLOGUSER ";
+                    _srg += " \r\n ( FORM, TARIH, KAYITID, BELGE_NO ";
+                    _srg += " \r\n , KULLANICI, CARI_KODU ";
+                    _srg += " \r\n , BILGI, ISLEM, KAYNAK) ";
+                    _srg += " \r\n SELECT 'Web Servis Wms 05 Qr Seri Kontrol', getdate(), '" + Stok_Kodu + "' AS KAYITID, '" + Stok_Kodu + "' AS BELGE_NO ";
+                    _srg += " \r\n , '" + Kullanici_Adi + "' AS KULLANICI, '" + Depo_Kodu + "' AS CARI_KODU ";
+                    _srg += " \r\n , '" + Depo_Kodu + "' BILGI, 'Kullanici Güncellemesi' as ISLEM, 'Netsis_Stok_Bilgi_Duzenle' AS KAYNAK ";
+                }
+
+                if (Uygulama == "LOGO")
+                {
+                    _srg = "";
+                    _srg += " \r\n  -- Logo_Stok_Bilgi_Duzenle ";
+                    _srg += " \r\n  -- Kontrol ";
+                    _srg += " \r\n SELECT 'Logo_Stok_Bilgi_Duzenle' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
+                    _srg += " \r\n , '" + Stok_Kodu + "' as STOK_KODU, '' AS Seri_No, '" + _Sayim_Tarihi + "' Belge_Tarihi, '" + _Miktar.Replace(",", ".") + "' AS MIKTAR  ";
+                    _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '" + Depo_Kodu + "' as Depo_Kodu  ";
+
+                    _srg += " \r\n UPDATE [" + Uygulama_Db + "].[dbo].[LG_" + Firma_Kodu + "_ITEMS] ";
+                    _srg += " \r\n SET ";
+                    _srg += " \r\n SPECODE2 = left('" + _Stok_Kod2 + "',8) ";
+                    _srg += " \r\n WHERE CODE = '" + Stok_Kodu + "' ";
+
+
+                    _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[DBO].LG_" + Firma_Kodu + "_UNITBARCODE   ";
+                    _srg += " \r\n  ( ";
+                    _srg += " \r\n  ITMUNITAREF, ITEMREF, UNITLINEREF, LINENR ";
+                    _srg += " \r\n  , VARIANTREF, BARCODE ";
+                    _srg += " \r\n  , SITEID, RECSTATUS, ORGLOGICREF, TYP, WBARCODESHIFT, GLOBALID ";
+                    _srg += " \r\n  ) ";
+                    _srg += " \r\n  SELECT ";
+                    _srg += " \r\n  (SELECT TOP 1 UA.LOGICALREF FROM [" + Uygulama_Db + "].[DBO].LG_" + Firma_Kodu + "_ITMUNITA UA WITH (NOLOCK) WHERE ITEMREF = IT.LOGICALREF AND LINENR = 1)  ";
+                    _srg += " \r\n  , IT.LOGICALREF ITEMREF, 23 UNITLINEREF, 1 AS LINENR  ";
+                    _srg += " \r\n  , 0 VARIANTREF, '" + _Barkod1 + "' BARKOD1 ";
+                    _srg += " \r\n  , 0 SITEID, 0 RECSTATUS, 0 ORGLOGICREF, 0 TYP, 0 WBARCODESHIFT, '' GLOBALID ";
+                    _srg += " \r\n  FROM [" + Uygulama_Db + "].[DBO].LG_" + Firma_Kodu + "_ITEMS IT WITH (NOLOCK) ";
+                    _srg += " \r\n  WHERE IT.LOGICALREF NOT IN (SELECT ITEMREF FROM [" + Uygulama_Db + "].[DBO].LG_" + Firma_Kodu + "_UNITBARCODE WITH (NOLOCK) WHERE LINENR = 1) ";
+                    _srg += " \r\n  AND CODE = '" + Stok_Kodu + "' ";
+
+                    _srg += " \r\n UPDATE [" + Uygulama_Db + "].[DBO].LG_" + Firma_Kodu + "_UNITBARCODE    ";
+                    _srg += " \r\n SET BARCODE = '" + _Barkod1 + "' ";
+                    _srg += " \r\n WHERE ITEMREF IN (SELECT IT.LOGICALREF FROM [" + Uygulama_Db + "].[DBO].LG_" + Firma_Kodu + "_ITEMS IT WITH (NOLOCK) WHERE CODE = '" + Stok_Kodu + "' ) ";
+                    _srg += " \r\n AND LINENR = 1 ";
+
+                    _srg += " \r\n  -- Sayim Kaydi ";
+                    _srg += " \r\n INSERT INTO [INNOVA].[dbo].[TBLSAYIM] ";
+                    _srg += " \r\n ( FIRMA_KODU, DONEM_KODU, SUBE_KODU, STOK_KODU, DEPO_KODU, MIKTAR, FIYAT, TARIH, SAYIM_FISNO ";
+                    _srg += " \r\n , [KAYIT_KULLANICI], [KAYIT_TARIHI] ";
+                    _srg += " \r\n , ACIKLAMA ";
+                    _srg += " \r\n ) ";
+                    _srg += " \r\n SELECT '" + Firma_Kodu + "' AS FIRMA_KODU, '" + Donem_Kodu + "' AS DONEM_KODU, '" + Sube_Kodu + "' AS SUBE_KODU, '" + Stok_Kodu + "' as STOK_KODU, '" + Depo_Kodu + "' AS DEPO_KODU ";
+                    _srg += " \r\n , '" + _Miktar.Replace(",", ".") + "' MIKTAR ";
+                    _srg += " \r\n , '" + _Miktar.Replace(",", ".") + "' SAYIM_FIAT ";
+                    _srg += " \r\n , '" + _Sayim_Tarihi + "' TARIH, '" + _Sayim_Fisno + "' as SAYIM_FISNO ";
+                    _srg += " \r\n , left('" + Kullanici_Adi + "',8) as  KAYIT_KULLANICI, getdate() KAYIT_TARIHI ";
+                    _srg += " \r\n , left('Iyb Stok Kontrol',35) as ACIKLAMA ";
+                    _srg += " \r\n ";
+
+                    string Sayim_Fazla_Guid = "INN_G_" + Depo_Kodu + _Sayim_Fisno;
+                    string Sayim_Eksik_Guid = "INN_C_" + Depo_Kodu + _Sayim_Fisno;
+                    string Sayim_Fazla_Belgesi = _Sayim_Fisno;
+                    string Sayim_Eksik_Belgesi = _Sayim_Fisno;
+
+                    _srg += " \r\n INSERT INTO INNOVA..TBLBELGE_KAYIT ";
+                    _srg += " \r\n ( ";
+                    _srg += " \r\n GUIDID, FTIRSIP , TARIH ";
+                    _srg += " \r\n , BELGE_NO ";
+                    _srg += " \r\n , DEPO_KODU ";
+                    _srg += " \r\n , GCKOD ";
+                    _srg += " \r\n , STOK_REF, STOK_KODU ";
+                    _srg += " \r\n , MIKTAR ";
+                    _srg += " \r\n , MIKTAR2 ";
+                    _srg += " \r\n , MIKTAR3 ";
+                    _srg += " \r\n , KALEM_ACIKLAMA1, KAYIT_KULLANICI_ID ";
+                    _srg += " \r\n ) ";
+                    _srg += " \r\n ";
+                    _srg += " \r\n SELECT ";
+                    _srg += " \r\n CASE   WHEN ISNULL(SAYIM,0) > ISNULL(BAKIYE,0) THEN '" + Sayim_Fazla_Guid + "'    ELSE '" + Sayim_Eksik_Guid + "'     END as GUIDID ";
+                    _srg += " \r\n , CASE WHEN ISNULL(SAYIM,0) > ISNULL(BAKIYE,0) THEN 'SAYIM_FAZLASI'               ELSE 'SAYIM_EKSIGI'                 END AS FTIRSIP , '" + _Sayim_Tarihi + "' AS TARIH ";
+                    _srg += " \r\n , '" + _Sayim_Fisno + "' as BELGE_NO ";
+                    _srg += " \r\n , '" + Depo_Kodu + "' AS DEPO_KODU ";
+                    _srg += " \r\n , CASE WHEN SAYIM > BAKIYE THEN 'G' ELSE 'C' END AS GCKOD ";
+                    _srg += " \r\n , STOK_REF, STOK_KODU, ABS(ISNULL(BAKIYE,0) - ISNULL(SAYIM,0)) AS MIKTAR ";
+                    _srg += " \r\n , BAKIYE AS MIKTAR2 ";
+                    _srg += " \r\n , SAYIM AS MIKTAR3 ";
+                    _srg += " \r\n , 'Excel' KALEM_ACIKLAMA1, 529 KAYIT_KULLANICI_ID ";
+                    _srg += " \r\n from ( ";
+                    _srg += " \r\n       SELECT ";
+                    _srg += " \r\n       ST.LOGICALREF AS STOK_REF, STOK_KODU, MIKTAR AS SAYIM  ";
+                    _srg += " \r\n ";
+                    _srg += " \r\n       , ISNULL( ( select SUM(CASE WHEN IOCODE IN (1,2) THEN AMOUNT ELSE AMOUNT * -1 END) AS BAKIYE ";
+                    _srg += " \r\n           FROM [" + Uygulama_Db + "].DBO.LG_" + Firma_Kodu + "_" + Donem_Kodu + "_STLINE SH WITH (NOLOCK) ";
+                    _srg += " \r\n           WHERE SH.STOCKREF = ST.LOGICALREF AND SH.SOURCEINDEX = '" + Depo_Kodu + "' AND SH.CANCELLED = 0 AND SH.DATE_ <= '" + _Sayim_Tarihi + "' ),0) BAKIYE ";
+                    _srg += " \r\n FROM INNOVA..TBLSAYIM SY WITH (NOLOCK) ";
+                    _srg += " \r\n INNER JOIN [" + Uygulama_Db + "].dbo.LG_" + Firma_Kodu + "_ITEMS ST ON SY.STOK_KODU collate SQL_Latin1_General_CP1254_CI_AS = ST.CODE collate SQL_Latin1_General_CP1254_CI_AS ";
+                    _srg += " \r\n WHERE TARIH = '" + _Sayim_Tarihi + "' ";
+                    _srg += " \r\n AND DEPO_KODU = '" + Depo_Kodu + "' ";
+                    _srg += " \r\n AND SAYIM_FISNO = '" + _Sayim_Fisno + "' ";
+                    _srg += " \r\n ) as SAYIM ";
+
+                    _srg += " \r\n EXEC [" + Uygulama_Db + "].[dbo].[INN_PR_" + Firma_Kodu + "_" + Donem_Kodu + "_BELGE_KAYIT_SAYIM]  'SAYIM_FAZLASI', '" + Sayim_Fazla_Guid + "' ";
+                    _srg += " \r\n EXEC [" + Uygulama_Db + "].[dbo].[INN_PR_" + Firma_Kodu + "_" + Donem_Kodu + "_BELGE_KAYIT_SAYIM]  'SAYIM_EKSIGI', '" + Sayim_Eksik_Guid + "' ";
+
+
+
+                    //_srg += " \r\n  -- Stok Harekete Kayit ";
+                    //_srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].TBLSTHAR ";
+                    //_srg += " \r\n (STOK_KODU, FISNO, SUBE_KODU, DEPO_KODU, STHAR_HTUR, STHAR_TARIH ";
+                    //_srg += " \r\n  , STHAR_GCKOD, STHAR_GCMIK, STHAR_GCMIK2 ";
+                    //_srg += " \r\n  , EKALAN, STHAR_ACIKLAMA ";
+                    //_srg += " \r\n  , STHAR_ODEGUN) ";
+                    //_srg += " \r\n SELECT STOK_KODU, BELGENO, SUBE_KODU, DEPO_KODU, 'A' AS STHAR_HTUR, TARIH ";
+                    //_srg += " \r\n  , CASE WHEN SAYIM - BAKIYE < 0 THEN 'C' ELSE 'G' END AS GCKOD, ABS( SAYIM - BAKIYE) AS MIKTAR , ISNULL(BAKIYE,0) AS MIKTAR2 ";
+                    //_srg += " \r\n  , '' SERI_NO, LEFT( 'SAYIM (' +  CAST( CAST(BAKIYE AS FLOAT) AS NVARCHAR(25)) + ')', 35) AS STHAR_ACIKLAMA ";
+                    //_srg += " \r\n  , 0 STHAR_ODEGUN ";
+                    //_srg += " \r\n FROM ( ";
+                    //_srg += " \r\n  SELECT STOK_KODU, SAYIM_FISNO AS BELGENO, SUBE_KODU, DEPO_KODU, 'A' AS STHAR_HTUR, TARIH ";
+                    //_srg += " \r\n  	, SY.MIKTAR SAYIM ";
+                    //_srg += " \r\n  	, (SELECT SUM(CASE WHEN SH.STHAR_GCKOD = 'G' THEN STHAR_GCMIK ELSE STHAR_GCMIK * -1 END ) ";
+                    //_srg += " \r\n       FROM [" + Uygulama_Db + "].[dbo].TBLSTHAR SH WITH (NOLOCK) ";
+                    //_srg += " \r\n       WHERE SH.STOK_KODU = SY.STOK_KODU ";
+                    //_srg += " \r\n       AND DEPO_KODU = '" + Depo_Kodu + "' ) BAKIYE ";
+                    //_srg += " \r\n   FROM [" + Uygulama_Db + "].[dbo].TBLSAYIM SY WITH (NOLOCK) ";
+                    //_srg += " \r\n  WHERE SAYIM_FISNO = '" + _Sayim_Fisno + "' ";
+                    //_srg += " \r\n ) SAYIM_FARKI ";
+                    //_srg += " \r\n WHERE ABS( SAYIM - BAKIYE) <> 0 ";
+
+                    _srg += " \r\n  -- Log Kaydi ";
+                    _srg += " \r\n INSERT INTO INNOVA..TBLLOGUSER ";
+                    _srg += " \r\n ( FORM, TARIH, KAYITID, BELGE_NO ";
+                    _srg += " \r\n , KULLANICI, CARI_KODU ";
+                    _srg += " \r\n , BILGI, ISLEM, KAYNAK) ";
+                    _srg += " \r\n SELECT 'Web Servis Wms 05 Qr Seri Kontrol', getdate(), '" + Stok_Kodu + "' AS KAYITID, '" + Stok_Kodu + "' AS BELGE_NO ";
+                    _srg += " \r\n , '" + Kullanici_Adi + "' AS KULLANICI, '" + Depo_Kodu + "' AS CARI_KODU ";
+                    _srg += " \r\n , '" + Depo_Kodu + "' BILGI, 'Kullanici Güncellemesi' as ISLEM, 'Logo_Stok_Bilgi_Duzenle' AS KAYNAK ";
+                }
+
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = _srg;
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                result.Sonuc_Versiyon = 250920;
+                return result;
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        #endregion Netsis_Stok_Bilgi_Kaydet
+
         #region Netsis_StokEkBilgi_Kaydet
         public IDJsonResult Netsis_StokEkBilgi_Kaydet([FromBody] JObject data)
         {
@@ -755,6 +1035,7 @@ values
             }
             return result;
         }
+        #endregion Netsis_StokEkBilgi_Kaydet
 
         #region Netsis_Plastik_Okutma_YeniFisno
         public IDJsonResult Netsis_Plastik_Okutma_YeniFisno([FromBody] JObject data)
@@ -1429,7 +1710,7 @@ values
             }
             return result;
         }
-        #endregion
+      
         public IDJsonResult Sabit_Listeler([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
