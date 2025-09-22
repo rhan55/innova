@@ -7236,7 +7236,249 @@ Select @ID as ID
             }
             return result1;
         }
+        #region Crm Kayitlari
+        #region Crm Destek Kayitlari
+        public IDJsonResult Crm_Destek_Kaydi_1_Olustur([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
 
+                if (data["Kullanici_GuidId"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici Guidid bilgisi boş olamaz.";
+                    return result;
+                }
+                string _srg = "";
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Destek_Tipi = Convert.ToString(data["Destek_Tipi"]);
+                string Destek_Baslik = Convert.ToString(data["Destek_Baslik"]);
+                string Destek_Aciklama = Convert.ToString(data["Destek_Aciklama"]);
+                string Kullanici_GuidId = Convert.ToString(data["Kullanici_GuidId"]);
+
+               // if (Uygulama == "NETSIS")
+                {
+                    _srg = " EXEC LOGOCRM.[dbo].[INN_PR_CRM_DESTEK_OLUSTUR_IYB] ";
+                    _srg += " \r\n   1 "; // tİPİ
+                    _srg += " \r\n , '"+ Kullanici_GuidId + "' "; // @KULLANICI_GUIDID
+                    _srg += " \r\n , '" + Destek_Tipi + "' "; // @Destek_Tipi
+                    _srg += " \r\n , '" + Destek_Baslik + "' "; // @@Destek_Baslik
+                    _srg += " \r\n , '" + Destek_Aciklama + "' "; // @@Destek_Aciklama
+                }
+       
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = _srg;
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                result.Sonuc_Versiyon = 250922;
+                return result;
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+                result.Sonuc_Versiyon = 250922;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        #endregion Crm Destek Kayitlari
+
+        #region Crm_Destek_Kaydi_Listele
+        public IDJsonResult Crm_Destek_Kaydi_0_Listele([FromBody] JObject data)
+        {
+            string _Procedure_Versiyon = "250922";
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici_GuidId"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici Guidid bilgisi boş olamaz.";
+                    return result;
+                }
+            
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Kullanici_GuidId = Convert.ToString(data["Kullanici_GuidId"]);
+
+                string _srg = "";
+                List<dynamic> entities = new List<dynamic>();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+               // if (Uygulama == "NETSIS")
+                {
+                 
+                    _srg = " EXEC LOGOCRM.[dbo].[INN_PR_CRM_DESTEK_OLUSTUR_IYB] ";
+                    _srg += " \r\n  0 "; // tİPİ
+                    _srg += " \r\n , '" + Kullanici_GuidId + "' "; // @KULLANICI_GUIDID
+                    _srg += " \r\n , '' "; // @Destek_Tipi
+                    _srg += " \r\n , '' "; // @@Destek_Baslik
+                    _srg += " \r\n , '' "; // @@Destek_Aciklama
+
+                }
+                cmd.CommandText = _srg;
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.Ticket_Id = Convert.ToString(satir["Oid"]);
+                        entity.Ticket_Description = Convert.ToString(satir["TicketDescription"]);
+                        entity.Ticket_Notes = Convert.ToString(satir["Notes"]);
+                        entity.Servis_Versiyon = 250922;
+                        entities.Add(entity);
+                    }
+                    #endregion
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    result.Sonuc_Versiyon = 250922;
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    result.Sonuc_Versiyon = 250922;
+                    return result;
+                }
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Sonuc_Versiyon = 250922;
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        #endregion Netsis_Wms_Qr_Listele
+
+        #region Crm Destek Kaydı Tamamla
+        public IDJsonResult Crm_Destek_Kaydi_2_Tamamla([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+
+                if (data["Ticket_Id"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici Guidid bilgisi boş olamaz.";
+                    return result;
+                }
+                string _srg = "";
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Destek_Tipi = Convert.ToString(data["Destek_Tipi"]);
+                string Destek_Baslik = Convert.ToString(data["Destek_Baslik"]);
+                string Destek_Aciklama = Convert.ToString(data["Destek_Aciklama"]);
+                string Ticket_Id = Convert.ToString(data["Ticket_Id"]);
+
+                // if (Uygulama == "NETSIS")
+                {
+                    _srg = " EXEC LOGOCRM.[dbo].[INN_PR_CRM_DESTEK_OLUSTUR_IYB] ";
+                    _srg += " \r\n   2 "; // tİPİ
+                    _srg += " \r\n , '" + Ticket_Id + "' "; // @KULLANICI_GUIDID
+                    _srg += " \r\n , '" + Destek_Tipi + "' "; // @Destek_Tipi
+                    _srg += " \r\n , '" + Destek_Baslik + "' "; // @@Destek_Baslik
+                    _srg += " \r\n , '" + Destek_Aciklama + "' "; // @@Destek_Aciklama
+                }
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = _srg;
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                result.Sonuc_Versiyon = 250922;
+                return result;
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+                result.Sonuc_Versiyon = 250922;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        #endregion Crm Destek Kaydı Tamamla
 
         #region Crm Cagri Kayitlari
         public IDJsonResult Crm_CagriKaydi_Olustur([FromBody] JObject data)
@@ -7344,6 +7586,7 @@ Select @ID as ID
 
         #endregion Crm Cagri Kayitlari
 
+        #endregion Crm Kayitlari
         /// <summary>
         /// DOMAINNNN.com/api/YKWebApi/ComplateOrder/?CariKodu=XXXXXXXXX&SiparisNo=YYYYYYYY&TrackingId=ZZZZZZ
         /// </summary>
