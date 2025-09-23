@@ -638,6 +638,122 @@ values
             return result;
         }
 
+        #region Iyb_Stok_Bilgi_Getir
+        public IDJsonResult Iyb_Stok_Bilgi_Getir([FromBody] JObject data)
+        {
+            string _Procedure_Versiyon = "250909";
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Stok_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Stok_Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici bilgisi boş olamaz.";
+                    return result;
+                }
+                string _srg = "";
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Depo_Kodu = Convert.ToString(data["Depo_Kodu"]);
+                if (Depo_Kodu == "")
+                {
+                    Depo_Kodu = "0";
+                }
+                string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
+                string Kullanici = Convert.ToString(data["Kullanici"]);
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                if (Uygulama == "NETSIS")
+                {
+                    _srg = " ";
+                    _srg += " \r\n SELECT DBO.TRK1(ST.STOK_KODU) STOK_KODU, DBO.TRK1(ST.STOK_ADI) STOK_ADI ";
+                    _srg += " \r\n , DBO.TRK1(GRUP_KODU) GRUP_KODU, DBO.TRK1(KOD_1) KOD_1 ";
+                    _srg += " \r\n , BARKOD1, DBO.TRK1(KOD_2) KOD_2 ";
+                    _srg += " \r\n , ISNULL((SELECT SUM(CASE WHEN SH.STHAR_GCKOD = 'G' THEN STHAR_GCMIK ELSE STHAR_GCMIK * -1 END) FROM ["+ Uygulama_Db + "].[dbo].TBLSTHAR SH WITH (NOLOCK) ";
+                    _srg += " \r\n          WHERE SH.STOK_KODU = ST.STOK_KODU ";
+                    _srg += " \r\n          AND SH.DEPO_KODU = '"+ Depo_Kodu + "' ";
+                    _srg += " \r\n          ) , 0) AS BAKIYE ";
+                    _srg += " \r\n FROM ["+ Uygulama_Db + "].[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ";
+                    _srg += " \r\n WHERE ST.STOK_KODU = '" + Stok_Kodu + "' ";
+                }
+                if (Uygulama == "LOGO")
+                {
+                    _srg = " ";
+                    _srg += " \r\n SELECT FISNO2 FISNO, BARKOD, ADET, KG ";
+                    _srg += " \r\n FROM [INNOVA].[dbo].[TBLOKUTMA] WITH (NOLOCK) ";
+                    _srg += " \r\n WHERE FISNO2 = '2'";
+                }
+                cmd.CommandText = _srg;
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.STOK_KODU = Convert.ToString(satir["STOK_KODU"]);
+                        entity.STOK_ADI = Convert.ToString(satir["STOK_ADI"]);
+                        entity.GRUP_KODU = Convert.ToString(satir["GRUP_KODU"]);
+                        entity.KOD_1 = Convert.ToString(satir["KOD_1"]);
+                        entity.KOD_2 = Convert.ToString(satir["KOD_2"]);
+                        entity.BARKOD1 = Convert.ToString(satir["BARKOD1"]);
+                        entity.BAKIYE = Convert.ToString(satir["BAKIYE"]);
+                        entity.Servis_Versiyon = 250808;
+                        entities.Add(entity);
+                    }
+                    #endregion
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    result.Sonuc_Versiyon = 250806;
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    return result;
+                }
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        #endregion Iyb_Stok_Bilgi_Getir
+
         #region Netsis_Stok_Bilgi_Duzenle
         public IDJsonResult Iyb_Stok_Bilgi_Duzenle([FromBody] JObject data)
         {
@@ -2454,6 +2570,7 @@ values
         {
             IDJsonResult result = new IDJsonResult();
             try
+
             {
                 if (data["Uygulama"] == null)
                 {
@@ -2467,11 +2584,17 @@ values
                     result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
                     return result;
                 }
-                if (data["Stok_Kodu"] == null)
+
+                string Islem_Tipi = Convert.ToString(data["Islem_Tipi"]);
+
+                if (Islem_Tipi == "Stok_Bakiyesi" || Islem_Tipi == "Stok_Birimleri")
                 {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Stok_Kodu bilgisi boş olamaz.";
-                    return result;
+                    if (data["Stok_Kodu"] == null)
+                    {
+                        result.SonucKodu = 0;
+                        result.Hata = "UYARI! Stok_Kodu bilgisi boş olamaz.";
+                        return result;
+                    }
                 }
                 if (data["Kullanici"] == null)
                 {
@@ -2487,7 +2610,6 @@ values
                 string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
 
                 string Depo_Kodu = Convert.ToString(data["Depo_Kodu"]);
-                string Islem_Tipi = Convert.ToString(data["Islem_Tipi"]);
                 string Kullanici = Convert.ToString(data["Kullanici"]);
 
                 List<dynamic> entities = new List<dynamic>();
@@ -2525,6 +2647,48 @@ values
                         _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_BAKIYE] BAK WITH (NOLOCK) ";
                         _srg += " WHERE 1=1 ";
                         _srg += " AND BAK.STOK_KODU = '" + Stok_Kodu + "' ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Grup")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_GRUP] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Kod1")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_KOD1] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Kod2")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_KOD2] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Kod3")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_KOD3] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Kod4")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_KOD4] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Kod5")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_KOD5] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
 
                     }
                 }
@@ -2577,6 +2741,74 @@ values
                             entities.Add(entity);
                         }
                     }
+
+                    if (Islem_Tipi == "Stok_Grup")
+                    {
+                        foreach (DataRow satir in dt.Rows)
+                        {
+                            dynamic entity = new System.Dynamic.ExpandoObject();
+                            entity.Grup_Kodu = Convert.ToString(satir["GRUP_KODU"]);
+                            entity.Grup_Adi = Convert.ToString(satir["GRUP_ISIM"]);
+
+                            entities.Add(entity);
+                        }
+                    }
+                    if (Islem_Tipi == "Stok_Kod1")
+                    {
+                        foreach (DataRow satir in dt.Rows)
+                        {
+                            dynamic entity = new System.Dynamic.ExpandoObject();
+                            entity.Kod1_Kodu = Convert.ToString(satir["GRUP_KODU"]);
+                            entity.Kod1_Adi = Convert.ToString(satir["GRUP_ISIM"]);
+
+                            entities.Add(entity);
+                        }
+                    }
+                    if (Islem_Tipi == "Stok_Kod2")
+                    {
+                        foreach (DataRow satir in dt.Rows)
+                        {
+                            dynamic entity = new System.Dynamic.ExpandoObject();
+                            entity.Kod2_Kodu = Convert.ToString(satir["GRUP_KODU"]);
+                            entity.Kod2_Adi = Convert.ToString(satir["GRUP_ISIM"]);
+
+                            entities.Add(entity);
+                        }
+                    }
+                    if (Islem_Tipi == "Stok_Kod3")
+                    {
+                        foreach (DataRow satir in dt.Rows)
+                        {
+                            dynamic entity = new System.Dynamic.ExpandoObject();
+                            entity.Kod3_Kodu = Convert.ToString(satir["GRUP_KODU"]);
+                            entity.Kod3_Adi = Convert.ToString(satir["GRUP_ISIM"]);
+
+                            entities.Add(entity);
+                        }
+                    }
+                    if (Islem_Tipi == "Stok_Kod4")
+                    {
+                        foreach (DataRow satir in dt.Rows)
+                        {
+                            dynamic entity = new System.Dynamic.ExpandoObject();
+                            entity.Kod4_Kodu = Convert.ToString(satir["GRUP_KODU"]);
+                            entity.Kod4_Adi = Convert.ToString(satir["GRUP_ISIM"]);
+
+                            entities.Add(entity);
+                        }
+                    }
+                    if (Islem_Tipi == "Stok_Kod5")
+                    {
+                        foreach (DataRow satir in dt.Rows)
+                        {
+                            dynamic entity = new System.Dynamic.ExpandoObject();
+                            entity.Kod5_Kodu = Convert.ToString(satir["GRUP_KODU"]);
+                            entity.Kod5_Adi = Convert.ToString(satir["GRUP_ISIM"]);
+
+                            entities.Add(entity);
+                        }
+                    }
+
                     #endregion
                     result.Data = entities;
                     result.SonucKodu = 1;
