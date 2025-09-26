@@ -688,8 +688,11 @@ values
                 {
                     _srg = " ";
                     _srg += " \r\n SELECT DBO.TRK1(ST.STOK_KODU) STOK_KODU, DBO.TRK1(ST.STOK_ADI) STOK_ADI ";
-                    _srg += " \r\n , DBO.TRK1(GRUP_KODU) GRUP_KODU, DBO.TRK1(KOD_1) KOD_1 ";
-                    _srg += " \r\n , BARKOD1, DBO.TRK1(KOD_2) KOD_2 ";
+                    _srg += " \r\n , DBO.TRK1(GRUP_KODU) STOK_GRUP_KODU, DBO.TRK1(KOD_1) STOK_KOD_1, DBO.TRK1(KOD_2) STOK_KOD_2 ";
+                    _srg += " \r\n , DBO.TRK1(KOD_3) STOK_KOD_3, DBO.TRK1(KOD_4) STOK_KOD_4, DBO.TRK1(KOD_5) STOK_KOD_5 ";
+                    _srg += " \r\n , BARKOD1, BARKOD2, BARKOD3 ";
+                    _srg += " \r\n , SATIS_FIAT1 SATIS_FIYAT1, SATIS_FIAT2 SATIS_FIYAT2, SATIS_FIAT3 SATIS_FIYAT3, SATIS_FIAT4 SATIS_FIYAT4 ";
+                    _srg += " \r\n , OLCU_BR1 ";
                     _srg += " \r\n , ISNULL((SELECT SUM(CASE WHEN SH.STHAR_GCKOD = 'G' THEN STHAR_GCMIK ELSE STHAR_GCMIK * -1 END) FROM ["+ Uygulama_Db + "].[dbo].TBLSTHAR SH WITH (NOLOCK) ";
                     _srg += " \r\n          WHERE SH.STOK_KODU = ST.STOK_KODU ";
                     _srg += " \r\n          AND SH.DEPO_KODU = '"+ Depo_Kodu + "' ";
@@ -715,12 +718,26 @@ values
                         dynamic entity = new System.Dynamic.ExpandoObject();
                         entity.STOK_KODU = Convert.ToString(satir["STOK_KODU"]);
                         entity.STOK_ADI = Convert.ToString(satir["STOK_ADI"]);
-                        entity.GRUP_KODU = Convert.ToString(satir["GRUP_KODU"]);
-                        entity.KOD_1 = Convert.ToString(satir["KOD_1"]);
-                        entity.KOD_2 = Convert.ToString(satir["KOD_2"]);
+                        entity.OLCU_BR1 = Convert.ToString(satir["OLCU_BR1"]);
+
+                        entity.GRUP_KODU = Convert.ToString(satir["STOK_GRUP_KODU"]);
+                        entity.KOD_1 = Convert.ToString(satir["STOK_KOD_1"]);
+                        entity.KOD_2 = Convert.ToString(satir["STOK_KOD_2"]);
+                        entity.KOD_3 = Convert.ToString(satir["STOK_KOD_3"]);
+                        entity.KOD_4 = Convert.ToString(satir["STOK_KOD_4"]);
+                        entity.KOD_5 = Convert.ToString(satir["STOK_KOD_5"]);
+
                         entity.BARKOD1 = Convert.ToString(satir["BARKOD1"]);
+                        entity.BARKOD2 = Convert.ToString(satir["BARKOD2"]);
+                        entity.BARKOD3 = Convert.ToString(satir["BARKOD3"]);
+
+                        entity.SATIS_FIYAT1 = Convert.ToString(satir["SATIS_FIYAT1"]);
+                        entity.SATIS_FIYAT2 = Convert.ToString(satir["SATIS_FIYAT2"]);
+                        entity.SATIS_FIYAT3 = Convert.ToString(satir["SATIS_FIYAT3"]);
+                        entity.SATIS_FIYAT4 = Convert.ToString(satir["SATIS_FIYAT4"]);
+
                         entity.BAKIYE = Convert.ToString(satir["BAKIYE"]);
-                        entity.Servis_Versiyon = 250808;
+                        entity.Servis_Versiyon = 250909;
                         entities.Add(entity);
                     }
                     #endregion
@@ -757,7 +774,7 @@ values
         #region Netsis_Stok_Bilgi_Duzenle
         public IDJsonResult Iyb_Stok_Bilgi_Duzenle([FromBody] JObject data)
         {
-            string _Procedure_Versiyon = "250920";
+            string _Procedure_Versiyon = "250929";
             IDJsonResult result = new IDJsonResult();
             try
             {
@@ -797,14 +814,27 @@ values
                     Depo_Kodu = "0";
                 }
                 string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
+                string Stok_Adi = Convert.ToString(data["Stok_Adi"]).Replace("'", "^");
                 string _Barkod1 = Convert.ToString(data["BARKOD1"]);
-                string _Stok_Kod2 = Convert.ToString(data["KOD_2"]);
+
+                string _Stok_Grup = Convert.ToString(data["STOK_GRUP_KODU"]);
+                string _Stok_Kod1 = Convert.ToString(data["STOK_KOD_1"]);
+                string _Stok_Kod2 = Convert.ToString(data["STOK_KOD_2"]);
+                string _Stok_Kod3 = Convert.ToString(data["STOK_KOD_3"]);
+                string _Stok_Kod4 = Convert.ToString(data["STOK_KOD_4"]);
+                string _Stok_Kod5 = Convert.ToString(data["STOK_KOD_5"]);
 
                 string _Miktar = Convert.ToString(data["Miktar"]);
                 string Kullanici_Adi = Convert.ToString(data["Kullanici_Adi"]);
 
                 string _Sayim_Fisno = DateTime.Now.ToString("yyMMddHHmmssfff");
                 string _Sayim_Tarihi = DateTime.Now.ToString("yyyy.MM.dd");
+
+                string _Satis_Fiyat1 = Convert.ToString(data["SATIS_FIYAT1"]);
+                string _Satis_Fiyat2 = Convert.ToString(data["SATIS_FIYAT2"]);
+                string _Satis_Fiyat3 = Convert.ToString(data["SATIS_FIYAT3"]);
+                string _Satis_Fiyat4 = Convert.ToString(data["SATIS_FIYAT4"]);
+
                 string _srg = "";
                 if (Uygulama == "NETSIS")
                 {
@@ -815,15 +845,65 @@ values
                     _srg += " \r\n , '" + Stok_Kodu + "' as STOK_KODU, '' AS Seri_No, '" + _Sayim_Tarihi + "' Belge_Tarihi, '" + _Miktar.Replace(",", ".") + "' AS MIKTAR  ";
                     _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '" + Depo_Kodu + "' as Depo_Kodu  ";
 
-                    _srg += " UPDATE " + Uygulama_Db + ".[dbo].[TBLSTSABITEK] ";
+                    _srg += " \r\n  -- Stok Ek Güncelleme ";
+                    _srg += " \r\n UPDATE " + Uygulama_Db + ".[dbo].[TBLSTSABITEK] ";
                     _srg += " \r\n SET ";
                     _srg += " \r\n  DUZELTMEYAPANKUL = left('" + Kullanici_Adi + "',8), DUZELTMETARIHI = getdate()  ";
                     _srg += " \r\n WHERE STOK_KODU = '" + Stok_Kodu + "' ";
 
+                    _srg += " \r\n  -- Stok Güncelleme ";
                     _srg += " \r\n UPDATE " + Uygulama_Db + ".[dbo].[TBLSTSABIT] ";
                     _srg += " \r\n SET ";
-                    _srg += " \r\n BARKOD1 = left('" + _Barkod1 + "',50) ";
-                    _srg += " \r\n , KOD_2 = left('" + _Stok_Kod2 + "',8) ";
+                    _srg += " \r\n LOT_SIZECUSTOMER = ISNULL(LOT_SIZECUSTOMER,0) + 1";
+                    
+                    if (_Stok_Grup != "")
+                    {
+                        _srg += " \r\n , STOK_ADI = left('" + Stok_Adi + "',50) ";
+                    }
+                    if (_Stok_Grup != "")
+                    {
+                        _srg += " \r\n , BARKOD1 = left('" + _Barkod1 + "',50) ";
+                    }
+                    if (_Stok_Grup != "" )
+                    {
+                        _srg += " \r\n , GRUP_KODU = left('" + _Stok_Grup + "',8) ";
+                    }
+                    if (_Stok_Kod1 != "" )
+                    {
+                        _srg += " \r\n , KOD_1 = left('" + _Stok_Kod1 + "',8) ";
+                    }
+                    if (_Stok_Kod2 != "")
+                    {
+                        _srg += " \r\n , KOD_2 = left('" + _Stok_Kod2 + "',8) ";
+                    }
+                    if (_Stok_Kod3 != "")
+                    {
+                        _srg += " \r\n , KOD_3 = left('" + _Stok_Kod3 + "',8) ";
+                    }
+                    if (_Stok_Kod4 != "")
+                    {
+                        _srg += " \r\n , KOD_4 = left('" + _Stok_Kod4 + "',8) ";
+                    }
+                    if (_Stok_Kod5 != "")
+                    {
+                        _srg += " \r\n , KOD_5 = left('" + _Stok_Kod5 + "',8) ";
+                    }
+                    if (Convert.ToDecimal(_Satis_Fiyat1) > 0)
+                    {
+                        _srg += " \r\n , SATIS_FIAT1 = '" + _Satis_Fiyat1.Replace(",", ".") + "' ) ";
+                    }
+                    if (Convert.ToDecimal(_Satis_Fiyat2) > 0)
+                    {
+                        _srg += " \r\n , SATIS_FIAT2 = '" + _Satis_Fiyat2.Replace(",", ".") + "' ) ";
+                    }
+                    if (Convert.ToDecimal(_Satis_Fiyat3) > 0)
+                    {
+                        _srg += " \r\n , SATIS_FIAT3 = '" + _Satis_Fiyat3.Replace(",", ".") + "' ) ";
+                    }
+                    if (Convert.ToDecimal(_Satis_Fiyat4) > 0)
+                    {
+                        _srg += " \r\n , SATIS_FIAT4 = '" + _Satis_Fiyat4.Replace(",", ".") + "' ) ";
+                    }
                     _srg += " \r\n WHERE STOK_KODU = '" + Stok_Kodu + "' ";
 
 
