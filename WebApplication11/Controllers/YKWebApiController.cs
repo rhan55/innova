@@ -33,9 +33,7 @@ namespace YKPortal.Controllers
 
         #region Serdar Oto 
 
-
         public string SerdarOtoProgramPath = @"\\serdarotosrv\ORTAK-ALAN\Stok_Resimleri\";
-
 
         [System.Web.Http.HttpGet]
         public IDJsonResult SerdarMarkalar()
@@ -168,7 +166,6 @@ namespace YKPortal.Controllers
             return result;
         }
 
-
         [System.Web.Http.HttpGet]
         public IDJsonResult SerdarUrunGetir(string StokKodu, string Sirket)
         {
@@ -176,7 +173,6 @@ namespace YKPortal.Controllers
             try
             {
                 List<ModelUrun> stoklar = new List<ModelUrun>();
-
                 using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString))
                 {
                     SqlCommand cmd = new SqlCommand();
@@ -242,8 +238,6 @@ namespace YKPortal.Controllers
                         result.Sonuc = "Ürün bulunamadı.";
                     }
                 }
-
-
                 result.Data = stoklar;
             }
             catch (Exception err)
@@ -253,7 +247,6 @@ namespace YKPortal.Controllers
             }
             return result;
         }
-
 
         [System.Web.Http.HttpPost]
         public IDJsonResult SerdarResimKaydet(
@@ -349,14 +342,12 @@ values
             return result;
         }
 
-
         [System.Web.Http.HttpPost]
         public IDJsonResult SerdarSayimKaydet(
             [FromBody] JObject data
             )
         {
             IDJsonResult result = new IDJsonResult();
-
             try
             {
                 using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString))
@@ -462,7 +453,7 @@ values
                         HataSirasi += ", Raf Başlangıç Çalış";
                         cmd.ExecuteNonQuery();
                         HataSirasi += ", Raf Başlangıç Bitiş";
-                        HataSirasi += ", 1.8";
+                        HataSirasi += ", 1.8";1>< G
                     }
                     else
                     {
@@ -569,7 +560,6 @@ values
             }
             return result;
         }
-
 
         #endregion 
 
@@ -8305,6 +8295,7 @@ END
         public string FileName { get; set; }
         public byte[] ImageByte { get; set; }
     }
+  
     #region Pirelli Class
     public class PirelliHeader
     {
