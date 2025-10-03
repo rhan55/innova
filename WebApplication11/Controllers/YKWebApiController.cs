@@ -1146,7 +1146,7 @@ values
         #region Iyb_Stok_Fiyat_Getir
         public IDJsonResult Iyb_Stok_Fiyat_Getir([FromBody] JObject data)
         {
-            string _Procedure_Versiyon = "250909";
+            string _Procedure_Versiyon = "251003";
             IDJsonResult result = new IDJsonResult();
             try
             {
