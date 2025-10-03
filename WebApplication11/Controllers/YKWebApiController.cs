@@ -453,7 +453,7 @@ values
                         HataSirasi += ", Raf Başlangıç Çalış";
                         cmd.ExecuteNonQuery();
                         HataSirasi += ", Raf Başlangıç Bitiş";
-                        HataSirasi += ", 1.8";1>< G
+                        HataSirasi += ", 1.8";
                     }
                     else
                     {
