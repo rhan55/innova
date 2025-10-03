@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Management.Instrumentation;
@@ -32,9 +33,7 @@ namespace YKPortal.Controllers
 
         #region Serdar Oto 
 
-
         public string SerdarOtoProgramPath = @"\\serdarotosrv\ORTAK-ALAN\Stok_Resimleri\";
-
 
         [System.Web.Http.HttpGet]
         public IDJsonResult SerdarMarkalar()
@@ -167,7 +166,6 @@ namespace YKPortal.Controllers
             return result;
         }
 
-
         [System.Web.Http.HttpGet]
         public IDJsonResult SerdarUrunGetir(string StokKodu, string Sirket)
         {
@@ -175,7 +173,6 @@ namespace YKPortal.Controllers
             try
             {
                 List<ModelUrun> stoklar = new List<ModelUrun>();
-
                 using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString))
                 {
                     SqlCommand cmd = new SqlCommand();
@@ -241,8 +238,6 @@ namespace YKPortal.Controllers
                         result.Sonuc = "Ürün bulunamadı.";
                     }
                 }
-
-
                 result.Data = stoklar;
             }
             catch (Exception err)
@@ -252,7 +247,6 @@ namespace YKPortal.Controllers
             }
             return result;
         }
-
 
         [System.Web.Http.HttpPost]
         public IDJsonResult SerdarResimKaydet(
@@ -348,14 +342,12 @@ values
             return result;
         }
 
-
         [System.Web.Http.HttpPost]
         public IDJsonResult SerdarSayimKaydet(
             [FromBody] JObject data
             )
         {
             IDJsonResult result = new IDJsonResult();
-
             try
             {
                 using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString))
@@ -461,7 +453,7 @@ values
                         HataSirasi += ", Raf Başlangıç Çalış";
                         cmd.ExecuteNonQuery();
                         HataSirasi += ", Raf Başlangıç Bitiş";
-                        HataSirasi += ", 1.8";
+                        HataSirasi += ", 1.8";1>< G
                     }
                     else
                     {
@@ -568,7 +560,6 @@ values
             }
             return result;
         }
-
 
         #endregion 
 
@@ -1408,7 +1399,6 @@ values
             }
             return result;
         }
-        #endregion Netsis_StokEkBilgi_Kaydet
 
         #region Netsis_Plastik_Okutma_YeniFisno
         public IDJsonResult Netsis_Plastik_Okutma_YeniFisno([FromBody] JObject data)
@@ -1586,6 +1576,7 @@ values
         }
 
         #endregion Netsis_Plastik_Okutma_Listele
+    
         #region Netsis_Plastik_Okutma_Kaydet
         public IDJsonResult Netsis_Plastik_Okutma_Kaydet([FromBody] JObject data)
         {
@@ -1664,7 +1655,6 @@ values
             return result;
         }
         #endregion Netsis_Plastik_Okutma_Kaydet
-
 
         #region Netsis_Wms_Basit_Uretim_Kaydet
         public IDJsonResult Netsis_Wms_Basit_Uretim_Kaydet([FromBody] JObject data)
@@ -1793,6 +1783,7 @@ values
             return result;
         }
         #endregion Netsis_Wms_Basit_Uretim_Kaydet
+       
         #region Netsis_Wms_Basit_Uretim_Listele
         public IDJsonResult Netsis_Wms_Basit_Uretim_Listele([FromBody] JObject data)
         {
@@ -1902,7 +1893,6 @@ values
 
         #endregion Netsis_Wms_Basit_Uretim_Listele
 
-
         #region Netsis_Wms_Stok_Ara
         public IDJsonResult Netsis_Wms_00_Stok_Ara([FromBody] JObject data)
         {
@@ -1993,7 +1983,6 @@ values
         }
         #endregion Netsis_Wms_Stok_Ara
 
-
         public IDJsonResult Netsis_StokEkBilgi_Listele([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
@@ -2083,7 +2072,7 @@ values
             }
             return result;
         }
-      
+        #endregion
         public IDJsonResult Sabit_Listeler([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
@@ -2652,7 +2641,7 @@ values
                     result.Hata = "UYARI! Kullanici bilgisi boş olamaz.";
                     return result;
                 }
-              
+
                 string _srg = "";
                 string Uygulama = Convert.ToString(data["Uygulama"]);
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
@@ -2785,15 +2774,14 @@ values
                     {
                         _srg += " \r\n AND SIRA_NO = '" + Seri_Sira_No + "' ";
                     }
-                    
+
                 }
                 if (Uygulama == "LOGO")
                 {
 
                 }
-              
-                List<dynamic> entities = new List<dynamic>();
 
+                List<dynamic> entities = new List<dynamic>();
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.CommandText = _srg;
@@ -2824,7 +2812,6 @@ values
         {
             IDJsonResult result = new IDJsonResult();
             try
-
             {
                 if (data["Uygulama"] == null)
                 {
@@ -2838,17 +2825,11 @@ values
                     result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
                     return result;
                 }
-
-                string Islem_Tipi = Convert.ToString(data["Islem_Tipi"]);
-
-                if (Islem_Tipi == "Stok_Bakiyesi" || Islem_Tipi == "Stok_Birimleri")
+                if (data["Stok_Kodu"] == null)
                 {
-                    if (data["Stok_Kodu"] == null)
-                    {
-                        result.SonucKodu = 0;
-                        result.Hata = "UYARI! Stok_Kodu bilgisi boş olamaz.";
-                        return result;
-                    }
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Stok_Kodu bilgisi boş olamaz.";
+                    return result;
                 }
                 if (data["Kullanici"] == null)
                 {
@@ -2864,6 +2845,7 @@ values
                 string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
 
                 string Depo_Kodu = Convert.ToString(data["Depo_Kodu"]);
+                string Islem_Tipi = Convert.ToString(data["Islem_Tipi"]);
                 string Kullanici = Convert.ToString(data["Kullanici"]);
 
                 List<dynamic> entities = new List<dynamic>();
@@ -2905,42 +2887,42 @@ values
                     }
                     if (Islem_Tipi == "Stok_Grup")
                     {
-                        _srg = " SELECT [" + Uygulama_Db + "].[dbo].TRK1(GRUP_KODU) GRUP_KODU, [" + Uygulama_Db + "].[dbo].TRK1(GRUP_ISIM) GRUP_ISIM ";
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
                         _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_GRUP] WITH (NOLOCK) ";
                         _srg += " WHERE 1=1 ";
 
                     }
                     if (Islem_Tipi == "Stok_Kod1")
                     {
-                        _srg = " SELECT [" + Uygulama_Db + "].[dbo].TRK1(GRUP_KODU) GRUP_KODU, [" + Uygulama_Db + "].[dbo].TRK1(GRUP_ISIM) GRUP_ISIM ";
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
                         _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_KOD1] WITH (NOLOCK) ";
                         _srg += " WHERE 1=1 ";
 
                     }
                     if (Islem_Tipi == "Stok_Kod2")
                     {
-                        _srg = " SELECT [" + Uygulama_Db + "].[dbo].TRK1(GRUP_KODU) GRUP_KODU, [" + Uygulama_Db + "].[dbo].TRK1(GRUP_ISIM) GRUP_ISIM ";
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
                         _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_KOD2] WITH (NOLOCK) ";
                         _srg += " WHERE 1=1 ";
 
                     }
                     if (Islem_Tipi == "Stok_Kod3")
                     {
-                        _srg = " SELECT [" + Uygulama_Db + "].[dbo].TRK1(GRUP_KODU) GRUP_KODU, [" + Uygulama_Db + "].[dbo].TRK1(GRUP_ISIM) GRUP_ISIM ";
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
                         _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_KOD3] WITH (NOLOCK) ";
                         _srg += " WHERE 1=1 ";
 
                     }
                     if (Islem_Tipi == "Stok_Kod4")
                     {
-                        _srg = " SELECT [" + Uygulama_Db + "].[dbo].TRK1(GRUP_KODU) GRUP_KODU, [" + Uygulama_Db + "].[dbo].TRK1(GRUP_ISIM) GRUP_ISIM ";
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
                         _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_KOD4] WITH (NOLOCK) ";
                         _srg += " WHERE 1=1 ";
 
                     }
                     if (Islem_Tipi == "Stok_Kod5")
                     {
-                        _srg = " SELECT [" + Uygulama_Db + "].[dbo].TRK1(GRUP_KODU) GRUP_KODU, [" + Uygulama_Db + "].[dbo].TRK1(GRUP_ISIM) GRUP_ISIM ";
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
                         _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_KOD5] WITH (NOLOCK) ";
                         _srg += " WHERE 1=1 ";
 
@@ -2995,74 +2977,6 @@ values
                             entities.Add(entity);
                         }
                     }
-
-                    if (Islem_Tipi == "Stok_Grup")
-                    {
-                        foreach (DataRow satir in dt.Rows)
-                        {
-                            dynamic entity = new System.Dynamic.ExpandoObject();
-                            entity.Grup_Kodu = Convert.ToString(satir["GRUP_KODU"]);
-                            entity.Grup_Adi = Convert.ToString(satir["GRUP_ISIM"]);
-
-                            entities.Add(entity);
-                        }
-                    }
-                    if (Islem_Tipi == "Stok_Kod1")
-                    {
-                        foreach (DataRow satir in dt.Rows)
-                        {
-                            dynamic entity = new System.Dynamic.ExpandoObject();
-                            entity.Kod1_Kodu = Convert.ToString(satir["GRUP_KODU"]);
-                            entity.Kod1_Adi = Convert.ToString(satir["GRUP_ISIM"]);
-
-                            entities.Add(entity);
-                        }
-                    }
-                    if (Islem_Tipi == "Stok_Kod2")
-                    {
-                        foreach (DataRow satir in dt.Rows)
-                        {
-                            dynamic entity = new System.Dynamic.ExpandoObject();
-                            entity.Kod2_Kodu = Convert.ToString(satir["GRUP_KODU"]);
-                            entity.Kod2_Adi = Convert.ToString(satir["GRUP_ISIM"]);
-
-                            entities.Add(entity);
-                        }
-                    }
-                    if (Islem_Tipi == "Stok_Kod3")
-                    {
-                        foreach (DataRow satir in dt.Rows)
-                        {
-                            dynamic entity = new System.Dynamic.ExpandoObject();
-                            entity.Kod3_Kodu = Convert.ToString(satir["GRUP_KODU"]);
-                            entity.Kod3_Adi = Convert.ToString(satir["GRUP_ISIM"]);
-
-                            entities.Add(entity);
-                        }
-                    }
-                    if (Islem_Tipi == "Stok_Kod4")
-                    {
-                        foreach (DataRow satir in dt.Rows)
-                        {
-                            dynamic entity = new System.Dynamic.ExpandoObject();
-                            entity.Kod4_Kodu = Convert.ToString(satir["GRUP_KODU"]);
-                            entity.Kod4_Adi = Convert.ToString(satir["GRUP_ISIM"]);
-
-                            entities.Add(entity);
-                        }
-                    }
-                    if (Islem_Tipi == "Stok_Kod5")
-                    {
-                        foreach (DataRow satir in dt.Rows)
-                        {
-                            dynamic entity = new System.Dynamic.ExpandoObject();
-                            entity.Kod5_Kodu = Convert.ToString(satir["GRUP_KODU"]);
-                            entity.Kod5_Adi = Convert.ToString(satir["GRUP_ISIM"]);
-
-                            entities.Add(entity);
-                        }
-                    }
-
                     #endregion
                     result.Data = entities;
                     result.SonucKodu = 1;
@@ -3764,7 +3678,7 @@ values
                     result.Hata = "UYARI! Seri_No bilgisi boş olamaz.";
                     return result;
                 }
-              
+
                 if (data["Kullanici"] == null)
                 {
                     result.SonucKodu = 0;
@@ -4448,7 +4362,7 @@ values
             return result;
         }
         #endregion
-  
+
         [HttpPost]
         public dynamic MobilAlisIrsaliyeKaydet([FromBody] JObject data)
         {
@@ -5002,7 +4916,7 @@ values
                 string EvrakNo = Convert.ToString(data["EvrakNo"]);
 
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "[BravoKahve].[dbo].[p_ArizaListesi]";
+                cmd.CommandText = "p_ArizaListesi";
                 cmd.Parameters.AddWithValue("@UyelikID", kullaniciIdStr);
                 cmd.Parameters.AddWithValue("@Baslangic", Baslangic);
                 cmd.Parameters.AddWithValue("@Bitis", Bitis);
@@ -5014,6 +4928,7 @@ values
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
                 DataTable dt = ds.Tables[1];
+
                 //if (dt.Rows.Count > 0)
                 //{
                 //    foreach (DataRow satir in dt.Rows)
@@ -5037,6 +4952,43 @@ values
                 //    result.Hata = "UYARI! Kayıt bulunamadı!";
                 //    return result;
                 //}
+
+                // Manuel kayıt ekleme
+                dynamic entity = new System.Dynamic.ExpandoObject();
+                entity.Durum = "Arıza Yapıldı";
+                entity.Miktar = "1";
+                entities.Add(entity);
+
+                dynamic entity2 = new System.Dynamic.ExpandoObject();
+                entity2.Durum = "Beklemede";
+                entity2.Miktar = "5";
+                entities.Add(entity2);
+
+                dynamic entity3 = new System.Dynamic.ExpandoObject();
+                entity3.Durum = "Arıza Yapıldı";
+                entity3.Miktar = "3";
+                entities.Add(entity3);
+
+                dynamic entity4 = new System.Dynamic.ExpandoObject();
+                entity4.Durum = "İptal";
+                entity4.Miktar = "3";
+                entities.Add(entity4);
+
+                dynamic entity5 = new System.Dynamic.ExpandoObject();
+                entity5.Durum = "Kurulum";
+                entity5.Miktar = "4";
+                entities.Add(entity5);
+
+                dynamic entity6 = new System.Dynamic.ExpandoObject();
+                entity6.Durum = "Toplama";
+                entity6.Miktar = "10";
+                entities.Add(entity6);
+
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                return result;
+
             }
             catch (Exception err)
             {
@@ -5070,7 +5022,7 @@ values
                 string EvrakNo = Convert.ToString(data["EvrakNo"]);
 
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "[BravoKahve].[dbo].[p_ArizaListesi]";
+                cmd.CommandText = "p_ArizaListesi";
                 cmd.Parameters.AddWithValue("@UyelikID", kullaniciIdStr);
                 cmd.Parameters.AddWithValue("@Baslangic", Baslangic);
                 cmd.Parameters.AddWithValue("@Bitis", Bitis);
@@ -5180,8 +5132,8 @@ values
                 List<dynamic> entities = new List<dynamic>();
                 string kullaniciId = Convert.ToString(data["kullaniciId"]);
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari";
-                //cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari WHERE (Kod = 'ArizaKaynagi')";
+                //cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari";
+                cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari WHERE (Kod = 'ArizaKaynagi')";
                 cmd.CommandType = System.Data.CommandType.Text;
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                 if (dt.Rows.Count > 0)
@@ -5228,8 +5180,8 @@ values
                 List<dynamic> entities = new List<dynamic>();
                 string kullaniciId = Convert.ToString(data["kullaniciId"]);
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari";
-                //  cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari WHERE (Kod = 'ArizaKaynagi')";
+                //cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari";
+                cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari WHERE (Kod = 'ArizaKaynagi')";
                 cmd.CommandType = System.Data.CommandType.Text;
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                 if (dt.Rows.Count > 0)
@@ -5276,8 +5228,8 @@ values
                 List<dynamic> entities = new List<dynamic>();
                 string kullaniciId = Convert.ToString(data["kullaniciId"]);
                 SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari";
-                //  cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari WHERE (Kod = 'ArizaKaynagi')";
+                //cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari";
+                cmd.CommandText = "SELECT ID, UyelikID, Kod, Deger as Kategori, UstID, Aktif FROM  GrupKodlari WHERE (Kod = 'ArizaKaynagi')";
                 cmd.CommandType = System.Data.CommandType.Text;
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                 if (dt.Rows.Count > 0)
@@ -5317,6 +5269,57 @@ values
 
         [HttpPost]
         public IDJsonResult Ariza_Kaydet([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            List<dynamic> entities = new List<dynamic>();
+            try
+            {
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string kullaniciId = Convert.ToString(data["kullaniciId"]);
+                string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
+                string CariKodu = Convert.ToString(data["CariKodu"]);
+                string Sikayet = Convert.ToString(data["Sikayet"]);
+                string SeriNo = Convert.ToString(data["SeriNo"]);
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandText = "p_ArizaKaydet";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Tarih", DateTime.Now);
+                cmd.Parameters.AddWithValue("@KullaniciID", kullaniciId);
+                cmd.Parameters.AddWithValue("@KullaniciAdi", KullaniciAdi);
+                cmd.Parameters.AddWithValue("@PlasiyerKodu", "");
+                cmd.Parameters.AddWithValue("@CariKodu", CariKodu);
+                cmd.Parameters.AddWithValue("@StokKodu", SeriNo);
+                cmd.Parameters.AddWithValue("@SeriNo", "");
+                cmd.Parameters.AddWithValue("@Aciklama", Sikayet);
+                string SonID = Convert.ToString(IDVeritabani.Sorgula(cmd, SorgulaTuru.Tek));
+                dynamic entity = new System.Dynamic.ExpandoObject();
+                if (Convert.ToInt32(SonID) > 0)
+                {
+                    entity.Id = SonID;
+                    entities.Add(entity);
+                }
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                return result;
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        [HttpPost]
+        public IDJsonResult Ariza_Guncelle([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
             try
@@ -5461,6 +5464,7 @@ values
                 }
 
                 */
+
                 result.SonucKodu = 1;
                 result.Sonuc = "Başarılı";
                 return result;
@@ -5777,7 +5781,7 @@ values
 
                 if (Uygulama == "NETSIS")
                 {
-                    
+
                 }
                 if (Uygulama == "Pi")
                 {
@@ -5792,7 +5796,7 @@ values
                     cmd.Parameters.AddWithValue("@Kullanici", Kullanici);
                     IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
                 }
-               
+
 
 
                 result.Data = entities;
@@ -7722,249 +7726,7 @@ Select @ID as ID
             }
             return result1;
         }
-        #region Crm Kayitlari
-        #region Crm Destek Kayitlari
-        public IDJsonResult Crm_Destek_Kaydi_1_Olustur([FromBody] JObject data)
-        {
-            IDJsonResult result = new IDJsonResult();
-            try
-            {
-                if (data["Uygulama"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
-                    return result;
-                }
-                if (data["Uygulama_Db"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
-                    return result;
-                }
 
-                if (data["Kullanici_GuidId"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Kullanici Guidid bilgisi boş olamaz.";
-                    return result;
-                }
-                string _srg = "";
-                string Uygulama = Convert.ToString(data["Uygulama"]);
-                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
-                string Destek_Tipi = Convert.ToString(data["Destek_Tipi"]);
-                string Destek_Baslik = Convert.ToString(data["Destek_Baslik"]);
-                string Destek_Aciklama = Convert.ToString(data["Destek_Aciklama"]);
-                string Kullanici_GuidId = Convert.ToString(data["Kullanici_GuidId"]);
-
-               // if (Uygulama == "NETSIS")
-                {
-                    _srg = " EXEC LOGOCRM.[dbo].[INN_PR_CRM_DESTEK_OLUSTUR_IYB] ";
-                    _srg += " \r\n   1 "; // tİPİ
-                    _srg += " \r\n , '"+ Kullanici_GuidId + "' "; // @KULLANICI_GUIDID
-                    _srg += " \r\n , '" + Destek_Tipi + "' "; // @Destek_Tipi
-                    _srg += " \r\n , '" + Destek_Baslik + "' "; // @@Destek_Baslik
-                    _srg += " \r\n , '" + Destek_Aciklama + "' "; // @@Destek_Aciklama
-                }
-       
-                List<dynamic> entities = new List<dynamic>();
-
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandType = System.Data.CommandType.Text;
-                cmd.CommandText = _srg;
-                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
-
-
-                result.Data = entities;
-                result.SonucKodu = 1;
-                result.Sonuc = "Başarılı";
-                result.Sonuc_Versiyon = 250922;
-                return result;
-
-
-            }
-            catch (Exception err)
-            {
-                result.SonucKodu = -1;
-                result.Sonuc = "HATA!";
-                result.Hata = err.Message;
-                result.Sonuc_Versiyon = 250922;
-            }
-            finally
-            {
-
-            }
-            return result;
-        }
-
-        #endregion Crm Destek Kayitlari
-
-        #region Crm_Destek_Kaydi_Listele
-        public IDJsonResult Crm_Destek_Kaydi_0_Listele([FromBody] JObject data)
-        {
-            string _Procedure_Versiyon = "250922";
-            IDJsonResult result = new IDJsonResult();
-            try
-            {
-                if (data["Uygulama"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
-                    return result;
-                }
-                if (data["Uygulama_Db"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
-                    return result;
-                }
-                if (data["Kullanici_GuidId"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Kullanici Guidid bilgisi boş olamaz.";
-                    return result;
-                }
-            
-                string Uygulama = Convert.ToString(data["Uygulama"]);
-                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
-                string Kullanici_GuidId = Convert.ToString(data["Kullanici_GuidId"]);
-
-                string _srg = "";
-                List<dynamic> entities = new List<dynamic>();
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandType = System.Data.CommandType.Text;
-               // if (Uygulama == "NETSIS")
-                {
-                 
-                    _srg = " EXEC LOGOCRM.[dbo].[INN_PR_CRM_DESTEK_OLUSTUR_IYB] ";
-                    _srg += " \r\n  0 "; // tİPİ
-                    _srg += " \r\n , '" + Kullanici_GuidId + "' "; // @KULLANICI_GUIDID
-                    _srg += " \r\n , '' "; // @Destek_Tipi
-                    _srg += " \r\n , '' "; // @@Destek_Baslik
-                    _srg += " \r\n , '' "; // @@Destek_Aciklama
-
-                }
-                cmd.CommandText = _srg;
-                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
-                if (dt.Rows.Count > 0)
-                {
-                    #region Cookie İşlemleri
-                    foreach (DataRow satir in dt.Rows)
-                    {
-                        dynamic entity = new System.Dynamic.ExpandoObject();
-                        entity.Ticket_Id = Convert.ToString(satir["Oid"]);
-                        entity.Ticket_Description = Convert.ToString(satir["TicketDescription"]);
-                        entity.Ticket_Notes = Convert.ToString(satir["Notes"]);
-                        entity.Servis_Versiyon = 250922;
-                        entities.Add(entity);
-                    }
-                    #endregion
-                    result.Data = entities;
-                    result.SonucKodu = 1;
-                    result.Sonuc = "Başarılı";
-                    result.Sonuc_Versiyon = 250922;
-                    return result;
-                }
-                else
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Kayıt bulunamadı!";
-                    result.Sonuc_Versiyon = 250922;
-                    return result;
-                }
-
-
-            }
-            catch (Exception err)
-            {
-                result.SonucKodu = -1;
-                result.Sonuc = "HATA!";
-                result.Sonuc_Versiyon = 250922;
-                result.Hata = err.Message;
-            }
-            finally
-            {
-
-            }
-            return result;
-        }
-
-        #endregion Netsis_Wms_Qr_Listele
-
-        #region Crm Destek Kaydı Tamamla
-        public IDJsonResult Crm_Destek_Kaydi_2_Tamamla([FromBody] JObject data)
-        {
-            IDJsonResult result = new IDJsonResult();
-            try
-            {
-                if (data["Uygulama"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
-                    return result;
-                }
-                if (data["Uygulama_Db"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
-                    return result;
-                }
-
-                if (data["Ticket_Id"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Kullanici Guidid bilgisi boş olamaz.";
-                    return result;
-                }
-                string _srg = "";
-                string Uygulama = Convert.ToString(data["Uygulama"]);
-                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
-                string Destek_Tipi = Convert.ToString(data["Destek_Tipi"]);
-                string Destek_Baslik = Convert.ToString(data["Destek_Baslik"]);
-                string Destek_Aciklama = Convert.ToString(data["Destek_Aciklama"]);
-                string Ticket_Id = Convert.ToString(data["Ticket_Id"]);
-
-                // if (Uygulama == "NETSIS")
-                {
-                    _srg = " EXEC LOGOCRM.[dbo].[INN_PR_CRM_DESTEK_OLUSTUR_IYB] ";
-                    _srg += " \r\n   2 "; // tİPİ
-                    _srg += " \r\n , '" + Ticket_Id + "' "; // @KULLANICI_GUIDID
-                    _srg += " \r\n , '" + Destek_Tipi + "' "; // @Destek_Tipi
-                    _srg += " \r\n , '" + Destek_Baslik + "' "; // @@Destek_Baslik
-                    _srg += " \r\n , '" + Destek_Aciklama + "' "; // @@Destek_Aciklama
-                }
-
-                List<dynamic> entities = new List<dynamic>();
-
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandType = System.Data.CommandType.Text;
-                cmd.CommandText = _srg;
-                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
-
-
-                result.Data = entities;
-                result.SonucKodu = 1;
-                result.Sonuc = "Başarılı";
-                result.Sonuc_Versiyon = 250922;
-                return result;
-
-
-            }
-            catch (Exception err)
-            {
-                result.SonucKodu = -1;
-                result.Sonuc = "HATA!";
-                result.Hata = err.Message;
-                result.Sonuc_Versiyon = 250922;
-            }
-            finally
-            {
-
-            }
-            return result;
-        }
-
-        #endregion Crm Destek Kaydı Tamamla
 
         #region Crm Cagri Kayitlari
         public IDJsonResult Crm_CagriKaydi_Olustur([FromBody] JObject data)
@@ -8072,7 +7834,6 @@ Select @ID as ID
 
         #endregion Crm Cagri Kayitlari
 
-        #endregion Crm Kayitlari
         /// <summary>
         /// DOMAINNNN.com/api/YKWebApi/ComplateOrder/?CariKodu=XXXXXXXXX&SiparisNo=YYYYYYYY&TrackingId=ZZZZZZ
         /// </summary>
@@ -8081,7 +7842,7 @@ Select @ID as ID
         /// <param name="TrackingId"></param>
         /// <returns></returns>
         [HttpGet]
-        public dynamic Pirelli_ComplateOrder(string CariKodu, string SiparisNo)
+        public dynamic ComplateOrder(string CariKodu, string SiparisNo)
         {
             string _sira = "";
             _sira = "4";
@@ -8190,8 +7951,6 @@ Select @ID as ID
                     _sira = "14";
                     client.Dispose();
                     _sira = "15";
-                    fileStream.Dispose();
-
                 }
 
             }
@@ -8793,7 +8552,6 @@ END
                 }
                 string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
                 string Parola = Convert.ToString(data["Parola"]);
-
                 YKModelKullanici entity = new YKModelKullanici();
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "p_KullaniciGirisi";
@@ -8801,7 +8559,6 @@ END
                 cmd.Parameters.AddWithValue("@KullaniciAdi", KullaniciAdi);
                 cmd.Parameters.AddWithValue("@Parola", Parola);
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
                 if (dt.Rows.Count > 0)
                 {
                     string Bilgi = Convert.ToString(dt.Rows[0]["Bilgi"]);
@@ -8822,7 +8579,6 @@ END
                         entity.UyelikBitisTarihi = Convert.ToDateTime(dt.Rows[0]["UyelikBitisTarihi"]);
                         entity.UyelikBitisGunu = Convert.ToString(dt.Rows[0]["UyelikBitisGunu"]);
                         #endregion
-
                         result.Data = entity;
                         result.SonucKodu = 1;
                         result.Sonuc = "Başarılı";
@@ -9154,7 +8910,6 @@ END
             }
             return result;
         }
-
     }
 
     public class SupplierOrders
@@ -9235,6 +8990,7 @@ END
         public string FileName { get; set; }
         public byte[] ImageByte { get; set; }
     }
+  
     #region Pirelli Class
     public class PirelliHeader
     {
