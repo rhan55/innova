@@ -698,7 +698,14 @@ values
                     _srg += " \r\n          AND SH.DEPO_KODU = '"+ Depo_Kodu + "' ";
                     _srg += " \r\n          ) , 0) AS BAKIYE ";
                     _srg += " \r\n FROM ["+ Uygulama_Db + "].[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ";
-                    _srg += " \r\n WHERE ST.STOK_KODU = '" + Stok_Kodu + "' ";
+                    _srg += " \r\n WHERE 1=1 ";
+                    _srg += " \r\n AND (    (ST.STOK_KODU = '" + Stok_Kodu + "') ";
+                    _srg += " \r\n          OR (ST.BARKOD1 = '" + Stok_Kodu + "') ";
+                    _srg += " \r\n          OR (ST.BARKOD2 = '" + Stok_Kodu + "') ";
+                    _srg += " \r\n          OR (ST.BARKOD3 = '" + Stok_Kodu + "') ";
+                    _srg += " \r\n          OR (ST.URETICI_KODU = '" + Stok_Kodu + "') ";
+                    _srg += " \r\n          OR (ST.STOK_KODU IN (SELECT BAR.STOK_KODU FROM [" + Uygulama_Db + "].[dbo].[TBLSTOKBAR] BAR WITH (NOLOCK) WHERE BAR.BARKOD = '" + Stok_Kodu + "')) ";
+                    _srg += " \r\n      ) ";
                 }
                 if (Uygulama == "LOGO")
                 {
@@ -720,12 +727,12 @@ values
                         entity.STOK_ADI = Convert.ToString(satir["STOK_ADI"]);
                         entity.OLCU_BR1 = Convert.ToString(satir["OLCU_BR1"]);
 
-                        entity.GRUP_KODU = Convert.ToString(satir["STOK_GRUP_KODU"]);
-                        entity.KOD_1 = Convert.ToString(satir["STOK_KOD_1"]);
-                        entity.KOD_2 = Convert.ToString(satir["STOK_KOD_2"]);
-                        entity.KOD_3 = Convert.ToString(satir["STOK_KOD_3"]);
-                        entity.KOD_4 = Convert.ToString(satir["STOK_KOD_4"]);
-                        entity.KOD_5 = Convert.ToString(satir["STOK_KOD_5"]);
+                        entity.STOK_GRUP_KODU = Convert.ToString(satir["STOK_GRUP_KODU"]);
+                        entity.STOK_KOD_1 = Convert.ToString(satir["STOK_KOD_1"]);
+                        entity.STOK_KOD_2 = Convert.ToString(satir["STOK_KOD_2"]);
+                        entity.STOK_KOD_3 = Convert.ToString(satir["STOK_KOD_3"]);
+                        entity.STOK_KOD_4 = Convert.ToString(satir["STOK_KOD_4"]);
+                        entity.STOK_KOD_5 = Convert.ToString(satir["STOK_KOD_5"]);
 
                         entity.BARKOD1 = Convert.ToString(satir["BARKOD1"]);
                         entity.BARKOD2 = Convert.ToString(satir["BARKOD2"]);
@@ -818,11 +825,11 @@ values
                 string _Barkod1 = Convert.ToString(data["BARKOD1"]);
 
                 string _Stok_Grup = Convert.ToString(data["STOK_GRUP_KODU"]);
-                string _Stok_Kod1 = Convert.ToString(data["STOK_KOD_1"]);
-                string _Stok_Kod2 = Convert.ToString(data["STOK_KOD_2"]);
-                string _Stok_Kod3 = Convert.ToString(data["STOK_KOD_3"]);
-                string _Stok_Kod4 = Convert.ToString(data["STOK_KOD_4"]);
-                string _Stok_Kod5 = Convert.ToString(data["STOK_KOD_5"]);
+                string _Stok_Kod_1 = Convert.ToString(data["STOK_KOD_1"]);
+                string _Stok_Kod_2 = Convert.ToString(data["STOK_KOD_2"]);
+                string _Stok_Kod_3 = Convert.ToString(data["STOK_KOD_3"]);
+                string _Stok_Kod_4 = Convert.ToString(data["STOK_KOD_4"]);
+                string _Stok_Kod_5 = Convert.ToString(data["STOK_KOD_5"]);
 
                 string _Miktar = Convert.ToString(data["Miktar"]);
                 string Kullanici_Adi = Convert.ToString(data["Kullanici_Adi"]);
@@ -831,9 +838,25 @@ values
                 string _Sayim_Tarihi = DateTime.Now.ToString("yyyy.MM.dd");
 
                 string _Satis_Fiyat1 = Convert.ToString(data["SATIS_FIYAT1"]);
+                if (_Satis_Fiyat1 == "")
+                {
+                    _Satis_Fiyat1 = "0";
+                }
                 string _Satis_Fiyat2 = Convert.ToString(data["SATIS_FIYAT2"]);
+                if (_Satis_Fiyat2 == "")
+                {
+                    _Satis_Fiyat2 = "0";
+                }
                 string _Satis_Fiyat3 = Convert.ToString(data["SATIS_FIYAT3"]);
+                if (_Satis_Fiyat3 == "")
+                {
+                    _Satis_Fiyat3 = "0";
+                }
                 string _Satis_Fiyat4 = Convert.ToString(data["SATIS_FIYAT4"]);
+                if (_Satis_Fiyat4 == "")
+                {
+                    _Satis_Fiyat4 = "0";
+                }
 
                 string _srg = "";
                 if (Uygulama == "NETSIS")
@@ -856,11 +879,11 @@ values
                     _srg += " \r\n SET ";
                     _srg += " \r\n LOT_SIZECUSTOMER = ISNULL(LOT_SIZECUSTOMER,0) + 1";
                     
-                    if (_Stok_Grup != "")
+                    if (Stok_Adi != "")
                     {
                         _srg += " \r\n , STOK_ADI = left('" + Stok_Adi + "',50) ";
                     }
-                    if (_Stok_Grup != "")
+                    if (_Barkod1 != "")
                     {
                         _srg += " \r\n , BARKOD1 = left('" + _Barkod1 + "',50) ";
                     }
@@ -868,41 +891,53 @@ values
                     {
                         _srg += " \r\n , GRUP_KODU = left('" + _Stok_Grup + "',8) ";
                     }
-                    if (_Stok_Kod1 != "" )
+                    if (_Stok_Kod_1 != "" )
                     {
-                        _srg += " \r\n , KOD_1 = left('" + _Stok_Kod1 + "',8) ";
+                        _srg += " \r\n , KOD_1 = left('" + _Stok_Kod_1 + "',8) ";
                     }
-                    if (_Stok_Kod2 != "")
+                    if (_Stok_Kod_2 != "")
                     {
-                        _srg += " \r\n , KOD_2 = left('" + _Stok_Kod2 + "',8) ";
+                        _srg += " \r\n , KOD_2 = left('" + _Stok_Kod_2 + "',8) ";
                     }
-                    if (_Stok_Kod3 != "")
+                    if (_Stok_Kod_3 != "")
                     {
-                        _srg += " \r\n , KOD_3 = left('" + _Stok_Kod3 + "',8) ";
+                        _srg += " \r\n , KOD_3 = left('" + _Stok_Kod_3 + "',8) ";
                     }
-                    if (_Stok_Kod4 != "")
+                    if (_Stok_Kod_4 != "")
                     {
-                        _srg += " \r\n , KOD_4 = left('" + _Stok_Kod4 + "',8) ";
+                        _srg += " \r\n , KOD_4 = left('" + _Stok_Kod_4 + "',8) ";
                     }
-                    if (_Stok_Kod5 != "")
+                    if (_Stok_Kod_5 != "")
                     {
-                        _srg += " \r\n , KOD_5 = left('" + _Stok_Kod5 + "',8) ";
+                        _srg += " \r\n , KOD_5 = left('" + _Stok_Kod_5 + "',8) ";
                     }
-                    if (Convert.ToDecimal(_Satis_Fiyat1) > 0)
+                    if (_Satis_Fiyat1 != "")
                     {
-                        _srg += " \r\n , SATIS_FIAT1 = '" + _Satis_Fiyat1.Replace(",", ".") + "' ) ";
+                        if (Convert.ToDecimal(_Satis_Fiyat1) > 0)
+                        {
+                            _srg += " \r\n , SATIS_FIAT1 = '" + _Satis_Fiyat1.Replace(",", ".") + "' ) ";
+                        }
                     }
-                    if (Convert.ToDecimal(_Satis_Fiyat2) > 0)
+                    if (_Satis_Fiyat2 != "")
                     {
-                        _srg += " \r\n , SATIS_FIAT2 = '" + _Satis_Fiyat2.Replace(",", ".") + "' ) ";
+                        if (Convert.ToDecimal(_Satis_Fiyat2) > 0)
+                        {
+                            _srg += " \r\n , SATIS_FIAT2 = '" + _Satis_Fiyat2.Replace(",", ".") + "' ) ";
+                        }
                     }
-                    if (Convert.ToDecimal(_Satis_Fiyat3) > 0)
+                    if (_Satis_Fiyat3 != "")
                     {
-                        _srg += " \r\n , SATIS_FIAT3 = '" + _Satis_Fiyat3.Replace(",", ".") + "' ) ";
+                        if (Convert.ToDecimal(_Satis_Fiyat3) > 0)
+                        {
+                            _srg += " \r\n , SATIS_FIAT3 = '" + _Satis_Fiyat3.Replace(",", ".") + "' ) ";
+                        }
                     }
-                    if (Convert.ToDecimal(_Satis_Fiyat4) > 0)
+                    if (_Satis_Fiyat4 != "")
                     {
-                        _srg += " \r\n , SATIS_FIAT4 = '" + _Satis_Fiyat4.Replace(",", ".") + "' ) ";
+                        if (Convert.ToDecimal(_Satis_Fiyat4) > 0)
+                        {
+                            _srg += " \r\n , SATIS_FIAT4 = '" + _Satis_Fiyat4.Replace(",", ".") + "' ) ";
+                        }
                     }
                     _srg += " \r\n WHERE STOK_KODU = '" + Stok_Kodu + "' ";
 
@@ -966,7 +1001,7 @@ values
 
                     _srg += " \r\n UPDATE [" + Uygulama_Db + "].[dbo].[LG_" + Firma_Kodu + "_ITEMS] ";
                     _srg += " \r\n SET ";
-                    _srg += " \r\n SPECODE2 = left('" + _Stok_Kod2 + "',8) ";
+                    _srg += " \r\n SPECODE2 = left('" + _Stok_Kod_2 + "',8) ";
                     _srg += " \r\n WHERE CODE = '" + Stok_Kodu + "' ";
 
 
@@ -1116,6 +1151,145 @@ values
             return result;
         }
         #endregion Netsis_Stok_Bilgi_Kaydet
+
+        #region Iyb_Stok_Fiyat_Getir
+        public IDJsonResult Iyb_Stok_Fiyat_Getir([FromBody] JObject data)
+        {
+            string _Procedure_Versiyon = "250909";
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Firma_Kodu = "";
+                string Donem_Kodu = "";
+                if (Uygulama == "LOGO")
+                {
+                    if (data["Firma_Kodu"] == null)
+                    {
+                        result.SonucKodu = 0;
+                        result.Hata = "UYARI! Firma_Kodu bilgisi boş olamaz.";
+                        return result;
+                    }
+                    if (data["Donem_Kodu"] == null)
+                    {
+                        result.SonucKodu = 0;
+                        result.Hata = "UYARI! Donem_Kodu bilgisi boş olamaz.";
+                        return result;
+                    }
+                }
+                if (data["Stok_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Stok_Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Fiyat_Tipi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Fiyat Tipi bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici bilgisi boş olamaz.";
+                    return result;
+                }
+                string _srg = "";
+             
+                Firma_Kodu = Convert.ToString(data["Firma_Kodu"]);
+                Donem_Kodu = Convert.ToString(data["Donem_Kodu"]);
+                string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
+                string Kullanici = Convert.ToString(data["Kullanici"]);
+                string Fiyat_Tipi = Convert.ToString(data["Fiyat_Tipi"]);
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                if (Uygulama == "NETSIS")
+                {
+                    _srg = " ";
+                    _srg += " \r\n SELECT ST.STOK_KODU ";
+                    _srg += " \r\n , SATIS_FIAT1 SATIS_FIYAT1, SATIS_FIAT2 SATIS_FIYAT2, SATIS_FIAT3 SATIS_FIYAT3, SATIS_FIAT4 SATIS_FIYAT4 ";
+                    _srg += " \r\n , OLCU_BR1 ";
+                    if (Fiyat_Tipi == "0")
+                    {
+                        _srg += " \r\n , SATIS_FIAT1 as FIYAT ";
+                    }
+                    _srg += " \r\n , '"+ Fiyat_Tipi + "' AS Fiyat_Tipi ";
+                    _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ";
+                    _srg += " \r\n WHERE 1=1 ";
+                    _srg += " \r\n AND (    ";
+                    _srg += " \r\n        (ST.STOK_KODU = '" + Stok_Kodu + "') ";
+                    _srg += " \r\n     ) ";
+                }
+                if (Uygulama == "LOGO")
+                {
+                    _srg = " ";
+                    _srg += " \r\n SELECT TOP 1 PRICE AS FIYAT ";
+                    _srg += " \r\n , '" + Fiyat_Tipi + "' AS Fiyat_Tipi ";
+                    _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].LG_"+ Firma_Kodu + "_PRCLIST WITH (NOLOCK) ";
+                    _srg += " \r\n WHERE CARDREF IN (SELECT IT.LOGICALREF FROM [" + Uygulama_Db + "].[dbo].[LG_"+ Firma_Kodu + "_ITEMS] IT WITH (NOLOCK) WHERE IT.CODE = '" + Stok_Kodu + "' ) ";
+                    _srg += " \r\n ORDER BY BEGDATE DESC, ISNULL(ENDDATE, GETDATE()) asc ";
+                }
+                cmd.CommandText = _srg;
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.FIYAT = Convert.ToString(satir["FIYAT"]);
+                        entity.FIYAT_TURU = Convert.ToString(satir["Fiyat_Tipi"]);
+                        entity.Servis_Versiyon = 251003;
+                        entities.Add(entity);
+                    }
+                    #endregion
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    result.Sonuc_Versiyon = 251003;
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    return result;
+                }
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        #endregion Iyb_Stok_Fiyat_Getir
 
         #region Netsis_StokEkBilgi_Kaydet
         public IDJsonResult Netsis_StokEkBilgi_Kaydet([FromBody] JObject data)
@@ -2731,42 +2905,42 @@ values
                     }
                     if (Islem_Tipi == "Stok_Grup")
                     {
-                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg = " SELECT [" + Uygulama_Db + "].[dbo].TRK1(GRUP_KODU) GRUP_KODU, [" + Uygulama_Db + "].[dbo].TRK1(GRUP_ISIM) GRUP_ISIM ";
                         _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_GRUP] WITH (NOLOCK) ";
                         _srg += " WHERE 1=1 ";
 
                     }
                     if (Islem_Tipi == "Stok_Kod1")
                     {
-                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg = " SELECT [" + Uygulama_Db + "].[dbo].TRK1(GRUP_KODU) GRUP_KODU, [" + Uygulama_Db + "].[dbo].TRK1(GRUP_ISIM) GRUP_ISIM ";
                         _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_KOD1] WITH (NOLOCK) ";
                         _srg += " WHERE 1=1 ";
 
                     }
                     if (Islem_Tipi == "Stok_Kod2")
                     {
-                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg = " SELECT [" + Uygulama_Db + "].[dbo].TRK1(GRUP_KODU) GRUP_KODU, [" + Uygulama_Db + "].[dbo].TRK1(GRUP_ISIM) GRUP_ISIM ";
                         _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_KOD2] WITH (NOLOCK) ";
                         _srg += " WHERE 1=1 ";
 
                     }
                     if (Islem_Tipi == "Stok_Kod3")
                     {
-                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg = " SELECT [" + Uygulama_Db + "].[dbo].TRK1(GRUP_KODU) GRUP_KODU, [" + Uygulama_Db + "].[dbo].TRK1(GRUP_ISIM) GRUP_ISIM ";
                         _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_KOD3] WITH (NOLOCK) ";
                         _srg += " WHERE 1=1 ";
 
                     }
                     if (Islem_Tipi == "Stok_Kod4")
                     {
-                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg = " SELECT [" + Uygulama_Db + "].[dbo].TRK1(GRUP_KODU) GRUP_KODU, [" + Uygulama_Db + "].[dbo].TRK1(GRUP_ISIM) GRUP_ISIM ";
                         _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_KOD4] WITH (NOLOCK) ";
                         _srg += " WHERE 1=1 ";
 
                     }
                     if (Islem_Tipi == "Stok_Kod5")
                     {
-                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg = " SELECT [" + Uygulama_Db + "].[dbo].TRK1(GRUP_KODU) GRUP_KODU, [" + Uygulama_Db + "].[dbo].TRK1(GRUP_ISIM) GRUP_ISIM ";
                         _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_KOD5] WITH (NOLOCK) ";
                         _srg += " WHERE 1=1 ";
 
