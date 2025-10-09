@@ -1180,6 +1180,9 @@ values
                         result.Hata = "UYARI! Donem_Kodu bilgisi boş olamaz.";
                         return result;
                     }
+
+                    Firma_Kodu = Convert.ToString(data["Firma_Kodu"]);
+                    Donem_Kodu = Convert.ToString(data["Donem_Kodu"]);
                 }
                 if (data["Stok_Kodu"] == null)
                 {
@@ -1201,8 +1204,7 @@ values
                 }
                 string _srg = "";
              
-                Firma_Kodu = Convert.ToString(data["Firma_Kodu"]);
-                Donem_Kodu = Convert.ToString(data["Donem_Kodu"]);
+                
                 string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
                 string Kullanici = Convert.ToString(data["Kullanici"]);
                 string Fiyat_Tipi = Convert.ToString(data["Fiyat_Tipi"]);
@@ -2075,6 +2077,7 @@ values
         #endregion
         public IDJsonResult Sabit_Listeler([FromBody] JObject data)
         {
+            string _Procedure_Versiyon = "251009";
             IDJsonResult result = new IDJsonResult();
             try
             {
@@ -2087,10 +2090,28 @@ values
                 //string LisansNumarasi = Convert.ToString(data["LisansNumarasi"]);
                 string Uygulama = Convert.ToString(data["Uygulama"]);
                 string Sube_Kodu = Convert.ToString(data["Sube_Kodu"]);
-                string Donem_Kodu = Convert.ToString(data["Donem_Kodu"]);
                 string Islem_Tipi = Convert.ToString(data["Islem_Tipi"]);
                 string Kisit = Convert.ToString(data["Kisit"]);
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Firma_Kodu = "";
+                string Donem_Kodu = "";
+                if (Uygulama == "LOGO")
+                {
+                    if (data["Firma_Kodu"] == null)
+                    {
+                        result.SonucKodu = 0;
+                        result.Hata = "UYARI! Firma_Kodu bilgisi boş olamaz.";
+                        return result;
+                    }
+                    if (data["Donem_Kodu"] == null)
+                    {
+                        result.SonucKodu = 0;
+                        result.Hata = "UYARI! Donem_Kodu bilgisi boş olamaz.";
+                        return result;
+                    }
+                    Firma_Kodu = Convert.ToString(data["Firma_Kodu"]);
+                    Donem_Kodu = Convert.ToString(data["Donem_Kodu"]);
+                }
                 List<dynamic> entities = new List<dynamic>();
 
                 SqlCommand cmd = new SqlCommand();
@@ -2100,6 +2121,7 @@ values
                     if (Islem_Tipi == "Cariler")
                     {
                         cmd.CommandText = "SELECT TOP 50 CARI_KOD AS ID, CARI_KOD AS Kod, CARI_ISIM AS Isim ";
+                        cmd.CommandText += " , 'Netsis_Sabit_Listeler' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
                         cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].OYG_NV_CARI_KART ";
                         cmd.CommandText += " WHERE 'Cari' = 'Cari'";
                         if (Kisit != "")
@@ -2110,6 +2132,7 @@ values
                     if (Islem_Tipi == "Stoklar")
                     {
                         cmd.CommandText = "SELECT TOP 50 STOK_KODU AS ID, STOK_KODU AS Kod, STOK_ADI AS Isim ";
+                        cmd.CommandText += " , 'Netsis_Sabit_Listeler' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
                         cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].OYG_NV_STOK_KART ";
                         cmd.CommandText += " WHERE 'Stok' = 'Stok'";
                         if (Kisit != "")
@@ -2183,6 +2206,27 @@ values
                 }
                 if (Uygulama == "LOGO")
                 {
+                    if (Islem_Tipi == "Cariler")
+                    {
+                        cmd.CommandText = "SELECT TOP 50 CARI_KODU AS ID, CARI_KODU AS Kod, CARI_ISIM AS Isim ";
+                        cmd.CommandText += " , 'Logo_Sabit_Listeler' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
+                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].INN_VW_"+ Firma_Kodu + "_CARI_KART ";
+                        cmd.CommandText += " WHERE 'LogoCari' = 'LogoCari'";
+                        if (Kisit != "")
+                        {
+                            cmd.CommandText += Kisit;
+                        }
+                    }
+                    if (Islem_Tipi == "Stoklar")
+                    {
+                        cmd.CommandText = "SELECT TOP 50 STOK_KODU AS ID, STOK_KODU AS Kod, STOK_ADI AS Isim ";
+                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].INN_VW_"+ Firma_Kodu + "_STOK_KART ";
+                        cmd.CommandText += " WHERE 'LogoStok' = 'LogoStok'";
+                        if (Kisit != "")
+                        {
+                            cmd.CommandText += Kisit;
+                        }
+                    }
                     if (Islem_Tipi == "Depolar")
                     {
                         cmd.CommandText = "SELECT DEPO_KODU AS ID, DEPO_KODU AS Kod, DEPO_ISMI AS Isim FROM OYG_NV_DEPOLAR WHERE 'Depo' = 'Depo'";
@@ -2217,6 +2261,7 @@ values
                     result.Data = entities;
                     result.SonucKodu = 1;
                     result.Sonuc = "Başarılı";
+                    result.Sonuc_Versiyon = 251009;
                     return result;
                 }
                 else
@@ -2841,6 +2886,24 @@ values
                 string _srg = "";
                 string Uygulama = Convert.ToString(data["Uygulama"]);
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Firma_Kodu = "";
+                string Donem_Kodu = "";
+                if (Uygulama == "LOGO")
+                {
+                    if (data["Firma_Kodu"] == null)
+                    {
+                        result.SonucKodu = 0;
+                        result.Hata = "UYARI! Firma_Kodu bilgisi boş olamaz.";
+                        return result;
+                    }
+                    if (data["Donem_Kodu"] == null)
+                    {
+                        result.SonucKodu = 0;
+                        result.Hata = "UYARI! Donem_Kodu bilgisi boş olamaz.";
+                        return result;
+                    }
+                }
+
                 string Sube_Kodu = Convert.ToString(data["Sube_Kodu"]);
                 string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
 
@@ -2924,6 +2987,52 @@ values
                     {
                         _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
                         _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_KOD5] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                }
+
+                if (Uygulama == "LOGO")
+                {
+                    if (Islem_Tipi == "Stok_Grup")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_"+ Firma_Kodu + "_STOK_GRUP] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Kod1")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_"+ Firma_Kodu + "_STOK_KOD1] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Kod2")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_" + Firma_Kodu + "_STOK_KOD2] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Kod3")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_" + Firma_Kodu + "_STOK_KOD3] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Kod4")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_" + Firma_Kodu + "_STOK_KOD4] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Kod5")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_" + Firma_Kodu + "_STOK_KOD5] WITH (NOLOCK) ";
                         _srg += " WHERE 1=1 ";
 
                     }
