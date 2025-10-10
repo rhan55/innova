@@ -8644,6 +8644,7 @@ END
         [HttpPost]
         public IDJsonResult KullaniciGirisi([FromBody] JObject data)
         {
+            string _Procedure_Versiyon = "251010";
             IDJsonResult result = new IDJsonResult();
             try
             {
@@ -8656,7 +8657,7 @@ END
                 if (data["Parola"] == null)
                 {
                     result.SonucKodu = 0;
-                    result.Hata = "UYARI! KullaniciAdi bilgisi boş olamaz.";
+                    result.Hata = "UYARI! Parola bilgisi boş olamaz.";
                     return result;
                 }
                 string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
@@ -8687,10 +8688,14 @@ END
                         entity.Uygulama_Depo_Kodu = Convert.ToString(dt.Rows[0]["Uygulama_Depo_Kodu"]);
                         entity.UyelikBitisTarihi = Convert.ToDateTime(dt.Rows[0]["UyelikBitisTarihi"]);
                         entity.UyelikBitisGunu = Convert.ToString(dt.Rows[0]["UyelikBitisGunu"]);
+                        entity.Uygulama_Firma_Kodu = Convert.ToString(dt.Rows[0]["Uygulama_Firma_Kodu"]);
+                        entity.Uygulama_Donem_Kodu = Convert.ToString(dt.Rows[0]["Uygulama_Donem_Kodu"]);
+                        entity.Uygulama_Procedure_Versiyon = Convert.ToString(dt.Rows[0]["Uygulama_Procedure_Versiyon"]);
                         #endregion
                         result.Data = entity;
                         result.SonucKodu = 1;
                         result.Sonuc = "Başarılı";
+                        result.Sonuc_Versiyon = 251010;
                         return result;
                     }
                     else
