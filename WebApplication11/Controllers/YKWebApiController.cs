@@ -8345,6 +8345,51 @@ Update WhatsAppMesajlari Set Gonderildi = 1 Where ID = @ID
             }
             return result;
         }
+
+        private List<dynamic> Dinamic_GetDynamicList(string query)
+        {
+            var list = new List<dynamic>();
+
+            using (SqlConnection con = new SqlConnection("Server=.;Database=TestDB;Trusted_Connection=True;"))
+            {
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        IDictionary<string, object> expando = new System.Dynamic.ExpandoObject();
+                        for (int i = 0; i < dr.FieldCount; i++)
+                        {
+                            expando.Add(dr.GetName(i), dr.IsDBNull(i) ? null : dr.GetValue(i));
+                        }
+                        list.Add(expando);
+                    }
+                }
+            }
+
+            return list;
+        }
+       
+        [HttpPost]
+        [Route("Query")]
+        public IHttpActionResult Dinamic_ExecuteQuery([FromBody] string queryJson)
+        {
+            try
+            {
+                // JSON içindeki tırnakları temizle
+                var query = queryJson.Trim('"').Replace("\\\"", "\"");
+
+                var data = Dinamic_GetDynamicList(query);
+                return Ok(new { success = true, data });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = ex.Message });
+            }
+        }
+
         public IDJsonResult WPMesajBilgisi([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
