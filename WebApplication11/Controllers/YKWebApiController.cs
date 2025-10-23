@@ -35,16 +35,32 @@ namespace YKPortal.Controllers
 
         public string SerdarOtoProgramPath = @"\\serdarotosrv\ORTAK-ALAN\Stok_Resimleri\";
 
-        [System.Web.Http.HttpGet]
-        public IDJsonResult SerdarMarkalar()
+        [System.Web.Http.HttpPost]
+        public IDJsonResult RksMarkalar([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
+            if (data["Uygulama"] == null)
+            {
+                result.SonucKodu = 0;
+                result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                return result;
+            }
+            if (data["Uygulama_Db"] == null)
+            {
+                result.SonucKodu = 0;
+                result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                return result;
+            }
+            string Uygulama = data["Uygulama"].ToObject<string>();
+            string Uygulama_Db = data["Uygulama_Db"].ToObject<string>();
             try
             {
                 List<ModelGrupKodu> stoklar = new List<ModelGrupKodu>();
 
                 using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString))
                 {
+                    conn.Open();
+                    conn.ChangeDatabase(Uygulama_Db);
                     SqlCommand cmd = new SqlCommand();
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.CommandText = "i3_p_m_StokMarkalar";
@@ -81,16 +97,35 @@ namespace YKPortal.Controllers
             return result;
         }
 
-        [System.Web.Http.HttpGet]
-        public IDJsonResult SerdarUrunler(string AranacakKelime, string Sirket)
+        [System.Web.Http.HttpPost]
+        public IDJsonResult RksUrunler ([FromBody] JObject data) //(string AranacakKelime, string Sirket)
         {
+            string AranacakKelime = "";
             IDJsonResult result = new IDJsonResult();
+            if (data["Uygulama"] == null)
+            {
+                result.SonucKodu = 0;
+                result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                return result;
+            }
+            if (data["Uygulama_Db"] == null)
+            {
+                result.SonucKodu = 0;
+                result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                return result;
+            }
+            AranacakKelime = Convert.ToString(data["AranacakKelime"]);
+            string Uygulama = data["Uygulama"].ToObject<string>();
+            string Uygulama_Db = data["Uygulama_Db"].ToObject<string>();
+
             try
             {
                 List<ModelUrun> stoklar = new List<ModelUrun>();
 
                 using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString))
                 {
+                    conn.Open();
+                    conn.ChangeDatabase(Uygulama_Db);
                     SqlCommand cmd = new SqlCommand();
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.CommandText = "i3_p_m_StokAra";
@@ -166,15 +201,34 @@ namespace YKPortal.Controllers
             return result;
         }
 
-        [System.Web.Http.HttpGet]
-        public IDJsonResult SerdarUrunGetir(string StokKodu, string Sirket)
+        [System.Web.Http.HttpPost]
+        public IDJsonResult SerdarUrunGetir([FromBody] JObject data) //(string StokKodu, string Sirket)
         {
             IDJsonResult result = new IDJsonResult();
+            if (data["Uygulama"] == null)
+            {
+                result.SonucKodu = 0;
+                result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                return result;
+            }
+            if (data["Uygulama_Db"] == null)
+            {
+                result.SonucKodu = 0;
+                result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                return result;
+            }
+
+            string Uygulama = data["Uygulama"].ToObject<string>();
+            string Uygulama_Db = data["Uygulama_Db"].ToObject<string>();
+
+            string StokKodu = Convert.ToString(data["StokKodu"]);
             try
             {
                 List<ModelUrun> stoklar = new List<ModelUrun>();
                 using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString))
                 {
+                    conn.Open();
+                    conn.ChangeDatabase(Uygulama_Db);
                     SqlCommand cmd = new SqlCommand();
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.CommandText = "i3_p_m_StokGet";
@@ -189,7 +243,7 @@ namespace YKPortal.Controllers
                         {
                             SqlCommand cmdResimler = new SqlCommand();
                             cmdResimler.CommandType = CommandType.Text;
-                            cmdResimler.CommandText = "select * from tStokResim WITH(NOLOCK) Where StokKodu = @StokKodu";
+                            cmdResimler.CommandText = "select * from [" + Uygulama_Db + "].DBO.tStokResim WITH(NOLOCK) Where StokKodu = @StokKodu";
                             cmdResimler.Parameters.AddWithValue("@StokKodu", StokKodu);
                             cmdResimler.Connection = conn;
                             DataTable dtResimler = new DataTable();
@@ -249,11 +303,26 @@ namespace YKPortal.Controllers
         }
 
         [System.Web.Http.HttpPost]
-        public IDJsonResult SerdarResimKaydet(
+        public IDJsonResult RksResimKaydet(
             [FromBody] JObject data
             )
         {
             IDJsonResult result = new IDJsonResult();
+            if (data["Uygulama"] == null)
+            {
+                result.SonucKodu = 0;
+                result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                return result;
+            }
+            if (data["Uygulama_Db"] == null)
+            {
+                result.SonucKodu = 0;
+                result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                return result;
+            }
+
+            string Uygulama = data["Uygulama"].ToObject<string>();
+            string Uygulama_Db = data["Uygulama_Db"].ToObject<string>();
             string HataSatiri = "Hata Satırı : ";
             try
             {
@@ -280,6 +349,7 @@ namespace YKPortal.Controllers
                     SqlCommand cmd = new SqlCommand();
                     cmd.Connection = conn;
                     conn.Open();
+                    conn.ChangeDatabase(Uygulama_Db);
                     HataSatiri += "-1";
                     string StokKodu = data["StokKodu"].ToObject<string>();
                     HataSatiri += "-1.1";
@@ -306,9 +376,9 @@ namespace YKPortal.Controllers
                             HataSatiri += "-5";
                             cmd.Parameters.Clear();
                             cmd.CommandType = CommandType.Text;
-                            cmd.CommandText = @"Insert Into tStokResim (StokKodu,Yol,DosyaAdi,DosyaUzanti,KayitKullanici,KayitTarih,DosyaKayitAdi) 
-values 
-(@StokKodu,@Yol,@DosyaAdi,@DosyaUzanti,@KayitKullanici,@KayitTarihi,@DosyaKayitAdi) select SCOPE_IDENTITY()";
+                            cmd.CommandText = "Insert Into [" + Uygulama_Db + "].DBO.tStokResim (StokKodu,Yol,DosyaAdi,DosyaUzanti,KayitKullanici,KayitTarih,DosyaKayitAdi)  ";
+                            cmd.CommandText += " values  ";
+                            cmd.CommandText += " (@StokKodu,@Yol,@DosyaAdi,@DosyaUzanti,@KayitKullanici,@KayitTarihi,@DosyaKayitAdi) select SCOPE_IDENTITY()";
 
                             cmd.Parameters.AddWithValue("@StokKodu", StokKodu);
                             cmd.Parameters.AddWithValue("@Yol", $@"{SerdarOtoProgramPath}{pathname}");
@@ -343,11 +413,26 @@ values
         }
 
         [System.Web.Http.HttpPost]
-        public IDJsonResult SerdarSayimKaydet(
+        public IDJsonResult RksSayimKaydet(
             [FromBody] JObject data
             )
         {
             IDJsonResult result = new IDJsonResult();
+            if (data["Uygulama"] == null)
+            {
+                result.SonucKodu = 0;
+                result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                return result;
+            }
+            if (data["Uygulama_Db"] == null)
+            {
+                result.SonucKodu = 0;
+                result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                return result;
+            }
+
+            string Uygulama = data["Uygulama"].ToObject<string>();
+            string Uygulama_Db = data["Uygulama_Db"].ToObject<string>();
             try
             {
                 using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString))
@@ -355,15 +440,24 @@ values
                     SqlCommand cmd = new SqlCommand();
                     cmd.Connection = conn;
                     conn.Open();
-
+                    conn.ChangeDatabase(Uygulama_Db);
                     List<ModelUrun> UrunResimleri = data["Sayimlar"].ToObject<List<ModelUrun>>();
 
                     foreach (ModelUrun urun in UrunResimleri)
                     {
                         cmd.Parameters.Clear();
-                        cmd.CommandType = CommandType.Text;
-                        cmd.CommandText = $"exec i3_StokSayimAnlik '0', '{urun.StokKodu}', '{urun.SayimAdedi}', '0','{urun.KayitYapanKul}', 'Dinamik', '0', '{urun.Raf}' ";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "i3_Pr_Stok_SayimAnlik "; // '0', '" + urun.StokKodu + "', '"+ {urun.SayimAdedi}', '0','{urun.KayitYapanKul}', 'Dinamik', '0', '{urun.Raf}' ";
+                        cmd.Parameters.AddWithValue("@Id", 0);
                         cmd.Parameters.AddWithValue("@StokKodu", urun.StokKodu);
+                        cmd.Parameters.AddWithValue("@Miktar", urun.SayimAdedi);
+                        cmd.Parameters.AddWithValue("@Fiyat", 0);
+                        cmd.Parameters.AddWithValue("@KullaniciNo", 0);
+                        cmd.Parameters.AddWithValue("@SirketKodu", "Dinamik");
+                        cmd.Parameters.AddWithValue("@SubeKodu", "0");
+                        cmd.Parameters.AddWithValue("@RafKodu", urun.Raf);
+
+
                         cmd.Connection = conn;
                         cmd.ExecuteNonQuery();
                     }
@@ -380,11 +474,23 @@ values
         }
 
         [System.Web.Http.HttpPost]
-        public IDJsonResult SerdarStokKaydet(
+        public IDJsonResult RksStokKaydet(
             [FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
 
+            if (data["Uygulama"] == null)
+            {
+                result.SonucKodu = 0;
+                result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                return result;
+            }
+            if (data["Uygulama_Db"] == null)
+            {
+                result.SonucKodu = 0;
+                result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                return result;
+            }
             if (data["Marka"] == null)
             {
                 result.SonucKodu = 0;
@@ -409,6 +515,8 @@ values
                 result.Hata = "Raf bilgisi boş olamaz.";
                 return result;
             }
+            string Uygulama = data["Uygulama"].ToObject<string>();
+            string Uygulama_Db = data["Uygulama_Db"].ToObject<string>();
 
             string HataSirasi = "";
             try
@@ -418,6 +526,7 @@ values
                     SqlCommand cmd = new SqlCommand();
 
                     conn.Open();
+                    conn.ChangeDatabase(Uygulama_Db);
 
                     HataSirasi += "1-";
 
@@ -428,13 +537,13 @@ values
                     string Raf = data["Raf"].ToObject<string>();
                     string OlcuBirimi = data["OlcuBirimi"].ToObject<string>();
                     string Marka = data["Marka"].ToObject<string>();
-                    double SayimMiktari = data["SayimMiktari"].ToObject<double>();
+                    double SayimMiktari = Convert.ToDouble(  Convert.ToString( data["SayimMiktari"]));
                     string Kullanici = data["Kullanici"].ToObject<string>();
                     string Sirket = data["Sirket"].ToObject<string>();
 
                     cmd.Parameters.Clear();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "update top(1) tStokKart set StokAdi = @StokAdi,StokMarkasi=@StokMarkasi Where StokKodu = @StokKodu";
+                    cmd.CommandText = "update top(1) [" + Uygulama_Db + "].DBO.tStokKart set StokAdi = @StokAdi,StokMarkasi=@StokMarkasi Where StokKodu = @StokKodu";
                     cmd.Parameters.AddWithValue("@StokKodu", StokKodu);
                     cmd.Parameters.AddWithValue("@StokAdi", StokAdi);
                     cmd.Parameters.AddWithValue("@StokMarkasi", Marka);
@@ -446,7 +555,7 @@ values
                         HataSirasi += ", Raf Başlangıç";
                         cmd.Parameters.Clear();
                         cmd.CommandType = CommandType.Text;
-                        cmd.CommandText = "update top(1) tStokKartEkBilgi set StokEkOndegerRafNumarasi = @Raf Where StokKodu = @StokKodu";
+                        cmd.CommandText = "update top(1) [" + Uygulama_Db + "].DBO.tStokKartEkBilgi set StokEkOndegerRafNumarasi = @Raf Where StokKodu = @StokKodu";
                         cmd.Parameters.AddWithValue("@Raf", Raf);
                         cmd.Parameters.AddWithValue("@StokKodu", StokKodu);
                         cmd.Connection = conn;
@@ -464,7 +573,7 @@ values
                     {
                         cmd.Parameters.Clear();
                         cmd.CommandType = CommandType.Text;
-                        cmd.CommandText = "select count(*) from tStokBarkod WITH(NOLOCK) Where StokKodu = @StokKodu and BarkodOlcuBirimi = @StokOlcuBirimi1";
+                        cmd.CommandText = "select count(*) from [" + Uygulama_Db + "].DBO.tStokBarkod WITH(NOLOCK) Where StokKodu = @StokKodu and BarkodOlcuBirimi = @StokOlcuBirimi1";
                         cmd.Parameters.AddWithValue("@StokKodu", StokKodu);
                         cmd.Parameters.AddWithValue("@StokOlcuBirimi1", OlcuBirimi);
                         cmd.Connection = conn;
@@ -473,7 +582,7 @@ values
                         {
                             cmd.Parameters.Clear();
                             cmd.CommandType = CommandType.Text;
-                            cmd.CommandText = "update top(1) tStokBarkod set Barkod = @Barkod Where StokKodu = @StokKodu and BarkodOlcuBirimi = @StokOlcuBirimi1";
+                            cmd.CommandText = "update top(1) [" + Uygulama_Db + "].DBO.tStokBarkod set Barkod = @Barkod Where StokKodu = @StokKodu and BarkodOlcuBirimi = @StokOlcuBirimi1";
                             cmd.Parameters.AddWithValue("@Barkod", Barkod);
                             cmd.Parameters.AddWithValue("@StokKodu", StokKodu);
                             cmd.Parameters.AddWithValue("@StokOlcuBirimi1", OlcuBirimi);
@@ -484,9 +593,9 @@ values
                         {
                             cmd.Parameters.Clear();
                             cmd.CommandType = CommandType.Text;
-                            cmd.CommandText = @"Insert Into tStokBarkod (Barkod,StokKodu,BarkodOlcuBirimi,KayitKullanici,KayitTarih) 
-values 
-(@Barkod,@StokKodu,@BarkodOlcuBirimi,@KayitKullanici,@KayitTarihi)";
+                            cmd.CommandText = "Insert Into [" + Uygulama_Db + "].DBO.tStokBarkod (Barkod,StokKodu,BarkodOlcuBirimi,KayitKullanici,KayitTarih) " ;
+                            cmd.CommandText += " values  ";
+                            cmd.CommandText += "(@Barkod,@StokKodu,@BarkodOlcuBirimi,@KayitKullanici,@KayitTarihi)";
                             cmd.Parameters.AddWithValue("@Barkod", Barkod);
                             cmd.Parameters.AddWithValue("@StokKodu", StokKodu);
                             cmd.Parameters.AddWithValue("@BarkodOlcuBirimi", OlcuBirimi);
@@ -500,16 +609,22 @@ values
                     bool SayimDegisti = false;
                     if (SayimMiktari > 0)
                     {
-                        //    cmd.Parameters.Clear();
-                        //    cmd.CommandType = CommandType.Text;
-                        //    cmd.CommandText = "select ISNULL(VrsAlisFiyat,0) as VrsAlisFiyat from tStokKart WITH(NOLOCK) Where StokKodu = @StokKodu";
-                        //    cmd.Parameters.AddWithValue("@StokKodu", StokKodu);
-                        //    cmd.Connection = conn;
-                        //    double? fiyat = Convert.ToDouble(cmd.ExecuteScalar());
+
+                        cmd.Parameters.Clear();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "i3_Pr_Stok_SayimAnlik "; // '0', '" + urun.StokKodu + "', '"+ {urun.SayimAdedi}', '0','{urun.KayitYapanKul}', 'Dinamik', '0', '{urun.Raf}' ";
+                        cmd.Parameters.AddWithValue("@Id", 0);
+                        cmd.Parameters.AddWithValue("@StokKodu", StokKodu);
+                        cmd.Parameters.AddWithValue("@Miktar", Convert.ToDouble( SayimMiktari));
+                        cmd.Parameters.AddWithValue("@Fiyat", 0);
+                        cmd.Parameters.AddWithValue("@KullaniciNo", 0);
+                        cmd.Parameters.AddWithValue("@SirketKodu", "Dinamik");
+                        cmd.Parameters.AddWithValue("@SubeKodu", "0");
+                        cmd.Parameters.AddWithValue("@RafKodu", Raf);
 
                         cmd.Parameters.Clear();
                         cmd.CommandType = CommandType.Text;
-                        cmd.CommandText = $"exec i3_StokSayimAnlik '0', '{StokKodu}', '{SayimMiktari}', '0','1', 'Dinamik', '0', '{Raf}' ";
+                        cmd.CommandText = $"exec [" + Uygulama_Db + "].DBO.i3_StokSayimAnlik '0', '{StokKodu}', '{SayimMiktari}', '0','1', 'Dinamik', '0', '{Raf}' ";
                         cmd.Parameters.AddWithValue("@StokKodu", StokKodu);
                         cmd.Connection = conn;
                         cmd.ExecuteNonQuery();
@@ -533,7 +648,7 @@ values
         }
 
         [System.Web.Http.HttpGet]
-        public IDJsonResult SerdarResimSil(int ResimID)
+        public IDJsonResult RksResimSil(int ResimID)
         {
             IDJsonResult result = new IDJsonResult();
             try
@@ -7951,7 +8066,7 @@ Select @ID as ID
         /// <param name="TrackingId"></param>
         /// <returns></returns>
         [HttpGet]
-        public dynamic ComplateOrder(string CariKodu, string SiparisNo)
+        public dynamic Pirelli_ComplateOrder(string CariKodu, string SiparisNo)
         {
             string _sira = "";
             _sira = "4";
@@ -7959,7 +8074,7 @@ Select @ID as ID
 
             cmd.Parameters.Clear();
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            cmd.CommandText = "p_PirelliOrderDelivery";
+            cmd.CommandText = "p_PirelliOrderDelivery"; // İNNOVA DATASINDA
             cmd.Parameters.AddWithValue("@CariKodu", CariKodu);
             cmd.Parameters.AddWithValue("@TrackingId", "");
             cmd.Parameters.AddWithValue("@SiparisNumarasi", SiparisNo);
