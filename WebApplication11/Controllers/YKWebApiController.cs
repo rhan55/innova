@@ -33,7 +33,7 @@ namespace YKPortal.Controllers
 
         #region Serdar Oto 
 
-        public string SerdarOtoProgramPath = @"\\serdarotosrv\ORTAK-ALAN\Stok_Resimleri\";
+        public string SerdarOtoProgramPath = @"\\192.168.2.250\ortak-alan\Stok_Resimleri\";
 
         [System.Web.Http.HttpPost]
         public IDJsonResult RksMarkalar([FromBody] JObject data)
@@ -537,7 +537,7 @@ namespace YKPortal.Controllers
                     string Raf = data["Raf"].ToObject<string>();
                     string OlcuBirimi = data["OlcuBirimi"].ToObject<string>();
                     string Marka = data["Marka"].ToObject<string>();
-                    double SayimMiktari = Convert.ToDouble(  Convert.ToString( data["SayimMiktari"]));
+                    double SayimMiktari = Convert.ToDouble(data["SayimMiktari"]);
                     string Kullanici = data["Kullanici"].ToObject<string>();
                     string Sirket = data["Sirket"].ToObject<string>();
 
@@ -622,10 +622,10 @@ namespace YKPortal.Controllers
                         cmd.Parameters.AddWithValue("@SubeKodu", "0");
                         cmd.Parameters.AddWithValue("@RafKodu", Raf);
 
-                        cmd.Parameters.Clear();
-                        cmd.CommandType = CommandType.Text;
-                        cmd.CommandText = $"exec [" + Uygulama_Db + "].DBO.i3_StokSayimAnlik '0', '{StokKodu}', '{SayimMiktari}', '0','1', 'Dinamik', '0', '{Raf}' ";
-                        cmd.Parameters.AddWithValue("@StokKodu", StokKodu);
+                      //  cmd.Parameters.Clear();
+                       // cmd.CommandType = CommandType.Text;
+                      //  cmd.CommandText = $"exec [" + Uygulama_Db + "].DBO.i3_StokSayimAnlik '0', '{StokKodu}', '{SayimMiktari}', '0','1', 'Dinamik', '0', '{Raf}' ";
+                     //   cmd.Parameters.AddWithValue("@StokKodu", StokKodu);
                         cmd.Connection = conn;
                         cmd.ExecuteNonQuery();
 
