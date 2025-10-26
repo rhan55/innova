@@ -33,7 +33,7 @@ namespace YKPortal.Controllers
 
         #region Serdar Oto 
 
-        public string SerdarOtoProgramPath = @"\\serdarotosrv\ORTAK-ALAN\Stok_Resimleri\";
+        public string SerdarOtoProgramPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Uploads/"); // @"\\serdarotosrv\ORTAK-ALAN\Stok_Resimleri\";
 
         [System.Web.Http.HttpGet]
         public IDJsonResult SerdarMarkalar()
