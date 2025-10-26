@@ -20,8 +20,11 @@ namespace YKPortal.Models.YKClasses
         private string _Uygulama;
         private string _Uygulama_Sube_Kodu = "0";
         private string _Uygulama_Depo_Kodu = "0";
+        private string _Uygulama_Firma_Kodu = "001";
+        private string _Uygulama_Donem_Kodu = "01";
         private string _Uygulama_Db;
         private string _UyelikBitisGunu = "0";
+        private string _Uygulama_Procedure_Versiyon = "0";
 
         public string ID { get; set; }
         public string KullaniciID { get { return _KullaniciID ?? ""; } set { _KullaniciID = value; } }
@@ -37,8 +40,10 @@ namespace YKPortal.Models.YKClasses
         public string Uygulama_Db { get { return _Uygulama_Db ?? ""; } set { _Uygulama_Db = value; } }
         public string Uygulama_Sube_Kodu { get { return _Uygulama_Sube_Kodu ?? "0"; } set { _Uygulama_Sube_Kodu = value; } }
         public string Uygulama_Depo_Kodu { get { return _Uygulama_Depo_Kodu ?? "0"; } set { _Uygulama_Depo_Kodu = value; } }
-
+        public string Uygulama_Firma_Kodu { get { return _Uygulama_Firma_Kodu ?? "001"; } set { _Uygulama_Firma_Kodu = value; } }
+        public string Uygulama_Donem_Kodu { get { return _Uygulama_Donem_Kodu ?? "01"; } set { _Uygulama_Donem_Kodu = value; } }
         public string UyelikBitisGunu { get { return _UyelikBitisGunu ?? "0"; } set { _UyelikBitisGunu = value; } }
 
+        public string Uygulama_Procedure_Versiyon { get { return _Uygulama_Procedure_Versiyon ?? "0"; } set { _Uygulama_Procedure_Versiyon = value; } }
     }
 }

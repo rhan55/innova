@@ -453,7 +453,7 @@ values
                         HataSirasi += ", Raf Başlangıç Çalış";
                         cmd.ExecuteNonQuery();
                         HataSirasi += ", Raf Başlangıç Bitiş";
-                        HataSirasi += ", 1.8";1>< G
+                        HataSirasi += ", 1.8";
                     }
                     else
                     {
@@ -628,6 +628,661 @@ values
             }
             return result;
         }
+
+        #region Iyb_Stok_Bilgi_Getir
+        public IDJsonResult Iyb_Stok_Bilgi_Getir([FromBody] JObject data)
+        {
+            string _Procedure_Versiyon = "250909";
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Stok_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Stok_Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici bilgisi boş olamaz.";
+                    return result;
+                }
+                string _srg = "";
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Depo_Kodu = Convert.ToString(data["Depo_Kodu"]);
+                if (Depo_Kodu == "")
+                {
+                    Depo_Kodu = "0";
+                }
+                string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
+                string Kullanici = Convert.ToString(data["Kullanici"]);
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                if (Uygulama == "NETSIS")
+                {
+                    _srg = " ";
+                    _srg += " \r\n SELECT DBO.TRK1(ST.STOK_KODU) STOK_KODU, DBO.TRK1(ST.STOK_ADI) STOK_ADI ";
+                    _srg += " \r\n , DBO.TRK1(GRUP_KODU) STOK_GRUP_KODU, DBO.TRK1(KOD_1) STOK_KOD_1, DBO.TRK1(KOD_2) STOK_KOD_2 ";
+                    _srg += " \r\n , DBO.TRK1(KOD_3) STOK_KOD_3, DBO.TRK1(KOD_4) STOK_KOD_4, DBO.TRK1(KOD_5) STOK_KOD_5 ";
+                    _srg += " \r\n , BARKOD1, BARKOD2, BARKOD3 ";
+                    _srg += " \r\n , SATIS_FIAT1 SATIS_FIYAT1, SATIS_FIAT2 SATIS_FIYAT2, SATIS_FIAT3 SATIS_FIYAT3, SATIS_FIAT4 SATIS_FIYAT4 ";
+                    _srg += " \r\n , OLCU_BR1 ";
+                    _srg += " \r\n , ISNULL((SELECT SUM(CASE WHEN SH.STHAR_GCKOD = 'G' THEN STHAR_GCMIK ELSE STHAR_GCMIK * -1 END) FROM ["+ Uygulama_Db + "].[dbo].TBLSTHAR SH WITH (NOLOCK) ";
+                    _srg += " \r\n          WHERE SH.STOK_KODU = ST.STOK_KODU ";
+                    _srg += " \r\n          AND SH.DEPO_KODU = '"+ Depo_Kodu + "' ";
+                    _srg += " \r\n          ) , 0) AS BAKIYE ";
+                    _srg += " \r\n FROM ["+ Uygulama_Db + "].[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ";
+                    _srg += " \r\n WHERE 1=1 ";
+                    _srg += " \r\n AND (    (ST.STOK_KODU = '" + Stok_Kodu + "') ";
+                    _srg += " \r\n          OR (ST.BARKOD1 = '" + Stok_Kodu + "') ";
+                    _srg += " \r\n          OR (ST.BARKOD2 = '" + Stok_Kodu + "') ";
+                    _srg += " \r\n          OR (ST.BARKOD3 = '" + Stok_Kodu + "') ";
+                    _srg += " \r\n          OR (ST.URETICI_KODU = '" + Stok_Kodu + "') ";
+                    _srg += " \r\n          OR (ST.STOK_KODU IN (SELECT BAR.STOK_KODU FROM [" + Uygulama_Db + "].[dbo].[TBLSTOKBAR] BAR WITH (NOLOCK) WHERE BAR.BARKOD = '" + Stok_Kodu + "')) ";
+                    _srg += " \r\n      ) ";
+                }
+                if (Uygulama == "LOGO")
+                {
+                    _srg = " ";
+                    _srg += " \r\n SELECT FISNO2 FISNO, BARKOD, ADET, KG ";
+                    _srg += " \r\n FROM [INNOVA].[dbo].[TBLOKUTMA] WITH (NOLOCK) ";
+                    _srg += " \r\n WHERE FISNO2 = '2'";
+                }
+                cmd.CommandText = _srg;
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.STOK_KODU = Convert.ToString(satir["STOK_KODU"]);
+                        entity.STOK_ADI = Convert.ToString(satir["STOK_ADI"]);
+                        entity.OLCU_BR1 = Convert.ToString(satir["OLCU_BR1"]);
+
+                        entity.STOK_GRUP_KODU = Convert.ToString(satir["STOK_GRUP_KODU"]);
+                        entity.STOK_KOD_1 = Convert.ToString(satir["STOK_KOD_1"]);
+                        entity.STOK_KOD_2 = Convert.ToString(satir["STOK_KOD_2"]);
+                        entity.STOK_KOD_3 = Convert.ToString(satir["STOK_KOD_3"]);
+                        entity.STOK_KOD_4 = Convert.ToString(satir["STOK_KOD_4"]);
+                        entity.STOK_KOD_5 = Convert.ToString(satir["STOK_KOD_5"]);
+
+                        entity.BARKOD1 = Convert.ToString(satir["BARKOD1"]);
+                        entity.BARKOD2 = Convert.ToString(satir["BARKOD2"]);
+                        entity.BARKOD3 = Convert.ToString(satir["BARKOD3"]);
+
+                        entity.SATIS_FIYAT1 = Convert.ToString(satir["SATIS_FIYAT1"]);
+                        entity.SATIS_FIYAT2 = Convert.ToString(satir["SATIS_FIYAT2"]);
+                        entity.SATIS_FIYAT3 = Convert.ToString(satir["SATIS_FIYAT3"]);
+                        entity.SATIS_FIYAT4 = Convert.ToString(satir["SATIS_FIYAT4"]);
+
+                        entity.BAKIYE = Convert.ToString(satir["BAKIYE"]);
+                        entity.Servis_Versiyon = 250909;
+                        entities.Add(entity);
+                    }
+                    #endregion
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    result.Sonuc_Versiyon = 250806;
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    return result;
+                }
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        #endregion Iyb_Stok_Bilgi_Getir
+
+        #region Netsis_Stok_Bilgi_Duzenle
+        public IDJsonResult Iyb_Stok_Bilgi_Duzenle([FromBody] JObject data)
+        {
+            string _Procedure_Versiyon = "250929";
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Stok_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Stok_Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+
+                if (data["Kullanici_Adi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici_Adi bilgisi boş olamaz.";
+                    return result;
+                }
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Sube_Kodu = Convert.ToString(data["Sube_Kodu"]);
+                string Firma_Kodu = Convert.ToString(data["Firma_Kodu"]);
+                string Donem_Kodu = Convert.ToString(data["Donem_Kodu"]);
+                string Depo_Kodu = Convert.ToString(data["Depo_Kodu"]);
+                if (Depo_Kodu == "")
+                {
+                    Depo_Kodu = "0";
+                }
+                string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
+                string Stok_Adi = Convert.ToString(data["Stok_Adi"]).Replace("'", "^");
+                string _Barkod1 = Convert.ToString(data["BARKOD1"]);
+
+                string _Stok_Grup = Convert.ToString(data["STOK_GRUP_KODU"]);
+                string _Stok_Kod_1 = Convert.ToString(data["STOK_KOD_1"]);
+                string _Stok_Kod_2 = Convert.ToString(data["STOK_KOD_2"]);
+                string _Stok_Kod_3 = Convert.ToString(data["STOK_KOD_3"]);
+                string _Stok_Kod_4 = Convert.ToString(data["STOK_KOD_4"]);
+                string _Stok_Kod_5 = Convert.ToString(data["STOK_KOD_5"]);
+
+                string _Miktar = Convert.ToString(data["Miktar"]);
+                string Kullanici_Adi = Convert.ToString(data["Kullanici_Adi"]);
+
+                string _Sayim_Fisno = DateTime.Now.ToString("yyMMddHHmmssfff");
+                string _Sayim_Tarihi = DateTime.Now.ToString("yyyy.MM.dd");
+
+                string _Satis_Fiyat1 = Convert.ToString(data["SATIS_FIYAT1"]);
+                if (_Satis_Fiyat1 == "")
+                {
+                    _Satis_Fiyat1 = "0";
+                }
+                string _Satis_Fiyat2 = Convert.ToString(data["SATIS_FIYAT2"]);
+                if (_Satis_Fiyat2 == "")
+                {
+                    _Satis_Fiyat2 = "0";
+                }
+                string _Satis_Fiyat3 = Convert.ToString(data["SATIS_FIYAT3"]);
+                if (_Satis_Fiyat3 == "")
+                {
+                    _Satis_Fiyat3 = "0";
+                }
+                string _Satis_Fiyat4 = Convert.ToString(data["SATIS_FIYAT4"]);
+                if (_Satis_Fiyat4 == "")
+                {
+                    _Satis_Fiyat4 = "0";
+                }
+
+                string _srg = "";
+                if (Uygulama == "NETSIS")
+                {
+                    _srg = "";
+                    _srg += " \r\n  -- Netsis_Stok_Bilgi_Duzenle ";
+                    _srg += " \r\n  -- Kontrol ";
+                    _srg += " \r\n SELECT 'Netsis_Stok_Bilgi_Duzenle' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
+                    _srg += " \r\n , '" + Stok_Kodu + "' as STOK_KODU, '' AS Seri_No, '" + _Sayim_Tarihi + "' Belge_Tarihi, '" + _Miktar.Replace(",", ".") + "' AS MIKTAR  ";
+                    _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '" + Depo_Kodu + "' as Depo_Kodu  ";
+
+                    _srg += " \r\n  -- Stok Ek Güncelleme ";
+                    _srg += " \r\n UPDATE " + Uygulama_Db + ".[dbo].[TBLSTSABITEK] ";
+                    _srg += " \r\n SET ";
+                    _srg += " \r\n  DUZELTMEYAPANKUL = left('" + Kullanici_Adi + "',8), DUZELTMETARIHI = getdate()  ";
+                    _srg += " \r\n WHERE STOK_KODU = '" + Stok_Kodu + "' ";
+
+                    _srg += " \r\n  -- Stok Güncelleme ";
+                    _srg += " \r\n UPDATE " + Uygulama_Db + ".[dbo].[TBLSTSABIT] ";
+                    _srg += " \r\n SET ";
+                    _srg += " \r\n LOT_SIZECUSTOMER = ISNULL(LOT_SIZECUSTOMER,0) + 1";
+                    
+                    if (Stok_Adi != "")
+                    {
+                        _srg += " \r\n , STOK_ADI = left('" + Stok_Adi + "',50) ";
+                    }
+                    if (_Barkod1 != "")
+                    {
+                        _srg += " \r\n , BARKOD1 = left('" + _Barkod1 + "',50) ";
+                    }
+                    if (_Stok_Grup != "" )
+                    {
+                        _srg += " \r\n , GRUP_KODU = left('" + _Stok_Grup + "',8) ";
+                    }
+                    if (_Stok_Kod_1 != "" )
+                    {
+                        _srg += " \r\n , KOD_1 = left('" + _Stok_Kod_1 + "',8) ";
+                    }
+                    if (_Stok_Kod_2 != "")
+                    {
+                        _srg += " \r\n , KOD_2 = left('" + _Stok_Kod_2 + "',8) ";
+                    }
+                    if (_Stok_Kod_3 != "")
+                    {
+                        _srg += " \r\n , KOD_3 = left('" + _Stok_Kod_3 + "',8) ";
+                    }
+                    if (_Stok_Kod_4 != "")
+                    {
+                        _srg += " \r\n , KOD_4 = left('" + _Stok_Kod_4 + "',8) ";
+                    }
+                    if (_Stok_Kod_5 != "")
+                    {
+                        _srg += " \r\n , KOD_5 = left('" + _Stok_Kod_5 + "',8) ";
+                    }
+                    if (_Satis_Fiyat1 != "")
+                    {
+                        if (Convert.ToDecimal(_Satis_Fiyat1) > 0)
+                        {
+                            _srg += " \r\n , SATIS_FIAT1 = '" + _Satis_Fiyat1.Replace(",", ".") + "' ) ";
+                        }
+                    }
+                    if (_Satis_Fiyat2 != "")
+                    {
+                        if (Convert.ToDecimal(_Satis_Fiyat2) > 0)
+                        {
+                            _srg += " \r\n , SATIS_FIAT2 = '" + _Satis_Fiyat2.Replace(",", ".") + "' ) ";
+                        }
+                    }
+                    if (_Satis_Fiyat3 != "")
+                    {
+                        if (Convert.ToDecimal(_Satis_Fiyat3) > 0)
+                        {
+                            _srg += " \r\n , SATIS_FIAT3 = '" + _Satis_Fiyat3.Replace(",", ".") + "' ) ";
+                        }
+                    }
+                    if (_Satis_Fiyat4 != "")
+                    {
+                        if (Convert.ToDecimal(_Satis_Fiyat4) > 0)
+                        {
+                            _srg += " \r\n , SATIS_FIAT4 = '" + _Satis_Fiyat4.Replace(",", ".") + "' ) ";
+                        }
+                    }
+                    _srg += " \r\n WHERE STOK_KODU = '" + Stok_Kodu + "' ";
+
+
+                    _srg += " \r\n  -- Sayim Kaydi ";
+                    _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].[TBLSAYIM] ";
+                    _srg += " \r\n ( SUBE_KODU, STOK_KODU, DEPO_KODU, MIKTAR, SAYIM_FIAT, TARIH, SAYIM_FISNO ";
+                    _srg += " \r\n , KAYITYAPANKUL, KAYITTARIHI, SAYIM_KODU ";
+                    _srg += " \r\n , ACIKLAMA ";
+                    _srg += " \r\n , SAYIM_ACIKLAMA ";
+                    _srg += " \r\n ) ";
+                    _srg += " \r\n SELECT '" + Sube_Kodu + "' AS SUBE_KODU, '" + Stok_Kodu + "' as STOK_KODU, '" + Depo_Kodu + "' AS DEPO_KODU ";
+                    _srg += " \r\n , '" + _Miktar.Replace(",", ".") + "' MIKTAR ";
+                    _srg += " \r\n , '" + _Miktar.Replace(",", ".") + "' SAYIM_FIAT ";
+                    _srg += " \r\n , '" + _Sayim_Tarihi + "' TARIH, '" + _Sayim_Fisno + "' as SAYIM_FISNO ";
+                    _srg += " \r\n , left('" + Kullanici_Adi + "',8) as  KAYITYAPANKUL, getdate() KAYITTARIHI, '" + _Procedure_Versiyon + "' AS SAYIM_FISNO ";
+                    _srg += " \r\n , left('Iyb Stok Kontrol',35) as ACIKLAMA ";
+                    _srg += " \r\n , left('Iyb Stok Kontrol',35) as SAYIM_ACIKLAMA ";
+                    _srg += " \r\n ";
+
+                    _srg += " \r\n  -- Stok Harekete Kayit ";
+                    _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].TBLSTHAR ";
+                    _srg += " \r\n (STOK_KODU, FISNO, SUBE_KODU, DEPO_KODU, STHAR_HTUR, STHAR_TARIH ";
+                    _srg += " \r\n  , STHAR_GCKOD, STHAR_GCMIK, STHAR_GCMIK2 ";
+                    _srg += " \r\n  , EKALAN, STHAR_ACIKLAMA ";
+                    _srg += " \r\n  , STHAR_ODEGUN) ";
+                    _srg += " \r\n SELECT STOK_KODU, BELGENO, SUBE_KODU, DEPO_KODU, 'A' AS STHAR_HTUR, TARIH ";
+                    _srg += " \r\n  , CASE WHEN SAYIM - BAKIYE < 0 THEN 'C' ELSE 'G' END AS GCKOD, ABS( SAYIM - BAKIYE) AS MIKTAR , ISNULL(BAKIYE,0) AS MIKTAR2 ";
+                    _srg += " \r\n  , '' SERI_NO, LEFT( 'SAYIM (' +  CAST( CAST(BAKIYE AS FLOAT) AS NVARCHAR(25)) + ')', 35) AS STHAR_ACIKLAMA ";
+                    _srg += " \r\n  , 0 STHAR_ODEGUN ";
+                    _srg += " \r\n FROM ( ";
+                    _srg += " \r\n  SELECT STOK_KODU, SAYIM_FISNO AS BELGENO, SUBE_KODU, DEPO_KODU, 'A' AS STHAR_HTUR, TARIH ";
+                    _srg += " \r\n  	, SY.MIKTAR SAYIM ";
+                    _srg += " \r\n  	, ISNULL((SELECT SUM(CASE WHEN SH.STHAR_GCKOD = 'G' THEN STHAR_GCMIK ELSE STHAR_GCMIK * -1 END ) ";
+                    _srg += " \r\n       FROM [" + Uygulama_Db + "].[dbo].TBLSTHAR SH WITH (NOLOCK) ";
+                    _srg += " \r\n       WHERE SH.STOK_KODU = SY.STOK_KODU ";
+                    _srg += " \r\n       AND DEPO_KODU = '" + Depo_Kodu + "' ), 0) AS BAKIYE ";
+                    _srg += " \r\n   FROM [" + Uygulama_Db + "].[dbo].TBLSAYIM SY WITH (NOLOCK) ";
+                    _srg += " \r\n  WHERE SAYIM_FISNO = '" + _Sayim_Fisno + "' ";
+                    _srg += " \r\n ) SAYIM_FARKI ";
+                    _srg += " \r\n WHERE ABS( SAYIM - BAKIYE) <> 0 ";
+
+                    _srg += " \r\n  -- Log Kaydi ";
+                    _srg += " \r\n INSERT INTO INNOVA..TBLLOGUSER ";
+                    _srg += " \r\n ( FORM, TARIH, KAYITID, BELGE_NO ";
+                    _srg += " \r\n , KULLANICI, CARI_KODU ";
+                    _srg += " \r\n , BILGI, ISLEM, KAYNAK) ";
+                    _srg += " \r\n SELECT 'Web Servis Wms 05 Qr Seri Kontrol', getdate(), '" + Stok_Kodu + "' AS KAYITID, '" + Stok_Kodu + "' AS BELGE_NO ";
+                    _srg += " \r\n , '" + Kullanici_Adi + "' AS KULLANICI, '" + Depo_Kodu + "' AS CARI_KODU ";
+                    _srg += " \r\n , '" + Depo_Kodu + "' BILGI, 'Kullanici Güncellemesi' as ISLEM, 'Netsis_Stok_Bilgi_Duzenle' AS KAYNAK ";
+                }
+
+                if (Uygulama == "LOGO")
+                {
+                    _srg = "";
+                    _srg += " \r\n  -- Logo_Stok_Bilgi_Duzenle ";
+                    _srg += " \r\n  -- Kontrol ";
+                    _srg += " \r\n SELECT 'Logo_Stok_Bilgi_Duzenle' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
+                    _srg += " \r\n , '" + Stok_Kodu + "' as STOK_KODU, '' AS Seri_No, '" + _Sayim_Tarihi + "' Belge_Tarihi, '" + _Miktar.Replace(",", ".") + "' AS MIKTAR  ";
+                    _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '" + Depo_Kodu + "' as Depo_Kodu  ";
+
+                    _srg += " \r\n UPDATE [" + Uygulama_Db + "].[dbo].[LG_" + Firma_Kodu + "_ITEMS] ";
+                    _srg += " \r\n SET ";
+                    _srg += " \r\n SPECODE2 = left('" + _Stok_Kod_2 + "',8) ";
+                    _srg += " \r\n WHERE CODE = '" + Stok_Kodu + "' ";
+
+
+                    _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[DBO].LG_" + Firma_Kodu + "_UNITBARCODE   ";
+                    _srg += " \r\n  ( ";
+                    _srg += " \r\n  ITMUNITAREF, ITEMREF, UNITLINEREF, LINENR ";
+                    _srg += " \r\n  , VARIANTREF, BARCODE ";
+                    _srg += " \r\n  , SITEID, RECSTATUS, ORGLOGICREF, TYP, WBARCODESHIFT, GLOBALID ";
+                    _srg += " \r\n  ) ";
+                    _srg += " \r\n  SELECT ";
+                    _srg += " \r\n  (SELECT TOP 1 UA.LOGICALREF FROM [" + Uygulama_Db + "].[DBO].LG_" + Firma_Kodu + "_ITMUNITA UA WITH (NOLOCK) WHERE ITEMREF = IT.LOGICALREF AND LINENR = 1)  ";
+                    _srg += " \r\n  , IT.LOGICALREF ITEMREF, 23 UNITLINEREF, 1 AS LINENR  ";
+                    _srg += " \r\n  , 0 VARIANTREF, '" + _Barkod1 + "' BARKOD1 ";
+                    _srg += " \r\n  , 0 SITEID, 0 RECSTATUS, 0 ORGLOGICREF, 0 TYP, 0 WBARCODESHIFT, '' GLOBALID ";
+                    _srg += " \r\n  FROM [" + Uygulama_Db + "].[DBO].LG_" + Firma_Kodu + "_ITEMS IT WITH (NOLOCK) ";
+                    _srg += " \r\n  WHERE IT.LOGICALREF NOT IN (SELECT ITEMREF FROM [" + Uygulama_Db + "].[DBO].LG_" + Firma_Kodu + "_UNITBARCODE WITH (NOLOCK) WHERE LINENR = 1) ";
+                    _srg += " \r\n  AND CODE = '" + Stok_Kodu + "' ";
+
+                    _srg += " \r\n UPDATE [" + Uygulama_Db + "].[DBO].LG_" + Firma_Kodu + "_UNITBARCODE    ";
+                    _srg += " \r\n SET BARCODE = '" + _Barkod1 + "' ";
+                    _srg += " \r\n WHERE ITEMREF IN (SELECT IT.LOGICALREF FROM [" + Uygulama_Db + "].[DBO].LG_" + Firma_Kodu + "_ITEMS IT WITH (NOLOCK) WHERE CODE = '" + Stok_Kodu + "' ) ";
+                    _srg += " \r\n AND LINENR = 1 ";
+
+                    _srg += " \r\n  -- Sayim Kaydi ";
+                    _srg += " \r\n INSERT INTO [INNOVA].[dbo].[TBLSAYIM] ";
+                    _srg += " \r\n ( FIRMA_KODU, DONEM_KODU, SUBE_KODU, STOK_KODU, DEPO_KODU, MIKTAR, FIYAT, TARIH, SAYIM_FISNO ";
+                    _srg += " \r\n , [KAYIT_KULLANICI], [KAYIT_TARIHI] ";
+                    _srg += " \r\n , ACIKLAMA ";
+                    _srg += " \r\n ) ";
+                    _srg += " \r\n SELECT '" + Firma_Kodu + "' AS FIRMA_KODU, '" + Donem_Kodu + "' AS DONEM_KODU, '" + Sube_Kodu + "' AS SUBE_KODU, '" + Stok_Kodu + "' as STOK_KODU, '" + Depo_Kodu + "' AS DEPO_KODU ";
+                    _srg += " \r\n , '" + _Miktar.Replace(",", ".") + "' MIKTAR ";
+                    _srg += " \r\n , '" + _Miktar.Replace(",", ".") + "' SAYIM_FIAT ";
+                    _srg += " \r\n , '" + _Sayim_Tarihi + "' TARIH, '" + _Sayim_Fisno + "' as SAYIM_FISNO ";
+                    _srg += " \r\n , left('" + Kullanici_Adi + "',8) as  KAYIT_KULLANICI, getdate() KAYIT_TARIHI ";
+                    _srg += " \r\n , left('Iyb Stok Kontrol',35) as ACIKLAMA ";
+                    _srg += " \r\n ";
+
+                    string Sayim_Fazla_Guid = "INN_G_" + Depo_Kodu + _Sayim_Fisno;
+                    string Sayim_Eksik_Guid = "INN_C_" + Depo_Kodu + _Sayim_Fisno;
+                    string Sayim_Fazla_Belgesi = _Sayim_Fisno;
+                    string Sayim_Eksik_Belgesi = _Sayim_Fisno;
+
+                    _srg += " \r\n INSERT INTO INNOVA..TBLBELGE_KAYIT ";
+                    _srg += " \r\n ( ";
+                    _srg += " \r\n GUIDID, FTIRSIP , TARIH ";
+                    _srg += " \r\n , BELGE_NO ";
+                    _srg += " \r\n , DEPO_KODU ";
+                    _srg += " \r\n , GCKOD ";
+                    _srg += " \r\n , STOK_REF, STOK_KODU ";
+                    _srg += " \r\n , MIKTAR ";
+                    _srg += " \r\n , MIKTAR2 ";
+                    _srg += " \r\n , MIKTAR3 ";
+                    _srg += " \r\n , KALEM_ACIKLAMA1, KAYIT_KULLANICI_ID ";
+                    _srg += " \r\n ) ";
+                    _srg += " \r\n ";
+                    _srg += " \r\n SELECT ";
+                    _srg += " \r\n CASE   WHEN ISNULL(SAYIM,0) > ISNULL(BAKIYE,0) THEN '" + Sayim_Fazla_Guid + "'    ELSE '" + Sayim_Eksik_Guid + "'     END as GUIDID ";
+                    _srg += " \r\n , CASE WHEN ISNULL(SAYIM,0) > ISNULL(BAKIYE,0) THEN 'SAYIM_FAZLASI'               ELSE 'SAYIM_EKSIGI'                 END AS FTIRSIP , '" + _Sayim_Tarihi + "' AS TARIH ";
+                    _srg += " \r\n , '" + _Sayim_Fisno + "' as BELGE_NO ";
+                    _srg += " \r\n , '" + Depo_Kodu + "' AS DEPO_KODU ";
+                    _srg += " \r\n , CASE WHEN SAYIM > BAKIYE THEN 'G' ELSE 'C' END AS GCKOD ";
+                    _srg += " \r\n , STOK_REF, STOK_KODU, ABS(ISNULL(BAKIYE,0) - ISNULL(SAYIM,0)) AS MIKTAR ";
+                    _srg += " \r\n , BAKIYE AS MIKTAR2 ";
+                    _srg += " \r\n , SAYIM AS MIKTAR3 ";
+                    _srg += " \r\n , 'Excel' KALEM_ACIKLAMA1, 529 KAYIT_KULLANICI_ID ";
+                    _srg += " \r\n from ( ";
+                    _srg += " \r\n       SELECT ";
+                    _srg += " \r\n       ST.LOGICALREF AS STOK_REF, STOK_KODU, MIKTAR AS SAYIM  ";
+                    _srg += " \r\n ";
+                    _srg += " \r\n       , ISNULL( ( select SUM(CASE WHEN IOCODE IN (1,2) THEN AMOUNT ELSE AMOUNT * -1 END) AS BAKIYE ";
+                    _srg += " \r\n           FROM [" + Uygulama_Db + "].DBO.LG_" + Firma_Kodu + "_" + Donem_Kodu + "_STLINE SH WITH (NOLOCK) ";
+                    _srg += " \r\n           WHERE SH.STOCKREF = ST.LOGICALREF AND SH.SOURCEINDEX = '" + Depo_Kodu + "' ";
+                    _srg += " \r\n           AND SH.CANCELLED = 0 ";
+                    _srg += " \r\n           AND SH.DATE_ <= '" + _Sayim_Tarihi + "' ) ";
+                    _srg += " \r\n          ,0) BAKIYE ";
+                    _srg += " \r\n FROM INNOVA..TBLSAYIM SY WITH (NOLOCK) ";
+                    _srg += " \r\n INNER JOIN [" + Uygulama_Db + "].dbo.LG_" + Firma_Kodu + "_ITEMS ST ON SY.STOK_KODU collate SQL_Latin1_General_CP1254_CI_AS = ST.CODE collate SQL_Latin1_General_CP1254_CI_AS ";
+                    _srg += " \r\n WHERE TARIH = '" + _Sayim_Tarihi + "' ";
+                    _srg += " \r\n AND DEPO_KODU = '" + Depo_Kodu + "' ";
+                    _srg += " \r\n AND SAYIM_FISNO = '" + _Sayim_Fisno + "' ";
+                    _srg += " \r\n ) as SAYIM ";
+
+                    _srg += " \r\n EXEC [" + Uygulama_Db + "].[dbo].[INN_PR_" + Firma_Kodu + "_" + Donem_Kodu + "_BELGE_KAYIT_SAYIM]  'SAYIM_FAZLASI', '" + Sayim_Fazla_Guid + "' ";
+                    _srg += " \r\n EXEC [" + Uygulama_Db + "].[dbo].[INN_PR_" + Firma_Kodu + "_" + Donem_Kodu + "_BELGE_KAYIT_SAYIM]  'SAYIM_EKSIGI', '" + Sayim_Eksik_Guid + "' ";
+
+
+
+                    //_srg += " \r\n  -- Stok Harekete Kayit ";
+                    //_srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].TBLSTHAR ";
+                    //_srg += " \r\n (STOK_KODU, FISNO, SUBE_KODU, DEPO_KODU, STHAR_HTUR, STHAR_TARIH ";
+                    //_srg += " \r\n  , STHAR_GCKOD, STHAR_GCMIK, STHAR_GCMIK2 ";
+                    //_srg += " \r\n  , EKALAN, STHAR_ACIKLAMA ";
+                    //_srg += " \r\n  , STHAR_ODEGUN) ";
+                    //_srg += " \r\n SELECT STOK_KODU, BELGENO, SUBE_KODU, DEPO_KODU, 'A' AS STHAR_HTUR, TARIH ";
+                    //_srg += " \r\n  , CASE WHEN SAYIM - BAKIYE < 0 THEN 'C' ELSE 'G' END AS GCKOD, ABS( SAYIM - BAKIYE) AS MIKTAR , ISNULL(BAKIYE,0) AS MIKTAR2 ";
+                    //_srg += " \r\n  , '' SERI_NO, LEFT( 'SAYIM (' +  CAST( CAST(BAKIYE AS FLOAT) AS NVARCHAR(25)) + ')', 35) AS STHAR_ACIKLAMA ";
+                    //_srg += " \r\n  , 0 STHAR_ODEGUN ";
+                    //_srg += " \r\n FROM ( ";
+                    //_srg += " \r\n  SELECT STOK_KODU, SAYIM_FISNO AS BELGENO, SUBE_KODU, DEPO_KODU, 'A' AS STHAR_HTUR, TARIH ";
+                    //_srg += " \r\n  	, SY.MIKTAR SAYIM ";
+                    //_srg += " \r\n  	, (SELECT SUM(CASE WHEN SH.STHAR_GCKOD = 'G' THEN STHAR_GCMIK ELSE STHAR_GCMIK * -1 END ) ";
+                    //_srg += " \r\n       FROM [" + Uygulama_Db + "].[dbo].TBLSTHAR SH WITH (NOLOCK) ";
+                    //_srg += " \r\n       WHERE SH.STOK_KODU = SY.STOK_KODU ";
+                    //_srg += " \r\n       AND DEPO_KODU = '" + Depo_Kodu + "' ) BAKIYE ";
+                    //_srg += " \r\n   FROM [" + Uygulama_Db + "].[dbo].TBLSAYIM SY WITH (NOLOCK) ";
+                    //_srg += " \r\n  WHERE SAYIM_FISNO = '" + _Sayim_Fisno + "' ";
+                    //_srg += " \r\n ) SAYIM_FARKI ";
+                    //_srg += " \r\n WHERE ABS( SAYIM - BAKIYE) <> 0 ";
+
+                    _srg += " \r\n  -- Log Kaydi ";
+                    _srg += " \r\n INSERT INTO INNOVA..TBLLOGUSER ";
+                    _srg += " \r\n ( FORM, TARIH, KAYITID, BELGE_NO ";
+                    _srg += " \r\n , KULLANICI, CARI_KODU ";
+                    _srg += " \r\n , BILGI, ISLEM, KAYNAK) ";
+                    _srg += " \r\n SELECT 'Web Servis Wms 05 Qr Seri Kontrol', getdate(), '" + Stok_Kodu + "' AS KAYITID, '" + Stok_Kodu + "' AS BELGE_NO ";
+                    _srg += " \r\n , '" + Kullanici_Adi + "' AS KULLANICI, '" + Depo_Kodu + "' AS CARI_KODU ";
+                    _srg += " \r\n , '" + Depo_Kodu + "' BILGI, 'Kullanici Güncellemesi' as ISLEM, 'Logo_Stok_Bilgi_Duzenle' AS KAYNAK ";
+                }
+
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = _srg;
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                result.Sonuc_Versiyon = 250920;
+                return result;
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        #endregion Netsis_Stok_Bilgi_Kaydet
+
+        #region Iyb_Stok_Fiyat_Getir
+        public IDJsonResult Iyb_Stok_Fiyat_Getir([FromBody] JObject data)
+        {
+            string _Procedure_Versiyon = "251003";
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Firma_Kodu = "";
+                string Donem_Kodu = "";
+                if (Uygulama == "LOGO")
+                {
+                    if (data["Firma_Kodu"] == null)
+                    {
+                        result.SonucKodu = 0;
+                        result.Hata = "UYARI! Firma_Kodu bilgisi boş olamaz.";
+                        return result;
+                    }
+                    if (data["Donem_Kodu"] == null)
+                    {
+                        result.SonucKodu = 0;
+                        result.Hata = "UYARI! Donem_Kodu bilgisi boş olamaz.";
+                        return result;
+                    }
+
+                    Firma_Kodu = Convert.ToString(data["Firma_Kodu"]);
+                    Donem_Kodu = Convert.ToString(data["Donem_Kodu"]);
+                }
+                if (data["Stok_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Stok_Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Fiyat_Tipi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Fiyat Tipi bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici bilgisi boş olamaz.";
+                    return result;
+                }
+                string _srg = "";
+             
+                
+                string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
+                string Kullanici = Convert.ToString(data["Kullanici"]);
+                string Fiyat_Tipi = Convert.ToString(data["Fiyat_Tipi"]);
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                if (Uygulama == "NETSIS")
+                {
+                    _srg = " ";
+                    _srg += " \r\n SELECT ST.STOK_KODU ";
+                    _srg += " \r\n , SATIS_FIAT1 SATIS_FIYAT1, SATIS_FIAT2 SATIS_FIYAT2, SATIS_FIAT3 SATIS_FIYAT3, SATIS_FIAT4 SATIS_FIYAT4 ";
+                    _srg += " \r\n , OLCU_BR1 ";
+                    if (Fiyat_Tipi == "0")
+                    {
+                        _srg += " \r\n , SATIS_FIAT1 as FIYAT ";
+                    }
+                    _srg += " \r\n , '"+ Fiyat_Tipi + "' AS Fiyat_Tipi ";
+                    _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ";
+                    _srg += " \r\n WHERE 1=1 ";
+                    _srg += " \r\n AND (    ";
+                    _srg += " \r\n        (ST.STOK_KODU = '" + Stok_Kodu + "') ";
+                    _srg += " \r\n     ) ";
+                }
+                if (Uygulama == "LOGO")
+                {
+                    _srg = " ";
+                    _srg += " \r\n SELECT TOP 1 PRICE AS FIYAT ";
+                    _srg += " \r\n , '" + Fiyat_Tipi + "' AS Fiyat_Tipi ";
+                    _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].LG_"+ Firma_Kodu + "_PRCLIST WITH (NOLOCK) ";
+                    _srg += " \r\n WHERE CARDREF IN (SELECT IT.LOGICALREF FROM [" + Uygulama_Db + "].[dbo].[LG_"+ Firma_Kodu + "_ITEMS] IT WITH (NOLOCK) WHERE IT.CODE = '" + Stok_Kodu + "' ) ";
+                    _srg += " \r\n ORDER BY BEGDATE DESC, ISNULL(ENDDATE, GETDATE()) asc ";
+                }
+                cmd.CommandText = _srg;
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.FIYAT = Convert.ToString(satir["FIYAT"]);
+                        entity.FIYAT_TURU = Convert.ToString(satir["Fiyat_Tipi"]);
+                        entity.Servis_Versiyon = 251003;
+                        entities.Add(entity);
+                    }
+                    #endregion
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    result.Sonuc_Versiyon = 251003;
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    return result;
+                }
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        #endregion Iyb_Stok_Fiyat_Getir
 
         #region Netsis_StokEkBilgi_Kaydet
         public IDJsonResult Netsis_StokEkBilgi_Kaydet([FromBody] JObject data)
@@ -1422,6 +2077,7 @@ values
         #endregion
         public IDJsonResult Sabit_Listeler([FromBody] JObject data)
         {
+            string _Procedure_Versiyon = "251009";
             IDJsonResult result = new IDJsonResult();
             try
             {
@@ -1434,10 +2090,28 @@ values
                 //string LisansNumarasi = Convert.ToString(data["LisansNumarasi"]);
                 string Uygulama = Convert.ToString(data["Uygulama"]);
                 string Sube_Kodu = Convert.ToString(data["Sube_Kodu"]);
-                string Donem_Kodu = Convert.ToString(data["Donem_Kodu"]);
                 string Islem_Tipi = Convert.ToString(data["Islem_Tipi"]);
                 string Kisit = Convert.ToString(data["Kisit"]);
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Firma_Kodu = "";
+                string Donem_Kodu = "";
+                if (Uygulama == "LOGO")
+                {
+                    if (data["Firma_Kodu"] == null)
+                    {
+                        result.SonucKodu = 0;
+                        result.Hata = "UYARI! Firma_Kodu bilgisi boş olamaz.";
+                        return result;
+                    }
+                    if (data["Donem_Kodu"] == null)
+                    {
+                        result.SonucKodu = 0;
+                        result.Hata = "UYARI! Donem_Kodu bilgisi boş olamaz.";
+                        return result;
+                    }
+                    Firma_Kodu = Convert.ToString(data["Firma_Kodu"]);
+                    Donem_Kodu = Convert.ToString(data["Donem_Kodu"]);
+                }
                 List<dynamic> entities = new List<dynamic>();
 
                 SqlCommand cmd = new SqlCommand();
@@ -1447,6 +2121,7 @@ values
                     if (Islem_Tipi == "Cariler")
                     {
                         cmd.CommandText = "SELECT TOP 50 CARI_KOD AS ID, CARI_KOD AS Kod, CARI_ISIM AS Isim ";
+                        cmd.CommandText += " , 'Netsis_Sabit_Listeler' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
                         cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].OYG_NV_CARI_KART ";
                         cmd.CommandText += " WHERE 'Cari' = 'Cari'";
                         if (Kisit != "")
@@ -1457,6 +2132,7 @@ values
                     if (Islem_Tipi == "Stoklar")
                     {
                         cmd.CommandText = "SELECT TOP 50 STOK_KODU AS ID, STOK_KODU AS Kod, STOK_ADI AS Isim ";
+                        cmd.CommandText += " , 'Netsis_Sabit_Listeler' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
                         cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].OYG_NV_STOK_KART ";
                         cmd.CommandText += " WHERE 'Stok' = 'Stok'";
                         if (Kisit != "")
@@ -1530,6 +2206,27 @@ values
                 }
                 if (Uygulama == "LOGO")
                 {
+                    if (Islem_Tipi == "Cariler")
+                    {
+                        cmd.CommandText = "SELECT TOP 50 CARI_KODU AS ID, CARI_KODU AS Kod, CARI_ISIM AS Isim ";
+                        cmd.CommandText += " , 'Logo_Sabit_Listeler' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
+                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].INN_VW_"+ Firma_Kodu + "_CARI_KART ";
+                        cmd.CommandText += " WHERE 'LogoCari' = 'LogoCari'";
+                        if (Kisit != "")
+                        {
+                            cmd.CommandText += Kisit;
+                        }
+                    }
+                    if (Islem_Tipi == "Stoklar")
+                    {
+                        cmd.CommandText = "SELECT TOP 50 STOK_KODU AS ID, STOK_KODU AS Kod, STOK_ADI AS Isim ";
+                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].INN_VW_"+ Firma_Kodu + "_STOK_KART ";
+                        cmd.CommandText += " WHERE 'LogoStok' = 'LogoStok'";
+                        if (Kisit != "")
+                        {
+                            cmd.CommandText += Kisit;
+                        }
+                    }
                     if (Islem_Tipi == "Depolar")
                     {
                         cmd.CommandText = "SELECT DEPO_KODU AS ID, DEPO_KODU AS Kod, DEPO_ISMI AS Isim FROM OYG_NV_DEPOLAR WHERE 'Depo' = 'Depo'";
@@ -1564,6 +2261,7 @@ values
                     result.Data = entities;
                     result.SonucKodu = 1;
                     result.Sonuc = "Başarılı";
+                    result.Sonuc_Versiyon = 251009;
                     return result;
                 }
                 else
@@ -2188,6 +2886,24 @@ values
                 string _srg = "";
                 string Uygulama = Convert.ToString(data["Uygulama"]);
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Firma_Kodu = "";
+                string Donem_Kodu = "";
+                if (Uygulama == "LOGO")
+                {
+                    if (data["Firma_Kodu"] == null)
+                    {
+                        result.SonucKodu = 0;
+                        result.Hata = "UYARI! Firma_Kodu bilgisi boş olamaz.";
+                        return result;
+                    }
+                    if (data["Donem_Kodu"] == null)
+                    {
+                        result.SonucKodu = 0;
+                        result.Hata = "UYARI! Donem_Kodu bilgisi boş olamaz.";
+                        return result;
+                    }
+                }
+
                 string Sube_Kodu = Convert.ToString(data["Sube_Kodu"]);
                 string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
 
@@ -2230,6 +2946,94 @@ values
                         _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_BAKIYE] BAK WITH (NOLOCK) ";
                         _srg += " WHERE 1=1 ";
                         _srg += " AND BAK.STOK_KODU = '" + Stok_Kodu + "' ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Grup")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_GRUP] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Kod1")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_KOD1] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Kod2")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_KOD2] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Kod3")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_KOD3] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Kod4")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_KOD4] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Kod5")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_STOK_KOD5] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                }
+
+                if (Uygulama == "LOGO")
+                {
+                    if (Islem_Tipi == "Stok_Grup")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_"+ Firma_Kodu + "_STOK_GRUP] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Kod1")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_"+ Firma_Kodu + "_STOK_KOD1] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Kod2")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_" + Firma_Kodu + "_STOK_KOD2] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Kod3")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_" + Firma_Kodu + "_STOK_KOD3] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Kod4")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_" + Firma_Kodu + "_STOK_KOD4] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
+
+                    }
+                    if (Islem_Tipi == "Stok_Kod5")
+                    {
+                        _srg = " SELECT GRUP_KODU, GRUP_ISIM ";
+                        _srg += " FROM [" + Uygulama_Db + "].[dbo].[INN_VW_" + Firma_Kodu + "_STOK_KOD5] WITH (NOLOCK) ";
+                        _srg += " WHERE 1=1 ";
 
                     }
                 }
@@ -7541,6 +8345,51 @@ Update WhatsAppMesajlari Set Gonderildi = 1 Where ID = @ID
             }
             return result;
         }
+
+        private List<dynamic> Dinamic_GetDynamicList(string query)
+        {
+            var list = new List<dynamic>();
+
+            using (SqlConnection con = new SqlConnection("Server=.;Database=TestDB;Trusted_Connection=True;"))
+            {
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        IDictionary<string, object> expando = new System.Dynamic.ExpandoObject();
+                        for (int i = 0; i < dr.FieldCount; i++)
+                        {
+                            expando.Add(dr.GetName(i), dr.IsDBNull(i) ? null : dr.GetValue(i));
+                        }
+                        list.Add(expando);
+                    }
+                }
+            }
+
+            return list;
+        }
+       
+        [HttpPost]
+        [Route("Query")]
+        public IHttpActionResult Dinamic_ExecuteQuery([FromBody] string queryJson)
+        {
+            try
+            {
+                // JSON içindeki tırnakları temizle
+                var query = queryJson.Trim('"').Replace("\\\"", "\"");
+
+                var data = Dinamic_GetDynamicList(query);
+                return Ok(new { success = true, data });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { success = false, message = ex.Message });
+            }
+        }
+
         public IDJsonResult WPMesajBilgisi([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
@@ -7840,6 +8689,7 @@ END
         [HttpPost]
         public IDJsonResult KullaniciGirisi([FromBody] JObject data)
         {
+            string _Procedure_Versiyon = "251010";
             IDJsonResult result = new IDJsonResult();
             try
             {
@@ -7852,7 +8702,7 @@ END
                 if (data["Parola"] == null)
                 {
                     result.SonucKodu = 0;
-                    result.Hata = "UYARI! KullaniciAdi bilgisi boş olamaz.";
+                    result.Hata = "UYARI! Parola bilgisi boş olamaz.";
                     return result;
                 }
                 string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
@@ -7883,10 +8733,14 @@ END
                         entity.Uygulama_Depo_Kodu = Convert.ToString(dt.Rows[0]["Uygulama_Depo_Kodu"]);
                         entity.UyelikBitisTarihi = Convert.ToDateTime(dt.Rows[0]["UyelikBitisTarihi"]);
                         entity.UyelikBitisGunu = Convert.ToString(dt.Rows[0]["UyelikBitisGunu"]);
+                        entity.Uygulama_Firma_Kodu = Convert.ToString(dt.Rows[0]["Uygulama_Firma_Kodu"]);
+                        entity.Uygulama_Donem_Kodu = Convert.ToString(dt.Rows[0]["Uygulama_Donem_Kodu"]);
+                        entity.Uygulama_Procedure_Versiyon = Convert.ToString(dt.Rows[0]["Uygulama_Procedure_Versiyon"]);
                         #endregion
                         result.Data = entity;
                         result.SonucKodu = 1;
                         result.Sonuc = "Başarılı";
+                        result.Sonuc_Versiyon = 251010;
                         return result;
                     }
                     else
