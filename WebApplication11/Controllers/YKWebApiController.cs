@@ -33,7 +33,7 @@ namespace YKPortal.Controllers
 
         #region Serdar Oto 
 
-        public string SerdarOtoProgramPath = @"\\192.168.2.250\ortak-alan\Stok_Resimleri\";
+        public string SerdarOtoProgramPath = @"\\192.168.2.250\ortak-alan\Stok_Resimleri\\";
 
         [System.Web.Http.HttpPost]
         public IDJsonResult RksMarkalar([FromBody] JObject data)
