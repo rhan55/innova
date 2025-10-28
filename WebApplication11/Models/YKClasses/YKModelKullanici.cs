@@ -25,6 +25,8 @@ namespace YKPortal.Models.YKClasses
         private string _Uygulama_Db;
         private string _UyelikBitisGunu = "0";
         private string _Uygulama_Procedure_Versiyon = "0";
+        
+
 
         public string ID { get; set; }
         public string KullaniciID { get { return _KullaniciID ?? ""; } set { _KullaniciID = value; } }
