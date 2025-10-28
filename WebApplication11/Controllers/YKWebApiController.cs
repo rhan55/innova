@@ -30,7 +30,6 @@ namespace YKPortal.Controllers
 {
     public class YKWebApiController : ApiController
     {
-
         #region Serdar Oto 
 
         public string SerdarOtoProgramPath = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/");
@@ -8989,7 +8988,6 @@ END
             IDJsonResult result = new IDJsonResult();
             try
             {
-
                 if (data["KullaniciAdi"] == null)
                 {
                     result.SonucKodu = 0;
@@ -9004,18 +9002,14 @@ END
                 }
                 string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
                 string Parola = Convert.ToString(data["Parola"]);
-
                 if (KullaniciAdi == "info@ykyazilim.com.tr" && Parola == "4jtj2jsmv")
                 {
-
                     List<dynamic> entities = new List<dynamic>();
-
                     SqlCommand cmd = new SqlCommand();
                     cmd.CommandType = System.Data.CommandType.StoredProcedure;
                     cmd.CommandText = "p_UyelikListesi";
                     cmd.Parameters.AddWithValue("@AranacakKelime", "");
                     DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
                     if (dt.Rows.Count > 0)
                     {
                         #region Cookie İşlemleri
@@ -9061,7 +9055,6 @@ END
                     result.Hata = "UYARI! Kullanıcı adı veya parola yanlış!";
                     return result;
                 }
-
             }
             catch (Exception err)
             {
