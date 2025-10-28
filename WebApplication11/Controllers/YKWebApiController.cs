@@ -36,7 +36,7 @@ namespace YKPortal.Controllers
         public string SerdarOtoProgramPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Uploads/"); // @"\\serdarotosrv\ORTAK-ALAN\Stok_Resimleri\";
 
         [System.Web.Http.HttpGet]
-        public IDJsonResult SerdarMarkalar()
+        public IDJsonResult RksMarkalar()
         {
             IDJsonResult result = new IDJsonResult();
             try
@@ -82,7 +82,7 @@ namespace YKPortal.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        public IDJsonResult SerdarUrunler(string AranacakKelime, string Sirket)
+        public IDJsonResult RksUrunler(string AranacakKelime, string Sirket)
         {
             IDJsonResult result = new IDJsonResult();
             try
@@ -167,7 +167,7 @@ namespace YKPortal.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        public IDJsonResult SerdarUrunGetir(string StokKodu, string Sirket)
+        public IDJsonResult RksUrunGetir(string StokKodu, string Sirket)
         {
             IDJsonResult result = new IDJsonResult();
             try
@@ -204,7 +204,7 @@ namespace YKPortal.Controllers
                                     images.Add(new ModelUrunResim()
                                     {
                                         Id = Convert.ToInt32(stokResim["Id"]),
-                                        FileName = "http://78.189.81.115:2711/i3MobileResim/" + StokKodu + "/" + $"{Convert.ToString(stokResim["DosyaKayitAdi"])}.{Convert.ToString(stokResim["DosyaUzanti"])}",
+                                        FileName = "http://78.189.81.115:2711/upload/" + StokKodu + "/" + $"{Convert.ToString(stokResim["DosyaKayitAdi"])}.{Convert.ToString(stokResim["DosyaUzanti"])}",
                                         //ImageByte = File.ReadAllBytes(ProgramPath + stokResim["Yol"])
                                     });
                                 }
@@ -249,7 +249,7 @@ namespace YKPortal.Controllers
         }
 
         [System.Web.Http.HttpPost]
-        public IDJsonResult SerdarResimKaydet(
+        public IDJsonResult RksResimKaydet(
             [FromBody] JObject data
             )
         {
@@ -343,7 +343,7 @@ values
         }
 
         [System.Web.Http.HttpPost]
-        public IDJsonResult SerdarSayimKaydet(
+        public IDJsonResult RksSayimKaydet(
             [FromBody] JObject data
             )
         {
@@ -380,7 +380,7 @@ values
         }
 
         [System.Web.Http.HttpPost]
-        public IDJsonResult SerdarStokKaydet(
+        public IDJsonResult RksStokKaydet(
             [FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
@@ -533,7 +533,7 @@ values
         }
 
         [System.Web.Http.HttpGet]
-        public IDJsonResult SerdarResimSil(int ResimID)
+        public IDJsonResult RksResimSil(int ResimID)
         {
             IDJsonResult result = new IDJsonResult();
             try
