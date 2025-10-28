@@ -456,7 +456,7 @@ namespace YKPortal.Controllers
                         cmd.Parameters.AddWithValue("@SirketKodu", "Dinamik");
                         cmd.Parameters.AddWithValue("@SubeKodu", "0");
                         cmd.Parameters.AddWithValue("@RafKodu", urun.Raf);
-
+                        cmd.Parameters.AddWithValue("@Islem_Tipi", urun.Islem_Tipi);
 
                         cmd.Connection = conn;
                         cmd.ExecuteNonQuery();
@@ -9253,7 +9253,7 @@ END
         public string MuadilStokKodu { get; set; }
         public string MuadilStokAdi { get; set; }
 
-
+        public string Islem_Tipi { get; set; }
 
         public List<ModelUrunResim> UrunResimleri { get; set; }
     }
