@@ -33,7 +33,7 @@ namespace YKPortal.Controllers
 
         #region Serdar Oto 
 
-        public string SerdarOtoProgramPath = System.Web.Hosting.HostingEnvironment.MapPath("~/Uploads/"); // @"\\serdarotosrv\ORTAK-ALAN\Stok_Resimleri\";
+        public string SerdarOtoProgramPath = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/");
 
         [System.Web.Http.HttpGet]
         public IDJsonResult RksMarkalar()
@@ -204,7 +204,7 @@ namespace YKPortal.Controllers
                                     images.Add(new ModelUrunResim()
                                     {
                                         Id = Convert.ToInt32(stokResim["Id"]),
-                                        FileName = "http://78.189.81.115:2711/upload/" + StokKodu + "/" + $"{Convert.ToString(stokResim["DosyaKayitAdi"])}.{Convert.ToString(stokResim["DosyaUzanti"])}",
+                                        FileName = "http://78.189.81.115:2710/upload/" + StokKodu + "/" + $"{Convert.ToString(stokResim["DosyaKayitAdi"])}.{Convert.ToString(stokResim["DosyaUzanti"])}",
                                         //ImageByte = File.ReadAllBytes(ProgramPath + stokResim["Yol"])
                                     });
                                 }
@@ -361,11 +361,17 @@ values
                     foreach (ModelUrun urun in UrunResimleri)
                     {
                         cmd.Parameters.Clear();
-                        cmd.CommandType = CommandType.Text;
-                        cmd.CommandText = $"exec i3_StokSayimAnlik '0', '{urun.StokKodu}', '{urun.SayimAdedi}', '0','{urun.KayitYapanKul}', 'Dinamik', '0', '{urun.Raf}' ";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "i3_Pr_Stok_SayimAnlik "; // '0', '" + urun.StokKodu + "', '"+ {urun.SayimAdedi}', '0','{urun.KayitYapanKul}', 'Dinamik', '0', '{urun.Raf}' ";
+                        cmd.Parameters.AddWithValue("@Id", 0);
                         cmd.Parameters.AddWithValue("@StokKodu", urun.StokKodu);
-                        cmd.Connection = conn;
-                        cmd.ExecuteNonQuery();
+                        cmd.Parameters.AddWithValue("@Miktar", urun.SayimAdedi);
+                        cmd.Parameters.AddWithValue("@Fiyat", 0);
+                        cmd.Parameters.AddWithValue("@KullaniciNo", 0);
+                        cmd.Parameters.AddWithValue("@SirketKodu", "Dinamik");
+                        cmd.Parameters.AddWithValue("@SubeKodu", "0");
+                        cmd.Parameters.AddWithValue("@RafKodu", urun.Raf);
+                        cmd.Parameters.AddWithValue("@Islem_Tipi", urun.Islem_Tipi);
                     }
                     result.SonucKodu = 1;
                     result.Sonuc = "Sayımlar başarıyla kaydedildi.";
@@ -9133,7 +9139,7 @@ END
         public string Nereden { get; set; }
         public string KayitYapanKul { get; set; }
         public string Kullanici { get; set; }
-
+        public string Islem_Tipi { get; set; }
 
         public string MuadilStokKodu { get; set; }
         public string MuadilStokAdi { get; set; }
