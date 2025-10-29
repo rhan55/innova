@@ -410,9 +410,97 @@ namespace YKPortal.Controllers
         }
 
         [System.Web.Http.HttpPost]
+        public IDJsonResult Rks_Stok_Guncelle( [FromBody] JObject data )
+        {
+            string _Procedure_Versiyon = "251029";
+            string _Sonuc_Aciklamasi = "";
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                #region Kontroller
+
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                string Uygulama = data["Uygulama"].ToObject<string>();
+                string Uygulama_Db = data["Uygulama_Db"].ToObject<string>();
+
+                if (data["StokKodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Stok_Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici_Id"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici Id bilgisi boş olamaz.";
+                    return result;
+                }
+                string Stok_Kodu = Convert.ToString(data["StokKodu"]);
+                string Kullanici_Id = Convert.ToString(data["Kullanici_Id"]);
+                string Stok_Raf_Kodu = Convert.ToString(data["Raf_Kodu"]);
+                string _srg = "";
+                #endregion Kontroller
+
+                if (Uygulama == "RKS")
+                {
+                    _srg = " ";
+                    _srg += " \r\n  -- Rks_Stok_Guncelle ";
+                    if (Stok_Raf_Kodu != "")
+                    {
+                        _srg += " \r\n UPDATE [" + Uygulama_Db + "].[dbo].tStokKartEkBilgi ";
+                        _srg += " \r\n SET StokEkOndegerRafNumarasi = left('" + Stok_Raf_Kodu.Replace(" ", "").Replace("'", "") + "', 50) ";
+                        _srg += " \r\n , SonIslemKullanici = '" + Kullanici_Id + "', SonIslemTarih = getdate()  ";
+                        _srg += " \r\n WHERE StokKodu = '" + Stok_Kodu + "' ";
+
+                        _Sonuc_Aciklamasi += " Stok Raf Kodu:" + Stok_Raf_Kodu + " Güncellendi ";
+                    }
+                    _srg += " \r\n  -- Kontrol ";
+                    _srg += " \r\n SELECT 'Rks_Stok_Guncelle' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
+                    _srg += " \r\n , '" + Stok_Kodu + "' as STOK_KODU, getdate() Belge_Tarihi, '' AS MIKTAR  ";
+                    _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Stok_Raf_Kodu + "' as Stok_Raf_Kodu, '0' as Depo_Kodu  ";
+
+                    List<dynamic> entities = new List<dynamic>();
+
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _srg;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı" + _Sonuc_Aciklamasi;
+                    result.Sonuc_Versiyon = 251029;
+                    return result;
+                }
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Sonuc_Versiyon = 251029;
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        [System.Web.Http.HttpPost]
         public IDJsonResult RksSayimKaydet(
-            [FromBody] JObject data
-            )
+           [FromBody] JObject data
+           )
         {
             IDJsonResult result = new IDJsonResult();
             if (data["Uygulama"] == null)
@@ -469,7 +557,6 @@ namespace YKPortal.Controllers
             }
             return result;
         }
-
         [System.Web.Http.HttpPost]
         public IDJsonResult RksStokKaydet(
             [FromBody] JObject data)
