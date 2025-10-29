@@ -131,6 +131,7 @@ namespace YKPortal.Controllers
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.CommandText = "i3_p_m_StokAra";
                     cmd.Parameters.AddWithValue("@StokKodu", AranacakKelime);
+                    cmd.Parameters.AddWithValue("@Islem_Tipi", Islem_Tipi);
                     cmd.Connection = conn;
                     DataTable dtKullanici = new DataTable();
                     SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -177,8 +178,6 @@ namespace YKPortal.Controllers
                                 Bakiye = Convert.ToDecimal(stok["Bakiye"]),
                                 UrunResimleri = images
                             };
-                            //if (l.Count == 1)
-                            //    return Json(new ResponseModel() { Result = "Ok", Data = stok });
                             stoklar.Add(entity);
                         }
                         result.SonucKodu = 1;
@@ -250,7 +249,6 @@ namespace YKPortal.Controllers
                             DataTable dtResimler = new DataTable();
                             SqlDataAdapter adapterResimler = new SqlDataAdapter(cmdResimler);
                             adapterResimler.Fill(dtResimler);
-
                             List<ModelUrunResim> images = new List<ModelUrunResim>();
                             foreach (DataRow stokResim in dtResimler.Rows)
                             {
@@ -268,8 +266,7 @@ namespace YKPortal.Controllers
                                     Console.WriteLine(ex.Message);
                                 }
                             }
-
-                            var entity = new ModelUrun
+                           var entity = new ModelUrun
                             {
                                 StokKodu = Convert.ToString(stok["StokKodu"]),
                                 StokAdi = Convert.ToString(stok["StokAdi"]),
@@ -280,8 +277,6 @@ namespace YKPortal.Controllers
                                 Bakiye = Convert.ToDecimal(stok["Bakiye"]),
                                 UrunResimleri = images
                             };
-                            //if (l.Count == 1)
-                            //    return Json(new ResponseModel() { Result = "Ok", Data = stok });
                             stoklar.Add(entity);
                         }
                         result.SonucKodu = 1;
