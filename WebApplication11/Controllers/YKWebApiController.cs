@@ -117,6 +117,7 @@ namespace YKPortal.Controllers
             AranacakKelime = Convert.ToString(data["AranacakKelime"]);
             string Uygulama = data["Uygulama"].ToObject<string>();
             string Uygulama_Db = data["Uygulama_Db"].ToObject<string>();
+            string Islem_Tipi = data["Islem_Tipi"].ToObject<string>();
 
             try
             {
