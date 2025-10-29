@@ -100,6 +100,7 @@ namespace YKPortal.Controllers
         [System.Web.Http.HttpPost]
         public IDJsonResult RksUrunler([FromBody] JObject data) //(string AranacakKelime, string Sirket)
         {
+            string _Procedure_Versiyon = "251029";
             string AranacakKelime = "";
             IDJsonResult result = new IDJsonResult();
             if (data["Uygulama"] == null)
