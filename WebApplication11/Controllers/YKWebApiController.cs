@@ -6288,6 +6288,301 @@ namespace YKPortal.Controllers
         }
         #endregion
 
+        #region Mobil_Kalem_Hareket
+        public IDJsonResult Mobil_Belge_Kalem_Hareket([FromBody] JObject data)
+        {
+            string _Procedure_Versiyon = "251106";
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                #region Uygulama
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                #endregion Uygulama
+
+                if (data["Sube_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Sube Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Stok_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Stok_Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Miktar"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Miktar bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici_Adi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici_Adi bilgisi boş olamaz.";
+                    return result;
+                }
+                string _srg = "";
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+
+                #region Subeler
+                string Sube_Kodu = Convert.ToString(data["Sube_Kodu"]);
+                if (Sube_Kodu == "")
+                {
+                    Sube_Kodu = "0";
+                }
+                string Giren_Sube_Kodu = Convert.ToString(data["Giren_Sube_Kodu"]);
+                if (Giren_Sube_Kodu == "")
+                {
+                    Giren_Sube_Kodu = "0";
+                }
+                #endregion Subeler
+
+                #region Depolar
+                string Depo_Kodu = Convert.ToString(data["Depo_Kodu"]);
+                if (Depo_Kodu == "")
+                {
+                    Depo_Kodu = "0";
+                }
+                string Giren_Depo_Kodu = Convert.ToString(data["Giren_Depo_Kodu"]);
+                if (Giren_Depo_Kodu == "")
+                {
+                    Giren_Depo_Kodu = "0";
+                }
+                #endregion Depolar
+
+                string Belge_No = Convert.ToString(data["Belge_No"]);
+                string Belge_Tarihi = Convert.ToString(data["Belge_Tarihi"]);
+                string Belge_Tipi = Convert.ToString(data["Belge_Tipi"]);
+
+                string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
+                string Stok_Miktar = Convert.ToString(data["Miktar"]);
+                if (Stok_Miktar == "")
+                {
+                    Stok_Miktar = "0";
+                }
+                string Stok_Adet = Convert.ToString(data["Adet"]);
+                if (Stok_Adet == "")
+                {
+                    Stok_Adet = "0";
+                }
+
+                string Cari_Kodu = Convert.ToString(data["Cari_Kodu"]);
+               
+                
+              
+                string GcKodu = Convert.ToString(data["GcKodu"]);
+
+                string Kullanici_Adi = Convert.ToString(data["Kullanici_Adi"]);
+                string Kullanici_GuidId = Convert.ToString(data["Kullanici_GuidId"]);
+
+                if (Uygulama == "NETSIS")
+                {
+                    _srg = " ";
+                    _srg += " \r\n  -- Mobil_Kalem_Hareket ";
+                    _srg += " \r\n  -- Kontrol ";
+                    _srg += " \r\n SELECT 'Mobil_Kalem_Hareket' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
+                    _srg += " \r\n , '" + Stok_Kodu + "' as STOK_KODU, '' AS Seri_No, '" + Belge_Tarihi + "' as Belge_Tarihi, '' AS MIKTAR  ";
+                    _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '" + Depo_Kodu + "' as Depo_Kodu  ";
+
+                    _srg += " \r\n  -- Belge Kayıt Tablosuna Ekle ";
+                    _srg += " \r\n INSERT INTO [INNOVA].[dbo].[TBLBELGE_KAYIT] ";
+                    _srg += " \r\n ( FTIRSIP, SUBE_KODU, BELGE_NO ";
+                    _srg += " \r\n , GIT_SUBE_KODU, GIT_DEPO_KODU ";
+                    _srg += " \r\n , CARI_KODU, TARIH ";
+                    _srg += " \r\n , STOK_KODU, STOK_ADI ";
+                    _srg += " \r\n , MIKTAR, ADET ";
+                    _srg += " \r\n , SERI_NO ";
+                    _srg += " \r\n , SERI_NO2, LOT_NO ";
+                    _srg += " \r\n , GCKOD, DEPO_KODU ";
+                    _srg += " \r\n , KAYIT_KULLANICI, KAYIT_TARIHI ";
+                    _srg += " \r\n ) ";
+                    _srg += " \r\n SELECT '" + Belge_Tipi + "' AS FTIRSIP, '" + Sube_Kodu + "' SUBE_KODU, right('" + Belge_No + "',15) AS BELGE_NO ";
+                    _srg += " \r\n , '" + Giren_Sube_Kodu + "' AS GIT_SUBE_KODU, '" + Giren_Depo_Kodu + "' AS GIT_DEPO_KODU ";
+                    _srg += " \r\n , '" + Cari_Kodu + "' AS CARI_KODU, '" + Belge_Tarihi + "' AS TARIH ";
+                    _srg += " \r\n , '" + Stok_Kodu + "' AS STOK_KODU, '' as STOK_ADI  ";
+                    _srg += " \r\n , '" + Stok_Miktar + "' MIKTAR ";
+                    _srg += " \r\n , '" + Stok_Adet + "' AS ADET  ";
+                    _srg += " \r\n , '" + Stok_Kodu + "' AS SERI_NO ";
+                    _srg += " \r\n , '' AS SERI_NO2, '' AS LOT_NO ";
+                    _srg += " \r\n , '" + GcKodu + "' AS GCKOD, '" + Depo_Kodu + "' AS DEPO_KODU ";
+                    _srg += " \r\n , '" + Kullanici_Adi + "' AS KAYIT_KULLANICI, GETDATE() KAYIT_TARIHI ";
+
+                    _srg += " \r\n  -- Logla ";
+                    _srg += " \r\n INSERT INTO INNOVA..TBLLOGUSER ";
+                    _srg += " \r\n ( FORM, TARIH, KAYITID, BELGE_NO, CARI_KODU ";
+                    _srg += " \r\n , KULLANICI ";
+                    _srg += " \r\n , BILGI, ISLEM, KAYNAK) ";
+                    _srg += " \r\n SELECT 'Web Servis Wms 11 Qr Okutma', getdate(), '" + Stok_Kodu + "' as KAYITID, '"+ Belge_No +"' AS BELGE_NO, '" + Cari_Kodu + "' AS Cari_Kodu ";
+                    _srg += " \r\n , '" + Kullanici_Adi + "' AS KULLANICI ";
+                    _srg += " \r\n , '" + Cari_Kodu + "' as BILGI, 'Kullanici Güncellemesi' as ISLEM, 'Mobil_Kalem_Hareket' AS KAYNAK ";
+                }
+                if (Uygulama == "LOGO")
+                {
+
+                }
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = _srg;
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                result.Sonuc_Versiyon = 251106;
+                return result;
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+                result.Sonuc_Versiyon = 251106;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        #endregion Mobil_Kalem_Hareket
+
+        #region Mobil_Belge_Tamamla
+        public IDJsonResult Mobil_Belge_Tamamla([FromBody] JObject data)
+        {
+            string _Procedure_Versiyon = "251106";
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                #region Uygulama
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                #endregion Uygulama
+                string _srg = "";
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+
+                if (Uygulama == "NETSIS")
+                {
+                    if (data["Sube_Kodu"] == null)
+                    {
+                        result.SonucKodu = 0;
+                        result.Hata = "UYARI! Sube Kodu bilgisi boş olamaz.";
+                        return result;
+                    }
+                }
+           
+                if (data["Belge_No"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Belge_No bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Cari_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Cari_Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici_Adi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici_Adi bilgisi boş olamaz.";
+                    return result;
+                }
+             
+                string Sube_Kodu = Convert.ToString(data["Sube_Kodu"]);
+                string Belge_No = Convert.ToString(data["Belge_No"]);
+                string Belge_Tarihi = Convert.ToString(data["Belge_Tarihi"]);
+                string Belge_Tipi = Convert.ToString(data["Belge_Tipi"]);
+                string Cari_Kodu = Convert.ToString(data["Cari_Kodu"]);
+                string Kullanici_Adi = Convert.ToString(data["Kullanici_Adi"]);
+
+                if (Uygulama == "NETSIS")
+                {
+                    _srg = " ";
+                    _srg += " \r\n  -- Mobil_Belge_Tamamla ";
+                    _srg += " \r\n  -- Kontrol ";
+                    _srg += " \r\n SELECT 'Mobil_Belge_Tamamla' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
+                    _srg += " \r\n , '" + Cari_Kodu + "' as Cari_Kodu, '" + Belge_No + "' AS Belge_No, '" + Belge_Tarihi + "' as Belge_Tarihi, '' AS MIKTAR  ";
+                    _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '0' as Depo_Kodu  ";
+
+                    _srg += " \r\n  -- Islem ";
+                    _srg += " \r\n EXEC " + Uygulama_Db + ".[dbo].[INN_PR_BELGE_KAYIT_DAT] '" + Belge_No + "', '" + Cari_Kodu + "', '" + Belge_Tipi + "', 'H'  ";
+
+                    _srg += " \r\n  -- Logla ";
+                    _srg += " \r\n INSERT INTO INNOVA..TBLLOGUSER ";
+                    _srg += " \r\n ( FORM, TARIH, KAYITID, CARI_KODU ";
+                    _srg += " \r\n , KULLANICI ";
+                    _srg += " \r\n , BILGI, ISLEM, KAYNAK) ";
+                    _srg += " \r\n SELECT 'Mobil_Belge_Tamamla', getdate(), right('" + Belge_No + "',15), '" + Cari_Kodu + "' AS CARI_KODU ";
+                    _srg += " \r\n , '" + Kullanici_Adi + "' AS KULLANICI ";
+                    _srg += " \r\n , '" + Belge_No + ':' + Cari_Kodu + ':' + Belge_Tipi + "' BILGI, 'Kullanici Güncellemesi' as ISLEM, 'Netsis_Wms_Stok_Girisi_Tamamla' AS KAYNAK ";
+                }
+                if (Uygulama == "LOGO")
+                {
+
+                }
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = _srg;
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                result.Sonuc_Versiyon = 250702;
+                return result;
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        #endregion Mobil_Belge_Tamamla
+
         #region Subabase.com İşlemleri
 
         private static readonly string supabaseUrl = "https://fvkgptxqequznptzszvz.supabase.co";
