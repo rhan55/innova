@@ -28,74 +28,8 @@ using YKPortal.Models.YKClasses;
 
 namespace YKPortal.Controllers
 {
-    public class YKWebApiController : ApiController
+    public class RksController : ApiController
     {
-
-        #region Serdar Oto 
-
-        public string SerdarOtoProgramPath = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/");
-
-        [System.Web.Http.HttpPost]
-        public IDJsonResult RksMarkalar([FromBody] JObject data)
-        {
-            IDJsonResult result = new IDJsonResult();
-            if (data["Uygulama"] == null)
-            {
-                result.SonucKodu = 0;
-                result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
-                return result;
-            }
-            if (data["Uygulama_Db"] == null)
-            {
-                result.SonucKodu = 0;
-                result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
-                return result;
-            }
-            string Uygulama = data["Uygulama"].ToObject<string>();
-            string Uygulama_Db = data["Uygulama_Db"].ToObject<string>();
-            try
-            {
-                List<ModelGrupKodu> stoklar = new List<ModelGrupKodu>();
-
-                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString))
-                {
-                    conn.Open();
-                    conn.ChangeDatabase(Uygulama_Db);
-                    SqlCommand cmd = new SqlCommand();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = "i3_p_m_StokMarkalar";
-                    cmd.Connection = conn;
-                    DataTable dtKullanici = new DataTable();
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    adapter.Fill(dtKullanici);
-                    if (dtKullanici.Rows.Count > 0)
-                    {
-                        foreach (DataRow stok in dtKullanici.Rows)
-                        {
-                            var entity = new ModelGrupKodu
-                            {
-                                Isim = Convert.ToString(stok["StokMarka"])
-                            };
-                            stoklar.Add(entity);
-                        }
-                        result.SonucKodu = 1;
-                        result.Sonuc = "Kayıtlar getirildi.";
-                    }
-                    else
-                    {
-                        result.SonucKodu = 0;
-                        result.Sonuc = "Ürün bulunamadı.";
-                    }
-                }
-                result.Data = stoklar;
-            }
-            catch (Exception err)
-            {
-                result.SonucKodu = -1;
-                result.Hata = err.Message;
-            }
-            return result;
-        }
 
         [System.Web.Http.HttpPost]
         public IDJsonResult Rks_Urun_Arama([FromBody] JObject data) //(string AranacakKelime, string Sirket)
@@ -201,6 +135,77 @@ namespace YKPortal.Controllers
             }
             return result;
         }
+    }
+    public class YKWebApiController : ApiController
+    {
+
+        #region Serdar Oto 
+
+        public string SerdarOtoProgramPath = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/");
+
+        [System.Web.Http.HttpPost]
+        public IDJsonResult RksMarkalar([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            if (data["Uygulama"] == null)
+            {
+                result.SonucKodu = 0;
+                result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                return result;
+            }
+            if (data["Uygulama_Db"] == null)
+            {
+                result.SonucKodu = 0;
+                result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                return result;
+            }
+            string Uygulama = data["Uygulama"].ToObject<string>();
+            string Uygulama_Db = data["Uygulama_Db"].ToObject<string>();
+            try
+            {
+                List<ModelGrupKodu> stoklar = new List<ModelGrupKodu>();
+
+                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString))
+                {
+                    conn.Open();
+                    conn.ChangeDatabase(Uygulama_Db);
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "i3_p_m_StokMarkalar";
+                    cmd.Connection = conn;
+                    DataTable dtKullanici = new DataTable();
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.Fill(dtKullanici);
+                    if (dtKullanici.Rows.Count > 0)
+                    {
+                        foreach (DataRow stok in dtKullanici.Rows)
+                        {
+                            var entity = new ModelGrupKodu
+                            {
+                                Isim = Convert.ToString(stok["StokMarka"])
+                            };
+                            stoklar.Add(entity);
+                        }
+                        result.SonucKodu = 1;
+                        result.Sonuc = "Kayıtlar getirildi.";
+                    }
+                    else
+                    {
+                        result.SonucKodu = 0;
+                        result.Sonuc = "Ürün bulunamadı.";
+                    }
+                }
+                result.Data = stoklar;
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Hata = err.Message;
+            }
+            return result;
+        }
+
+      
 
         [System.Web.Http.HttpPost]
         public IDJsonResult RksUrunGetir([FromBody] JObject data) //(string StokKodu, string Sirket)
