@@ -30,115 +30,6 @@ namespace YKPortal.Controllers
 {
     public class RksController : ApiController
     {
-
-        [System.Web.Http.HttpPost]
-        public IDJsonResult Rks_Urun_Arama([FromBody] JObject data) //(string AranacakKelime, string Sirket)
-        {
-            string _Procedure_Versiyon = "251104";
-            string AranacakKelime = "";
-            IDJsonResult result = new IDJsonResult();
-            if (data["Uygulama"] == null)
-            {
-                result.SonucKodu = 0;
-                result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
-                return result;
-            }
-            if (data["Uygulama_Db"] == null)
-            {
-                result.SonucKodu = 0;
-                result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
-                return result;
-            }
-            AranacakKelime = Convert.ToString(data["AranacakKelime"]);
-            string Uygulama = data["Uygulama"].ToObject<string>();
-            string Uygulama_Db = data["Uygulama_Db"].ToObject<string>();
-            string Islem_Tipi = data["Islem_Tipi"].ToObject<string>();
-
-            try
-            {
-                List<ModelUrun> stoklar = new List<ModelUrun>();
-
-                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString))
-                {
-                    conn.Open();
-                    conn.ChangeDatabase(Uygulama_Db);
-                    SqlCommand cmd = new SqlCommand();
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = "Iyb_P_Mob_StokAra";
-                    cmd.Parameters.AddWithValue("@StokKodu", AranacakKelime);
-                    cmd.Parameters.AddWithValue("@Islem_Tipi", Islem_Tipi);
-                    cmd.Connection = conn;
-                    DataTable dtKullanici = new DataTable();
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    adapter.Fill(dtKullanici);
-                    if (dtKullanici.Rows.Count > 0)
-                    {
-                        foreach (DataRow stok in dtKullanici.Rows)
-                        {
-                            SqlCommand cmdResimler = new SqlCommand();
-                            cmdResimler.CommandType = CommandType.Text;
-                            cmdResimler.CommandText = "select * from tStokResim WITH(NOLOCK) Where StokKodu = @StokKodu";
-                            cmdResimler.Parameters.AddWithValue("@StokKodu", AranacakKelime);
-                            cmdResimler.Connection = conn;
-                            DataTable dtResimler = new DataTable();
-                            SqlDataAdapter adapterResimler = new SqlDataAdapter(cmdResimler);
-                            adapterResimler.Fill(dtResimler);
-
-                            List<ModelUrunResim> images = new List<ModelUrunResim>();
-                            foreach (DataRow stokResim in dtResimler.Rows)
-                            {
-                                try
-                                {
-                                    images.Add(new ModelUrunResim()
-                                    {
-                                        Id = Convert.ToInt32(stokResim["Id"]),
-                                        FileName = "http://78.189.81.115:2710/upload/" + stokResim["StokKodu"] + "/" + $"{Convert.ToString(stokResim["DosyaKayitAdi"])}.{Convert.ToString(stokResim["DosyaUzanti"])}",
-                                        //ImageByte = File.ReadAllBytes(ProgramPath  + stokResim["Yol"])
-                                    });
-                                }
-                                catch (Exception ex)
-                                {
-                                    Console.WriteLine(ex.Message);
-                                }
-                            }
-
-                            var entity = new ModelUrun
-                            {
-                                StokKodu = Convert.ToString(stok["StokKodu"]),
-                                StokAdi = Convert.ToString(stok["StokAdi"]),
-                                StokMarkasi = Convert.ToString(stok["StokMarkasi"]),
-                                StokOlcuBirimi1 = Convert.ToString(stok["StokOlcuBirimi1"]),
-                                Raf = Convert.ToString(stok["StokEkOndegerRafNumarasi"]),
-                                Barkod = Convert.ToString(stok["Barkod"]),
-                                Bakiye = Convert.ToDecimal(stok["Bakiye"]),
-                                UrunResimleri = images
-                            };
-                            stoklar.Add(entity);
-                        }
-                        result.SonucKodu = 1;
-                        result.Sonuc = "Ürün getirildi.";
-                    }
-                    else
-                    {
-                        result.SonucKodu = 0;
-                        result.Sonuc = "Ürün bulunamadı.";
-                    }
-                }
-
-
-                result.Data = stoklar;
-            }
-            catch (Exception err)
-            {
-                result.SonucKodu = -1;
-                result.Hata = err.Message;
-            }
-            return result;
-        }
-    }
-    public class YKWebApiController : ApiController
-    {
-
         #region Serdar Oto 
 
         public string SerdarOtoProgramPath = System.Web.Hosting.HostingEnvironment.MapPath("~/upload/");
@@ -205,7 +96,7 @@ namespace YKPortal.Controllers
             return result;
         }
 
-      
+
 
         [System.Web.Http.HttpPost]
         public IDJsonResult RksUrunGetir([FromBody] JObject data) //(string StokKodu, string Sirket)
@@ -272,7 +163,7 @@ namespace YKPortal.Controllers
                                     Console.WriteLine(ex.Message);
                                 }
                             }
-                           var entity = new ModelUrun
+                            var entity = new ModelUrun
                             {
                                 StokKodu = Convert.ToString(stok["StokKodu"]),
                                 StokAdi = Convert.ToString(stok["StokAdi"]),
@@ -414,8 +305,115 @@ namespace YKPortal.Controllers
             return result;
         }
 
+
+        #endregion 
         [System.Web.Http.HttpPost]
-        public IDJsonResult Rks_Stok_Guncelle( [FromBody] JObject data )
+        public IDJsonResult Rks_Urun_Arama([FromBody] JObject data) //(string AranacakKelime, string Sirket)
+        {
+            string _Procedure_Versiyon = "251104";
+            string AranacakKelime = "";
+            IDJsonResult result = new IDJsonResult();
+            if (data["Uygulama"] == null)
+            {
+                result.SonucKodu = 0;
+                result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                return result;
+            }
+            if (data["Uygulama_Db"] == null)
+            {
+                result.SonucKodu = 0;
+                result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                return result;
+            }
+            AranacakKelime = Convert.ToString(data["AranacakKelime"]);
+            string Uygulama = data["Uygulama"].ToObject<string>();
+            string Uygulama_Db = data["Uygulama_Db"].ToObject<string>();
+            string Islem_Tipi = data["Islem_Tipi"].ToObject<string>();
+
+            try
+            {
+                List<ModelUrun> stoklar = new List<ModelUrun>();
+
+                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString))
+                {
+                    conn.Open();
+                    conn.ChangeDatabase(Uygulama_Db);
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "Iyb_P_Mob_StokAra";
+                    cmd.Parameters.AddWithValue("@StokKodu", AranacakKelime);
+                    cmd.Parameters.AddWithValue("@Islem_Tipi", Islem_Tipi);
+                    cmd.Connection = conn;
+                    DataTable dtKullanici = new DataTable();
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.Fill(dtKullanici);
+                    if (dtKullanici.Rows.Count > 0)
+                    {
+                        foreach (DataRow stok in dtKullanici.Rows)
+                        {
+                            SqlCommand cmdResimler = new SqlCommand();
+                            cmdResimler.CommandType = CommandType.Text;
+                            cmdResimler.CommandText = "select * from tStokResim WITH(NOLOCK) Where StokKodu = @StokKodu";
+                            cmdResimler.Parameters.AddWithValue("@StokKodu", AranacakKelime);
+                            cmdResimler.Connection = conn;
+                            DataTable dtResimler = new DataTable();
+                            SqlDataAdapter adapterResimler = new SqlDataAdapter(cmdResimler);
+                            adapterResimler.Fill(dtResimler);
+
+                            List<ModelUrunResim> images = new List<ModelUrunResim>();
+                            foreach (DataRow stokResim in dtResimler.Rows)
+                            {
+                                try
+                                {
+                                    images.Add(new ModelUrunResim()
+                                    {
+                                        Id = Convert.ToInt32(stokResim["Id"]),
+                                        FileName = "http://78.189.81.115:2710/upload/" + stokResim["StokKodu"] + "/" + $"{Convert.ToString(stokResim["DosyaKayitAdi"])}.{Convert.ToString(stokResim["DosyaUzanti"])}",
+                                        //ImageByte = File.ReadAllBytes(ProgramPath  + stokResim["Yol"])
+                                    });
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine(ex.Message);
+                                }
+                            }
+
+                            var entity = new ModelUrun
+                            {
+                                StokKodu = Convert.ToString(stok["StokKodu"]),
+                                StokAdi = Convert.ToString(stok["StokAdi"]),
+                                StokMarkasi = Convert.ToString(stok["StokMarkasi"]),
+                                StokOlcuBirimi1 = Convert.ToString(stok["StokOlcuBirimi1"]),
+                                Raf = Convert.ToString(stok["StokEkOndegerRafNumarasi"]),
+                                Barkod = Convert.ToString(stok["Barkod"]),
+                                Bakiye = Convert.ToDecimal(stok["Bakiye"]),
+                                UrunResimleri = images
+                            };
+                            stoklar.Add(entity);
+                        }
+                        result.SonucKodu = 1;
+                        result.Sonuc = "Ürün getirildi.";
+                    }
+                    else
+                    {
+                        result.SonucKodu = 0;
+                        result.Sonuc = "Ürün bulunamadı.";
+                    }
+                }
+
+
+                result.Data = stoklar;
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Hata = err.Message;
+            }
+            return result;
+        }
+
+        [System.Web.Http.HttpPost]
+        public IDJsonResult Rks_Stok_Guncelle([FromBody] JObject data)
         {
             string _Procedure_Versiyon = "251029";
             string _Sonuc_Aciklamasi = "";
@@ -765,7 +763,21 @@ namespace YKPortal.Controllers
             return result;
         }
 
-        #endregion 
+    }
+
+    public class SerdarOtoResponseModel
+    {
+        public string Result { get; set; }
+        public string Error { get; set; }
+
+        public object Data { get; set; }
+
+    }
+
+    public class YKWebApiController : ApiController
+    {
+
+
 
         #region Mobile App Sipariş Metodları
 
@@ -9453,14 +9465,7 @@ END
         public string Isim { get; set; }
     }
 
-    public class SerdarOtoResponseModel
-    {
-        public string Result { get; set; }
-        public string Error { get; set; }
-
-        public object Data { get; set; }
-
-    }
+ 
 
     public class ModelUrun
     {
