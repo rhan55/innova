@@ -98,9 +98,9 @@ namespace YKPortal.Controllers
         }
 
         [System.Web.Http.HttpPost]
-        public IDJsonResult RksUrunler([FromBody] JObject data) //(string AranacakKelime, string Sirket)
+        public IDJsonResult Rks_Urun_Arama([FromBody] JObject data) //(string AranacakKelime, string Sirket)
         {
-            string _Procedure_Versiyon = "251029";
+            string _Procedure_Versiyon = "251104";
             string AranacakKelime = "";
             IDJsonResult result = new IDJsonResult();
             if (data["Uygulama"] == null)
@@ -130,7 +130,7 @@ namespace YKPortal.Controllers
                     conn.ChangeDatabase(Uygulama_Db);
                     SqlCommand cmd = new SqlCommand();
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = "i3_p_m_StokAra";
+                    cmd.CommandText = "Iyb_P_Mob_StokAra";
                     cmd.Parameters.AddWithValue("@StokKodu", AranacakKelime);
                     cmd.Parameters.AddWithValue("@Islem_Tipi", Islem_Tipi);
                     cmd.Connection = conn;
@@ -2557,9 +2557,9 @@ namespace YKPortal.Controllers
                 {
                     if (Islem_Tipi == "Cariler")
                     {
-                        cmd.CommandText = "SELECT TOP 50 CARI_KOD AS ID, CARI_KOD AS Kod, CARI_ISIM AS Isim ";
-                        cmd.CommandText += " , 'Netsis_Sabit_Listeler' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
-                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].OYG_NV_CARI_KART ";
+                        cmd.CommandText = "SELECT TOP 50 CariKod AS ID, CariKod AS Kod, CariUnvan AS Isim ";
+                        cmd.CommandText += " , 'Rks_Sabit_Listeler' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
+                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].Iyb_V_Cari_Kart ";
                         cmd.CommandText += " WHERE 'Cari' = 'Cari'";
                         if (Kisit != "")
                         {
