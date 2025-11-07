@@ -531,3 +531,4 @@ WebApplication11/bin.zip
 *.exe
 *.dll
 *.pdb
+/WebApplication11/YKPanel.csproj
