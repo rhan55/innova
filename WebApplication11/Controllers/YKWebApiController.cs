@@ -6075,7 +6075,7 @@ namespace YKPortal.Controllers
                 result.Data = entities;
                 result.SonucKodu = 1;
                 result.Sonuc = "Başarılı";
-                result.Sonuc_Versiyon = 250702;
+                result.Sonuc_Versiyon = 251010;
                 return result;
 
 
@@ -6084,6 +6084,7 @@ namespace YKPortal.Controllers
             {
                 result.SonucKodu = -1;
                 result.Sonuc = "HATA!";
+                result.Sonuc_Versiyon = 251010;
                 result.Hata = err.Message;
             }
             finally
@@ -6103,6 +6104,7 @@ namespace YKPortal.Controllers
             IDJsonResult result = new IDJsonResult();
             try
             {
+
                 if (data["Uygulama"] == null)
                 {
                     result.SonucKodu = 0;
@@ -6213,6 +6215,7 @@ namespace YKPortal.Controllers
                 {
                     result.SonucKodu = 0;
                     result.Hata = "UYARI! Kayıt bulunamadı!";
+                    result.Sonuc_Versiyon = 251010;
                     return result;
                 }
 
@@ -6221,7 +6224,8 @@ namespace YKPortal.Controllers
             catch (Exception err)
             {
                 result.SonucKodu = -1;
-                result.Sonuc = "HATA!";
+                result.Sonuc = "HATA!" + err.Message.ToString();
+                result.Sonuc_Versiyon = 251010;
                 result.Hata = err.Message;
             }
             finally
