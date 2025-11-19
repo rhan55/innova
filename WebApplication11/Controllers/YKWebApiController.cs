@@ -2677,7 +2677,7 @@ namespace YKPortal.Controllers
                     }
                     if (Islem_Tipi == "Subeler")
                     {
-                        cmd.CommandText = "SELECT TOP 50 SUBE_KODU AS ID, SUBE_KODU AS Kod, cast(SUBE_KODU as nvarchar(5)) + ' ' +  UNVAN AS Isim ";
+                        cmd.CommandText = "SELECT TOP 50 SUBE_KODU AS ID, SUBE_KODU AS Kod, cast(SUBE_KODU as nvarchar(5)) + '-' +  ISNULL(UNVAN,'') AS Isim ";
                         cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].INN_VW_SUBELER ";
                         cmd.CommandText += " WHERE 'Sube' = 'Sube'";
                         if (Kisit != "")
