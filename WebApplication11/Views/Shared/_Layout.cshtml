@@ -191,26 +191,30 @@
                                 @{
                                     if (!Request.Browser.IsMobileDevice)
                                     {
-                                        TimeSpan ts = Convert.ToDateTime(UyelikBitisTarihi) - DateTime.Today;
-                                        if (ts.Days <= 15 && ts != null)
+                                        if (UyelikBitisTarihi.Length > 0)
                                         {
-                                            <div>
-                                                <p class="text-danger fw-semibold m-0"><span>Üyeliğinizin bitmesine @(ts.Days) gün kaldı.</span></p>
-                                                <a href="/POSAPI/UyelikPaketleri">Üyeliğinizi Uzatmak için ödeme planlarına göz atın.</a>
-                                            </div>
+                                            TimeSpan ts = Convert.ToDateTime(UyelikBitisTarihi) - DateTime.Today;
+                                            if (ts.Days <= 15 && ts != null)
+                                            {
+                                                <div>
+                                                    <p class="text-danger fw-semibold m-0"><span>Üyeliğinizin bitmesine @(ts.Days) gün kaldı.</span></p>
+                                                    <a href="/POSAPI/UyelikPaketleri">Üyeliğinizi Uzatmak için ödeme planlarına göz atın.</a>
+                                                </div>
 
-                                        }
-                                        else if (ts.Days >= 90)
-                                        {
+                                            }
+                                            else if (ts.Days >= 90)
+                                            {
 
+                                            }
+                                            else
+                                            {
+                                                <div>
+                                                    <p class="text-active-dark fw-semibold m-0"><span>Üyelik Biriş Tarihi : @(Convert.ToDateTime(UyelikBitisTarihi).ToString("dd-MM-yyyy")) </span></p>
+                                                    <a href="/POSAPI/UyelikPaketleri">Üyeliğinizi Uzatmak için ödeme planlarına göz atın.</a>
+                                                </div>
+                                            }
                                         }
-                                        else
-                                        {
-                                            <div>
-                                                <p class="text-active-dark fw-semibold m-0"><span>Üyelik Biriş Tarihi : @(Convert.ToDateTime(UyelikBitisTarihi).ToString("dd-MM-yyyy")) </span></p>
-                                                <a href="/POSAPI/UyelikPaketleri">Üyeliğinizi Uzatmak için ödeme planlarına göz atın.</a>
-                                            </div>
-                                        }
+
                                     }
                                 }
                             </div>
@@ -428,8 +432,10 @@
                                     <div class="d-flex align-items-center position-relative ms-1 app-sidebar-logo h-40px">
                                         <input type="text" id="searchInNavigation" class=" bg-secondary form-control px-2 shadow-none border-0 py-1 w-230px rounded-xs app-sidebar-logo-default" placeholder="Ara" />
                                     </div>
-                                    <div class="menu-item"><!--begin:Menu link-->
-                                    <a class=" menu-link hover ps-2" href="@Url.Action("AnaSayfa", "YK", new { Area = "" })"><span class="menu-icon"><i class="ki-duotone ki-slack fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Ana Sayfa</span></a><!--end:Menu link--></div>
+                                    <div class="menu-item">
+                                        <!--begin:Menu link-->
+                                        <a class=" menu-link hover ps-2" href="@Url.Action("AnaSayfa", "YK", new { Area = "" })"><span class="menu-icon"><i class="ki-duotone ki-slack fs-2"><span class="path1"></span><span class="path2"></span></i></span><span class="menu-title">Ana Sayfa</span></a><!--end:Menu link-->
+                                    </div>
 
                                     <div id="navigation"></div>
                                     @if (KullaniciAdi.EndsWith("@ykyazilim.com.tr"))
@@ -742,7 +748,6 @@
              loadingEl.remove();
          }, 0);
 
-
          const navigations = [
 
               @foreach (YetkilerDto yetki in yetkiler)
@@ -760,60 +765,47 @@
                           {
                               if (altyetki.url.Trim().Length > 0)
                               {
-                                    @Html.Raw("    {");
-                                       @Html.Raw("    title: '"+ altyetki.Menu+"',");
-                                       @Html.Raw("       url: '"+ Url.Content(altyetki.url)+"'");
-                                       @Html.Raw("   },");
-
+                                   @Html.Raw("    {");
+                                   @Html.Raw("    title: '"+ altyetki.Menu+"',");
+                                   @Html.Raw("       url: '"+ Url.Content(altyetki.url)+"'");
+                                   @Html.Raw("   },");
                               }
                               else
                               {
-                                    @Html.Raw("    {");
+                                   @Html.Raw("    {");
                                    @Html.Raw("       title: '"+altyetki.Menu+"',");
                                    @Html.Raw("      isMenu: true,");
                                    @Html.Raw("      icon: '"+altyetki.icon+"',");
                                    @Html.Raw("      items: [");
-
-
-                                    foreach (YetkilerDto alt2yetki in yetkiler)
-                                    {
-                                        if (alt2yetki.UstID == altyetki.MenuID && alt2yetki.url.Length>0)
+                                   foreach (YetkilerDto alt2yetki in yetkiler)
+                                   {
+                                        if (alt2yetki.UstID == altyetki.MenuID)
                                         {
-
-                                              @Html.Raw("    {");
-                                              @Html.Raw("    title: '"+alt2yetki.Menu+"',");
-                                              @Html.Raw("    url: '"+Url.Content(alt2yetki.url)+"'");
-                                              @Html.Raw("   },");
-
-
+                                            @Html.Raw("{")
+                                            @Html.Raw("title: '" + alt2yetki.Menu + "',")
+                                            if (!string.IsNullOrEmpty(alt2yetki.url))
+                                            {
+                                                @Html.Raw("url: '" + Url.Content(alt2yetki.url) + "',")
+                                            }
+                                            @Html.Raw("},")
                                         }
-                                    }
-
+                                   }
                                    @Html.Raw("      ]");
                                    @Html.Raw("  },");
                               }
-
-                                  }
-                              }
-
-                      @Html.Raw("   ]")
-                      @Html.Raw(" },")
                           }
                       }
+                      @Html.Raw("   ]")
+                      @Html.Raw(" },")
+                  }
+               }
 
+        ];
 
-
-
-         ];
-
-                      const navigationContainer = document.querySelector("#navigation");
-
-                      const searchInNavigation = document.querySelector("#searchInNavigation");
-
-                      let navigationData = buildNavigation(navigations);
-
-                      navigationContainer.innerHTML = navigationData.join("")
-
+         const navigationContainer = document.querySelector("#navigation");
+         const searchInNavigation = document.querySelector("#searchInNavigation");
+         let navigationData = buildNavigation(navigations);
+         navigationContainer.innerHTML = navigationData.join("")
          function createLink(item) {
 
              return `
@@ -913,7 +905,7 @@
      })
 
     </script>
-     @RenderSection("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
     <!--end::Custom Javascript-->
     <!--end::Javascript-->
 </body>
