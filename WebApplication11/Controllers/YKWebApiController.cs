@@ -6321,6 +6321,18 @@ namespace YKPortal.Controllers
                 string Aciklama = Convert.ToString(data["Aciklama"]);
                 string Kullanici = Convert.ToString(data["Kullanici"]);
                 string KullaniciId = Convert.ToString(data["KullaniciId"]);
+
+                string _Islem_Tipi = Convert.ToString(data["Islem_Tipi"]);
+                if (_Islem_Tipi == "")
+                {
+                    _Islem_Tipi = "0";
+                }
+                string _Kayit_Id = Convert.ToString(data["Kayit_ID"]);
+                if (_Kayit_Id == "")
+                {
+                    _Kayit_Id = "0";
+                }
+
                 List<dynamic> entities = new List<dynamic>();
 
                 if (Uygulama == "IYB")
@@ -6358,6 +6370,8 @@ namespace YKPortal.Controllers
                     _sorgu += " , '" + Aciklama + "' ";
                     _sorgu += " , '" + Belge_No + "' ";
                     _sorgu += " , '" + Kullanici + "' ";
+                    _sorgu += " , '" + _Islem_Tipi + "' ";
+                    _sorgu += " , '" + _Kayit_Id + "' ";
 
                     SqlCommand cmd = new SqlCommand();
                     cmd.CommandType = System.Data.CommandType.Text;
