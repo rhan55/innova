@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "Ant Oto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Aktarım</h2>
+
+@Html.AntiForgeryToken()
+
+<div>
+    <label for="yilSelect">Yıl:</label>
+    <select id="yilSelect">
+        @for (int y = DateTime.Now.Year; y >= DateTime.Now.Year -10; y--)
+        {
+            <option value="@y">@y</option>
+        }
+    </select>
+    <button id="aktarBtn" class="btn btn-primary">Aktar</button>
+</div>
+
+<div id="progressContainer" style="margin-top:15px; display:none; width:100%; max-width:600px;">
+    <div style="border:1px solid #ccc; height:25px; border-radius:4px; overflow:hidden;">
+        <div id="progressBar" style="height:100%; width:0%; background-color:#28a745; transition: width0.3s;"></div>
+    </div>
+    <div id="progressText" style="margin-top:5px;">0%</div>
+</div>
+
+<div id="resultMessage" style="margin-top:15px;"></div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function(){
+            $('#aktarBtn').on('click', function(e){
+                e.preventDefault();
+
+                // Prevent double clicks by disabling controls immediately
+                $('#aktarBtn').prop('disabled', true);
+                $('#yilSelect').prop('disabled', true);
+
+                var yil = $('#yilSelect').val();
+                $('#resultMessage').html('');
+                $('#progressBar').css('width', '0%');
+                $('#progressText').text('0%');
+                $('#progressContainer').show();
+
+                var token = $('input[name="__RequestVerificationToken"]').val();
+
+                // Simulate progress locally while server work happens
+                var progress =0;
+                var progressInterval = setInterval(function(){
+                    progress = Math.min(95, progress + Math.floor(Math.random()*10)+5);
+                    $('#progressBar').css('width', progress + '%');
+                    $('#progressText').text(progress + '%');
+                },400);
+
+                $.ajax({
+                    url: '@Url.Action("AntOto1AktarimYap", "Entegrasyon")',
+                    method: 'POST',
+                    data: { yil: yil, __RequestVerificationToken: token },
+                    success: function(resp){
+                        clearInterval(progressInterval);
+                        if(resp && resp.success){
+                            $('#progressBar').css('width', '100%');
+                            $('#progressText').text('100%');
+                            $('#resultMessage').html('<div class="alert alert-success">'+ resp.message +'</div>');
+                        } else {
+                            $('#resultMessage').html('<div class="alert alert-danger">'+ (resp ? resp.message : 'Bilinmeyen hata') +'</div>');
+                        }
+
+                        // Re-enable controls
+                        $('#aktarBtn').prop('disabled', false);
+                        $('#yilSelect').prop('disabled', false);
+                    },
+                    error: function(xhr, status, err){
+                        clearInterval(progressInterval);
+                        $('#resultMessage').html('<div class="alert alert-danger">Hata: ' + err + '</div>');
+
+                        // Re-enable controls
+                        $('#aktarBtn').prop('disabled', false);
+                        $('#yilSelect').prop('disabled', false);
+                    }
+                });
+            });
+        });
+    </script>
+}
+
