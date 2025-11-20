@@ -46,6 +46,7 @@ namespace YKPortal.Controllers
             string Sorgu = data["Sorgu"].ToObject<string>();
             try
             {
+                Iyb_Tablolari_Tablolari_Olustur();
                 Iyb_Tablolari_Menuleri_Olustur();
                 Iyb_Tablolari_Kullanici_Ac();
                 using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString))
@@ -79,7 +80,52 @@ namespace YKPortal.Controllers
             }
             return result;
         }
+        [System.Web.Http.HttpPost]
+        public void Iyb_Tablolari_Tablolari_Olustur()
+        {
+            try
+            {
+                string _Procedure_Versiyon = "251120";
+                string _Sonuc_Aciklamasi = "";
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString);
 
+                string Uygulama_Db = conn.Database.ToString();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                conn.Open();
+                conn.ChangeDatabase(Uygulama_Db);
+                {
+
+                    string _srg = "";
+                    string _MenuId = "", _MenuAciklama = "", _MenuSira = "0";
+                    {
+                        _srg = " ";
+                        _srg += " \r\n IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Kullanici_Forms]') AND type in (N'U')) ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      CREATE TABLE [dbo].[Kullanici_Forms]( ";
+                        _srg += " \r\n      [ID] [int] IDENTITY(1,1) NOT NULL, ";
+                        _srg += " \r\n      [KullaniciId] [uniqueidentifier] NOT NULL, ";
+                        _srg += " \r\n      [Form] [nvarchar](150) NOT NULL, ";
+                        _srg += " \r\n      [Nesne] [nvarchar](150) NOT NULL, ";
+                        _srg += " \r\n      [Deger] [nvarchar](150) NULL, ";
+                        _srg += " \r\n      CONSTRAINT [PK_Kullanici_Forms_ID] PRIMARY KEY CLUSTERED  ";
+                        _srg += " \r\n      ( ";
+                        _srg += " \r\n 	        [ID] ASC ";
+                        _srg += " \r\n      ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 100) ON [PRIMARY] ";
+                        _srg += " \r\n      ) ON [PRIMARY] ";
+                        _srg += " \r\n  END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+
+            }
+        }
         [System.Web.Http.HttpPost]
         public void Iyb_Tablolari_Menuleri_Olustur()
         {
@@ -10016,6 +10062,205 @@ END
             {
                 result.SonucKodu = -1;
                 result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        [HttpPost]
+        public IDJsonResult Kullanici_Form_Ayarlari_Listele([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici_Guid"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici_Guid bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Form"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Form bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Nesne"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Nesne bilgisi boş olamaz.";
+                    return result;
+                }
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Kullanici_Guid = Convert.ToString(data["Kullanici_Guid"]);
+                string Form = Convert.ToString(data["Form"]);
+                string Nesne = Convert.ToString(data["Nesne"]);
+
+                if (Kullanici_Guid != "")
+                {
+
+                    List<dynamic> entities = new List<dynamic>();
+
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = "SELECT top 1 [Deger] as Deger ";
+                    cmd.CommandText += " \r\n FROM " + Uygulama_Db + ".[dbo].[Kullanici_Forms] With (Nolock) ";
+                    cmd.CommandText += " \r\n WHERE [KullaniciId] = '"+ Kullanici_Guid + "' ";
+                    cmd.CommandText += " \r\n AND [Form] = '" + Form + "' ";
+                    cmd.CommandText += " \r\n AND [Nesne] = '" + Nesne + "' ";
+                    cmd.CommandText += " \r\n ORDER BY ID Desc ";
+                    DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        #region Cookie İşlemleri
+                        foreach (DataRow satir in dt.Rows)
+                        {
+                            dynamic entity = new System.Dynamic.ExpandoObject();
+                            entity.Deger = Convert.ToString(satir["Deger"]);
+                            entities.Add(entity);
+                        }
+                        #endregion
+                        result.Data = entities;
+                        result.SonucKodu = 1;
+                        result.Sonuc = "Başarılı";
+                        result.Sonuc_Versiyon = 251120;
+                        return result;
+                    }
+                    else
+                    {
+                        result.SonucKodu = 0;
+                        result.Hata = "UYARI! Kayıt bulunamadı!";
+                        result.Sonuc_Versiyon = 251120;
+                        return result;
+                    }
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanıcı adı veya parola yanlış!";
+                    result.Sonuc_Versiyon = 251120;
+                    return result;
+                }
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Sonuc_Versiyon = 251120;
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        public IDJsonResult Kullanici_Form_Ayarlari_Kaydet([FromBody] JObject data)
+        {
+            string _GuidKey = Guid.NewGuid().ToString();
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici_Guid"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici_Guid bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Form"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Form bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Nesne"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Nesne bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Deger"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Deger bilgisi boş olamaz.";
+                    return result;
+                }
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Kullanici_Guid = Convert.ToString(data["Kullanici_Guid"]);
+                string Form = Convert.ToString(data["Form"]);
+                string Nesne = Convert.ToString(data["Nesne"]);
+                string Deger = Convert.ToString(data["Deger"]);
+
+                string _srg = "";
+                _srg += " INSERT INTO "+ Uygulama_Db + ".[dbo].[Kullanici_Forms] ";
+                _srg += " \r\n ( [KullaniciId], [Form], [Nesne], [Deger]  ) ";
+                _srg += " \r\n SELECT '" + Kullanici_Guid + "' AS [KullaniciId], '" + Form + "' AS [Form], '" + Nesne + "' AS [Nesne], '" + Deger + "' AS [Deger]  ";
+                _srg += " \r\n WHERE '" + Kullanici_Guid + "' NOT IN  ";
+                _srg += " \r\n                                  ( SELECT KullaniciId FROM " + Uygulama_Db + ".[dbo].[Kullanici_Forms] With (Nolock) ";
+                _srg += " \r\n                                      WHERE 251120 = 251120 ";
+                _srg += " \r\n                                      AND [Form] = '" + Form + "' ";
+                _srg += " \r\n                                      AND [Nesne] = '" + Nesne + "' ";
+                _srg += " \r\n                                  ) ";
+                _srg += " \r\n  ";
+                _srg += " \r\n UPDATE " + Uygulama_Db + ".[dbo].[Kullanici_Forms] ";
+                _srg += " \r\n SET [Deger] = '" + Deger + "' ";
+                _srg += " \r\n WHERE [KullaniciId] = '" + Kullanici_Guid + "'  ";
+                _srg += " \r\n AND [Form] = '" + Form + "' ";
+                _srg += " \r\n AND [Nesne] = '" + Nesne + "' ";
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = _srg;
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                result.Sonuc_Versiyon = 250806;
+                return result;
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Sonuc_Versiyon = -250806;
                 result.Hata = err.Message;
             }
             finally
