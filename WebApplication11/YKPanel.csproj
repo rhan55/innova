@@ -319,6 +319,7 @@
     <Compile Include="Controllers\CariController.cs" />
     <Compile Include="Controllers\DepoController.cs" />
     <Compile Include="Controllers\DosyaController.cs" />
+    <Compile Include="Controllers\EntegrasyonController.cs" />
     <Compile Include="Controllers\MailKaliplariController.cs" />
     <Compile Include="Controllers\GorevController.cs" />
     <Compile Include="Controllers\KullaniciController.cs" />
@@ -6615,6 +6616,7 @@
     <Content Include="Views\Bep\YontemTeknik.cshtml" />
     <Content Include="Views\Bep\AnaSayfa.cshtml" />
     <Content Include="Views\YK\VeriTabaniGuncelle.cshtml" />
+    <Content Include="Views\Entegrasyon\AntOto1.cshtml" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>
