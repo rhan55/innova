@@ -1082,16 +1082,13 @@ values
         // GET: Entegrasyon
         public ActionResult AntOto1()
         {
-            if (!AutoGirisKontrol())
-                return Redirect("~/YK/Giris");
-
             return View();
         }
 
         // POST: Entegrasyon/AntOto1AktarimYap
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<JsonResult> AntOto1AktarimYap(int yil)
+        public async Task<JsonResult> AntOto1AktarimYap(int yil, int ay)
         {
             try
             {
@@ -1099,15 +1096,16 @@ values
                 var cmd = new SqlCommand();
                 cmd.CommandText = @"SELECT SLIPNR, TARIH, CODE, DESCRIPTION, DEBIT, CREDIT, LINENR, LINEEXP, MASRAF_MERKEZI, PERSONEL_KODU, PERSONEL_ACIKLAMASI, AUXCODE, AY, YIL 
                                     FROM IYB_JV_MUHASEBE_FISLERI_TABLO 
-                                    WHERE YIL = @YIL";
+                                    WHERE YIL = @YIL and AY = @AY";
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@YIL", yil);
+                cmd.Parameters.AddWithValue("@AY", ay);
 
                 DataTable dt = (DataTable)Models.IDVeritabani.Sorgula(cmd, Models.SorgulaTuru.Tablo);
 
                 if (dt == null || dt.Rows.Count == 0)
                 {
-                    return Json(new { success = true, message = "Seçilen yıl için aktarılacak kayıt bulunamadı." });
+                    return Json(new { success = true, message = "Seçilen yıl /ayiçin aktarılacak kayıt bulunamadı." });
                 }
 
                 // Build payload list
