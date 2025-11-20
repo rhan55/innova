@@ -6617,6 +6617,7 @@
     <Content Include="Views\Bep\AnaSayfa.cshtml" />
     <Content Include="Views\YK\VeriTabaniGuncelle.cshtml" />
     <Content Include="Views\Entegrasyon\AntOto1.cshtml" />
+    <Content Include="Views\YK\AntOto1.cshtml" />
     <None Include="Web References\YKPARAMPOS\service_turkpos_test.wsdl" />
     <Content Include="Web References\YKPARAMPOS\SE_Sonuc.datasource">
       <DependentUpon>Reference.map</DependentUpon>
