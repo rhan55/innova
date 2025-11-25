@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // Tüm değerleri belirtebilir veya Gözden Geçirme ve Yapı Numaralarını varsayılan değerlerine döndürebilirsiniz
 // gösterildiği gibi '*' ile varsayılan değer atayabilirsiniz:
-[assembly: AssemblyVersion("25.06.16.0")]
-[assembly: AssemblyFileVersion("25.06.16.0")]
+[assembly: AssemblyVersion("25.11.25.0")]
+[assembly: AssemblyFileVersion("25.11.25.0")]
