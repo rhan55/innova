@@ -754,7 +754,7 @@ namespace YKPortal.Controllers
                     str = IDDizayn.DizaynIslemleri.DizaynKaydet(set, ConfigurationManager.AppSettings["Klasor4TSC"], tsc);
                 else
                     str = IDDizayn.DizaynIslemleri.DizaynKaydet(set, ConfigurationManager.AppSettings["Klasor4"]);
-                dto.Aciklama2 = ConfigurationManager.AppSettings["WebSiteUrl"] + "/Temp4"+(tsc == true ? "TSC" : "") +"/" + str;
+                dto.Aciklama2 = ConfigurationManager.AppSettings["WebSiteUrl"] + "/Temp4" + (tsc == true ? "TSC" : "") + "/" + str;
             }
             else
             {
@@ -1082,16 +1082,13 @@ values
         // GET: Entegrasyon
         public ActionResult AntOto1()
         {
-            if (!AutoGirisKontrol())
-                return Redirect("~/YK/Giris");
-
             return View();
         }
 
         // POST: Entegrasyon/AntOto1AktarimYap
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<JsonResult> AntOto1AktarimYap(int yil)
+        public async Task<JsonResult> AntOto1AktarimYap(int yil, int ay, bool aktar = false)
         {
             try
             {
@@ -1099,15 +1096,16 @@ values
                 var cmd = new SqlCommand();
                 cmd.CommandText = @"SELECT SLIPNR, TARIH, CODE, DESCRIPTION, DEBIT, CREDIT, LINENR, LINEEXP, MASRAF_MERKEZI, PERSONEL_KODU, PERSONEL_ACIKLAMASI, AUXCODE, AY, YIL 
                                     FROM IYB_JV_MUHASEBE_FISLERI_TABLO 
-                                    WHERE YIL = @YIL";
+                                    WHERE YIL = @YIL and AY = @AY";
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@YIL", yil);
+                cmd.Parameters.AddWithValue("@AY", ay);
 
                 DataTable dt = (DataTable)Models.IDVeritabani.Sorgula(cmd, Models.SorgulaTuru.Tablo);
 
                 if (dt == null || dt.Rows.Count == 0)
                 {
-                    return Json(new { success = true, message = "Seçilen yıl için aktarılacak kayıt bulunamadı." });
+                    return Json(new { success = true, message = "Seçilen yıl /ayiçin aktarılacak kayıt bulunamadı." });
                 }
 
                 // Build payload list
@@ -1155,24 +1153,52 @@ values
                 var username = "sb-d71d2cd5-4862-41b7-9a76-e48995a2956c!b552840|it-rt-integration-suite-dev-test-69ldgkyu!b182722";
                 var password = "290f827e-51a8-4c59-8046-708416a28a40$IgI8poO4RIilZ1-WnTMZuHeD09cQmev845SFVzHBr8A=";
 
-                using (var http = new HttpClient())
+                // 1. Dosya Yolu ve Adını Belirle
+                // Sunucu kök dizinini bulur
+                string rootPath = Server.MapPath("~/");
+                // YYYYMMDD_HHMMSS.json formatında dosya adı oluştur
+                string fileName = $"Preview_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.json";
+                string fullPath = Path.Combine(rootPath, "Logs", fileName); // Logs klasörüne kaydetmek daha güvenlidir
+
+                // Logs klasörü yoksa oluştur
+                Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
+
+                // 2. JSON Verisini Dosyaya Kaydet
+                System.IO.File.WriteAllText(fullPath, payload);
+
+                // 3. Dosyanın sadece adını veya tam yolunu mesaj olarak döndür
+                string successMessage = $"Önizleme verisi başarıyla sunucuya kaydedildi: /Logs/{fileName}";
+
+
+                if (aktar)
                 {
-                    var auth = Convert.ToBase64String(Encoding.UTF8.GetBytes(username + ":" + password));
-                    http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
-                    http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    using (var http = new HttpClient())
+                    {
+                        var auth = Convert.ToBase64String(Encoding.UTF8.GetBytes(username + ":" + password));
+                        http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
+                        http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                        var content = new StringContent(payload, Encoding.UTF8, "application/json");
+                        var response = await http.PostAsync(url, content).ConfigureAwait(false);
+                        var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return Json(new { success = true, message = responseText });
+                        }
+                        else
+                        {
+                            return Json(new { success = false, message = $"HTTP {(int)response.StatusCode} - {response.ReasonPhrase}: {responseText}" });
+                        }
+                    }
+                }
+                else
+                {
+                   
 
                     var content = new StringContent(payload, Encoding.UTF8, "application/json");
-                    var response = await http.PostAsync(url, content).ConfigureAwait(false);
-                    var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return Json(new { success = true, message = responseText });
-                    }
-                    else
-                    {
-                        return Json(new { success = false, message = $"HTTP {(int)response.StatusCode} - {response.ReasonPhrase}: {responseText}" });
-                    }
+                    return Json(new { success = true, message = payloadList, jsonText = content });
                 }
             }
             catch (Exception ex)
@@ -1180,6 +1206,7 @@ values
                 return Json(new { success = false, message = ex.Message });
             }
         }
+
 
     }
 }
