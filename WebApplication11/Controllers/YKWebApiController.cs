@@ -1120,7 +1120,7 @@ namespace YKPortal.Controllers
         {
             try
             {
-                string _Procedure_Versiyon = "251120";
+                string _Procedure_Versiyon = "251125";
                 string _Sonuc_Aciklamasi = "";
                 SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString);
 
@@ -1152,7 +1152,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n , '10000000-0000-2025-0000-000000000001' as KullaniciID ";
                     _srg += " \r\n , ID as MenuID ";
                     _srg += " \r\n , 1 Gor, 1 Duzenle, 1 Sil ";
-                    _srg += " \r\n , getdate() KayitTarihi,'10000000-0000-2025-0000-000000000001' as KayitYapanKullanici) ";
+                    _srg += " \r\n , getdate() KayitTarihi, '10000000-0000-2025-0000-000000000001' as KayitYapanKullanici ";
                     _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].Menuler With (Nolock) ";
                     _srg += " \r\n WHERE ID not in (select Ic.MenuID FROM [" + Uygulama_Db + "].[dbo].Yetkiler Ic with (nolock) where Ic.KullaniciID = '10000000-0000-2025-0000-000000000001' ) ";
 
