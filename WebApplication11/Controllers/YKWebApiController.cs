@@ -1,6 +1,7 @@
 ﻿using iText.Commons.Bouncycastle.Asn1.X509;
 using iText.IO.Util;
 using iText.StyledXmlParser.Jsoup.Nodes;
+using iText.StyledXmlParser.Node;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Renci.SshNet;
@@ -30,6 +31,7 @@ namespace YKPortal.Controllers
 {
     public class IybController : ApiController
     {
+        public Int32 WebServis_Versiyonu = 251126;
 
         [System.Web.Http.HttpPost]
         public IDJsonResult Iyb_Tablolari_Sorgu_Calistir([FromBody] JObject data)
@@ -48,7 +50,9 @@ namespace YKPortal.Controllers
             {
                 Iyb_Tablolari_Tablolari_Olustur();
                 Iyb_Tablolari_Menuleri_Olustur();
+                Iyb_Tablolari_Prosedurleri_Olustur();
                 Iyb_Tablolari_Kullanici_Ac();
+                Iyb_Tablolari_Versiyon_Kontrol();
                 using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString))
                 {
                     SqlCommand cmd = new SqlCommand();
@@ -99,6 +103,234 @@ namespace YKPortal.Controllers
 
                     string _srg = "";
                     string _MenuId = "", _MenuAciklama = "", _MenuSira = "0";
+                    #region Uyelikler
+                    {
+                        _srg = " ";
+                        _srg += " \r\n IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Uyelikler]') AND type in (N'U')) ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      CREATE TABLE [dbo].[Uyelikler]( ";
+                        _srg += " \r\n      [ID] [uniqueidentifier] NOT NULL, ";
+                        _srg += " \r\n      [Isim] [nvarchar] (100) NOT NULL, ";
+                        _srg += " \r\n      [Unvan] [nvarchar] (500) NULL, ";
+                        _srg += " \r\n      [VergiNumarasi][nvarchar](11) NULL, ";
+                        _srg += " \r\n      [VergiDairesi][nvarchar](250) NULL, ";
+
+                        _srg += " \r\n      [Iletisim][nvarchar](100) NULL, ";
+                        _srg += " \r\n      [EMail][nvarchar](100) NULL, ";
+                        _srg += " \r\n      [UyelikBaslangicTarihi][datetime] NULL, ";
+                        _srg += " \r\n      [UyelikBitisTarihi][datetime] NULL, ";
+                        _srg += " \r\n      [KayitTarihi][datetime] NOT NULL, ";
+                        _srg += " \r\n      [KayitYapanKullanici] [nvarchar] (100) NULL, ";
+
+                        _srg += " \r\n      [DuzenlemeTarihi][datetime] NULL, ";
+                        _srg += " \r\n      [DuzenlemeYapanKullanici][nvarchar](100) NULL, ";
+
+                        _srg += " \r\n      [Silindi][bit] NOT NULL, ";
+                        _srg += " \r\n      [SilinenTarih] [datetime] NULL,";
+                        _srg += " \r\n      [SilenKullanici][nvarchar](100) NULL, ";
+
+                        _srg += " \r\n      [ApiUrl][nvarchar](max) NULL, ";
+                        _srg += " \r\n      [AcilisSayfasi][nvarchar](max) NULL, ";
+                        _srg += " \r\n      [Resim][nvarchar](max) NULL, ";
+
+                        _srg += " \r\n      CONSTRAINT [PK_Uyelikler_ID] PRIMARY KEY CLUSTERED  ";
+                        _srg += " \r\n      ( ";
+                        _srg += " \r\n 	        [ID] ASC ";
+                        _srg += " \r\n      ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 100) ON [PRIMARY] ";
+                        _srg += " \r\n      ) ON [PRIMARY] ";
+                        _srg += " \r\n  END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                        _srg = " ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM   INFORMATION_SCHEMA.COLUMNS          WHERE  TABLE_NAME = 'Uyelikler' AND COLUMN_NAME = 'WebServisVersiyonu')  ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      ALTER TABLE Uyelikler ADD WebServisVersiyonu Int  ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                        _srg = " ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM   INFORMATION_SCHEMA.COLUMNS          WHERE  TABLE_NAME = 'Uyelikler' AND COLUMN_NAME = 'AppVersiyonu')  ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      ALTER TABLE Uyelikler ADD AppVersiyonu Int  ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                        _srg = " ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM   INFORMATION_SCHEMA.COLUMNS          WHERE  TABLE_NAME = 'Uyelikler' AND COLUMN_NAME = 'InnovaExeVersiyonu')  ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      ALTER TABLE Uyelikler ADD InnovaExeVersiyonu Int  ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    }
+
+                    #endregion Uyelikler
+                    #region Munüler
+                    {
+                        _srg = " ";
+                        _srg += " \r\n IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Menuler]') AND type in (N'U')) ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      CREATE TABLE[dbo].[Menuler] ( ";
+                        _srg += " \r\n      [ID] [uniqueidentifier] ROWGUIDCOL  NOT NULL, ";
+                        _srg += " \r\n      [Menu] [nvarchar](100) NOT NULL, ";
+                        _srg += " \r\n      [UstID] [uniqueidentifier] NULL, ";
+                        _srg += " \r\n      [icon] [nvarchar](250) NULL, ";
+                        _srg += " \r\n      [url] [nvarchar](500) NULL, ";
+                        _srg += " \r\n      [Aktif] [bit] NULL, ";
+                        _srg += " \r\n      [Sira] [int] NULL, ";
+                        _srg += " \r\n      [KayitTarihi] [datetime] NULL, ";
+
+                        _srg += " \r\n      CONSTRAINT [PK_Menuler] PRIMARY KEY CLUSTERED ";
+                        _srg += " \r\n      ( ";
+                        _srg += " \r\n         [ID] ASC ";
+                        _srg += " \r\n      ) WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = ON, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY] ";
+                        _srg += " \r\n      ) ON [PRIMARY] ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                       
+
+                    }
+                    #endregion Munüler
+
+                    #region Yetkiler
+                    {
+                        _srg = " ";
+                        _srg += " \r\n IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Yetkiler]') AND type in (N'U')) ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      CREATE TABLE[dbo].[Yetkiler] ( ";
+                        _srg += " \r\n      [ID] [uniqueidentifier] ROWGUIDCOL  NOT NULL, ";
+                        _srg += " \r\n      [UyelikID] [uniqueidentifier] NULL, ";
+                        _srg += " \r\n      [MenuID] [uniqueidentifier] NOT NULL, ";
+                        _srg += " \r\n      [KullaniciID] [uniqueidentifier] NOT NULL, ";
+                        _srg += " \r\n      [Gor] [bit] NULL, ";
+                        _srg += " \r\n      [Duzenle] [bit] NULL, ";
+                        _srg += " \r\n      [Sil] [bit] NULL, ";
+                        _srg += " \r\n      [KayitTarihi] [datetime] NULL, ";
+                        _srg += " \r\n      [KayitYapanKullanici] [uniqueidentifier] NULL, ";
+
+                        _srg += " \r\n      CONSTRAINT [PK_Yetkiler] PRIMARY KEY CLUSTERED ";
+                        _srg += " \r\n      ( ";
+                        _srg += " \r\n         [ID] ASC ";
+                        _srg += " \r\n      ) WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = ON, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY] ";
+                        _srg += " \r\n      ) ON [PRIMARY] ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    }
+                    #endregion Yetkiler
+
+                    #region Kullanicilar
+                    {
+                        _srg = " ";
+                        _srg += " \r\n IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Uyelikler]') AND type in (N'U')) ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      CREATE TABLE[dbo].[Kullanicilar] ( ";
+                        _srg += " \r\n      [ID][uniqueidentifier] NOT NULL, ";
+                        _srg += " \r\n      [UyelikID] [uniqueidentifier] NOT NULL, ";
+                        _srg += " \r\n      [KullaniciAdi] [nvarchar] (100) NOT NULL, ";
+                        _srg += " \r\n      [Parola] [nvarchar] (100) NOT NULL, ";
+                        _srg += " \r\n      [Ad] [nvarchar] (100) NOT NULL, ";
+                        _srg += " \r\n      [Soyad] [nvarchar] (100) NULL, ";
+                        _srg += " \r\n      [Telefon][nvarchar](100) NULL, ";
+                        _srg += " \r\n      [Adres][nvarchar](500) NULL, ";
+                        _srg += " \r\n      [Il][nvarchar](100) NULL, ";
+                        _srg += " \r\n      [Ilce][nvarchar](100) NULL, ";
+                        _srg += " \r\n      [Aktif][bit] NOT NULL, ";
+                        _srg += " \r\n      [Aciklama1] [nvarchar] (max)NULL, ";
+                        _srg += " \r\n      [Aciklama2][nvarchar](max) NULL, ";
+                        _srg += " \r\n      [Aciklama3][nvarchar](max) NULL, ";
+                        _srg += " \r\n      [Tarih][datetime] NULL, ";
+                        _srg += " \r\n      [Resim][nvarchar](500) NULL, ";
+                        _srg += " \r\n      [KayitTarihi][datetime] NOT NULL, ";
+                        _srg += " \r\n      [KayitYapanKullanici] [nvarchar] (100) NULL, ";
+                        _srg += " \r\n      [DuzenlemeTarihi][datetime] NULL, ";
+                        _srg += " \r\n      [DuzenlemeYapanKullanici][nvarchar](100) NULL, ";
+                        _srg += " \r\n      [Silindi][bit] NOT NULL, ";
+                        _srg += " \r\n      [SilinenTarih] [datetime] NULL, ";
+                        _srg += " \r\n      [SilenKullanici][nvarchar](100) NULL,";
+	                    _srg += " \r\n      [Onay][bit] NULL,";
+	                    _srg += " \r\n      [SicilNo][nvarchar](50) NULL,";
+	                    _srg += " \r\n      [PersonelParola][nvarchar](50) NULL,";
+	                    _srg += " \r\n      [Uygulama] [nvarchar](50) NULL,";
+	                    _srg += " \r\n      [Uygulama_Db][nvarchar](50) NULL,";
+	                    _srg += " \r\n      [Uygulama_Depo_Kodu] [int] NULL, ";
+                        _srg += " \r\n      [Uygulama_Sube_Kodu][int] NULL, ";
+                        _srg += " \r\n      [Uygulama_Firma_Kodu] [nvarchar](3) NULL, ";
+	                    _srg += " \r\n      [Uygulama_Donem_Kodu][nvarchar](2) NULL ";
+                        _srg += " \r\n      ) ";
+                        _srg += " \r\n ON [PRIMARY] TEXTIMAGE_ON [PRIMARY] ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                        _srg = " ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = 'Kullanicilar' AND COLUMN_NAME = 'Uygulama')  ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      ALTER TABLE Kullanicilar ADD Uygulama [nvarchar](50) NULL  ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                        _srg = " ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = 'Kullanicilar' AND COLUMN_NAME = 'Uygulama_Db')  ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      ALTER TABLE Kullanicilar ADD Uygulama_Db [nvarchar](50) NULL  ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                        _srg = " ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = 'Kullanicilar' AND COLUMN_NAME = 'Uygulama_Depo_Kodu')  ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      ALTER TABLE Kullanicilar ADD Uygulama_Depo_Kodu [int] NULL  ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                        _srg = " ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = 'Kullanicilar' AND COLUMN_NAME = 'Uygulama_Sube_Kodu')  ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      ALTER TABLE Kullanicilar ADD Uygulama_Sube_Kodu [int] NULL  ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                        _srg = " ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = 'Kullanicilar' AND COLUMN_NAME = 'Uygulama_Firma_Kodu')  ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      ALTER TABLE Kullanicilar ADD Uygulama_Firma_Kodu [nvarchar](3) NULL  ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                        _srg = " ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = 'Kullanicilar' AND COLUMN_NAME = 'Uygulama_Donem_Kodu')  ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      ALTER TABLE Kullanicilar ADD Uygulama_Donem_Kodu [nvarchar](2) NULL  ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    }   
+                    #endregion Kullanicilar
+                    #region Kullanici_Forms
                     {
                         _srg = " ";
                         _srg += " \r\n IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Kullanici_Forms]') AND type in (N'U')) ";
@@ -119,6 +351,229 @@ namespace YKPortal.Controllers
                         cmd.CommandText = _srg;
                         IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
                     }
+                    #endregion Kullanici_Forms
+                }
+            }
+            catch (Exception err)
+            {
+
+            }
+        }
+
+        [System.Web.Http.HttpPost]
+        public void Iyb_Tablolari_Prosedurleri_Olustur()
+        {
+            try
+            {
+                string _Procedure_Versiyon = "251120";
+                string _Sonuc_Aciklamasi = "";
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString);
+
+                string Uygulama_Db = conn.Database.ToString();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                conn.Open();
+                conn.ChangeDatabase(Uygulama_Db);
+                {
+
+                    string _srg = "";
+                    string _MenuId = "", _MenuAciklama = "", _MenuSira = "0";
+                    #region Uyelikler
+                    {
+                        _srg = " ";
+                        _srg += " \r\n IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Uyelikler]') AND type in (N'U')) ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      CREATE TABLE [dbo].[Uyelikler]( ";
+                        _srg += " \r\n      [ID] [uniqueidentifier] NOT NULL, ";
+                        _srg += " \r\n      [Isim] [nvarchar] (100) NOT NULL, ";
+                        _srg += " \r\n      [Unvan] [nvarchar] (500) NULL, ";
+                        _srg += " \r\n      [VergiNumarasi][nvarchar](11) NULL, ";
+                        _srg += " \r\n      [VergiDairesi][nvarchar](250) NULL, ";
+
+                        _srg += " \r\n      [Iletisim][nvarchar](100) NULL, ";
+                        _srg += " \r\n      [EMail][nvarchar](100) NULL, ";
+                        _srg += " \r\n      [UyelikBaslangicTarihi][datetime] NULL, ";
+                        _srg += " \r\n      [UyelikBitisTarihi][datetime] NULL, ";
+                        _srg += " \r\n      [KayitTarihi][datetime] NOT NULL, ";
+                        _srg += " \r\n      [KayitYapanKullanici] [nvarchar] (100) NULL, ";
+
+                        _srg += " \r\n      [DuzenlemeTarihi][datetime] NULL, ";
+                        _srg += " \r\n      [DuzenlemeYapanKullanici][nvarchar](100) NULL, ";
+
+                        _srg += " \r\n      [Silindi][bit] NOT NULL, ";
+                        _srg += " \r\n      [SilinenTarih] [datetime] NULL,";
+                        _srg += " \r\n      [SilenKullanici][nvarchar](100) NULL, ";
+
+                        _srg += " \r\n      [ApiUrl][nvarchar](max) NULL, ";
+                        _srg += " \r\n      [AcilisSayfasi][nvarchar](max) NULL, ";
+                        _srg += " \r\n      [Resim][nvarchar](max) NULL, ";
+
+                        _srg += " \r\n      CONSTRAINT [PK_Uyelikler_ID] PRIMARY KEY CLUSTERED  ";
+                        _srg += " \r\n      ( ";
+                        _srg += " \r\n 	        [ID] ASC ";
+                        _srg += " \r\n      ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 100) ON [PRIMARY] ";
+                        _srg += " \r\n      ) ON [PRIMARY] ";
+                        _srg += " \r\n  END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                        _srg = " ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM   INFORMATION_SCHEMA.COLUMNS          WHERE  TABLE_NAME = 'Uyelikler' AND COLUMN_NAME = 'WebServisVersiyonu')  ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      ALTER TABLE Uyelikler ADD WebServisVersiyonu Int  ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                        _srg = " ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM   INFORMATION_SCHEMA.COLUMNS          WHERE  TABLE_NAME = 'Uyelikler' AND COLUMN_NAME = 'AppVersiyonu')  ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      ALTER TABLE Uyelikler ADD AppVersiyonu Int  ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                        _srg = " ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM   INFORMATION_SCHEMA.COLUMNS          WHERE  TABLE_NAME = 'Uyelikler' AND COLUMN_NAME = 'InnovaExeVersiyonu')  ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      ALTER TABLE Uyelikler ADD InnovaExeVersiyonu Int  ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    }
+
+                    #endregion Uyelikler
+                    #region Munüler
+                    {
+                        _srg = " ";
+                        _srg += " \r\n IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Menuler]') AND type in (N'U')) ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      CREATE TABLE[dbo].[Menuler] ( ";
+                        _srg += " \r\n      [ID] [uniqueidentifier] ROWGUIDCOL  NOT NULL, ";
+                        _srg += " \r\n      [Menu] [nvarchar](100) NOT NULL, ";
+                        _srg += " \r\n      [UstID] [uniqueidentifier] NULL, ";
+                        _srg += " \r\n      [icon] [nvarchar](250) NULL, ";
+                        _srg += " \r\n      [url] [nvarchar](500) NULL, ";
+                        _srg += " \r\n      [Aktif] [bit] NULL, ";
+                        _srg += " \r\n      [Sira] [int] NULL, ";
+                        _srg += " \r\n      [KayitTarihi] [datetime] NULL, ";
+
+                        _srg += " \r\n      CONSTRAINT [PK_Menuler] PRIMARY KEY CLUSTERED ";
+                        _srg += " \r\n      ( ";
+                        _srg += " \r\n         [ID] ASC ";
+                        _srg += " \r\n      ) WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = ON, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY] ";
+                        _srg += " \r\n      ) ON [PRIMARY] ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+
+
+                    }
+                    #endregion Munüler
+
+                    #region Yetkiler
+                    {
+                        _srg = " ";
+                        _srg += " \r\n IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Yetkiler]') AND type in (N'U')) ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      CREATE TABLE[dbo].[Yetkiler] ( ";
+                        _srg += " \r\n      [ID] [uniqueidentifier] ROWGUIDCOL  NOT NULL, ";
+                        _srg += " \r\n      [UyelikID] [uniqueidentifier] NULL, ";
+                        _srg += " \r\n      [MenuID] [uniqueidentifier] NOT NULL, ";
+                        _srg += " \r\n      [KullaniciID] [uniqueidentifier] NOT NULL, ";
+                        _srg += " \r\n      [Gor] [bit] NULL, ";
+                        _srg += " \r\n      [Duzenle] [bit] NULL, ";
+                        _srg += " \r\n      [Sil] [bit] NULL, ";
+                        _srg += " \r\n      [KayitTarihi] [datetime] NULL, ";
+                        _srg += " \r\n      [KayitYapanKullanici] [uniqueidentifier] NULL, ";
+
+                        _srg += " \r\n      CONSTRAINT [PK_Yetkiler] PRIMARY KEY CLUSTERED ";
+                        _srg += " \r\n      ( ";
+                        _srg += " \r\n         [ID] ASC ";
+                        _srg += " \r\n      ) WITH(PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = ON, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY] ";
+                        _srg += " \r\n      ) ON [PRIMARY] ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    }
+                    #endregion Yetkiler
+
+                    #region Kullanicilar
+                    {
+                        _srg = " ";
+                        _srg += " \r\n IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Uyelikler]') AND type in (N'U')) ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      CREATE TABLE[dbo].[Kullanicilar] ( ";
+                        _srg += " \r\n      [ID][uniqueidentifier] NOT NULL, ";
+                        _srg += " \r\n      [UyelikID] [uniqueidentifier] NOT NULL, ";
+                        _srg += " \r\n      [KullaniciAdi] [nvarchar] (100) NOT NULL, ";
+                        _srg += " \r\n      [Parola] [nvarchar] (100) NOT NULL, ";
+                        _srg += " \r\n      [Ad] [nvarchar] (100) NOT NULL, ";
+                        _srg += " \r\n      [Soyad] [nvarchar] (100) NULL, ";
+                        _srg += " \r\n      [Telefon][nvarchar](100) NULL, ";
+                        _srg += " \r\n      [Adres][nvarchar](500) NULL, ";
+                        _srg += " \r\n      [Il][nvarchar](100) NULL, ";
+                        _srg += " \r\n      [Ilce][nvarchar](100) NULL, ";
+                        _srg += " \r\n      [Aktif][bit] NOT NULL, ";
+                        _srg += " \r\n      [Aciklama1] [nvarchar] (max)NULL, ";
+                        _srg += " \r\n      [Aciklama2][nvarchar](max) NULL, ";
+                        _srg += " \r\n      [Aciklama3][nvarchar](max) NULL, ";
+                        _srg += " \r\n      [Tarih][datetime] NULL, ";
+                        _srg += " \r\n      [Resim][nvarchar](500) NULL, ";
+                        _srg += " \r\n      [KayitTarihi][datetime] NOT NULL, ";
+                        _srg += " \r\n      [KayitYapanKullanici] [nvarchar] (100) NULL, ";
+                        _srg += " \r\n      [DuzenlemeTarihi][datetime] NULL, ";
+                        _srg += " \r\n      [DuzenlemeYapanKullanici][nvarchar](100) NULL, ";
+                        _srg += " \r\n      [Silindi][bit] NOT NULL, ";
+                        _srg += " \r\n      [SilinenTarih] [datetime] NULL, ";
+                        _srg += " \r\n      [SilenKullanici][nvarchar](100) NULL,";
+                        _srg += " \r\n      [Onay][bit] NULL,";
+                        _srg += " \r\n      [SicilNo][nvarchar](50) NULL,";
+                        _srg += " \r\n      [PersonelParola][nvarchar](50) NULL,";
+                        _srg += " \r\n      [Uygulama][nvarchar](50) NULL,";
+                        _srg += " \r\n      [Uygulama_Db][nvarchar](50) NULL,";
+                        _srg += " \r\n      [Uygulama_Depo_Kodu][int] NULL, ";
+                        _srg += " \r\n      [Uygulama_Sube_Kodu][int] NULL, ";
+                        _srg += " \r\n      [Uygulama_Firma_Kodu][nvarchar](3) NULL, ";
+                        _srg += " \r\n      [Uygulama_Donem_Kodu][nvarchar](2) NULL ";
+                        _srg += " \r\n      ) ";
+                        _srg += " \r\n ON [PRIMARY] TEXTIMAGE_ON [PRIMARY] ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    }
+                    #endregion Kullanicilar
+                    #region Kullanici_Forms
+                    {
+                        _srg = " ";
+                        _srg += " \r\n IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Kullanici_Forms]') AND type in (N'U')) ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      CREATE TABLE [dbo].[Kullanici_Forms]( ";
+                        _srg += " \r\n      [ID] [int] IDENTITY(1,1) NOT NULL, ";
+                        _srg += " \r\n      [KullaniciId] [uniqueidentifier] NOT NULL, ";
+                        _srg += " \r\n      [Form] [nvarchar](150) NOT NULL, ";
+                        _srg += " \r\n      [Nesne] [nvarchar](150) NOT NULL, ";
+                        _srg += " \r\n      [Deger] [nvarchar](150) NULL, ";
+                        _srg += " \r\n      CONSTRAINT [PK_Kullanici_Forms_ID] PRIMARY KEY CLUSTERED  ";
+                        _srg += " \r\n      ( ";
+                        _srg += " \r\n 	        [ID] ASC ";
+                        _srg += " \r\n      ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 100) ON [PRIMARY] ";
+                        _srg += " \r\n      ) ON [PRIMARY] ";
+                        _srg += " \r\n  END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    }
+                    #endregion Kullanici_Forms
                 }
             }
             catch (Exception err)
@@ -311,6 +766,42 @@ namespace YKPortal.Controllers
                     _srg += " \r\n , 'app@iyb.com.tr' as KullaniciAdi, 'app' as Parola, 'Iyb' Adi, 'App' as Soyadi ";
                     _srg += " \r\n WHERE 'app@iyb.com.tr' not in (select KullaniciAdi FROM [" + Uygulama_Db + "].[dbo].Kullanicilar with (nolock) where KullaniciAdi is not null) ";
               
+                    List<dynamic> entities = new List<dynamic>();
+
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _srg;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                }
+            }
+            catch (Exception err)
+            {
+
+            }
+        }
+
+        public void Iyb_Tablolari_Versiyon_Kontrol()
+        {
+            try
+            {
+                string _Procedure_Versiyon = "251125";
+                string _Sonuc_Aciklamasi = "";
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString);
+
+                string Uygulama_Db = conn.Database.ToString();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                conn.Open();
+                conn.ChangeDatabase(Uygulama_Db);
+                {
+                    string _srg = "";
+                    _srg += " \r\n UPDATE [" + Uygulama_Db + "].[dbo].Uyelikler ";
+                    _srg += " \r\n SET ";
+                    _srg += " \r\n SELECT (select TOP 1 Uy.ID from [" + Uygulama_Db + "].[dbo].Uyelikler Uy WHERE 1 = 1) as UyelikID  ";
+                    _srg += " \r\n , 'app@iyb.com.tr' as KullaniciAdi, 'app' as Parola, 'Iyb' Adi, 'App' as Soyadi ";
+                    _srg += " \r\n WHERE 'app@iyb.com.tr' not in (select KullaniciAdi FROM [" + Uygulama_Db + "].[dbo].Kullanicilar with (nolock) where KullaniciAdi is not null) ";
+
                     List<dynamic> entities = new List<dynamic>();
 
                     cmd.CommandType = System.Data.CommandType.Text;
@@ -6300,6 +6791,10 @@ namespace YKPortal.Controllers
                     result.Hata = "UYARI! Miktar bilgisi boş olamaz.";
                     return result;
                 }
+                if (data["Miktar"].ToString() == "")
+                {
+                    data["Miktar"] = "0";
+                }
                 if (data["KullaniciID"] == null)
                 {
                     result.SonucKodu = 0;
@@ -6487,6 +6982,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n , SY.MIKTAR ";
                     _srg += " \r\n , SY.TARIH as TARIH ";
                     _srg += " \r\n , SY.INCKEYNO ";
+                    _srg += " \r\n , SY.INCKEYNO AS KAYIT_ID";
                     _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].[TBLSAYIM] SY WITH (NOLOCK) ";
                     _srg += " \r\n INNER JOIN " + Uygulama_Db + ".[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ON SY.STOK_KODU = ST.STOK_KODU ";
                     _srg += " \r\n WHERE 1=1 ";
