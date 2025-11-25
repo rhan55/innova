@@ -48,9 +48,9 @@ namespace YKPortal.Controllers
             string Sorgu = data["Sorgu"].ToObject<string>();
             try
             {
-                Iyb_Tablolari_Tablolari_Olustur();
-                Iyb_Tablolari_Menuleri_Olustur();
-                Iyb_Tablolari_Prosedurleri_Olustur();
+                Iyb_Tablolari_01_Tablolari_Olustur();
+                Iyb_Tablolari_02_Menuleri_Olustur();
+                Iyb_Tablolari_03_Prosedurleri_Olustur();
                 Iyb_Tablolari_Kullanici_Ac();
                 Iyb_Tablolari_Versiyon_Kontrol();
                 using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString))
@@ -85,7 +85,7 @@ namespace YKPortal.Controllers
             return result;
         }
         [System.Web.Http.HttpPost]
-        public void Iyb_Tablolari_Tablolari_Olustur()
+        public void Iyb_Tablolari_01_Tablolari_Olustur()
         {
             try
             {
@@ -361,7 +361,7 @@ namespace YKPortal.Controllers
         }
 
         [System.Web.Http.HttpPost]
-        public void Iyb_Tablolari_Prosedurleri_Olustur()
+        public void Iyb_Tablolari_03_Prosedurleri_Olustur()
         {
             try
             {
@@ -582,7 +582,7 @@ namespace YKPortal.Controllers
             }
         }
         [System.Web.Http.HttpPost]
-        public void Iyb_Tablolari_Menuleri_Olustur()
+        public void Iyb_Tablolari_02_Menuleri_Olustur()
         {
             try
             {
