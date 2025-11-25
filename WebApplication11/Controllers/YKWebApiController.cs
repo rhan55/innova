@@ -601,7 +601,50 @@ namespace YKPortal.Controllers
                 string _MenuId = "", _MenuAciklama = "", _MenuSira = "0", _UstMId = "";
                 {
 
+                    #region Tanımlamalar
+                    _MenuId = "85c91c48-bb30-465a-a105-10ba9fd547e0";
+                    _MenuAciklama = "Tanımlamalar";
+                    _srg = " ";
+                    _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
+                    _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
+                    _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, NULL UstID ";
+                    _srg += " \r\n, '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
+                    _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _srg;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
 
+                    _MenuId = "9EAF836E-06AD-4B08-8170-690604B3ADE3";
+                    _UstMId = "85c91c48-bb30-465a-a105-10ba9fd547e0";
+                    _MenuAciklama = "Kullanıcı Yönetimi";
+                    _MenuSira = "10000";
+                    _srg = " ";
+                    _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
+                    _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
+                    _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
+                    _srg += " \r\n, '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as sira, 0 Aktif, getdate() KayitTarihi  ";
+                    _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _srg;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                    _MenuId = "EB46FABC-C497-4529-8ACF-24ABB45F7730";
+                    _UstMId = "9EAF836E-06AD-4B08-8170-690604B3ADE3";
+                    _MenuAciklama = "Kullanıcı Listesi";
+                    _MenuSira = "10000";
+                    _srg = " ";
+                    _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
+                    _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
+                    _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
+                    _srg += " \r\n, '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as sira, 0 Aktif, getdate() KayitTarihi  ";
+                    _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _srg;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+
+
+                    #endregion  Tanımlamalar
 
                     {
                         _MenuId = "10000000-0000-0000-0000-000000000000";
@@ -611,7 +654,7 @@ namespace YKPortal.Controllers
                         _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                         _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, NULL UstID ";
                         _srg += " \r\n, '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
-                        _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'10000000-0000-0000-0000-000000000000') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
+                        _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                         cmd.CommandType = System.Data.CommandType.Text;
                         cmd.CommandText = _srg;
                         IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
@@ -1156,6 +1199,9 @@ namespace YKPortal.Controllers
                     _srg += " \r\n , getdate() KayitTarihi, '10000000-0000-2025-0000-000000000001' as KayitYapanKullanici ";
                     _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].Menuler With (Nolock) ";
                     _srg += " \r\n WHERE ID not in (select Ic.MenuID FROM [" + Uygulama_Db + "].[dbo].Yetkiler Ic with (nolock) where Ic.KullaniciID = '10000000-0000-2025-0000-000000000001' ) ";
+
+
+
 
                     cmd.CommandType = System.Data.CommandType.Text;
                     cmd.CommandText = _srg;
