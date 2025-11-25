@@ -56,6 +56,7 @@ namespace YKPortal.Controllers
                     }
                 }
             }
+          
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "p_Parametre";
@@ -159,7 +160,6 @@ namespace YKPortal.Controllers
 
         }
 
-
         [HttpGet]
         public JsonResult Takvim(DateTime start, DateTime end)
         {
@@ -201,7 +201,6 @@ namespace YKPortal.Controllers
                 return Json(result, JsonRequestBehavior.AllowGet);
             }
         }
-
 
         [HttpPost]
 
@@ -820,7 +819,6 @@ namespace YKPortal.Controllers
             return Json(entity, JsonRequestBehavior.AllowGet);
         }
 
-
         #region Cookie İşlemleri
 
 
@@ -954,7 +952,6 @@ namespace YKPortal.Controllers
             }
             ViewBag.Iller = entities;
         }
-
         private void AnaSayfaTakvimDurumlariListesiGetir()
         {
             // GrupKodu1 Listesi oluşturma 
@@ -981,7 +978,6 @@ namespace YKPortal.Controllers
 
             ViewBag.TakvimDurumlari = entities;
         }
-
         private bool YetkiKontrolu(string YetkiUrl, string Tip = "Gor")
         {
             SqlCommand cmd = new SqlCommand();

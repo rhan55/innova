@@ -3394,6 +3394,7 @@ namespace YKPortal.Controllers
                 //string LisansNumarasi = Convert.ToString(data["LisansNumarasi"]);
                 string Uygulama = Convert.ToString(data["Uygulama"]);
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Uygulama_Sube = Convert.ToString(data["Uygulama_Sube"]);
                 string Kisit = Convert.ToString(data["Kisit"]);
                 string _Belge_Barkod = Convert.ToString(data["Barkod"]);
 
@@ -3607,6 +3608,7 @@ namespace YKPortal.Controllers
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
                 string Firma_Kodu = "";
                 string Donem_Kodu = "";
+                
                 if (Uygulama == "LOGO")
                 {
                     if (data["Firma_Kodu"] == null)
@@ -3624,10 +3626,11 @@ namespace YKPortal.Controllers
                     Firma_Kodu = Convert.ToString(data["Firma_Kodu"]);
                     Donem_Kodu = Convert.ToString(data["Donem_Kodu"]);
                 }
-                List<dynamic> entities = new List<dynamic>();
 
+                List<dynamic> entities = new List<dynamic>();
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = System.Data.CommandType.Text;
+           
                 if (Uygulama == "NETSIS")
                 {
                     if (Islem_Tipi == "Cariler")
@@ -3716,6 +3719,7 @@ namespace YKPortal.Controllers
                         }
                     }
                 }
+
                 if (Uygulama == "LOGO")
                 {
                     if (Islem_Tipi == "Cariler")
@@ -3742,6 +3746,10 @@ namespace YKPortal.Controllers
                     if (Islem_Tipi == "Depolar")
                     {
                         cmd.CommandText = "SELECT DEPO_KODU AS ID, DEPO_KODU AS Kod, DEPO_ISMI AS Isim FROM OYG_NV_DEPOLAR WHERE 'Depo' = 'Depo'";
+                        if (Kisit != "")
+                        {
+                            cmd.CommandText += Kisit;
+                        }
                     }
                     if (Islem_Tipi == "Hucreler")
                     {
@@ -3774,6 +3782,7 @@ namespace YKPortal.Controllers
                         }
                     }
                 }
+             
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
                 if (dt.Rows.Count > 0)
@@ -6561,20 +6570,41 @@ namespace YKPortal.Controllers
                 string Cari = Convert.ToString(data["Cari"]);
                 string SeriNo = Convert.ToString(data["SeriNo"]);
                 string EvrakNo = Convert.ToString(data["EvrakNo"]);
+                using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString))
+                {
+                    conn.Open();
+                    conn.ChangeDatabase(Uygulama_Db);
 
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandText = "p_ArizaListesi";
-                cmd.Parameters.AddWithValue("@UyelikID", kullaniciIdStr);
-                cmd.Parameters.AddWithValue("@Baslangic", Baslangic);
-                cmd.Parameters.AddWithValue("@Bitis", Bitis);
-                cmd.Parameters.AddWithValue("@Durum", Durum);
-                cmd.Parameters.AddWithValue("@Teknisyen", Teknisyen);
-                cmd.Parameters.AddWithValue("@Cari", Cari);
-                cmd.Parameters.AddWithValue("@SeriNo", SeriNo);
-                cmd.Parameters.AddWithValue("@EvrakNo", EvrakNo);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                DataSet ds = (DataSet)IDVeritabani.Sorgula(cmd, SorgulaTuru.DataSet);
-                DataTable dt = ds.Tables[1];
+                    using (SqlCommand cmd = new SqlCommand("p_ArizaListesi", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@UyelikID", kullaniciIdStr);
+                        cmd.Parameters.AddWithValue("@Baslangic", Baslangic);
+                        cmd.Parameters.AddWithValue("@Bitis", Bitis);
+                        cmd.Parameters.AddWithValue("@Durum", Durum);
+                        cmd.Parameters.AddWithValue("@Teknisyen", Teknisyen);
+                        cmd.Parameters.AddWithValue("@Cari", Cari);
+                        cmd.Parameters.AddWithValue("@SeriNo", SeriNo);
+                        cmd.Parameters.AddWithValue("@EvrakNo", EvrakNo);
+                        // 🔹 DataAdapter ile veri çekme
+                        using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                        {
+                            DataSet ds = new DataSet();
+                            da.Fill(ds);
+                            // 🔹 İstediğin tabloyu seç
+                            if (ds.Tables.Count > 1)
+                            {
+                                DataTable dt = ds.Tables[1];
+                                // burada dt'yi kullanabilirsin
+                            }
+                            else if (ds.Tables.Count == 1)
+                            {
+                                DataTable dt = ds.Tables[0];
+                                // sadece tek tablo varsa
+                            }
+                        }
+                    }
+                }
 
                 //if (dt.Rows.Count > 0)
                 //{
@@ -7605,9 +7635,6 @@ namespace YKPortal.Controllers
                     cmd.Parameters.AddWithValue("@Kullanici", Kullanici);
                     IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
                 }
-
-
-
                 result.Data = entities;
                 result.SonucKodu = 1;
                 result.Sonuc = "Başarılı";
