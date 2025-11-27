@@ -3042,6 +3042,11 @@ namespace YKPortal.Controllers
                 if (Uygulama == "NETSIS")
                 {
                     _srg = " ";
+                    _srg += " \r\n SELECT FISNO2 FISNO, 'Toplam' BARKOD, sum(ADET) ADET, SUM(KG) KG ";
+                    _srg += " \r\n FROM [INNOVA].[dbo].[TBLOKUTMA] WITH (NOLOCK) ";
+                    _srg += " \r\n WHERE FISNO2 = '" + _Okutma_No + "' ";
+                    _srg += " \r\n GROUP BY FISNO2 ";
+                    _srg += " \r\n UNION ALL ";
                     _srg += " \r\n SELECT FISNO2 FISNO, BARKOD, ADET, KG ";
                     _srg += " \r\n FROM [INNOVA].[dbo].[TBLOKUTMA] WITH (NOLOCK) ";
                     _srg += " \r\n WHERE FISNO2 = '" + _Okutma_No + "' ";
