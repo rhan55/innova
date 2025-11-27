@@ -386,7 +386,7 @@ namespace YKPortal.Controllers
                         _srg += " \r\n IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Kullanici_Kisayollari]') AND type in (N'U')) ";
                         _srg += " \r\n BEGIN ";
                         _srg += " \r\n      CREATE TABLE [dbo].[Kullanici_Kisayollari]( ";
-                        _srg += " \r\n      [GuidId] [uniqueidentifier] ROWGUIDCOL NOT NULL, ";
+                        _srg += " \r\n      [GuidId] [uniqueidentifier] ROWGUIDCOL NOT NULL DEFAULT (newid()), ";
                         _srg += " \r\n      [Kullanici_GuidId] [uniqueidentifier] NOT NULL, ";
                         _srg += " \r\n      [Menu_GuidId] [uniqueidentifier] NOT NULL, ";
                         _srg += " \r\n      [Ikon] [nvarchar](150) NULL, ";
@@ -406,6 +406,15 @@ namespace YKPortal.Controllers
                         _srg += " \r\n IF  NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = 'Kullanici_Kisayollari' AND COLUMN_NAME = 'KayitTarihi')  ";
                         _srg += " \r\n BEGIN ";
                         _srg += " \r\n      ALTER TABLE Kullanici_Kisayollari ADD KayitTarihi [datetime] NULL  ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                        _srg = " ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = 'Kullanici_Kisayollari' AND COLUMN_NAME = 'KayitYapanKullanici')  ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      ALTER TABLE Kullanici_Kisayollari ADD KayitYapanKullanici [uniqueidentifier] NULL  ";
                         _srg += " \r\n END ";
                         cmd.CommandType = System.Data.CommandType.Text;
                         cmd.CommandText = _srg;
@@ -495,24 +504,29 @@ namespace YKPortal.Controllers
                         _srg += " \r\n          Select 2 as ID, ''UYARI! Kullanıcı adı e-mail formatında değil!'' as Bilgi ";
                         _srg += " \r\n          return; ";
                         _srg += " \r\n      END ";
+                        _srg += " \r\n  IF EXISTS(select ID from [dbo].[Kullanicilar] WITH(NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi and Isnull(Aktif,0) = 0)  ";
+                        _srg += " \r\n      BEGIN ";
+                        _srg += " \r\n          Select 3 as ID, ''UYARI! Kullanıcı Aktif Değil!'' as Bilgi ";
+                        _srg += " \r\n          return; ";
+                        _srg += " \r\n      END ";
                         _srg += " \r\n  IF NOT EXISTS(select ID from [dbo].[Kullanicilar] WITH(NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi and Aktif = 1)  ";
                         _srg += " \r\n      BEGIN ";
-                        _srg += " \r\n          Select 3 as ID, ''UYARI! Kullanıcı adı yanlış!'' as Bilgi ";
+                        _srg += " \r\n          Select 4 as ID, ''UYARI! Kullanıcı adı yanlış!'' as Bilgi ";
                         _srg += " \r\n          return; ";
                         _srg += " \r\n      END ";
-                        _srg += " \r\n  IF NOT EXISTS(select ID from [dbo].[Kullanicilar] WITH(NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi and Parola = @Parola and Aktif = 1 and Onay = 0)  ";
+                        _srg += " \r\n  IF EXISTS(select ID from [dbo].[Kullanicilar] WITH(NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi and Parola = @Parola and Aktif = 1 and Onay = 0)  ";
                         _srg += " \r\n      BEGIN ";
-                        _srg += " \r\n          Select 4 as ID, ''UYARI! Onaylanmamış kullanıcı, lütfen e-mail ile gönderilen linke tıklayarak onaylayınız!'' as Bilgi ";
-                        _srg += " \r\n          return; ";
-                        _srg += " \r\n      END ";
-                        _srg += " \r\n  IF NOT EXISTS(select ID from [dbo].[Kullanicilar] WITH(NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi and Parola = @Parola and Aktif = 1 and Onay = 1)  ";
-                        _srg += " \r\n      BEGIN ";
-                        _srg += " \r\n          Select 5 as ID, ''UYARI! Kullanıcı parola yanlış!'' as Bilgi ";
+                        _srg += " \r\n          Select 5 as ID, ''UYARI! Onaylanmamış kullanıcı, lütfen e-mail ile gönderilen linke tıklayarak onaylayınız!'' as Bilgi ";
                         _srg += " \r\n          return; ";
                         _srg += " \r\n      END ";
                         _srg += " \r\n  IF NOT EXISTS(select ID from [dbo].[Kullanicilar] WITH(NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi and Parola = @Parola and Aktif = 1 and Onay = 1)  ";
                         _srg += " \r\n      BEGIN ";
                         _srg += " \r\n          Select 6 as ID, ''UYARI! Kullanıcı parola yanlış!'' as Bilgi ";
+                        _srg += " \r\n          return; ";
+                        _srg += " \r\n      END ";
+                        _srg += " \r\n  IF NOT EXISTS(select ID from [dbo].[Kullanicilar] WITH(NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi and Parola = @Parola and Aktif = 1 and Onay = 1)  ";
+                        _srg += " \r\n      BEGIN ";
+                        _srg += " \r\n          Select 7 as ID, ''UYARI! Kullanıcı parola yanlış!'' as Bilgi ";
                         _srg += " \r\n          return; ";
                         _srg += " \r\n      END ";
                         _srg += " \r\n ";
@@ -1340,6 +1354,7 @@ namespace YKPortal.Controllers
         [System.Web.Http.HttpPost]
         public IDJsonResult Kullanici_Kisayollari([FromBody] JObject data)
         {
+            Int32 _Prosedur_Versiyonu = 251127;
             IDJsonResult result = new IDJsonResult();
             try
             {
@@ -1364,7 +1379,9 @@ namespace YKPortal.Controllers
 
                 string Uygulama = Convert.ToString(data["Uygulama"]);
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString);
 
+                Uygulama_Db = conn.Database.ToString();
                 string Kullanici_GuidId = Convert.ToString(data["Kullanici_GuidId"]);
 
 
@@ -1377,7 +1394,10 @@ namespace YKPortal.Controllers
                 }
 
                 string _sorgu = "";
-                _sorgu += @"select * from Kullanici_Kisayollari with(nolock) where Kullanici_GuidId = '" + Kullanici_GuidId.ToString() + "'";
+                _sorgu += " select Ks.*, Menu.Menu as Menu_Baslik  ";
+                _sorgu += " \r\n from [" + Uygulama_Db + "].[dbo].Kullanici_Kisayollari Ks with (nolock) ";
+                _sorgu += " \r\n inner join [" + Uygulama_Db + "].[dbo].Menuler Menu with (nolock) on Menu.ID = Ks.Menu_GuidId ";
+                _sorgu += " \r\n where Kullanici_GuidId = '" + Kullanici_GuidId.ToString() + "' ";
                 List<dynamic> entities = new List<dynamic>();
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = System.Data.CommandType.Text;
@@ -1390,19 +1410,22 @@ namespace YKPortal.Controllers
                         dynamic entity = new System.Dynamic.ExpandoObject();
                         entity.GuidId = Convert.ToString(satir["GuidId"]);
                         entity.Kullanici_GuidId = Convert.ToString(satir["Kullanici_GuidId"]);
-                        entity.MenuId = Convert.ToString(satir["Menu_GuidId"]);
+                        entity.Menu_GuidId = Convert.ToString(satir["Menu_GuidId"]);
+                        entity.Menu_Baslik = Convert.ToString(satir["Menu_Baslik"]);
                         entity.Ikon = Convert.ToString(satir["Ikon"]);
                         entities.Add(entity);
                     }
                     result.Data = entities;
                     result.SonucKodu = 1;
-                    result.Sonuc = "Başarılı";
+                    result.Sonuc = "Başarılı:" + dt.Rows.ToString() + " Adet Kayıt Bulundu";
+                    result.Sonuc_Versiyon = _Prosedur_Versiyonu;
                     return result;
                 }
                 else
                 {
                     result.SonucKodu = 0;
                     result.Hata = "UYARI! Kayıt bulunamadı!";
+                    result.Sonuc_Versiyon = _Prosedur_Versiyonu;
                     return result;
                 }
             }
@@ -1410,6 +1433,7 @@ namespace YKPortal.Controllers
             {
                 result.SonucKodu = -1;
                 result.Sonuc = "HATA!";
+                result.Sonuc_Versiyon = _Prosedur_Versiyonu;
                 result.Hata = err.Message;
             }
             finally
@@ -1446,6 +1470,10 @@ namespace YKPortal.Controllers
                 string Uygulama = Convert.ToString(data["Uygulama"]);
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
 
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString);
+
+                Uygulama_Db = conn.Database.ToString();
+                
                 string Kullanici_GuidId = Convert.ToString(data["Kullanici_GuidId"]);
 
                 if (!Guid.TryParse(Kullanici_GuidId, out Guid kullaniciId))
@@ -1456,7 +1484,7 @@ namespace YKPortal.Controllers
                     return result;
                 }
                 string _sorgu = "";
-                _sorgu += @" delete from Kullanici_Kisayollari where Kullanici_GuidId ='" + Kullanici_GuidId.ToString() + "'";
+                _sorgu += @" delete from [" + Uygulama_Db + "].[dbo].Kullanici_Kisayollari where Kullanici_GuidId ='" + Kullanici_GuidId.ToString() + "'";
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.CommandType = System.Data.CommandType.Text;
@@ -1468,10 +1496,10 @@ namespace YKPortal.Controllers
                 foreach (var kisayol in kisayollar)
                 {
                     //  _sorgu += " EXEC [" + Uygulama_Db + "].[dbo].[pKisayolKaydet]";
-                    _sorgu = " insert into " + Uygulama_Db + ".dbo. Kullanici_Kisayollari ";
+                    _sorgu = " insert into [" + Uygulama_Db + "].[dbo]. Kullanici_Kisayollari ";
                     _sorgu += " ( Kullanici_GuidId, Menu_GuidId, Ikon, KayitTarihi  ) ";
                     _sorgu += " SELECT '" + Kullanici_GuidId.ToString() + "'";
-                    _sorgu += " , '" + kisayol.MenuId + "'";
+                    _sorgu += " , '" + kisayol.Menu_GuidId + "'";
                     _sorgu += " , '" + kisayol.Ikon + "'";
                     _sorgu += " , getdate()  ";
                     SqlCommand cmd = new SqlCommand();
@@ -6687,11 +6715,12 @@ namespace YKPortal.Controllers
             try
             {
                 string _sorgu = "";
-                _sorgu += @"select  distinct s1.MenuID,s2.Menu,s1.Gor,s1.Duzenle,s1.Sil,s1.KullaniciID,s2.UstID 
-                          from   Yetkiler as s1 with(nolock) 
-                          inner join Menuler as s2 
-                          on s1.MenuId=s2.ID
-                          where s1.Gor=1 and s1.KullaniciID='" + Convert.ToString(data["KullaniciId"]) + "'  order by MenuID  ";
+                _sorgu += "select  distinct s1.MenuID,s2.Menu,s1.Gor,s1.Duzenle,s1.Sil,s1.KullaniciID,s2.UstID  ";
+                _sorgu += " \r\n from  Yetkiler as s1 with (nolock)  ";
+                _sorgu += " \r\n inner join Menuler as s2 with (nolock) on s1.MenuId=s2.ID ";
+                _sorgu += " \r\n where s1.Gor=1 ";
+                _sorgu += " \r\n and s1.KullaniciID='" + Convert.ToString(data["KullaniciId"]) + "' ";
+                _sorgu += " \r\n order by cast(MenuID as nvarchar(50))  ";
 
                 List<dynamic> entities = new List<dynamic>();
                 SqlCommand cmd = new SqlCommand();
@@ -10907,6 +10936,7 @@ END
                     result.Hata = "UYARI! Parola bilgisi boş olamaz.";
                     return result;
                 }
+            
                 string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
                 string Parola = Convert.ToString(data["Parola"]);
                 YKModelKullanici entity = new YKModelKullanici();
@@ -11655,7 +11685,8 @@ END
     {
         public string Ikon { get; set; }
         public string Kullanici_GuidId { get; set; }
-        public string MenuId { get; set; } = string.Empty;
+        public string Menu_GuidId { get; set; } = string.Empty;
+        public string Menu_Baslik { get; set; } = string.Empty;
     }
     public class KisayolRequest
     {
