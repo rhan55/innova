@@ -172,27 +172,27 @@ namespace YKPortal.Controllers
                         IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
 
                         _srg = " ";
-                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM   INFORMATION_SCHEMA.COLUMNS          WHERE  TABLE_NAME = 'Uyelikler' AND COLUMN_NAME = 'WebServisVersiyonu')  ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM   INFORMATION_SCHEMA.COLUMNS          WHERE  TABLE_NAME = 'Uyelikler' AND COLUMN_NAME = 'WebServis_Versiyonu')  ";
                         _srg += " \r\n BEGIN ";
-                        _srg += " \r\n      ALTER TABLE Uyelikler ADD WebServisVersiyonu Int  ";
+                        _srg += " \r\n      ALTER TABLE Uyelikler ADD WebServis_Versiyonu Int  ";
                         _srg += " \r\n END ";
                         cmd.CommandType = System.Data.CommandType.Text;
                         cmd.CommandText = _srg;
                         IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
 
                         _srg = " ";
-                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM   INFORMATION_SCHEMA.COLUMNS          WHERE  TABLE_NAME = 'Uyelikler' AND COLUMN_NAME = 'AppVersiyonu')  ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM   INFORMATION_SCHEMA.COLUMNS          WHERE  TABLE_NAME = 'Uyelikler' AND COLUMN_NAME = 'App_Versiyonu')  ";
                         _srg += " \r\n BEGIN ";
-                        _srg += " \r\n      ALTER TABLE Uyelikler ADD AppVersiyonu Int  ";
+                        _srg += " \r\n      ALTER TABLE Uyelikler ADD App_Versiyonu Int  ";
                         _srg += " \r\n END ";
                         cmd.CommandType = System.Data.CommandType.Text;
                         cmd.CommandText = _srg;
                         IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
 
                         _srg = " ";
-                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM   INFORMATION_SCHEMA.COLUMNS          WHERE  TABLE_NAME = 'Uyelikler' AND COLUMN_NAME = 'InnovaExeVersiyonu')  ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM   INFORMATION_SCHEMA.COLUMNS          WHERE  TABLE_NAME = 'Uyelikler' AND COLUMN_NAME = 'InnovaExe_Versiyonu')  ";
                         _srg += " \r\n BEGIN ";
-                        _srg += " \r\n      ALTER TABLE Uyelikler ADD InnovaExeVersiyonu Int  ";
+                        _srg += " \r\n      ALTER TABLE Uyelikler ADD InnovaExe_Versiyonu Int  ";
                         _srg += " \r\n END ";
                         cmd.CommandType = System.Data.CommandType.Text;
                         cmd.CommandText = _srg;
@@ -551,8 +551,10 @@ namespace YKPortal.Controllers
                         _srg += " \r\n      , @Procedure_Versiyon as Uygulama_Procedure_Versiyon                                                  ";
                         _srg += " \r\n      , ISNULL(Uygulama_Firma_Kodu, ''001'') Uygulama_Firma_Kodu                                              ";
                         _srg += " \r\n      , ISNULL(Uygulama_Donem_Kodu, ''01'') Uygulama_Donem_Kodu                                               ";
-                        _srg += " \r\n      from "+ Uygulama_Db + ".[dbo].[Kullanicilar] WITH (NOLOCK)                                                                        ";
-                        _srg += " \r\n      LEFT OUTER JOIN "+ Uygulama_Db + ".[dbo].Uyelikler WITH (NOLOCK) ON Uyelikler.ID = Kullanicilar.UyelikID                        ";
+                        _srg += " \r\n      , ISNULL(WebServis_Versiyonu, ''" + WebServis_Versiyonu + "'') AS WebServis_Versiyonu ";
+                        _srg += " \r\n      , ISNULL(App_Versiyonu, ''" + WebServis_Versiyonu + "'') AS App_Versiyonu ";
+                        _srg += " \r\n      from "+ Uygulama_Db + ".[dbo].[Kullanicilar] WITH (NOLOCK)  ";
+                        _srg += " \r\n      LEFT OUTER JOIN "+ Uygulama_Db + ".[dbo].Uyelikler WITH (NOLOCK) ON Uyelikler.ID = Kullanicilar.UyelikID    ";
                         _srg += " \r\n      Where Kullanicilar.Silindi = 0                                                                        ";
                         _srg += " \r\n      and Kullanicilar.Aktif = 1 and LEN(@KullaniciAdi) > 0 and LEN(@Parola) > 0                            ";
                         _srg += " \r\n      and KullaniciAdi = @KullaniciAdi                                                                      ";
@@ -6723,7 +6725,7 @@ namespace YKPortal.Controllers
             try
             {
                 string _sorgu = "";
-                _sorgu += "select  distinct s1.MenuID,s2.Menu,s1.Gor,s1.Duzenle,s1.Sil,s1.KullaniciID,s2.UstID  ";
+                _sorgu += "select  distinct s1.MenuID,s2.Menu,s1.Gor,s1.Duzenle,s1.Sil,s1.KullaniciID,s2.UstID, cast(MenuID as nvarchar(50)) MenuIDsira  ";
                 _sorgu += " \r\n from  Yetkiler as s1 with (nolock)  ";
                 _sorgu += " \r\n inner join Menuler as s2 with (nolock) on s1.MenuId=s2.ID ";
                 _sorgu += " \r\n where s1.Gor=1 ";
@@ -10975,6 +10977,8 @@ END
                         entity.UyelikBitisGunu = Convert.ToString(dt.Rows[0]["UyelikBitisGunu"]);
                         entity.Uygulama_Firma_Kodu = Convert.ToString(dt.Rows[0]["Uygulama_Firma_Kodu"]);
                         entity.Uygulama_Donem_Kodu = Convert.ToString(dt.Rows[0]["Uygulama_Donem_Kodu"]);
+                        entity.WebServis_Versiyonu = Convert.ToString(dt.Rows[0]["WebServis_Versiyonu"]);
+                        entity.App_Versiyonu = Convert.ToString(dt.Rows[0]["App_Versiyonu"]);
                         entity.Uygulama_Procedure_Versiyon = Convert.ToString(dt.Rows[0]["Uygulama_Procedure_Versiyon"]);
                         #endregion
                         result.Data = entity;

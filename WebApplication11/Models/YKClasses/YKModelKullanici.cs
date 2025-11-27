@@ -25,8 +25,8 @@ namespace YKPortal.Models.YKClasses
         private string _Uygulama_Db;
         private string _UyelikBitisGunu = "0";
         private string _Uygulama_Procedure_Versiyon = "0";
-        
-
+        private string _Uygulama_WebServis_Versiyonu = "0";
+        private string _Uygulama_App_Versiyonu = "0";
 
         public string ID { get; set; }
         public string KullaniciID { get { return _KullaniciID ?? ""; } set { _KullaniciID = value; } }
@@ -46,6 +46,8 @@ namespace YKPortal.Models.YKClasses
         public string Uygulama_Donem_Kodu { get { return _Uygulama_Donem_Kodu ?? "01"; } set { _Uygulama_Donem_Kodu = value; } }
         public string UyelikBitisGunu { get { return _UyelikBitisGunu ?? "0"; } set { _UyelikBitisGunu = value; } }
 
+        public string WebServis_Versiyonu { get { return _Uygulama_WebServis_Versiyonu ?? "0"; } set { _Uygulama_WebServis_Versiyonu = value; } }
+        public string App_Versiyonu { get { return _Uygulama_App_Versiyonu ?? "0"; } set { _Uygulama_App_Versiyonu = value; } }
         public string Uygulama_Procedure_Versiyon { get { return _Uygulama_Procedure_Versiyon ?? "0"; } set { _Uygulama_Procedure_Versiyon = value; } }
     }
 }
