@@ -3337,25 +3337,33 @@ namespace YKPortal.Controllers
                 string _Barkod = Convert.ToString(data["Barkod"]);
                 string _Kullanici = Convert.ToString(data["Kullanici"]);
 
+                if (_Barkod != "")
+                {
 
-                string _srg = " \r\n INSERT INTO INNOVA..TBLOKUTMA ";
-                _srg += " \r\n ( FISNO, FISNO2, BARKOD ) ";
-                _srg += " \r\n SELECT '" + _Okutma_No + "' FISNO, '" + _Okutma_No + "' FISNO2, '" + _Barkod + "' BARKOD  ";
+                    string _srg = " \r\n INSERT INTO INNOVA..TBLOKUTMA ";
+                    _srg += " \r\n ( FISNO, FISNO2, BARKOD ) ";
+                    _srg += " \r\n SELECT '" + _Okutma_No + "' FISNO, '" + _Okutma_No + "' FISNO2, '" + _Barkod + "' BARKOD  ";
 
-                List<dynamic> entities = new List<dynamic>();
+                    List<dynamic> entities = new List<dynamic>();
 
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandType = System.Data.CommandType.Text;
-                cmd.CommandText = _srg;
-                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _srg;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
 
 
-                result.Data = entities;
-                result.SonucKodu = 1;
-                result.Sonuc = "Başarılı";
-                result.Sonuc_Versiyon = 250806;
-                return result;
-
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    result.Sonuc_Versiyon = 250806;
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Barkod bilgisi boş olamaz.";
+                    return result;
+                }
 
             }
             catch (Exception err)
