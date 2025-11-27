@@ -1,5 +1,6 @@
 ﻿using iText.Commons.Bouncycastle.Asn1.X509;
 using iText.IO.Util;
+using iText.Layout.Properties;
 using iText.StyledXmlParser.Jsoup.Nodes;
 using iText.StyledXmlParser.Node;
 using Newtonsoft.Json;
@@ -452,105 +453,88 @@ namespace YKPortal.Controllers
                     string _MenuId = "", _MenuAciklama = "", _MenuSira = "0";
                     #region p_KullaniciGirisi
                     {
-
-                        //                        DROP proc [dbo].[p_KullaniciGirisi]
-                        //GO
-                        //CREATE proc [dbo].[p_KullaniciGirisi](
-                        //@KullaniciAdi nvarchar(100),
-                        //@Parola nvarchar(100)
-                        //)
-                        //as
-                        //BEGIN
-                        //	declare @Procedure_Versiyon int = 251010
-
-                        //IF @KullaniciAdi not like '%@%.%'
-                        //BEGIN
-                        //	Select 0 as ID, 'UYARI! Kullanıcı adı e-mail formatında değil!' as Bilgi
-                        //	return;
-                        //END
-
-                        //IF NOT EXISTS(select ID from Kullanicilar WITH(NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi and Parola = @Parola and Aktif = 1) 
-                        //BEGIN
-                        //	Select 0 as ID, 'UYARI! Kullanıcı adı veya parola yanlış!' as Bilgi
-                        //	return;
-                        //END
-
-                        //IF EXISTS(select ID from Kullanicilar WITH(NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi and Parola = @Parola and Aktif = 1 and Onay = 0 )
-                        //BEGIN
-                        //	Select 0 as ID, 'UYARI! Onaylanmamış kullanıcı, lütfen e-mail ile gönderilen linke tıklayarak onaylayınız!' as Bilgi
-                        //	return;
-                        //END
-
-                        //declare @UyelikID nvarchar(100) = (select top(1) UyelikID from Kullanicilar WITH(NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi)
-                        //IF EXISTS(select ID from Uyelikler WITH(NOLOCK) Where Silindi = 0 and ID = @UyelikID and UyelikBitisTarihi <= CAST(GETDATE() as date) )
-                        //BEGIN
-                        //	Select 0 as ID, 'UYARI! Üyeliğinizin süresi bitmiştir!' as Bilgi
-                        //	return;
-                        //END
-
-                        //	Insert Into Loglar (UyelikID,Modul,Aciklama1,Aciklama2,KayitTarihi,Kullanici) 
-                        //	values ((select top(1) UyelikID from Kullanicilar WITH(NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi),'Kullanıcı','Kullanıcı Girişi' 
-                        //	,(select top(1) Ad+' '+Soyad from Kullanicilar WITH(NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi),GETDATE(),null)
-
-                        //select 
-                        //Kullanicilar.*,
-                        //Uyelikler.Isim as UyelikIsim,
-                        //Uyelikler.AcilisSayfasi,
-                        //'Giriş başarılı.' as Bilgi,
-                        //Uyelikler.UyelikBitisTarihi,
-                        //DATEDIFF(DAY,GETDATE(),Uyelikler.UyelikBitisTarihi) BitisGunu,
-                        //Uyelikler.Resim as Logo
-                        //, Uygulama
-                        //, Uygulama_Db
-                        //, ISNULL(Uygulama_Sube_Kodu,0) AS Uygulama_Sube_Kodu
-                        //, ISNULL(Uygulama_Depo_Kodu,0) AS Uygulama_Depo_Kodu
-                        //, isnull(Uyelikler.UyelikBitisTarihi, getdate() -1) as UyelikBitisTarihi
-                        //, DATEDIFF(D, GETDATE() , isnull(Uyelikler.UyelikBitisTarihi, getdate() -1))  UyelikBitisGunu
-                        //, @Procedure_Versiyon as Uygulama_Procedure_Versiyon
-                        //, ISNULL(Uygulama_Firma_Kodu, '001') Uygulama_Firma_Kodu
-                        //, ISNULL(Uygulama_Donem_Kodu, '01') Uygulama_Donem_Kodu
-                        //from Kullanicilar WITH (NOLOCK)
-                        //LEFT OUTER JOIN Uyelikler WITH (NOLOCK) ON Uyelikler.ID = Kullanicilar.UyelikID
-                        //Where Kullanicilar.Silindi = 0 
-                        //and Kullanicilar.Aktif = 1 and LEN(@KullaniciAdi) > 0 and LEN(@Parola) > 0
-                        //and KullaniciAdi = @KullaniciAdi
-                        //and Parola = @Parola
-
-                        //END
                         _srg = " ";
-                        _srg += " \r\n IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[p_KullaniciGirisi]') AND type in (N'U')) ";
+                        _srg += " \r\n IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[p_KullaniciGirisi]') ) ";
                         _srg += " \r\n BEGIN ";
-                        _srg += " \r\n      CREATE TABLE [dbo].[Uyelikler]( ";
-                        _srg += " \r\n      [ID] [uniqueidentifier] NOT NULL, ";
-                        _srg += " \r\n      [Isim] [nvarchar] (100) NOT NULL, ";
-                        _srg += " \r\n      [Unvan] [nvarchar] (500) NULL, ";
-                        _srg += " \r\n      [VergiNumarasi][nvarchar](11) NULL, ";
-                        _srg += " \r\n      [VergiDairesi][nvarchar](250) NULL, ";
+                        _srg += " \r\n  DROP PROCEDURE [dbo].[p_KullaniciGirisi] ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
 
-                        _srg += " \r\n      [Iletisim][nvarchar](100) NULL, ";
-                        _srg += " \r\n      [EMail][nvarchar](100) NULL, ";
-                        _srg += " \r\n      [UyelikBaslangicTarihi][datetime] NULL, ";
-                        _srg += " \r\n      [UyelikBitisTarihi][datetime] NULL, ";
-                        _srg += " \r\n      [KayitTarihi][datetime] NOT NULL, ";
-                        _srg += " \r\n      [KayitYapanKullanici] [nvarchar] (100) NULL, ";
-
-                        _srg += " \r\n      [DuzenlemeTarihi][datetime] NULL, ";
-                        _srg += " \r\n      [DuzenlemeYapanKullanici][nvarchar](100) NULL, ";
-
-                        _srg += " \r\n      [Silindi][bit] NOT NULL, ";
-                        _srg += " \r\n      [SilinenTarih] [datetime] NULL,";
-                        _srg += " \r\n      [SilenKullanici][nvarchar](100) NULL, ";
-
-                        _srg += " \r\n      [ApiUrl][nvarchar](max) NULL, ";
-                        _srg += " \r\n      [AcilisSayfasi][nvarchar](max) NULL, ";
-                        _srg += " \r\n      [Resim][nvarchar](max) NULL, ";
-
-                        _srg += " \r\n      CONSTRAINT [PK_Uyelikler_ID] PRIMARY KEY CLUSTERED  ";
-                        _srg += " \r\n      ( ";
-                        _srg += " \r\n 	        [ID] ASC ";
-                        _srg += " \r\n      ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 100) ON [PRIMARY] ";
-                        _srg += " \r\n      ) ON [PRIMARY] ";
-                        _srg += " \r\n  END ";
+                        _srg = " ";
+                        _srg += " \r\n IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[p_KullaniciGirisi]') ) ";
+                        _srg += " \r\n BEGIN EXECUTE(' ";
+                        _srg += " \r\n  CREATE proc [dbo].[p_KullaniciGirisi] ";
+                        _srg += " \r\n  ( ";
+                        _srg += " \r\n      @KullaniciAdi nvarchar(100), ";
+                        _srg += " \r\n      @Parola nvarchar(100) ";
+                        _srg += " \r\n  ) ";
+                        _srg += " \r\n  AS ";
+                        _srg += " \r\n  BEGIN ";
+                        _srg += " \r\n  declare @Procedure_Versiyon int = 251128 ";
+                        _srg += " \r\n  declare @UyelikID nvarchar(100) = (select top(1) UyelikID from [dbo].[Kullanicilar] WITH (NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi) ";
+                        _srg += " \r\n  IF EXISTS(select ID from Uyelikler WITH(NOLOCK) Where Silindi = 0 and ID = @UyelikID and UyelikBitisTarihi <= CAST(GETDATE() as date) ) ";
+                        _srg += " \r\n      BEGIN ";
+                        _srg += " \r\n          Select 1 as ID, ''UYARI! Kullanıcı adı e-mail formatında değil!'' as Bilgi ";
+                        _srg += " \r\n          return; ";
+                        _srg += " \r\n      END ";
+                        _srg += " \r\n  IF @KullaniciAdi not like ''%@%.%'' ";
+                        _srg += " \r\n      BEGIN ";
+                        _srg += " \r\n          Select 2 as ID, ''UYARI! Kullanıcı adı e-mail formatında değil!'' as Bilgi ";
+                        _srg += " \r\n          return; ";
+                        _srg += " \r\n      END ";
+                        _srg += " \r\n  IF NOT EXISTS(select ID from [dbo].[Kullanicilar] WITH(NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi and Aktif = 1)  ";
+                        _srg += " \r\n      BEGIN ";
+                        _srg += " \r\n          Select 3 as ID, ''UYARI! Kullanıcı adı yanlış!'' as Bilgi ";
+                        _srg += " \r\n          return; ";
+                        _srg += " \r\n      END ";
+                        _srg += " \r\n  IF NOT EXISTS(select ID from [dbo].[Kullanicilar] WITH(NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi and Parola = @Parola and Aktif = 1 and Onay = 0)  ";
+                        _srg += " \r\n      BEGIN ";
+                        _srg += " \r\n          Select 4 as ID, ''UYARI! Onaylanmamış kullanıcı, lütfen e-mail ile gönderilen linke tıklayarak onaylayınız!'' as Bilgi ";
+                        _srg += " \r\n          return; ";
+                        _srg += " \r\n      END ";
+                        _srg += " \r\n  IF NOT EXISTS(select ID from [dbo].[Kullanicilar] WITH(NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi and Parola = @Parola and Aktif = 1 and Onay = 1)  ";
+                        _srg += " \r\n      BEGIN ";
+                        _srg += " \r\n          Select 5 as ID, ''UYARI! Kullanıcı parola yanlış!'' as Bilgi ";
+                        _srg += " \r\n          return; ";
+                        _srg += " \r\n      END ";
+                        _srg += " \r\n  IF NOT EXISTS(select ID from [dbo].[Kullanicilar] WITH(NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi and Parola = @Parola and Aktif = 1 and Onay = 1)  ";
+                        _srg += " \r\n      BEGIN ";
+                        _srg += " \r\n          Select 6 as ID, ''UYARI! Kullanıcı parola yanlış!'' as Bilgi ";
+                        _srg += " \r\n          return; ";
+                        _srg += " \r\n      END ";
+                        _srg += " \r\n ";
+                        _srg += " \r\n     Insert Into Loglar (UyelikID,Modul,Aciklama1,Aciklama2,KayitTarihi,Kullanici)  ";
+                        _srg += " \r\n     values ((select top(1) UyelikID from [dbo].[Kullanicilar] WITH(NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi),''Kullanıcı'',''Kullanıcı Girişi''   ";
+                        _srg += " \r\n     , (select top(1) Ad+'' ''+Soyad from Kullanicilar WITH(NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi),GETDATE(),null)  ";
+                        _srg += " \r\n      ";
+                        _srg += " \r\n      select                                                                                                ";
+                        _srg += " \r\n      Kullanicilar.*,                                                                                       ";
+                        _srg += " \r\n      Uyelikler.Isim as UyelikIsim,                                                                         ";
+                        _srg += " \r\n      Uyelikler.AcilisSayfasi,                                                                              ";
+                        _srg += " \r\n      ''Giriş başarılı.'' as Bilgi,                                                                           ";
+                        _srg += " \r\n      Uyelikler.UyelikBitisTarihi,                                                                          ";
+                        _srg += " \r\n      DATEDIFF(DAY, GETDATE(), Uyelikler.UyelikBitisTarihi) BitisGunu,                                      ";
+                        _srg += " \r\n      Uyelikler.Resim as Logo                                                                               ";
+                        _srg += " \r\n      , Uygulama                                                                                            ";
+                        _srg += " \r\n      , Uygulama_Db                                                                                         ";
+                        _srg += " \r\n      , ISNULL(Uygulama_Sube_Kodu, 0) AS Uygulama_Sube_Kodu                                                 ";
+                        _srg += " \r\n      , ISNULL(Uygulama_Depo_Kodu, 0) AS Uygulama_Depo_Kodu                                                 ";
+                        _srg += " \r\n      , isnull(Uyelikler.UyelikBitisTarihi, getdate() - 1) as UyelikBitisTarihi                             ";
+                        _srg += " \r\n      , DATEDIFF(D, GETDATE(), isnull(Uyelikler.UyelikBitisTarihi, getdate() - 1))  UyelikBitisGunu         ";
+                        _srg += " \r\n      , @Procedure_Versiyon as Uygulama_Procedure_Versiyon                                                  ";
+                        _srg += " \r\n      , ISNULL(Uygulama_Firma_Kodu, ''001'') Uygulama_Firma_Kodu                                              ";
+                        _srg += " \r\n      , ISNULL(Uygulama_Donem_Kodu, ''01'') Uygulama_Donem_Kodu                                               ";
+                        _srg += " \r\n      from "+ Uygulama_Db + ".[dbo].[Kullanicilar] WITH (NOLOCK)                                                                        ";
+                        _srg += " \r\n      LEFT OUTER JOIN "+ Uygulama_Db + ".[dbo].Uyelikler WITH (NOLOCK) ON Uyelikler.ID = Kullanicilar.UyelikID                        ";
+                        _srg += " \r\n      Where Kullanicilar.Silindi = 0                                                                        ";
+                        _srg += " \r\n      and Kullanicilar.Aktif = 1 and LEN(@KullaniciAdi) > 0 and LEN(@Parola) > 0                            ";
+                        _srg += " \r\n      and KullaniciAdi = @KullaniciAdi                                                                      ";
+                        _srg += " \r\n      and Parola = @Parola                                                                                  ";
+                        _srg += " \r\n      ";
+                        _srg += " \r\n    END ";
+                        _srg += " \r\n ') END ";
                         cmd.CommandType = System.Data.CommandType.Text;
                         cmd.CommandText = _srg;
                         IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
