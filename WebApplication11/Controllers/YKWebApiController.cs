@@ -383,19 +383,30 @@ namespace YKPortal.Controllers
                     #region Kullanici_Kisayollari
                     {
                         _srg = " ";
-                        _srg += " \r\n IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[KullaniciKisayollari]') AND type in (N'U')) ";
+                        _srg += " \r\n IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Kullanici_Kisayollari]') AND type in (N'U')) ";
                         _srg += " \r\n BEGIN ";
-                        _srg += " \r\n      CREATE TABLE [dbo].[KullaniciKisayollari]( ";
-                        _srg += " \r\n      [ID] [int] IDENTITY(1,1) NOT NULL, ";
+                        _srg += " \r\n      CREATE TABLE [dbo].[Kullanici_Kisayollari]( ";
+                        _srg += " \r\n      [GuidId] [uniqueidentifier] ROWGUIDCOL NOT NULL, ";
                         _srg += " \r\n      [Kullanici_GuidId] [uniqueidentifier] NOT NULL, ";
-                        _srg += " \r\n      [MenuId] [uniqueidentifier] NOT NULL, ";
-                        _srg += " \r\n      [Ikon] [nvarchar](150) NOT NULL, ";
-                        _srg += " \r\n      CONSTRAINT [PK_KullaniciKisayollari_ID] PRIMARY KEY CLUSTERED  ";
+                        _srg += " \r\n      [Menu_GuidId] [uniqueidentifier] NOT NULL, ";
+                        _srg += " \r\n      [Ikon] [nvarchar](150) NULL, ";
+                        _srg += " \r\n      [KayitTarihi] [datetime] NULL, ";
+                        _srg += " \r\n      [KayitYapanKullanici] [uniqueidentifier] NULL, ";
+                        _srg += " \r\n      CONSTRAINT [PK_Kullanici_Kisayollari_GuidId] PRIMARY KEY CLUSTERED  ";
                         _srg += " \r\n      ( ";
-                        _srg += " \r\n 	        [ID] ASC ";
+                        _srg += " \r\n 	        [GuidId] ASC ";
                         _srg += " \r\n      ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 100) ON [PRIMARY] ";
                         _srg += " \r\n      ) ON [PRIMARY] ";
                         _srg += " \r\n  END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                        _srg = " ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = 'Kullanici_Kisayollari' AND COLUMN_NAME = 'KayitTarihi')  ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      ALTER TABLE Kullanici_Kisayollari ADD KayitTarihi [datetime] NULL  ";
+                        _srg += " \r\n END ";
                         cmd.CommandType = System.Data.CommandType.Text;
                         cmd.CommandText = _srg;
                         IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
@@ -408,7 +419,7 @@ namespace YKPortal.Controllers
                         _srg += " \r\n IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Parametreler]') AND type in (N'U')) ";
                         _srg += " \r\n BEGIN ";
                         _srg += " \r\n      CREATE TABLE [dbo].[Parametreler]( ";
-                        _srg += " \r\n      [ID] [uniqueidentifier] ROWGUIDCOL  NOT NULL, ";
+                        _srg += " \r\n      [ID] [uniqueidentifier] ROWGUIDCOL NOT NULL, ";
                         _srg += " \r\n      [UyelikID] [uniqueidentifier] NULL, ";
                         _srg += " \r\n      [Modul] [nvarchar](100) NOT NULL, ";
                         _srg += " \r\n      [Isim] [nvarchar](250) NOT NULL, ";
@@ -1289,6 +1300,7 @@ namespace YKPortal.Controllers
             }
         }
 
+        [System.Web.Http.HttpPost]
         public void Iyb_Tablolari_Versiyon_Kontrol()
         {
             try
@@ -1324,6 +1336,163 @@ namespace YKPortal.Controllers
 
             }
         }
+
+        [System.Web.Http.HttpPost]
+        public IDJsonResult Kullanici_Kisayollari([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici_GuidId"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici_GuidId bilgisi boş olamaz.";
+                    return result;
+                }
+
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+
+                string Kullanici_GuidId = Convert.ToString(data["Kullanici_GuidId"]);
+
+
+                if (!Guid.TryParse(Kullanici_GuidId, out Guid kullaniciId))
+                {
+                    result.SonucKodu = -1;
+                    result.Sonuc = "HATA!";
+                    result.Hata = "Geçersiz Kullanıcı ID (GUID değil)";
+                    return result;
+                }
+
+                string _sorgu = "";
+                _sorgu += @"select * from Kullanici_Kisayollari with(nolock) where Kullanici_GuidId = '" + Kullanici_GuidId.ToString() + "'";
+                List<dynamic> entities = new List<dynamic>();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = _sorgu;
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.GuidId = Convert.ToString(satir["GuidId"]);
+                        entity.Kullanici_GuidId = Convert.ToString(satir["Kullanici_GuidId"]);
+                        entity.MenuId = Convert.ToString(satir["Menu_GuidId"]);
+                        entity.Ikon = Convert.ToString(satir["Ikon"]);
+                        entities.Add(entity);
+                    }
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    return result;
+                }
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        [System.Web.Http.HttpPost]
+        public IDJsonResult Kullanici_Kisayol_Kaydet([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici_GuidId"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici_GuidId bilgisi boş olamaz.";
+                    return result;
+                }
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+
+                string Kullanici_GuidId = Convert.ToString(data["Kullanici_GuidId"]);
+
+                if (!Guid.TryParse(Kullanici_GuidId, out Guid kullaniciId))
+                {
+                    result.SonucKodu = -1;
+                    result.Sonuc = "HATA!";
+                    result.Hata = "Geçersiz Kullanıcı ID (GUID değil)";
+                    return result;
+                }
+                string _sorgu = "";
+                _sorgu += @" delete from Kullanici_Kisayollari where Kullanici_GuidId ='" + Kullanici_GuidId.ToString() + "'";
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _sorgu;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                }
+                _sorgu = "";
+                List<KisayolModel> kisayollar = data["kisayollar"].ToObject<List<KisayolModel>>();
+                foreach (var kisayol in kisayollar)
+                {
+                    //  _sorgu += " EXEC [" + Uygulama_Db + "].[dbo].[pKisayolKaydet]";
+                    _sorgu = " insert into " + Uygulama_Db + ".dbo. Kullanici_Kisayollari ";
+                    _sorgu += " ( Kullanici_GuidId, Menu_GuidId, Ikon, KayitTarihi  ) ";
+                    _sorgu += " SELECT '" + Kullanici_GuidId.ToString() + "'";
+                    _sorgu += " , '" + kisayol.MenuId + "'";
+                    _sorgu += " , '" + kisayol.Ikon + "'";
+                    _sorgu += " , getdate()  ";
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _sorgu;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                }
+
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                result.Hata = "Kısayol Kaydedildi.";
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            return result;
+        }
+
     }
     public class RksController : ApiController
     {
@@ -6563,158 +6732,7 @@ namespace YKPortal.Controllers
             }
             return result;
         }
-        public IDJsonResult Kullanici_Kisayollari([FromBody] JObject data)
-        {
-            IDJsonResult result = new IDJsonResult();
-            try
-            {
-                if (data["Uygulama"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
-                    return result;
-                }
-                if (data["Uygulama_Db"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
-                    return result;
-                }
-                if (data["Kullanici_GuidId"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Kullanici_GuidId bilgisi boş olamaz.";
-                    return result;
-                }
-
-                string Uygulama = Convert.ToString(data["Uygulama"]);
-                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
-
-                string Kullanici_GuidId = Convert.ToString(data["Kullanici_GuidId"]);
-
-
-                if (!Guid.TryParse(Kullanici_GuidId, out Guid kullaniciId))
-                {
-                    result.SonucKodu = -1;
-                    result.Sonuc = "HATA!";
-                    result.Hata = "Geçersiz Kullanıcı ID (GUID değil)";
-                    return result;
-                }
-
-                string _sorgu = "";
-                _sorgu += @"select * from KullaniciKisayollari with(nolock) where Kullanici_GuidId = '" + Kullanici_GuidId.ToString() + "'";
-                List<dynamic> entities = new List<dynamic>();
-                SqlCommand cmd = new SqlCommand();
-                cmd.CommandType = System.Data.CommandType.Text;
-                cmd.CommandText = _sorgu;
-                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-                if (dt.Rows.Count > 0)
-                {
-                    foreach (DataRow satir in dt.Rows)
-                    {
-                        dynamic entity = new System.Dynamic.ExpandoObject();
-                        entity.GuidId = Convert.ToString(satir["GuidId"]);
-                        entity.Kullanici_GuidId = Convert.ToString(satir["Kullanici_GuidId"]);
-                        entity.MenuId = Convert.ToString(satir["MenuId"]);
-                        entity.Ikon = Convert.ToString(satir["Ikon"]);
-                        entities.Add(entity);
-                    }
-                    result.Data = entities;
-                    result.SonucKodu = 1;
-                    result.Sonuc = "Başarılı";
-                    return result;
-                }
-                else
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Kayıt bulunamadı!";
-                    return result;
-                }
-            }
-            catch (Exception err)
-            {
-                result.SonucKodu = -1;
-                result.Sonuc = "HATA!";
-                result.Hata = err.Message;
-            }
-            finally
-            {
-
-            }
-            return result;
-        }
-        public IDJsonResult Kullanici_Kisayol_Kaydet([FromBody] JObject data)
-        {
-            IDJsonResult result = new IDJsonResult();
-            try
-            {
-                if (data["Uygulama"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
-                    return result;
-                }
-                if (data["Uygulama_Db"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
-                    return result;
-                }
-                if (data["Kullanici_GuidId"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Kullanici_GuidId bilgisi boş olamaz.";
-                    return result;
-                }
-                string Uygulama = Convert.ToString(data["Uygulama"]);
-                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
-
-                string Kullanici_GuidId = Convert.ToString(data["Kullanici_GuidId"]);
-
-                if (!Guid.TryParse(Kullanici_GuidId, out Guid kullaniciId))
-                {
-                    result.SonucKodu = -1;
-                    result.Sonuc = "HATA!";
-                    result.Hata = "Geçersiz Kullanıcı ID (GUID değil)";
-                    return result;
-                }
-                string _sorgu = "";
-                _sorgu += @" delete from KullaniciKisayollari where Kullanici_GuidId ='" + Kullanici_GuidId.ToString() + "'";
-                using (SqlCommand cmd = new SqlCommand())
-                {
-                    cmd.CommandType = System.Data.CommandType.Text;
-                    cmd.CommandText = _sorgu;
-                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
-                }
-                _sorgu = "";
-                List<KisayolModel> kisayollar = data["kisayollar"].ToObject<List<KisayolModel>>();
-                foreach (var kisayol in kisayollar)
-                {
-                    //  _sorgu += " EXEC [" + Uygulama_Db + "].[dbo].[pKisayolKaydet]";
-                    _sorgu = " insert into "+ Uygulama_Db + ".dbo. KullaniciKisayollari ";
-                    _sorgu += " ( Kullanici_GuidId, MenuId, Ikon ) ";
-                    _sorgu += " SELECT '" + kullaniciId.ToString() + "'";
-                    _sorgu += " , '" + kisayol.MenuId + "'";
-                    _sorgu += " , '" + kisayol.Ikon + "'";
-                    SqlCommand cmd = new SqlCommand();
-                    cmd.CommandType = System.Data.CommandType.Text;
-                    cmd.CommandText = _sorgu;
-                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
-                }
-
-                result.SonucKodu = 1;
-                result.Sonuc = "Başarılı";
-                result.Hata = "Kısayol Kaydedildi.";
-            }
-            catch (Exception err)
-            {
-                result.SonucKodu = -1;
-                result.Sonuc = "HATA!";
-                result.Hata = err.Message;
-            }
-            return result;
-        }
-
+       
         [HttpPost]
         public IDJsonResult Ariza_KayitSayisi([FromBody] JObject data)
         {
