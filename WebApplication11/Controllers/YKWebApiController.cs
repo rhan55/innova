@@ -1304,7 +1304,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n (UyelikID, KullaniciID, MenuID ";
                     _srg += " \r\n , Gor, Duzenle, Sil ";
                     _srg += " \r\n , KayitTarihi, KayitYapanKullanici) ";
-                    _srg += " \r\n SELECT (select TOP 1 Uy.ID from [" + Uygulama_Db + "].[dbo].Uyelikler Uy WHERE 1 = 1) as UyelikID  ";
+                    _srg += " \r\n SELECT (select TOP 1 Uy.ID from [" + Uygulama_Db + "].[dbo].Uyelikler Uy With (nolock) WHERE 1 = 1) as UyelikID  ";
                     _srg += " \r\n , '10000000-0000-2025-0000-000000000001' as KullaniciID ";
                     _srg += " \r\n , ID as MenuID ";
                     _srg += " \r\n , 1 Gor, 1 Duzenle, 1 Sil ";
@@ -1320,16 +1320,16 @@ namespace YKPortal.Controllers
                     _srg = "";
                     _srg += " \r\n Delete from [" + Uygulama_Db + "].[dbo].Yetkiler  ";
                     _srg += " \r\n where MenuID not in (select Ic.ID from [" + Uygulama_Db + "].[dbo].Menuler Ic With (nolock) WHERE Isnull(Ic.Aktif,0) = 1) ";
-                    cmd.CommandType = System.Data.CommandType.Text;
-                    cmd.CommandText = _srg;
-                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    //cmd.CommandType = System.Data.CommandType.Text;
+                    //cmd.CommandText = _srg;
+                    //IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
 
                     _srg = "";
-                    _srg += " \r\n Delete from [" + Uygulama_Db + "].[dbo].YETKiler  ";
+                    _srg += " \r\n Delete from [" + Uygulama_Db + "].[dbo].Yetkiler  ";
                     _srg += " \r\n where Isnull(Gor,0) = 0 ";
-                    cmd.CommandType = System.Data.CommandType.Text;
-                    cmd.CommandText = _srg;
-                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    //cmd.CommandType = System.Data.CommandType.Text;
+                    //cmd.CommandText = _srg;
+                    //IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
 
                 }
             }
@@ -1545,7 +1545,58 @@ namespace YKPortal.Controllers
             }
             return result;
         }
+        [System.Web.Http.HttpPost]
+        public IDJsonResult Crm_Kontor_Durumu_Kaydet([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+               
+                if (data["Vkn"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Vkn bilgisi boş olamaz.";
+                    return result;
+                }
 
+
+                string Uygulama_Db = "LOGOCRM";
+
+                string Vkn = Convert.ToString(data["Vkn"]);
+                string Unvan = Convert.ToString(data["Unvan"]);
+                string _Etiket = Convert.ToString(data["Etiket"]);
+                string _Kontor = Convert.ToString(data["Kontor"]);
+                string _Tarih = Convert.ToString(data["Tarih"]);
+                string _Baslik = Convert.ToString(data["Baslik"]);
+
+                string _sorgu = "";
+                _sorgu += " EXEC [" + Uygulama_Db + "].[dbo].INN_PR_EVENT_KONTOR_EKLE ";
+                _sorgu += " '" + Vkn.ToString() + "' ";
+                _sorgu += " , '" + Unvan + "' ";
+                _sorgu += " , '" + _Etiket + "' ";
+                _sorgu += " , '" + _Kontor + "' ";
+                _sorgu += " , '" + _Tarih + "' ";
+                _sorgu += " , '" + _Baslik + "' ";
+
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _sorgu;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                }
+
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                result.Hata = "Kısayol Kaydedildi.";
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            return result;
+        }
     }
     public class RksController : ApiController
     {
