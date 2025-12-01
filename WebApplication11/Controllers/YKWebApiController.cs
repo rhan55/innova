@@ -603,7 +603,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                     _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                     _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, NULL UstID ";
-                    _srg += " \r\n, '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
+                    _srg += " \r\n, '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
                     _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                     cmd.CommandType = System.Data.CommandType.Text;
                     cmd.CommandText = _srg;
@@ -617,7 +617,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                     _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                     _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                    _srg += " \r\n, '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as sira, 0 Aktif, getdate() KayitTarihi  ";
+                    _srg += " \r\n, '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as sira, 0 Aktif, getdate() KayitTarihi  ";
                     _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                     cmd.CommandType = System.Data.CommandType.Text;
                     cmd.CommandText = _srg;
@@ -631,7 +631,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                     _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                     _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                    _srg += " \r\n, '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as sira, 0 Aktif, getdate() KayitTarihi  ";
+                    _srg += " \r\n, '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as sira, 0 Aktif, getdate() KayitTarihi  ";
                     _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                     cmd.CommandType = System.Data.CommandType.Text;
                     cmd.CommandText = _srg;
@@ -647,7 +647,7 @@ namespace YKPortal.Controllers
                         _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                         _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                         _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, NULL UstID ";
-                        _srg += " \r\n, '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
+                        _srg += " \r\n, '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
                         _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                         cmd.CommandType = System.Data.CommandType.Text;
                         cmd.CommandText = _srg;
@@ -666,7 +666,7 @@ namespace YKPortal.Controllers
                         _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                         _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                         _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                        _srg += " \r\n, '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as sira, 0 Aktif, getdate() KayitTarihi  ";
+                        _srg += " \r\n, '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as sira, 0 Aktif, getdate() KayitTarihi  ";
                         _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                         cmd.CommandType = System.Data.CommandType.Text;
                         cmd.CommandText = _srg;
@@ -684,7 +684,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -700,7 +700,7 @@ namespace YKPortal.Controllers
                                     _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                     _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                     _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                    _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as sira, 0 Aktif, getdate() KayitTarihi  ";
+                                    _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as sira, 0 Aktif, getdate() KayitTarihi  ";
                                     _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                     cmd.CommandType = System.Data.CommandType.Text;
                                     cmd.CommandText = _srg;
@@ -714,7 +714,7 @@ namespace YKPortal.Controllers
                                     _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                     _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                     _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                    _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as sira, 0 Aktif, getdate() KayitTarihi  ";
+                                    _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as sira, 0 Aktif, getdate() KayitTarihi  ";
                                     _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                     cmd.CommandType = System.Data.CommandType.Text;
                                     cmd.CommandText = _srg;
@@ -733,7 +733,7 @@ namespace YKPortal.Controllers
                             _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                             _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                             _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                            _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
+                            _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
                             _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                             cmd.CommandType = System.Data.CommandType.Text;
                             cmd.CommandText = _srg;
@@ -749,7 +749,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -763,7 +763,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -777,7 +777,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -791,7 +791,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -805,7 +805,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -827,7 +827,7 @@ namespace YKPortal.Controllers
                             _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                             _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                             _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                            _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as sira, 0 Aktif, getdate() KayitTarihi  ";
+                            _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as sira, 0 Aktif, getdate() KayitTarihi  ";
                             _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                             cmd.CommandType = System.Data.CommandType.Text;
                             cmd.CommandText = _srg;
@@ -843,7 +843,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -857,7 +857,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -871,7 +871,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -895,7 +895,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                     _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                     _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                    _srg += " \r\n, '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
+                    _srg += " \r\n, '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
                     _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                     cmd.CommandType = System.Data.CommandType.Text;
                     cmd.CommandText = _srg;
@@ -913,7 +913,7 @@ namespace YKPortal.Controllers
                             _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                             _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                             _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                            _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, 10100 sira, 0 Aktif, getdate() KayitTarihi  ";
+                            _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, 10100 sira, 0 Aktif, getdate() KayitTarihi  ";
                             _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                             cmd.CommandType = System.Data.CommandType.Text;
                             cmd.CommandText = _srg;
@@ -933,7 +933,7 @@ namespace YKPortal.Controllers
                             _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                             _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                             _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                            _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, 10100 sira, 0 Aktif, getdate() KayitTarihi  ";
+                            _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, 10100 sira, 0 Aktif, getdate() KayitTarihi  ";
                             _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                             cmd.CommandType = System.Data.CommandType.Text;
                             cmd.CommandText = _srg;
@@ -949,7 +949,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -963,7 +963,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -977,7 +977,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -991,7 +991,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -1005,7 +1005,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -1028,7 +1028,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                     _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                     _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                    _srg += " \r\n, '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
+                    _srg += " \r\n, '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
                     _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                     cmd.CommandType = System.Data.CommandType.Text;
                     cmd.CommandText = _srg;
@@ -1046,7 +1046,7 @@ namespace YKPortal.Controllers
                             _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                             _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                             _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                            _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, 10100 sira, 0 Aktif, getdate() KayitTarihi  ";
+                            _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, 10100 sira, 0 Aktif, getdate() KayitTarihi  ";
                             _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                             cmd.CommandType = System.Data.CommandType.Text;
                             cmd.CommandText = _srg;
@@ -1066,7 +1066,7 @@ namespace YKPortal.Controllers
                             _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                             _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                             _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                            _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, 10100 sira, 0 Aktif, getdate() KayitTarihi  ";
+                            _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, 10100 sira, 0 Aktif, getdate() KayitTarihi  ";
                             _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                             cmd.CommandType = System.Data.CommandType.Text;
                             cmd.CommandText = _srg;
@@ -1082,7 +1082,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -1096,7 +1096,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -1110,7 +1110,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -1124,7 +1124,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -1138,7 +1138,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -1162,7 +1162,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                     _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                     _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                    _srg += " \r\n, '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
+                    _srg += " \r\n, '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' sira, 0 Aktif, getdate() KayitTarihi  ";
                     _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                     cmd.CommandType = System.Data.CommandType.Text;
                     cmd.CommandText = _srg;
@@ -1180,7 +1180,7 @@ namespace YKPortal.Controllers
                             _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                             _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                             _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                            _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, 10100 sira, 0 Aktif, getdate() KayitTarihi  ";
+                            _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, 10100 sira, 0 Aktif, getdate() KayitTarihi  ";
                             _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                             cmd.CommandType = System.Data.CommandType.Text;
                             cmd.CommandText = _srg;
@@ -1200,7 +1200,7 @@ namespace YKPortal.Controllers
                             _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                             _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                             _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                            _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, 10100 sira, 0 Aktif, getdate() KayitTarihi  ";
+                            _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, 10100 sira, 0 Aktif, getdate() KayitTarihi  ";
                             _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                             cmd.CommandType = System.Data.CommandType.Text;
                             cmd.CommandText = _srg;
@@ -1216,7 +1216,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -1230,7 +1230,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -1244,7 +1244,7 @@ namespace YKPortal.Controllers
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
                                 _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
-                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, NULL url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as Sira, 0 Aktif, getdate() KayitTarihi  ";
                                 _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
@@ -1280,10 +1280,19 @@ namespace YKPortal.Controllers
                 {
                     string _srg = "";
                     _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Kullanicilar ";
-                    _srg += " \r\n (ID, UyelikID, KullaniciAdi, Parola, Ad, Soyad, Onay) ";
+                    _srg += " \r\n (ID, UyelikID, KullaniciAdi, Parola, Ad, Soyad ";
+                    _srg += " \r\n , Onay, Silindi ";
+                    _srg += " \r\n , Uygulama, Uygulama_Db ";
+                    _srg += " \r\n , Uygulama_Sube_Kodu, Uygulama_Depo_Kodu ";
+                    _srg += " \r\n , Uygulama_Firma_Kodu, Uygulama_Donem_Kodu ";
+                    _srg += " \r\n ) ";
                     _srg += " \r\n SELECT '10000000-0000-2025-0000-000000000001' as ID ";
-                    _srg += " \r\n , (select TOP 1 Uy.ID from [" + Uygulama_Db + "].[dbo].Uyelikler Uy WHERE 1 = 1) as UyelikID, 1 as Onay  ";
+                    _srg += " \r\n , (select TOP 1 Uy.ID from [" + Uygulama_Db + "].[dbo].Uyelikler Uy WHERE 1 = 1) as UyelikID ";
                     _srg += " \r\n , 'admin@iyb.com.tr' as KullaniciAdi, 'app' as Parola, 'Iyb' Adi, 'App' as Soyadi ";
+                    _srg += " \r\n , 1 as Onay, 0 as Silindi  ";
+                    _srg += " \r\n , 'IYB' Uygulama, '"+ Uygulama_Db + "' Uygulama_Db ";
+                    _srg += " \r\n , 0 as Uygulama_Sube_Kodu, 0 as Uygulama_Depo_Kodu ";
+                    _srg += " \r\n , '001' as Uygulama_Firma_Kodu, '01' as Uygulama_Donem_Kodu ";
                     _srg += " \r\n WHERE 'admin@iyb.com.tr' not in (select KullaniciAdi FROM [" + Uygulama_Db + "].[dbo].Kullanicilar with (nolock) where KullaniciAdi is not null) ";
               
                     cmd.CommandType = System.Data.CommandType.Text;
@@ -1304,6 +1313,20 @@ namespace YKPortal.Controllers
                     _srg += " \r\n WHERE ID not in (select Ic.MenuID FROM [" + Uygulama_Db + "].[dbo].Yetkiler Ic with (nolock) where Ic.KullaniciID = '10000000-0000-2025-0000-000000000001' ) ";
 
 
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _srg;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                    _srg = "";
+                    _srg += " \r\n Delete from [" + Uygulama_Db + "].[dbo].Yetkiler  ";
+                    _srg += " \r\n where MenuID not in (select Ic.ID from [" + Uygulama_Db + "].[dbo].Menuler Ic With (nolock) WHERE Isnull(Ic.Aktif,0) = 1) ";
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _srg;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                    _srg = "";
+                    _srg += " \r\n Delete from [" + Uygulama_Db + "].[dbo].YETKiler  ";
+                    _srg += " \r\n where Isnull(Gor,0) = 0 ";
                     cmd.CommandType = System.Data.CommandType.Text;
                     cmd.CommandText = _srg;
                     IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
@@ -6757,11 +6780,13 @@ namespace YKPortal.Controllers
             try
             {
                 string _sorgu = "";
-                _sorgu += "select  distinct s1.MenuID,s2.Menu,s1.Gor,s1.Duzenle,s1.Sil,s1.KullaniciID,s2.UstID, cast(MenuID as nvarchar(50)) MenuIDsira  ";
-                _sorgu += " \r\n from  Yetkiler as s1 with (nolock)  ";
-                _sorgu += " \r\n inner join Menuler as s2 with (nolock) on s1.MenuId=s2.ID ";
-                _sorgu += " \r\n where s1.Gor=1 ";
-                _sorgu += " \r\n and s1.KullaniciID='" + Convert.ToString(data["KullaniciId"]) + "' ";
+                _sorgu += "select  distinct Yet.MenuID,Menu.Menu,Yet.Gor,Yet.Duzenle,Yet.Sil,Yet.KullaniciID, Menu.UstID, cast(MenuID as nvarchar(50)) MenuIDsira  ";
+                _sorgu += " \r\n from Yetkiler as Yet with (nolock)  ";
+                _sorgu += " \r\n inner join Menuler as Menu with (nolock) on Yet.MenuId = Menu.ID ";
+                _sorgu += " \r\n where 1=1 ";
+                _sorgu += " \r\n AND isnull(Yet.Gor,0) = 1 ";
+                _sorgu += " \r\n AND isnull(Menu.Aktif,0) = 1 ";
+                _sorgu += " \r\n and Yet.KullaniciID = '" + Convert.ToString(data["KullaniciId"]) + "' ";
                 _sorgu += " \r\n order by cast(MenuID as nvarchar(50))  ";
 
                 List<dynamic> entities = new List<dynamic>();
