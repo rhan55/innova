@@ -4052,8 +4052,8 @@ namespace YKPortal.Controllers
 
                     if (Islem_Tipi == "Ozel_Kod1")
                     {
-                        cmd.CommandText = "SELECT TOP 50 KOD AS ID, KOD AS Kod, KOD + '-' + AD as Isim ";
-                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].INN_VW_OZEL_KOD1 ";
+                        cmd.CommandText = "SELECT TOP 50 KOD AS ID, KOD AS Kod, KOD + '-' + Isnull(AD,'') as Isim ";
+                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].IYB_V_OZEL_KOD1 ";
                         cmd.CommandText += " WHERE 'OzelKod1' = 'OzelKod1' ";
                         if (Kisit != "")
                         {
@@ -4062,9 +4062,19 @@ namespace YKPortal.Controllers
                     }
                     if (Islem_Tipi == "Ozel_Kod2")
                     {
-                        cmd.CommandText = "SELECT TOP 50 KOD AS ID, KOD AS Kod, KOD + '-' + AD as Isim ";
-                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].INN_VW_OZEL_KOD2 ";
+                        cmd.CommandText = "SELECT TOP 50 KOD AS ID, KOD AS Kod, KOD + '-' + Isnull(AD,'') as Isim ";
+                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].IYB_V_OZEL_KOD2 ";
                         cmd.CommandText += " WHERE 'OzelKod2' = 'OzelKod2' ";
+                        if (Kisit != "")
+                        {
+                            cmd.CommandText += Kisit;
+                        }
+                    }
+                    if (Islem_Tipi == "Proje_Kodu")
+                    {
+                        cmd.CommandText = "SELECT TOP 50 KOD AS ID, KOD AS Kod, KOD + '-' + Isnull(AD,'') as Isim ";
+                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].IYB_V_PROJELER ";
+                        cmd.CommandText += " WHERE 'Proje_Kodu' = 'Proje_Kodu' ";
                         if (Kisit != "")
                         {
                             cmd.CommandText += Kisit;
