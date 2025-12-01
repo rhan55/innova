@@ -3997,7 +3997,7 @@ namespace YKPortal.Controllers
                     }
                     if (Islem_Tipi == "Depolar")
                     {
-                        cmd.CommandText = "SELECT TOP 50 DEPO_KODU AS ID, DEPO_KODU AS Kod, DEPO_ISMI AS Isim ";
+                        cmd.CommandText = "SELECT TOP 50 DEPO_KODU AS ID, DEPO_KODU AS Kod, cast( DEPO_KODU as nvarchar(5)) + '-' + DEPO_ISMI AS Isim ";
                         cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].OYG_NV_DEPOLAR ";
                         cmd.CommandText += " WHERE 'Depo' = 'Depo' ";
                         if (Kisit != "")
@@ -4070,11 +4070,11 @@ namespace YKPortal.Controllers
                             cmd.CommandText += Kisit;
                         }
                     }
-                    if (Islem_Tipi == "Proje_Kodu")
+                    if (Islem_Tipi == "Projeler")
                     {
                         cmd.CommandText = "SELECT TOP 50 KOD AS ID, KOD AS Kod, KOD + '-' + Isnull(AD,'') as Isim ";
                         cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].IYB_V_PROJELER ";
-                        cmd.CommandText += " WHERE 'Proje_Kodu' = 'Proje_Kodu' ";
+                        cmd.CommandText += " WHERE 'Projeler' = 'Projeler' ";
                         if (Kisit != "")
                         {
                             cmd.CommandText += Kisit;
@@ -8005,6 +8005,8 @@ namespace YKPortal.Controllers
               
                 string GcKodu = Convert.ToString(data["GcKodu"]);
 
+                string Proje_Kodu = Convert.ToString(data["Proje_Kodu"]);
+
                 string Kullanici_Adi = Convert.ToString(data["Kullanici_Adi"]);
                 string Kullanici_GuidId = Convert.ToString(data["Kullanici_GuidId"]);
 
@@ -8027,6 +8029,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n , SERI_NO ";
                     _srg += " \r\n , SERI_NO2, LOT_NO ";
                     _srg += " \r\n , GCKOD, DEPO_KODU ";
+                    _srg += " \r\n , PROJE_KODU ";
                     _srg += " \r\n , KAYIT_KULLANICI, KAYIT_TARIHI ";
                     _srg += " \r\n ) ";
                     _srg += " \r\n SELECT '" + Belge_Tipi + "' AS FTIRSIP, '" + Sube_Kodu + "' SUBE_KODU, right('" + Belge_No + "',15) AS BELGE_NO ";
@@ -8038,6 +8041,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n , '" + Stok_Kodu + "' AS SERI_NO ";
                     _srg += " \r\n , '' AS SERI_NO2, '' AS LOT_NO ";
                     _srg += " \r\n , '" + GcKodu + "' AS GCKOD, '" + Depo_Kodu + "' AS DEPO_KODU ";
+                    _srg += " \r\n , '" + Proje_Kodu + "' AS PROJE_KODU ";
                     _srg += " \r\n , '" + Kullanici_Adi + "' AS KAYIT_KULLANICI, GETDATE() KAYIT_TARIHI ";
 
                     _srg += " \r\n  -- Logla ";
