@@ -1574,9 +1574,113 @@ namespace YKPortal.Controllers
                 _sorgu += " '" + Vkn.ToString() + "' ";
                 _sorgu += " , '" + Unvan + "' ";
                 _sorgu += " , '" + _Etiket + "' ";
-                _sorgu += " , '" + _Kontor + "' ";
+                _sorgu += " , '" +  _Kontor.Replace(",", ".") + "' ";
                 _sorgu += " , '" + _Tarih + "' ";
-                _sorgu += " , '" + _Baslik + "' ";
+                _sorgu += " , '" + _Baslik.Substring(0, 50) + "' ";
+
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _sorgu;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                }
+
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                result.Hata = "Kısayol Kaydedildi.";
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            return result;
+        }
+        [System.Web.Http.HttpPost]
+        public IDJsonResult Crm_Lem_Durumu_Kaydet([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+
+                if (data["Vkn"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Vkn bilgisi boş olamaz.";
+                    return result;
+                }
+
+
+                string Uygulama_Db = "LOGOCRM";
+
+                string Vkn = Convert.ToString(data["Vkn"]);
+                string Unvan = Convert.ToString(data["Unvan"]);
+                string _Etiket = Convert.ToString(data["Etiket"]);
+                string _Kontor = Convert.ToString(data["Kontor"]);
+                string _Tarih = Convert.ToString(data["Tarih"]);
+                string _Baslik = Convert.ToString(data["Baslik"]);
+
+                string _sorgu = "";
+                _sorgu += " EXEC [" + Uygulama_Db + "].[dbo].INN_PR_EVENT_KONTOR_EKLE ";
+                _sorgu += " '" + Vkn.ToString() + "' ";
+                _sorgu += " , '" + Unvan + "' ";
+                _sorgu += " , '" + _Etiket + "' ";
+                _sorgu += " , '" + _Kontor.Replace(",", ".") + "' ";
+                _sorgu += " , '" + _Tarih + "' ";
+                _sorgu += " , '" + _Baslik.Substring(0, 50) + "' ";
+
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _sorgu;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                }
+
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                result.Hata = "Kısayol Kaydedildi.";
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            return result;
+        }
+        [System.Web.Http.HttpPost]
+        public IDJsonResult Crm_Abonelik_Durumu_Kaydet([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+
+                if (data["Vkn"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Vkn bilgisi boş olamaz.";
+                    return result;
+                }
+
+
+                string Uygulama_Db = "LOGOCRM";
+
+                string Vkn = Convert.ToString(data["Vkn"]);
+                string Unvan = Convert.ToString(data["Unvan"]);
+                string _Etiket = Convert.ToString(data["Etiket"]);
+                string _Kontor = Convert.ToString(data["Kontor"]);
+                string _Tarih = Convert.ToString(data["Tarih"]);
+                string _Baslik = Convert.ToString(data["Baslik"]);
+
+                string _sorgu = "";
+                _sorgu += " EXEC [" + Uygulama_Db + "].[dbo].INN_PR_EVENT_KONTOR_EKLE ";
+                _sorgu += " '" + Vkn.ToString() + "' ";
+                _sorgu += " , '" + Unvan + "' ";
+                _sorgu += " , '" + _Etiket + "' ";
+                _sorgu += " , '" + _Kontor.Replace(",", ".") + "' ";
+                _sorgu += " , '" + _Tarih + "' ";
+                _sorgu += " , '" + _Baslik.Substring(0, 50) + "' ";
 
                 using (SqlCommand cmd = new SqlCommand())
                 {
