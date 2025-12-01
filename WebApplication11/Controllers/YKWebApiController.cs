@@ -8159,13 +8159,26 @@ namespace YKPortal.Controllers
                     _srg += " \r\n , '" + Cari_Kodu + "' as Cari_Kodu, '" + Belge_No + "' AS Belge_No, '" + Belge_Tarihi + "' as Belge_Tarihi, '' AS MIKTAR  ";
                     _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '0' as Depo_Kodu  ";
 
-
-                    if (Belge_Tipi == "3")
+                    if (Belge_Tipi == "1")
                     {
-                        _srg += " \r\n  -- Islem ";
+                        _srg += " \r\n  -- Islem Satış Faturası ";
                         _srg += " \r\n EXEC " + Uygulama_Db + ".[dbo].[INN_PR_BELGE_KAYIT] '" + Belge_No + "', '" + Cari_Kodu + "', '" + Belge_Tipi + "', 'H'  ";
                     }
-
+                    if (Belge_Tipi == "2")
+                    {
+                        _srg += " \r\n  -- Islem Alış Faturası ";
+                        _srg += " \r\n EXEC " + Uygulama_Db + ".[dbo].[INN_PR_BELGE_KAYIT] '" + Belge_No + "', '" + Cari_Kodu + "', '" + Belge_Tipi + "', 'H'  ";
+                    }
+                    if (Belge_Tipi == "3")
+                    {
+                        _srg += " \r\n  -- Islem Satış İrsaliyesi ";
+                        _srg += " \r\n EXEC " + Uygulama_Db + ".[dbo].[INN_PR_BELGE_KAYIT] '" + Belge_No + "', '" + Cari_Kodu + "', '" + Belge_Tipi + "', 'H'  ";
+                    }
+                    if (Belge_Tipi == "4")
+                    {
+                        _srg += " \r\n  -- Islem Alış İrsaliyesi ";
+                        _srg += " \r\n EXEC " + Uygulama_Db + ".[dbo].[INN_PR_BELGE_KAYIT] '" + Belge_No + "', '" + Cari_Kodu + "', '" + Belge_Tipi + "', 'H'  ";
+                    }
                     if (Belge_Tipi == "8")
                     {
                         _srg += " \r\n  -- Islem ";
