@@ -32,7 +32,7 @@ namespace YKPortal.Controllers
 {
     public class IybController : ApiController
     {
-        public Int32 WebServis_Versiyonu = 251127;
+        public Int32 WebServis_Versiyonu = 251128;
 
         [System.Web.Http.HttpPost]
         public IDJsonResult Iyb_Tablolari_Sorgu_Calistir([FromBody] JObject data)
@@ -4043,6 +4043,28 @@ namespace YKPortal.Controllers
                         cmd.CommandText += " , ISNULL(OLCU_BR1,'') AS OLCU_BR1 ";
                         cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].OYG_NV_HUCRESERI_BAKIYE ";
                         cmd.CommandText += " WHERE 'Hucre' = 'Hucre' ";
+                        if (Kisit != "")
+                        {
+                            cmd.CommandText += Kisit;
+                        }
+                    }
+
+
+                    if (Islem_Tipi == "Ozel_Kod1")
+                    {
+                        cmd.CommandText = "SELECT TOP 50 KOD AS ID, KOD AS Kod, KOD + '-' + AD as Isim ";
+                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].INN_VW_OZEL_KOD1 ";
+                        cmd.CommandText += " WHERE 'OzelKod1' = 'OzelKod1' ";
+                        if (Kisit != "")
+                        {
+                            cmd.CommandText += Kisit;
+                        }
+                    }
+                    if (Islem_Tipi == "Ozel_Kod2")
+                    {
+                        cmd.CommandText = "SELECT TOP 50 KOD AS ID, KOD AS Kod, KOD + '-' + AD as Isim ";
+                        cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].INN_VW_OZEL_KOD2 ";
+                        cmd.CommandText += " WHERE 'OzelKod2' = 'OzelKod2' ";
                         if (Kisit != "")
                         {
                             cmd.CommandText += Kisit;
@@ -8123,8 +8145,19 @@ namespace YKPortal.Controllers
                     _srg += " \r\n , '" + Cari_Kodu + "' as Cari_Kodu, '" + Belge_No + "' AS Belge_No, '" + Belge_Tarihi + "' as Belge_Tarihi, '' AS MIKTAR  ";
                     _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '0' as Depo_Kodu  ";
 
-                    _srg += " \r\n  -- Islem ";
-                    _srg += " \r\n EXEC " + Uygulama_Db + ".[dbo].[INN_PR_BELGE_KAYIT_DAT] '" + Belge_No + "', '" + Cari_Kodu + "', '" + Belge_Tipi + "', 'H'  ";
+
+                    if (Belge_Tipi == "3")
+                    {
+                        _srg += " \r\n  -- Islem ";
+                        _srg += " \r\n EXEC " + Uygulama_Db + ".[dbo].[INN_PR_BELGE_KAYIT] '" + Belge_No + "', '" + Cari_Kodu + "', '" + Belge_Tipi + "', 'H'  ";
+                    }
+
+                    if (Belge_Tipi == "8")
+                    {
+                        _srg += " \r\n  -- Islem ";
+                        _srg += " \r\n EXEC " + Uygulama_Db + ".[dbo].[INN_PR_BELGE_KAYIT_DAT] '" + Belge_No + "', '" + Cari_Kodu + "', '" + Belge_Tipi + "', 'H'  ";
+                    }
+                  
 
                     _srg += " \r\n  -- Logla ";
                     _srg += " \r\n INSERT INTO INNOVA..TBLLOGUSER ";
@@ -10930,7 +10963,7 @@ END
         [HttpPost]
         public IDJsonResult KullaniciGirisi([FromBody] JObject data)
         {
-            string _Procedure_Versiyon = "251010";
+            string _Procedure_Versiyon = "251201";
             IDJsonResult result = new IDJsonResult();
             try
             {
@@ -10947,6 +10980,13 @@ END
                     return result;
                 }
             
+                //if (data["App_Versiyonu"] == null)
+                //{
+                //    result.SonucKodu = 0;
+                //    result.Hata = "UYARI! App_Versiyonu bilgisi boş olamaz.";
+                //    return result;
+                //}
+
                 string KullaniciAdi = Convert.ToString(data["KullaniciAdi"]);
                 string Parola = Convert.ToString(data["Parola"]);
                 YKModelKullanici entity = new YKModelKullanici();
