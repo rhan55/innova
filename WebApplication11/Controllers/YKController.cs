@@ -1084,7 +1084,8 @@ values
         // POST: Entegrasyon/AntOto1AktarimYap
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<JsonResult> AntOto1AktarimYap(int yil, int ay, bool aktar = false)
+        public async Task<JsonResult> AntOto1AktarimYap(int yil, int ay, bool aktar = false,
+            bool canli = false)
         {
             try
             {
@@ -1148,6 +1149,13 @@ values
                 var url = "https://integration-suite-dev-test-69ldgkyu.it-cpi024-rt.cfapps.eu10-002.hana.ondemand.com/http/Logo_Bordro_Inbound";
                 var username = "sb-d71d2cd5-4862-41b7-9a76-e48995a2956c!b552840|it-rt-integration-suite-dev-test-69ldgkyu!b182722";
                 var password = "290f827e-51a8-4c59-8046-708416a28a40$IgI8poO4RIilZ1-WnTMZuHeD09cQmev845SFVzHBr8A=";
+
+                if (canli)
+                {
+                    url = "https://hesapcioglu-cpi-prod-n9j7qzvi.it-cpi033-rt.cfapps.eu10-005.hana.ondemand.com/http/Logo_Bordro_Inbound";
+                    username = "sb-27a09fed-3d33-4f1a-94b8-0c251c695c3e!b586197|it-rt-hesapcioglu-cpi-prod-n9j7qzvi!b543091";
+                    password = "8507bef2-9048-496b-aa09-fa75d7735173$y-1F6rloc0OJtVj97Q9nMdMX6Ezl4lAdqIAd7AWo664=";
+                }
 
                 // 1. Dosya Yolu ve Adını Belirle
                 // Sunucu kök dizinini bulur
