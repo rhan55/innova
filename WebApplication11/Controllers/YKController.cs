@@ -1091,7 +1091,7 @@ values
                 // Read records from DB for the selected year
                 var cmd = new SqlCommand();
                 cmd.CommandText = @"SELECT SLIPNR, TARIH, CODE, DESCRIPTION, DEBIT, CREDIT, LINENR, LINEEXP, MASRAF_MERKEZI, PERSONEL_KODU, PERSONEL_ACIKLAMASI, AUXCODE, AY, YIL 
-                                    FROM IYB_JV_MUHASEBE_FISLERI_TABLO 
+                                    FROM [_IYB_JV_MUHASEBE_FISLERI] 
                                     WHERE YIL = @YIL and AY = @AY";
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@YIL", yil);

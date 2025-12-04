@@ -30,7 +30,8 @@
 
             @* Önizleme butonu eklendi *@
             <button id="onizleBtn" name="onizleBtn" class="btn btn-info">Önizle</button>
-            <button id="aktarBtn" name="aktarBtn" class="btn btn-primary">Aktar</button>
+            <button id="aktarBtn" name="aktarBtn" class="btn btn-primary">Aktar (Test) </button>
+            <button id="aktarBtn2" name="aktarBtn2" class="btn btn-primary">Aktar (Canlı) </button>
         </div>
 
         @* Önizleme tablosunun gösterileceği alan eklendi *@
@@ -117,16 +118,16 @@
         url: '@Url.Action("AntOto1AktarimYap", "YK")',
         method: 'POST',
         // aktar parametresini false olarak gönderiyoruz
-        data: { ay: ay, yil: yil, aktar: false, __RequestVerificationToken: token },
+        data: { ay: ay, yil: yil, aktar: false,canli=false, __RequestVerificationToken: token },
         success: function (data) {
-            
+
             // Controller'ınız başarı durumunda datayı doğrudan 'message' alanında döndürüyor.
             if (data && data.success && data.message) {
                 // Controller'dan dönen JSON: { success: true, message: payloadList }
                 // Bizim ihtiyacımız olan veri listesi 'data.message' içinde.
                 var veriListesi = data.message;
                 var jsonText = data.jsonText;
-                
+
                 $("#jsonBilgisi").text(jsonText);
 
                 var tableHtml = buildTable(veriListesi);
@@ -182,7 +183,7 @@
                         $.ajax({
                             url: '@Url.Action("AntOto1AktarimYap", "YK")',
                             method: 'POST',
-                            data: { ay:ay, yil: yil,aktar:true, __RequestVerificationToken: token },
+                            data: { ay:ay, yil: yil,aktar:true,canli:false, __RequestVerificationToken: token },
                             success: function(resp){
                                 clearInterval(progressInterval);
                                 if(resp && resp.success){
@@ -211,6 +212,71 @@
                             }
                         });
                     });
+
+                       $('#aktarBtn2').on('click', function(e){
+       e.preventDefault();
+
+       // Önizleme alanını temizle
+       $('#previewTable').html('');
+
+                           // Prevent double clicks by disabling controls immediately
+                           $('#aktarBtn').prop('disabled', true);
+                           $('#aktarBtn2').prop('disabled', true);
+       $('#onizleBtn').prop('disabled', true); // Yeni eklendi
+       $('#yilSelect').prop('disabled', true);
+       $('#aySelect').prop('disabled', true);
+
+       var yil = $('#yilSelect').val();
+       var ay = $('#aySelect').val();
+       $('#resultMessage').html('');
+       $('#progressBar').css('width', '0%');
+       $('#progressText').text('0%');
+       $('#progressContainer').show();
+
+       var token = $('input[name="__RequestVerificationToken"]').val();
+
+       // Simulate progress locally while server work happens
+       var progress =0;
+       var progressInterval = setInterval(function(){
+           progress = Math.min(95, progress + Math.floor(Math.random()*10)+5);
+           $('#progressBar').css('width', progress + '%');
+           $('#progressText').text(progress + '%');
+       },400);
+
+       $.ajax({
+           url: '@Url.Action("AntOto1AktarimYap", "YK")',
+           method: 'POST',
+           data: { ay:ay, yil: yil,aktar:true,canli:true, __RequestVerificationToken: token },
+           success: function(resp){
+               clearInterval(progressInterval);
+               if(resp && resp.success){
+                   $('#progressBar').css('width', '100%');
+                   $('#progressText').text('100%');
+                   $('#resultMessage').html('<div class="alert alert-success">'+ resp.message +'</div>');
+               } else {
+                   $('#resultMessage').html('<div class="alert alert-danger">'+ (resp ? resp.message : 'Bilinmeyen hata') +'</div>');
+               }
+
+               // Re-enable controls
+               $('#aktarBtn').prop('disabled', false);
+               $('#aktarBtn2').prop('disabled', false);
+               $('#onizleBtn').prop('disabled', false); // Yeni eklendi
+               $('#yilSelect').prop('disabled', false);
+               $('#aySelect').prop('disabled', false);
+           },
+           error: function(xhr, status, err){
+               clearInterval(progressInterval);
+               $('#resultMessage').html('<div class="alert alert-danger">Hata: ' + err + '</div>');
+
+               // Re-enable controls
+               $('#aktarBtn').prop('disabled', false);
+               $('#aktarBtn2').prop('disabled', false);
+               $('#onizleBtn').prop('disabled', false); // Yeni eklendi
+               $('#yilSelect').prop('disabled', false);
+               $('#aySelect').prop('disabled', false);
+           }
+       });
+   });
                 });
             </script>
         
