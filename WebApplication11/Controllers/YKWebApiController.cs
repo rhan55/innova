@@ -444,6 +444,27 @@ namespace YKPortal.Controllers
                         IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
                     }
                     #endregion Parametreler
+
+                    #region Loglar
+                    {
+                        _srg = " ";
+                        _srg += " \r\n IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Loglar]') AND type in (N'U')) ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n     CREATE TABLE [dbo].[Loglar]( ";
+                        _srg += " \r\n     [ID] UNIQUEIDENTIFIER ROWGUIDCOL NOT NULL DEFAULT (NEWID()), ";
+                        _srg += " \r\n     [UyelikID] UNIQUEIDENTIFIER NULL, ";
+                        _srg += " \r\n     [Modul] NVARCHAR(100) NULL, ";
+                        _srg += " \r\n     [Aciklama1] NVARCHAR(MAX) NULL, ";
+                        _srg += " \r\n     [Aciklama2] NVARCHAR(MAX) NULL, ";
+                        _srg += " \r\n     [KayitTarihi] DATETIME NULL,";
+                        _srg += " \r\n     [Kullanici] NVARCHAR(100) NULL, ";
+                        _srg += " \r\n     CONSTRAINT [PK_Loglar] PRIMARY KEY CLUSTERED ([ID] ASC) ";
+                        _srg += " \r\n  END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                    }
+                    #endregion Loglar
                 }
             }
             catch (Exception err)
