@@ -32,11 +32,12 @@ namespace YKPortal.Controllers
 {
     public class IybController : ApiController
     {
-        public Int32 WebServis_Versiyonu = 251128;
+        public Int32 WebServis_Versiyonu = 251205;
 
         [System.Web.Http.HttpPost]
         public IDJsonResult Iyb_Tablolari_Sorgu_Calistir([FromBody] JObject data)
         {
+            Int32 WebServis_Procedure_Versiyon = 251200;
             IDJsonResult result = new IDJsonResult();
             if (data["Uygulama_Db"] == null)
             {
@@ -72,7 +73,7 @@ namespace YKPortal.Controllers
                         result.Data = entities;
                         result.SonucKodu = 1;
                         result.Sonuc = "İşlem Başarılı";
-                        result.Sonuc_Versiyon = 251120;
+                        result.Sonuc_Versiyon = WebServis_Procedure_Versiyon;
                         return result;
                     }
                 }
@@ -80,7 +81,7 @@ namespace YKPortal.Controllers
             catch (Exception err)
             {
                 result.SonucKodu = -1;
-                result.Sonuc_Versiyon = 251120;
+                result.Sonuc_Versiyon = WebServis_Procedure_Versiyon;
                 result.Hata = err.Message;
             }
             return result;
@@ -90,7 +91,7 @@ namespace YKPortal.Controllers
         {
             try
             {
-                string _Procedure_Versiyon = "251120";
+                Int32 WebServis_Procedure_Versiyon = 251201;
                 string _Sonuc_Aciklamasi = "";
                 SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString);
 
