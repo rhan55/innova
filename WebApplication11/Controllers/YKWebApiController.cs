@@ -873,7 +873,7 @@ namespace YKPortal.Controllers
                                 _MenuId = "10000000-0000-0001-0003-000000000002";
                                 _UstMId = "10000000-0000-0001-0003-000000000000";
                                 _MenuAciklama = "Ambar Girişi Fişi";
-                                _MenuSira = "10302";
+                                _MenuSira = "103002";
                                 _srg = " ";
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
@@ -887,7 +887,7 @@ namespace YKPortal.Controllers
                                 _MenuId = "10000000-0000-0001-0003-000000000003";
                                 _UstMId = "10000000-0000-0001-0003-000000000000";
                                 _MenuAciklama = "Ambar Girişi Fişi";
-                                _MenuSira = "10303";
+                                _MenuSira = "103003";
                                 _srg = " ";
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
@@ -901,7 +901,7 @@ namespace YKPortal.Controllers
                                 _MenuId = "10000000-0000-0001-0003-000000000004";
                                 _UstMId = "10000000-0000-0001-0003-000000000000";
                                 _MenuAciklama = "Hücreler Arası Transfer";
-                                _MenuSira = "10303";
+                                _MenuSira = "103004";
                                 _srg = " ";
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
                                 _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
