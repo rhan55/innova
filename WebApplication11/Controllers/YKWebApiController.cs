@@ -2644,7 +2644,7 @@ namespace YKPortal.Controllers
         #region Iyb_Stok_Bilgi_Getir
         public IDJsonResult Iyb_Stok_Bilgi_Getir([FromBody] JObject data)
         {
-            string _Procedure_Versiyon = "251109";
+            string WebServis_Procedure_Versiyon = "251205";
             IDJsonResult result = new IDJsonResult();
             try
             {
@@ -2675,6 +2675,8 @@ namespace YKPortal.Controllers
                 string _srg = "";
                 string Uygulama = Convert.ToString(data["Uygulama"]);
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Cikis_Depo_Kodu = Convert.ToString(data["Cikis_Depo_Kodu"]);
+                string Giris_Depo_Kodu = Convert.ToString(data["Giris_Depo_Kodu"]);
                 string Depo_Kodu = Convert.ToString(data["Depo_Kodu"]);
                 if (Depo_Kodu == "")
                 {
@@ -2683,6 +2685,8 @@ namespace YKPortal.Controllers
                 string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
                 string Kullanici = Convert.ToString(data["Kullanici"]);
 
+                string App_Versiyonu = Convert.ToString(data["App_Versiyonu"]);
+
                 List<dynamic> entities = new List<dynamic>();
 
                 SqlCommand cmd = new SqlCommand();
@@ -2690,16 +2694,21 @@ namespace YKPortal.Controllers
                 if (Uygulama == "NETSIS")
                 {
                     _srg = " ";
+                    _srg += " \r\n  -- Stok Bilgileri Getir Netsisden ";
                     _srg += " \r\n SELECT DBO.TRK1(ST.STOK_KODU) STOK_KODU, DBO.TRK1(ST.STOK_ADI) STOK_ADI ";
                     _srg += " \r\n , DBO.TRK1(GRUP_KODU) STOK_GRUP_KODU, DBO.TRK1(KOD_1) STOK_KOD_1, DBO.TRK1(KOD_2) STOK_KOD_2 ";
                     _srg += " \r\n , DBO.TRK1(KOD_3) STOK_KOD_3, DBO.TRK1(KOD_4) STOK_KOD_4, DBO.TRK1(KOD_5) STOK_KOD_5 ";
                     _srg += " \r\n , BARKOD1, BARKOD2, BARKOD3 ";
                     _srg += " \r\n , SATIS_FIAT1 SATIS_FIYAT1, SATIS_FIAT2 SATIS_FIYAT2, SATIS_FIAT3 SATIS_FIYAT3, SATIS_FIAT4 SATIS_FIYAT4 ";
                     _srg += " \r\n , OLCU_BR1, OLCU_BR1 AS BIRIM ";
-                    _srg += " \r\n , ISNULL((SELECT SUM(CASE WHEN SH.STHAR_GCKOD = 'G' THEN STHAR_GCMIK ELSE STHAR_GCMIK * -1 END) FROM [" + Uygulama_Db + "].[dbo].TBLSTHAR SH WITH (NOLOCK) ";
+                    _srg += " \r\n , ISNULL((SELECT SUM(CASE WHEN SH.STHAR_GCKOD = 'G' THEN STHAR_GCMIK ELSE STHAR_GCMIK * -1 END) FROM [" + Uygulama_Db + "].[dbo].[TBLSTHAR] SH WITH (NOLOCK) ";
                     _srg += " \r\n          WHERE SH.STOK_KODU = ST.STOK_KODU ";
                     _srg += " \r\n          AND SH.DEPO_KODU = '" + Depo_Kodu + "' ";
                     _srg += " \r\n          ) , 0) AS BAKIYE ";
+                    _srg += " \r\n , '" + Cikis_Depo_Kodu + "' as Cikis_Depo_Kodu ";
+                    _srg += " \r\n , '" + Giris_Depo_Kodu + "' as Giris_Depo_Kodu ";
+                    _srg += " \r\n , '" + App_Versiyonu + "' as App_Versiyonu ";
+                    _srg += " \r\n , '" + WebServis_Procedure_Versiyon + "' as App_Versiyonu ";
                     _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ";
                     _srg += " \r\n WHERE 1=1 ";
                     _srg += " \r\n AND (    (ST.STOK_KODU = '" + Stok_Kodu + "') ";
@@ -2713,6 +2722,8 @@ namespace YKPortal.Controllers
                 if (Uygulama == "LOGO")
                 {
                     _srg = " ";
+
+                    _srg += " \r\n  -- Stok Bilgileri Getir Logodan ";
                     _srg += " \r\n SELECT FISNO2 FISNO, BARKOD, ADET, KG ";
                     _srg += " \r\n FROM [INNOVA].[dbo].[TBLOKUTMA] WITH (NOLOCK) ";
                     _srg += " \r\n WHERE FISNO2 = '2'";
@@ -3158,7 +3169,7 @@ namespace YKPortal.Controllers
         #region Iyb_Stok_Fiyat_Getir
         public IDJsonResult Iyb_Stok_Fiyat_Getir([FromBody] JObject data)
         {
-            string _Procedure_Versiyon = "251003";
+            string WebServis_Procedure_Versiyon = "251205";
             IDJsonResult result = new IDJsonResult();
             try
             {
@@ -3221,6 +3232,8 @@ namespace YKPortal.Controllers
                 string Kullanici = Convert.ToString(data["Kullanici"]);
                 string Fiyat_Tipi = Convert.ToString(data["Fiyat_Tipi"]);
 
+                string App_Versiyonu = Convert.ToString(data["App_Versiyonu"]);
+
                 List<dynamic> entities = new List<dynamic>();
 
                 SqlCommand cmd = new SqlCommand();
@@ -3236,6 +3249,8 @@ namespace YKPortal.Controllers
                         _srg += " \r\n , SATIS_FIAT1 as FIYAT ";
                     }
                     _srg += " \r\n , '" + Fiyat_Tipi + "' AS Fiyat_Tipi ";
+                    _srg += " \r\n , '" + App_Versiyonu + "' as App_Versiyonu ";
+                    _srg += " \r\n , '" + WebServis_Procedure_Versiyon + "' as App_Versiyonu ";
                     _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ";
                     _srg += " \r\n WHERE 1=1 ";
                     _srg += " \r\n AND (    ";
@@ -3499,7 +3514,7 @@ namespace YKPortal.Controllers
         #region Netsis_Plastik_Okutma_Listele
         public IDJsonResult Netsis_Plastik_Okutma_Listele([FromBody] JObject data)
         {
-            string _Procedure_Versiyon = "250808";
+            string WebServis_Procedure_Versiyon = "251205";
             IDJsonResult result = new IDJsonResult();
             try
             {
@@ -3599,6 +3614,7 @@ namespace YKPortal.Controllers
         #region Netsis_Plastik_Okutma_Kaydet
         public IDJsonResult Netsis_Plastik_Okutma_Kaydet([FromBody] JObject data)
         {
+            string WebServis_Procedure_Versiyon = "251205";
             string _GuidKey = Guid.NewGuid().ToString();
             IDJsonResult result = new IDJsonResult();
             try
