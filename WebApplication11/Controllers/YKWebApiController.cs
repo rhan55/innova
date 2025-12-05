@@ -897,6 +897,20 @@ namespace YKPortal.Controllers
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
                                 IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                                _MenuId = "10000000-0000-0001-0003-000000000004";
+                                _UstMId = "10000000-0000-0001-0003-000000000000";
+                                _MenuAciklama = "Hücreler Arası Transfer";
+                                _MenuSira = "10303";
+                                _srg = " ";
+                                _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
+                                _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
+                                _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
+                                cmd.CommandType = System.Data.CommandType.Text;
+                                cmd.CommandText = _srg;
+                                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
                             }
                         }
                     }
@@ -2694,6 +2708,7 @@ namespace YKPortal.Controllers
                 if (Uygulama == "NETSIS")
                 {
                     _srg = " ";
+                    _srg += " \r\n  -- Iyb_Stok_Bilgi_Getir ";
                     _srg += " \r\n  -- Stok Bilgileri Getir Netsisden ";
                     _srg += " \r\n SELECT DBO.TRK1(ST.STOK_KODU) STOK_KODU, DBO.TRK1(ST.STOK_ADI) STOK_ADI ";
                     _srg += " \r\n , DBO.TRK1(GRUP_KODU) STOK_GRUP_KODU, DBO.TRK1(KOD_1) STOK_KOD_1, DBO.TRK1(KOD_2) STOK_KOD_2 ";
@@ -2708,7 +2723,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n , '" + Cikis_Depo_Kodu + "' as Cikis_Depo_Kodu ";
                     _srg += " \r\n , '" + Giris_Depo_Kodu + "' as Giris_Depo_Kodu ";
                     _srg += " \r\n , '" + App_Versiyonu + "' as App_Versiyonu ";
-                    _srg += " \r\n , '" + WebServis_Procedure_Versiyon + "' as App_Versiyonu ";
+                    _srg += " \r\n , '" + WebServis_Procedure_Versiyon + "' as WebServis_Procedure_Versiyon ";
                     _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ";
                     _srg += " \r\n WHERE 1=1 ";
                     _srg += " \r\n AND (    (ST.STOK_KODU = '" + Stok_Kodu + "') ";
