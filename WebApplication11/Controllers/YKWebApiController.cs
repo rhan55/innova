@@ -509,14 +509,15 @@ namespace YKPortal.Controllers
                         _srg += " \r\n BEGIN EXECUTE(' ";
                         _srg += " \r\n  CREATE proc [dbo].[p_KullaniciGirisi] ";
                         _srg += " \r\n  ( ";
-                        _srg += " \r\n      @KullaniciAdi nvarchar(100), ";
-                        _srg += " \r\n      @Parola nvarchar(100) ";
+                        _srg += " \r\n      @KullaniciAdi nvarchar(100) ";
+                        _srg += " \r\n      , @Parola nvarchar(100) ";
+                        _srg += " \r\n      , @App_Versiyonu int = 0 ";
                         _srg += " \r\n  ) ";
                         _srg += " \r\n  AS ";
                         _srg += " \r\n  BEGIN ";
                         _srg += " \r\n  declare @Procedure_Versiyon int = 251128 ";
                         _srg += " \r\n  declare @UyelikID nvarchar(100) = (select top(1) UyelikID from [dbo].[Kullanicilar] WITH (NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi) ";
-                        _srg += " \r\n  IF EXISTS(select ID from Uyelikler WITH(NOLOCK) Where Silindi = 0 and ID = @UyelikID and UyelikBitisTarihi <= CAST(GETDATE() as date) ) ";
+                        _srg += " \r\n  IF EXISTS(select ID from Uyelikler WITH (NOLOCK) Where Silindi = 0 and ID = @UyelikID and UyelikBitisTarihi <= CAST(GETDATE() as date) ) ";
                         _srg += " \r\n      BEGIN ";
                         _srg += " \r\n          Select 1 as ID, ''UYARI! Kullanıcı adı e-mail formatında değil!'' as Bilgi ";
                         _srg += " \r\n          return; ";
@@ -552,10 +553,20 @@ namespace YKPortal.Controllers
                         _srg += " \r\n          return; ";
                         _srg += " \r\n      END ";
                         _srg += " \r\n ";
+                        _srg += " \r\n --- Versiyon Kontrolü";
+                        _srg += " \r\n DECLARE @APP_VERSIYON_KONTROLU INT ";
+                        _srg += " \r\n SET @APP_VERSIYON_KONTROLU = ISNULL((select App_Versiyonu from dbo.Uyelikler WITH (NOLOCK) Where Silindi = 0 and ID = @UyelikID ), ''"+ _Procedure_Versiyon + "'')  ";
+                        _srg += " \r\n IF CAST(@APP_VERSIYON_KONTROLU AS INT) < CAST(@App_Versiyonu AS INT) ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      UPDATE dbo.Uyelikler SET App_Versiyonu = @App_Versiyonu Where Silindi = 0 and ID = @UyelikID ";
+                        _srg += " \r\n END ";
+                        _srg += " \r\n --- Versiyon Kontrolü";
+                        _srg += " \r\n ";
                         _srg += " \r\n     Insert Into Loglar (UyelikID,Modul,Aciklama1,Aciklama2,KayitTarihi,Kullanici)  ";
                         _srg += " \r\n     values ((select top(1) UyelikID from [dbo].[Kullanicilar] WITH(NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi),''Kullanıcı'',''Kullanıcı Girişi''   ";
                         _srg += " \r\n     , (select top(1) Ad+'' ''+Soyad from Kullanicilar WITH(NOLOCK) Where Silindi = 0 and KullaniciAdi = @KullaniciAdi),GETDATE(),null)  ";
                         _srg += " \r\n      ";
+                        _srg += " \r\n ";
                         _srg += " \r\n      select                                                                                                ";
                         _srg += " \r\n      Kullanicilar.*,                                                                                       ";
                         _srg += " \r\n      Uyelikler.Isim as UyelikIsim,                                                                         ";
@@ -2708,8 +2719,13 @@ namespace YKPortal.Controllers
                 cmd.CommandType = System.Data.CommandType.Text;
                 if (Uygulama == "NETSIS")
                 {
+                    // Tüm kolon isimleri
+                    var kolonIsimleri = data.Properties().Select(p => p.Name).ToList();
+
+
                     _srg = " ";
                     _srg += " \r\n  -- Iyb_Stok_Bilgi_Getir ";
+                    _srg += " \r\n  -- '" + kolonIsimleri.ToString() + "' ";
                     _srg += " \r\n  -- Stok Bilgileri Getir Netsisden ";
                     _srg += " \r\n SELECT DBO.TRK1(ST.STOK_KODU) STOK_KODU, DBO.TRK1(ST.STOK_ADI) STOK_ADI ";
                     _srg += " \r\n , DBO.TRK1(GRUP_KODU) STOK_GRUP_KODU, DBO.TRK1(KOD_1) STOK_KOD_1, DBO.TRK1(KOD_2) STOK_KOD_2 ";
@@ -11340,7 +11356,7 @@ END
                     result.Hata = "UYARI! Parola bilgisi boş olamaz.";
                     return result;
                 }
-            
+                string App_Versiyonu = Convert.ToString(data["App_Versiyonu"]);
                 //if (data["App_Versiyonu"] == null)
                 //{
                 //    result.SonucKodu = 0;
@@ -11356,6 +11372,7 @@ END
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@KullaniciAdi", KullaniciAdi);
                 cmd.Parameters.AddWithValue("@Parola", Parola);
+                cmd.Parameters.AddWithValue("@App_Versiyonu", App_Versiyonu);
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
                 if (dt.Rows.Count > 0)
                 {
