@@ -422,6 +422,29 @@ namespace YKPortal.Controllers
                         IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
                     }
                     #endregion Kullanici_Kisayollari
+                    #region Kullanici_Cihazlari
+                    {
+                        _srg = " ";
+                        _srg += " \r\n IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Kullanici_Cihazlari]') AND type in (N'U')) ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      CREATE TABLE [dbo].[Kullanici_Cihazlari]( ";
+                        _srg += " \r\n      [GuidId] [uniqueidentifier] ROWGUIDCOL NOT NULL DEFAULT (newid()), ";
+                        _srg += " \r\n      [Kullanici_GuidId] [uniqueidentifier] NOT NULL, ";
+                        _srg += " \r\n      [Cihaz_GuidId] [nvarchar](250) NOT NULL, ";
+                        _srg += " \r\n      [KayitTarihi] [datetime] NULL, ";
+                        _srg += " \r\n      [KayitYapanKullanici] [uniqueidentifier] NULL, ";
+                        _srg += " \r\n      CONSTRAINT [PK_Kullanici_Cihazlari_GuidId] PRIMARY KEY CLUSTERED  ";
+                        _srg += " \r\n      ( ";
+                        _srg += " \r\n 	        [GuidId] ASC ";
+                        _srg += " \r\n      ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 100) ON [PRIMARY] ";
+                        _srg += " \r\n      ) ON [PRIMARY] ";
+                        _srg += " \r\n  END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                    }
+                    #endregion Kullanici_Cihazlari
 
                     #region Parametreler
                     {
@@ -1735,6 +1758,80 @@ namespace YKPortal.Controllers
                 result.SonucKodu = 1;
                 result.Sonuc = "Başarılı";
                 result.Hata = "Kısayol Kaydedildi.";
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            return result;
+        }
+
+        public IDJsonResult Kullanici_Cihaz_Kaydet([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici_GuidId"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici_GuidId bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Cihaz_GuidId"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Cihaz_GuidId bilgisi boş olamaz.";
+                    return result;
+                }
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString);
+
+                Uygulama_Db = conn.Database.ToString();
+
+                string Kullanici_GuidId = Convert.ToString(data["Kullanici_GuidId"]);
+                string Cihaz_GuidId = Convert.ToString(data["Cihaz_GuidId"]);
+
+                if (!Guid.TryParse(Kullanici_GuidId, out Guid kullaniciId))
+                {
+                    result.SonucKodu = -1;
+                    result.Sonuc = "HATA!";
+                    result.Hata = "Geçersiz Kullanıcı ID (GUID değil)";
+                    return result;
+                }
+                string _sorgu = "";
+         
+                {
+                    //  _sorgu += " EXEC [" + Uygulama_Db + "].[dbo].[pKisayolKaydet]";
+                    _sorgu = " insert into [" + Uygulama_Db + "].[dbo]. Kullanici_Cihazlari ";
+                    _sorgu += " ( Kullanici_GuidId, Cihaz_GuidId, KayitTarihi  ) ";
+                    _sorgu += " SELECT '" + Kullanici_GuidId.ToString() + "'";
+                    _sorgu += " , '" + Cihaz_GuidId + "'";
+                    _sorgu += " , getdate()  ";
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _sorgu;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                }
+
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                result.Hata = "Kullanıcı Cihaz Kaydedildi.";
             }
             catch (Exception err)
             {
