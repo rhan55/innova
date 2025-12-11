@@ -2357,7 +2357,7 @@ namespace YKPortal.Controllers
                     {
                         cmd.Parameters.Clear();
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.CommandText = "i3_Pr_Stok_SayimAnlik "; // '0', '" + urun.StokKodu + "', '"+ {urun.SayimAdedi}', '0','{urun.KayitYapanKul}', 'Dinamik', '0', '{urun.Raf}' ";
+                        cmd.CommandText = "Iyb_P_Mob_SayimAnlik"; // "i3_Pr_Stok_SayimAnlik "; // '0', '" + urun.StokKodu + "', '"+ {urun.SayimAdedi}', '0','{urun.KayitYapanKul}', 'Dinamik', '0', '{urun.Raf}' ";
                         cmd.Parameters.AddWithValue("@Id", 0);
                         cmd.Parameters.AddWithValue("@StokKodu", urun.StokKodu);
                         cmd.Parameters.AddWithValue("@Miktar", urun.SayimAdedi);
@@ -2720,12 +2720,13 @@ namespace YKPortal.Controllers
                 if (Uygulama == "NETSIS")
                 {
                     // Tüm kolon isimleri
-                    var kolonIsimleri = data.Properties().Select(p => p.Name).ToList();
+                    string kolonIsimleri = "kolonIsimleri";
+                    //var kolonIsimleri = data.Properties().Select(p => p.Name).ToList();
 
 
                     _srg = " ";
                     _srg += " \r\n  -- Iyb_Stok_Bilgi_Getir ";
-                    _srg += " \r\n  -- '" + kolonIsimleri.ToString() + "' ";
+                    _srg += " \r\n  -- '" + Convert.ToString( kolonIsimleri) + "' ";
                     _srg += " \r\n  -- Stok Bilgileri Getir Netsisden ";
                     _srg += " \r\n SELECT DBO.TRK1(ST.STOK_KODU) STOK_KODU, DBO.TRK1(ST.STOK_ADI) STOK_ADI ";
                     _srg += " \r\n , DBO.TRK1(GRUP_KODU) STOK_GRUP_KODU, DBO.TRK1(KOD_1) STOK_KOD_1, DBO.TRK1(KOD_2) STOK_KOD_2 ";
