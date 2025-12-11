@@ -2357,7 +2357,7 @@ namespace YKPortal.Controllers
                     {
                         cmd.Parameters.Clear();
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.CommandText = "Iyb_P_Mob_SayimAnlik"; // "i3_Pr_Stok_SayimAnlik "; // '0', '" + urun.StokKodu + "', '"+ {urun.SayimAdedi}', '0','{urun.KayitYapanKul}', 'Dinamik', '0', '{urun.Raf}' ";
+                        cmd.CommandText = "Iyb_P_Mob_SayimAnlik"; // "i3_Pr_Stok_SayimAnlik "; // '0',  'Dinamik', '0', '{urun.Raf}' ";
                         cmd.Parameters.AddWithValue("@Id", 0);
                         cmd.Parameters.AddWithValue("@StokKodu", urun.StokKodu);
                         cmd.Parameters.AddWithValue("@Miktar", urun.SayimAdedi);
