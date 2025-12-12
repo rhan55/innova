@@ -8073,6 +8073,215 @@ namespace YKPortal.Controllers
         #endregion
         #region SayimKaydet
 
+        [HttpPost]
+        public IDJsonResult Rks_Toplama_Listele([FromBody] JObject data)
+        {
+            string _Procedure_Versiyon = "251212";
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                
+                string _srg = "";
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+               
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                if (Uygulama == "RKS")
+                {
+                    _srg = " ";
+                    _srg += " \r\n  -- Rks_Toplama_Listele ";
+
+                    _srg += " \r\n SELECT TOP 100 * ";
+                    _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].[Iyb_V_Sepet_Toplama_Listesi] SY WITH (NOLOCK) ";
+                    _srg += " \r\n WHERE 1=1 ";
+                    _srg += " \r\n ORDER BY Toplama_Tarihi DESC  ";
+
+                }
+                cmd.CommandText = _srg;
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.Toplayacak_Kisi_Id = Convert.ToString(satir["Toplayacak_Kisi_Id"]);
+                        entity.Toplayacak_Kisi_Adi = Convert.ToString(satir["Toplayacak_Kisi_Adi"]);
+                        entity.Toplama_Tarihi = Convert.ToString(satir["Toplama_Tarihi"]);
+                        entity.Kalem_Adedi = Convert.ToString(satir["Kalem_Adedi"]);
+                        entity.Toplanacak_Miktar = Convert.ToString(satir["Toplanacak_Miktar"]);
+                        entity.Toplanan_Miktar = Convert.ToString(satir["Toplanan_Miktar"]);
+                        entity.Toplatan_Kisi_Adi = Convert.ToString(satir["Toplatan_Kisi_Adi"]);
+                        entity.Toplama_GuidId = Convert.ToString(satir["Toplama_GuidId"]);
+                        entity.Servis_Versiyon = 251212;
+                        entities.Add(entity);
+                    }
+                    #endregion
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    result.Sonuc_Versiyon = 251010;
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    result.Sonuc_Versiyon = 251010;
+                    return result;
+                }
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!" + err.Message.ToString();
+                result.Sonuc_Versiyon = 251010;
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        [HttpPost]
+        public IDJsonResult Rks_Toplama_Detay([FromBody] JObject data)
+        {
+            int  _Webservis_Procedure_Versiyon = 251212;
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Toplama_GuidId"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Toplama_GuidId bilgisi boş olamaz.";
+                    return result;
+                }
+                
+
+                string _srg = "";
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Toplama_GuidId = Convert.ToString(data["Toplama_GuidId"]);
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                if (Uygulama == "NETSIS")
+                {
+                    _srg = " ";
+                    _srg += " \r\n  -- Rks_Toplama_Detay ";
+                    _srg += " \r\n SELECT TOP 1000 * ";
+                    _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].[Iyb_V_Sepet_Toplama_Detayi] SY WITH (NOLOCK) ";
+                    _srg += " \r\n WHERE 1=1  ";
+                    _srg += " \r\n AND  Toplama_GuidId = '" + Toplama_GuidId + "' ";
+                    _srg += " \r\n ORDER BY Toplama_Tarihi DESC  ";
+                }
+                if (Uygulama == "LOGO")
+                {
+                    _srg = " ";
+                    _srg += " \r\n  -- Rks_Toplama_Detay ";
+                    _srg += " \r\n SELECT TOP 1000 * ";
+                    _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].[Iyb_V_Sepet_Toplama_Detayi] SY WITH (NOLOCK) ";
+                    _srg += " \r\n WHERE 1=1  ";
+                    _srg += " \r\n AND  Toplama_GuidId = '" + Toplama_GuidId + "' ";
+                    _srg += " \r\n ORDER BY Toplama_Tarihi DESC  ";
+                }
+                if (Uygulama == "RKS")
+                {
+                    _srg = " ";
+                    _srg += " \r\n  -- Rks_Toplama_Detay ";
+                    _srg += " \r\n SELECT TOP 1000 * ";
+                    _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].[Iyb_V_Sepet_Toplama_Detayi] SY WITH (NOLOCK) ";
+                    _srg += " \r\n WHERE 1=1  ";
+                    _srg += " \r\n AND  Toplama_GuidId = '" + Toplama_GuidId + "' ";
+                    _srg += " \r\n ORDER BY Toplama_Tarihi DESC  ";
+
+                }
+                cmd.CommandText = _srg;
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.StokKodu = Convert.ToString(satir["StokKodu"]);
+                        entity.StokAdi = Convert.ToString(satir["StokAdi"]);
+                        entity.Toplanacak_Miktar = Convert.ToString(satir["Toplanacak_Miktar"]);
+                        entity.Toplanan_Miktar = Convert.ToString(satir["Toplanan_Miktar"]);
+                        entity.Bakiye = Convert.ToString(satir["Bakiye"]);
+                        entity.StokEkOndegerRafNumarasi = Convert.ToString(satir["StokEkOndegerRafNumarasi"]);
+                        entity.StokEkIkincilRafNumarasi = Convert.ToString(satir["StokEkIkincilRafNumarasi"]);
+                        entity.Toplama_Tarihi = Convert.ToString(satir["Toplama_Tarihi"]);
+                        entity.Toplama_GuidId = Convert.ToString(satir["Toplama_GuidId"]);
+                        entity.Servis_Versiyon = _Webservis_Procedure_Versiyon;
+                        entities.Add(entity);
+                    }
+                    #endregion
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    result.Sonuc_Versiyon = _Webservis_Procedure_Versiyon;
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    result.Sonuc_Versiyon = _Webservis_Procedure_Versiyon;
+                    return result;
+                }
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!" + err.Message.ToString();
+                result.Sonuc_Versiyon = _Webservis_Procedure_Versiyon;
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
 
         #region Netsis_Wms_Qr_Listele
         public IDJsonResult Stok_Sayim_Listele([FromBody] JObject data)
