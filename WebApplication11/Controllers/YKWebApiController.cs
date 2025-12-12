@@ -8130,6 +8130,7 @@ namespace YKPortal.Controllers
                         entity.Toplanan_Miktar = Convert.ToString(satir["Toplanan_Miktar"]);
                         entity.Toplatan_Kisi_Adi = Convert.ToString(satir["Toplatan_Kisi_Adi"]);
                         entity.Toplama_GuidId = Convert.ToString(satir["Toplama_GuidId"]);
+                        entity.Aciklama = Convert.ToString(satir["Aciklama"]);
                         entity.Servis_Versiyon = 251212;
                         entities.Add(entity);
                     }
