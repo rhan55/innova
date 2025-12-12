@@ -32,12 +32,12 @@ namespace YKPortal.Controllers
 {
     public class IybController : ApiController
     {
-        public Int32 WebServis_Versiyonu = 251205;
+        public Int32 WebServis_Versiyonu = 251213;
 
         [System.Web.Http.HttpPost]
         public IDJsonResult Iyb_Tablolari_Sorgu_Calistir([FromBody] JObject data)
         {
-            Int32 WebServis_Procedure_Versiyon = 251200;
+            Int32 WebServis_Procedure_Versiyon = 251212;
             IDJsonResult result = new IDJsonResult();
             if (data["Uygulama_Db"] == null)
             {
@@ -8411,7 +8411,7 @@ namespace YKPortal.Controllers
                 {
                     data["Toplanan_Miktar"] = "0";
                 }
-                if (data["KullaniciID"] == null)
+                if (data["Kullanici_Id"] == null)
                 {
                     result.SonucKodu = 0;
                     result.Hata = "UYARI! Kullanici Idsi bilgisi boş olamaz.";
@@ -8450,20 +8450,18 @@ namespace YKPortal.Controllers
 
                 if (Uygulama == "RKS")
                 {
-
                     string _sorgu = "";
-
-                    _sorgu += " UPDATE [" + Uygulama_Db + "].[dbo].[tSepetHareket] ";
-                    _sorgu += " SET Toplama_Durumu = 2 ";
-                    _sorgu += " , Toplanan_Miktar = '"+ Toplanan_Miktar.Replace(".", "").Replace(",", ".") + "' ";
-                    _sorgu += " , Toplama_Sonuc_Tarihi = getdate() ";
-                    _sorgu += " WHERE GuidId =  '" + Toplama_GuidId + "' ";
-                    _sorgu += " AND Stok_Kodu = '" + Stok_Kodu + "' "; 
+                    _sorgu += " \r\n UPDATE [" + Uygulama_Db + "].[dbo].[tSepetHareket] ";
+                    _sorgu += " \r\n SET Toplama_Durumu = 2 ";
+                    _sorgu += " \r\n , Toplanan_Miktar = '"+ Toplanan_Miktar.Replace(".", "").Replace(",", ".") + "' ";
+                    _sorgu += " \r\n , Toplama_Sonuc_Tarihi = getdate() ";
+                    _sorgu += " \r\n WHERE GuidId =  '" + Toplama_GuidId + "' ";
+                    _sorgu += " \r\n And StokKodu = '" + Stok_Kodu + "' ";
+                    _sorgu += " \r\n And Isnull(Toplama_Durumu,0) = 1 ";
                     SqlCommand cmd = new SqlCommand();
                     cmd.CommandType = System.Data.CommandType.Text;
                     cmd.CommandText = _sorgu;
                     IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
-
                 }
                 
                 result.Data = entities;
