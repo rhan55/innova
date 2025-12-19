@@ -526,6 +526,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="innova_red.ico" />
+    <Content Include="Notlar.txt" />
     <Content Include="PdfKaliplari\kalemler.html" />
     <Content Include="PdfKaliplari\belge-tema.html" />
     <Content Include="PdfKaliplari\satis-teklifi.html" />
