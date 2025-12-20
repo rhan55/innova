@@ -118,7 +118,7 @@
         url: '@Url.Action("AntOto1AktarimYap", "YK")',
         method: 'POST',
         // aktar parametresini false olarak gönderiyoruz
-        data: { ay: ay, yil: yil, aktar: false,canli=false, __RequestVerificationToken: token },
+        data: { ay: ay, yil: yil, aktar: false,canli:false, __RequestVerificationToken: token },
         success: function (data) {
 
             // Controller'ınız başarı durumunda datayı doğrudan 'message' alanında döndürüyor.
