@@ -1081,19 +1081,20 @@ values
             return View();
         }
 
+
         // POST: Entegrasyon/AntOto1AktarimYap
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<JsonResult> AntOto1AktarimYap(int yil, int ay, bool aktar = false)
+        public async Task<JsonResult> AntOto1AktarimYap(int yil, int ay, bool aktar = false,
+            bool canli = false)
         {
             try
             {
                 // Read records from DB for the selected year
                 var cmd = new SqlCommand();
-                cmd.CommandText = "SELECT SIRKET_KODU, SLIPNR, TARIH, CODE, DESCRIPTION, DEBIT, CREDIT, LINENR, LINEEXP ";
-                cmd.CommandText += " ,MASRAF_MERKEZI, PERSONEL_KODU, PERSONEL_ACIKLAMASI, AUXCODE, AY, YIL  ";
-                cmd.CommandText += " FROM [_IYB_JV_MUHASEBE_FISLERI]  ";
-                cmd.CommandText += " WHERE YIL = @YIL and AY = @AY";
+                cmd.CommandText = @"SELECT SIRKET_KODU, SLIPNR, TARIH, CODE, DESCRIPTION, DEBIT, CREDIT, LINENR, LINEEXP, MASRAF_MERKEZI, PERSONEL_KODU, PERSONEL_ACIKLAMASI, AUXCODE, AY, YIL 
+                                    FROM [_IYB_JV_MUHASEBE_FISLERI] 
+                                    WHERE YIL = @YIL and AY = @AY";
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@YIL", yil);
                 cmd.Parameters.AddWithValue("@AY", ay);
@@ -1109,7 +1110,7 @@ values
                 var payloadList = new List<object>();
                 foreach (DataRow row in dt.Rows)
                 {
-                    string sirketkodu = row["SIRKET_KODU"]?.ToString(); // "1000"; // if company code exists elsewhere, replace accordingly
+                    string sirketkodu = row["SIRKET_KODU"]?.ToString();  //"1000"; // if company code exists elsewhere, replace accordingly
                     string fisno = row["SLIPNR"]?.ToString();
                     string tarih = "";
                     if (row["TARIH"] != DBNull.Value)
@@ -1149,6 +1150,13 @@ values
                 var url = "https://integration-suite-dev-test-69ldgkyu.it-cpi024-rt.cfapps.eu10-002.hana.ondemand.com/http/Logo_Bordro_Inbound";
                 var username = "sb-d71d2cd5-4862-41b7-9a76-e48995a2956c!b552840|it-rt-integration-suite-dev-test-69ldgkyu!b182722";
                 var password = "290f827e-51a8-4c59-8046-708416a28a40$IgI8poO4RIilZ1-WnTMZuHeD09cQmev845SFVzHBr8A=";
+
+                if (canli)
+                {
+                    url = "https://hesapcioglu-cpi-prod-n9j7qzvi.it-cpi033-rt.cfapps.eu10-005.hana.ondemand.com/http/Logo_Bordro_Inbound";
+                    username = "sb-27a09fed-3d33-4f1a-94b8-0c251c695c3e!b586197|it-rt-hesapcioglu-cpi-prod-n9j7qzvi!b543091";
+                    password = "8507bef2-9048-496b-aa09-fa75d7735173$y-1F6rloc0OJtVj97Q9nMdMX6Ezl4lAdqIAd7AWo664=";
+                }
 
                 // 1. Dosya Yolu ve Adını Belirle
                 // Sunucu kök dizinini bulur
@@ -1191,7 +1199,7 @@ values
                 }
                 else
                 {
-                   
+
 
                     var content = new StringContent(payload, Encoding.UTF8, "application/json");
 
