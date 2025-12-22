@@ -532,4 +532,3 @@ WebApplication11/bin.zip
 *.dll
 *.pdb
 /WebApplication11/YKPanel.csproj
-/WebApplication11/Web.config

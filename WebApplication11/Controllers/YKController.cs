@@ -1199,8 +1199,6 @@ values
                 }
                 else
                 {
-
-
                     var content = new StringContent(payload, Encoding.UTF8, "application/json");
 
                     return Json(new { success = true, message = payloadList, jsonText = content });
