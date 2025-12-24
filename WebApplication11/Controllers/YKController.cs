@@ -1131,7 +1131,7 @@ values
                     decimal borc = row["DEBIT"] != DBNull.Value ? Convert.ToDecimal(row["DEBIT"]) : 0;
                     decimal alacak = row["CREDIT"] != DBNull.Value ? Convert.ToDecimal(row["CREDIT"]) : 0;
                     string masrafyeri = row["MASRAF_MERKEZI"]?.ToString();
-                    string personelkodu = row["PERSONEL_KODU"]?.ToString();
+                    Int64 personelkodu = Convert.ToInt64( row["PERSONEL_KODU"]?.ToString());
 
                     payloadList.Add(new
                     {
