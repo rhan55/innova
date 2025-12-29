@@ -32,12 +32,12 @@ namespace YKPortal.Controllers
 {
     public class IybController : ApiController
     {
-        public Int32 WebServis_Versiyonu = 251219;
+        public Int32 WebServis_Versiyonu = 251224;
 
         [System.Web.Http.HttpPost]
         public IDJsonResult Iyb_Tablolari_Sorgu_Calistir([FromBody] JObject data)
         {
-            Int32 WebServis_Procedure_Versiyon = 251212;
+            Int32 WebServis_Procedure_Versiyon = 251224;
             IDJsonResult result = new IDJsonResult();
             if (data["Uygulama_Db"] == null)
             {
@@ -91,7 +91,7 @@ namespace YKPortal.Controllers
         {
             try
             {
-                Int32 WebServis_Procedure_Versiyon = 251201;
+                Int32 WebServis_Procedure_Versiyon = 251229;
                 string _Sonuc_Aciklamasi = "";
                 SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString);
 
@@ -1336,7 +1336,7 @@ namespace YKPortal.Controllers
 
                                 _MenuId = "10000000-0000-0007-0002-000000000003";
                                 _UstMId = "10000000-0000-0007-0002-000000000000";
-                                _MenuAciklama = "Üretim Barkod Okutma Kayıtları";
+                                _MenuAciklama = "Plastik Üretim Barkod Okutma Kayıtları";
                                 _MenuSira = "10303";
                                 _srg = " ";
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
