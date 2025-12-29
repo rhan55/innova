@@ -72,10 +72,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@Telefon", depoDto.Telefon);
             cmd.Parameters.AddWithValue("@Isim", depoDto.Isim);
             cmd.Parameters.AddWithValue("@Adres", depoDto.Adres);
-   
-
-            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);      
-                             
+            DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);                    
             return RedirectToAction("Liste");
         }
       
@@ -95,7 +92,6 @@ namespace YKPortal.Controllers
             cmd.CommandText = "p_Depo";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@ID", id);
-
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             return View(dt);
         }
@@ -113,7 +109,6 @@ namespace YKPortal.Controllers
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "p_DepoKaydet";
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
             cmd.Parameters.AddWithValue("@ID", depoDto.ID);
             cmd.Parameters.AddWithValue("@UyelikID", depoDto.UyelikID);
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
@@ -121,7 +116,6 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@Telefon", depoDto.Telefon);
             cmd.Parameters.AddWithValue("@Isim", depoDto.Isim);
             cmd.Parameters.AddWithValue("@Adres", depoDto.Adres);
-
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
             return RedirectToAction("Liste");
         }
@@ -132,8 +126,6 @@ namespace YKPortal.Controllers
 
             if (!AutoGirisKontrol())
                 return Redirect("~/YK/Giris");
-
-
             if (!YetkiKontrolu("/Depo/Liste", "Sil"))
             {
                 return Redirect("~/YK/Anasayfa");
@@ -144,9 +136,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@ID", id);
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
-
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
             return RedirectToAction("Liste");
         }
 

@@ -226,7 +226,7 @@ namespace YKPortal.Controllers
                         cmd.CommandText = _srg;
                         IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
 
-                       
+
 
                     }
                     #endregion Munüler
@@ -288,15 +288,15 @@ namespace YKPortal.Controllers
                         _srg += " \r\n      [Silindi][bit] NOT NULL, ";
                         _srg += " \r\n      [SilinenTarih] [datetime] NULL, ";
                         _srg += " \r\n      [SilenKullanici][nvarchar](100) NULL,";
-	                    _srg += " \r\n      [Onay][bit] NULL,";
-	                    _srg += " \r\n      [SicilNo][nvarchar](50) NULL,";
-	                    _srg += " \r\n      [PersonelParola][nvarchar](50) NULL,";
-	                    _srg += " \r\n      [Uygulama] [nvarchar](50) NULL,";
-	                    _srg += " \r\n      [Uygulama_Db][nvarchar](50) NULL,";
-	                    _srg += " \r\n      [Uygulama_Depo_Kodu] [int] NULL, ";
+                        _srg += " \r\n      [Onay][bit] NULL,";
+                        _srg += " \r\n      [SicilNo][nvarchar](50) NULL,";
+                        _srg += " \r\n      [PersonelParola][nvarchar](50) NULL,";
+                        _srg += " \r\n      [Uygulama] [nvarchar](50) NULL,";
+                        _srg += " \r\n      [Uygulama_Db][nvarchar](50) NULL,";
+                        _srg += " \r\n      [Uygulama_Depo_Kodu] [int] NULL, ";
                         _srg += " \r\n      [Uygulama_Sube_Kodu][int] NULL, ";
                         _srg += " \r\n      [Uygulama_Firma_Kodu] [nvarchar](3) NULL, ";
-	                    _srg += " \r\n      [Uygulama_Donem_Kodu][nvarchar](2) NULL ";
+                        _srg += " \r\n      [Uygulama_Donem_Kodu][nvarchar](2) NULL ";
                         _srg += " \r\n      ) ";
                         _srg += " \r\n ON [PRIMARY] TEXTIMAGE_ON [PRIMARY] ";
                         _srg += " \r\n END ";
@@ -357,7 +357,7 @@ namespace YKPortal.Controllers
                         cmd.CommandType = System.Data.CommandType.Text;
                         cmd.CommandText = _srg;
                         IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
-                    }   
+                    }
                     #endregion Kullanicilar
                     #region Kullanici_Forms
                     {
@@ -578,7 +578,7 @@ namespace YKPortal.Controllers
                         _srg += " \r\n ";
                         _srg += " \r\n --- Versiyon Kontrolü";
                         _srg += " \r\n DECLARE @APP_VERSIYON_KONTROLU INT ";
-                        _srg += " \r\n SET @APP_VERSIYON_KONTROLU = ISNULL((select App_Versiyonu from dbo.Uyelikler WITH (NOLOCK) Where Silindi = 0 and ID = @UyelikID ), ''"+ _Procedure_Versiyon + "'')  ";
+                        _srg += " \r\n SET @APP_VERSIYON_KONTROLU = ISNULL((select App_Versiyonu from dbo.Uyelikler WITH (NOLOCK) Where Silindi = 0 and ID = @UyelikID ), ''" + _Procedure_Versiyon + "'')  ";
                         _srg += " \r\n IF CAST(@APP_VERSIYON_KONTROLU AS INT) < CAST(@App_Versiyonu AS INT) ";
                         _srg += " \r\n BEGIN ";
                         _srg += " \r\n      UPDATE dbo.Uyelikler SET App_Versiyonu = @App_Versiyonu Where Silindi = 0 and ID = @UyelikID ";
@@ -609,8 +609,8 @@ namespace YKPortal.Controllers
                         _srg += " \r\n      , ISNULL(Uygulama_Donem_Kodu, ''01'') Uygulama_Donem_Kodu                                               ";
                         _srg += " \r\n      , ISNULL(Uyelikler.WebServis_Versiyonu, ''" + WebServis_Versiyonu + "'') AS WebServis_Versiyonu ";
                         _srg += " \r\n      , ISNULL(Uyelikler.App_Versiyonu, ''" + WebServis_Versiyonu + "'') AS App_Versiyonu ";
-                        _srg += " \r\n      from "+ Uygulama_Db + ".[dbo].[Kullanicilar] WITH (NOLOCK)  ";
-                        _srg += " \r\n      LEFT OUTER JOIN "+ Uygulama_Db + ".[dbo].Uyelikler WITH (NOLOCK) ON Uyelikler.ID = Kullanicilar.UyelikID    ";
+                        _srg += " \r\n      from " + Uygulama_Db + ".[dbo].[Kullanicilar] WITH (NOLOCK)  ";
+                        _srg += " \r\n      LEFT OUTER JOIN " + Uygulama_Db + ".[dbo].Uyelikler WITH (NOLOCK) ON Uyelikler.ID = Kullanicilar.UyelikID    ";
                         _srg += " \r\n      Where Kullanicilar.Silindi = 0                                                                        ";
                         _srg += " \r\n      and Kullanicilar.Aktif = 1 and LEN(@KullaniciAdi) > 0 and LEN(@Parola) > 0                            ";
                         _srg += " \r\n      and KullaniciAdi = @KullaniciAdi                                                                      ";
@@ -632,6 +632,7 @@ namespace YKPortal.Controllers
 
             }
         }
+
         [System.Web.Http.HttpPost]
         public void Iyb_Tablolari_02_Menuleri_Olustur()
         {
@@ -1526,11 +1527,11 @@ namespace YKPortal.Controllers
                     _srg += " \r\n , (select TOP 1 Uy.ID from [" + Uygulama_Db + "].[dbo].Uyelikler Uy WHERE 1 = 1) as UyelikID ";
                     _srg += " \r\n , 'admin@iyb.com.tr' as KullaniciAdi, 'app' as Parola, 'Iyb' Adi, 'App' as Soyadi ";
                     _srg += " \r\n , 1 as Onay, 0 as Silindi  ";
-                    _srg += " \r\n , 'IYB' Uygulama, '"+ Uygulama_Db + "' Uygulama_Db ";
+                    _srg += " \r\n , 'IYB' Uygulama, '" + Uygulama_Db + "' Uygulama_Db ";
                     _srg += " \r\n , 0 as Uygulama_Sube_Kodu, 0 as Uygulama_Depo_Kodu ";
                     _srg += " \r\n , '001' as Uygulama_Firma_Kodu, '01' as Uygulama_Donem_Kodu ";
                     _srg += " \r\n WHERE 'admin@iyb.com.tr' not in (select KullaniciAdi FROM [" + Uygulama_Db + "].[dbo].Kullanicilar with (nolock) where KullaniciAdi is not null) ";
-              
+
                     cmd.CommandType = System.Data.CommandType.Text;
                     cmd.CommandText = _srg;
                     IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
@@ -1645,7 +1646,6 @@ namespace YKPortal.Controllers
                 Uygulama_Db = conn.Database.ToString();
                 string Kullanici_GuidId = Convert.ToString(data["Kullanici_GuidId"]);
 
-
                 if (!Guid.TryParse(Kullanici_GuidId, out Guid kullaniciId))
                 {
                     result.SonucKodu = -1;
@@ -1734,7 +1734,7 @@ namespace YKPortal.Controllers
                 SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString);
 
                 Uygulama_Db = conn.Database.ToString();
-                
+
                 string Kullanici_GuidId = Convert.ToString(data["Kullanici_GuidId"]);
 
                 if (!Guid.TryParse(Kullanici_GuidId, out Guid kullaniciId))
@@ -1781,7 +1781,6 @@ namespace YKPortal.Controllers
             }
             return result;
         }
-
         public IDJsonResult Kullanici_Cihaz_Kaydet([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
@@ -1829,7 +1828,7 @@ namespace YKPortal.Controllers
                     return result;
                 }
                 string _sorgu = "";
-         
+
                 {
                     //  _sorgu += " EXEC [" + Uygulama_Db + "].[dbo].[pKisayolKaydet]";
                     _sorgu = " insert into [" + Uygulama_Db + "].[dbo]. Kullanici_Cihazlari ";
@@ -1855,13 +1854,89 @@ namespace YKPortal.Controllers
             }
             return result;
         }
+        public IDJsonResult SmsKaydet([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                string Message = Convert.ToString(data["Message"]);
+                string Sender = Convert.ToString(data["Sender"]);
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString);
+                string _sorgu = "";
+                {
+                    _sorgu = " insert into Sms (Message,Sender) values ('" + Message + "','" + Sender + "')";
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _sorgu;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                }
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                result.Hata = "Sms Kaydedildi.";
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            return result;
+        }
+
+        [HttpPost]
+        public IDJsonResult Sms_Listele([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                List<dynamic> entities = new List<dynamic>();
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = "select top 20 * from Sms Order by Id desc";
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+                if (dt.Rows.Count > 0)
+                {
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.Message = Convert.ToString(satir["Message"]);
+                        entity.Sender = Convert.ToString(satir["Sender"]);
+                        entities.Add(entity);
+                    }
+                    #endregion
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    return result;
+                }
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
         [System.Web.Http.HttpPost]
         public IDJsonResult Crm_Kontor_Durumu_Kaydet([FromBody] JObject data)
         {
             IDJsonResult result = new IDJsonResult();
             try
             {
-               
+
                 if (data["Vkn"] == null)
                 {
                     result.SonucKodu = 0;
@@ -1884,7 +1959,7 @@ namespace YKPortal.Controllers
                 _sorgu += " '" + Vkn.ToString() + "' ";
                 _sorgu += " , '" + Unvan + "' ";
                 _sorgu += " , '" + _Etiket + "' ";
-                _sorgu += " , '" +  _Kontor.Replace(",", ".") + "' ";
+                _sorgu += " , '" + _Kontor.Replace(",", ".") + "' ";
                 _sorgu += " , '" + _Tarih + "' ";
                 _sorgu += " , '" + _Baslik.Substring(0, 50) + "' ";
 
@@ -2484,6 +2559,7 @@ namespace YKPortal.Controllers
             }
             return result;
         }
+
         [System.Web.Http.HttpPost]
         public IDJsonResult RksSayimKaydet(
            [FromBody] JObject data
@@ -2544,6 +2620,7 @@ namespace YKPortal.Controllers
             }
             return result;
         }
+
         [System.Web.Http.HttpPost]
         public IDJsonResult RksStokKaydet(
             [FromBody] JObject data)
@@ -2586,9 +2663,9 @@ namespace YKPortal.Controllers
                 result.Hata = "Raf bilgisi boş olamaz.";
                 return result;
             }
+
             string Uygulama = data["Uygulama"].ToObject<string>();
             string Uygulama_Db = data["Uygulama_Db"].ToObject<string>();
-
             string HataSirasi = "";
             try
             {
@@ -2746,9 +2823,7 @@ namespace YKPortal.Controllers
             }
             return result;
         }
-
     }
-
     public class SerdarOtoResponseModel
     {
         public string Result { get; set; }
@@ -2757,7 +2832,6 @@ namespace YKPortal.Controllers
         public object Data { get; set; }
 
     }
-
     public class YKWebApiController : ApiController
     {
 
@@ -2888,7 +2962,7 @@ namespace YKPortal.Controllers
 
                     _srg = " ";
                     _srg += " \r\n  -- Iyb_Stok_Bilgi_Getir ";
-                    _srg += " \r\n  -- '" + Convert.ToString( kolonIsimleri) + "' ";
+                    _srg += " \r\n  -- '" + Convert.ToString(kolonIsimleri) + "' ";
                     _srg += " \r\n  -- Stok Bilgileri Getir Netsisden ";
                     _srg += " \r\n SELECT DBO.TRK1(ST.STOK_KODU) STOK_KODU, DBO.TRK1(ST.STOK_ADI) STOK_ADI ";
                     _srg += " \r\n , DBO.TRK1(GRUP_KODU) STOK_GRUP_KODU, DBO.TRK1(KOD_1) STOK_KOD_1, DBO.TRK1(KOD_2) STOK_KOD_2 ";
@@ -4560,8 +4634,8 @@ namespace YKPortal.Controllers
                         return result;
                     }
                 }
-          
-               
+
+
                 string _srg = "";
                 string Uygulama = Convert.ToString(data["Uygulama"]);
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
@@ -4662,7 +4736,7 @@ namespace YKPortal.Controllers
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
                 string Firma_Kodu = "";
                 string Donem_Kodu = "";
-                
+
                 if (Uygulama == "LOGO")
                 {
                     if (data["Firma_Kodu"] == null)
@@ -4684,7 +4758,7 @@ namespace YKPortal.Controllers
                 List<dynamic> entities = new List<dynamic>();
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = System.Data.CommandType.Text;
-           
+
                 if (Uygulama == "NETSIS")
                 {
                     if (Islem_Tipi == "Cariler")
@@ -4868,7 +4942,7 @@ namespace YKPortal.Controllers
                         }
                     }
                 }
-             
+
                 DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
 
                 if (dt.Rows.Count > 0)
@@ -7529,7 +7603,7 @@ namespace YKPortal.Controllers
             }
             return result;
         }
-       
+
         [HttpPost]
         public IDJsonResult Ariza_KayitSayisi([FromBody] JObject data)
         {
@@ -8408,11 +8482,11 @@ namespace YKPortal.Controllers
                     result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
                     return result;
                 }
-                
+
                 string _srg = "";
                 string Uygulama = Convert.ToString(data["Uygulama"]);
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
-               
+
                 List<dynamic> entities = new List<dynamic>();
 
                 SqlCommand cmd = new SqlCommand();
@@ -8482,7 +8556,7 @@ namespace YKPortal.Controllers
         [HttpPost]
         public IDJsonResult Rks_Toplama_Detay([FromBody] JObject data)
         {
-            int  _Webservis_Procedure_Versiyon = 251212;
+            int _Webservis_Procedure_Versiyon = 251212;
             IDJsonResult result = new IDJsonResult();
             try
             {
@@ -8505,7 +8579,7 @@ namespace YKPortal.Controllers
                     result.Hata = "UYARI! Toplama_GuidId bilgisi boş olamaz.";
                     return result;
                 }
-                
+
 
                 string _srg = "";
                 string Uygulama = Convert.ToString(data["Uygulama"]);
@@ -8796,7 +8870,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].[TBLSAYIM] SY WITH (NOLOCK) ";
                     _srg += " \r\n INNER JOIN " + Uygulama_Db + ".[dbo].[TBLSTSABIT] ST WITH (NOLOCK) ON SY.STOK_KODU = ST.STOK_KODU ";
                     _srg += " \r\n WHERE 1=1 ";
-                    _srg += " \r\n AND SY.DEPO_KODU = '"+ Depo_Kodu +"' ";
+                    _srg += " \r\n AND SY.DEPO_KODU = '" + Depo_Kodu + "' ";
                     _srg += " \r\n AND SY.TARIH = '" + Tarih + "' ";
                     _srg += " \r\n ORDER BY SY.INCKEYNO DESC  ";
 
@@ -9138,9 +9212,9 @@ namespace YKPortal.Controllers
                 }
 
                 string Cari_Kodu = Convert.ToString(data["Cari_Kodu"]);
-               
-                
-              
+
+
+
                 string GcKodu = Convert.ToString(data["GcKodu"]);
 
                 string Proje_Kodu = Convert.ToString(data["Proje_Kodu"]);
@@ -9187,7 +9261,7 @@ namespace YKPortal.Controllers
                     _srg += " \r\n ( FORM, TARIH, KAYITID, BELGE_NO, CARI_KODU ";
                     _srg += " \r\n , KULLANICI ";
                     _srg += " \r\n , BILGI, ISLEM, KAYNAK) ";
-                    _srg += " \r\n SELECT 'Web Servis Wms 11 Qr Okutma', getdate(), '" + Stok_Kodu + "' as KAYITID, '"+ Belge_No +"' AS BELGE_NO, '" + Cari_Kodu + "' AS Cari_Kodu ";
+                    _srg += " \r\n SELECT 'Web Servis Wms 11 Qr Okutma', getdate(), '" + Stok_Kodu + "' as KAYITID, '" + Belge_No + "' AS BELGE_NO, '" + Cari_Kodu + "' AS Cari_Kodu ";
                     _srg += " \r\n , '" + Kullanici_Adi + "' AS KULLANICI ";
                     _srg += " \r\n , '" + Cari_Kodu + "' as BILGI, 'Kullanici Güncellemesi' as ISLEM, 'Mobil_Kalem_Hareket' AS KAYNAK ";
                 }
@@ -9261,7 +9335,7 @@ namespace YKPortal.Controllers
                         return result;
                     }
                 }
-           
+
                 if (data["Belge_No"] == null)
                 {
                     result.SonucKodu = 0;
@@ -9280,7 +9354,7 @@ namespace YKPortal.Controllers
                     result.Hata = "UYARI! Kullanici_Adi bilgisi boş olamaz.";
                     return result;
                 }
-             
+
                 string Sube_Kodu = Convert.ToString(data["Sube_Kodu"]);
                 string Belge_No = Convert.ToString(data["Belge_No"]);
                 string Belge_Tarihi = Convert.ToString(data["Belge_Tarihi"]);
@@ -9322,7 +9396,7 @@ namespace YKPortal.Controllers
                         _srg += " \r\n  -- Islem ";
                         _srg += " \r\n EXEC " + Uygulama_Db + ".[dbo].[INN_PR_BELGE_KAYIT_DAT] '" + Belge_No + "', '" + Cari_Kodu + "', '" + Belge_Tipi + "', 'H'  ";
                     }
-                  
+
 
                     _srg += " \r\n  -- Logla ";
                     _srg += " \r\n INSERT INTO INNOVA..TBLLOGUSER ";
@@ -12478,7 +12552,7 @@ END
                     cmd.CommandType = System.Data.CommandType.Text;
                     cmd.CommandText = "SELECT top 1 [Deger] as Deger ";
                     cmd.CommandText += " \r\n FROM " + Uygulama_Db + ".[dbo].[Kullanici_Forms] With (Nolock) ";
-                    cmd.CommandText += " \r\n WHERE [KullaniciId] = '"+ Kullanici_Guid + "' ";
+                    cmd.CommandText += " \r\n WHERE [KullaniciId] = '" + Kullanici_Guid + "' ";
                     cmd.CommandText += " \r\n AND [Form] = '" + Form + "' ";
                     cmd.CommandText += " \r\n AND [Nesne] = '" + Nesne + "' ";
                     cmd.CommandText += " \r\n ORDER BY ID Desc ";
@@ -12580,7 +12654,7 @@ END
                 string Deger = Convert.ToString(data["Deger"]);
 
                 string _srg = "";
-                _srg += " INSERT INTO "+ Uygulama_Db + ".[dbo].[Kullanici_Forms] ";
+                _srg += " INSERT INTO " + Uygulama_Db + ".[dbo].[Kullanici_Forms] ";
                 _srg += " \r\n ( [KullaniciId], [Form], [Nesne], [Deger]  ) ";
                 _srg += " \r\n SELECT '" + Kullanici_Guid + "' AS [KullaniciId], '" + Form + "' AS [Form], '" + Nesne + "' AS [Nesne], '" + Deger + "' AS [Deger]  ";
                 _srg += " \r\n WHERE '" + Kullanici_Guid + "' NOT IN  ";
@@ -12719,7 +12793,6 @@ END
             return result;
         }
     }
-
     public class SupplierOrders
     {
         public string OrderNumber { get; set; }
@@ -12748,15 +12821,11 @@ END
         public string TotalAmount { get; set; }
         public string Description { get; set; }
     }
-
     public class ModelGrupKodu
     {
         public int ID { get; set; }
         public string Isim { get; set; }
     }
-
- 
-
     public class ModelUrun
     {
         public string ID { get; set; }
@@ -12784,7 +12853,6 @@ END
 
         public List<ModelUrunResim> UrunResimleri { get; set; }
     }
-
     public class ModelUrunResim
     {
         public int? Id { get; set; }
