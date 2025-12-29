@@ -8,52 +8,59 @@
 <div id="content-anasayfa-tab" class="container-fluid">
     <div class="row">
         <h2>Aktarım</h2>
-
-        @Html.AntiForgeryToken()
-
         <div>
-            <label for="yilSelect">Yıl:</label>
-            <select id="yilSelect">
-                @for (int y = DateTime.Now.Year; y >= DateTime.Now.Year - 10; y--)
-                {
-                    <option value="@y">@y</option>
-                }
-            </select>
-            <label for="aySelect">Ay:</label>
-            <select id="aySelect">
-                @* Düzeltme: Ay döngüsü 1'den 12'ye gitmeli *@
-                @for (int m = 1; m <= 12; m++)
-                {
-                    <option value="@m">@m</option>
-                }
-            </select>
-
-            @* Önizleme butonu eklendi *@
-            <button id="onizleBtn" name="onizleBtn" class="btn btn-info">Önizle</button>
-            <button id="aktarBtn" name="aktarBtn" class="btn btn-primary">Aktar (Test) </button>
-            <button id="aktarBtn2" name="aktarBtn2" class="btn btn-primary">Aktar (Canlı) </button>
+            <label>Yıl ay seçerek Logo J-hr içerisindeki muhasebe fişlerini aktarır. </label>
+            <br />
+            <label>Personel Kodu Olmayanlar Aktarılmayacak, Logo J-hr içerisinden muhasebe fişlerinden kontrol edilebilir.</label>
+            <br />
+            <label>Güncelleme Tarihi: 22.12.2025 </label>
         </div>
 
-        @* Önizleme tablosunun gösterileceği alan eklendi *@
-    <div id="previewContainer" style="margin-top:25px;">
-        <h3>Önizleme Tablosu</h3>
-        <div id="jsonBilgisi" class="table-responsive">
-           
-        </div>
-        <div id="previewTable" class="table-responsive">
-            <p class="text-muted">Önizlemek için yıl ve ay seçip "Önizle" butonuna tıklayın.</p>
-        </div>
-    </div>
+            @Html.AntiForgeryToken()
 
+            <div>
+                <label for="yilSelect">Yıl:</label>
+                <select id="yilSelect">
+                    @for (int y = DateTime.Now.Year; y >= DateTime.Now.Year - 10; y--)
+                    {
+                        <option value="@y">@y</option>
+                    }
+                </select>
+                <label for="aySelect">Ay:</label>
+                <select id="aySelect">
+                    @* Düzeltme: Ay döngüsü 1'den 12'ye gitmeli *@
+                    @for (int m = 1; m <= 12; m++)
+                    {
+                        <option value="@m">@m</option>
+                    }
+                </select>
 
-        <div id="progressContainer" style="margin-top:15px; display:none; width:100%; max-width:600px;">
-            <div style="border:1px solid #ccc; height:25px; border-radius:4px; overflow:hidden;">
-                <div id="progressBar" style="height:100%; width:0%; background-color:#28a745; transition: width0.3s;"></div>
+                @* Önizleme butonu eklendi *@
+                <button id="onizleBtn" name="onizleBtn" class="btn btn-info">Önizle</button>
+                <button id="aktarBtn" name="aktarBtn" class="btn btn-primary">Aktar (Test) </button>
+                <button id="aktarBtn2" name="aktarBtn2" class="btn btn-primary">Aktar (Canlı) </button>
             </div>
-            <div id="progressText" style="margin-top:5px;">0%</div>
-        </div>
 
-        <div id="resultMessage" style="margin-top:15px;"></div>
+            @* Önizleme tablosunun gösterileceği alan eklendi *@
+            <div id="previewContainer" style="margin-top:25px;">
+                <h3>Önizleme Tablosu</h3>
+                <div id="jsonBilgisi" class="table-responsive">
+
+                </div>
+                <div id="previewTable" class="table-responsive">
+                    <p class="text-muted">Önizlemek için yıl ve ay seçip "Önizle" butonuna tıklayın.</p>
+                </div>
+            </div>
+
+
+            <div id="progressContainer" style="margin-top:15px; display:none; width:100%; max-width:600px;">
+                <div style="border:1px solid #ccc; height:25px; border-radius:4px; overflow:hidden;">
+                    <div id="progressBar" style="height:100%; width:0%; background-color:#28a745; transition: width0.3s;"></div>
+                </div>
+                <div id="progressText" style="margin-top:5px;">0%</div>
+            </div>
+
+            <div id="resultMessage" style="margin-top:15px;"></div>
 
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script>
@@ -151,7 +158,10 @@
                 // 3. Mevcut Aktar Butonu İşlevi
                 // =======================================================
                 $(function(){
-                    $('#aktarBtn').on('click', function(e){
+
+
+
+                    $('#aktarBtn').on('click', function (e) {
                         e.preventDefault();
 
                         // Önizleme alanını temizle
@@ -183,11 +193,12 @@
        $.ajax({
            url: '@Url.Action("AntOto1AktarimYap", "YK")',
            method: 'POST',
-           data: { ay:ay, yil: yil,aktar:true,canli:true, __RequestVerificationToken: token },
+           data: { ay:ay, yil: yil,aktar:true,canli:false, __RequestVerificationToken: token },
            success: function(resp){
                clearInterval(progressInterval);
                if(resp && resp.success){
                    $('#progressBar').css('width', '100%');
+
                    $('#progressText').text('100%');
                    $('#resultMessage').html('<div class="alert alert-success">'+ resp.message +'</div>');
                } else {
@@ -213,10 +224,76 @@
                $('#aySelect').prop('disabled', false);
            }
        });
-   });
+                    });
+
+
+                                     $('#aktarBtn2').on('click', function (e) {
+                     e.preventDefault();
+
+                     // Önizleme alanını temizle
+                     $('#previewTable').html('');
+
+                     // Prevent double clicks by disabling controls immediately
+                     $('#aktarBtn2').prop('disabled', true);
+                     $('#onizleBtn').prop('disabled', true); // Yeni eklendi
+                     $('#yilSelect').prop('disabled', true);
+                     $('#aySelect').prop('disabled', true);
+
+    var yil = $('#yilSelect').val();
+    var ay = $('#aySelect').val();
+    $('#resultMessage').html('');
+    $('#progressBar').css('width', '0%');
+    $('#progressText').text('0%');
+    $('#progressContainer').show();
+
+    var token = $('input[name="__RequestVerificationToken"]').val();
+
+    // Simulate progress locally while server work happens
+    var progress =0;
+    var progressInterval = setInterval(function(){
+        progress = Math.min(95, progress + Math.floor(Math.random()*10)+5);667
+        $('#progressBar').css('width', progress + '%');
+        $('#progressText').text(progress + '%');
+    },400);
+
+    $.ajax({
+        url: '@Url.Action("AntOto1AktarimYap", "YK")',
+        method: 'POST',
+        data: { ay:ay, yil: yil,aktar:true,canli:true, __RequestVerificationToken: token },
+        success: function(resp){
+            clearInterval(progressInterval);
+            if(resp && resp.success){
+                $('#progressBar').css('width', '100%');
+                $('#progressText').text('100%');
+                $('#resultMessage').html('<div class="alert alert-success">'+ resp.message +'</div>');
+            } else {
+                $('#resultMessage').html('<div class="alert alert-danger">'+ (resp ? resp.message : 'Bilinmeyen hata') +'</div>');
+            }
+
+            // Re-enable controls
+            $('#aktarBtn').prop('disabled', false);
+            $('#aktarBtn2').prop('disabled', false);
+            $('#onizleBtn').prop('disabled', false); // Yeni eklendi
+            $('#yilSelect').prop('disabled', false);
+            $('#aySelect').prop('disabled', false);
+        },
+        error: function(xhr, status, err){
+            clearInterval(progressInterval);
+            $('#resultMessage').html('<div class="alert alert-danger">Hata: ' + err + '</div>');
+
+            // Re-enable controls
+            $('#aktarBtn').prop('disabled', false);
+            $('#aktarBtn2').prop('disabled', false);
+            $('#onizleBtn').prop('disabled', false); // Yeni eklendi
+            $('#yilSelect').prop('disabled', false);
+            $('#aySelect').prop('disabled', false);
+        }
+    });
+});
+
                 });
             </script>
-        
 
+
+        </div>
     </div>
-</div>

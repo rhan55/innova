@@ -1117,6 +1117,7 @@ namespace YKPortal.Controllers
             return View();
         }
 
+
         // POST: Entegrasyon/AntOto1AktarimYap
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -1127,9 +1128,12 @@ namespace YKPortal.Controllers
             {
                 // Read records from DB for the selected year
                 var cmd = new SqlCommand();
-                cmd.CommandText = @"SELECT SLIPNR, TARIH, CODE, DESCRIPTION, DEBIT, CREDIT, LINENR, LINEEXP, MASRAF_MERKEZI, PERSONEL_KODU, PERSONEL_ACIKLAMASI, AUXCODE, AY, YIL 
-                                    FROM [_IYB_JV_MUHASEBE_FISLERI] 
-                                    WHERE YIL = @YIL and AY = @AY";
+                cmd.CommandText = " SELECT SIRKET_KODU, SLIPNR, TARIH, CODE, DESCRIPTION, DEBIT, CREDIT, LINENR, LINEEXP ";
+                cmd.CommandText += " , MASRAF_MERKEZI, PERSONEL_KODU, PERSONEL_ACIKLAMASI, AUXCODE, AY, YIL  ";
+                cmd.CommandText += " FROM [_IYB_JV_MUHASEBE_FISLERI]  ";
+                cmd.CommandText += " WHERE YIL = @YIL and AY = @AY";
+                cmd.CommandText += " and ISNULL(PERSONEL_KODU,'') <> '' "; //
+                cmd.CommandText += " ORDER BY SIRKET_KODU, SLIPNR, LINENR ";
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@YIL", yil);
                 cmd.Parameters.AddWithValue("@AY", ay);
@@ -1145,7 +1149,7 @@ namespace YKPortal.Controllers
                 var payloadList = new List<object>();
                 foreach (DataRow row in dt.Rows)
                 {
-                    string sirketkodu = "1000"; // if company code exists elsewhere, replace accordingly
+                    string sirketkodu = row["SIRKET_KODU"]?.ToString();  //"1000"; // if company code exists elsewhere, replace accordingly
                     string fisno = row["SLIPNR"]?.ToString();
                     string tarih = "";
                     if (row["TARIH"] != DBNull.Value)
@@ -1160,10 +1164,10 @@ namespace YKPortal.Controllers
                     string aciklama = row["DESCRIPTION"]?.ToString();
                     if (string.IsNullOrEmpty(aciklama))
                         aciklama = row["LINEEXP"]?.ToString();
-                    string borc = row["DEBIT"] != DBNull.Value ? Convert.ToString(row["DEBIT"]) : "0";
-                    string alacak = row["CREDIT"] != DBNull.Value ? Convert.ToString(row["CREDIT"]) : "0";
+                    decimal borc = row["DEBIT"] != DBNull.Value ? Convert.ToDecimal(row["DEBIT"]) : 0;
+                    decimal alacak = row["CREDIT"] != DBNull.Value ? Convert.ToDecimal(row["CREDIT"]) : 0;
                     string masrafyeri = row["MASRAF_MERKEZI"]?.ToString();
-                    string personelkodu = row["PERSONEL_KODU"]?.ToString();
+                    Int64 personelkodu = Convert.ToInt64( row["PERSONEL_KODU"]?.ToString());
 
                     payloadList.Add(new
                     {

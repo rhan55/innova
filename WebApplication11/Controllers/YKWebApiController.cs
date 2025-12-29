@@ -32,12 +32,12 @@ namespace YKPortal.Controllers
 {
     public class IybController : ApiController
     {
-        public Int32 WebServis_Versiyonu = 251205;
+        public Int32 WebServis_Versiyonu = 251224;
 
         [System.Web.Http.HttpPost]
         public IDJsonResult Iyb_Tablolari_Sorgu_Calistir([FromBody] JObject data)
         {
-            Int32 WebServis_Procedure_Versiyon = 251200;
+            Int32 WebServis_Procedure_Versiyon = 251224;
             IDJsonResult result = new IDJsonResult();
             if (data["Uygulama_Db"] == null)
             {
@@ -91,7 +91,7 @@ namespace YKPortal.Controllers
         {
             try
             {
-                Int32 WebServis_Procedure_Versiyon = 251201;
+                Int32 WebServis_Procedure_Versiyon = 251229;
                 string _Sonuc_Aciklamasi = "";
                 SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString);
 
@@ -961,6 +961,20 @@ namespace YKPortal.Controllers
                                 cmd.CommandType = System.Data.CommandType.Text;
                                 cmd.CommandText = _srg;
                                 IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                                _MenuId = "10000000-0000-0001-0003-000000000006";
+                                _UstMId = "10000000-0000-0001-0003-000000000000";
+                                _MenuAciklama = "Depolar Arası Transfer (Şantiye)";
+                                _MenuSira = "103005";
+                                _srg = " ";
+                                _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
+                                _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
+                                _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
+                                _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as sira, 0 Aktif, getdate() KayitTarihi  ";
+                                _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
+                                cmd.CommandType = System.Data.CommandType.Text;
+                                cmd.CommandText = _srg;
+                                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
                             }
                         }
                     }
@@ -1323,7 +1337,7 @@ namespace YKPortal.Controllers
 
                                 _MenuId = "10000000-0000-0007-0002-000000000003";
                                 _UstMId = "10000000-0000-0007-0002-000000000000";
-                                _MenuAciklama = "Üretim Barkod Okutma Kayıtları";
+                                _MenuAciklama = "Plastik Üretim Barkod Okutma Kayıtları";
                                 _MenuSira = "10303";
                                 _srg = " ";
                                 _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
@@ -3865,6 +3879,219 @@ namespace YKPortal.Controllers
         }
 
         #endregion Netsis_Plastik_Okutma_Listele
+        #region Netsis_Plastik_Sayim_Listele
+        public IDJsonResult Netsis_Plastik_Sayim_Listele([FromBody] JObject data)
+        {
+            int WebServis_Procedure_Versiyon = 251219;
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Seri_No"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Seri_No bilgisi boş olamaz.";
+                    return result;
+                }
+                string _srg = "";
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+
+                string _Seri_No = Convert.ToString(data["Seri_No"]);
+                string Kullanici = Convert.ToString(data["Kullanici"]);
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                if (Uygulama == "NETSIS")
+                {
+                    _srg = "SELECT SERI_NO, STOK_KODU, STOK_ADI, ACIK1 AS BOY ";
+                    _srg += " , CAST(MIKTAR AS decimal(18,2)) as MIKTAR ";
+                    _srg += " , cast(DARA as decimal(18,2)) as DARA ";
+                    _srg += " , CAST(MIKTAR AS decimal(18,2)) + cast(DARA as decimal(18,2)) as BRUT ";
+                    _srg += " , cast(EN as decimal(18,2)) as EN ";
+                    _srg += " , cast(KALINLIK as decimal(18,2)) as KALINLIK ";
+                    _srg += " , cast(NET as decimal(18,2)) as NET ";
+                    _srg += " FROM " + Uygulama_Db + "..INN_VW_PLASTIK_SEVKIYAT ";
+                    _srg += " WHERE SERI_NO = '" + _Seri_No.Trim() + "' ";
+                }
+                cmd.CommandText = _srg;
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.SERI_NO = Convert.ToString(satir["SERI_NO"]);
+                        entity.STOK_KODU = Convert.ToString(satir["STOK_KODU"]);
+                        entity.STOK_ADI = Convert.ToString(satir["STOK_ADI"]);
+                        entity.BOY = Convert.ToString(satir["BOY"]);
+                        entity.DARA = Convert.ToString(satir["DARA"]);
+                        entity.BRUT = Convert.ToString(satir["BRUT"]);
+                        entity.EN = Convert.ToString(satir["EN"]);
+                        entity.KALINLIK = Convert.ToString(satir["KALINLIK"]);
+                        entity.NET = Convert.ToString(satir["NET"]);
+                        entity.Servis_Versiyon = WebServis_Procedure_Versiyon;
+                        entities.Add(entity);
+
+                    }
+                    #endregion
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    result.Sonuc_Versiyon = WebServis_Procedure_Versiyon;
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    result.Sonuc_Versiyon = WebServis_Procedure_Versiyon;
+                    return result;
+                }
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Sonuc_Versiyon = WebServis_Procedure_Versiyon;
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        #endregion Netsis_Plastik_Sayim_Listele
+        #region Netsis_Plastik_Sayim_Kaydet
+        public IDJsonResult Netsis_Plastik_Sayim_Kaydet([FromBody] JObject data)
+        {
+            int WebServis_Procedure_Versiyon = 251219;
+            string _GuidKey = Guid.NewGuid().ToString();
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Sube_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Sube_Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Depo_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Depo_Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Stok_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Stok_Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Seri_No"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Seri_No bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici bilgisi boş olamaz.";
+                    return result;
+                }
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string _Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
+                string _Seri_No = Convert.ToString(data["Seri_No"]);
+                string _Tarih = Convert.ToString(data["Tarih"]);
+                string _Sube_Kodu = Convert.ToString(data["Sube_Kodu"]);
+                string _Depo_Kodu = Convert.ToString(data["Depo_Kodu"]);
+                string _Miktar = Convert.ToString(data["Miktar"]);
+                string _Aciklama = Convert.ToString(data["Aciklama"]);
+                string _Boy = Convert.ToString(data["Boy"]);
+                string _Kullanici = Convert.ToString(data["Kullanici"]);
+
+                if (_Seri_No != "")
+                {
+                    string _srg = " exec " + Uygulama_Db + "..[INN_PR_PLASTIK_SAYIM_SERI_KAYIT] ";
+                    _srg += " '" + _Stok_Kodu + "' ";
+                    _srg += " ,'" + _Seri_No + "' ";
+                    _srg += " ,'" + _Tarih + "' ";
+                    _srg += " ,'" + _Sube_Kodu + "' ";
+                    _srg += " ,'" + _Depo_Kodu + "' ";
+                    _srg += " ,'" + _Miktar + "' ";
+                    _srg += " ,'" + _Aciklama + "' ";
+                    _srg += " ,'" + _Boy + "' ";
+
+
+                    List<dynamic> entities = new List<dynamic>();
+
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _srg;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    result.Sonuc_Versiyon = WebServis_Procedure_Versiyon;
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Barkod bilgisi boş olamaz.";
+                    return result;
+                }
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Sonuc_Versiyon = WebServis_Procedure_Versiyon;
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        #endregion Netsis_Plastik_Sayim_Kaydet
 
         #region Netsis_Plastik_Okutma_Kaydet
         public IDJsonResult Netsis_Plastik_Okutma_Kaydet([FromBody] JObject data)
@@ -8148,6 +8375,94 @@ namespace YKPortal.Controllers
         #region SayimKaydet
 
         [HttpPost]
+        public IDJsonResult Rks_Muadil_Listele([FromBody] JObject data)
+        {
+            int WebServis_Procedure_Versiyon = 251212;
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Stok_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Stok_Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                string _srg = "";
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                if (Uygulama == "RKS")
+                {
+                    _srg = " ";
+                    _srg += " \r\n  -- Rks_Muadil_Listele ";
+                    _srg += " \r\n exec [" + Uygulama_Db + "].[dbo].[Iyb_P_Muadil_Getir] '"+ Stok_Kodu + "' ";
+
+                }
+                cmd.CommandText = _srg;
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.StokKodu = Convert.ToString(satir["StokKodu"]);
+                        entity.StokAdi = Convert.ToString(satir["StokAdi"]);
+                        entity.Bakiye = Convert.ToString(satir["Bakiye"]);
+                        entity.StokEkOndegerRafNumarasi = Convert.ToString(satir["StokEkOndegerRafNumarasi"]);
+                        entity.StokEkIkincilRafNumarasi = Convert.ToString(satir["StokEkIkincilRafNumarasi"]);
+                        entities.Add(entity);
+                    }
+                    #endregion
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    result.Sonuc_Versiyon = WebServis_Procedure_Versiyon;
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    result.Sonuc_Versiyon = WebServis_Procedure_Versiyon;
+                    return result;
+                }
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!" + err.Message.ToString();
+                result.Sonuc_Versiyon = WebServis_Procedure_Versiyon;
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        [HttpPost]
         public IDJsonResult Rks_Toplama_Listele([FromBody] JObject data)
         {
             string _Procedure_Versiyon = "251212";
@@ -8349,6 +8664,120 @@ namespace YKPortal.Controllers
                 result.SonucKodu = -1;
                 result.Sonuc = "HATA!" + err.Message.ToString();
                 result.Sonuc_Versiyon = _Webservis_Procedure_Versiyon;
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        public IDJsonResult Rks_Toplama_Kaydet([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                #region Kontroller
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Toplama_GuidId"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Toplama_GuidId bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Stok_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Stok_Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Toplanan_Miktar"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Toplanan_Miktar bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Toplanan_Miktar"].ToString() == "")
+                {
+                    data["Toplanan_Miktar"] = "0";
+                }
+                if (data["Kullanici_Id"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici Idsi bilgisi boş olamaz.";
+                    return result;
+                }
+                #endregion Kontroller
+
+                string LisansNumarasi = Convert.ToString(data["LisansNumarasi"]);
+                DateTime Tarih = Convert.ToDateTime(data["Tarih"]);
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string Toplama_GuidId = Convert.ToString(data["Toplama_GuidId"]);
+                string Stok_Kodu = Convert.ToString(data["Stok_Kodu"]);
+                string StokAdi = Convert.ToString(data["StokAdi"]);
+                string Toplanacak_Miktar = Convert.ToString(data["Toplanacak_Miktar"]);
+                string Toplanan_Miktar = Convert.ToString(data["Toplanan_Miktar"]);
+                string Bakiye = Convert.ToString(data["Bakiye"]);
+
+                string StokEkOndegerRafNumarasi = Convert.ToString(data["StokEkOndegerRafNumarasi"]);
+                string StokEkIkincilRafNumarasi = Convert.ToString(data["StokEkIkincilRafNumarasi"]);
+                string Toplama_Tarihi = Convert.ToString(data["Toplama_Tarihi"]);
+
+
+                string _Islem_Tipi = Convert.ToString(data["Islem_Tipi"]);
+                if (_Islem_Tipi == "")
+                {
+                    _Islem_Tipi = "0";
+                }
+                string _Kayit_Id = Convert.ToString(data["Kayit_ID"]);
+                if (_Kayit_Id == "")
+                {
+                    _Kayit_Id = "0";
+                }
+
+                List<dynamic> entities = new List<dynamic>();
+
+                if (Uygulama == "RKS")
+                {
+                    string _sorgu = "";
+                    _sorgu += " \r\n UPDATE [" + Uygulama_Db + "].[dbo].[tSepetHareket] ";
+                    _sorgu += " \r\n SET Toplama_Durumu = 2 ";
+                    _sorgu += " \r\n , Toplanan_Miktar = '"+ Toplanan_Miktar.Replace(".", "").Replace(",", ".") + "' ";
+                    _sorgu += " \r\n , Toplama_Sonuc_Tarihi = getdate() ";
+                    _sorgu += " \r\n WHERE GuidId =  '" + Toplama_GuidId + "' ";
+                    _sorgu += " \r\n And StokKodu = '" + Stok_Kodu + "' ";
+                    _sorgu += " \r\n And Isnull(Toplama_Durumu,0) = 1 ";
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _sorgu;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                }
+                
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı";
+                result.Sonuc_Versiyon = 251010;
+                return result;
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Sonuc_Versiyon = 251010;
                 result.Hata = err.Message;
             }
             finally
