@@ -1,5 +1,115 @@
-﻿@{
-    ViewBag.Title = "VeriTabaniGuncelle";
+﻿@model System.Data.DataTable
+
+@{
+    ViewBag.Title = "Giriş";
+    Layout = null;
 }
+<!DOCTYPE html>
+<html lang="tr">
+<!--begin::Head-->
+<head>
+    <title>@ViewBag.Title - @System.Configuration.ConfigurationManager.AppSettings["FirmaAdi"]</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="YK YAZILIM - Siz hayal edin biz yazalım..." />
+    <meta name="keywords" content="yk yazılım, özel yazılım, erp, muhasebe, e-devlet, stok, cari, kasa, fatura, irsaliye, sipariş, b2b, üretim, rapor, patron" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="YK YAZILIM - Siz hayal edin biz yazalım..." />
+    <meta property="og:url" content="https://keenthemes.com/metronic" />
+    <meta property="og:site_name" content="YK YAZILIM" />
+    <link rel="canonical" href="http://authentication/layouts/corporate/sign-in.html" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/Tema/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/Tema/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/Tema/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/Tema/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/Tema/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/Tema/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/Tema/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/Tema/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/Tema/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/Tema/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/Tema/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/Tema/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/Tema/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/Tema/favicons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/Tema/favicons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!--begin::Fonts(mandatory for all pages)-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
+    <!--end::Fonts-->
+    <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
+    <link href="/Tema/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="/Tema/css/style.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="/Tema/css/override.css" rel="stylesheet" type="text/css" />
+    <!--end::Global Stylesheets Bundle-->
+    <script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
+</head>
+<!--end::Head-->
+<!--begin::Body-->
+<body id="kt_body" class="auth-bg">
+    <!--begin::Theme mode setup on page load-->
+    <script>var defaultThemeMode = "light"; var themeMode; if (document.documentElement) { if (document.documentElement.hasAttribute("data-bs-theme-mode")) { themeMode = document.documentElement.getAttribute("data-bs-theme-mode"); } else { if (localStorage.getItem("data-bs-theme") !== null) { themeMode = localStorage.getItem("data-bs-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-bs-theme", themeMode); }</script>
+    <!--end::Theme mode setup on page load-->
+    <!--begin::Main-->
+    <!--begin::Root-->
+    <div class="d-flex flex-column flex-root  h-100 overflow:hidden;">
+        <!--begin::Authentication - Sign-in -->
+        <div class="d-flex flex-column flex-lg-row flex-column-fluid">
+            <!--begin::Body-->
+            <div class="d-flex flex-column flex-lg-row-fluid w-lg-50 p-10 order-2 order-lg-1">
+                <!--begin::Form-->
+                <div class="d-flex flex-center flex-column flex-lg-row-fluid">
+                    <!--begin::Wrapper-->
+                    <div class="w-lg-500px p-10">
+                        <!--begin::Form-->
+                        <form class="form w-100" novalidate="novalidate" id="kt_sign_in_form" action="@Url.Action("Giris","YK",null)" method="post">
+                            <!--end::Wrapper-->
+                            <!--begin::Submit button-->
+                            <div class="d-grid mb-10">
+                                <button type="submit" id="kt_sign_in_submit" class="btn btn-primary btn-sm fw-bold">
+                                    <!--begin::Indicator label-->
+                                    <span class="indicator-label fw-bold">Veri Tabanı Güncelle</span>
+                                    <!--end::Indicator label-->
+                                </button>
+                            </div>
+                            <!--end::Submit button-->
+                        </form>
+                        <!--end::Form-->
+                    </div>
+                    <!--end::Wrapper-->
+                </div>
+                <!--end::Form-->
 
+            </div>
+            <!--end::Body-->
+            <!--begin::Aside-->
+            <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover  h-100 w-100 bgi-position-center order-1 order-lg-2">
+                <!--begin::Content-->
+                <div class="d-flex flex-column flex-center  h-100 w-100">
 
+                    <!--begin::Image-->
+                    <img class="auth-right-bg-image h-100 w-100 overflow-y-hidden" src="~/Tema/media/Photo/800x800.png" alt="" />
+                    <!--end::Image-->
+
+                </div>
+                <!--end::Content-->
+            </div>
+            <!--end::Aside-->
+        </div>
+        <!--end::Authentication - Sign-in-->
+    </div>
+    <!--end::Root-->
+    <!--end::Main-->
+    <!--begin::Javascript-->
+    <script>var hostUrl = "/Tema/";</script>
+    <!--begin::Global Javascript Bundle(mandatory for all pages)-->
+    <script src="/Tema/plugins/global/plugins.bundle.js"></script>
+    <script src="/Tema/js/scripts.bundle.js"></script>
+    <!--end::Global Javascript Bundle-->
+    <!--end::Custom Javascript-->
+    <!--end::Javascript-->
+</body>
+<!--end::Body-->
+</html>

@@ -67,6 +67,7 @@ namespace YKPortal.Controllers
                 if (dtParametre.Rows.Count > 0)
                     ViewBag.AnaSayfaAktifCari = Convert.ToBoolean(Convert.ToString(dtParametre.Rows[0]["Deger"]) == "1" ? true : false);
             }
+
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "p_Parametre";
@@ -77,6 +78,7 @@ namespace YKPortal.Controllers
                 if (dtParametre.Rows.Count > 0)
                     ViewBag.AnaSayfaAktifStok = Convert.ToBoolean(Convert.ToString(dtParametre.Rows[0]["Deger"]) == "1" ? true : false);
             }
+
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "p_Parametre";
@@ -87,6 +89,7 @@ namespace YKPortal.Controllers
                 if (dtParametre.Rows.Count > 0)
                     ViewBag.AnaSayfaAktifSiparis = Convert.ToBoolean(Convert.ToString(dtParametre.Rows[0]["Deger"]) == "1" ? true : false);
             }
+
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "p_Parametre";
@@ -97,6 +100,7 @@ namespace YKPortal.Controllers
                 if (dtParametre.Rows.Count > 0)
                     ViewBag.AnaSayfaBekleyenGorevSayisi = Convert.ToBoolean(Convert.ToString(dtParametre.Rows[0]["Deger"]) == "1" ? true : false);
             }
+
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "p_Parametre";
@@ -107,6 +111,7 @@ namespace YKPortal.Controllers
                 if (dtParametre.Rows.Count > 0)
                     ViewBag.AnaSayfaTakvim = Convert.ToBoolean(Convert.ToString(dtParametre.Rows[0]["Deger"]) == "1" ? true : false);
             }
+
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = "p_Parametre";
@@ -680,6 +685,49 @@ namespace YKPortal.Controllers
             return View();
         }
 
+        public async Task<ActionResult> VeriTabaniGuncelle()
+        {
+            string baseUrl =
+                $"{HttpContext.Request.Url.Scheme}://{HttpContext.Request.Url.Authority}/api";
+
+            try
+            {
+                string apiSonuc = await IybTablolariSorguCalistirAsync(baseUrl);
+                ViewBag.ApiSonuc = apiSonuc;
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Hata = ex.Message;
+            }
+
+            return View();
+        }
+        public async Task<string> IybTablolariSorguCalistirAsync(string baseurl)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+
+                string url = baseurl+ "/Iyb/Iyb_Tablolari_Sorgu_Calistir";
+
+                var body = new
+                {
+                    Uygulama_Db = "INNOVA",
+                    KullaniciID = "00000000-1984-2008-2025-905442414555",
+                   Sorgu = "Select 1"
+                };
+
+                string json = JsonConvert.SerializeObject(body);
+                var content = new StringContent(
+                    json,
+                    Encoding.UTF8,
+                    "application/json"
+                );
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsStringAsync();
+            }
+        }
+
         public JsonResult FiyatGorGetirHTML(string Barkod)
         {
             StokDto entity = new StokDto();
@@ -959,15 +1007,10 @@ namespace YKPortal.Controllers
             cariGrupKod1Command.CommandText = "p_GrupKoduListesi";
             cariGrupKod1Command.CommandType = System.Data.CommandType.StoredProcedure;
             cariGrupKod1Command.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
-
             cariGrupKod1Command.Parameters.AddWithValue("@Kod", "AnaSayfaTakvimDurumlari");
             cariGrupKod1Command.Parameters.AddWithValue("@AranacakKelime", "");
-
-
             DataTable cariGrupKod1DataTable = (DataTable)IDVeritabani.Sorgula(cariGrupKod1Command, SorgulaTuru.Tablo);
-
             List<GrupKoduDto> entities = new List<GrupKoduDto>();
-
             for (int i = 0; i < cariGrupKod1DataTable.Rows.Count; i++)
             {
                 GrupKoduDto entity = new GrupKoduDto();
@@ -975,7 +1018,6 @@ namespace YKPortal.Controllers
                 entity.Deger = Convert.ToString(cariGrupKod1DataTable.Rows[i]["Deger"]);
                 entities.Add(entity);
             }
-
             ViewBag.TakvimDurumlari = entities;
         }
         private bool YetkiKontrolu(string YetkiUrl, string Tip = "Gor")
@@ -986,9 +1028,7 @@ namespace YKPortal.Controllers
             cmd.Parameters.AddWithValue("@UyelikID", GetCookie("UyelikID"));
             cmd.Parameters.AddWithValue("@KullaniciID", GetCookie("KullaniciID"));
             DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
-
             List<YetkilerDto> yetkiler = new List<YetkilerDto>();
-
             foreach (DataRow row in dt.Rows)
             {
                 yetkiler.Add(new YetkilerDto()
@@ -1026,7 +1066,6 @@ namespace YKPortal.Controllers
                 return false;
             }
         }
-
         public JsonResult LisansKontrol(
                     string _bulunduguDizin,
                     string _modul,
@@ -1039,8 +1078,6 @@ namespace YKPortal.Controllers
                     string _sirketIsmi,
                     string _lisansKodu)
         {
-
-
             string result = "";
             {
                 SqlCommand cmd = new SqlCommand();
@@ -1053,11 +1090,11 @@ namespace YKPortal.Controllers
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandText = @"
-Insert Into IDLog 
-(Dizin,[Version],ExeTarihi,BilgisayarAdi,LocalIP,DisIP,BaglantiCumlesi,SirketKodu,SirketIsmi,Tarih,LisansKodu) 
-values 
-(@Dizin,@Version,@ExeTarihi,@BilgisayarAdi,@LocalIP,@DisIP,@BaglantiCumlesi,@SirketKodu,@SirketIsmi,GETDATE(),@LisansKodu)
-";
+                Insert Into IDLog 
+                (Dizin,[Version],ExeTarihi,BilgisayarAdi,LocalIP,DisIP,BaglantiCumlesi,SirketKodu,SirketIsmi,Tarih,LisansKodu) 
+                values 
+                (@Dizin,@Version,@ExeTarihi,@BilgisayarAdi,@LocalIP,@DisIP,@BaglantiCumlesi,@SirketKodu,@SirketIsmi,GETDATE(),@LisansKodu)
+                ";
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.Parameters.AddWithValue("@Dizin", _bulunduguDizin);
                 cmd.Parameters.AddWithValue("@Version", _modul);
@@ -1073,7 +1110,6 @@ values
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
 
         // GET: Entegrasyon
         public ActionResult AntOto1()
