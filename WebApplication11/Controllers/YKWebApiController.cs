@@ -3882,7 +3882,7 @@ namespace YKPortal.Controllers
         #region Netsis_Plastik_Sayim_Listele
         public IDJsonResult Netsis_Plastik_Sayim_Listele([FromBody] JObject data)
         {
-            int WebServis_Procedure_Versiyon = 251219;
+            int WebServis_Procedure_Versiyon = 251230;
             IDJsonResult result = new IDJsonResult();
             try
             {
@@ -3911,6 +3911,7 @@ namespace YKPortal.Controllers
                 string _Seri_No = Convert.ToString(data["Seri_No"]);
                 string Kullanici = Convert.ToString(data["Kullanici"]);
 
+                string Tarih = Convert.ToString(data["Tarih"]);
                 List<dynamic> entities = new List<dynamic>();
 
                 SqlCommand cmd = new SqlCommand();
@@ -3924,7 +3925,8 @@ namespace YKPortal.Controllers
                     _srg += " , cast(EN as decimal(18,2)) as EN ";
                     _srg += " , cast(KALINLIK as decimal(18,2)) as KALINLIK ";
                     _srg += " , cast(NET as decimal(18,2)) as NET ";
-                    _srg += " FROM " + Uygulama_Db + "..INN_VW_PLASTIK_SEVKIYAT ";
+                    _srg += " , ISNULL((SELECT COUNT(SY.SIRA_NO) FROM [" + Uygulama_Db + "].[DBO].[TBLSAYIMSERI] SY WITH (NOLOCK) WHERE SY.SERI_NO = SEVK.SERI_NO AND SY.TARIH = '"+ Tarih + "'  ),0) SAYIM_ADEDI ";
+                    _srg += " FROM [" + Uygulama_Db + "].[DBO].INN_VW_PLASTIK_SEVKIYAT SEVK ";
                     _srg += " WHERE SERI_NO = '" + _Seri_No.Trim() + "' ";
                 }
                 cmd.CommandText = _srg;
@@ -3945,6 +3947,7 @@ namespace YKPortal.Controllers
                         entity.EN = Convert.ToString(satir["EN"]);
                         entity.KALINLIK = Convert.ToString(satir["KALINLIK"]);
                         entity.NET = Convert.ToString(satir["NET"]);
+                        entity.SAYIM_ADEDI = Convert.ToString(satir["SAYIM_ADEDI"]);
                         entity.Servis_Versiyon = WebServis_Procedure_Versiyon;
                         entities.Add(entity);
 
@@ -3984,7 +3987,7 @@ namespace YKPortal.Controllers
         #region Netsis_Plastik_Sayim_Kaydet
         public IDJsonResult Netsis_Plastik_Sayim_Kaydet([FromBody] JObject data)
         {
-            int WebServis_Procedure_Versiyon = 251219;
+            int WebServis_Procedure_Versiyon = 251229;
             string _GuidKey = Guid.NewGuid().ToString();
             IDJsonResult result = new IDJsonResult();
             try
@@ -4040,9 +4043,18 @@ namespace YKPortal.Controllers
                 string _Depo_Kodu = Convert.ToString(data["Depo_Kodu"]);
                 string _Miktar = Convert.ToString(data["Miktar"]);
                 string _Aciklama = Convert.ToString(data["Aciklama"]);
+                if (_Miktar == "")
+                {
+                    _Miktar = Convert.ToString(data["Brut"]);
+                }
+      
                 string _Boy = Convert.ToString(data["Boy"]);
                 string _Kullanici = Convert.ToString(data["Kullanici"]);
 
+                if (_Aciklama == "")
+                {
+                    
+                }
                 if (_Seri_No != "")
                 {
                     string _srg = " exec " + Uygulama_Db + "..[INN_PR_PLASTIK_SAYIM_SERI_KAYIT] ";
