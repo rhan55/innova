@@ -722,7 +722,8 @@ namespace YKPortal.Controllers
                     Encoding.UTF8,
                     "application/json"
                 );
-                HttpResponseMessage response = await client.PostAsync(url, content);
+                HttpResponseMessage response = await client.GetAsync(url);
+              //  HttpResponseMessage response = await client.GetAsync(url, content);
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadAsStringAsync();
             }
