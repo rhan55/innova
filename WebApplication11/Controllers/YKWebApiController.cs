@@ -34,7 +34,7 @@ namespace YKPortal.Controllers
     {
         public Int32 WebServis_Versiyonu = 251224;
 
-        [System.Web.Http.HttpPost]
+        [System.Web.Http.HttpGet]
         public IDJsonResult Iyb_Tablolari_Sorgu_Calistir([FromBody] JObject data)
         {
             Int32 WebServis_Procedure_Versiyon = 251224;
@@ -2590,22 +2590,20 @@ namespace YKPortal.Controllers
                     conn.Open();
                     conn.ChangeDatabase(Uygulama_Db);
                     List<ModelUrun> UrunResimleri = data["Sayimlar"].ToObject<List<ModelUrun>>();
-
                     foreach (ModelUrun urun in UrunResimleri)
                     {
                         cmd.Parameters.Clear();
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.CommandText = "Iyb_P_Mob_SayimAnlik"; // "i3_Pr_Stok_SayimAnlik "; // '0',  'Dinamik', '0', '{urun.Raf}' ";
+                        cmd.CommandText = "Iyb_P_Mob_SayimAnlik";
                         cmd.Parameters.AddWithValue("@Id", 0);
-                        cmd.Parameters.AddWithValue("@StokKodu", urun.StokKodu);
-                        cmd.Parameters.AddWithValue("@Miktar", urun.SayimAdedi);
                         cmd.Parameters.AddWithValue("@Fiyat", 0);
                         cmd.Parameters.AddWithValue("@KullaniciNo", 0);
-                        cmd.Parameters.AddWithValue("@SirketKodu", "Dinamik");
                         cmd.Parameters.AddWithValue("@SubeKodu", "0");
+                        cmd.Parameters.AddWithValue("@SirketKodu", "Dinamik");
+                        cmd.Parameters.AddWithValue("@StokKodu", urun.StokKodu);
+                        cmd.Parameters.AddWithValue("@Gelen_Miktar", urun.SayimAdedi);
                         cmd.Parameters.AddWithValue("@RafKodu", urun.Raf);
                         cmd.Parameters.AddWithValue("@Islem_Tipi", urun.Islem_Tipi);
-
                         cmd.Connection = conn;
                         cmd.ExecuteNonQuery();
                     }
