@@ -34,7 +34,7 @@ namespace YKPortal.Controllers
     {
         public Int32 WebServis_Versiyonu = 251224;
 
-        [System.Web.Http.HttpGet]
+        [System.Web.Http.HttpPost]
         public IDJsonResult Iyb_Tablolari_Sorgu_Calistir([FromBody] JObject data)
         {
             Int32 WebServis_Procedure_Versiyon = 251224;
@@ -532,8 +532,8 @@ namespace YKPortal.Controllers
                         _srg += " \r\n BEGIN EXECUTE(' ";
                         _srg += " \r\n  CREATE proc [dbo].[p_KullaniciGirisi] ";
                         _srg += " \r\n  ( ";
-                        _srg += " \r\n      @KullaniciAdi nvarchar(100) ";
-                        _srg += " \r\n      , @Parola nvarchar(100) ";
+                        _srg += " \r\n        @KullaniciAdi nvarchar(100)";
+                        _srg += " \r\n      , @Parola nvarchar(100)";
                         _srg += " \r\n      , @App_Versiyonu int = 0 ";
                         _srg += " \r\n  ) ";
                         _srg += " \r\n  AS ";
@@ -4007,7 +4007,7 @@ namespace YKPortal.Controllers
                     _srg += " , cast(EN as decimal(18,2)) as EN ";
                     _srg += " , cast(KALINLIK as decimal(18,2)) as KALINLIK ";
                     _srg += " , cast(NET as decimal(18,2)) as NET ";
-                    _srg += " , ISNULL((SELECT COUNT(SY.SIRA_NO) FROM [" + Uygulama_Db + "].[DBO].[TBLSAYIMSERI] SY WITH (NOLOCK) WHERE SY.SERI_NO = SEVK.SERI_NO AND SY.TARIH = '"+ Tarih + "'  ),0) SAYIM_ADEDI ";
+                    _srg += " , ISNULL((SELECT COUNT(SY.SIRA_NO) FROM [" + Uygulama_Db + "].[DBO].[TBLSAYIMSERI] SY WITH (NOLOCK) WHERE SY.SERI_NO = SEVK.SERI_NO AND SY.TARIH = '" + Tarih + "'  ),0) SAYIM_ADEDI ";
                     _srg += " FROM [" + Uygulama_Db + "].[DBO].INN_VW_PLASTIK_SEVKIYAT SEVK ";
                     _srg += " WHERE SERI_NO = '" + _Seri_No.Trim() + "' ";
                 }
@@ -4129,13 +4129,13 @@ namespace YKPortal.Controllers
                 {
                     _Miktar = Convert.ToString(data["Brut"]);
                 }
-      
+
                 string _Boy = Convert.ToString(data["Boy"]);
                 string _Kullanici = Convert.ToString(data["Kullanici"]);
 
                 if (_Aciklama == "")
                 {
-                    
+
                 }
                 if (_Seri_No != "")
                 {
@@ -8512,7 +8512,7 @@ namespace YKPortal.Controllers
                 {
                     _srg = " ";
                     _srg += " \r\n  -- Rks_Muadil_Listele ";
-                    _srg += " \r\n exec [" + Uygulama_Db + "].[dbo].[Iyb_P_Muadil_Getir] '"+ Stok_Kodu + "' ";
+                    _srg += " \r\n exec [" + Uygulama_Db + "].[dbo].[Iyb_P_Muadil_Getir] '" + Stok_Kodu + "' ";
 
                 }
                 cmd.CommandText = _srg;
@@ -8853,7 +8853,7 @@ namespace YKPortal.Controllers
                     string _sorgu = "";
                     _sorgu += " \r\n UPDATE [" + Uygulama_Db + "].[dbo].[tSepetHareket] ";
                     _sorgu += " \r\n SET Toplama_Durumu = 2 ";
-                    _sorgu += " \r\n , Toplanan_Miktar = '"+ Toplanan_Miktar.Replace(".", "").Replace(",", ".") + "' ";
+                    _sorgu += " \r\n , Toplanan_Miktar = '" + Toplanan_Miktar.Replace(".", "").Replace(",", ".") + "' ";
                     _sorgu += " \r\n , Toplama_Sonuc_Tarihi = getdate() ";
                     _sorgu += " \r\n WHERE GuidId =  '" + Toplama_GuidId + "' ";
                     _sorgu += " \r\n And StokKodu = '" + Stok_Kodu + "' ";
@@ -8863,7 +8863,7 @@ namespace YKPortal.Controllers
                     cmd.CommandText = _sorgu;
                     IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
                 }
-                
+
                 result.Data = entities;
                 result.SonucKodu = 1;
                 result.Sonuc = "Başarılı";
@@ -12891,6 +12891,135 @@ END
             }
             return result;
         }
+
+        [HttpPost]
+        public async Task<IDJsonResult> TeslimatGetir([FromBody] JObject data)
+        {
+            IDJsonResult result = new IDJsonResult();
+            SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["Baglanti"].ConnectionString);
+            if (conn.State == ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+            try
+            {
+                var teslimatTarihi = data?["teslimatTarihi"]?.ToString();
+                if (string.IsNullOrEmpty(teslimatTarihi))
+                {
+                    var sonuc = await TeslimatApiGetir(
+                            email: "GAZILER",
+                            password: "gaziler==ugur",
+                            teslimatTarihi: teslimatTarihi
+                        );
+                }
+                else
+                {
+                    DateTime baslangic = new DateTime(2025, 1, 1);
+                    DateTime bitis = new DateTime(2026, 1, 10);
+
+                    for (DateTime tarih = baslangic; tarih <= bitis; tarih = tarih.AddDays(1))
+                    {
+                        var sonuc = await TeslimatApiGetir(
+                            email: "GAZILER",
+                            password: "gaziler==ugur",
+                            teslimatTarihi: tarih.ToString("yyyyMMdd")
+                        );
+                        int recordCount = (int)sonuc["recordCount"];
+                        if (recordCount > 0)
+                        {
+                            var veri = (JArray)sonuc["data"]?["veri"];
+                            if (veri != null)
+                            {
+                                foreach (var item in veri)
+                                {
+                                    string talepno = item["talepno"]?.ToString();
+                                    string teslimatkalemno = item["teslimatkalemno"]?.ToString();
+                                    string teslimalancarikodu = item["teslimalancarikodu"]?.ToString();
+                                    string teslimalancariadi = item["teslimalancariadi"]?.ToString();
+                                    string siparisverencarikodu = item["siparisverencarikodu"]?.ToString();
+                                    string siparisverencariadi = item["siparisverencariadi"]?.ToString();
+                                    string serino = item["serino"]?.ToString();
+                                    string malzemeno = item["malzemeno"]?.ToString();
+                                    string malzemetanimi = item["malzemetanimi"]?.ToString();
+                                    string teslimattarihi = item["teslimattarihi"]?.ToString();
+                                    using (SqlCommand cmd = new SqlCommand())
+                                    {
+                                        cmd.Connection = conn;
+
+                                        {
+                                            cmd.CommandType = CommandType.StoredProcedure;
+                                            cmd.CommandText = "dbo.p_TeslimatAktar";
+                                            cmd.Parameters.AddWithValue("@TeslimatTarihi", teslimattarihi);
+                                            cmd.Parameters.AddWithValue("@TalepNo", talepno);
+                                            cmd.Parameters.AddWithValue("@TeslimatKalemNo", teslimatkalemno);
+                                            cmd.Parameters.AddWithValue("@TeslimAlanCariKodu", teslimalancarikodu);
+                                            cmd.Parameters.AddWithValue("@TeslimAlanCariAdi", teslimalancariadi);
+                                            cmd.Parameters.AddWithValue("@SiparisVerenCariKodu", siparisverencarikodu);
+                                            cmd.Parameters.AddWithValue("@SiparisVerenCariAdi", siparisverencariadi);
+                                            cmd.Parameters.AddWithValue("@SeriNo", serino);
+                                            cmd.Parameters.AddWithValue("@MalzemeNo", malzemeno);
+                                            cmd.Parameters.AddWithValue("@MalzemeTanimi", malzemetanimi);
+                                            IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                result.SonucKodu = 1;
+                result.Sonuc = "OK";
+                return result;
+            }
+            catch (Exception err)
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+                return result;
+            }
+        }
+
+        public async Task<dynamic> TeslimatApiGetir(string email, string password, string teslimatTarihi)
+        {
+            var client = new HttpClient();
+
+            string baseUrl =
+                "https://admin.ugurweb.com/GpsLojistikSorgu/TeslimatTarihiSorgu";
+
+            var query = new Dictionary<string, string>
+            {
+                ["email"] = email,
+                ["password"] = password,
+                ["teslimatTarihi"] = teslimatTarihi
+            };
+
+            var uriBuilder = new UriBuilder(baseUrl);
+            uriBuilder.Query = string.Join("&",
+                query.Select(x =>
+                    $"{x.Key}={Uri.EscapeDataString(x.Value)}"));
+
+            var json = await client.GetStringAsync(uriBuilder.Uri);
+
+            return JsonConvert.DeserializeObject<dynamic>(json);
+        }
+
+
+
+
+
+
+
+
+
     }
     public class SupplierOrders
     {

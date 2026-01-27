@@ -713,7 +713,7 @@ namespace YKPortal.Controllers
                 {
                     Uygulama_Db = "INNOVA",
                     KullaniciID = "00000000-1984-2008-2025-905442414555",
-                   Sorgu = "Select 1"
+                    Sorgu = "Select 1"
                 };
 
                 string json = JsonConvert.SerializeObject(body);
@@ -723,6 +723,7 @@ namespace YKPortal.Controllers
                     "application/json"
                 );
                 HttpResponseMessage response = await client.PostAsync(url, content);
+              //  HttpResponseMessage response = await client.GetAsync(url, content);
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadAsStringAsync();
             }
