@@ -5234,7 +5234,7 @@ namespace YKPortal.Controllers
         #region Netsis_Wms_Qr_Stok_Bak_Kontrol
         public IDJsonResult Netsis_Wms_06_Qr_Stok_Bak_Kontrol([FromBody] JObject data)
         {
-            string _Procedure_Versiyon = "250725";
+            string _Procedure_Versiyon = "260128";
             IDJsonResult result = new IDJsonResult();
             try
             {
@@ -5371,15 +5371,20 @@ namespace YKPortal.Controllers
                     _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].TBLSERITRA  ";
                     _srg += " \r\n (KAYIT_TIPI, SERI_NO, ACIK1, STOK_KODU, SUBE_KODU, DEPOKOD, TARIH ";
                     _srg += " \r\n 	, MIKTAR, MIKTAR2, GCKOD ";
-                    _srg += " \r\n 	, BELGETIP, BELGENO, HARACIK) ";
+                    _srg += " \r\n 	, BELGETIP, BELGENO, HARACIK ";
+                    _srg += " \r\n  , ACIKLAMA_4, ACIKLAMA_5 ";
+                    _srg += " \r\n ) ";
                     _srg += " \r\n SELECT 'A' KAYIT_TIPI, SERI_NO, '" + Seri_No + "' AS ACIK1, STOK_KODU, SUBE_KODU, DEPOKOD, TARIH ";
                     _srg += " \r\n 	, ABS( SAYIM - BAKIYE) AS MIKTAR, MIKTAR2,  CASE WHEN SAYIM - BAKIYE < 0 THEN 'C' ELSE 'G' END AS GCKOD  ";
                     _srg += " \r\n 	, 'A' BELGETIP, BELGENO BELGENO, 'SAYIM' AS HARACIK ";
+                    _srg += " \r\n  , CAST(SAYIM AS FLOAT) ACIKLAMA_4, CAST(BAKIYE AS FLOAT)  ACIKLAMA_5 ";
                     _srg += " \r\n FROM ( ";
                     _srg += " \r\n 	SELECT SERI_NO, STOK_KODU, SUBE_KODU, SY.DEPOKOD, SY.TARIH, MIKTAR AS SAYIM ";
-                    _srg += " \r\n 	, (SELECT SUM(CASE WHEN SR.GCKOD = 'G' THEN MIKTAR ELSE MIKTAR * -1 END ) FROM [" + Uygulama_Db + "].[dbo].TBLSERITRA SR WITH (NOLOCK) WHERE SR.STOK_KODU = SY.STOK_KODU AND SR.SERI_NO = SY.SERI_NO ) BAKIYE ";
+                    _srg += " \r\n 	, ISNULL((SELECT SUM(CASE WHEN SR.GCKOD = 'G' THEN MIKTAR ELSE MIKTAR * -1 END ) FROM [" + Uygulama_Db + "].[dbo].TBLSERITRA SR WITH (NOLOCK) WHERE SR.STOK_KODU = SY.STOK_KODU AND SR.SERI_NO = SY.SERI_NO AND SY.DEPOKOD = SR.DEPOKOD ),0) BAKIYE ";
                     _srg += " \r\n 	, BELGENO, MIKTAR2 ";
-                    _srg += " \r\n     FROM [" + Uygulama_Db + "].[dbo].TBLSAYIMSERI SY WITH (NOLOCK) WHERE BELGENO = '" + _SayimFisno + "' ";
+                    _srg += " \r\n     FROM [" + Uygulama_Db + "].[dbo].TBLSAYIMSERI SY WITH (NOLOCK) ";
+                    _srg += " \r\n     WHERE BELGENO = '" + _SayimFisno + "' ";
+                    _srg += " \r\n     AND SY.STOK_KODU = '" + Stok_Kodu + "' ";
                     _srg += " \r\n ) SAYIM_FARKI ";
                     _srg += " \r\n WHERE ABS( SAYIM - BAKIYE) <> 0 ";
                     _srg += " \r\n ";
@@ -5391,16 +5396,29 @@ namespace YKPortal.Controllers
                     _srg += " \r\n     , EKALAN, STHAR_ACIKLAMA ";
                     _srg += " \r\n     , STHAR_ODEGUN) ";
                     _srg += " \r\n SELECT STOK_KODU, BELGENO, SUBE_KODU, DEPOKOD, 'A' AS STHAR_HTUR, TARIH ";
-                    _srg += " \r\n 	, GCKOD, MIKTAR , MIKTAR2 ";
-                    _srg += " \r\n 	, SERI_NO, 'SAYIM' AS STHAR_ACIKLAMA ";
-                    _srg += " \r\n     , 0 STHAR_ODEGUN ";
-                    _srg += " \r\n FROM [" + Uygulama_Db + "].[dbo].TBLSERITRA SY WITH (NOLOCK) WHERE BELGENO = '" + _SayimFisno + "' ";
+                    _srg += " \r\n 	, CASE WHEN SAYIM - BAKIYE < 0 THEN 'C' ELSE 'G' END AS STHAR_GCKOD, ABS( SAYIM - BAKIYE) AS MIKTAR ";
+                    _srg += " \r\n 	, MIKTAR2";
+                    _srg += " \r\n     , EKALAN, STHAR_ACIKLAMA ";
+                    _srg += " \r\n     , STHAR_ODEGUN ";
+                    _srg += " \r\n FROM ( ";
+                    _srg += " \r\n      SELECT  ";
+                    _srg += " \r\n 	    STOK_KODU, BELGENO, SUBE_KODU, SY.DEPOKOD, TARIH ";
+                    _srg += " \r\n 	    , '" + Seri_Sayim.Replace(",", ".") + "' AS SAYIM , MIKTAR2 ";
+                    _srg += " \r\n 	    , SERI_NO AS EKALAN, 'SAYIM' AS STHAR_ACIKLAMA ";
+                    _srg += " \r\n      , 0 STHAR_ODEGUN ";
+                    _srg += " \r\n 	    , ISNULL((SELECT SUM(CASE WHEN SH.STHAR_GCKOD = 'G' THEN SH.STHAR_GCMIK ELSE SH.STHAR_GCMIK * -1 END ) FROM [" + Uygulama_Db + "].[dbo].TBLSTHAR SH WITH (NOLOCK) WHERE SH.STOK_KODU = SY.STOK_KODU AND SH.DEPO_KODU = SY.DEPOKOD ),0) BAKIYE ";
+                    _srg += " \r\n      FROM [" + Uygulama_Db + "].[dbo].TBLSERITRA SY WITH (NOLOCK) ";
+                    _srg += " \r\n      WHERE BELGENO = '" + _SayimFisno + "' ";
+                    _srg += " \r\n     AND SY.STOK_KODU = '" + Stok_Kodu + "' ";
+                    _srg += " \r\n ) SAYIM_FARKI ";
+                    _srg += " \r\n WHERE ABS( SAYIM - BAKIYE) <> 0 ";
                     _srg += " \r\n ";
 
                     _srg += " \r\n  -- Kontrol ";
                     _srg += " \r\n SELECT 'Netsis_Wms_Qr_Stok_Bak_Kontrol' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
                     _srg += " \r\n , '" + Stok_Kodu + "' as STOK_KODU, '" + Seri_No + "' AS Seri_No, '" + Belge_Tarihi + "' Belge_Tarihi, '" + Seri_Sayim.Replace(",", ".") + "' AS MIKTAR  ";
                     _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db, '" + Sube_Kodu + "' as Sube_Kodu, '" + Depo_Kodu + "' as Depo_Kodu  ";
+                    _srg += " \r\n , '" + Seri_Sayim.Replace(",", ".") + "' MIKTAR, '" + Seri_Bakiye.Replace(",", ".") + "' AS BAKIYE ";
                 }
                 if (Uygulama == "LOGO")
                 {
