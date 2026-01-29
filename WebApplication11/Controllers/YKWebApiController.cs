@@ -1527,6 +1527,22 @@ namespace YKPortal.Controllers
                         cmd.CommandType = System.Data.CommandType.Text;
                         cmd.CommandText = _srg;
                         IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                        {
+                            _MenuId = "10000000-0000-0100-0003-000000000001";
+                            _UstMId = "10000000-0000-0100-0003-000000000000";
+                            _MenuAciklama = "Cari Ziyaret Kayıtları";
+                            _MenuSira = "10100";
+                            _srg = " ";
+                            _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
+                            _srg += " \r\n (ID, UstID, Menu, icon, url, sira, Aktif, KayitTarihi) ";
+                            _srg += " \r\n SELECT CONVERT(uniqueidentifier,'" + _MenuId + "') AS ID, '" + _UstMId + "' UstID ";
+                            _srg += " \r\n,  '" + _MenuAciklama + "' Menu, NULL icon, '-' as url, '" + _MenuSira + "' as sira, 0 Aktif, '2026-01-29' KayitTarihi  ";
+                            _srg += " \r\n WHERE  CONVERT(uniqueidentifier,'" + _MenuId + "') NOT IN (SELECT Mn.ID FROM [" + Uygulama_Db + "].[dbo].Menuler Mn With (Nolock)) ";
+                            cmd.CommandType = System.Data.CommandType.Text;
+                            cmd.CommandText = _srg;
+                            IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+                        }
                     }
                     #endregion 10100 - Cari Hareketler Menüsü
 
@@ -10421,6 +10437,368 @@ namespace YKPortal.Controllers
             return result;
         }
         #endregion
+
+        #region Cari_Hesap_Kart_Kaydet
+        public IDJsonResult Cari_Hesap_Kart_Kaydet([FromBody] JObject data)
+        {
+            int WebServis_Procedure_Versiyon = 260120;
+            string _GuidKey = Guid.NewGuid().ToString();
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Cari_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Cari Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Cari_Unvan"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Cari Ünvan bilgisi boş olamaz.";
+                    return result;
+                }
+               
+                if (data["Kullanici_Adi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici_Adi bilgisi boş olamaz.";
+                    return result;
+                }
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string _Cari_Kodu = Convert.ToString(data["Cari_Kodu"]);
+                string _Cari_Unvan = Convert.ToString(data["Cari_Unvan"]);
+                string Kullanici_Adi = Convert.ToString(data["Kullanici_Adi"]);
+                string Kullanici_Guid = Convert.ToString(data["Kullanici_Guid"]);
+                string Sube_Kodu = Convert.ToString(data["Sube_Kodu"]);
+                if (Sube_Kodu == "")
+                {
+                    Sube_Kodu = "0";
+                }
+                string _Vergi_Dairesi = Convert.ToString(data["Vergi_Dairesi"]);
+                string _Vergi_Numarasi = Convert.ToString(data["Vergi_Numarasi"]);
+                string _TcKimlikNo = Convert.ToString(data["TcKimlikNo"]);
+                string _Cari_Il = Convert.ToString(data["Cari_Il"]);
+                string _Cari_Ilce = Convert.ToString(data["Cari_Ilce"]);
+                string _Cari_Adres = Convert.ToString(data["Cari_Adres"]);
+
+                string _srg = " ";
+                _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].[TBLCASABIT] ";
+                _srg += " \r\n ( ";
+                _srg += " \r\n ISLETME_KODU, SUBE_KODU ";
+                _srg += " \r\n , CARI_KOD, CARI_ISIM ";
+                _srg += " \r\n , VERGI_DAIRESI ";
+                if (_Vergi_Numarasi.Length == 10)
+                {
+                    _srg += " \r\n , VERGI_NUMARASI ";
+                }
+                else
+                {
+                    _srg += " \r\n , VERGI_DAIRESI ";
+                }
+                _srg += " \r\n , ULKE_KODU, CARI_IL, CARI_ILCE, CARI_ADRES ";
+                _srg += " \r\n , CARI_TIP, HESAPTUTMASEKLI, DOVIZLIMI, C_YEDEK1 ";
+                _srg += " \r\n ) ";
+                _srg += " \r\n SELECT 1 ISLETME_KODU, 0 SUBE_KODU ";
+                _srg += " \r\n , '"+ _Cari_Kodu + "' AS CARI_KODU, '"+ _Cari_Unvan + "' CARI_ISIM ";
+                _srg += " \r\n , LEFT('" + _Vergi_Dairesi + "',20) as VERGI_DAIRESI ";
+                if (_Vergi_Numarasi.Length == 10)
+                {
+                    _srg += " \r\n , LEFT('" + _Vergi_Numarasi + "',10) as VERGI_NUMARASI ";
+                }
+                else
+                {
+                    _srg += " \r\n , NULL as VERGI_NUMARASI ";
+                }
+                _srg += " \r\n , 'TR' ULKE_KODU, LEFT('" + _Cari_Il + "',15) as CARI_IL, LEFT('" + _Cari_Ilce + "',15) as CARI_ILCE, LEFT('" + _Cari_Adres + "',100) as CARI_ADRES ";
+                _srg += " \r\n , 'A' as CARI_TIP, 'Y' as HESAPTUTMASEKLI, 'H' as DOVIZLIMI, 'A' as C_YEDEK1 ";
+                _srg += " \r\n WHERE '"+ _Cari_Kodu + "' NOT IN (SELECT IC.CARI_KOD FROM [" + Uygulama_Db + "].[dbo].[TBLCASABIT] IC WITH (NOLOCK) ) ";
+
+                _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].[TBLCASABITEK] ";
+                _srg += " \r\n ( ";
+                _srg += " \r\n  CARI_KOD ";
+                if (_Vergi_Numarasi.Length == 11)
+                {
+                    _srg += " \r\n , TCKIMLIKNO ";
+                }
+                else
+                {
+                    _srg += " \r\n , TCKIMLIKNO ";
+                }
+                    _srg += " \r\n , KAYITYAPANKUL, KAYITTARIHI ";
+                _srg += " \r\n ) ";
+                _srg += " \r\n SELECT '" + _Cari_Kodu + "' as CARI_KODU ";
+                if (_Vergi_Numarasi.Length == 11)
+                {
+                    _srg += " \r\n , LEFT('" + _TcKimlikNo + "',11) as TCKIMLIKNO ";
+                }
+                else
+                {
+                    _srg += " \r\n , NULL as TCKIMLIKNO ";
+                }
+                _srg += " \r\n , LEFT('"+ Kullanici_Adi +"',8) as KAYITYAPANKUL, GETDATE() as KAYITTARIHI ";
+                _srg += " \r\n  ";
+                _srg += " \r\n WHERE '" + _Cari_Kodu + "' NOT IN (SELECT IC.CARI_KOD FROM [" + Uygulama_Db + "].[dbo].[TBLCASABITEK] IC WITH (NOLOCK) ) ";
+
+                _srg += " \r\n INSERT INTO [INNOVA].[dbo].[TBLLOGUSER] ";
+                _srg += " \r\n ( FORM, TARIH, KAYITID ";
+                _srg += " \r\n , KULLANICI ";
+                _srg += " \r\n , BILGI, ISLEM, KAYNAK) ";
+                _srg += " \r\n SELECT 'Üretim Kaydı', getdate(), '" + _Cari_Kodu + "' ";
+                _srg += " \r\n , '" + Kullanici_Adi + "' AS KULLANICI ";
+                _srg += " \r\n , '" + _Cari_Kodu + "' BILGI, 'Cari Kartı Açıldı' as ISLEM, 'Cari_Hesap_Kart_Kaydet' AS KAYNAK ";
+
+
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = _srg;
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı" + ":" + _Cari_Kodu;
+                result.Sonuc_Versiyon = WebServis_Procedure_Versiyon;
+                return result;
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Sonuc_Versiyon = WebServis_Procedure_Versiyon;
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        #endregion Cari_Hesap_Kart_Kaydet
+        #region Cari_Ziyaret_Kaydet
+        public IDJsonResult Cari_Ziyaret_Kaydet([FromBody] JObject data)
+        {
+            int WebServis_Procedure_Versiyon = 260120;
+            string _GuidKey = Guid.NewGuid().ToString();
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Cari_Kodu"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Cari Kodu bilgisi boş olamaz.";
+                    return result;
+                }
+             
+
+                if (data["Kullanici_Adi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici_Adi bilgisi boş olamaz.";
+                    return result;
+                }
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string _Cari_Kodu = Convert.ToString(data["Cari_Kodu"]);
+                string _Tarih = Convert.ToString(data["Tarih"]);
+                string _Planlanan_Bitis_Tarihi = Convert.ToString(data["Planlanan_Bitis_Tarihi"]);
+                string _Baslik = Convert.ToString(data["Baslik"]);
+                string _Aciklama = Convert.ToString(data["Aciklama"]);
+                string _Iletisim_Sekli = Convert.ToString(data["Iletisim_Sekli"]);
+                string _Iletisim_Sekli_Kodu = Convert.ToString(data["Iletisim_Sekli_Kodu"]);
+                string _Oncelik = Convert.ToString(data["Oncelik"]);
+                string _Asama = Convert.ToString(data["Asama"]);
+                string _Kullanici_Adi = Convert.ToString(data["Kullanici_Adi"]);
+                string Kullanici_Guid = Convert.ToString(data["Kullanici_Guid"]);
+
+                string _srg = " ";
+
+                _srg += " \r\n INSERT INTO [INNOVA].[dbo].[TBLLOGUSER] ";
+                _srg += " \r\n ( FORM, TARIH, KAYITID ";
+                _srg += " \r\n , KULLANICI ";
+                _srg += " \r\n , BILGI, ISLEM, KAYNAK) ";
+                _srg += " \r\n SELECT 'Üretim Kaydı', getdate(), '" + _Cari_Kodu + "' ";
+                _srg += " \r\n , '" + _Kullanici_Adi + "' AS KULLANICI ";
+                _srg += " \r\n , '" + _Cari_Kodu + "' BILGI, 'Cari Kartı Açıldı' as ISLEM, 'Cari_Hesap_Kart_Kaydet' AS KAYNAK ";
+
+
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.CommandText = _srg;
+                IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+
+                result.Data = entities;
+                result.SonucKodu = 1;
+                result.Sonuc = "Başarılı" + ":" + _Cari_Kodu;
+                result.Sonuc_Versiyon = WebServis_Procedure_Versiyon;
+                return result;
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Sonuc_Versiyon = WebServis_Procedure_Versiyon;
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        #endregion Cari_Ziyaret_Kaydet
+
+        #region Cari_Ziyaret_Listele
+        public IDJsonResult Cari_Ziyaret_Listele([FromBody] JObject data)
+        {
+            string _Procedure_Versiyon = "250808";
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici_Adi"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici_Adi bilgisi boş olamaz.";
+                    return result;
+                }
+                string _srg = "";
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+      
+                string _Kullanici_Adi = Convert.ToString(data["Kullanici_Adi"]);
+                string Kullanici_Guid = Convert.ToString(data["Kullanici_Guid"]);
+
+                List<dynamic> entities = new List<dynamic>();
+
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = System.Data.CommandType.Text;
+                if (Uygulama == "NETSIS")
+                {
+                    _srg = " ";
+                    _srg += " \r\n  -- Cari_Ziyaret_Listele ";
+
+                    _srg += " \r\n  -- Donecek Veri ";
+                    _srg += " \r\n SELECT TOP 1 [" + Uygulama_Db + "].DBO.TRK1(SR.STOK_KODU) as STOK_KODU, [" + Uygulama_Db + "].DBO.TRK1(STOK_ADI) AS STOK_ADI ";
+
+                    _srg += " \r\n  -- Log Kaydi ";
+                    _srg += " \r\n INSERT INTO INNOVA.[dbo].TBLLOGUSER ";
+                    _srg += " \r\n ( FORM, TARIH, KAYITID, BELGE_NO ";
+                    _srg += " \r\n , KULLANICI, CARI_KODU ";
+                    _srg += " \r\n , BILGI, ISLEM, KAYNAK) ";
+                    _srg += " \r\n SELECT 'Cari_Ziyaret_Listele' AS FORM, getdate(), '" + _Kullanici_Adi + "' AS KAYITID, '" + _Kullanici_Adi + "' AS BELGE_NO ";
+                    _srg += " \r\n , '" + _Kullanici_Adi + "' AS KULLANICI, '" + _Kullanici_Adi + "' AS CARI_KODU ";
+                    _srg += " \r\n , '" + _Kullanici_Adi + ':' + _Kullanici_Adi + ':' + _Kullanici_Adi + "' BILGI, 'Kullanici Güncellemesi' as ISLEM, 'Netsis_Wms_Qr_Listele' AS KAYNAK ";
+                    _srg += " \r\n ";
+
+                    _srg += " \r\n  -- Kontrol Atta Olmalı, Ustteki Sorgudan ilk degerler dönmeli";
+                    _srg += " \r\n SELECT 'Netsis_Wms_Qr_Listele' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
+                    _srg += " \r\n , '" + _Kullanici_Adi + "' as STOK_KODU, '" + _Kullanici_Adi + "' AS SERI_NO, '" + _Kullanici_Adi + "' TARIH, '1' AS MIKTAR  ";
+                    _srg += " \r\n , '" + Uygulama + "' as Uygulama, '" + Uygulama_Db + "' as Uygulama_Db  ";
+                }
+                cmd.CommandText = _srg;
+                DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Tablo);
+
+                if (dt.Rows.Count > 0)
+                {
+                    #region Cookie İşlemleri
+                    foreach (DataRow satir in dt.Rows)
+                    {
+                        dynamic entity = new System.Dynamic.ExpandoObject();
+                        entity.Seri_Sira_No = Convert.ToString(satir["SIRA_NO"]);
+                        entity.Stok_Kodu = Convert.ToString(satir["STOK_KODU"]);
+                        entity.Stok_Adi = Convert.ToString(satir["STOK_ADI"]);
+                        entity.Seri_No = Convert.ToString(satir["SERI_NO"]);
+                        entity.Seri_Ticari_Adi = Convert.ToString(satir["STOK_TICARI_ADI"]);
+                        entity.Seri_Tedarikci = Convert.ToString(satir["TEDARIKCI_KODU"]);
+                        entity.Seri_Tedarikci_Adi = Convert.ToString(satir["TEDARIKCI_ADI"]);
+                        entity.Seri_Ambalaj = Convert.ToString(satir["AMBALAJ"]);
+                        entity.Seri_RafNo = Convert.ToString(satir["RAFNO"]);
+                        entity.Seri_RafSira = Convert.ToString(satir["RAFSIRA"]);
+                        entity.Seri_Skt = Convert.ToString(satir["SON_KULLANMA_TARIHI"]);
+                        entity.Seri_Bakiye = Convert.ToString(satir["BAKIYE"]);
+                        entity.Seri_KayitSayisi = Convert.ToString(satir["KAYIT_SAYISI"]);
+                        entity.Bilgi = "Olcu Birimi ayriyeten çekiliyor";
+                        entity.Servis_Versiyon = 250808;
+                        entities.Add(entity);
+                    }
+                    #endregion
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    result.Sonuc_Versiyon = 250624;
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kayıt bulunamadı!";
+                    return result;
+                }
+
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+
+        #endregion Cari_Ziyaret_Listele
 
         #region Finekra Api
 
