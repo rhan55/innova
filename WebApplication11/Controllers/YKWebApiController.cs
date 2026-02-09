@@ -4290,7 +4290,104 @@ namespace YKPortal.Controllers
             return result;
         }
         #endregion Netsis_Plastik_Okutma_Kaydet
+        #region Netsis_Plastik_Okutma_Sil
+        public IDJsonResult Netsis_Plastik_Okutma_Kalem_Sil([FromBody] JObject data)
+        {
+            int WebServis_Procedure_Versiyon = 260209;
+            string _GuidKey = Guid.NewGuid().ToString();
+            IDJsonResult result = new IDJsonResult();
+            try
+            {
+                if (data["Uygulama"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Uygulama_Db"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Uygulama_Db bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Okutma_No"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Okutma_No bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Barkod"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Barkod bilgisi boş olamaz.";
+                    return result;
+                }
+                if (data["Kullanici_GuidId"] == null)
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Kullanici_GuidId bilgisi boş olamaz.";
+                    return result;
+                }
 
+                string Uygulama = Convert.ToString(data["Uygulama"]);
+                string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
+                string _Okutma_No = Convert.ToString(data["Okutma_No"]);
+                string _Barkod = Convert.ToString(data["Barkod"]);
+                string _Kullanici_GuidId = Convert.ToString(data["Kullanici_GuidId"]);
+
+                if (_Barkod != "")
+                {
+                    string _srg = " ";
+
+                    _srg += " \r\n  -- Log Kaydi ";
+                    _srg += " \r\n INSERT INTO INNOVA.[dbo].TBLLOGUSER ";
+                    _srg += " \r\n ( FORM, TARIH, KAYITID, BELGE_NO ";
+                    _srg += " \r\n , KULLANICI, CARI_KODU ";
+                    _srg += " \r\n , BILGI, ISLEM, KAYNAK) ";
+                    _srg += " \r\n SELECT 'Netsis_Plastik_Okutma_Kalem_Sil' AS FORM, getdate(), '" + _Barkod + "' AS KAYITID, '" + _Okutma_No + "' AS BELGE_NO ";
+                    _srg += " \r\n , left('" + _Kullanici_GuidId + "',15) AS KULLANICI, '" + _Okutma_No + "' AS CARI_KODU ";
+                    _srg += " \r\n , '" + _Barkod + "' BILGI, 'Barkod Silme' as ISLEM, 'Netsis_Plastik_Okutma_Kalem_Sil' AS KAYNAK ";
+                    _srg += " \r\n ";
+
+                    _srg += " \r\n DELETE FROM INNOVA..TBLOKUTMA ";
+                    _srg += " \r\n WHERE FISNO2 = '" + _Okutma_No + "' AND BARKOD = '" + _Barkod + "'  ";
+
+                    List<dynamic> entities = new List<dynamic>();
+
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandType = System.Data.CommandType.Text;
+                    cmd.CommandText = _srg;
+                    IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+
+                    result.Data = entities;
+                    result.SonucKodu = 1;
+                    result.Sonuc = "Başarılı";
+                    result.Sonuc_Versiyon = WebServis_Procedure_Versiyon;
+                    return result;
+                }
+                else
+                {
+                    result.SonucKodu = 0;
+                    result.Hata = "UYARI! Barkod bilgisi boş olamaz.";
+                    return result;
+                }
+
+            }
+            catch (Exception err)
+            {
+                result.SonucKodu = -1;
+                result.Sonuc = "HATA!";
+                result.Sonuc_Versiyon = WebServis_Procedure_Versiyon;
+                result.Hata = err.Message;
+            }
+            finally
+            {
+
+            }
+            return result;
+        }
+        #endregion Netsis_Plastik_Okutma_Sil
         #region Netsis_Wms_Basit_Uretim_Kaydet
         public IDJsonResult Netsis_Wms_Basit_Uretim_Kaydet([FromBody] JObject data)
         {
