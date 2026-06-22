@@ -1,2 +1,3 @@
 Swashbuckle nuget paketi yüklenecek.
 	-- Install-Package Swashbuckle
+	-- deneme
