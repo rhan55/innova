@@ -501,7 +501,7 @@ namespace YKPortal.Controllers
                         _srg += " \r\n     [KayitTarihi] DATETIME NULL,";
                         _srg += " \r\n     [Kullanici] NVARCHAR(100) NULL, ";
                         _srg += " \r\n     CONSTRAINT [PK_Loglar] PRIMARY KEY CLUSTERED ([ID] ASC) ";
-                        _srg += " \r\n      )  ";
+                        _srg += " \r\n      )  ON [PRIMARY]  ";
                         _srg += " \r\n  END ";
                         cmd.CommandType = System.Data.CommandType.Text;
                         cmd.CommandText = _srg;
