@@ -146,6 +146,42 @@ namespace YKPortal.Controllers
                         IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
 
                         _srg = " ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM   INFORMATION_SCHEMA.COLUMNS          WHERE  TABLE_NAME = 'Uyelikler' AND COLUMN_NAME = 'VergiDairesi')  ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      ALTER TABLE Uyelikler ADD VergiDairesi nvarchar(100)  ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                        _srg = " ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM   INFORMATION_SCHEMA.COLUMNS          WHERE  TABLE_NAME = 'Uyelikler' AND COLUMN_NAME = 'Adres')  ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      ALTER TABLE Uyelikler ADD Adres nvarchar(1000)  ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                        _srg = " ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM   INFORMATION_SCHEMA.COLUMNS          WHERE  TABLE_NAME = 'Uyelikler' AND COLUMN_NAME = 'Iletisim')  ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      ALTER TABLE Uyelikler ADD Iletisim nvarchar(100)  ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                        _srg = " ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM   INFORMATION_SCHEMA.COLUMNS          WHERE  TABLE_NAME = 'Uyelikler' AND COLUMN_NAME = 'Email')  ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      ALTER TABLE Uyelikler ADD Email nvarchar(100)  ";
+                        _srg += " \r\n END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                        _srg = " ";
                         _srg += " \r\n IF  NOT EXISTS(SELECT * FROM   INFORMATION_SCHEMA.COLUMNS          WHERE  TABLE_NAME = 'Uyelikler' AND COLUMN_NAME = 'Silindi')  ";
                         _srg += " \r\n BEGIN ";
                         _srg += " \r\n      ALTER TABLE Uyelikler ADD Silindi [bit] NULL  ";
