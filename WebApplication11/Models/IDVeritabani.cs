@@ -42,13 +42,19 @@ namespace YKPortal.Models
                         return ds;
                         break;
                 }
+
+                return "OK";
             }
+            catch (Exception ex)
+            {
+                return "HATA:" + ex.Message;
+            }   
             finally
             {
                 if (Baglanti.State == System.Data.ConnectionState.Open)
                     Baglanti.Close();
             }
-            return "";
+   
         }
     }
     public enum SorgulaTuru
