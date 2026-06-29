@@ -5716,7 +5716,7 @@ namespace YKPortal.Controllers
                         {
                             cmd.CommandText += " AND TARIH <= '" + Belge_Bitis_Tarihi + "' ";
                         }
-                        if (Kisit != "")
+                        if (Kisit != "") 
                         {
                             cmd.CommandText += Kisit;
                         }
