@@ -5518,7 +5518,7 @@ namespace YKPortal.Controllers
                     {
                         _srg = " ";
                         _srg += " \r\n SELECT *, CARI_KOD as CARI_KODU, ISLEM as CariHareketTuru, PLASIYER_KODU as CariPlasiyerKodu  ";
-                        _srg += " \r\n FROM " + Uygulama_Db + ".[dbo].INN_NV_CARI_HAR ";
+                        _srg += " \r\n FROM " + Uygulama_Db + ".[dbo].INN_VW_CARI_HAR ";
                         _srg += " \r\n WHERE CARI_KOD  = '" + Cari_Kodu + "' ";
                         _srg += " \r\n ORDER BY TARIH DESC ";
                     }
