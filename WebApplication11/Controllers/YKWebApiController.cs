@@ -18,6 +18,7 @@ using System.Management.Instrumentation;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography;
 using System.Text;
@@ -425,6 +426,7 @@ namespace YKPortal.Controllers
                         _srg += " \r\n      [KullaniciId] [uniqueidentifier] NOT NULL, ";
                         _srg += " \r\n      [Form] [nvarchar](150) NOT NULL, ";
                         _srg += " \r\n      [Nesne] [nvarchar](150) NOT NULL, ";
+                        _srg += " \r\n      [Ozellik] [nvarchar](150) NOT NULL, ";
                         _srg += " \r\n      [Deger] [nvarchar](150) NULL, ";
                         _srg += " \r\n      CONSTRAINT [PK_Kullanici_Forms_ID] PRIMARY KEY CLUSTERED  ";
                         _srg += " \r\n      ( ";
@@ -432,6 +434,15 @@ namespace YKPortal.Controllers
                         _srg += " \r\n      ) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 100) ON [PRIMARY] ";
                         _srg += " \r\n      ) ON [PRIMARY] ";
                         _srg += " \r\n  END ";
+                        cmd.CommandType = System.Data.CommandType.Text;
+                        cmd.CommandText = _srg;
+                        IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
+
+                        _srg = " ";
+                        _srg += " \r\n IF  NOT EXISTS(SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = 'Kullanici_Forms' AND COLUMN_NAME = 'Ozellik')  ";
+                        _srg += " \r\n BEGIN ";
+                        _srg += " \r\n      ALTER TABLE Kullanici_Forms ADD Ozellik [nvarchar](150) NULL  ";
+                        _srg += " \r\n END ";
                         cmd.CommandType = System.Data.CommandType.Text;
                         cmd.CommandText = _srg;
                         IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
@@ -1783,7 +1794,7 @@ namespace YKPortal.Controllers
                         {
                             _MenuId = "10000000-0000-0100-1000-000000000001";
                             _UstMId = "10000000-0000-0100-1000-000000000000";
-                            _MenuAciklama = "Cari Ekstre";
+                            _MenuAciklama = "Cari Listesi";
                             _MenuSira = "10100";
                             _srg = " ";
                             _srg += " \r\n INSERT INTO [" + Uygulama_Db + "].[dbo].Menuler ";
@@ -5249,7 +5260,7 @@ namespace YKPortal.Controllers
 
         public IDJsonResult Hareket_Listeleri([FromBody] JObject data)
         {
-            string _Procedure_Versiyon = "251030";
+            int _Procedure_Versiyon = 260625;
             IDJsonResult result = new IDJsonResult();
             try
             {
@@ -5289,6 +5300,7 @@ namespace YKPortal.Controllers
                 string Cari_Kodu = Convert.ToString(data["Cari_Kodu"]);
                 string Seri_No = Convert.ToString(data["Seri_No"]);
                 string Kullanici = Convert.ToString(data["Kullanici"]);
+                string Sube_Kodu = Convert.ToString(data["Sube_Kodu"]);
 
                 List<dynamic> entities = new List<dynamic>();
 
@@ -5296,6 +5308,7 @@ namespace YKPortal.Controllers
                 cmd.CommandType = System.Data.CommandType.Text;
                 if (Uygulama == "NETSIS")
                 {
+                    _srg = " ";
                     _srg += " \r\n SELECT IC.SIRA_NO SERI_SIRA_NO, STOK_KODU, [" + Uygulama_Db + "].DBO.TRK1(SERI_NO) AS SERI_NO, [" + Uygulama_Db + "].DBO.TRK1(ACIK1) AS SERI_NO2,TARIH, MIKTAR, SON_KULLANMA_TARIHI  ";
                     _srg += " \r\n , IC.SUBE_KODU AS SUBE_KODU ";
                     _srg += " \r\n , [" + Uygulama_Db + "].DBO.TRK1(HARACIK) as TEDARIKCI_KODU, [" + Uygulama_Db + "].DBO.TRK1(CS.CARI_ISIM) AS TEDARIKCI_ADI ";
@@ -5303,11 +5316,33 @@ namespace YKPortal.Controllers
                     _srg += " \r\n LEFT OUTER JOIN " + Uygulama_Db + ".[dbo].[TBLCASABIT] CS WITH (NOLOCK) ON CS.CARI_KOD = IC.HARACIK ";
                     _srg += " \r\n WHERE IC.SERI_NO = '" + Seri_No + "' AND IC.KAYIT_TIPI= 'D' ";
 
+                    if (Islem_Tipi == "Cari_Hareketler")
+                    {
+                        _srg = " ";
+                        _srg += " \r\n SELECT *, CARI_KOD as CARI_KODU, ISLEM as CariHareketTuru, PLASIYER_KODU as CariPlasiyerKodu  ";
+                        _srg += " \r\n FROM " + Uygulama_Db + ".[dbo].INN_NV_CARI_HAR ";
+                        _srg += " \r\n WHERE CARI_KOD  = '" + Cari_Kodu + "' ";
+                        _srg += " \r\n ORDER BY TARIH DESC ";
+                    }
+
+                    if (Islem_Tipi == "Stok_Bakiyeleri_Sube")
+                    {
+                        _srg = " ";
+                        _srg += " \r\n SELECT SB.STOK_KODU, ST.STOK_ADI, SB.BAKIYE  ";
+                        _srg += " \r\n FROM " + Uygulama_Db + ".[dbo].INN_VW_STOK_BAKIYE_SUBE SB ";
+                        _srg += " \r\n INNER JOIN TBLSTSABIT ST WITH (NOLOCK) ON ST.STOK_KODU = SB.STOK_KODU ";
+                        _srg += " \r\n WHERE SB.SUBE_KODU  = '" + Sube_Kodu + "' ";
+                        _srg += " \r\n ORDER BY SB.STOK_KODU ";
+                    }
+
+        
+
                 }
                 if (Uygulama == "RKS")
                 {
                     if (Islem_Tipi == "Cari_Hareketler")
                     {
+                        _srg = " ";
                         _srg = " EXEC [" + Uygulama_Db + "].DBO.[Iyb_P_Cari_Hareketler] '" + Cari_Kodu + "' ";
                     }
                 }
@@ -5331,7 +5366,17 @@ namespace YKPortal.Controllers
                             entity.Aciklama = Convert.ToString(satir["ACIKLAMA"]);
                             entity.Hareket_Turu = Convert.ToString(satir["CariHareketTuru"]);
                             entity.Plasiyer_Kodu = Convert.ToString(satir["CariPlasiyerKodu"]);
-                            entity.Servis_Versiyon = 251030;
+                            entity.Servis_Versiyon = _Procedure_Versiyon;
+                            entities.Add(entity);
+                        }
+
+                        if (Islem_Tipi == "Stok_Bakiyeleri_Sube")
+                        {
+                            dynamic entity = new System.Dynamic.ExpandoObject();
+                            entity.Stok_Kodu = Convert.ToString(satir["STOK_KODU"]);
+                            entity.Stok_Adi = Convert.ToString(satir["STOK_ADI"]);
+                            entity.Bakiye = Convert.ToString(satir["BAKIYE"]);
+                            entity.Servis_Versiyon = _Procedure_Versiyon;
                             entities.Add(entity);
                         }
                     }
@@ -5339,7 +5384,7 @@ namespace YKPortal.Controllers
                     result.Data = entities;
                     result.SonucKodu = 1;
                     result.Sonuc = "Başarılı";
-                    result.Sonuc_Versiyon = 251030;
+                    result.Sonuc_Versiyon = _Procedure_Versiyon;
                     return result;
                 }
                 else
@@ -5355,6 +5400,7 @@ namespace YKPortal.Controllers
             {
                 result.SonucKodu = -1;
                 result.Sonuc = "HATA!";
+                result.Sonuc_Versiyon = _Procedure_Versiyon;
                 result.Hata = err.Message;
             }
             finally
@@ -5680,7 +5726,7 @@ namespace YKPortal.Controllers
                     if (Islem_Tipi == "Cariler")
                     {
                         cmd.CommandText = "SELECT TOP 50 CARI_KOD AS ID, CARI_KOD AS Kod, CARI_ISIM AS Isim ";
-                        cmd.CommandText += " , 'Netsis_Sabit_Listeler' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
+                        cmd.CommandText += " , 'Netsis_Sabit_Listeler_Cariler' as Servis_Adi, '" + _Procedure_Versiyon + "' as Servis_Versiyonu ";
                         cmd.CommandText += " FROM [" + Uygulama_Db + "].[dbo].INN_VW_CARI_KART ";
                         cmd.CommandText += " WHERE 'Cari' = 'Cari'";
                         if (Kisit != "")
@@ -10179,7 +10225,6 @@ namespace YKPortal.Controllers
                 string Proje_Kodu = Convert.ToString(data["Proje_Kodu"]);
                 string Odeme_Kodu = Convert.ToString(data["Odeme_Kodu"]);
 
-
                 string Aciklama1 = Convert.ToString(data["Aciklama"]);
                 string Aciklama2 = Convert.ToString(data["Aciklama2"]);
 
@@ -13997,6 +14042,7 @@ END
         [HttpPost]
         public IDJsonResult Kullanici_Form_Ayarlari_Listele([FromBody] JObject data)
         {
+            Int32 _Procedure_Versiyon = 260629;
             IDJsonResult result = new IDJsonResult();
             try
             {
@@ -14024,17 +14070,18 @@ END
                     result.Hata = "UYARI! Form bilgisi boş olamaz.";
                     return result;
                 }
-                if (data["Nesne"] == null)
-                {
-                    result.SonucKodu = 0;
-                    result.Hata = "UYARI! Nesne bilgisi boş olamaz.";
-                    return result;
-                }
+                //if (data["Nesne"] == null)
+                //{
+                //    result.SonucKodu = 0;
+                //    result.Hata = "UYARI! Nesne bilgisi boş olamaz.";
+                //    return result;
+                //}
                 string Uygulama = Convert.ToString(data["Uygulama"]);
                 string Uygulama_Db = Convert.ToString(data["Uygulama_Db"]);
                 string Kullanici_Guid = Convert.ToString(data["Kullanici_Guid"]);
                 string Form = Convert.ToString(data["Form"]);
                 string Nesne = Convert.ToString(data["Nesne"]);
+                string Ozellik = Convert.ToString(data["Ozellik"]);
 
                 if (Kullanici_Guid != "")
                 {
@@ -14043,11 +14090,10 @@ END
 
                     SqlCommand cmd = new SqlCommand();
                     cmd.CommandType = System.Data.CommandType.Text;
-                    cmd.CommandText = "SELECT top 1 [Deger] as Deger ";
+                    cmd.CommandText = " SELECT top 100 [Form] as Form, [Nesne] as Nesne, [Ozellik] AS Ozellik, [Deger] as Deger ";
                     cmd.CommandText += " \r\n FROM " + Uygulama_Db + ".[dbo].[Kullanici_Forms] With (Nolock) ";
                     cmd.CommandText += " \r\n WHERE [KullaniciId] = '" + Kullanici_Guid + "' ";
                     cmd.CommandText += " \r\n AND [Form] = '" + Form + "' ";
-                    cmd.CommandText += " \r\n AND [Nesne] = '" + Nesne + "' ";
                     cmd.CommandText += " \r\n ORDER BY ID Desc ";
                     DataTable dt = (DataTable)IDVeritabani.Sorgula(cmd, SorgulaTuru.Bos);
 
@@ -14057,6 +14103,9 @@ END
                         foreach (DataRow satir in dt.Rows)
                         {
                             dynamic entity = new System.Dynamic.ExpandoObject();
+                            entity.Form = Convert.ToString(satir["Form"]);
+                            entity.Nesne = Convert.ToString(satir["Nesne"]);
+                            entity.Ozellik = Convert.ToString(satir["Ozellik"]);
                             entity.Deger = Convert.ToString(satir["Deger"]);
                             entities.Add(entity);
                         }
@@ -14064,14 +14113,14 @@ END
                         result.Data = entities;
                         result.SonucKodu = 1;
                         result.Sonuc = "Başarılı";
-                        result.Sonuc_Versiyon = 251120;
+                        result.Sonuc_Versiyon = _Procedure_Versiyon;
                         return result;
                     }
                     else
                     {
                         result.SonucKodu = 0;
                         result.Hata = "UYARI! Kayıt bulunamadı!";
-                        result.Sonuc_Versiyon = 251120;
+                        result.Sonuc_Versiyon = _Procedure_Versiyon;
                         return result;
                     }
                 }
@@ -14079,7 +14128,7 @@ END
                 {
                     result.SonucKodu = 0;
                     result.Hata = "UYARI! Kullanıcı adı veya parola yanlış!";
-                    result.Sonuc_Versiyon = 251120;
+                    result.Sonuc_Versiyon = _Procedure_Versiyon;
                     return result;
                 }
             }
@@ -14087,7 +14136,7 @@ END
             {
                 result.SonucKodu = -1;
                 result.Sonuc = "HATA!";
-                result.Sonuc_Versiyon = 251120;
+                result.Sonuc_Versiyon = _Procedure_Versiyon;
                 result.Hata = err.Message;
             }
             finally
@@ -14144,17 +14193,21 @@ END
                 string Kullanici_Guid = Convert.ToString(data["Kullanici_Guid"]);
                 string Form = Convert.ToString(data["Form"]);
                 string Nesne = Convert.ToString(data["Nesne"]);
+                string Ozellik = Convert.ToString(data["Ozellik"]);
                 string Deger = Convert.ToString(data["Deger"]);
 
                 string _srg = "";
                 _srg += " INSERT INTO " + Uygulama_Db + ".[dbo].[Kullanici_Forms] ";
-                _srg += " \r\n ( [KullaniciId], [Form], [Nesne], [Deger]  ) ";
-                _srg += " \r\n SELECT '" + Kullanici_Guid + "' AS [KullaniciId], '" + Form + "' AS [Form], '" + Nesne + "' AS [Nesne], '" + Deger + "' AS [Deger]  ";
+                _srg += " \r\n ( [KullaniciId], [Form], [Nesne], [Ozellik], [Deger]  ) ";
+                _srg += " \r\n SELECT '" + Kullanici_Guid + "' AS [KullaniciId], '" + Form + "' AS [Form], '" + Nesne + "' AS [Nesne] ";
+                _srg += " \r\n , '" + Ozellik + "' AS [Ozellik]  ";
+                _srg += " \r\n , '" + Deger + "' AS [Deger]  ";
                 _srg += " \r\n WHERE '" + Kullanici_Guid + "' NOT IN  ";
                 _srg += " \r\n                                  ( SELECT KullaniciId FROM " + Uygulama_Db + ".[dbo].[Kullanici_Forms] With (Nolock) ";
                 _srg += " \r\n                                      WHERE 251120 = 251120 ";
                 _srg += " \r\n                                      AND [Form] = '" + Form + "' ";
                 _srg += " \r\n                                      AND [Nesne] = '" + Nesne + "' ";
+                _srg += " \r\n                                      AND [Ozellik] = '" + Ozellik + "'   ";
                 _srg += " \r\n                                  ) ";
                 _srg += " \r\n  ";
                 _srg += " \r\n UPDATE " + Uygulama_Db + ".[dbo].[Kullanici_Forms] ";
@@ -14162,6 +14215,7 @@ END
                 _srg += " \r\n WHERE [KullaniciId] = '" + Kullanici_Guid + "'  ";
                 _srg += " \r\n AND [Form] = '" + Form + "' ";
                 _srg += " \r\n AND [Nesne] = '" + Nesne + "' ";
+                _srg += " \r\n AND [Ozellik] = '" + Ozellik + "'   ";
 
                 List<dynamic> entities = new List<dynamic>();
 
@@ -14607,7 +14661,7 @@ END
         public int SonucKodu { get; set; }
         public string Sonuc { get; set; }
         public string Hata { get; set; }
-        public int Sonuc_Versiyon { get; set; }
+        public Int32 Sonuc_Versiyon { get; set; }
     }
     public class IslemBilgisi
     {
